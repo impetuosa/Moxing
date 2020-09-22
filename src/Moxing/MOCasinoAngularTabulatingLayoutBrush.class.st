@@ -1,7 +1,7 @@
 Class {
 	#name : #MOCasinoAngularTabulatingLayoutBrush,
 	#superclass : #Object,
-	#category : #Moxing
+	#category : #'Moxing-CodeWritingHtml'
 }
 
 { #category : #writing }

@@ -4,5 +4,5 @@ Class {
 	#instVars : [
 		'stream'
 	],
-	#category : #Moxing
+	#category : #'Moxing-CodeWritingTypescript'
 }

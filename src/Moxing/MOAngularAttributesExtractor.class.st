@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'attributes'
 	],
-	#category : #Moxing
+	#category : #'Moxing-ModelReading'
 }
 
 { #category : #visiting }

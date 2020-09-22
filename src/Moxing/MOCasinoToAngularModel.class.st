@@ -9,7 +9,7 @@ Class {
 		'factory',
 		'behaviorWriter'
 	],
-	#category : #Moxing
+	#category : #'Moxing-ModelBuilding'
 }
 
 { #category : #private }

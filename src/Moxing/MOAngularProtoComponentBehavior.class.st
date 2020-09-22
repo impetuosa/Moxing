@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'angularModel'
 	],
-	#category : #Moxing
+	#category : #'Moxing-ProtoModel'
 }
 
 { #category : #accessing }

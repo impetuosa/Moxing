@@ -5,7 +5,7 @@ Class {
 		'brush',
 		'writer'
 	],
-	#category : #Moxing
+	#category : #'Moxing-CodeWritingHtml'
 }
 
 { #category : #'as yet unclassified' }

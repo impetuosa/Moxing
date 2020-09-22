@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'contents'
 	],
-	#category : #Moxing
+	#category : #'Moxing-ProtoModel'
 }
 
 { #category : #visiting }

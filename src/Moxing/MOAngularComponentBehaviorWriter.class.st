@@ -5,7 +5,7 @@ Class {
 		'typescriptWriter',
 		'behavior'
 	],
-	#category : #Moxing
+	#category : #'Moxing-CodeWritingTypescript'
 }
 
 { #category : #accessing }
@@ -16,31 +16,31 @@ MOAngularComponentBehaviorWriter >> behavior [
 { #category : #visiting }
 MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 
-	behavior := JinTypescriptClass new.
+	behavior := MOTypescriptClass new.
 	behavior name: aJinCasinoPage name.
 	behavior implements: { 
-			(JinTypescriptTypeReference new
+			(MOTypescriptTypeReference new
 				 name: #OnInit;
 				 yourself).
-			(JinTypescriptTypeReference new
+			(MOTypescriptTypeReference new
 				 name: #OnDestroy;
 				 yourself) }.
-	behavior decorator: JinTypescriptDecorator new.
+	behavior decorator: MOTypescriptDecorator new.
 	behavior decorator name: 'Component'.
 	behavior decorator attributes at: #selector put: aJinCasinoPage name.
 	behavior decorator attributes
 		at: #template
 		put: './' , aJinCasinoPage name , '.component.html'.
-	behavior addMethod: (JinTypescriptMethod new
+	behavior addMethod: (MOTypescriptMethod new
 			 selector: 'ngOnInit';
 			 setOwnerClass: behavior;
-			 type: (JinTypescriptTypeReference new
+			 type: (MOTypescriptTypeReference new
 					  name: #void;
 					  yourself)).
-	behavior addMethod: (JinTypescriptMethod new
+	behavior addMethod: (MOTypescriptMethod new
 			 selector: 'ngOnDestroy';
 			 setOwnerClass: behavior;
-			 type: (JinTypescriptTypeReference new
+			 type: (MOTypescriptTypeReference new
 					  name: #void;
 					  yourself)).
 	behavior := MOAngularProtoComponentBehavior new

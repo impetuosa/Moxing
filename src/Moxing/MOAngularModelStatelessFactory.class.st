@@ -1,7 +1,7 @@
 Class {
 	#name : #MOAngularModelStatelessFactory,
 	#superclass : #Object,
-	#category : #Moxing
+	#category : #'Moxing-ModelBuilding'
 }
 
 { #category : #'as yet unclassified' }

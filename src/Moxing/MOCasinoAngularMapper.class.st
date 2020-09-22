@@ -5,7 +5,7 @@ Class {
 		'mapping',
 		'brush'
 	],
-	#category : #Moxing
+	#category : #'Moxing-WidgetMapping'
 }
 
 { #category : #accessing }

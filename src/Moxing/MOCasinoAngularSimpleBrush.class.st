@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tag'
 	],
-	#category : #Moxing
+	#category : #'Moxing-CodeWritingHtml'
 }
 
 { #category : #'as yet unclassified' }

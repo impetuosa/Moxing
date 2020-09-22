@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'xmlStream'
 	],
-	#category : #Moxing
+	#category : #'Moxing-CodeWritingHtml'
 }
 
 { #category : #accessing }

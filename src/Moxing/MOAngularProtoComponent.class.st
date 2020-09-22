@@ -7,7 +7,7 @@ Class {
 		'behaviour',
 		'name'
 	],
-	#category : #Moxing
+	#category : #'Moxing-ProtoModel'
 }
 
 { #category : #visiting }
