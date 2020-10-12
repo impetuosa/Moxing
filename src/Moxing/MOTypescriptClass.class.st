@@ -6,7 +6,8 @@ Class {
 		'methods',
 		'superclass',
 		'properties',
-		'decorator'
+		'decorator',
+		'imports'
 	],
 	#classInstVars : [
 		'object'
@@ -28,10 +29,21 @@ MOTypescriptClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 	aJinTypescriptCodeGenerator visitTypescriptClass: self .
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptClass >> addImport: aMOTypescriptImport [ 
+	imports add: aMOTypescriptImport 
+]
+
 { #category : #adding }
 MOTypescriptClass >> addMethod: aJinTypescriptMethod [ 
 	methods  add: aJinTypescriptMethod .
 	aJinTypescriptMethod setOwnerClass: self . 
+]
+
+{ #category : #adding }
+MOTypescriptClass >> addProperty: aProperty [
+	properties add: aProperty.
+	aProperty setOwnerClass: self
 ]
 
 { #category : #accessing }
@@ -56,6 +68,7 @@ MOTypescriptClass >> initialize [
 	super initialize .
 	methods := OrderedCollection new .
 	properties := OrderedCollection new. 
+	imports := OrderedCollection new. 
 ]
 
 { #category : #accessing }

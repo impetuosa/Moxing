@@ -2,7 +2,6 @@ Class {
 	#name : #MOAngularComponentBehaviorWriter,
 	#superclass : #Object,
 	#instVars : [
-		'typescriptWriter',
 		'behavior'
 	],
 	#category : #'Moxing-CodeWritingTypescript'
@@ -31,6 +30,7 @@ MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 	behavior decorator attributes
 		at: #template
 		put: './' , aJinCasinoPage name , '.component.html'.
+	
 	behavior addMethod: (MOTypescriptMethod new
 			 selector: 'ngOnInit';
 			 setOwnerClass: behavior;
@@ -43,16 +43,41 @@ MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 			 type: (MOTypescriptTypeReference new
 					  name: #void;
 					  yourself)).
+					
 	behavior := MOAngularProtoComponentBehavior new
 		            angularModel: behavior;
-		            yourself
+		            yourself.
+	
+	aJinCasinoPage attributes do: [ :a | a accept: self  ].
+	
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentBehaviorWriter >> visitDataBinding: aMODataBindingAttribute [
+	behavior angularModel
+		addProperty:
+			(MOTypescriptVariable new
+				name: aMODataBindingAttribute binding entity compilableIdentifier;
+				type:
+					(MOTypescriptTypeReference new
+						name: aMODataBindingAttribute binding entity compilableTypeIdentifier;
+						yourself);
+				yourself).
+	behavior angularModel
+		addImport:
+			(MOTypescriptImport new
+				types:
+					{(MOTypescriptTypeReference new
+						name: aMODataBindingAttribute binding entity compilableTypeIdentifier)};
+				from:
+					('../models/'
+						, aMODataBindingAttribute binding entity compilableIdentifier)
+						asFileReference;
+				yourself)
 ]
 
 { #category : #writing }
 MOAngularComponentBehaviorWriter >> writeBehaviorFor: aJinCasinoPage into: component [
-
-	self assert: typescriptWriter isNil.
-	typescriptWriter := MOTypescriptWriter new .
 	aJinCasinoPage accept: self.
 	component behavior: self behavior.
 ]

@@ -18,20 +18,17 @@ MOAngularProtoComponent >> acceptVisitor: aVisitor [
 
 { #category : #accessing }
 MOAngularProtoComponent >> behavior [
-
-	^ behaviour ifNil: [ 
-		  behaviour := MOAngularProtoComponentBehavior new ]
+	^ behaviour
+		ifNil: [ behaviour := MOAngularProtoComponentBehavior new ]
 ]
 
 { #category : #accessing }
 MOAngularProtoComponent >> behavior: aJinTypescriptClass [
-
 	behaviour := aJinTypescriptClass
 ]
 
 { #category : #accessing }
 MOAngularProtoComponent >> module: aModule [
-
 	module := aModule
 ]
 
@@ -41,21 +38,20 @@ MOAngularProtoComponent >> name [
 ]
 
 { #category : #accessing }
-MOAngularProtoComponent >> name: aString [ 
-	name := aString 
+MOAngularProtoComponent >> name: aString [
+	name := aString
 ]
 
 { #category : #actions }
 MOAngularProtoComponent >> save [
-
 	| ref |
 	self assert: (module components includes: self).
-	ref := module path / ('{1}.component.ts' format: { name }).
+	ref := module path / ('{1}.component.ts' format: {name}).
 	self assert: ref exists not.
 	ref writeStream
 		nextPutAll: behaviour sourceCode;
 		close.
-	ref := module path / ('{1}.component.html' format: { name }).
+	ref := module path / ('{1}.component.html' format: {name}).
 	self assert: ref exists not.
 	ref writeStream
 		nextPutAll: template sourceCode;

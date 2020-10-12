@@ -28,9 +28,15 @@ MOTypescriptClassLoader class >> loadClassFromStream: aStream [
 ]
 
 { #category : #generated }
+MOTypescriptClassLoader >> initialize [
+	super initialize.
+	result := MOTypescriptClass new
+]
+
+{ #category : #generated }
 MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 
-	result := MOTypescriptClass new.
+	
 	result name: aClassExpression name name value.
 	result implements: (aClassExpression types collect: [ :t | 
 			 MOTypescriptTypeLoader load: t file: file ]).
@@ -43,6 +49,24 @@ MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 MOTypescriptClassLoader >> visitDecoratorExpression: aDecoratorExpression [
 
 	decorator := MOTypescriptDecoratorLoader load: aDecoratorExpression file: file. 
+]
+
+{ #category : #generated }
+MOTypescriptClassLoader >> visitImportDeclaration: anImport [
+	| import |
+	import := MOTypescriptImport new.
+	import
+		types:
+			((anImport imports
+				flatCollect:
+					[ :i | i specifiers collect: [ :s | s binding name value ] ])
+				asSet
+				collect: [ :n | 
+					MOTypescriptTypeReference new
+						name: n;
+						yourself ]).
+	import from: anImport from value asFileReference.
+	result addImport: import
 ]
 
 { #category : #generated }
@@ -59,4 +83,13 @@ MOTypescriptClassLoader >> visitMethodDefinition: aMethodDefinition [
 { #category : #generated }
 MOTypescriptClassLoader >> visitPropertyAssignment: aDecoratorExpression [
 	self halt .
+]
+
+{ #category : #generated }
+MOTypescriptClassLoader >> visitVariableDeclaration: aVariableDeclaration [
+	result
+		addProperty:
+			(MOTypescriptVariableDeclarationLoader
+				load: aVariableDeclaration
+				file: file)
 ]

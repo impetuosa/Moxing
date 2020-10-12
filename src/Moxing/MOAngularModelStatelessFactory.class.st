@@ -18,3 +18,13 @@ MOAngularModelStatelessFactory >> createNewAngularComponentBehaviorWriter [
 MOAngularModelStatelessFactory >> createNewAngularComponentTemplateWriter [
 	^ MOAngularComponentTemplateWriter new 
 ]
+
+{ #category : #'as yet unclassified' }
+MOAngularModelStatelessFactory >> createNewAngularModelComponentWriter [
+	^ MOAngularModelWriter new 
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularModelStatelessFactory >> createNewAngularServiceComponentWriter [
+	^ MOAngularServiceWriter new 
+]

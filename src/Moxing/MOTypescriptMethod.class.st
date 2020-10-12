@@ -2,9 +2,10 @@ Class {
 	#name : #MOTypescriptMethod,
 	#superclass : #MOTypescriptObject,
 	#instVars : [
+		'value',
+		'parameters',
 		'selector',
 		'class',
-		'parameters',
 		'type'
 	],
 	#category : #'Moxing-ModelTS'
@@ -25,6 +26,7 @@ MOTypescriptMethod >> initialize [
 
 	super initialize.
 	parameters := OrderedCollection new
+	
 ]
 
 { #category : #accessing }
@@ -35,6 +37,7 @@ MOTypescriptMethod >> parameters [
 { #category : #accessing }
 MOTypescriptMethod >> selector [
 	^ selector
+	
 ]
 
 { #category : #accessing }
@@ -47,9 +50,11 @@ MOTypescriptMethod >> selector: aString [
 { #category : #accessing }
 MOTypescriptMethod >> setOwnerClass: aClassObject [ 
 	class := aClassObject 
+	
 ]
 
 { #category : #generated }
 MOTypescriptMethod >> type: aJinTypescriptTypeReference [ 
 	type := aJinTypescriptTypeReference 
+	
 ]

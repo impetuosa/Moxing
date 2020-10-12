@@ -60,7 +60,18 @@ MOAngularComponentTemplateWriter >> visitCSNLVerticalLayout: aCSNLVerticalLayout
 
 { #category : #visiting }
 MOAngularComponentTemplateWriter >> visitCSNPage: aJinCasinoPage [ 
-	aJinCasinoPage widgets do: [ : w | w accept: self  ]
+	aJinCasinoPage widgets do: [ : w | w accept: self  ].
+
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUIButton: aCSNUIButton [
+	self writeLeafElement: aCSNUIButton
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUIImage: aCSNUIImage [
+	^ self writeLeafElement: aCSNUIImage
 ]
 
 { #category : #visiting }
@@ -81,6 +92,16 @@ MOAngularComponentTemplateWriter >> visitCSNUIPanel: aCSNUIPanel [
 { #category : #visiting }
 MOAngularComponentTemplateWriter >> visitCSNUIParagraph: aCSNUIParagraph [ 
 	self writeLeafElement: aCSNUIParagraph
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUISelect: aCSNUISelect [ 
+	self writeLeafElement: aCSNUISelect
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitDataRead: aMDDataRead [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #writing }
@@ -111,6 +132,7 @@ MOAngularComponentTemplateWriter >> writeLayoutedElement: aCSNElement [
 
 { #category : #writing }
 MOAngularComponentTemplateWriter >> writeLeafElement: anElement [
-
-	(self configuration brushFor: anElement) write: anElement into: xmlStream
+	(self configuration brushFor: anElement)
+		write: anElement
+		into: xmlStream
 ]

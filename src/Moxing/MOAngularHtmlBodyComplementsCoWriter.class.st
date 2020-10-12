@@ -33,8 +33,17 @@ MOAngularHtmlBodyComplementsCoWriter >> visitCSNUIAbsoluteWidth: aCSNUIAbsoluteW
 ]
 
 { #category : #visiting }
-MOAngularHtmlBodyComplementsCoWriter >> visitCSNUILabel: aCSNUILabel [ 
-	self assert: brush isParagraph.
-	writer string: aCSNUILabel attributeValue.	
-	
+MOAngularHtmlBodyComplementsCoWriter >> visitCSNUILabel: aCSNUILabel [
+	writer string: aCSNUILabel attributeValue
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularHtmlBodyComplementsCoWriter >> visitDataBinding: aMODataBindingAttribute [
+	brush writesBindingInBody
+		ifTrue: [ | accessLine |
+			accessLine := '{1}.{2}'
+				format:
+					{aMODataBindingAttribute binding entity parent compilableIdentifier.
+					aMODataBindingAttribute binding entity compilableIdentifier}.
+			writer string: '{{' , accessLine , '}}' ].
 ]

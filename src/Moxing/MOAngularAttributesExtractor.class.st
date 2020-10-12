@@ -2,10 +2,16 @@ Class {
 	#name : #MOAngularAttributesExtractor,
 	#superclass : #Object,
 	#instVars : [
-		'attributes'
+		'attributes',
+		'brush'
 	],
 	#category : #'Moxing-ModelReading'
 }
+
+{ #category : #'as yet unclassified' }
+MOAngularAttributesExtractor >> forBrush: aMOCasinoAngularSimpleBrush [ 
+	brush := aMOCasinoAngularSimpleBrush 
+]
 
 { #category : #visiting }
 MOAngularAttributesExtractor >> initialize [ 
@@ -51,4 +57,16 @@ MOAngularAttributesExtractor >> visitCSNUIAbsoluteWidth: aCSNUIAbsoluteWidth [
 { #category : #visiting }
 MOAngularAttributesExtractor >> visitCSNUILabel: aCSNUILabel [ 
 	" Label is not mapped to an attribute, but to a body. "
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularAttributesExtractor >> visitDataBinding: aMODataBindingAttribute [
+	| accessLine |
+	brush writesBindingInAttribute ifTrue:[
+	accessLine := '{1}.{2}'
+		format:
+			{aMODataBindingAttribute binding entity parent compilableIdentifier.
+			aMODataBindingAttribute binding entity compilableIdentifier}.
+	attributes at: brush bindingAttribute put: '{{', accessLine, '}}'.
+]
 ]

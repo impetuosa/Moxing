@@ -7,7 +7,10 @@ Class {
 		'createdEntitites',
 		'stack',
 		'factory',
-		'behaviorWriter'
+		'behaviorWriter',
+		'createdEntities',
+		'model',
+		'service'
 	],
 	#category : #'Moxing-ModelBuilding'
 }
@@ -29,7 +32,7 @@ MOCasinoToAngularModel class >> loadFrom: aJinCasinoPartialModelCreator into: aJ
 { #category : #'as yet unclassified' }
 MOCasinoToAngularModel >> calculateAngularModel [
 
-	createdEntitites := Set new.
+	createdEntitites := OrderedCollection new.
 	origin model accept: self.
 	destination components addAll: createdEntitites.
 	createdEntitites do: [ : c | c module: destination  ]
@@ -37,7 +40,7 @@ MOCasinoToAngularModel >> calculateAngularModel [
 
 { #category : #'as yet unclassified' }
 MOCasinoToAngularModel >> createdEntities [
-	^ createdEntitites 
+	^ createdEntities 
 ]
 
 { #category : #accessing }
@@ -56,18 +59,31 @@ MOCasinoToAngularModel >> origin: aJinCasinoPartialModelCreator [
 ]
 
 { #category : #visiting }
-MOCasinoToAngularModel >> visitCSNPage: aJinCasinoPage [ 
+MOCasinoToAngularModel >> visitCSNPage: aJinCasinoPage [
 	| component templateWriter |
 	component := self factory createNewAngularComponent.
 	component name: aJinCasinoPage name.
-	createdEntitites add: component. 
-	templateWriter := self factory createNewAngularComponentTemplateWriter.  
-	templateWriter writeHtmlFor: aJinCasinoPage into: component.  
-	
-	behaviorWriter := self factory createNewAngularComponentBehaviorWriter. 
-	behaviorWriter writeBehaviorFor: aJinCasinoPage into: component. 
-	
-	
+	createdEntitites add: component.
+	templateWriter := self factory
+		createNewAngularComponentTemplateWriter.
+	templateWriter writeHtmlFor: aJinCasinoPage into: component.
+	behaviorWriter := self factory
+		createNewAngularComponentBehaviorWriter.
+	behaviorWriter writeBehaviorFor: aJinCasinoPage into: component.
+	aJinCasinoPage attributes do: [ :a | a accept: self ]
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoToAngularModel >> visitDataBinding: aMODataBindingAttribute [
+	|  modelWriter serviceWriter |
+	modelWriter := self factory createNewAngularModelComponentWriter.
+	model := modelWriter writeModelFor: aMODataBindingAttribute.
+	createdEntitites add: model.
+	self halt.
+	serviceWriter := self factory createNewAngularServiceComponentWriter.
+	service := serviceWriter writeServiceFor: aMODataBindingAttribute.
+	createdEntitites add: service.
+	^ model
 ]
 
 { #category : #visiting }

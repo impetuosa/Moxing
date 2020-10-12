@@ -9,7 +9,6 @@ Class {
 
 { #category : #visiting }
 MOAngularProtoComponentTemplate >> acceptVisitor: aJinViewportPageBuilder [
-
 	aJinViewportPageBuilder visitAngularProtoComponentTemplate: self
 ]
 

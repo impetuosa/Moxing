@@ -13,7 +13,7 @@ MOTypescriptVariableDeclarationLoader >> visitTypeName: aTypeName [
 { #category : #generated }
 MOTypescriptVariableDeclarationLoader >> visitVariableDeclaration: aVariableDeclaration [
 
-	result := MOVariable new.
+	result := MOTypescriptVariable new.
 	result name: aVariableDeclaration variable name value.
 	super visitVariableDeclaration: aVariableDeclaration
 ]

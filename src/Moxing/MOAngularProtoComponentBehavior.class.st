@@ -9,8 +9,12 @@ Class {
 
 { #category : #accessing }
 MOAngularProtoComponentBehavior >> acceptVisitor: aJinViewportPageBuilder [
-
 	aJinViewportPageBuilder visitAngularProtoComponentBehavior: self
+]
+
+{ #category : #accessing }
+MOAngularProtoComponentBehavior >> angularModel [
+	^ angularModel
 ]
 
 { #category : #accessing }
@@ -40,12 +44,10 @@ MOAngularProtoComponentBehavior >> properties [
 
 { #category : #accessing }
 MOAngularProtoComponentBehavior >> sourceCode [
-
 	^ angularModel sourceCode
 ]
 
 { #category : #accessing }
 MOAngularProtoComponentBehavior >> superclass [
-
 	^ angularModel superclass
 ]

@@ -2,7 +2,6 @@ Class {
 	#name : #MOCasinoAngularMapper,
 	#superclass : #Object,
 	#instVars : [
-		'mapping',
 		'brush'
 	],
 	#category : #'Moxing-WidgetMapping'
@@ -22,16 +21,8 @@ MOCasinoAngularMapper >> brushFor: aCSNUIPanel [
 ]
 
 { #category : #'as yet unclassified' }
-MOCasinoAngularMapper >> initialize [
-
-	super initialize.
-	mapping := Dictionary new.
-	self loadDefaults
-]
-
-{ #category : #'as yet unclassified' }
-MOCasinoAngularMapper >> loadDefaults [ 
-	
+MOCasinoAngularMapper >> newSimpleBrush [
+	^ MOCasinoAngularSimpleBrush new
 ]
 
 { #category : #visiting }
@@ -46,26 +37,44 @@ MOCasinoAngularMapper >> visitCSNLTabulateLayout: aCSNLTabulateLayout [
 	brush := MOCasinoAngularTabulatingLayoutBrush new
 ]
 
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUIButton: aCSNUIButton [
+	brush := self newSimpleBrush
+		tag: 'button';
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUIImage: aCSNUIImage [
+	brush := self newSimpleBrush
+		tag: 'img';
+		yourself
+]
+
 { #category : #visiting }
 MOCasinoAngularMapper >> visitCSNUIInputText: aCSNUIInputText [
-
-	brush := MOCasinoAngularSimpleBrush new
-		         tag: 'input';
-		         yourself
+	brush := self newSimpleBrush
+		tag: 'input';
+		yourself
 ]
 
 { #category : #visiting }
 MOCasinoAngularMapper >> visitCSNUIPanel: aCSNUIPanel [
-
-	brush := MOCasinoAngularSimpleBrush new
-		         tag: 'div';
-		         yourself
+	brush := self newSimpleBrush
+		tag: 'div';
+		yourself
 ]
 
 { #category : #visiting }
 MOCasinoAngularMapper >> visitCSNUIParagraph: aCSNUIParagraph [
+	brush := self newSimpleBrush
+		tag: 'p';
+		yourself
+]
 
-	brush :=  MOCasinoAngularSimpleBrush new
-		  tag: 'p';
-		  yourself
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUISelect: aCSNUISelect [
+	brush := self newSimpleBrush
+		tag: 'select';
+		yourself
 ]
