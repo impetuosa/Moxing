@@ -63,6 +63,11 @@ MOTypescriptClass >> implements: aCollection [
 	types := aCollection 
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptClass >> imports [
+	^ imports
+]
+
 { #category : #generated }
 MOTypescriptClass >> initialize [ 
 	super initialize .
@@ -94,5 +99,5 @@ MOTypescriptClass >> superclass [
 
 { #category : #accessing }
 MOTypescriptClass >> types [
-	^ types
+	^ types ifNil: [ {  } ]
 ]

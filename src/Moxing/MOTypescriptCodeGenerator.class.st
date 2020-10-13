@@ -27,8 +27,14 @@ MOTypescriptCodeGenerator >> visitTypescriptClass: aJinTypescriptClass [
 		nextPutAll: (',' join: (aJinTypescriptClass types collect: #name));
 		nextPutAll: ' {';
 		newLine.
-	aJinTypescriptClass properties do: [ :m | m acceptVisitor: self ].
-	aJinTypescriptClass methods do: [ :m | m acceptVisitor: self ].
+	aJinTypescriptClass properties
+		do: [ :m | 
+			m acceptVisitor: self.
+			stream newLine ].
+	aJinTypescriptClass methods
+		do: [ :m | 
+			m acceptVisitor: self.
+			stream newLine ].
 	stream nextPutAll: '}'
 ]
 
@@ -46,6 +52,16 @@ MOTypescriptCodeGenerator >> visitTypescriptDecorator: aJinTypescriptDecorator [
 		cr
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitTypescriptImport: aMOTypescriptImport [
+	stream
+		nextPutAll: 'import {';
+		nextPutAll: (',' join: (aMOTypescriptImport types collect: [ :t | t name ]));
+		nextPutAll: '} from "';
+		nextPutAll: ('/' join: aMOTypescriptImport from path segments);
+		nextPutAll: '";'
+]
+
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitTypescriptMethod: aJinTypescriptMethod [
 
@@ -59,6 +75,35 @@ MOTypescriptCodeGenerator >> visitTypescriptMethod: aJinTypescriptMethod [
 				  p type name , ' ' , p name ])).
 	stream
 		nextPutAll: ') {';
+		newLine;
+		nextPutAll: '    }';
+		newLine
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitTypescriptTemplatedMethod: aMOTypescriptTemplatedMethod [
+	stream
+		newLine;
+		nextPutAll: '    ';
+		nextPutAll: aMOTypescriptTemplatedMethod selector;
+		nextPutAll: '('.
+	stream
+		nextPutAll:
+			(','
+				join:
+					(aMOTypescriptTemplatedMethod parameters
+						collect: [ :p | p type name , ' ' , p name ])).
+	stream nextPutAll: ')'.
+
+	aMOTypescriptTemplatedMethod type
+		ifNotNil: [ :t | 
+			stream
+				nextPutAll: ': ';
+				nextPutAll: t asString ].
+	stream
+		nextPutAll: ' {';
+		newLine;
+		nextPutAll: aMOTypescriptTemplatedMethod body;
 		newLine;
 		nextPutAll: '    }';
 		newLine

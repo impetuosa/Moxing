@@ -14,6 +14,16 @@ MOAngularProtoClass >> acceptVisitor: aVisitor [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> interfaces [
+	^ class types 
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> methods [
+	^ class methods 
+]
+
 { #category : #visiting }
 MOAngularProtoClass >> module [
 	^ module
@@ -25,8 +35,28 @@ MOAngularProtoClass >> module: aModule [
 ]
 
 { #category : #visiting }
+MOAngularProtoClass >> name [
+	^ class name 
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> properties [
+	^ class properties
+]
+
+{ #category : #visiting }
 MOAngularProtoClass >> setClass: aClass [
 	class := aClass 
+]
+
+{ #category : #visiting }
+MOAngularProtoClass >> sourceCode [
+	^ class sourceCode
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> superclass [
+	^ class superclass 
 ]
 
 { #category : #visiting }

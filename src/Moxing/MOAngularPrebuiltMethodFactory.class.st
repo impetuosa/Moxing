@@ -17,11 +17,11 @@ MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 						name: aType;
 						yourself));
 		body:
-			(' 
-			 return this.http.post<{1}>(this.{2}, object, this.httpOptions).pipe(
-		      catchError(this.handleError<{1}>("add{1}"))
-		    );
-			'
+			('
+  return this.http.post<{1}>(this.{2}, object, this.httpOptions).pipe(
+		catchError(this.handleError<{1}>("add{1}"))
+  );
+'
 				format:
 					{aType.
 					anUrlVariable});
@@ -43,11 +43,11 @@ MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable
 						yourself));
 		body:
 			(' 
-			 const id = object.getId();
-			 const url = `$\{this.{2}\}/$\{id\}`;
-			 return this.http.delete<{1}>(url, object, this.httpOptions).pipe(
-		      catchError(this.handleError<{1}>("delete{1}"))
-		    );
+ const id = object.getId();
+ const url = `$\{this.{2}\}/$\{id\}`;
+ return this.http.delete<{1}>(url, object, this.httpOptions).pipe(
+     catchError(this.handleError<{1}>("delete{1}"))
+ );
 			'
 				format:
 					{aType.
@@ -69,9 +69,10 @@ MOAngularPrebuiltMethodFactory >> editElementsMethod: aType url: anUrlVariable [
 						name: aType;
 						yourself));
 		body:
-			(' return this.http.put(this.{2}, object, this.httpOptions).pipe(
-      catchError(this.handleError<any>("update{1}"))
-    );'
+			(' 
+return this.http.put(this.{2}, object, this.httpOptions).pipe(
+  catchError(this.handleError<any>("update{1}"))
+);'
 				format:
 					{aType.
 					anUrlVariable});
@@ -83,7 +84,7 @@ MOAngularPrebuiltMethodFactory >> editElementsMethod: aType url: anUrlVariable [
 MOAngularPrebuiltMethodFactory >> filterElementsMethod: aType url: anUrlVariable [
 	| method |
 	method := MOTypescriptTemplatedMethod new
-		selector: ('delete{1}' format: {aType});
+		selector: ('search{1}' format: {aType});
 		addParameter:
 			(MOTypescriptVariable new
 				name: 'filter';
@@ -93,12 +94,12 @@ MOAngularPrebuiltMethodFactory >> filterElementsMethod: aType url: anUrlVariable
 						yourself));
 		body:
 			(' 
-	 if (!filter.trim()) \{
-	      return of([]);
-		\}
-    return this.http.get<{1}[]>(`$\{this.{2}\}/?name=$\{term\}`).pipe(
-      catchError(this.handleError<{1}[]>("search{1}", []))
-    );
+if (!filter.trim()) \{
+   return of([]);
+\}
+return this.http.get<{1}[]>(`$\{this.{2}\}/?filter=$\{filter\}`).pipe(
+  catchError(this.handleError<{1}[]>("search{1}", []))
+);
 			'
 				format:
 					{aType.
@@ -113,10 +114,10 @@ MOAngularPrebuiltMethodFactory >> getElementsMethod: aType url: anUrlVariable [
 	obtainElementsMethod := MOTypescriptTemplatedMethod new
 		selector: ('getAll{1}' format: {aType});
 		body:
-			(' return this.http.get<{1}[]>(this.{2})
-      .pipe(
-        catchError(this.handleError<{1}[]>("getAll{1}", []))
-      );'
+			(' 
+return this.http.get<{1}[]>(this.{2}).pipe(
+   catchError(this.handleError<{1}[]>("getAll{1}", []))
+);'
 				format:
 					{aType.
 					anUrlVariable});
@@ -126,35 +127,15 @@ MOAngularPrebuiltMethodFactory >> getElementsMethod: aType url: anUrlVariable [
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observable: aType [
-	^ MOTypescriptGenericTypeReference new
-		name: #Observable;
-		addTypeParameter:
-			(MOTypescriptTypeReference new
-				name: aType;
-				yourself);
-		yourself
+	^ MOTypescriptPrebuiltTypeFactory default observable: aType
 ]
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observableAny [
-	^ MOTypescriptGenericTypeReference new
-		name: #Observable;
-		addTypeParameter:
-			(MOTypescriptTypeReference new
-				name: 'any';
-				yourself);
-		yourself
+	^ MOTypescriptPrebuiltTypeFactory default observableAny
 ]
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observableArrayOf: aType [
-	^ MOTypescriptGenericTypeReference new
-		name: #Observable;
-		addTypeParameter:
-			(MOTypescriptArrayTypeReference new
-				innerType:
-					(MOTypescriptTypeReference new
-						name: aType;
-						yourself);
-				yourself)
+	^ MOTypescriptPrebuiltTypeFactory default observableArrayOf: aType
 ]

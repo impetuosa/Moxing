@@ -8,14 +8,8 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOTypescriptGenericTypeReference >> addTypeParameter: aMOTypescriptArrayTypeReference [
-	parameters add: aMOTypescriptArrayTypeReference
-]
-
-{ #category : #initialization }
-MOTypescriptGenericTypeReference >> initialize [
-	super initialize.
-	parameters := OrderedCollection new
+MOTypescriptGenericTypeReference >> parameters: aCollection [
+	parameters := aCollection
 ]
 
 { #category : #'as yet unclassified' }

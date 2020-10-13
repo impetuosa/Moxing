@@ -51,7 +51,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 				url: 'serviceUrl')
 				setOwnerClass: service;
 				yourself).
-	binding allowEdits
+	binding binding allowEdits
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
@@ -59,7 +59,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
-	binding allowAdditions
+	binding binding allowAdditions
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
@@ -67,7 +67,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
-	binding allowDeletions
+	binding binding allowDeletions
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
@@ -75,7 +75,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
-	binding allowFilters
+	binding binding allowFilters
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory

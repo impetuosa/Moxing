@@ -54,6 +54,11 @@ MOTypescriptMethod >> setOwnerClass: aClassObject [
 ]
 
 { #category : #generated }
+MOTypescriptMethod >> type [ 
+	^ type
+]
+
+{ #category : #generated }
 MOTypescriptMethod >> type: aJinTypescriptTypeReference [ 
 	type := aJinTypescriptTypeReference 
 	
