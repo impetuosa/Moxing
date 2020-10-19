@@ -51,6 +51,22 @@ MOCasinoAngularMapper >> visitCSNUIImage: aCSNUIImage [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUIInputCheckbox: aCSNUIInputCheckbox [
+	brush := self newSimpleBrush
+		tag: 'input';
+		type: 'checkbox';
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUIInputFile: aCSNUIInputFile [
+	brush := self newSimpleBrush
+		tag: 'input';
+		type: 'file';
+		yourself
+]
+
 { #category : #visiting }
 MOCasinoAngularMapper >> visitCSNUIInputText: aCSNUIInputText [
 	brush := self newSimpleBrush
@@ -76,5 +92,24 @@ MOCasinoAngularMapper >> visitCSNUIParagraph: aCSNUIParagraph [
 MOCasinoAngularMapper >> visitCSNUISelect: aCSNUISelect [
 	brush := self newSimpleBrush
 		tag: 'select';
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUITab: aCSNUITab [
+	brush := self newSimpleBrush
+		tag: 'mat-tab';
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUITabManager: aCSNUITabManager [
+	brush := MOCasinoAngularTabManagerBrush new
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitJinCasinoWidgetUsage: aJinCasinoWidgetUsage [
+	brush := self newSimpleBrush
+		tag: aJinCasinoWidgetUsage widgetName asLowercase;
 		yourself
 ]

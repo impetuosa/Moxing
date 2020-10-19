@@ -10,6 +10,7 @@ CSNWidget >> dataBinding [
 
 { #category : #'*Moxing' }
 CSNWidget >> dataBinding: aMDDataRead [
-	^ self
-		addAttribute: (MODataBindingAttribute new binding: aMDDataRead)
+	aMDDataRead
+		ifNotNil: [ ^ self
+				addAttribute: (MODataBindingAttribute new binding: aMDDataRead) ]
 ]

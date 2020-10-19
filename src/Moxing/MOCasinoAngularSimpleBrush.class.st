@@ -2,7 +2,8 @@ Class {
 	#name : #MOCasinoAngularSimpleBrush,
 	#superclass : #Object,
 	#instVars : [
-		'tag'
+		'tag',
+		'extraAttributes'
 	],
 	#category : #'Moxing-CodeWritingHtml'
 }
@@ -17,10 +18,9 @@ MOCasinoAngularSimpleBrush >> bindingAttribute [
 MOCasinoAngularSimpleBrush >> computeAttributesFor: aCSNElement [
 	| extractor |
 	extractor := MOAngularAttributesExtractor new.
-	extractor forBrush: self. 
+	extractor forBrush: self.
 	aCSNElement attributes do: [ :a | a accept: extractor ].
-	^ extractor result.
-	
+	^ extraAttributes copy addAll: extractor result
 ]
 
 { #category : #'as yet unclassified' }
@@ -30,6 +30,12 @@ MOCasinoAngularSimpleBrush >> computeBodyFor: aCSNUIElement [
 	cowriter := MOAngularHtmlBodyComplementsCoWriter new.
 	cowriter brush: self.
 	aCSNUIElement attributes do: [ :a | a accept: cowriter ]
+]
+
+{ #category : #writing }
+MOCasinoAngularSimpleBrush >> initialize [
+	super initialize.
+	extraAttributes := Dictionary new
 ]
 
 { #category : #'as yet unclassified' }
@@ -45,6 +51,11 @@ MOCasinoAngularSimpleBrush >> isParagraph [
 { #category : #accessing }
 MOCasinoAngularSimpleBrush >> tag: aString [ 
 	tag := aString
+]
+
+{ #category : #'as yet unclassified' }
+MOCasinoAngularSimpleBrush >> type: aString [
+	extraAttributes at: #type put: aString
 ]
 
 { #category : #writing }

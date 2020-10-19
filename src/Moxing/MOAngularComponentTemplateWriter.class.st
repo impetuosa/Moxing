@@ -74,6 +74,16 @@ MOAngularComponentTemplateWriter >> visitCSNUIImage: aCSNUIImage [
 	^ self writeLeafElement: aCSNUIImage
 ]
 
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUIInputCheckbox: aCSNUIInputCheckbox [
+	self writeLeafElement: aCSNUIInputCheckbox
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUIInputFile: aCSNUIInputFile [
+	^ self writeLeafElement: aCSNUIInputFile
+]
+
 { #category : #visiting }
 MOAngularComponentTemplateWriter >> visitCSNUIInputText: aCSNUIInputText [
 
@@ -100,8 +110,29 @@ MOAngularComponentTemplateWriter >> visitCSNUISelect: aCSNUISelect [
 ]
 
 { #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUITab: aCSNUITab [
+	(self configuration brushFor: aCSNUITab)
+		write: aCSNUITab
+		into: xmlStream
+		with: [ aCSNUITab widgets do: [ :w | w accept: self ] ]
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUITabManager: aCSNUITabManager [
+	(self configuration brushFor: aCSNUITabManager)
+		write: aCSNUITabManager
+		into: xmlStream
+		with: [ aCSNUITabManager pages do: [ :w | w accept: self ] ]
+]
+
+{ #category : #'as yet unclassified' }
 MOAngularComponentTemplateWriter >> visitDataRead: aMDDataRead [ 
 	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitJinCasinoWidgetUsage: aJinCasinoWidgetUsage [
+	^ self writeLeafElement: aJinCasinoWidgetUsage
 ]
 
 { #category : #writing }

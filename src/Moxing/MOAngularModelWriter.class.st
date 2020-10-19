@@ -10,11 +10,16 @@ Class {
 { #category : #'as yet unclassified' }
 MOAngularModelWriter >> typeReferenceFor: aType [
 	| destinationTypeName |
-	destinationTypeName := {('dbLong' -> 'bigint').
+	destinationTypeName := {
+	('dbLong' -> 'bigint').
+	('dbBoolean' -> 'boolean').
+	('dbInteger' -> 'bigint').
 	('dbDate' -> 'Date').
 	('dbCurrency' -> 'number').
 	('dbText' -> 'string').
-	('dbMemo' -> 'string')} asDictionary at: aType.
+	('dbMemo' -> 'string') . 
+('dbAttachment' -> 'Array<byte>') . 
+	('dbComplexLong' -> 'Array<bigint>')} asDictionary at: aType.
 	^ MOTypescriptPrebuiltTypeReferenceFactory default
 		typeReference: destinationTypeName
 ]
@@ -32,6 +37,13 @@ MOAngularModelWriter >> visitColumn: aMDColumn [
 { #category : #'as yet unclassified' }
 MOAngularModelWriter >> visitDataBinding: aMODataBindingAttribute [
 	aMODataBindingAttribute binding entity accept: self
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularModelWriter >> visitRelationalTable: aMDRelationalTable [
+	model := MOTypescriptClass new.
+	model name: aMDRelationalTable compilableTypeIdentifier.
+	aMDRelationalTable elements do: [ :e | e accept: self ]
 ]
 
 { #category : #'as yet unclassified' }
