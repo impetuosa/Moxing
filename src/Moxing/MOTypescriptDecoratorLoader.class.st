@@ -15,8 +15,30 @@ MOTypescriptDecoratorLoader >> visitArrayLiteral: aLiteral [
 
 { #category : #visiting }
 MOTypescriptDecoratorLoader >> visitCallExpression: aCallExpression [
-
-	result name: aCallExpression expression name value.
+	types
+		at: aCallExpression expression name value
+		ifPresent: [ :v | 
+			self assert: v isDecorator.
+			^ result := v ].
+	result := types values
+		detect: [ :r | r name = aCallExpression expression name value ]
+		ifFound: [ :r | 
+			r isDecorator
+				ifTrue: [ r ]
+				ifFalse: [ types
+						at: aCallExpression expression name value
+						put:
+							(MOTypescriptPrebuiltTypeReferenceFactory default
+								decorator: aCallExpression expression name value
+								definedAt: r definedAt
+								attributes: Dictionary new) ] ]
+		ifNone: [ types
+				at: aCallExpression expression name value
+				put:
+					(MOTypescriptPrebuiltTypeReferenceFactory default
+						decorator: aCallExpression expression name value
+						definedAt: 'NONINFERRED'
+						attributes: Dictionary new) ].
 	aCallExpression arguments do: [ :a | a acceptVisitor: self ]
 ]
 

@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'service',
-		'binding'
+		'binding',
+		'dataEntity'
 	],
 	#category : #'Moxing-CodeWritingTypescript'
 }
@@ -23,22 +24,15 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 	service := MOTypescriptClass new.
 	service name: aMDRelationalView compilableTypeIdentifier , 'Service'.
 	service
-		addImport:
-			(MOTypescriptImport new
-				types: {(MOTypescriptTypeReference new name: 'Injectable')};
-				from: '@angular/core' asFileReference).
-	service decorator: MOTypescriptDecorator new.
-	service decorator name: 'Injectable'.
-	service decorator attributes at: #providedIn put: 'root'.
+		decorator:
+			MOTypescriptPrebuiltTypeReferenceFactory default
+				injectableProvidedAtRoot.
 	service
 		addProperty:
 			(MOTypescriptVariable new
 				visibility: #private;
 				name: 'serviceUrl';
-				type:
-					(MOTypescriptTypeReference new
-						name: 'string';
-						yourself);
+				type: MOTypescriptPrebuiltTypeReferenceFactory default string;
 				defaultValue:
 					(MOTypescriptLiteral new
 						literal: '"api/heros"';
@@ -47,7 +41,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 	service
 		addMethod:
 			((self methodFactory
-				getElementsMethod: aMDRelationalView compilableTypeIdentifier
+				getElementsMethod: dataEntity
 				url: 'serviceUrl')
 				setOwnerClass: service;
 				yourself).
@@ -55,7 +49,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
-						editElementsMethod: aMDRelationalView compilableTypeIdentifier
+						editElementsMethod: dataEntity
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
@@ -63,7 +57,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
-						addElementsMethod: aMDRelationalView compilableTypeIdentifier
+						addElementsMethod: dataEntity
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
@@ -71,7 +65,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
-						deleteElementsMethod: aMDRelationalView compilableTypeIdentifier
+						deleteElementsMethod: dataEntity
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
@@ -79,14 +73,15 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 		ifTrue: [ service
 				addMethod:
 					((self methodFactory
-						filterElementsMethod: aMDRelationalView compilableTypeIdentifier
+						filterElementsMethod: dataEntity
 						url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ]
 ]
 
 { #category : #writing }
-MOAngularServiceWriter >> writeServiceFor: aMDDataBinding [
+MOAngularServiceWriter >> writeServiceFor: aMDDataBinding for: aDataEntity [
+	dataEntity := aDataEntity .
 	binding := aMDDataBinding.
 	aMDDataBinding accept: self.
 	^ MOAngularProtoClass new

@@ -14,42 +14,34 @@ MOAngularComponentBehaviorWriter >> behavior [
 
 { #category : #visiting }
 MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
-
 	behavior := MOTypescriptClass new.
-	behavior name: aJinCasinoPage name.
-	behavior implements: { 
-			(MOTypescriptTypeReference new
-				 name: #OnInit;
-				 yourself).
-			(MOTypescriptTypeReference new
-				 name: #OnDestroy;
-				 yourself) }.
-	behavior decorator: MOTypescriptDecorator new.
-	behavior decorator name: 'Component'.
+	behavior name: aJinCasinoPage name asLowercase.
+	behavior
+		implements:
+			{MOTypescriptPrebuiltTypeReferenceFactory default onInit.
+			MOTypescriptPrebuiltTypeReferenceFactory default onDestroy}.
+	behavior
+		decorator: MOTypescriptPrebuiltTypeReferenceFactory default component.
 	behavior decorator attributes at: #selector put: aJinCasinoPage name.
 	behavior decorator attributes
-		at: #template
-		put: './' , aJinCasinoPage name , '.component.html'.
-	
-	behavior addMethod: (MOTypescriptMethod new
-			 selector: 'ngOnInit';
-			 setOwnerClass: behavior;
-			 type: (MOTypescriptTypeReference new
-					  name: #void;
-					  yourself)).
-	behavior addMethod: (MOTypescriptMethod new
-			 selector: 'ngOnDestroy';
-			 setOwnerClass: behavior;
-			 type: (MOTypescriptTypeReference new
-					  name: #void;
-					  yourself)).
-					
+		at: #templateUrl
+		put: './' , aJinCasinoPage name asLowercase , '.component.html'.
+	behavior
+		addMethod:
+			(MOTypescriptMethod new
+				selector: 'ngOnInit';
+				setOwnerClass: behavior;
+				type: MOTypescriptPrebuiltTypeReferenceFactory default void).
+	behavior
+		addMethod:
+			(MOTypescriptMethod new
+				selector: 'ngOnDestroy';
+				setOwnerClass: behavior;
+				type: MOTypescriptPrebuiltTypeReferenceFactory default void).
 	behavior := MOAngularProtoComponentBehavior new
-		            angularModel: behavior;
-		            yourself.
-	
-	aJinCasinoPage attributes do: [ :a | a accept: self  ].
-	
+		angularModel: behavior;
+		yourself.
+	aJinCasinoPage attributes do: [ :a | a accept: self ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -59,21 +51,9 @@ MOAngularComponentBehaviorWriter >> visitDataBinding: aMODataBindingAttribute [
 			(MOTypescriptVariable new
 				name: aMODataBindingAttribute binding entity compilableIdentifier;
 				type:
-					(MOTypescriptTypeReference new
-						name: aMODataBindingAttribute binding entity compilableTypeIdentifier;
-						yourself);
-				yourself).
-	behavior angularModel
-		addImport:
-			(MOTypescriptImport new
-				types:
-					{(MOTypescriptTypeReference new
-						name: aMODataBindingAttribute binding entity compilableTypeIdentifier)};
-				from:
-					('../models/'
-						, aMODataBindingAttribute binding entity compilableIdentifier)
-						asFileReference;
-				yourself)
+					(MOTypescriptPrebuiltTypeReferenceFactory default
+						typeReference: aMODataBindingAttribute binding entity compilableTypeIdentifier
+						definedAt: './' , aMODataBindingAttribute binding entity compilableIdentifier))
 ]
 
 { #category : #writing }

@@ -8,14 +8,11 @@ Class {
 MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 	| method |
 	method := MOTypescriptTemplatedMethod new
-		selector: ('add{1}' format: {aType});
+		selector: ('add{1}' format: {aType name});
 		addParameter:
 			(MOTypescriptVariable new
 				name: 'object';
-				type:
-					(MOTypescriptTypeReference new
-						name: aType;
-						yourself));
+				type: aType);
 		body:
 			('
   return this.http.post<{1}>(this.{2}, object, this.httpOptions).pipe(
@@ -26,6 +23,8 @@ MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 					{aType.
 					anUrlVariable});
 		type: (self observable: aType).
+	method
+		dependsOn: MOTypescriptPrebuiltTypeReferenceFactory default catchError.
 	^ method
 ]
 
@@ -33,14 +32,11 @@ MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable [
 	| method |
 	method := MOTypescriptTemplatedMethod new
-		selector: ('delete{1}' format: {aType});
+		selector: ('delete{1}' format: {aType name});
 		addParameter:
 			(MOTypescriptVariable new
 				name: 'object';
-				type:
-					(MOTypescriptTypeReference new
-						name: aType;
-						yourself));
+				type: aType);
 		body:
 			(' 
  const id = object.getId();
@@ -50,9 +46,11 @@ MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable
  );
 			'
 				format:
-					{aType.
+					{aType name .
 					anUrlVariable});
 		type: (self observable: aType).
+	method
+		dependsOn: MOTypescriptPrebuiltTypeReferenceFactory default catchError.
 	^ method
 ]
 
@@ -60,23 +58,22 @@ MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable
 MOAngularPrebuiltMethodFactory >> editElementsMethod: aType url: anUrlVariable [
 	| method |
 	method := MOTypescriptTemplatedMethod new
-		selector: ('update{1}' format: {aType});
+		selector: ('update{1}' format: {aType name});
 		addParameter:
 			(MOTypescriptVariable new
 				name: 'object';
-				type:
-					(MOTypescriptTypeReference new
-						name: aType;
-						yourself));
+				type: aType);
 		body:
 			(' 
 return this.http.put(this.{2}, object, this.httpOptions).pipe(
   catchError(this.handleError<any>("update{1}"))
 );'
 				format:
-					{aType.
+					{aType name.
 					anUrlVariable});
 		type: self observableAny.
+	method
+		dependsOn: MOTypescriptPrebuiltTypeReferenceFactory default catchError.
 	^ method
 ]
 
@@ -84,14 +81,11 @@ return this.http.put(this.{2}, object, this.httpOptions).pipe(
 MOAngularPrebuiltMethodFactory >> filterElementsMethod: aType url: anUrlVariable [
 	| method |
 	method := MOTypescriptTemplatedMethod new
-		selector: ('search{1}' format: {aType});
+		selector: ('search{1}' format: {aType name});
 		addParameter:
 			(MOTypescriptVariable new
 				name: 'filter';
-				type:
-					(MOTypescriptTypeReference new
-						name: 'string';
-						yourself));
+				type: MOTypescriptPrebuiltTypeReferenceFactory default string);
 		body:
 			(' 
 if (!filter.trim()) \{
@@ -102,9 +96,12 @@ return this.http.get<{1}[]>(`$\{this.{2}\}/?filter=$\{filter\}`).pipe(
 );
 			'
 				format:
-					{aType.
+					{aType name.
 					anUrlVariable});
 		type: (self observableArrayOf: aType).
+	method
+		dependsOn: MOTypescriptPrebuiltTypeReferenceFactory default catchError.
+	method dependsOn: MOTypescriptPrebuiltTypeReferenceFactory default of.
 	^ method
 ]
 
@@ -112,14 +109,14 @@ return this.http.get<{1}[]>(`$\{this.{2}\}/?filter=$\{filter\}`).pipe(
 MOAngularPrebuiltMethodFactory >> getElementsMethod: aType url: anUrlVariable [
 	| obtainElementsMethod |
 	obtainElementsMethod := MOTypescriptTemplatedMethod new
-		selector: ('getAll{1}' format: {aType});
+		selector: ('getAll{1}' format: {aType name});
 		body:
 			(' 
 return this.http.get<{1}[]>(this.{2}).pipe(
    catchError(this.handleError<{1}[]>("getAll{1}", []))
 );'
 				format:
-					{aType.
+					{aType name.
 					anUrlVariable});
 		type: (self observableArrayOf: aType).
 	^ obtainElementsMethod
@@ -127,15 +124,15 @@ return this.http.get<{1}[]>(this.{2}).pipe(
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observable: aType [
-	^ MOTypescriptPrebuiltTypeFactory default observable: aType
+	^ MOTypescriptPrebuiltTypeReferenceFactory default observable: aType
 ]
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observableAny [
-	^ MOTypescriptPrebuiltTypeFactory default observableAny
+	^ MOTypescriptPrebuiltTypeReferenceFactory default observableAny
 ]
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observableArrayOf: aType [
-	^ MOTypescriptPrebuiltTypeFactory default observableArrayOf: aType
+	^ MOTypescriptPrebuiltTypeReferenceFactory default observableArrayOf: aType
 ]

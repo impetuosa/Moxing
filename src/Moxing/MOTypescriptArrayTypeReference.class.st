@@ -4,8 +4,13 @@ Class {
 	#instVars : [
 		'innerType'
 	],
-	#category : #'Moxing-CodeWritingTypescript'
+	#category : #'Moxing-ModelTS'
 }
+
+{ #category : #'as yet unclassified' }
+MOTypescriptArrayTypeReference >> dependencies [
+	^ innerType dependencies 
+]
 
 { #category : #'as yet unclassified' }
 MOTypescriptArrayTypeReference >> innerType: aMOTypescriptTypeReference [ 

@@ -62,7 +62,7 @@ MOCasinoToAngularModel >> origin: aJinCasinoPartialModelCreator [
 MOCasinoToAngularModel >> visitCSNPage: aJinCasinoPage [
 	| component templateWriter |
 	component := self factory createNewAngularComponent.
-	component name: aJinCasinoPage name.
+	component name: aJinCasinoPage name asLowercase.
 	createdEntitites add: component.
 	templateWriter := self factory
 		createNewAngularComponentTemplateWriter.
@@ -81,7 +81,7 @@ MOCasinoToAngularModel >> visitDataBinding: aMODataBindingAttribute [
 	createdEntitites add: model.
 	self halt.
 	serviceWriter := self factory createNewAngularServiceComponentWriter.
-	service := serviceWriter writeServiceFor: aMODataBindingAttribute.
+	service := serviceWriter writeServiceFor: aMODataBindingAttribute for: model.
 	createdEntitites add: service.
 	^ model
 ]

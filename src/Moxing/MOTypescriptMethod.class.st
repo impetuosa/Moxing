@@ -22,6 +22,12 @@ MOTypescriptMethod >> addParameter: aJinVariable [
 ]
 
 { #category : #accessing }
+MOTypescriptMethod >> dependencies [
+	^ (parameters flatCollect: [ :p | p dependencies ])
+		, type dependencies
+]
+
+{ #category : #accessing }
 MOTypescriptMethod >> initialize [
 
 	super initialize.

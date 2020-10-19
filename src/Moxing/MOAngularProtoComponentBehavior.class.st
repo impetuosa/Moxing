@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularProtoComponentBehavior,
-	#superclass : #Object,
+	#superclass : #MOAngularProtoEntity,
 	#instVars : [
 		'angularModel'
 	],

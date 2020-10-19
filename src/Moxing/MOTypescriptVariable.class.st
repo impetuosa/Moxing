@@ -21,6 +21,11 @@ MOTypescriptVariable >> defaultValue: aMOTypescriptLiteral [
 ]
 
 { #category : #accessing }
+MOTypescriptVariable >> dependencies [
+	^ type dependencies
+]
+
+{ #category : #accessing }
 MOTypescriptVariable >> printOn: aStream [
 	aStream
 		nextPutAll: 'VD:';
@@ -42,6 +47,7 @@ MOTypescriptVariable >> type [
 
 { #category : #accessing }
 MOTypescriptVariable >> type: aJinTypescriptTypeReference [ 
+(	aJinTypescriptTypeReference isKindOf: MOTypescriptPrebuiltTypeReferenceFactory) ifTrue: [ self halt ].
 	type := aJinTypescriptTypeReference
 ]
 

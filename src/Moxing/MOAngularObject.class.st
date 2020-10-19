@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+MOAngularObject >> mustBeSaved [
+	^ false
+]
+
+{ #category : #accessing }
 MOAngularObject >> path: aFileReference [ 
 	path := aFileReference
 ]

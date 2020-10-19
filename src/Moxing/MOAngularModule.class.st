@@ -36,3 +36,17 @@ MOAngularModule >> components [
 MOAngularModule >> path [
 	^ path 
 ]
+
+{ #category : #'as yet unclassified' }
+MOAngularModule >> save [
+	(components noneSatisfy: [ :c | c mustBeSaved ])
+		ifTrue: [ ^ self ].
+	components select: [ :c | c mustBeSaved ] thenDo: [ :c | c save ].
+	self typescriptModel 
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularModule >> typescriptModel [
+	MOTypescriptClassLoader
+		loadClassFromFile: (self path / name , 'module' , 'ts')
+]

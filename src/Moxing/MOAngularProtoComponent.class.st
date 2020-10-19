@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularProtoComponent,
-	#superclass : #Object,
+	#superclass : #MOAngularProtoEntity,
 	#instVars : [
 		'module',
 		'template',

@@ -30,7 +30,8 @@ MOTypescriptClassLoader class >> loadClassFromStream: aStream [
 { #category : #generated }
 MOTypescriptClassLoader >> initialize [
 	super initialize.
-	result := MOTypescriptClass new
+	result := MOTypescriptClass new.
+	types := Dictionary new .
 ]
 
 { #category : #generated }
@@ -39,7 +40,7 @@ MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 	
 	result name: aClassExpression name name value.
 	result implements: (aClassExpression types collect: [ :t | 
-			 MOTypescriptTypeLoader load: t file: file ]).
+			 MOTypescriptTypeLoader load: t file: file types: types ]).
 	result decorator: decorator. 
 	self acceptNodes: aClassExpression elements.
 	
@@ -48,36 +49,37 @@ MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 { #category : #generated }
 MOTypescriptClassLoader >> visitDecoratorExpression: aDecoratorExpression [
 
-	decorator := MOTypescriptDecoratorLoader load: aDecoratorExpression file: file. 
+	decorator := MOTypescriptDecoratorLoader load: aDecoratorExpression file: file types: types. 
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitImportDeclaration: anImport [
 	| import |
-	import := MOTypescriptImport new.
+	import := MOTypescriptDependency new.
 	import
 		types:
 			((anImport imports
-				flatCollect:
-					[ :i | i specifiers collect: [ :s | s binding name value ] ])
+				flatCollect: [ :i | i specifiers collect: [ :s | s binding name value ] ])
 				asSet
 				collect: [ :n | 
-					MOTypescriptTypeReference new
-						name: n;
-						yourself ]).
-	import from: anImport from value asFileReference.
+					types
+						at: anImport from value , '.' , n
+						ifAbsentPut: [ MOTypescriptPrebuiltTypeReferenceFactory default
+								typeReference: n
+								definedAt: anImport from value ] ]).
+	import from: anImport from value.
 	result addImport: import
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitMemberFunctionDeclaration: aMethodDefinition [
-	result addMethod: (MOTypescriptMethodLoader load: aMethodDefinition file: file )
+	result addMethod: (MOTypescriptMethodLoader load: aMethodDefinition file: file types: types )
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitMethodDefinition: aMethodDefinition [
 
-	result addMethod: (MOTypescriptMethodLoader load: aMethodDefinition file: file )
+	result addMethod: (MOTypescriptMethodLoader load: aMethodDefinition file: file types: types )
 ]
 
 { #category : #generated }
@@ -91,5 +93,6 @@ MOTypescriptClassLoader >> visitVariableDeclaration: aVariableDeclaration [
 		addProperty:
 			(MOTypescriptVariableDeclarationLoader
 				load: aVariableDeclaration
-				file: file)
+				file: file
+				types: types)
 ]

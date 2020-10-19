@@ -8,23 +8,29 @@ Class {
 }
 
 { #category : #accessing }
+MOTypescriptCodeGenerator >> initialize [
+	super initialize.
+	stream := '' writeStream
+]
+
+{ #category : #accessing }
 MOTypescriptCodeGenerator >> sourceCode [
 	^ stream contents 
 ]
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitTypescriptClass: aJinTypescriptClass [
-	self assert: stream isNil.
-	stream := '' writeStream.
-	stream
-		nextPutAll: 'import { OnInit, OnDestroy } from ''@angular/core'';';
-		cr.
-	aJinTypescriptClass imports do: [ :i | i acceptVisitor: self ].
+
+	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].
 	aJinTypescriptClass decorator
 		ifNotNil: [ :d | d acceptVisitor: self ].
 	stream
-		nextPutAll: (' export class {1} implements ' format: {aJinTypescriptClass name});
-		nextPutAll: (',' join: (aJinTypescriptClass types collect: #name));
+		nextPutAll: (' export class {1}  ' format: {aJinTypescriptClass name}).
+	aJinTypescriptClass types
+		ifNotEmpty: [ stream
+				nextPutAll: 'implements';
+				nextPutAll: (',' join: (aJinTypescriptClass types collect: #name)) ].
+	stream
 		nextPutAll: ' {';
 		newLine.
 	aJinTypescriptClass properties
@@ -53,13 +59,14 @@ MOTypescriptCodeGenerator >> visitTypescriptDecorator: aJinTypescriptDecorator [
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptCodeGenerator >> visitTypescriptImport: aMOTypescriptImport [
+MOTypescriptCodeGenerator >> visitTypescriptDependency: aMOTypescriptImport [
 	stream
 		nextPutAll: 'import {';
 		nextPutAll: (',' join: (aMOTypescriptImport types collect: [ :t | t name ]));
 		nextPutAll: '} from "';
-		nextPutAll: ('/' join: aMOTypescriptImport from path segments);
-		nextPutAll: '";'
+		nextPutAll: aMOTypescriptImport from;
+		nextPutAll: '";';
+		newLine
 ]
 
 { #category : #visiting }
@@ -92,9 +99,8 @@ MOTypescriptCodeGenerator >> visitTypescriptTemplatedMethod: aMOTypescriptTempla
 			(','
 				join:
 					(aMOTypescriptTemplatedMethod parameters
-						collect: [ :p | p type name , ' ' , p name ])).
+						collect: [ :p | p name , ': ' , p type name ])).
 	stream nextPutAll: ')'.
-
 	aMOTypescriptTemplatedMethod type
 		ifNotNil: [ :t | 
 			stream
@@ -115,5 +121,5 @@ MOTypescriptCodeGenerator >> visitTypescriptVariable: aMOTypescriptVariable [
 		nextPutAll: aMOTypescriptVariable name;
 		nextPutAll: ': ';
 		nextPutAll: aMOTypescriptVariable type name;
-		nextPutAll: ';'
+		nextPutAll: '; '
 ]

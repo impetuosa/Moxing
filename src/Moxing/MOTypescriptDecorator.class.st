@@ -1,6 +1,6 @@
 Class {
 	#name : #MOTypescriptDecorator,
-	#superclass : #MOTypescriptObject,
+	#superclass : #MOTypescriptImportedTypeReference,
 	#instVars : [
 		'attributes'
 	],
@@ -15,4 +15,14 @@ MOTypescriptDecorator >> acceptVisitor: aJinTypescriptCodeGenerator [
 { #category : #accessing }
 MOTypescriptDecorator >> attributes [
 	^ attributes ifNil: [  attributes := Dictionary new.  ]
+]
+
+{ #category : #accessing }
+MOTypescriptDecorator >> attributes: someAttrs [ 
+	^ attributes := someAttrs 
+]
+
+{ #category : #accessing }
+MOTypescriptDecorator >> isDecorator [
+	 ^ true 
 ]

@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #printing }
+MOTypescriptTypeReference >> dependencies [
+	^ {}
+]
+
+{ #category : #printing }
+MOTypescriptTypeReference >> isDecorator [
+	 ^ false 
+]
+
+{ #category : #printing }
 MOTypescriptTypeReference >> printOn: aStream [
 	aStream nextPutAll: name
 ]

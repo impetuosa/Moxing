@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularProtoClass,
-	#superclass : #Object,
+	#superclass : #MOAngularProtoEntity,
 	#instVars : [
 		'module',
 		'class'
@@ -12,6 +12,11 @@ Class {
 MOAngularProtoClass >> acceptVisitor: aVisitor [
 	aVisitor visitAngularProtoClass: self . 
 	
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> dependencies [
+	^ class dependencies
 ]
 
 { #category : #'as yet unclassified' }
@@ -42,6 +47,17 @@ MOAngularProtoClass >> name [
 { #category : #'as yet unclassified' }
 MOAngularProtoClass >> properties [
 	^ class properties
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> save [
+	| ref |
+	self assert: (module components includes: self).
+	ref := module path / ('{1}.ts' format: {class name}).
+	self assert: ref exists not.
+	ref writeStream
+		nextPutAll: class sourceCode;
+		close.
 ]
 
 { #category : #visiting }

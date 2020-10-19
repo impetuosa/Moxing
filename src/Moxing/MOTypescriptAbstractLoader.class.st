@@ -3,16 +3,19 @@ Class {
 	#superclass : #JSProgramNodeVisitor,
 	#instVars : [
 		'result',
-		'file'
+		'file',
+		'types'
 	],
 	#category : #'Moxing-ModelReading'
 }
 
 { #category : #actions }
-MOTypescriptAbstractLoader class >> load: aJSDecoratorExpressionNode file: aFile [ 
+MOTypescriptAbstractLoader class >> load: aJSDecoratorExpressionNode file: aFile types: types [ 
 
 	| loader |
 	loader := self new.
+	loader types: types .
+	loader file: aFile.
 	aJSDecoratorExpressionNode acceptVisitor: loader.
 	loader result anchorFrom: aJSDecoratorExpressionNode at: aFile. 
 	^ loader result
@@ -26,4 +29,9 @@ MOTypescriptAbstractLoader >> file: aFile [
 { #category : #accessing }
 MOTypescriptAbstractLoader >> result [
 	^ result 
+]
+
+{ #category : #accessing }
+MOTypescriptAbstractLoader >> types: aSetOfTypes [
+	types := aSetOfTypes
 ]

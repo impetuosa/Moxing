@@ -1,11 +1,17 @@
 Class {
 	#name : #MOTypescriptGenericTypeReference,
-	#superclass : #MOTypescriptTypeReference,
+	#superclass : #MOTypescriptImportedTypeReference,
 	#instVars : [
 		'parameters'
 	],
-	#category : #'Moxing-CodeWritingTypescript'
+	#category : #'Moxing-ModelTS'
 }
+
+{ #category : #'as yet unclassified' }
+MOTypescriptGenericTypeReference >> dependencies [
+	^ super dependencies
+		, (parameters flatCollect: [ :d | d dependencies ])
+]
 
 { #category : #'as yet unclassified' }
 MOTypescriptGenericTypeReference >> parameters: aCollection [

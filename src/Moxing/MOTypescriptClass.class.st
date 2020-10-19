@@ -17,11 +17,9 @@ Class {
 
 { #category : #accessing }
 MOTypescriptClass class >> object [
-
-	^ object ifNil: [ 
-		  object := MOTypescriptTypeReference new
-			            name: #Object;
-			            yourself ]
+	^ object
+		ifNil:
+			[ object := MOTypescriptPrebuiltTypeReferenceFactory default object ]
 ]
 
 { #category : #visiting }
@@ -56,6 +54,21 @@ MOTypescriptClass >> decorator [
 MOTypescriptClass >> decorator: aDeco [
 
 	decorator := aDeco
+]
+
+{ #category : #generated }
+MOTypescriptClass >> dependencies [
+	| deps |
+	deps := OrderedCollection
+		streamContents: [ :str | 
+			str nextPutAll: imports.
+			decorator ifNotNil: [ str nextPutAll: decorator dependencies ].
+			str nextPutAll: (self types flatCollect: [ :t | t dependencies ]).
+			str nextPutAll: (properties flatCollect: [ :t | t dependencies ]).
+			str nextPutAll: (methods flatCollect: [ :t | t dependencies ]).
+			str
+				nextPutAll: (superclass ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
+	^ MOTypescriptDependency compressDependencyCollection: deps
 ]
 
 { #category : #generated }
