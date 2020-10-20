@@ -95,9 +95,7 @@ MOAngularComponentTemplateWriter >> visitCSNUIOrderedList: aCSNUIOrderedList [
 	^ (self configuration brushFor: aCSNUIOrderedList)
 		write: aCSNUIOrderedList
 		into: xmlStream
-		with: [ aCSNUIOrderedList widgets
-				ifNotNil: [ aCSNUIOrderedList widgets do: [ :w | w accept: self ] ]
-				ifNil: [ self halt ] ]
+		with: [ aCSNUIOrderedList widgets do: [ :w | w accept: self ] ]
 ]
 
 { #category : #visiting }
