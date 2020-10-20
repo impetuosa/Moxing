@@ -74,6 +74,13 @@ MOCasinoAngularMapper >> visitCSNUIInputText: aCSNUIInputText [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUIOrderedList: aCSNUIOrderedList [
+	brush := self newSimpleBrush
+		tag: 'ol';
+		yourself
+]
+
 { #category : #visiting }
 MOCasinoAngularMapper >> visitCSNUIPanel: aCSNUIPanel [
 	brush := self newSimpleBrush

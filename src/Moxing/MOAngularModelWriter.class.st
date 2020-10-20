@@ -10,15 +10,16 @@ Class {
 { #category : #'as yet unclassified' }
 MOAngularModelWriter >> typeReferenceFor: aType [
 	| destinationTypeName |
-	destinationTypeName := {
-	('dbLong' -> 'bigint').
+	destinationTypeName := {('dbLong' -> 'bigint').
+	('dbDecimal' -> 'bigint').
+	('dbDouble' -> 'bigint').
 	('dbBoolean' -> 'boolean').
 	('dbInteger' -> 'bigint').
 	('dbDate' -> 'Date').
 	('dbCurrency' -> 'number').
 	('dbText' -> 'string').
-	('dbMemo' -> 'string') . 
-('dbAttachment' -> 'Array<byte>') . 
+	('dbMemo' -> 'string').
+	('dbAttachment' -> 'Array<byte>').
 	('dbComplexLong' -> 'Array<bigint>')} asDictionary at: aType.
 	^ MOTypescriptPrebuiltTypeReferenceFactory default
 		typeReference: destinationTypeName

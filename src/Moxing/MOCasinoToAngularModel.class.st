@@ -79,7 +79,6 @@ MOCasinoToAngularModel >> visitDataBinding: aMODataBindingAttribute [
 	modelWriter := self factory createNewAngularModelComponentWriter.
 	model := modelWriter writeModelFor: aMODataBindingAttribute.
 	createdEntitites add: model.
-	self halt.
 	serviceWriter := self factory createNewAngularServiceComponentWriter.
 	service := serviceWriter writeServiceFor: aMODataBindingAttribute for: model.
 	createdEntitites add: service.
