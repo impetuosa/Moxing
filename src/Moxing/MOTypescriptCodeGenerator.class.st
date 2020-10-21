@@ -77,15 +77,19 @@ MOTypescriptCodeGenerator >> visitTypescriptLiteral: aMOTypescriptLiteral [
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitTypescriptMethod: aJinTypescriptMethod [
-
 	stream
 		newLine;
 		nextPutAll: '    ';
+		nextPutAll: aJinTypescriptMethod visibility;
+		nextPutAll:  ' ';
 		nextPutAll: aJinTypescriptMethod selector;
 		nextPutAll: '('.
-	stream nextPutAll:
-		(',' join: (aJinTypescriptMethod parameters collect: [ :p | 
-				  p type name , ' ' , p name ])).
+	stream
+		nextPutAll:
+			(','
+				join:
+					(aJinTypescriptMethod parameters
+						collect: [ :p | p type name , ' ' , p name ])).
 	stream
 		nextPutAll: ') {';
 		newLine;
@@ -140,6 +144,8 @@ MOTypescriptCodeGenerator >> visitTypescriptTemplatedMethod: aMOTypescriptTempla
 	stream
 		newLine;
 		nextPutAll: '    ';
+		nextPutAll: aMOTypescriptTemplatedMethod visibility;
+		nextPutAll: ' ';
 		nextPutAll: aMOTypescriptTemplatedMethod selector;
 		nextPutAll: '('.
 	stream

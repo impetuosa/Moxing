@@ -12,6 +12,11 @@ MOTypescriptPrebuiltTypeReferenceFactory class >> default [
 	^ default ifNil: [ default := self new  ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptPrebuiltTypeReferenceFactory >> T [
+	^ self typeReference: 'T'
+]
+
 { #category : #'native types' }
 MOTypescriptPrebuiltTypeReferenceFactory >> arrayOf: aString [
 	^ MOTypescriptArrayTypeReference new

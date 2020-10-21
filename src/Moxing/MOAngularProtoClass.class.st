@@ -24,7 +24,7 @@ MOAngularProtoClass >> dependencies [
 
 { #category : #'as yet unclassified' }
 MOAngularProtoClass >> importingPath [
-	^ './{1}.ts' format: {class name}
+	^ './{1}' format: {class name}
 ]
 
 { #category : #'as yet unclassified' }

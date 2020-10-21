@@ -104,7 +104,6 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 					((self methodFactory addElementsMethod: dataEntity url: 'serviceUrl')
 						setOwnerClass: service;
 						yourself) ].
-
 	binding binding allowFilters
 		ifTrue: [ service
 				addMethod:
@@ -112,7 +111,12 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 						filterElementsMethod: dataEntity
 						url: 'serviceUrl')
 						setOwnerClass: service;
-						yourself) ]
+						yourself) ].
+	service
+		addMethod:
+			(self methodFactory handleError
+				setOwnerClass: service;
+				yourself)
 ]
 
 { #category : #writing }

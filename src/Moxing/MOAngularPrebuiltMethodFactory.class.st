@@ -157,6 +157,42 @@ return this.{1};
 ]
 
 { #category : #'as yet unclassified' }
+MOAngularPrebuiltMethodFactory >> handleError [
+	| handleErrorMethod |
+	handleErrorMethod := MOTypescriptTemplatedMethod new
+		visibility: #private;
+		selector: 'handleError<T>';
+		yourself.
+	handleErrorMethod
+		addParameter:
+			(MOTypescriptVariable new
+				name: 'operation';
+				type: MOTypescriptPrebuiltTypeReferenceFactory default string;
+				defaultValue:
+					(MOTypescriptLiteral new
+						literal: '"operation"';
+						yourself);
+				yourself);
+		addParameter:
+			(MOTypescriptVariable new
+				name: 'result?';
+				type: MOTypescriptPrebuiltTypeReferenceFactory default T;
+				yourself).
+	handleErrorMethod
+		body:
+			' 
+  return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+'.
+	^ handleErrorMethod
+]
+
+{ #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> observable: aType [
 	^ MOTypescriptPrebuiltTypeReferenceFactory default observable: aType
 ]

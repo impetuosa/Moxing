@@ -5,7 +5,8 @@ Class {
 		'parameters',
 		'selector',
 		'class',
-		'type'
+		'type',
+		'visibility'
 	],
 	#category : #'Moxing-ModelTS'
 }
@@ -23,7 +24,7 @@ MOTypescriptMethod >> addParameter: aJinVariable [
 { #category : #accessing }
 MOTypescriptMethod >> dependencies [
 	^ (parameters flatCollect: [ :p | p dependencies ])
-		, type dependencies
+		, (type ifNotNil: [ :t | t dependencies ] ifNil: [ {} ])
 ]
 
 { #category : #accessing }
@@ -67,4 +68,14 @@ MOTypescriptMethod >> type [
 MOTypescriptMethod >> type: aJinTypescriptTypeReference [ 
 	type := aJinTypescriptTypeReference 
 	
+]
+
+{ #category : #accessing }
+MOTypescriptMethod >> visibility [
+	^ visibility ifNil: [ #public ]
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptMethod >> visibility: aString [ 
+	visibility := aString
 ]
