@@ -16,7 +16,15 @@ MOAngularProtoClass >> acceptVisitor: aVisitor [
 
 { #category : #'as yet unclassified' }
 MOAngularProtoClass >> dependencies [
-	^ class dependencies
+	^ {(MOTypescriptDependency new
+		type: class;
+		from: self importingPath;
+		yourself)},  class dependencies
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularProtoClass >> importingPath [
+	^ './{1}.ts' format: {class name}
 ]
 
 { #category : #'as yet unclassified' }
@@ -44,6 +52,11 @@ MOAngularProtoClass >> name [
 	^ class name 
 ]
 
+{ #category : #visiting }
+MOAngularProtoClass >> printOn: aStream [
+	class name printOn: aStream
+]
+
 { #category : #'as yet unclassified' }
 MOAngularProtoClass >> properties [
 	^ class properties
@@ -54,10 +67,11 @@ MOAngularProtoClass >> save [
 	| ref |
 	self assert: (module components includes: self).
 	ref := module path / ('{1}.ts' format: {class name}).
-	self assert: ref exists not.
+	ref exists
+		ifTrue: [ ^ self ].
 	ref writeStream
 		nextPutAll: class sourceCode;
-		close.
+		close
 ]
 
 { #category : #visiting }

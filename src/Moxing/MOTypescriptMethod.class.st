@@ -2,7 +2,6 @@ Class {
 	#name : #MOTypescriptMethod,
 	#superclass : #MOTypescriptObject,
 	#instVars : [
-		'value',
 		'parameters',
 		'selector',
 		'class',

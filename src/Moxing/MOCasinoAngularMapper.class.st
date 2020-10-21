@@ -45,6 +45,13 @@ MOCasinoAngularMapper >> visitCSNUIButton: aCSNUIButton [
 ]
 
 { #category : #'as yet unclassified' }
+MOCasinoAngularMapper >> visitCSNUIFieldset: aCSNUIFieldset [
+	brush := self newSimpleBrush
+		tag: ' fieldset';
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOCasinoAngularMapper >> visitCSNUIImage: aCSNUIImage [
 	brush := self newSimpleBrush
 		tag: 'img';

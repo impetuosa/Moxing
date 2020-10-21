@@ -70,6 +70,14 @@ MOAngularComponentTemplateWriter >> visitCSNUIButton: aCSNUIButton [
 ]
 
 { #category : #'as yet unclassified' }
+MOAngularComponentTemplateWriter >> visitCSNUIFieldset: aCSNUIFieldset [
+	(self configuration brushFor: aCSNUIFieldset)
+		write: aCSNUIFieldset
+		into: xmlStream
+		with: [ aCSNUIFieldset widgets do: [ :w | w accept: self ] ]
+]
+
+{ #category : #'as yet unclassified' }
 MOAngularComponentTemplateWriter >> visitCSNUIImage: aCSNUIImage [
 	^ self writeLeafElement: aCSNUIImage
 ]

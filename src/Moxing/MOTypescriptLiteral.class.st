@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+MOTypescriptLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [ 
+	aJinTypescriptCodeGenerator visitTypescriptLiteral: self .
+]
+
+{ #category : #accessing }
 MOTypescriptLiteral >> literal [
 	^ literal
 ]

@@ -22,6 +22,11 @@ MOTypescriptObject >> anchorFrom: aJSDecoratorExpressionNode at: aFileReference 
 		          yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptObject >> dependencies [
+	^ {}
+]
+
 { #category : #accessing }
 MOTypescriptObject >> name [
 

@@ -19,8 +19,8 @@ MOAngularModelWriter >> typeReferenceFor: aType [
 	('dbCurrency' -> 'number').
 	('dbText' -> 'string').
 	('dbMemo' -> 'string').
-	('dbAttachment' -> 'Array<byte>').
-	('dbComplexLong' -> 'Array<bigint>')} asDictionary at: aType.
+	('dbAttachment' -> 'Int8Array').
+	('dbComplexLong' -> 'BigInt64Array')} asDictionary at: aType.
 	^ MOTypescriptPrebuiltTypeReferenceFactory default
 		typeReference: destinationTypeName
 ]
@@ -41,10 +41,29 @@ MOAngularModelWriter >> visitDataBinding: aMODataBindingAttribute [
 ]
 
 { #category : #'as yet unclassified' }
+MOAngularModelWriter >> visitIndex: anIndex [
+	| id |
+	anIndex kind = #PrimaryKey
+		ifFalse: [ ^ self ].
+
+	id := anIndex elements
+		collect:
+			[ :e | model properties detect: [ :p | p name = e compilableIdentifier ] ].
+	self assert: id size = 1.
+	model
+		addMethod:
+			((MOAngularPrebuiltMethodFactory new getter: 'Id' property: id first)
+				setOwnerClass: model;
+				yourself)
+]
+
+{ #category : #'as yet unclassified' }
 MOAngularModelWriter >> visitRelationalTable: aMDRelationalTable [
 	model := MOTypescriptClass new.
 	model name: aMDRelationalTable compilableTypeIdentifier.
-	aMDRelationalTable elements do: [ :e | e accept: self ]
+	aMDRelationalTable elements do: [ :e | e accept: self ].
+	aMDRelationalTable indexes do: [ :i | i accept: self ].
+	
 ]
 
 { #category : #'as yet unclassified' }

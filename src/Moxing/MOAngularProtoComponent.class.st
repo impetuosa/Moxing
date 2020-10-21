@@ -42,6 +42,14 @@ MOAngularProtoComponent >> name: aString [
 	name := aString
 ]
 
+{ #category : #accessing }
+MOAngularProtoComponent >> printOn: aStream [
+	aStream
+		nextPutAll: 'AngComponent(';
+		nextPutAll: name;
+		nextPutAll: ')'
+]
+
 { #category : #actions }
 MOAngularProtoComponent >> save [
 	| ref |

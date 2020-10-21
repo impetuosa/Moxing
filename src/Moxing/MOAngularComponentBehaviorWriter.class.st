@@ -15,14 +15,14 @@ MOAngularComponentBehaviorWriter >> behavior [
 { #category : #visiting }
 MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 	behavior := MOTypescriptClass new.
-	behavior name: aJinCasinoPage name asLowercase.
+	behavior name: aJinCasinoPage name .
 	behavior
 		implements:
 			{MOTypescriptPrebuiltTypeReferenceFactory default onInit.
 			MOTypescriptPrebuiltTypeReferenceFactory default onDestroy}.
 	behavior
 		decorator: MOTypescriptPrebuiltTypeReferenceFactory default component.
-	behavior decorator attributes at: #selector put: aJinCasinoPage name.
+	behavior decorator attributes at: #selector put: aJinCasinoPage name asLowercase.
 	behavior decorator attributes
 		at: #templateUrl
 		put: './' , aJinCasinoPage name asLowercase , '.component.html'.

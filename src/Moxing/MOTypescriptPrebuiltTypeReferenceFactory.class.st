@@ -77,6 +77,16 @@ MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aR
 ]
 
 { #category : #'convenient - decorators' }
+MOTypescriptPrebuiltTypeReferenceFactory >> httpClient [
+	^ self typeReference: #HttpClient definedAt: '@angular/common/http'
+]
+
+{ #category : #'convenient - decorators' }
+MOTypescriptPrebuiltTypeReferenceFactory >> httpHeaders [
+	^ self typeReference: #HttpHeaders definedAt: '@angular/common/http'
+]
+
+{ #category : #'convenient - decorators' }
 MOTypescriptPrebuiltTypeReferenceFactory >> injectable: attributes [
 	^ self
 		decorator: 'Injectable'

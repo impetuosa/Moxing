@@ -38,6 +38,14 @@ MOAngularProtoComponentBehavior >> name [
 ]
 
 { #category : #accessing }
+MOAngularProtoComponentBehavior >> printOn: aStream [
+	aStream
+		nextPutAll: 'AngComponentBehaviour(';
+		nextPutAll: angularModel name;
+		nextPutAll: ')'
+]
+
+{ #category : #accessing }
 MOAngularProtoComponentBehavior >> properties [
 	^ angularModel properties 
 ]

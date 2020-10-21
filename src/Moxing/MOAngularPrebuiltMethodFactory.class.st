@@ -41,7 +41,7 @@ MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable
 			(' 
  const id = object.getId();
  const url = `$\{this.{2}\}/$\{id\}`;
- return this.http.delete<{1}>(url, object, this.httpOptions).pipe(
+ return this.http.delete<{1}>(url, this.httpOptions).pipe(
      catchError(this.handleError<{1}>("delete{1}"))
  );
 			'
@@ -75,6 +75,14 @@ return this.http.put(this.{2}, object, this.httpOptions).pipe(
 	method
 		dependsOn: MOTypescriptPrebuiltTypeReferenceFactory default catchError.
 	^ method
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularPrebuiltMethodFactory >> emptyConstructorArguments: aCollection [
+	^ MOTypescriptTemplatedConstructor new
+		parameters: aCollection;
+		body: ' ';
+		yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -119,6 +127,32 @@ return this.http.get<{1}[]>(this.{2}).pipe(
 					{aType name.
 					anUrlVariable});
 		type: (self observableArrayOf: aType).
+	^ obtainElementsMethod
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularPrebuiltMethodFactory >> getter: aName property: aProperty [
+	| obtainElementsMethod |
+	obtainElementsMethod := MOTypescriptTemplatedMethod new
+		selector: ('get{1}' format: {aName});
+		body:
+			(' 
+return this.{1}; 
+' format: {aProperty name});
+		type: aProperty type.
+	^ obtainElementsMethod
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularPrebuiltMethodFactory >> getter: aName type: aType [
+	| obtainElementsMethod |
+	obtainElementsMethod := MOTypescriptTemplatedMethod new
+		selector: ('get{1}' format: {aName});
+		body:
+			(' 
+return this.{1}; 
+' format: {aType name});
+		type: aType.
 	^ obtainElementsMethod
 ]
 

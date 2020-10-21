@@ -20,7 +20,6 @@ MOTypescriptCodeGenerator >> sourceCode [
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitTypescriptClass: aJinTypescriptClass [
-
 	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].
 	aJinTypescriptClass decorator
 		ifNotNil: [ :d | d acceptVisitor: self ].
@@ -28,7 +27,7 @@ MOTypescriptCodeGenerator >> visitTypescriptClass: aJinTypescriptClass [
 		nextPutAll: (' export class {1}  ' format: {aJinTypescriptClass name}).
 	aJinTypescriptClass types
 		ifNotEmpty: [ stream
-				nextPutAll: 'implements';
+				nextPutAll: ' implements ';
 				nextPutAll: (',' join: (aJinTypescriptClass types collect: #name)) ].
 	stream
 		nextPutAll: ' {';
@@ -36,7 +35,9 @@ MOTypescriptCodeGenerator >> visitTypescriptClass: aJinTypescriptClass [
 	aJinTypescriptClass properties
 		do: [ :m | 
 			m acceptVisitor: self.
-			stream newLine ].
+			stream
+				nextPutAll: ';';
+				newLine ].
 	aJinTypescriptClass methods
 		do: [ :m | 
 			m acceptVisitor: self.
@@ -69,6 +70,11 @@ MOTypescriptCodeGenerator >> visitTypescriptDependency: aMOTypescriptImport [
 		newLine
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitTypescriptLiteral: aMOTypescriptLiteral [
+	stream nextPutAll: aMOTypescriptLiteral literal asString
+]
+
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitTypescriptMethod: aJinTypescriptMethod [
 
@@ -85,6 +91,48 @@ MOTypescriptCodeGenerator >> visitTypescriptMethod: aJinTypescriptMethod [
 		newLine;
 		nextPutAll: '    }';
 		newLine
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitTypescriptNewExpression: aMOTypescriptNewExpression [
+	stream
+		nextPutAll: 'new ';
+		nextPutAll: aMOTypescriptNewExpression type name;
+		nextPutAll: '('.
+	aMOTypescriptNewExpression arguments allButLast
+		do: [ :a | 
+			a acceptVisitor: self.
+			stream nextPutAll: ', ' ].
+	aMOTypescriptNewExpression arguments last acceptVisitor: self.
+	stream nextPutAll: ')'
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitTypescriptObjectLiteral: aMOTypescriptObjectLiteral [
+	stream nextPutAll: '{'.
+	aMOTypescriptObjectLiteral literal
+		do: [ :l | 
+			l key acceptVisitor: self.
+			stream nextPutAll: ':'.
+			l value acceptVisitor: self.
+			stream newLine  ].
+	stream nextPutAll: '}'
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitTypescriptTemplatedConstructor: aMOTypescriptTemplatedConstructor [
+	stream nextPutAll: 'constructor ('.
+	aMOTypescriptTemplatedConstructor parameters allButLast
+		do: [ :p | 
+			p acceptVisitor: self.
+			stream nextPutAll: ', ' ].
+	aMOTypescriptTemplatedConstructor parameters last acceptVisitor: self.
+	stream
+		nextPutAll: '){ ';
+		newLine;
+		nextPutAll: aMOTypescriptTemplatedConstructor body;
+		newLine;
+		nextPutAll: '}'
 ]
 
 { #category : #'as yet unclassified' }
@@ -117,9 +165,16 @@ MOTypescriptCodeGenerator >> visitTypescriptTemplatedMethod: aMOTypescriptTempla
 
 { #category : #'as yet unclassified' }
 MOTypescriptCodeGenerator >> visitTypescriptVariable: aMOTypescriptVariable [
-	stream
-		nextPutAll: aMOTypescriptVariable name;
-		nextPutAll: ': ';
-		nextPutAll: aMOTypescriptVariable type name;
-		nextPutAll: '; '
+	aMOTypescriptVariable visibility
+		ifNotNil: [ stream
+				nextPutAll: aMOTypescriptVariable visibility;
+				nextPutAll: ' ' ].
+	stream nextPutAll: aMOTypescriptVariable name.
+	aMOTypescriptVariable type
+		ifNotNil: [ stream
+				nextPutAll: ': ';
+				nextPutAll: aMOTypescriptVariable type name ].
+	aMOTypescriptVariable defaultValue
+		ifNotNil: [ stream nextPutAll: '='.
+			aMOTypescriptVariable defaultValue acceptVisitor: self ]
 ]

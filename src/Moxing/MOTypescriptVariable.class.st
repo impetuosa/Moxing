@@ -16,13 +16,22 @@ MOTypescriptVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #'as yet unclassified' }
+MOTypescriptVariable >> defaultValue [
+	^ defaultValue
+]
+
+{ #category : #'as yet unclassified' }
 MOTypescriptVariable >> defaultValue: aMOTypescriptLiteral [
 	defaultValue := aMOTypescriptLiteral
 ]
 
 { #category : #accessing }
 MOTypescriptVariable >> dependencies [
-	^ type dependencies
+	| deps |
+	deps := type ifNotNil: [ type dependencies ] ifNil: [ {} ].
+	^ defaultValue
+		ifNil: [ deps ]
+		ifNotNil: [ deps , defaultValue dependencies ]
 ]
 
 { #category : #accessing }
@@ -49,6 +58,11 @@ MOTypescriptVariable >> type [
 MOTypescriptVariable >> type: aJinTypescriptTypeReference [ 
 (	aJinTypescriptTypeReference isKindOf: MOTypescriptPrebuiltTypeReferenceFactory) ifTrue: [ self halt ].
 	type := aJinTypescriptTypeReference
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptVariable >> visibility [
+	^ visibility
 ]
 
 { #category : #'as yet unclassified' }

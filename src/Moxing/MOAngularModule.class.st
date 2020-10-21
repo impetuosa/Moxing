@@ -41,7 +41,7 @@ MOAngularModule >> path [
 MOAngularModule >> save [
 	(components noneSatisfy: [ :c | c mustBeSaved ])
 		ifTrue: [ ^ self ].
-	components select: [ :c | c mustBeSaved ] thenDo: [ :c | c save ].
+	(components select: [ :c | c mustBeSaved ] )do: [ :c | c save ].
 	self typescriptModel 
 ]
 
