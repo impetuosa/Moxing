@@ -18,5 +18,15 @@ BaselineOfMoxing >> baseline: spec [
 	spec
 		package: 'Moxing'
 		with: [ spec requires: #( SmaCC XMLParserHTML ) ].
-	spec group: 'default' with: #( Moxing )
+	spec package: 'Moxing-Java' with: [ spec requires: #( Moxing ) ].
+	spec
+		package: 'Moxing-Typescript'
+		with: [ spec requires: #( Moxing ) ].
+	spec
+		package: 'Moxing-Angular'
+		with: [ spec requires: #( Moxing 'Moxing-Typescript' ) ].
+	spec
+		group: 'default'
+		with: #( Moxing 'Moxing-Java''Moxing-Typescript'
+			   'Moxing-Angular' )
 ]
