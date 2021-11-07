@@ -6,8 +6,14 @@ Class {
 		'start',
 		'stop'
 	],
-	#category : #'Moxing-Model'
+	#category : #'Moxing-Core'
 }
+
+{ #category : #accessing }
+MOAnchor >> asMOAnchor [
+
+	^ self
+]
 
 { #category : #accessing }
 MOAnchor >> file: aFile [
