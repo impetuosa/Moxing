@@ -26,7 +26,9 @@ MOJavaMooseBasedLoaderPhase2 >> visitAttribute: aFamixJavaAttribute [
 	var name: aFamixJavaAttribute name.
 	aFamixJavaAttribute declaredType ifNotNil: [ 
 		var type: (mapping at: aFamixJavaAttribute declaredType) ].
-	self withTop: [ :t | t addVariable: var ]
+	self withTop: [ :t | 
+		t addVariable: var.
+		var anchor: t anchor / #variables / var name ]
 ]
 
 { #category : #visiting }
@@ -52,7 +54,9 @@ MOJavaMooseBasedLoaderPhase2 >> visitMethod: aFamixJavaMethod [
 	| method |
 	method := self instantiate: MOMethod for: aFamixJavaMethod.
 	method selector: aFamixJavaMethod name.
-	self withTop: [ :t | t addMethod: method ].
+	self withTop: [ :t | 
+		t addMethod: method.
+		method anchor: t anchor / #methods / method selector ].
 	self push: method during: [ 
 		self visitCollection: aFamixJavaMethod parameters.
 		self visitCollection: aFamixJavaMethod localVariables ]

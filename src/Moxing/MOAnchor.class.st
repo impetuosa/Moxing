@@ -30,6 +30,12 @@ MOAnchor >> containsSource [
 ]
 
 { #category : #arithmetic }
+MOAnchor >> names [
+
+	^ (1 to: path size by: 2) collect: [ :i | path at: i ]
+]
+
+{ #category : #arithmetic }
 MOAnchor >> printOn: aStream [
 
 	aStream nextPutAll: 'anchor('.

@@ -10,17 +10,17 @@ Class {
 
 { #category : #'instance creation' }
 MOLanguageObject class >> newForJavaIn: aModel [
-	
+
 	^ (aModel instantiate: self)
-		  language: MOLanguage typescript;
+		  language: (MOLanguage javaFor: aModel);
 		  yourself
 ]
 
 { #category : #'instance creation' }
 MOLanguageObject class >> newForTypescriptIn: aModel [
-	
+
 	^ (aModel instantiate: self)
-		  language: MOLanguage typescript;
+		  language: (MOLanguage typescriptFor: aModel);
 		  yourself
 ]
 

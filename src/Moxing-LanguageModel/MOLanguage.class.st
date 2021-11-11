@@ -8,20 +8,20 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
-{ #category : #accessing }
-MOLanguage class >> java [
+{ #category : #'as yet unclassified' }
+MOLanguage class >> javaFor: aMOModel [
 
 	^ java ifNil: [ 
-		  java := self new
-			                name: #java;
-			                yourself ]
+		  java := (aMOModel instantiate: self)
+			          name: #java;
+			          yourself ]
 ]
 
 { #category : #accessing }
-MOLanguage class >> typescript [
+MOLanguage class >> typescriptFor: aMOModel [
 
 	^ typescript ifNil: [ 
-		  typescript := self new
+		  typescript :=  (aMOModel instantiate: self)
 			                name: #typescript;
 			                yourself ]
 ]

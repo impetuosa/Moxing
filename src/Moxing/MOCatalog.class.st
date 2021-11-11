@@ -50,3 +50,8 @@ MOCatalog >> name: aString [
 
 	name := aString
 ]
+
+{ #category : #accessing }
+MOCatalog >> packages [
+	^ entities select: [ : a | a isKindOf: MOPackage ]
+]

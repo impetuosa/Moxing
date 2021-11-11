@@ -16,16 +16,17 @@ MOAngularLoader >> isWellKnownNotDirectory: aFileReference [
 ]
 
 { #category : #load }
-MOAngularLoader >> load [
+MOAngularLoader >> loadNamed: aName [
 
 	| schema |
 	model := MOModel new.
-	model anchor: (MOAnchor on: #/).
-	
+	model name: aName.
+	model anchor: (MOAnchor on: #/) / aName.
+
 	MOTypescriptBasicLanguageLoader new
 		model: model;
 		fileBase: workingDirectory;
-		load. 
+		load.
 
 	(workingDirectory / 'angular.json') exists ifFalse: [ 
 		self error:

@@ -29,14 +29,6 @@ MOJavaMooseBasedLoader >> instantiate: aClass for: aSource [
 	^ instance
 ]
 
-{ #category : #loading }
-MOJavaMooseBasedLoader >> load [
-	model := MOModel new.
-	mooseModel accept: self.
-	self loadCatalog. 
-	^ model 
-]
-
 { #category : #'as yet unclassified' }
 MOJavaMooseBasedLoader >> loadCatalog [
 
@@ -44,6 +36,17 @@ MOJavaMooseBasedLoader >> loadCatalog [
 	model catalog: (MOJavaTarCatalogLoader new
 			 pom: workingDirectory / 'pom.xml';
 			 load)
+]
+
+{ #category : #loading }
+MOJavaMooseBasedLoader >> loadNamed: aName [
+
+	model := MOModel new.
+	model name: aName.
+	model anchor: (MOAnchor on: #/) / aName.
+	mooseModel accept: self.
+	self loadCatalog.
+	^ model
 ]
 
 { #category : #accessing }
@@ -69,11 +72,14 @@ MOJavaMooseBasedLoader >> push: aValue during: aBlock [
 ]
 
 { #category : #visiting }
-MOJavaMooseBasedLoader >> visitAnnotationType: aFamixJavaAnnotationType [ 
+MOJavaMooseBasedLoader >> visitAnnotationType: aFamixJavaAnnotationType [
+
 	| class |
 	class := self instantiate: MOAnnotation for: aFamixJavaAnnotationType.
 	class name: aFamixJavaAnnotationType name.
-	self withTop: [ :top | top addType: class ]
+	self withTop: [ :top | 
+		top addType: class.
+		class anchor: top anchor / #class / class name ]
 ]
 
 { #category : #visiting }
@@ -82,7 +88,9 @@ MOJavaMooseBasedLoader >> visitClass: aFamixJavaClass [
 	| class |
 	class := self instantiate: MOClass for: aFamixJavaClass.
 	class name: aFamixJavaClass name.
-	self withTop: [ :top | top addType: class ]
+	self withTop: [ :top | 
+		top addType: class.
+		class anchor: top anchor / #class / class name ]
 ]
 
 { #category : #visiting }
@@ -112,8 +120,13 @@ MOJavaMooseBasedLoader >> visitNamespace: aFamixJavaNamespace [
 	self
 		withTop: [ :top | 
 			top addPackage: pack.
-			pack parent: top ]
-		ifEmpty: [ " probably the parent is the model  " ].
+			pack parent: top .
+			pack anchor: top anchor / #packages / pack name.
+			]
+		ifEmpty: [ 
+			pack parent: model .
+			pack anchor: model anchor / #packages / pack name.
+			" probably the parent is the model  " ].
 	self push: pack during: [ 
 		self visitCollection: aFamixJavaNamespace childNamespaces.
 		self visitCollection: aFamixJavaNamespace types.
