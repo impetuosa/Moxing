@@ -7,8 +7,21 @@ Class {
 		'path',
 		'parts'
 	],
+	#classInstVars : [
+		'javaCatalog'
+	],
 	#category : #'Moxing-Java-Loader'
 }
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader class >> javaCatalog [
+	^ javaCatalog  
+]
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader class >> javaCatalog: aJavaCatalog [
+	javaCatalog := aJavaCatalog 
+]
 
 { #category : #'as yet unclassified' }
 MOJavaTarCatalogLoader >> javaAllClasses [
@@ -17,6 +30,9 @@ MOJavaTarCatalogLoader >> javaAllClasses [
 
 { #category : #accessing }
 MOJavaTarCatalogLoader >> load [
+
+	self class javaCatalog ifNotNil: [ ^ self class javaCatalog ].
+	model := MOCatalog new.
 
 	path := LibC resultOfCommand:
 		        ('mvn -f {1} dependency:build-classpath' format:
@@ -27,12 +43,9 @@ MOJavaTarCatalogLoader >> load [
 			          upToAll: '[INFO]') trimBoth.
 	parts do: [ :p | self processJarFile: p asFileReference ].
 
-	self javaAllClasses do: [ :a | self processJavaBaseClass: a ]
-]
-
-{ #category : #accessing }
-MOJavaTarCatalogLoader >> model: aMOModel [ 
-	model := aMOModel
+	self javaAllClasses do: [ :a | self processJavaBaseClass: a ].
+	self class javaCatalog: model.
+	^ model
 ]
 
 { #category : #accessing }

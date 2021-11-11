@@ -18,6 +18,11 @@ MOModel >> catalog [
 	^ catalog
 ]
 
+{ #category : #accessing }
+MOModel >> catalog: aCatalog [ 
+	catalog := aCatalog
+]
+
 { #category : #initialization }
 MOModel >> initialize [ 
 	super initialize.

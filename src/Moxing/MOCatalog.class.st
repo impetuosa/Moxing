@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'entities',
-		'anchor'
+		'anchor',
+		'name'
 	],
 	#category : #'Moxing-Core'
 }
@@ -37,4 +38,15 @@ MOCatalog >> instantiate: aClass [
 	instance := aClass newInstanceFromModel .
 	entities add: instance.
 	^ instance
+]
+
+{ #category : #accessing }
+MOCatalog >> name [
+	^ name
+]
+
+{ #category : #accessing }
+MOCatalog >> name: aString [
+
+	name := aString
 ]

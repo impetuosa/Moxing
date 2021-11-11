@@ -34,17 +34,21 @@ MOJavaMooseBasedLoader >> load [
 	model := MOModel new.
 	mooseModel accept: self.
 	self loadCatalog. 
+	^ model 
 ]
 
 { #category : #'as yet unclassified' }
 MOJavaMooseBasedLoader >> loadCatalog [
 
 	self assert: (workingDirectory / 'pom.xml') exists.
+	model catalog: (MOJavaTarCatalogLoader new
+			 pom: workingDirectory / 'pom.xml';
+			 load)
+]
 
-	MOJavaTarCatalogLoader new
-		model: model;
-		pom: workingDirectory / 'pom.xml';
-		load
+{ #category : #accessing }
+MOJavaMooseBasedLoader >> model [
+	^ model
 ]
 
 { #category : #accessing }
