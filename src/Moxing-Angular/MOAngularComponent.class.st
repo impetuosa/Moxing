@@ -1,6 +1,10 @@
 Class {
 	#name : #MOAngularComponent,
-	#superclass : #MOAngularContainer,
+	#superclass : #MOAngularEntry,
+	#instVars : [
+		'behavior',
+		'template'
+	],
 	#category : #'Moxing-Angular-Model'
 }
 
@@ -13,16 +17,30 @@ MOAngularComponent >> acceptVisitor: aJinInspectorBuilder [
 { #category : #accessing }
 MOAngularComponent >> behavior [
 
-	^ MOAngularComponentBehaviour new
-		  anchor: anchor / (name , '.component.ts');
-		  name: name;
-		  yourself
+	^ behavior
+]
+
+{ #category : #accessing }
+MOAngularComponent >> behavior: ab [
+
+	^ behavior := ab
+]
+
+{ #category : #generated }
+MOAngularComponent >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'AngularComponent: ';
+		nextPutAll: name
 ]
 
 { #category : #generated }
 MOAngularComponent >> template [
-	^ MOAngularComponentTemplate new 
-		  anchor: anchor / (name , '.component.html ');
-		  name: name;
-		  yourself
+	^ template 
+]
+
+{ #category : #generated }
+MOAngularComponent >> template: tm [
+
+	template := tm
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularScheme,
-	#superclass : #MOAngularContainer,
+	#superclass : #MOAngularEntry,
 	#instVars : [
 		'projects',
 		'metadata'
@@ -18,11 +18,6 @@ MOAngularScheme >> acceptVisitor: aJinInspectorBuilder [
 	aJinInspectorBuilder visitAngularScheme: self 
 ]
 
-{ #category : #'close and quit' }
-MOAngularScheme >> closeAndQuit [
-	" nothign to do yer "
-]
-
 { #category : #'as yet unclassified' }
 MOAngularScheme >> defaultProject [
 
@@ -35,30 +30,28 @@ MOAngularScheme >> metadata [
 
 	metadata ifNotNil: [ ^ metadata ].
 
-	(path / 'angular.json') exists ifFalse: [ 
+	(anchor / 'angular.json') exists ifFalse: [ 
 		self error:
 			' the path does not point to a valid angular project installation ' ].
 
-	metadata := STONJSON fromStream: (path / 'angular.json') readStream.
+	metadata := STONJSON fromStream: (anchor / 'angular.json') readStream.
 	^ metadata
+]
+
+{ #category : #accessing }
+MOAngularScheme >> metadata: aDict [ 
+
+	metadata := aDict
 ]
 
 { #category : #accessing }
 MOAngularScheme >> projects [
 
-	^ projects ifNil: [ 
-		  projects :=( (self metadata at: #projects) associations collect: [  
-			              :a | 
-			              | instance projectMetadata |
-								projectMetadata := a value. 
-			              instance := MOAngularProject new.
-							  instance name: a key. 
-			              instance projectType:
-				              (projectMetadata at: #projectType) asSymbol.
-			              instance anchoredToUrlSegment:
-				              (projectMetadata at: #root) asSymbol.
-			              instance anchor:
-				              anchor / (projectMetadata at: #sourceRoot).
-				instance
-						 ] )  ]
+	^ projects
+]
+
+{ #category : #accessing }
+MOAngularScheme >> projects: ps [
+
+	 projects:= ps.   
 ]

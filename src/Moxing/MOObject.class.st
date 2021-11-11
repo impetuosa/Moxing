@@ -2,29 +2,33 @@ Class {
 	#name : #MOObject,
 	#superclass : #Object,
 	#instVars : [
-		'name',
-		'anchor'
+		'parent'
 	],
 	#category : #'Moxing-Core'
 }
 
-{ #category : #accessing }
-MOObject >> anchor: aFileReference [ 
-	anchor := aFileReference asMOAnchor .
+{ #category : #'instance creation' }
+MOObject class >> new [
+	^ self error: 'must give model'
+]
+
+{ #category : #'instance creation' }
+MOObject class >> newFromModel [
+	^ super model 
+]
+
+{ #category : #'instance creation' }
+MOObject class >> newInstanceFromModel [ 
+	^ super new
 ]
 
 { #category : #accessing }
-MOObject >> mustBeSaved [
-	^ false
+MOObject >> parent [
+	^ parent
 ]
 
 { #category : #accessing }
-MOObject >> name [
+MOObject >> parent: aParent [
 
-	^ name  
-]
-
-{ #category : #accessing }
-MOObject >> name: aString [ 
-	name := aString
+	parent := aParent
 ]

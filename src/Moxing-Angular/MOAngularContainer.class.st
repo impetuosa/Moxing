@@ -1,14 +1,8 @@
 Class {
 	#name : #MOAngularContainer,
-	#superclass : #MOObject,
+	#superclass : #MOAnchoredObject,
 	#instVars : [
-		'entities'
+		'parent'
 	],
 	#category : #'Moxing-Angular-Model'
 }
-
-{ #category : #accessing }
-MOAngularContainer >> privateGetEntities [
-
-	^ self subclassResponsibility
-]

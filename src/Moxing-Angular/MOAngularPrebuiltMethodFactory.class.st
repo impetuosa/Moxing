@@ -7,10 +7,10 @@ Class {
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 	| method |
-	method := MOTypescriptTemplatedMethod new
+	method := MOTemplatedMethod new
 		selector: ('add{1}' format: {aType name});
 		addParameter:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: 'object';
 				type: aType);
 		body:
@@ -31,10 +31,10 @@ MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable [
 	| method |
-	method := MOTypescriptTemplatedMethod new
+	method := MOTemplatedMethod new
 		selector: ('delete{1}' format: {aType name});
 		addParameter:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: 'object';
 				type: aType);
 		body:
@@ -57,10 +57,10 @@ MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> editElementsMethod: aType url: anUrlVariable [
 	| method |
-	method := MOTypescriptTemplatedMethod new
+	method := MOTemplatedMethod new
 		selector: ('update{1}' format: {aType name});
 		addParameter:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: 'object';
 				type: aType);
 		body:
@@ -79,7 +79,7 @@ return this.http.put(this.{2}, object, this.httpOptions).pipe(
 
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> emptyConstructorArguments: aCollection [
-	^ MOTypescriptTemplatedConstructor new
+	^ MOTemplatedConstructor new
 		parameters: aCollection;
 		body: ' ';
 		yourself
@@ -88,10 +88,10 @@ MOAngularPrebuiltMethodFactory >> emptyConstructorArguments: aCollection [
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> filterElementsMethod: aType url: anUrlVariable [
 	| method |
-	method := MOTypescriptTemplatedMethod new
+	method := MOTemplatedMethod new
 		selector: ('search{1}' format: {aType name});
 		addParameter:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: 'filter';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default string);
 		body:
@@ -116,7 +116,7 @@ return this.http.get<{1}[]>(`$\{this.{2}\}/?filter=$\{filter\}`).pipe(
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> getElementsMethod: aType url: anUrlVariable [
 	| obtainElementsMethod |
-	obtainElementsMethod := MOTypescriptTemplatedMethod new
+	obtainElementsMethod := MOTemplatedMethod new
 		selector: ('getAll{1}' format: {aType name});
 		body:
 			(' 
@@ -133,7 +133,7 @@ return this.http.get<{1}[]>(this.{2}).pipe(
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> getter: aName property: aProperty [
 	| obtainElementsMethod |
-	obtainElementsMethod := MOTypescriptTemplatedMethod new
+	obtainElementsMethod := MOTemplatedMethod new
 		selector: ('get{1}' format: {aName});
 		body:
 			(' 
@@ -146,7 +146,7 @@ return this.{1};
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> getter: aName type: aType [
 	| obtainElementsMethod |
-	obtainElementsMethod := MOTypescriptTemplatedMethod new
+	obtainElementsMethod := MOTemplatedMethod new
 		selector: ('get{1}' format: {aName});
 		body:
 			(' 
@@ -159,22 +159,22 @@ return this.{1};
 { #category : #'as yet unclassified' }
 MOAngularPrebuiltMethodFactory >> handleError [
 	| handleErrorMethod |
-	handleErrorMethod := MOTypescriptTemplatedMethod new
+	handleErrorMethod := MOTemplatedMethod new
 		visibility: #private;
 		selector: 'handleError<T>';
 		yourself.
 	handleErrorMethod
 		addParameter:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: 'operation';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default string;
 				defaultValue:
-					(MOTypescriptLiteral new
+					(MOLiteral new
 						literal: '"operation"';
 						yourself);
 				yourself);
 		addParameter:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: 'result?';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default T;
 				yourself).

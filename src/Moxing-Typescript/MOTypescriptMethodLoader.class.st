@@ -6,39 +6,53 @@ Class {
 
 { #category : #generated }
 MOTypescriptMethodLoader >> visitMemberFunctionDeclaration: aMethodDefinition [
-	result := MOTypescriptMethod new.
+
+	result := MOMethod new.
 	result selector: aMethodDefinition name name value.
 	self acceptNodes: aMethodDefinition signature parameters.
-	result
-		type:
-			(MOTypescriptTypeLoader
-				load: aMethodDefinition signature type
-				file: file
-				types: types).
-	self
-		assert:
-			(aMethodDefinition statements
-				noneSatisfy: [ :n | n isKindOf: JSAssignmentExpressionNode ])
+	result type: (MOTypescriptTypeLoader
+			 load: aMethodDefinition signature type
+			 file: file
+			 anchor: result anchor
+			 types: types
+			 model: model
+			 parent: result).
+	self assert: (aMethodDefinition statements noneSatisfy: [ :n | 
+			 n isKindOf: JSAssignmentExpressionNode ])
 ]
 
 { #category : #generated }
 MOTypescriptMethodLoader >> visitMethodDefinition: aMethodDefinition [
 
-	result := MOTypescriptMethod new.
+	result := MOMethod newForTypescriptIn: model.
 	result selector: aMethodDefinition name name value.
-	self acceptNodes: aMethodDefinition parameters .
+	result anchor: anchor / #methods / result selector.  
+	self acceptNodes: aMethodDefinition parameters.
+	aMethodDefinition type ifNotNil: [ 
+		result type: (MOTypescriptTypeLoader
+				 load: aMethodDefinition type
+				 file: file
+				 anchor: result anchor
+				 types: types
+				 model: model
+				 parent: result).
+		result type parent: result ].
 
-	self assert: aMethodDefinition type isNil.
-	 
-	self assert: (aMethodDefinition statements noneSatisfy: [ : n | n isKindOf: JSAssignmentExpressionNode ])
+	self assert: (aMethodDefinition statements noneSatisfy: [ :n | 
+			 n isKindOf: JSAssignmentExpressionNode ])
 ]
 
 { #category : #generated }
 MOTypescriptMethodLoader >> visitVariableDeclaration: aVarDeclaration [
+
 	| param |
 	param := MOTypescriptVariableDeclarationLoader
-		load: aVarDeclaration
-		file: file
-		types: types.
+		         load: aVarDeclaration
+		         file: file
+		         anchor: result anchor
+		         types: types
+		         model: model
+		         parent: result.
+
 	result addParameter: param
 ]

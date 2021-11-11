@@ -1,15 +1,28 @@
 Class {
 	#name : #MOTypescriptPrebuiltTypeReferenceFactory,
 	#superclass : #Object,
+	#instVars : [
+		'model'
+	],
 	#classInstVars : [
 		'default'
 	],
 	#category : #'Moxing-Typescript-Writting'
 }
 
-{ #category : #accessing }
-MOTypescriptPrebuiltTypeReferenceFactory class >> default [
-	^ default ifNil: [ default := self new  ]
+{ #category : #'as yet unclassified' }
+MOTypescriptPrebuiltTypeReferenceFactory class >> defaultFor: aMOModel [
+
+	^ self defaultMap at: aMOModel ifAbsentPut: [ 
+		  self new
+			  model: aMOModel;
+			  yourself ]
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptPrebuiltTypeReferenceFactory class >> defaultMap [
+
+	^ default ifNil: [ default := Dictionary new ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -19,7 +32,7 @@ MOTypescriptPrebuiltTypeReferenceFactory >> T [
 
 { #category : #'native types' }
 MOTypescriptPrebuiltTypeReferenceFactory >> arrayOf: aString [
-	^ MOTypescriptArrayTypeReference new
+	^ MOArrayTypeReference new
 		innerType: (self typeReference: aString);
 		yourself
 ]
@@ -54,11 +67,12 @@ MOTypescriptPrebuiltTypeReferenceFactory >> date [
 
 { #category : #'building methods' }
 MOTypescriptPrebuiltTypeReferenceFactory >> decorator: aName definedAt: aRef attributes: attrs [
-	^ MOTypescriptDecorator new
-		name: aName;
-		definedAt: aRef;
-		attributes: attrs;
-		yourself
+
+	^ (MODecorator newForTypescriptIn: model)
+		  name: aName;
+		  definedAt: aRef;
+		  attributes: attrs;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -67,17 +81,17 @@ MOTypescriptPrebuiltTypeReferenceFactory >> dependencies [
 ]
 
 { #category : #'building methods' }
-MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aRef parameterType: aParameter [
-	^ self genericType: aTypeName definedAt: aRef  parameterTypes: { aParameter }.
+MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aRef argumentType: aParameter [
+	^ self genericType: aTypeName definedAt: aRef  argumentTypes: { aParameter }.
 	
 ]
 
 { #category : #'building methods' }
-MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aRef parameterTypes: parameters [
-	^ MOTypescriptGenericTypeReference new
+MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aRef argumentTypes: arguments [
+	^ MOGenericTypeReference new
 		name: aTypeName;
 		definedAt: aRef;
-		parameters: (parameters collect: [ :p | self typeReference: p ]);
+		arguments: (arguments collect: [ :p | self typeReference: p ]);
 		yourself
 ]
 
@@ -107,6 +121,11 @@ MOTypescriptPrebuiltTypeReferenceFactory >> injectableProvidedAtRoot [
 		attributes: {(#providedIn -> 'root')} asDictionary
 ]
 
+{ #category : #accessing }
+MOTypescriptPrebuiltTypeReferenceFactory >> model: aMOModel [ 
+	model := aMOModel
+]
+
 { #category : #'native types' }
 MOTypescriptPrebuiltTypeReferenceFactory >> number [
 	^ self typeReference: #number
@@ -119,7 +138,7 @@ MOTypescriptPrebuiltTypeReferenceFactory >> object [
 
 { #category : #'convenient - types' }
 MOTypescriptPrebuiltTypeReferenceFactory >> observable: aType [
-	^ self genericType: #Observable definedAt: 'rxjs' parameterType: aType
+	^ self genericType: #Observable definedAt: 'rxjs' argumentType: aType
 ]
 
 { #category : #'convenient - types' }
@@ -154,21 +173,25 @@ MOTypescriptPrebuiltTypeReferenceFactory >> string [
 
 { #category : #'building methods' }
 MOTypescriptPrebuiltTypeReferenceFactory >> typeReference: aString [
+
 	^ aString isString
-		ifTrue: [ MOTypescriptTypeReference new
-				name: aString;
-				yourself ]
-		ifFalse: [ aString ]
+		  ifTrue: [ 
+			  (MOTypeReference newForTypescriptIn: model)
+				  name: aString;
+				  yourself ]
+		  ifFalse: [ aString ]
 ]
 
 { #category : #'building methods' }
 MOTypescriptPrebuiltTypeReferenceFactory >> typeReference: aString definedAt: aFileRef [
+
 	^ aString isString
-		ifTrue: [ MOTypescriptImportedTypeReference new
-				name: aString;
-				definedAt: aFileRef;
-				yourself ]
-		ifFalse: [ aString ]
+		  ifTrue: [ 
+			  (MOImportedTypeReference newForTypescriptIn: model)
+				  name: aString;
+				  definedAt: aFileRef;
+				  yourself ]
+		  ifFalse: [ aString ]
 ]
 
 { #category : #'native types' }

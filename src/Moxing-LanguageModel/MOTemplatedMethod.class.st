@@ -1,30 +1,30 @@
 Class {
-	#name : #MOTypescriptTemplatedMethod,
-	#superclass : #MOTypescriptMethod,
+	#name : #MOTemplatedMethod,
+	#superclass : #MOMethod,
 	#instVars : [
 		'body',
 		'dependentTypes'
 	],
-	#category : #'Moxing-Typescript-Model'
+	#category : #'Moxing-LanguageModel-Model'
 }
 
 { #category : #'as yet unclassified' }
-MOTypescriptTemplatedMethod >> acceptVisitor: aJinInspectorBuilder [ 
+MOTemplatedMethod >> acceptVisitor: aJinInspectorBuilder [ 
 	aJinInspectorBuilder visitTypescriptTemplatedMethod: self 
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptTemplatedMethod >> body [
+MOTemplatedMethod >> body [
 	^ body
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptTemplatedMethod >> body: aString [ 
+MOTemplatedMethod >> body: aString [ 
 	body := aString 
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptTemplatedMethod >> dependencies [
+MOTemplatedMethod >> dependencies [
 	^ dependentTypes
 		ifNil: [ super dependencies ]
 		ifNotNil: [ super dependencies
@@ -32,7 +32,7 @@ MOTypescriptTemplatedMethod >> dependencies [
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptTemplatedMethod >> dependsOn: aType [
+MOTemplatedMethod >> dependsOn: aType [
 	(dependentTypes ifNil: [ dependentTypes := OrderedCollection new ])
 		add: aType
 ]

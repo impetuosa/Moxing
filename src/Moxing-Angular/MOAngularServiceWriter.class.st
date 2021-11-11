@@ -6,7 +6,7 @@ Class {
 		'binding',
 		'dataEntity'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Writting'
 }
 
 { #category : #'as yet unclassified' }
@@ -34,7 +34,7 @@ MOAngularServiceWriter >> visitRelationalTable: aMDRelationalTable [
 
 { #category : #'as yet unclassified' }
 MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
-	service := MOTypescriptClass new.
+	service := MOClass new.
 	service name: aMDRelationalView compilableTypeIdentifier , 'Service'.
 	service
 		decorator:
@@ -42,36 +42,36 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 				injectableProvidedAtRoot.
 	service
 		addProperty:
-			(MOTypescriptVariable new
+			(MOVariable new
 				visibility: #private;
 				name: 'serviceUrl';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default string;
 				defaultValue:
-					(MOTypescriptLiteral new
+					(MOLiteral new
 						literal: ('"api/{1}"' format: {aMDRelationalView compilableTypeIdentifier});
 						yourself);
 				yourself);
 		addProperty:
-			(MOTypescriptVariable new
+			(MOVariable new
 				visibility: '';
 				name: 'httpOptions';
 				defaultValue:
-					(MOTypescriptObjectLiteral new
+					(MOObjectLiteral new
 						literal:
-							{((MOTypescriptLiteral new
+							{((MOLiteral new
 								literal: '"headers"';
 								yourself)
 								->
-									(MOTypescriptNewExpression new
+									(MONewExpression new
 										type: MOTypescriptPrebuiltTypeReferenceFactory default httpHeaders;
 										arguments:
-											{(MOTypescriptObjectLiteral new
+											{(MOObjectLiteral new
 												literal:
-													{((MOTypescriptLiteral new
+													{((MOLiteral new
 														literal: '"Content-Type"';
 														yourself)
 														->
-															(MOTypescriptLiteral new
+															(MOLiteral new
 																literal: '"application/json"';
 																yourself))})}))};
 						yourself);
@@ -80,7 +80,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 		addMethod:
 			((self methodFactory
 				emptyConstructorArguments:
-				{(MOTypescriptVariable new
+				{(MOVariable new
 				visibility: #private;
 				name: 'http';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default httpClient;

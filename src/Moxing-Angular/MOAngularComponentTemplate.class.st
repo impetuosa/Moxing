@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularComponentTemplate,
-	#superclass : #MOObject,
+	#superclass : #MOAnchoredObject,
 	#category : #'Moxing-Angular-Model'
 }
 
@@ -21,6 +21,13 @@ MOAngularComponentTemplate >> name [
 ]
 
 { #category : #accessing }
+MOAngularComponentTemplate >> printOn: aStream [
+
+	aStream nextPutAll: 'AngularTemplate(' , name , ')'
+]
+
+{ #category : #accessing }
 MOAngularComponentTemplate >> sourceCode [
-	^ anchor readStream upToEnd. 
+
+	^ anchor readStream upToEnd
 ]

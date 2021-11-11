@@ -1,8 +1,8 @@
 Class {
 	#name : #MOAngularModule,
-	#superclass : #MOAngularProject,
+	#superclass : #MOAngularEntry,
 	#instVars : [
-		'components'
+		'artefacts'
 	],
 	#category : #'Moxing-Angular-Model'
 }
@@ -13,40 +13,41 @@ MOAngularModule >> acceptVisitor: aJinInspectorBuilder [
 ]
 
 { #category : #accessing }
-MOAngularModule >> components [
+MOAngularModule >> artefacts [
 
-	^ components ifNil: [ 
-		  components := anchor files
-			                select: [ :e | e basename endsWith: 'component.ts' ]
-			                thenCollect: [ :f | 
-				                | ref |
-				                ref := f asFileReference.
-				                MOAngularComponent new
-					                name:
-						                (ref basename
-							                 copyReplaceAll: '.component.ts'
-							                 with: '');
-					                anchor: ref parent;
-					                yourself ].
-
-		  components := components asOrderedCollection ]
+	^ artefacts
 ]
 
 { #category : #accessing }
-MOAngularModule >> path [
-	^ path 
+MOAngularModule >> artefacts: cs [
+
+	artefacts := cs
+]
+
+{ #category : #testing }
+MOAngularModule >> isRootingModule [
+
+	^ name endsWith: '-routing'
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularModule >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'AngularModule: ';
+		nextPutAll: name
 ]
 
 { #category : #'as yet unclassified' }
 MOAngularModule >> save [
-	(components noneSatisfy: [ :c | c mustBeSaved ])
+	(artefacts noneSatisfy: [ :c | c mustBeSaved ])
 		ifTrue: [ ^ self ].
-	(components select: [ :c | c mustBeSaved ] )do: [ :c | c save ].
+	(artefacts select: [ :c | c mustBeSaved ] )do: [ :c | c save ].
 	self typescriptModel 
 ]
 
 { #category : #'as yet unclassified' }
 MOAngularModule >> typescriptModel [
-	MOTypescriptClassLoader
-		loadClassFromFile: (self path / name , 'module' , 'ts')
+	^ MOTypescriptClassLoader
+		loadClassFromFile: (self anchor / name , 'module' , 'ts')
 ]

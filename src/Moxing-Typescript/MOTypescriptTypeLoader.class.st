@@ -5,14 +5,21 @@ Class {
 }
 
 { #category : #generated }
+MOTypescriptTypeLoader >> any [ 
+	^ self typeNamed: #any 
+]
+
+{ #category : #generated }
 MOTypescriptTypeLoader >> typeNamed: aTypeName [
-	result := types values
-		detect: [ :t | t name = aTypeName ]
-		ifNone: [ types
-				at: aTypeName
-				put:
-					(MOTypescriptPrebuiltTypeReferenceFactory default
-						typeReference: aTypeName) ]
+
+	^ result := types values
+		          detect: [ :t | t name = aTypeName ]
+		          ifNone: [ 
+			          types
+				          at: aTypeName
+				          put:
+					          ((MOTypescriptPrebuiltTypeReferenceFactory defaultFor:
+						            model) typeReference: aTypeName) ]
 ]
 
 { #category : #generated }
@@ -22,12 +29,16 @@ MOTypescriptTypeLoader >> visitNameExpression: aName [
 
 { #category : #generated }
 MOTypescriptTypeLoader >> visitTypeReference: aReference [
-	self halt.
-	result := MOTypescriptTypeReference new.
+
 	super visitTypeReference: aReference
 ]
 
 { #category : #generated }
 MOTypescriptTypeLoader >> visitVoidType: aType [
 	self typeNamed: #void
+]
+
+{ #category : #generated }
+MOTypescriptTypeLoader >> void [ 
+	^ self void
 ]

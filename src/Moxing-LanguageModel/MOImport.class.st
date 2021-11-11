@@ -1,15 +1,15 @@
 Class {
-	#name : #MOTypescriptDependency,
-	#superclass : #MOTypescriptObject,
+	#name : #MOImport,
+	#superclass : #MOLanguageObject,
 	#instVars : [
 		'types',
 		'from'
 	],
-	#category : #'Moxing-Typescript-Model'
+	#category : #'Moxing-LanguageModel-Model'
 }
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency class >> compressDependencyCollection: deps [
+MOImport class >> compressDependencyCollection: deps [
 	^ (deps groupedBy: #from) associations
 		inject: OrderedCollection new
 		into: [ :acc :ass | 
@@ -19,7 +19,7 @@ MOTypescriptDependency class >> compressDependencyCollection: deps [
 				ifTrue: [ acc add: each first ]
 				ifFalse: [ | adding |
 					adding := OrderedCollection new.
-					compressed := MOTypescriptDependency new.
+					compressed := MOImport new.
 					(each flatCollect:[ :e | e types ] )do: [ :e | 
 							(adding noneSatisfy: [ :t | t name = e name ])
 								ifTrue: [ adding add: e ] ].
@@ -31,29 +31,34 @@ MOTypescriptDependency class >> compressDependencyCollection: deps [
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitTypescriptDependency:  self .
+MOImport >> acceptVisitor: aJinTypescriptCodeGenerator [ 
+	aJinTypescriptCodeGenerator visitDependency:  self .
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> from [
+MOImport >> from [
 	^ from
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> from: aFileReference [
+MOImport >> from: aFileReference [
 	(aFileReference isKindOf: FileReference)
 		ifTrue: [ self halt ].
 	from := aFileReference
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> fromString [
+MOImport >> fromString [
 	^ from ifNil: [ 'ERROR! FROM IS EMPTTY' ] ifNotNil: [ from ]
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> printOn: aStream [
+MOImport >> name [
+	^ name ifNil: [ name := '|' join: (types collect:#name)  ]
+]
+
+{ #category : #'as yet unclassified' }
+MOImport >> printOn: aStream [
 	aStream
 		nextPutAll: ' import { ';
 		nextPutAll: (',' join: (types collect: [ :t | t name ]));
@@ -62,18 +67,18 @@ MOTypescriptDependency >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> type: aString [
+MOImport >> type: aString [
 	types
 		ifNil: [ types := {aString} asOrderedCollection ]
 		ifNotNil: [ types add: aString ]
 ]
 
 { #category : #']as yet unclassified' }
-MOTypescriptDependency >> types [
+MOImport >> types [
 	^ types
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptDependency >> types: aCollection [
+MOImport >> types: aCollection [
 	types := aCollection
 ]

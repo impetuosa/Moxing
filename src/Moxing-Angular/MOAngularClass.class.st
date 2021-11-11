@@ -1,6 +1,6 @@
 Class {
-	#name : #MOAngularComponentBehaviour,
-	#superclass : #MOObject,
+	#name : #MOAngularClass,
+	#superclass : #MOAnchoredObject,
 	#instVars : [
 		'classRepresentation'
 	],
@@ -8,51 +8,67 @@ Class {
 }
 
 { #category : #visiting }
-MOAngularComponentBehaviour >> acceptVisitor: aJinInspectorBuilder [
+MOAngularClass >> acceptVisitor: aJinInspectorBuilder [
 
-	aJinInspectorBuilder visitAngularComponentBehavior: self
+	aJinInspectorBuilder visitAngularClass: self
 ]
 
 { #category : #'as yet unclassified' }
-MOAngularComponentBehaviour >> classRepresentation [
+MOAngularClass >> classRepresentation [
 
 	^ classRepresentation ifNil: [ 
 		  classRepresentation := MOTypescriptClassLoader 
 			                         loadClassFromFile: anchor ]
 ]
 
+{ #category : #accessing }
+MOAngularClass >> classRepresentation: aMOClass [ 
+	classRepresentation := aMOClass
+]
+
+{ #category : #accessing }
+MOAngularClass >> contentReference [ 
+	^ fileReference / name , 'ts'
+]
+
 { #category : #generated }
-MOAngularComponentBehaviour >> interfaces [
+MOAngularClass >> interfaces [
 	^ self classRepresentation types 
 ]
 
 { #category : #accessing }
-MOAngularComponentBehaviour >> methods [
+MOAngularClass >> methods [
 	^ self classRepresentation methods 
 ]
 
 { #category : #accessing }
-MOAngularComponentBehaviour >> name [
+MOAngularClass >> name [
 	^ 'Behavior'
 ]
 
 { #category : #accessing }
-MOAngularComponentBehaviour >> parents [
+MOAngularClass >> parents [
 
 	^ self classRepresentation parents
 ]
 
 { #category : #accessing }
-MOAngularComponentBehaviour >> properties [
+MOAngularClass >> printOn: aStream [
+
+	aStream nextPutAll: 'AngularClass(' , name , ')'
+]
+
+{ #category : #accessing }
+MOAngularClass >> properties [
 	^ self classRepresentation properties 
 ]
 
 { #category : #accessing }
-MOAngularComponentBehaviour >> sourceCode [
+MOAngularClass >> sourceCode [
 	^ anchor readStream upToEnd 
 ]
 
 { #category : #accessing }
-MOAngularComponentBehaviour >> superclass [
+MOAngularClass >> superclass [
 	^ self classRepresentation superclass 
 ]

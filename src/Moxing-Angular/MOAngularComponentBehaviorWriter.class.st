@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'behavior'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Writting'
 }
 
 { #category : #accessing }
@@ -14,7 +14,7 @@ MOAngularComponentBehaviorWriter >> behavior [
 
 { #category : #visiting }
 MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
-	behavior := MOTypescriptClass new.
+	behavior := MOClass new.
 	behavior name: aJinCasinoPage name .
 	behavior
 		implements:
@@ -28,13 +28,13 @@ MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 		put: './' , aJinCasinoPage name asLowercase , '.component.html'.
 	behavior
 		addMethod:
-			(MOTypescriptMethod new
+			(MOMethod new
 				selector: 'ngOnInit';
 				setOwnerClass: behavior;
 				type: MOTypescriptPrebuiltTypeReferenceFactory default void).
 	behavior
 		addMethod:
-			(MOTypescriptMethod new
+			(MOMethod new
 				selector: 'ngOnDestroy';
 				setOwnerClass: behavior;
 				type: MOTypescriptPrebuiltTypeReferenceFactory default void).
@@ -48,7 +48,7 @@ MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 MOAngularComponentBehaviorWriter >> visitDataBinding: aMODataBindingAttribute [
 	behavior angularModel
 		addProperty:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: aMODataBindingAttribute binding entity compilableIdentifier;
 				type:
 					(MOTypescriptPrebuiltTypeReferenceFactory default

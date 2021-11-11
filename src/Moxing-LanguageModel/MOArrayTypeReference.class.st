@@ -1,23 +1,23 @@
 Class {
-	#name : #MOTypescriptArrayTypeReference,
+	#name : #MOArrayTypeReference,
 	#superclass : #Object,
 	#instVars : [
 		'innerType'
 	],
-	#category : #'Moxing-Typescript-Model'
+	#category : #'Moxing-LanguageModel-Model'
 }
 
 { #category : #'as yet unclassified' }
-MOTypescriptArrayTypeReference >> dependencies [
+MOArrayTypeReference >> dependencies [
 	^ innerType dependencies 
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptArrayTypeReference >> innerType: aMOTypescriptTypeReference [ 
+MOArrayTypeReference >> innerType: aMOTypescriptTypeReference [ 
 	innerType := aMOTypescriptTypeReference
 ]
 
 { #category : #'as yet unclassified' }
-MOTypescriptArrayTypeReference >> printOn: aStream [
+MOArrayTypeReference >> printOn: aStream [
 	aStream nextPutAll: innerType name ; nextPutAll:'[]'
 ]

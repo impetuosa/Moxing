@@ -5,7 +5,7 @@ Class {
 		'attributes',
 		'brush'
 	],
-	#category : #'Moxing-Angular-Loading'
+	#category : #'Moxing-Angular-Building'
 }
 
 { #category : #'as yet unclassified' }

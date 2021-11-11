@@ -29,7 +29,7 @@ MOAngularModelWriter >> typeReferenceFor: aType [
 MOAngularModelWriter >> visitColumn: aMDColumn [
 	model
 		addProperty:
-			(MOTypescriptVariable new
+			(MOVariable new
 				name: aMDColumn compilableIdentifier;
 				type: (self typeReferenceFor: aMDColumn type);
 				yourself)
@@ -59,7 +59,7 @@ MOAngularModelWriter >> visitIndex: anIndex [
 
 { #category : #'as yet unclassified' }
 MOAngularModelWriter >> visitRelationalTable: aMDRelationalTable [
-	model := MOTypescriptClass new.
+	model := MOClass new.
 	model name: aMDRelationalTable compilableTypeIdentifier.
 	aMDRelationalTable elements do: [ :e | e accept: self ].
 	aMDRelationalTable indexes do: [ :i | i accept: self ].
@@ -68,7 +68,7 @@ MOAngularModelWriter >> visitRelationalTable: aMDRelationalTable [
 
 { #category : #'as yet unclassified' }
 MOAngularModelWriter >> visitRelationalView: aMDRelationalView [ 
-	model := MOTypescriptClass new.
+	model := MOClass new.
 	model name: aMDRelationalView compilableTypeIdentifier .
 	aMDRelationalView elements do: [ : e | e accept: self ]
 ]
