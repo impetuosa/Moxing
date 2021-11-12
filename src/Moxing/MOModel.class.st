@@ -23,6 +23,14 @@ MOModel >> catalog: aCatalog [
 	catalog := aCatalog
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> derivative [
+
+	^ MOModelDerivative new
+		  model: self;
+		  yourself
+]
+
 { #category : #initialization }
 MOModel >> initialize [ 
 	super initialize.

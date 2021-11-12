@@ -6,7 +6,8 @@ Class {
 		'class',
 		'visibility',
 		'variables',
-		'modifiers'
+		'modifiers',
+		'block'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -22,6 +23,17 @@ MOInvocable >> addVariable: aMOVariable [
 ]
 
 { #category : #accessing }
+MOInvocable >> block [
+	^ block
+]
+
+{ #category : #accessing }
+MOInvocable >> block: aBlock [
+
+	block := aBlock
+]
+
+{ #category : #accessing }
 MOInvocable >> dependencies [
 
 	^ parameters flatCollect: [ :p | p dependencies ]
@@ -32,7 +44,13 @@ MOInvocable >> initialize [
 
 	super initialize.
 	parameters := OrderedCollection new.
-	variables := OrderedCollection new
+	variables := OrderedCollection new.
+	modifiers := OrderedCollection new
+]
+
+{ #category : #accessing }
+MOInvocable >> modifiers [
+	^ modifiers
 ]
 
 { #category : #accessing }
@@ -46,9 +64,24 @@ MOInvocable >> parameters [
 ]
 
 { #category : #accessing }
+MOInvocable >> parameters: aCollection [ 
+	parameters := aCollection
+]
+
+{ #category : #accessing }
 MOInvocable >> setOwnerClass: aClassObject [ 
 	class := aClassObject 
 	
+]
+
+{ #category : #accessing }
+MOInvocable >> variables [
+	^ variables
+]
+
+{ #category : #accessing }
+MOInvocable >> variables: aCollection [ 
+	variables := aCollection
 ]
 
 { #category : #accessing }

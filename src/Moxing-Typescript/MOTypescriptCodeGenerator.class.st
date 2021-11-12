@@ -18,6 +18,43 @@ MOTypescriptCodeGenerator >> sourceCode [
 	^ stream contents 
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> streamArguments: aCollection [
+
+	aCollection ifEmpty: [ ^ self ].
+	aCollection allButLast do: [ :e | 
+		e acceptVisitor: self.
+		stream nextPutAll: ', ' ].
+	aCollection last acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitAssignment: aMOAssignment [
+
+	aMOAssignment write acceptVisitor: self.
+	stream
+		nextPutAll: ' ';
+		nextPutAll: #=;
+		nextPutAll: ' '.
+	aMOAssignment read acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitBlock: aMOBlock [
+
+	stream
+		nextPutAll: '{';
+		newLine.
+	aMOBlock statements do: [ :s | 
+		s acceptVisitor: self.
+		stream
+			nextPutAll: ';';
+			newLine ].
+	stream
+		nextPutAll: '}';
+		newLine
+]
+
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitClass: aJinTypescriptClass [
 	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].
@@ -46,6 +83,14 @@ MOTypescriptCodeGenerator >> visitClass: aJinTypescriptClass [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitCollection: aCollection [
+
+	aCollection isString
+		ifTrue: [ stream nextPutAll: aCollection ]
+		ifFalse: [ aCollection do: [ :a | a acceptVisitor: self ] ]
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitDecorator: aJinTypescriptDecorator [
 
 	stream
@@ -70,6 +115,26 @@ MOTypescriptCodeGenerator >> visitDependency: aMOTypescriptImport [
 		newLine
 ]
 
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitIfElse: aMOIfElse [
+
+	self assert: aMOIfElse ifFalse isNil.
+	stream nextPutAll: 'if ('.
+	aMOIfElse condition acceptVisitor: self.
+	stream nextPutAll: ')'.
+	aMOIfElse ifTrue acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitInvocableInvocation: aFylgjaMissingInvocableInvocation [
+
+	stream
+		nextPutAll: aFylgjaMissingInvocableInvocation fullSelector;
+		nextPutAll: '('.
+	self streamArguments: aFylgjaMissingInvocableInvocation arguments.
+	stream nextPutAll: ')'
+]
+
 { #category : #'as yet unclassified' }
 MOTypescriptCodeGenerator >> visitLiteral: aMOTypescriptLiteral [
 	stream nextPutAll: aMOTypescriptLiteral literal asString
@@ -77,24 +142,31 @@ MOTypescriptCodeGenerator >> visitLiteral: aMOTypescriptLiteral [
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitMethod: aJinTypescriptMethod [
+
 	stream
 		newLine;
 		nextPutAll: '    ';
 		nextPutAll: aJinTypescriptMethod visibility;
-		nextPutAll:  ' ';
+		nextPutAll: ' ';
 		nextPutAll: aJinTypescriptMethod selector;
 		nextPutAll: '('.
+	stream nextPutAll:
+		(',' join: (aJinTypescriptMethod parameters collect: [ :p | 
+				  p type name , ' ' , p name ])).
+
 	stream
-		nextPutAll:
-			(','
-				join:
-					(aJinTypescriptMethod parameters
-						collect: [ :p | p type name , ' ' , p name ])).
+		nextPutAll: ')';
+		newLine.
+	aJinTypescriptMethod block acceptVisitor: self.
 	stream
-		nextPutAll: ') {';
-		newLine;
-		nextPutAll: '    }';
+		nextPutAll: '';
 		newLine
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitMissingVariable: aFylgjaMissingVariable [
+
+	stream nextPutAll: aFylgjaMissingVariable variableName
 ]
 
 { #category : #'as yet unclassified' }
@@ -121,6 +193,26 @@ MOTypescriptCodeGenerator >> visitObjectLiteral: aMOTypescriptObjectLiteral [
 			l value acceptVisitor: self.
 			stream newLine  ].
 	stream nextPutAll: '}'
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitOperator: aFylgjaMissingOperator [
+
+	aFylgjaMissingOperator left acceptVisitor: self.
+	stream
+		nextPutAll: ' ';
+		nextPutAll: aFylgjaMissingOperator operator;
+		nextPutAll: ' '.
+	aFylgjaMissingOperator right acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitStringLiteral: aMOStringLiteral [
+
+	stream
+		nextPutAll: '"';
+		nextPutAll: aMOStringLiteral literal;
+		nextPutAll: '"'
 ]
 
 { #category : #'as yet unclassified' }
@@ -183,4 +275,10 @@ MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
 	aMOTypescriptVariable defaultValue
 		ifNotNil: [ stream nextPutAll: '='.
 			aMOTypescriptVariable defaultValue acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitVariableReference: aMOVariableRererence [
+
+	stream nextPutAll: aMOVariableRererence variable name
 ]

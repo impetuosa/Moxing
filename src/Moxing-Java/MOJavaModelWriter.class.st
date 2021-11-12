@@ -1,5 +1,11 @@
 Class {
 	#name : #MOJavaModelWriter,
-	#superclass : #Object,
+	#superclass : #MOModelWriter,
 	#category : #'Moxing-Java-Writer'
 }
+
+{ #category : #writing }
+MOJavaModelWriter >> writeMethod: aMOMethod [
+
+	surface addMethod: aMOMethod
+]
