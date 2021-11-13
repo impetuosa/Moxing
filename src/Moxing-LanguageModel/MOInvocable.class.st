@@ -5,7 +5,6 @@ Class {
 		'parameters',
 		'class',
 		'visibility',
-		'variables',
 		'modifiers',
 		'block'
 	],
@@ -15,11 +14,6 @@ Class {
 { #category : #adding }
 MOInvocable >> addParameter: aJinVariable [ 
 	parameters add: aJinVariable 
-]
-
-{ #category : #adding }
-MOInvocable >> addVariable: aMOVariable [ 
-	variables add: aMOVariable 
 ]
 
 { #category : #accessing }
@@ -36,7 +30,8 @@ MOInvocable >> block: aBlock [
 { #category : #accessing }
 MOInvocable >> dependencies [
 
-	^ parameters flatCollect: [ :p | p dependencies ]
+	^ (parameters flatCollect: [ :p | p dependencies ])
+	  , block dependencies
 ]
 
 { #category : #accessing }
@@ -44,7 +39,6 @@ MOInvocable >> initialize [
 
 	super initialize.
 	parameters := OrderedCollection new.
-	variables := OrderedCollection new.
 	modifiers := OrderedCollection new
 ]
 
@@ -76,12 +70,7 @@ MOInvocable >> setOwnerClass: aClassObject [
 
 { #category : #accessing }
 MOInvocable >> variables [
-	^ variables
-]
-
-{ #category : #accessing }
-MOInvocable >> variables: aCollection [ 
-	variables := aCollection
+	^ block variables
 ]
 
 { #category : #accessing }

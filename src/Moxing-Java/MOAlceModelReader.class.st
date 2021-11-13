@@ -53,6 +53,42 @@ MOAlceModelReader >> initialize [
 	createdElements := Dictionary new.
 ]
 
+{ #category : #'as yet unclassified' }
+MOAlceModelReader >> installFunctionReturn: aMOBlock astNode: aVBFunctionDefinitionNode [
+
+	| varToReturn return reference |
+	varToReturn := aMOBlock statements first.
+	reference := self instantiate: MOVariableRererence for: { 
+			             #returnReference.
+			             aVBFunctionDefinitionNode }.
+	reference variable: varToReturn.
+	return := self instantiate: MOReturn for: { 
+			          #return.
+			          aVBFunctionDefinitionNode }.
+	return expression: reference.
+	aMOBlock addStatement: return. 
+	
+
+
+
+
+]
+
+{ #category : #'as yet unclassified' }
+MOAlceModelReader >> installFunctionReturnVariable: anAlcixLocalVariable into: aBlock astNode: anAstNode [
+
+	| var |
+	var := self instantiate: MOVariable for: anAlcixLocalVariable.
+
+	var name: anAlcixLocalVariable name.
+	var type:
+		(self typeReferenceFrom: anAlcixLocalVariable astNode: anAstNode).
+
+	aBlock addVariable: var.
+
+	^ var
+]
+
 { #category : #visiting }
 MOAlceModelReader >> instantiate: aClass for: anAlcixFunction [
 
@@ -88,6 +124,22 @@ MOAlceModelReader >> invocationFor: anAlcixInvocation arguments: arguments astNo
 MOAlceModelReader >> invocationForOperator: aString [
 
 	^ mapper getInvocationForOperator: aString
+]
+
+{ #category : #visiting }
+MOAlceModelReader >> loadBlock: aVBBlockNode [
+
+	| block |
+	block := self instantiate: MOBlock for: aVBBlockNode.
+	self loadBlock: aVBBlockNode into: block. 
+	
+	^ block
+]
+
+{ #category : #'as yet unclassified' }
+MOAlceModelReader >> loadBlock: aVBBlockNode into: aMOBlock [
+
+	self push: aMOBlock during: [ self visitProgram: aVBBlockNode ]
 ]
 
 { #category : #accessing }
@@ -202,11 +254,9 @@ MOAlceModelReader >> visitArgumentList: aVBArgumentListNode [
 { #category : #visiting }
 MOAlceModelReader >> visitBlock: aVBBlockNode [
 
-	| block |
-	block := self instantiate: MOBlock for: aVBBlockNode.
-	self withTop: [ :t | t block: block ].
-	self push: block during: [ self visitProgram: aVBBlockNode ].
-	^ block
+	" The logic for blocks is a bit tricky. so is managed by the users of the block. "
+
+	
 ]
 
 { #category : #visiting }
@@ -334,15 +384,27 @@ MOAlceModelReader >> visitFunctionDefinition: aVBFunctionDefinitionNode [
 	function := self withCurrentContext: [ :fn | 
 		            function := self instantiate: MOFunction for: fn.
 		            function selector: fn selector.
+		            function block:
+			            (self
+				             instantiate: MOBlock
+				             for: aVBFunctionDefinitionNode block).
+		            self
+			            installFunctionReturnVariable: fn localVariables first
+			            into: function block
+			            astNode: aVBFunctionDefinitionNode.
 		            function ].
 
 	self
 		withTop: [ :top | top addFunction: function ]
 		ifEmpty: [ " i may be only reading the function " ].
 
+	self push: function during: [ 
+		self visitProgram: aVBFunctionDefinitionNode.
+		self loadBlock: aVBFunctionDefinitionNode block into: function block ].
+
 	self
-		push: function
-		during: [ self visitProgram: aVBFunctionDefinitionNode ].
+		installFunctionReturn: function block
+		astNode: aVBFunctionDefinitionNode.
 	^ function
 ]
 
@@ -356,7 +418,7 @@ MOAlceModelReader >> visitIfThenElse: aVBIfThenElseNode [
 	if := self instantiate: MOIfElse for: aVBIfThenElseNode.
 	self push: if during: [ 
 		if condition: (aVBIfThenElseNode condition acceptVisitor: self).
-		if ifTrue: (aVBIfThenElseNode ifTrue acceptVisitor: self)].
+		if ifTrue: (self loadBlock: aVBIfThenElseNode ifTrue) ].
 	self withTop: [ :t | t addStatement: if ].
 	^ if
 ]
@@ -520,5 +582,7 @@ MOAlceModelReader >> withTop: aBlock [
 { #category : #visiting }
 MOAlceModelReader >> withTop: aBlock ifEmpty: aanEmptyBlock [
 
-	stack ifEmpty: aanEmptyBlock ifNotEmpty: [ aBlock value: stack top ]
+	^ stack
+		  ifEmpty: aanEmptyBlock
+		  ifNotEmpty: [ aBlock value: stack top ]
 ]

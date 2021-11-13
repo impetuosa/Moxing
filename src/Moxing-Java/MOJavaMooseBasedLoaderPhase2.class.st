@@ -53,6 +53,8 @@ MOJavaMooseBasedLoaderPhase2 >> visitMethod: aFamixJavaMethod [
 
 	| method |
 	method := self instantiate: MOMethod for: aFamixJavaMethod.
+	method block:
+		(self instantiate: MOBlock for: aFamixJavaMethod localVariables).
 	method selector: aFamixJavaMethod name.
 	self withTop: [ :t | 
 		t addMethod: method.

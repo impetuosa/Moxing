@@ -59,6 +59,15 @@ MOLanguageObject >> language: aMOLanguage [
 ]
 
 { #category : #generated }
+MOLanguageObject >> produceCode [
+
+	| gen |
+	gen := MOTypescriptCodeGenerator new.
+	self acceptVisitor: gen.
+	^ gen sourceCode
+]
+
+{ #category : #generated }
 MOLanguageObject >> sourceCode [
 
 	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ 

@@ -2,15 +2,48 @@ Class {
 	#name : #MOTypescriptCodeGenerator,
 	#superclass : #Object,
 	#instVars : [
-		'stream'
+		'stream',
+		'indentation',
+		'indentationString'
 	],
 	#category : #'Moxing-Typescript-Writting'
 }
 
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> increaseDeepDuring: aFullBlockClosure [
+
+	indentation := indentation + 1.
+	aFullBlockClosure value.
+	indentation := indentation - 1
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> indentationString [
+
+	^ indentationString ifNil: [ indentationString := String tab ]
+]
+
 { #category : #accessing }
 MOTypescriptCodeGenerator >> initialize [
+
 	super initialize.
-	stream := '' writeStream
+	stream := '' writeStream.
+	indentation := 0
+]
+
+{ #category : #printing }
+MOTypescriptCodeGenerator >> printIndentation [
+
+	indentation timesRepeat: [ 
+		stream nextPutAll: self indentationString ]
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> requiresTerminator: aStatement [
+
+	^ { 
+		  MOBlock.
+		  MOIfElse } noneSatisfy: [ :s | aStatement isKindOf: s ]
 ]
 
 { #category : #accessing }
@@ -45,11 +78,14 @@ MOTypescriptCodeGenerator >> visitBlock: aMOBlock [
 	stream
 		nextPutAll: '{';
 		newLine.
-	aMOBlock statements do: [ :s | 
-		s acceptVisitor: self.
-		stream
-			nextPutAll: ';';
-			newLine ].
+	self increaseDeepDuring: [ 
+		aMOBlock statements do: [ :s | 
+			self printIndentation.
+			s acceptVisitor: self.
+
+			(self requiresTerminator: s) ifTrue: [ stream nextPutAll: ';' ].
+			stream newLine ] ].
+	self printIndentation.
 	stream
 		nextPutAll: '}';
 		newLine
@@ -122,7 +158,8 @@ MOTypescriptCodeGenerator >> visitIfElse: aMOIfElse [
 	stream nextPutAll: 'if ('.
 	aMOIfElse condition acceptVisitor: self.
 	stream nextPutAll: ')'.
-	aMOIfElse ifTrue acceptVisitor: self
+	aMOIfElse ifTrue acceptVisitor: self.
+	
 ]
 
 { #category : #visiting }
@@ -143,20 +180,19 @@ MOTypescriptCodeGenerator >> visitLiteral: aMOTypescriptLiteral [
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitMethod: aJinTypescriptMethod [
 
+	self printIndentation.
 	stream
 		newLine;
-		nextPutAll: '    ';
+		nextPutAll: '';
 		nextPutAll: aJinTypescriptMethod visibility;
 		nextPutAll: ' ';
 		nextPutAll: aJinTypescriptMethod selector;
 		nextPutAll: '('.
-	stream nextPutAll:
-		(',' join: (aJinTypescriptMethod parameters collect: [ :p | 
-				  p type name , ' ' , p name ])).
+	self streamArguments: aJinTypescriptMethod parameters.
 
-	stream
-		nextPutAll: ')';
-		newLine.
+
+	stream nextPutAll: ') '.
+	aJinTypescriptMethod type acceptVisitor: self.
 	aJinTypescriptMethod block acceptVisitor: self.
 	stream
 		nextPutAll: '';
@@ -204,6 +240,13 @@ MOTypescriptCodeGenerator >> visitOperator: aFylgjaMissingOperator [
 		nextPutAll: aFylgjaMissingOperator operator;
 		nextPutAll: ' '.
 	aFylgjaMissingOperator right acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitReturn: aMOReturn [
+
+	stream nextPutAll: 'return '.
+	aMOReturn expression acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -261,20 +304,28 @@ MOTypescriptCodeGenerator >> visitTemplatedMethod: aMOTypescriptTemplatedMethod 
 		newLine
 ]
 
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitTypeReference: aFylgjaMissingType [
+
+	stream
+		nextPutAll: ': ';
+		nextPutAll: aFylgjaMissingType name
+]
+
 { #category : #'as yet unclassified' }
 MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
-	aMOTypescriptVariable visibility
-		ifNotNil: [ stream
-				nextPutAll: aMOTypescriptVariable visibility;
-				nextPutAll: ' ' ].
+
+	aMOTypescriptVariable visibility ifNotNil: [ 
+		stream
+			nextPutAll: aMOTypescriptVariable visibility;
+			nextPutAll: ' ' ].
 	stream nextPutAll: aMOTypescriptVariable name.
-	aMOTypescriptVariable type
-		ifNotNil: [ stream
-				nextPutAll: ': ';
-				nextPutAll: aMOTypescriptVariable type name ].
-	aMOTypescriptVariable defaultValue
-		ifNotNil: [ stream nextPutAll: '='.
-			aMOTypescriptVariable defaultValue acceptVisitor: self ]
+
+	aMOTypescriptVariable type ifNotNil: [ 
+		aMOTypescriptVariable type acceptVisitor: self ].
+	aMOTypescriptVariable defaultValue ifNotNil: [ 
+		stream nextPutAll: '='.
+		aMOTypescriptVariable defaultValue acceptVisitor: self ]
 ]
 
 { #category : #visiting }

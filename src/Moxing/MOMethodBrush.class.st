@@ -16,7 +16,6 @@ MOMethodBrush >> visitFunction: aMOFunction [
 	entity visibility: aMOFunction visibility.
 	entity parameters: aMOFunction parameters.
 	entity selector: aMOFunction selector.
-	entity variables: aMOFunction variables.
 	entity modifiers: aMOFunction modifiers.
 	entity modifiers add: #static.
 	entity type: aMOFunction type.

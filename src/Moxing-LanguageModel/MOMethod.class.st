@@ -9,6 +9,12 @@ MOMethod >> acceptVisitor: aJinInspectorBuilder [
 	aJinInspectorBuilder visitMethod: self 
 ]
 
+{ #category : #adding }
+MOMethod >> addVariable: aMOVariable [
+
+	block addVariable: aMOVariable
+]
+
 { #category : #accessing }
 MOMethod >> printOn: aStream [
 
