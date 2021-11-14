@@ -20,12 +20,6 @@ MOClass class >> object [
 ]
 
 { #category : #visiting }
-MOClass >> accept: aFylgjaBrushSetResolver [
-
-	^ aFylgjaBrushSetResolver visitMOClass: self
-]
-
-{ #category : #visiting }
 MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [ 
 	aJinTypescriptCodeGenerator visitClass: self .
 ]

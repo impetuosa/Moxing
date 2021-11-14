@@ -89,6 +89,17 @@ MOAlceModelReader >> installFunctionReturnVariable: anAlcixLocalVariable into: a
 	^ var
 ]
 
+{ #category : #'as yet unclassified' }
+MOAlceModelReader >> installSelfVariable: anAlcixAttribute into: aMOClass [
+
+	| var typeRef |
+	var := self instantiate: MOSelf for: anAlcixAttribute.
+	var name: anAlcixAttribute name.
+	aMOClass addVariable: var.
+
+	^ var
+]
+
 { #category : #visiting }
 MOAlceModelReader >> instantiate: aClass for: anAlcixFunction [
 
@@ -163,6 +174,7 @@ MOAlceModelReader >> pushContext: aValue during: aBlock [
 
 { #category : #'meta-object-protocol' }
 MOAlceModelReader >> read: anAlcixFunction [
+self halt.
 	read := anAlcixFunction accept: self.
 	^ read
 ]
@@ -191,7 +203,7 @@ MOAlceModelReader >> specialReturnVariableReference: anAlcixLocalVariable for: a
 MOAlceModelReader >> typeReferenceFrom: anAlcixParameter astNode: aVBParameterNode [
 
 	anAlcixParameter type ifNil: [ self halt ].
-	
+
 	^ mapper getReference: anAlcixParameter type from: anAlcixParameter
 ]
 
@@ -252,6 +264,21 @@ MOAlceModelReader >> visitArgumentList: aVBArgumentListNode [
 ]
 
 { #category : #visiting }
+MOAlceModelReader >> visitAttribute: anAlcixAttribute [
+
+	| var |
+	self assert: anAlcixAttribute ast isNil.
+
+	var := self instantiate: MOVariable for: anAlcixAttribute.
+
+
+	var name: anAlcixAttribute name.
+	var type: (self typeReferenceFrom: anAlcixAttribute astNode: nil).
+	self withTop: [ :function | function addVariable: var ].
+	^ var
+]
+
+{ #category : #visiting }
 MOAlceModelReader >> visitBlock: aVBBlockNode [
 
 	" The logic for blocks is a bit tricky. so is managed by the users of the block. "
@@ -265,6 +292,24 @@ MOAlceModelReader >> visitBooleanLiteral: aVBBooleanLiteralNode [
 	^ (self instantiate: MOBooleanLiteral for: aVBBooleanLiteralNode)
 		  literal: aVBBooleanLiteralNode token source;
 		  yourself
+]
+
+{ #category : #visiting }
+MOAlceModelReader >> visitClass: anAlcixClass [
+
+	| class |
+	class := self instantiate: MOClass for: anAlcixClass.
+	class name: anAlcixClass name.
+	class visibility: anAlcixClass visibility.
+	self
+		installSelfVariable:
+		(anAlcixClass members detect: [ :me | me name = #Me ])
+		into: class.
+	anAlcixClass members
+		reject: [ :a | a name = #Me ]
+		thenDo: [ :m | m accept: self ].
+	anAlcixClass invocables do: [ :m | m accept: self ].
+	^ class
 ]
 
 { #category : #visiting }
@@ -330,6 +375,15 @@ MOAlceModelReader >> visitDimVariable: aVBDimVariableNode [
 		(self typeReferenceFrom: localVariable astNode: aVBDimVariableNode).
 	self withTop: [ :function | function addVariable: var ].
 	^ var
+]
+
+{ #category : #visiting }
+MOAlceModelReader >> visitExits: aVBExitsNode [
+
+	| exit |
+	exit := self instantiate: MOExit for: aVBExitsNode.
+	self withTop: [ :top | top addStatement: exit ].
+	^ exit
 ]
 
 { #category : #visiting }
@@ -466,6 +520,15 @@ MOAlceModelReader >> visitInvocation: anAlcixInvocation [
 ]
 
 { #category : #visiting }
+MOAlceModelReader >> visitLabel: aVBLabelNode [
+
+	| label |
+	label := self instantiate: MOLabel for: aVBLabelNode.
+	label label: aVBLabelNode label name value.
+	^ label
+]
+
+{ #category : #visiting }
 MOAlceModelReader >> visitMemberAccess: aVBMemberAccessNode [
 
 	| members |
@@ -480,6 +543,18 @@ MOAlceModelReader >> visitMemberAccess: aVBMemberAccessNode [
 		           pushContext: aVBMemberAccessNode
 		           during: [ members first accept: self ].
 	^ members
+]
+
+{ #category : #visiting }
+MOAlceModelReader >> visitOnErrorGoTo: aVBOnErrorGoToNode [
+
+	| onError tag |
+	self assert: aVBOnErrorGoToNode to destination labels size = 1.
+	tag := aVBOnErrorGoToNode to destination labels first source.
+	onError := self instantiate: MOOnErrorGoToLabel for: aVBOnErrorGoToNode.
+	onError destination: tag.
+	self withTop: [ :t | t addStatement: onError ].
+	^ onError
 ]
 
 { #category : #visiting }
@@ -532,6 +607,18 @@ MOAlceModelReader >> visitProcedureCallOrArrayAccess: aVBProcedureCallOrArrayAcc
 MOAlceModelReader >> visitProgram: aVBFunctionDefinitionNode [
 
 	^ self visitCollection: aVBFunctionDefinitionNode sortedChildren
+]
+
+{ #category : #visiting }
+MOAlceModelReader >> visitResumeLabel: aVBResumeLabelNode [
+
+	| resume tag |
+	self assert: aVBResumeLabelNode destination labels size = 1.
+	tag := aVBResumeLabelNode destination labels first source.
+	resume := self instantiate: MOResumeFromLabel for: aVBResumeLabelNode.
+	resume destination: tag.
+	self withTop: [ :t | t addStatement: resume ].
+	^ resume
 ]
 
 { #category : #visiting }

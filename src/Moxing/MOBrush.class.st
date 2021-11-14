@@ -23,6 +23,16 @@ MOBrush >> write: anEntity into: aWriter with: aBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOBrush >> writesClass [
+	^ false 
+]
+
+{ #category : #'as yet unclassified' }
 MOBrush >> writesInvocableBehaviour [
+	^ false 
+]
+
+{ #category : #'as yet unclassified' }
+MOBrush >> writesType [
 	^ false 
 ]

@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
+{ #category : #accessing }
+MOPackage >> acceptVisitor: aVisitor [
+
+	aVisitor visitPackage: self
+]
+
 { #category : #adding }
 MOPackage >> addPackage: aMOPackage [
 

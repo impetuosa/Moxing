@@ -23,6 +23,11 @@ MOObject class >> newInstanceFromModel [
 ]
 
 { #category : #accessing }
+MOObject >> acceptVisitor: aVisitor [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
 MOObject >> parent [
 	^ parent
 ]

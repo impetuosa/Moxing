@@ -1,20 +1,19 @@
 Class {
-	#name : #MOType,
+	#name : #MOLabel,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'package',
-		'modifiers',
-		'variables'
+		'label'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
 
 { #category : #accessing }
-MOType >> modifiers: aSet [
-	modifiers := aSet
+MOLabel >> acceptVisitor: aVisitor [
+
+	^ aVisitor visitLabel: self
 ]
 
 { #category : #accessing }
-MOType >> visibility: aVisibility [ 
-	
+MOLabel >> label: aString [ 
+	label := aString asSymbol
 ]

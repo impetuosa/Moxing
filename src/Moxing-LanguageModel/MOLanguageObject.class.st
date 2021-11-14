@@ -24,6 +24,15 @@ MOLanguageObject class >> newForTypescriptIn: aModel [
 		  yourself
 ]
 
+{ #category : #accessing }
+MOLanguageObject >> accept: ads [
+]
+
+{ #category : #accessing }
+MOLanguageObject >> acceptVisitor: ads [
+	self subclassResponsibility 
+]
+
 { #category : #adding }
 MOLanguageObject >> addAnnotation: aMOAnnotation [ 
 	self annotations add: aMOAnnotation
