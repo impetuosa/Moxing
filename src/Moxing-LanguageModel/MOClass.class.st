@@ -63,10 +63,11 @@ MOClass >> implements: aCollection [
 ]
 
 { #category : #generated }
-MOClass >> initialize [ 
-	super initialize .
-	methods := OrderedCollection new .
+MOClass >> initialize [
 
+	super initialize.
+	methods := OrderedCollection new.
+	visibility := #default
 ]
 
 { #category : #accessing }

@@ -1,9 +1,6 @@
 Class {
 	#name : #MOAngularModule,
-	#superclass : #MOAngularEntry,
-	#instVars : [
-		'artefacts'
-	],
+	#superclass : #MOPackage,
 	#category : #'Moxing-Angular-Model'
 }
 
@@ -15,13 +12,13 @@ MOAngularModule >> acceptVisitor: aJinInspectorBuilder [
 { #category : #accessing }
 MOAngularModule >> artefacts [
 
-	^ artefacts
+	^ types
 ]
 
 { #category : #accessing }
 MOAngularModule >> artefacts: cs [
 
-	artefacts := cs
+	types := cs
 ]
 
 { #category : #testing }
@@ -40,9 +37,9 @@ MOAngularModule >> printOn: aStream [
 
 { #category : #'as yet unclassified' }
 MOAngularModule >> save [
-	(artefacts noneSatisfy: [ :c | c mustBeSaved ])
+	(types noneSatisfy: [ :c | c mustBeSaved ])
 		ifTrue: [ ^ self ].
-	(artefacts select: [ :c | c mustBeSaved ] )do: [ :c | c save ].
+	(types select: [ :c | c mustBeSaved ] )do: [ :c | c save ].
 	self typescriptModel 
 ]
 

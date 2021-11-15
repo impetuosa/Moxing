@@ -15,12 +15,6 @@ MOJavaCodeGenerator >> printClassHeader: name implements: types [
 ]
 
 { #category : #visiting }
-MOJavaCodeGenerator >> visitBooleanLiteral: aMOBooleanLiteral [
-
-	stream nextPutAll: aMOBooleanLiteral literal asLowercase
-]
-
-{ #category : #visiting }
 MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 
 	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].

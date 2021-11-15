@@ -76,6 +76,11 @@ MOLanguage >> isJava [
 	^ self name = #java
 ]
 
+{ #category : #testing }
+MOLanguage >> isTypescript [
+	^ name = #typescript
+]
+
 { #category : #'instance creation' }
 MOLanguage >> newCodeTextWriter [
 

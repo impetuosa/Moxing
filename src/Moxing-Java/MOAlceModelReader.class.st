@@ -182,7 +182,12 @@ MOAlceModelReader >> pushContext: aValue during: aBlock [
 
 { #category : #'meta-object-protocol' }
 MOAlceModelReader >> read: anAlcixFunction [
+
 	read := anAlcixFunction accept: self.
+
+	FylgjaMapWarning new
+		mapper: mapper;
+		signal.
 	^ read
 ]
 

@@ -16,9 +16,7 @@ MOAngularClass >> acceptVisitor: aJinInspectorBuilder [
 { #category : #'as yet unclassified' }
 MOAngularClass >> classRepresentation [
 
-	^ classRepresentation ifNil: [ 
-		  classRepresentation := MOTypescriptClassLoader 
-			                         loadClassFromFile: anchor ]
+	^ classRepresentation 
 ]
 
 { #category : #accessing }

@@ -100,6 +100,12 @@ MOCodeGenerator >> visitBlock: aMOBlock [
 ]
 
 { #category : #visiting }
+MOCodeGenerator >> visitBooleanLiteral: aMOBooleanLiteral [
+
+	stream nextPutAll: aMOBooleanLiteral literal asLowercase
+]
+
+{ #category : #visiting }
 MOCodeGenerator >> visitCollection: aCollection [
 
 	aCollection isString
