@@ -1,10 +1,10 @@
 Class {
 	#name : #MOEnumBrush,
-	#superclass : #MOBrush,
+	#superclass : #MOCompositeBrush,
 	#category : #'Moxing-Brushes'
 }
 
 { #category : #'as yet unclassified' }
-MOEnumBrush >> writesType [
+MOEnumBrush class >> writesType [
 	^ true 
 ]

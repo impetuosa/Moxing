@@ -24,8 +24,23 @@ MOLanguageObject class >> newForTypescriptIn: aModel [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+MOLanguageObject class >> newVisualBasicApplicationFor: aModel [
+
+	^ (aModel instantiate: self)
+		  language: (MOLanguage visualBasicApplicationFor: aModel);
+		  yourself
+]
+
 { #category : #accessing }
-MOLanguageObject >> accept: ads [
+MOLanguageObject >> acceptLanguageVisitor: aVisitor [
+
+	| selector |
+	selector := ('visit{1}{2}:' format: { 
+			             self language name capitalized.
+			             (self className copyFrom: 3 to: self className size) })
+		            asSymbol.
+	^ aVisitor perform: selector withArguments: { self }
 ]
 
 { #category : #accessing }
@@ -63,6 +78,11 @@ MOLanguageObject >> dependencies [
 ]
 
 { #category : #accessing }
+MOLanguageObject >> language [
+	^ language
+]
+
+{ #category : #accessing }
 MOLanguageObject >> language: aMOLanguage [ 
 	language := aMOLanguage
 ]
@@ -70,10 +90,7 @@ MOLanguageObject >> language: aMOLanguage [
 { #category : #generated }
 MOLanguageObject >> produceCode [
 
-	| gen |
-	gen := MOTypescriptCodeGenerator new.
-	self acceptVisitor: gen.
-	^ gen sourceCode
+	^ self language newCodeTextWriter produceCodeFor: self
 ]
 
 { #category : #generated }
@@ -81,7 +98,7 @@ MOLanguageObject >> sourceCode [
 
 	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ 
 		  | gen |
-		  gen := MOTypescriptCodeGenerator new.
+		  gen := MOCodeGenerator new.
 		  self acceptVisitor: gen.
 		  gen sourceCode ]
 ]

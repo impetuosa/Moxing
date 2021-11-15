@@ -1,10 +1,10 @@
 Class {
 	#name : #MOInterfaceBrush,
-	#superclass : #MOBrush,
+	#superclass : #MOCompositeBrush,
 	#category : #'Moxing-Brushes'
 }
 
 { #category : #'as yet unclassified' }
-MOInterfaceBrush >> writesType [
+MOInterfaceBrush class >> writesType [
 	^ true
 ]

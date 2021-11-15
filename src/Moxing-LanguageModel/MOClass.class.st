@@ -25,6 +25,12 @@ MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #adding }
+MOClass >> addFunction: aMOFunction [
+
+	methods add: aMOFunction
+]
+
+{ #category : #adding }
 MOClass >> addMethod: aJinTypescriptMethod [ 
 	methods  add: aJinTypescriptMethod .
 	aJinTypescriptMethod setOwnerClass: self . 
@@ -43,6 +49,12 @@ MOClass >> dependencies [
 			str
 				nextPutAll: (superclass ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
 	^ MOImport compressDependencyCollection: deps
+]
+
+{ #category : #generated }
+MOClass >> hierarchicalChildren [
+
+	^ self properties , self methods
 ]
 
 { #category : #generated }

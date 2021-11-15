@@ -27,6 +27,11 @@ MOObject >> acceptVisitor: aVisitor [
 	self subclassResponsibility 
 ]
 
+{ #category : #'as yet unclassified' }
+MOObject >> hierarchicalChildren [
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 MOObject >> parent [
 	^ parent

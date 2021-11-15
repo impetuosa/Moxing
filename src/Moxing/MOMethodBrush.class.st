@@ -1,6 +1,6 @@
 Class {
 	#name : #MOMethodBrush,
-	#superclass : #MOBrush,
+	#superclass : #MOCompositeBrush,
 	#instVars : [
 		'entity',
 		'writer'
@@ -8,18 +8,33 @@ Class {
 	#category : #'Moxing-Brushes'
 }
 
+{ #category : #'as yet unclassified' }
+MOMethodBrush class >> writesInvocableBehaviour [
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
+MOMethodBrush >> applyTransformationsIfAnyOn: aMOJavaModelWriter [
+
+	policyTransformationMapping ifNotEmpty: [ 
+		MOTransformationApplier newMethodLevelApplication
+			transformations: policyTransformationMapping;
+			writer: aMOJavaModelWriter;
+			transform: entity ]
+]
+
 { #category : #visiting }
 MOMethodBrush >> visitFunction: aMOFunction [
 
 	entity ifNotNil: [ self halt ].
 	entity := writer instantiate: MOMethod forReplacing: aMOFunction.
-	entity visibility: aMOFunction visibility.
-	entity parameters: aMOFunction parameters.
-	entity selector: aMOFunction selector.
-	entity modifiers: aMOFunction modifiers.
+	entity visibility: aMOFunction visibility copy.
+	entity parameters: (aMOFunction parameters collect: [ :p | p copy ]).
+	entity selector: aMOFunction selector copy.
+	entity modifiers: (aMOFunction modifiers collect: [ :p | p copy ]).
 	entity modifiers add: #static.
-	entity type: aMOFunction type.
-	entity block: aMOFunction block
+	entity type: aMOFunction type copy.
+	entity block: aMOFunction block copy
 ]
 
 { #category : #writing }
@@ -28,11 +43,11 @@ MOMethodBrush >> write: aMOFunction into: aMOJavaModelWriter [
 	entity := nil.
 	writer := aMOJavaModelWriter.
 	aMOFunction acceptVisitor: self.
-	aMOJavaModelWriter writeMethod: entity.
-	^ entity
-]
+	writer writeMethod: entity. 
+	self applyTransformationsIfAnyOn: aMOJavaModelWriter.
 
-{ #category : #'as yet unclassified' }
-MOMethodBrush >> writesInvocableBehaviour [
-	^ true
+
+
+
+	^ entity
 ]

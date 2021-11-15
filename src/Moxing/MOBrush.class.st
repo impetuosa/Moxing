@@ -1,15 +1,30 @@
 Class {
 	#name : #MOBrush,
 	#superclass : #Object,
-	#classInstVars : [
-		'instance'
+	#instVars : [
+		'policyTransformationMapping'
 	],
 	#category : #'Moxing-Brushes'
 }
 
+{ #category : #'as yet unclassified' }
+MOBrush class >> writesClass [
+	^ false 
+]
+
+{ #category : #'as yet unclassified' }
+MOBrush class >> writesInvocableBehaviour [
+	^ false 
+]
+
+{ #category : #'as yet unclassified' }
+MOBrush class >> writesType [
+	^ false 
+]
+
 { #category : #accessing }
-MOBrush class >> instance [ 
-	^ instance ifNil: [  instance := self new. ]
+MOBrush >> policyTransformationMapping: aCollection [ 
+	policyTransformationMapping := aCollection
 ]
 
 { #category : #writing }
@@ -20,19 +35,4 @@ MOBrush >> write: anEntity into: aWriter [
 { #category : #writing }
 MOBrush >> write: anEntity into: aWriter with: aBlockClosure [
 	self subclassResponsibility 
-]
-
-{ #category : #'as yet unclassified' }
-MOBrush >> writesClass [
-	^ false 
-]
-
-{ #category : #'as yet unclassified' }
-MOBrush >> writesInvocableBehaviour [
-	^ false 
-]
-
-{ #category : #'as yet unclassified' }
-MOBrush >> writesType [
-	^ false 
 ]

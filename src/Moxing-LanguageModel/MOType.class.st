@@ -4,10 +4,15 @@ Class {
 	#instVars : [
 		'package',
 		'modifiers',
-		'variables'
+		'visibility'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
+
+{ #category : #accessing }
+MOType >> modifiers [
+	^ modifiers
+]
 
 { #category : #accessing }
 MOType >> modifiers: aSet [
@@ -15,6 +20,12 @@ MOType >> modifiers: aSet [
 ]
 
 { #category : #accessing }
+MOType >> visibility [
+	^ visibility
+]
+
+{ #category : #accessing }
 MOType >> visibility: aVisibility [ 
 	
+	visibility :=  aVisibility 
 ]

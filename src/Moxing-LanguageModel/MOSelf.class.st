@@ -7,6 +7,11 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
+{ #category : #accessing }
+MOSelf >> acceptVisitor: aMOJavaCodeGenerator [ 
+	aMOJavaCodeGenerator visitSelfReference: self 
+]
+
 { #category : #initialization }
 MOSelf >> setOwnerClass: aMOClass [
 

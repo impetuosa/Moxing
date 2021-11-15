@@ -19,6 +19,14 @@ MOFunction >> dependencies [
 	  , (type ifNotNil: [ :t | t dependencies ] ifNil: [ {  } ])
 ]
 
+{ #category : #'as yet unclassified' }
+MOFunction >> fullSelector [
+
+	^ '{1}.{2}' format: { 
+			  parent name.
+			  selector }
+]
+
 { #category : #generated }
 MOFunction >> type [ 
 	^ type

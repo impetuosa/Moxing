@@ -1,5 +1,5 @@
 Class {
-	#name : #MOAnnotationBrush,
+	#name : #MOTryCatchBrush,
 	#superclass : #MOCompositeBrush,
 	#category : #'Moxing-Brushes'
 }

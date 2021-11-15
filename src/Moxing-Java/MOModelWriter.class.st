@@ -5,15 +5,35 @@ Class {
 		'destinationModel',
 		'surface',
 		'brush',
-		'replace'
+		'replace',
+		'transformations',
+		'derivativeModel'
 	],
 	#category : #'Moxing-Java-Writer'
 }
+
+{ #category : #public }
+MOModelWriter >> apply: aCollectionOfTransform to: anEntity [ 
+
+	transformations := aCollectionOfTransform. 
+	anEntity acceptVisitor: self. 
+	self halt. 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> apply: aCollection to: anEntity thenValue: aFullBlockClosure [ 
+	anEntity allHierarchicalChildren
+]
 
 { #category : #accessing }
 MOModelWriter >> brush: aMOMethodBrush [
 
 	brush := aMOMethodBrush
+]
+
+{ #category : #'instance creation' }
+MOModelWriter >> instantiate: aClass [ 
+	^ destinationModel instantiate: aClass
 ]
 
 { #category : #'as yet unclassified' }
@@ -37,9 +57,40 @@ MOModelWriter >> surface: aMOClass [
 	surface := aMOClass
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelWriter >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
+
+	derivativeModel swap: aMOExit with: aMOReturnEmpty context: aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> useSurface: aMOClass during: aFullBlockClosure [
+
+	| previousSurface |
+	previousSurface := surface.
+	surface := aMOClass.
+	^ aFullBlockClosure ensure: [ surface := previousSurface ]
+]
+
 { #category : #writing }
 MOModelWriter >> write: aMOFunction with: aMOModelDerivative [
 
 	replace := Dictionary new.
+	derivativeModel := aMOModelDerivative.
 	^ brush write: aMOFunction into: self
+]
+
+{ #category : #writing }
+MOModelWriter >> writeClass: aMOClass [
+
+	aMOClass language: surface language.
+	surface addType: aMOClass.
+	aMOClass parent: surface. 
+]
+
+{ #category : #writing }
+MOModelWriter >> writeMethod: aMOMethod [
+	aMOMethod language: surface language. 
+	surface addMethod: aMOMethod.
+	aMOMethod parent: surface. 
 ]

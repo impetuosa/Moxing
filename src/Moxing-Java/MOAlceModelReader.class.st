@@ -66,7 +66,9 @@ MOAlceModelReader >> installFunctionReturn: aMOBlock astNode: aVBFunctionDefinit
 			          #return.
 			          aVBFunctionDefinitionNode }.
 	return expression: reference.
-	aMOBlock addStatement: return. 
+	aMOBlock addStatement: return.
+	return parent: aMOBlock.
+	^ return .
 	
 
 
@@ -104,8 +106,11 @@ MOAlceModelReader >> installSelfVariable: anAlcixAttribute into: aMOClass [
 MOAlceModelReader >> instantiate: aClass for: anAlcixFunction [
 
 	| element |
-	element := model instantiate: aClass.
+	element := aClass newVisualBasicApplicationFor: model.
 	createdElements at: anAlcixFunction put: element.
+	self
+		withTop: [ :top | element parent: top ]
+		ifEmpty: [ " nothing to set. i am root " ].
 	^ element
 ]
 
@@ -150,7 +155,10 @@ MOAlceModelReader >> loadBlock: aVBBlockNode [
 { #category : #'as yet unclassified' }
 MOAlceModelReader >> loadBlock: aVBBlockNode into: aMOBlock [
 
-	self push: aMOBlock during: [ self visitProgram: aVBBlockNode ]
+	self withTop: [ :t | aMOBlock parent: t ].
+	self push: aMOBlock during: [ 
+		(self visitProgram: aVBBlockNode) do: [ :statement | 
+			aMOBlock addStatement: statement ] ]
 ]
 
 { #category : #accessing }
@@ -174,7 +182,6 @@ MOAlceModelReader >> pushContext: aValue during: aBlock [
 
 { #category : #'meta-object-protocol' }
 MOAlceModelReader >> read: anAlcixFunction [
-self halt.
 	read := anAlcixFunction accept: self.
 	^ read
 ]
@@ -229,6 +236,13 @@ MOAlceModelReader >> variableReference: anAlcixAccess for: aVBSimpleIdentifierNo
 ]
 
 { #category : #visiting }
+MOAlceModelReader >> visitAccess: anAlcixAccess [
+
+	^ self withCurrentContext: [ :arg | 
+		  self variableReference: anAlcixAccess for: arg ]
+]
+
+{ #category : #visiting }
 MOAlceModelReader >> visitArgument: aVBArgumentNode [
 
 	| name argumentContext |
@@ -244,8 +258,8 @@ MOAlceModelReader >> visitArgument: aVBArgumentNode [
 		(argumentContext outgoingAccesses first isKindOf: AlcixAccess).
 
 	^ self
-		  variableReference: argumentContext outgoingAccesses first
-		  for: aVBArgumentNode
+		  pushContext: aVBArgumentNode
+		  during: [ argumentContext outgoingAccesses first accept: self ]
 ]
 
 { #category : #visiting }
@@ -305,10 +319,11 @@ MOAlceModelReader >> visitClass: anAlcixClass [
 		installSelfVariable:
 		(anAlcixClass members detect: [ :me | me name = #Me ])
 		into: class.
-	anAlcixClass members
-		reject: [ :a | a name = #Me ]
-		thenDo: [ :m | m accept: self ].
-	anAlcixClass invocables do: [ :m | m accept: self ].
+	self push: class during: [ 
+		anAlcixClass members
+			reject: [ :a | a name = #Me ]
+			thenDo: [ :m | m accept: self ].
+		anAlcixClass invocables do: [ :m | m accept: self ] ].
 	^ class
 ]
 
@@ -382,14 +397,14 @@ MOAlceModelReader >> visitExits: aVBExitsNode [
 
 	| exit |
 	exit := self instantiate: MOExit for: aVBExitsNode.
-	self withTop: [ :top | top addStatement: exit ].
+	self withTop: [ :top | exit parent: top ].
 	^ exit
 ]
 
 { #category : #visiting }
 MOAlceModelReader >> visitExplicitAssignement: aVBExplicitAssignementNode [
 
-	| assignment assignmentContext writeSymbol |
+	| assignment assignmentContext |
 	assignmentContext := self withCurrentContext: [ :c | 
 		                     c assignments , c returns select: [ :n | 
 			                     n anchor srcFrom
@@ -417,7 +432,7 @@ MOAlceModelReader >> visitExplicitAssignement: aVBExplicitAssignementNode [
 		assignment read:
 			(aVBExplicitAssignementNode right acceptVisitor: self) ].
 
-	self withTop: [ :blc | blc addStatement: assignment ].
+	self withTop: [ :blc | assignment parent: blc ].
 	^ assignment
 ]
 
@@ -436,6 +451,7 @@ MOAlceModelReader >> visitFunctionDefinition: aVBFunctionDefinitionNode [
 
 	| function |
 	function := self withCurrentContext: [ :fn | 
+
 		            function := self instantiate: MOFunction for: fn.
 		            function selector: fn selector.
 		            function block:
@@ -454,7 +470,9 @@ MOAlceModelReader >> visitFunctionDefinition: aVBFunctionDefinitionNode [
 
 	self push: function during: [ 
 		self visitProgram: aVBFunctionDefinitionNode.
-		self loadBlock: aVBFunctionDefinitionNode block into: function block ].
+		self loadBlock: aVBFunctionDefinitionNode block into: function block.
+	
+		 ].
 
 	self
 		installFunctionReturn: function block
@@ -473,7 +491,7 @@ MOAlceModelReader >> visitIfThenElse: aVBIfThenElseNode [
 	self push: if during: [ 
 		if condition: (aVBIfThenElseNode condition acceptVisitor: self).
 		if ifTrue: (self loadBlock: aVBIfThenElseNode ifTrue) ].
-	self withTop: [ :t | t addStatement: if ].
+	self withTop: [ :t | if parent: t ].
 	^ if
 ]
 
@@ -551,9 +569,11 @@ MOAlceModelReader >> visitOnErrorGoTo: aVBOnErrorGoToNode [
 	| onError tag |
 	self assert: aVBOnErrorGoToNode to destination labels size = 1.
 	tag := aVBOnErrorGoToNode to destination labels first source.
-	onError := self instantiate: MOOnErrorGoToLabel for: aVBOnErrorGoToNode.
+	onError := self
+		           instantiate: MOOnErrorGoToLabel
+		           for: aVBOnErrorGoToNode.
 	onError destination: tag.
-	self withTop: [ :t | t addStatement: onError ].
+	self withTop: [ :t | onError parent: t ].
 	^ onError
 ]
 
@@ -617,7 +637,7 @@ MOAlceModelReader >> visitResumeLabel: aVBResumeLabelNode [
 	tag := aVBResumeLabelNode destination labels first source.
 	resume := self instantiate: MOResumeFromLabel for: aVBResumeLabelNode.
 	resume destination: tag.
-	self withTop: [ :t | t addStatement: resume ].
+	self withTop: [ :t | resume parent: t ].
 	^ resume
 ]
 

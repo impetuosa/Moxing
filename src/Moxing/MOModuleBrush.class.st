@@ -1,5 +1,5 @@
 Class {
 	#name : #MOModuleBrush,
-	#superclass : #MOBrush,
+	#superclass : #MOCompositeBrush,
 	#category : #'Moxing-Brushes'
 }
