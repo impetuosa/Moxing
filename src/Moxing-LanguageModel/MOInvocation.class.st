@@ -1,10 +1,9 @@
 Class {
 	#name : #MOInvocation,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOReference,
 	#instVars : [
 		'selector',
-		'arguments',
-		'candidates'
+		'arguments'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -12,11 +11,6 @@ Class {
 { #category : #accessing }
 MOInvocation >> acceptVisitor: aMOTransformationApplier [ 
 	aMOTransformationApplier visitInvocation: self 
-]
-
-{ #category : #accessing }
-MOInvocation >> addCandidate: aCandidate [
-	candidates add: aCandidate
 ]
 
 { #category : #accessing }
@@ -28,13 +22,6 @@ MOInvocation >> arguments [
 MOInvocation >> arguments: aCollection [ 
 	aCollection isCollection ifFalse: [ self halt  ].
 	arguments := aCollection
-]
-
-{ #category : #accessing }
-MOInvocation >> initialize [
-
-	super initialize.
-	candidates := Set new.
 ]
 
 { #category : #accessing }

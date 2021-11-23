@@ -1,9 +1,6 @@
 Class {
 	#name : #MOTypeReference,
-	#superclass : #MOLanguageObject,
-	#instVars : [
-		'type'
-	],
+	#superclass : #MOReference,
 	#category : #'Moxing-LanguageModel-Model'
 }
 
@@ -24,14 +21,4 @@ MOTypeReference >> printOn: aStream [
 	aStream
 		nextPutAll: '->';
 		nextPutAll: type name
-]
-
-{ #category : #accessing }
-MOTypeReference >> type [
-	^ type
-]
-
-{ #category : #accessing }
-MOTypeReference >> type: aMOClass [ 
-	type := aMOClass
 ]

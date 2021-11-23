@@ -15,8 +15,11 @@ MOModelBuilderTestCase >> assert: newClass isKindOf: aType [
 
 { #category : #running }
 MOModelBuilderTestCase >> setUp [
-	super setUp. 
+
+	super setUp.
 	builder := MOModelBuilder new.
+	builder language:
+		((MOLanguage newFor: builder model) name: 'TestLang') yourself
 ]
 
 { #category : #running }
@@ -78,11 +81,15 @@ MOModelBuilderTestCase >> testNewPackageGetsYouAPackage [
 
 { #category : #running }
 MOModelBuilderTestCase >> testNewSubPackage [
-	| pack |
-	pack :=  (builder newPackageNamed: #pack withParent: (builder newPackageNamed: #name)).
-	
+
+	| pack parent |
+	parent := builder newPackageNamed: #name.
+	pack := builder newPackageNamed: #pack withParent: parent.
+
 	self assert: pack isKindOf: MOPackage.
-	self assert: pack parent 
+	self assert: pack parent isKindOf: MOPackageReference.
+	self assert: pack parent candidate equals: parent.
+	self assert: (parent subpackages includes: pack)
 ]
 
 { #category : #running }

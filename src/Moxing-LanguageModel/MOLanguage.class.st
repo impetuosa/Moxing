@@ -47,6 +47,11 @@ MOLanguage class >> microsoftAccessForAlceModel: anAlcixModel [
 			                     yourself ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOLanguage class >> newFor: aModel [ 	
+	^ aModel instantiate: self 
+]
+
 { #category : #accessing }
 MOLanguage class >> resetLangs [
 
