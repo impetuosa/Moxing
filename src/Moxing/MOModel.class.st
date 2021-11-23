@@ -45,3 +45,10 @@ MOModel >> instantiate: aClass [
 	entities add: instance.
 	^ instance
 ]
+
+{ #category : #'as yet unclassified' }
+MOModel >> rootPackages [
+
+	^ entities select: [ :a | 
+		  (a isKindOf: MOPackage) and: [ a parent = self ] ]
+]

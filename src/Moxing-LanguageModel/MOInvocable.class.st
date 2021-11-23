@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : #adding }
+MOInvocable >> addModifier: aString [
+
+	modifiers add: aString
+]
+
+{ #category : #adding }
 MOInvocable >> addParameter: aJinVariable [ 
 	parameters add: aJinVariable 
 ]

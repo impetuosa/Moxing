@@ -153,7 +153,6 @@ MOJavapASTClassLoader >> visitFieldDeclaration: aFieldDeclaration [
 	| field type |
 	(self hasPublicModifier: aFieldDeclaration) ifFalse: [ ^ self ].
 
-
 	type := self typeReferenceTo: aFieldDeclaration type.
 
 	aFieldDeclaration variableDeclarations do: [ :vd | 

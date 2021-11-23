@@ -28,7 +28,7 @@ MOAssignReturnToReturnExpressionTransform >> calculateNewNodeFor: aMOExit onTheC
 
 	return := aMOTransformationApplier instantiate: MOReturn for: aMOExit.
 	reference := aMOTransformationApplier instantiate:
-		             MOVariableRererence.
+		             MOVariableReference.
 	reference variable: returningVariable.
 	return expression: reference.
 	^ return

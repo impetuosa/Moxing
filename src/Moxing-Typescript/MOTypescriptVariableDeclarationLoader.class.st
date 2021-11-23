@@ -8,10 +8,10 @@ Class {
 MOTypescriptVariableDeclarationLoader >> visitTypeName: aTypeName [
 
 	self assert: aTypeName names size = 1.
-	result type: ((MOTypeReference newForTypescriptIn: model) name:
+	result typeReference: ((MOTypeReference newForTypescriptIn: model) name:
 			 aTypeName names first name value).
-	result type parent: result. 
-	result type anchor: result anchor / #typereference / result type name
+	result typeReference parent: result. 
+	result typeReference anchor: result anchor / #typereference / result typeReference name
 ]
 
 { #category : #generated }
@@ -22,8 +22,8 @@ MOTypescriptVariableDeclarationLoader >> visitVariableDeclaration: aVariableDecl
 	result anchor: anchor . 
 	result name: aVariableDeclaration variable name value.
 	super visitVariableDeclaration: aVariableDeclaration.
-	result type ifNil: [ 
-		result type: (MOTypescriptTypeLoader new
+	result typeReference  ifNil: [ 
+		result typeReference: (MOTypescriptTypeLoader new
 				 types: types;
 				 model: model;
 				 any) ]

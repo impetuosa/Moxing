@@ -6,7 +6,8 @@ Class {
 		'mooseModel',
 		'model',
 		'stack',
-		'mapping'
+		'mapping',
+		'contextStack'
 	],
 	#category : #'Moxing-Java-Loader'
 }
@@ -17,7 +18,8 @@ MOJavaMooseBasedLoader >> initialize [
 	super initialize.
 	
 	stack := Stack new.
-	mapping := Dictionary new
+	mapping := Dictionary new.
+	contextStack := Stack new
 ]
 
 { #category : #visiting }
@@ -72,10 +74,17 @@ MOJavaMooseBasedLoader >> push: aValue during: aBlock [
 ]
 
 { #category : #visiting }
+MOJavaMooseBasedLoader >> pushContext: aValue during: aBlock [
+	contextStack push: aValue.
+	^ aBlock
+		ensure: [ contextStack pop ]
+]
+
+{ #category : #visiting }
 MOJavaMooseBasedLoader >> visitAnnotationType: aFamixJavaAnnotationType [
 
 	| class |
-	class := self instantiate: MOAnnotation for: aFamixJavaAnnotationType.
+	class := self instantiate: MOAnnotationType for: aFamixJavaAnnotationType.
 	class name: aFamixJavaAnnotationType name.
 	self withTop: [ :top | 
 		top addType: class.
@@ -96,7 +105,7 @@ MOJavaMooseBasedLoader >> visitClass: aFamixJavaClass [
 { #category : #visiting }
 MOJavaMooseBasedLoader >> visitCollection: aCollection [
 
-	aCollection do: [ :a | a accept: self ]
+	^ aCollection collect: [ :a | a accept: self ]
 ]
 
 { #category : #visiting }
@@ -145,6 +154,20 @@ MOJavaMooseBasedLoader >> visitParameterizedType: aFamixJavaParameterizedType [
 ]
 
 { #category : #visiting }
+MOJavaMooseBasedLoader >> withCurrentContext: aBlock [
+
+	^ self withCurrentContext: aBlock ifEmpty: [ self error: 'Stack is empty!' ]
+]
+
+{ #category : #visiting }
+MOJavaMooseBasedLoader >> withCurrentContext: aBlock ifEmpty: aanEmptyBlock [
+
+	^ contextStack
+		  ifEmpty: aanEmptyBlock
+		  ifNotEmpty: [ aBlock value: contextStack top ]
+]
+
+{ #category : #visiting }
 MOJavaMooseBasedLoader >> withTop: aBlock [
 
 	^ self withTop: aBlock ifEmpty: [ self error: 'Stack is empty!' ]
@@ -153,7 +176,7 @@ MOJavaMooseBasedLoader >> withTop: aBlock [
 { #category : #visiting }
 MOJavaMooseBasedLoader >> withTop: aBlock ifEmpty: aanEmptyBlock [
 
-	stack ifEmpty: aanEmptyBlock ifNotEmpty: [ aBlock value: stack top ]
+	^ stack ifEmpty: aanEmptyBlock ifNotEmpty: [ aBlock value: stack top ]
 ]
 
 { #category : #configuration }

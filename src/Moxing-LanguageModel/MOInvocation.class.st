@@ -2,8 +2,9 @@ Class {
 	#name : #MOInvocation,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'invocable',
-		'arguments'
+		'selector',
+		'arguments',
+		'candidates'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -14,16 +15,44 @@ MOInvocation >> acceptVisitor: aMOTransformationApplier [
 ]
 
 { #category : #accessing }
+MOInvocation >> addCandidate: aCandidate [
+	candidates add: aCandidate
+]
+
+{ #category : #accessing }
 MOInvocation >> arguments [
-	^ arguments
+	^ arguments ifNil: [  arguments := OrderedCollection new ]
+]
+
+{ #category : #'as yet unclassified' }
+MOInvocation >> arguments: aCollection [ 
+	aCollection isCollection ifFalse: [ self halt  ].
+	arguments := aCollection
 ]
 
 { #category : #accessing }
-MOInvocation >> invocable [
-	^ invocable
+MOInvocation >> initialize [
+
+	super initialize.
+	candidates := Set new.
 ]
 
 { #category : #accessing }
-MOInvocation >> invocable: aMOFunction [ 
-	invocable := aMOFunction
+MOInvocation >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'CALL ';
+		nextPutAll: selector;
+		nextPutAll: '\';
+		nextPutAll: arguments size asString
+]
+
+{ #category : #accessing }
+MOInvocation >> selector [
+	^ selector
+]
+
+{ #category : #accessing }
+MOInvocation >> selector: aString [ 
+	selector := aString
 ]

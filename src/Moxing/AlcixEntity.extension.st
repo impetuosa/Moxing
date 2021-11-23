@@ -2,5 +2,6 @@ Extension { #name : #AlcixEntity }
 
 { #category : #'*Moxing' }
 AlcixEntity >> language [
-	self shouldBeImplemented.
+
+	^ MOLanguage microsoftAccessForAlceModel: mooseModel 
 ]

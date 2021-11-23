@@ -6,7 +6,7 @@ Class {
 
 { #category : #visiting }
 MOMethod >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitMethod: self 
+		^ aJinInspectorBuilder visitMethod: self 
 ]
 
 { #category : #adding }

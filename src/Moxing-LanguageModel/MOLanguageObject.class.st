@@ -25,10 +25,10 @@ MOLanguageObject class >> newForTypescriptIn: aModel [
 ]
 
 { #category : #'instance creation' }
-MOLanguageObject class >> newVisualBasicApplicationFor: aModel [
+MOLanguageObject class >> newMicrosoftAccessFor: aModel [
 
 	^ (aModel instantiate: self)
-		  language: (MOLanguage visualBasicApplicationFor: aModel);
+		  language: (MOLanguage microsoftAccessFor: aModel);
 		  yourself
 ]
 
@@ -70,6 +70,11 @@ MOLanguageObject >> anchorFrom: aJSDecoratorExpressionNode at: aFileReference [
 { #category : #generated }
 MOLanguageObject >> annotations [
 	^ annotations ifNil: [ annotations := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOLanguageObject >> annotations: aCollection [ 
+	annotations := aCollection
 ]
 
 { #category : #'as yet unclassified' }

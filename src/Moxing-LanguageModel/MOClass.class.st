@@ -36,6 +36,16 @@ MOClass >> addMethod: aJinTypescriptMethod [
 	aJinTypescriptMethod setOwnerClass: self . 
 ]
 
+{ #category : #'as yet unclassified' }
+MOClass >> allVisibleMethods [
+
+	^ methods
+	  ,
+	  (superclass
+		   ifNotNil: [ superclass allVisibleMethods ]
+		   ifNil: [ {  } ])
+]
+
 { #category : #generated }
 MOClass >> dependencies [
 	| deps |

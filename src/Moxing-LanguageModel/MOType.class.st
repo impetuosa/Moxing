@@ -10,6 +10,19 @@ Class {
 }
 
 { #category : #accessing }
+MOType >> addModifier: aModifier [
+
+	modifiers add: aModifier
+]
+
+{ #category : #accessing }
+MOType >> initialize [
+
+	super initialize.
+	modifiers := OrderedCollection new
+]
+
+{ #category : #accessing }
 MOType >> modifiers [
 	^ modifiers
 ]

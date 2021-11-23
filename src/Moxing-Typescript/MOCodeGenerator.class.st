@@ -9,6 +9,18 @@ Class {
 	#category : #'Moxing-Typescript-Writting'
 }
 
+{ #category : #visiting }
+MOCodeGenerator >> blockDelimiterClose [
+
+	^ '}'
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> blockDelimiterOpen [
+
+	^ '{'
+]
+
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> increaseDeepDuring: aFullBlockClosure [
 
@@ -29,6 +41,11 @@ MOCodeGenerator >> initialize [
 	super initialize.
 	stream := '' writeStream.
 	indentation := 0
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> lineDelimiter [  
+	^ ';' 
 ]
 
 { #category : #printing }
@@ -84,18 +101,18 @@ MOCodeGenerator >> visitAssignment: aMOAssignment [
 MOCodeGenerator >> visitBlock: aMOBlock [
 
 	stream
-		nextPutAll: '{';
+		nextPutAll: self blockDelimiterOpen ;
 		newLine.
 	self increaseDeepDuring: [ 
 		aMOBlock statements do: [ :s | 
 			self printIndentation.
 			s acceptVisitor: self.
 
-			(self requiresTerminator: s) ifTrue: [ stream nextPutAll: ';' ].
+			(self requiresTerminator: s) ifTrue: [ stream nextPutAll: self lineDelimiter].
 			stream newLine ] ].
 	self printIndentation.
 	stream
-		nextPutAll: '}';
+		nextPutAll: self blockDelimiterClose ;
 		newLine
 ]
 
@@ -194,6 +211,12 @@ MOCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 		nextPutAll: '"';
 		nextPutAll: aMOStringLiteral literal;
 		nextPutAll: '"'
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> visitTransientClass: aMOTransientClass [
+
+	^ self visitClass: aMOTransientClass
 ]
 
 { #category : #visiting }

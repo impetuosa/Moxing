@@ -1,9 +1,8 @@
 Class {
 	#name : #MONewExpression,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOInvocation,
 	#instVars : [
-		'type',
-		'arguments'
+		'typeReference'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -14,26 +13,27 @@ MONewExpression >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #'as yet unclassified' }
-MONewExpression >> arguments [
-	^ arguments
-]
-
-{ #category : #'as yet unclassified' }
-MONewExpression >> arguments: aCollection [ 
-	arguments := aCollection
-]
-
-{ #category : #'as yet unclassified' }
 MONewExpression >> dependencies [
-	^ type dependencies 
+	^ typeReference dependencies 
 ]
 
 { #category : #'as yet unclassified' }
-MONewExpression >> type [
-	^ type
+MONewExpression >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'CALL NEW ';
+		nextPutAll: typeReference name;
+		nextPutAll: '\';
+		nextPutAll:
+			(arguments ifNil: [ 0 ] ifNotNil: [ :a | a size ]) asString
 ]
 
 { #category : #'as yet unclassified' }
-MONewExpression >> type: aMOTypescriptImportedTypeReference [
-	type := aMOTypescriptImportedTypeReference
+MONewExpression >> typeReference [
+	^ typeReference
+]
+
+{ #category : #'as yet unclassified' }
+MONewExpression >> typeReference: aMOTypescriptImportedTypeReference [
+	typeReference := aMOTypescriptImportedTypeReference
 ]

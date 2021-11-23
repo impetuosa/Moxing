@@ -53,5 +53,13 @@ MOCatalog >> name: aString [
 
 { #category : #accessing }
 MOCatalog >> packages [
-	^ entities select: [ : a | a isKindOf: MOPackage ]
+
+	^ entities select: [ :a | a isKindOf: MOPackage ]
+]
+
+{ #category : #accessing }
+MOCatalog >> rootPackages [
+
+	^ entities select: [ :a | 
+		  (a isKindOf: MOPackage) and: [ a parent isNil ] ]
 ]

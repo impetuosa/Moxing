@@ -8,7 +8,8 @@ Class {
 	#classInstVars : [
 		'typescript',
 		'java',
-		'visualBasicApplication'
+		'visualBasicApplication',
+		'microsoftAccess'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -22,6 +23,28 @@ MOLanguage class >> javaFor: aMOModel [
 			          returnPolicy: MOReturnExpressionPolicy;
 			          errorPolicy: MOErrorTryCatchPolicy;
 			          yourself ]
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguage class >> microsoftAccessFor: aMOModel [
+
+	^ microsoftAccess ifNil: [ 
+		  microsoftAccess := (aMOModel instantiate: self)
+			                            name: #MicrosoftAccess;
+			                            returnPolicy: MOReturnAssignmentPolicy;
+			                            errorPolicy: MOErrorGoToPolicy;
+			                            yourself ]
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguage class >> microsoftAccessForAlceModel: anAlcixModel [
+
+	^ microsoftAccess ifNil: [ 
+		  microsoftAccess := self newInstanceFromModel
+			                     name: #MicrosoftAccess;
+			                     returnPolicy: MOReturnAssignmentPolicy;
+			                     errorPolicy: MOErrorGoToPolicy;
+			                     yourself ]
 ]
 
 { #category : #accessing }
@@ -41,17 +64,6 @@ MOLanguage class >> typescriptFor: aMOModel [
 			                returnPolicy: MOReturnExpressionPolicy;
 			                errorPolicy: MOErrorTryCatchPolicy;
 			                yourself ]
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguage class >> visualBasicApplicationFor: aMOModel [
-
-	^ visualBasicApplication ifNil: [ 
-		  visualBasicApplication := (aMOModel instantiate: self)
-			                            name: #MicrosoftAccess;
-			                            returnPolicy: MOReturnAssignmentPolicy;
-			                            errorPolicy: MOErrorGoToPolicy;
-			                            yourself ]
 ]
 
 { #category : #printing }
@@ -77,6 +89,11 @@ MOLanguage >> isJava [
 ]
 
 { #category : #testing }
+MOLanguage >> isMicrosoftAccess [
+	^ name = #MicrosoftAccess
+]
+
+{ #category : #testing }
 MOLanguage >> isTypescript [
 	^ name = #typescript
 ]
@@ -86,7 +103,8 @@ MOLanguage >> newCodeTextWriter [
 
 	self isJava ifTrue: [ ^ MOJavaCodeGenerator new ].
 	self isTypescript ifTrue: [ ^ MOTypescriptCodeGenerator new ].
-	self error:  ' non writer available '
+	self isMicrosoftAccess ifTrue: [ ^ MOMicrosoftAccessCodeGenerator  new ].
+	self error: ' non writer available '
 ]
 
 { #category : #printing }

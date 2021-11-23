@@ -7,6 +7,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
+{ #category : #accessing }
+MOTypeReference >> acceptVisitor: aMOJavaModelReader [
+
+	^ aMOJavaModelReader visitTypeReference: self
+]
+
 { #category : #printing }
 MOTypeReference >> isDecorator [
 	 ^ false 
@@ -14,7 +20,15 @@ MOTypeReference >> isDecorator [
 
 { #category : #printing }
 MOTypeReference >> printOn: aStream [
-	aStream nextPutAll: name
+
+	aStream
+		nextPutAll: '->';
+		nextPutAll: type name
+]
+
+{ #category : #accessing }
+MOTypeReference >> type [
+	^ type
 ]
 
 { #category : #accessing }

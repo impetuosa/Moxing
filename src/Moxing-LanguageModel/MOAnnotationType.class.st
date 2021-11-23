@@ -1,5 +1,5 @@
 Class {
-	#name : #MOAnnotation,
+	#name : #MOAnnotationType,
 	#superclass : #MOClass,
 	#category : #'Moxing-LanguageModel-Model'
 }

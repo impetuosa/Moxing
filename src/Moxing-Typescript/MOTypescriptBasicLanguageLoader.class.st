@@ -26,7 +26,7 @@ MOTypescriptBasicLanguageLoader >> addMethod: aSelector type: aReturningTType pa
 		param name: m key. 
 		var addParameter: param. 
 		param parent: var. 
-		param type: ((MOTypescriptPrebuiltTypeReferenceFactory defaultFor: model) 
+		param typeReference: ((MOTypescriptPrebuiltTypeReferenceFactory defaultFor: model) 
 			 typeReference: m value).
 	 ]
 ]
@@ -39,7 +39,7 @@ MOTypescriptBasicLanguageLoader >> addProperty: aPropNAme type: aTypeName into: 
 	var name: aPropNAme.
 	aMOClass addProperty: var.
 	var parent: aMOClass.
-	var type:
+	var typeReference:
 		((MOTypescriptPrebuiltTypeReferenceFactory defaultFor: model) 
 			 typeReference: aTypeName)
 ]

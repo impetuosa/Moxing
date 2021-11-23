@@ -6,8 +6,14 @@ Class {
 		'writer',
 		'transformInstances'
 	],
-	#category : #'Moxing-Java-Writer'
+	#category : #Moxing
 }
+
+{ #category : #'instance creation' }
+MOTransformationApplier class >> newFuctionOrProcedureLevelApplication [
+
+	^ self new
+]
 
 { #category : #'instance creation' }
 MOTransformationApplier class >> newMethodLevelApplication [
@@ -38,8 +44,8 @@ MOTransformationApplier >> basicVisitEntity: aMOVariable [
 { #category : #'as yet unclassified' }
 MOTransformationApplier >> endTransformations [
 
-	transformInstances values do: [ :t | t endTransformation: self ].
-	
+	transformInstances ifNotNil: [ :inst | 
+		inst values do: [ :t | t endTransformation: self ] ]
 ]
 
 { #category : #visiting }
@@ -62,7 +68,7 @@ MOTransformationApplier >> transform: aMOMethod [
 
 	" here i am expecting to refactorize to multiple subclasses according to the entity to transform. but so far i have only one. "
 
-	self assert: (aMOMethod isKindOf: MOMethod).
+
 	aMOMethod acceptVisitor: self.
 	self endTransformations. 
 ]
@@ -180,6 +186,13 @@ MOTransformationApplier >> visitOperator: aFylgjaMissingOperator [
 	aFylgjaMissingOperator left acceptVisitor: self.
 	self visitCollection: aFylgjaMissingOperator right.
 	self basicVisitEntity: aFylgjaMissingOperator
+]
+
+{ #category : #visiting }
+MOTransformationApplier >> visitProcedure: aMOProcedure [
+
+	self visitCollection: aMOProcedure parameters.
+	aMOProcedure block acceptVisitor: self
 ]
 
 { #category : #visiting }

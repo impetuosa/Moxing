@@ -2,11 +2,11 @@ Class {
 	#name : #MOVariable,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'type',
 		'class',
 		'visibility',
 		'defaultValue',
-		'modifiers'
+		'modifiers',
+		'typeReference'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -14,6 +14,12 @@ Class {
 { #category : #accessing }
 MOVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 	aJinTypescriptCodeGenerator visitVariable: self
+]
+
+{ #category : #adding }
+MOVariable >> addModifier: aModifier [
+
+	modifiers add: aModifier
 ]
 
 { #category : #'as yet unclassified' }
@@ -29,10 +35,16 @@ MOVariable >> defaultValue: aMOTypescriptLiteral [
 { #category : #accessing }
 MOVariable >> dependencies [
 	| deps |
-	deps := type ifNotNil: [ type dependencies ] ifNil: [ {} ].
+	deps := typeReference ifNotNil: [ typeReference dependencies ] ifNil: [ {} ].
 	^ defaultValue
 		ifNil: [ deps ]
 		ifNotNil: [ deps , defaultValue dependencies ]
+]
+
+{ #category : #accessing }
+MOVariable >> initialize [ 
+	super initialize.
+	modifiers := OrderedCollection new
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,13 +59,20 @@ MOVariable >> modifiers: aSet [
 ]
 
 { #category : #accessing }
+MOVariable >> name: aName [
+
+	name = 'hibernateProperties' ifTrue: [ self halt ].
+	super name: aName
+]
+
+{ #category : #accessing }
 MOVariable >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'VD:';
 		nextPutAll: name;
 		nextPutAll: '(';
-		nextPutAll: (type ifNil: [ ' unknown' ] ifNotNil: [ :t | t name ]);
+		nextPutAll: (typeReference ifNil: [ ' unknown' ] ifNotNil: [ :t | t type name ]);
 		nextPutAll: ')'
 ]
 
@@ -62,16 +81,22 @@ MOVariable >> setOwnerClass: aClassObject [
 	class := aClassObject 
 ]
 
-{ #category : #accessing }
+{ #category : #generated }
 MOVariable >> type [
-	^ type
+
+	^ typeReference type
 ]
 
 { #category : #accessing }
-MOVariable >> type: aJinTypescriptTypeReference [ 
-(	aJinTypescriptTypeReference isKindOf: MOTypescriptTypeLoader ) ifTrue: [ self halt  ].
+MOVariable >> typeReference [
+	^ typeReference
+]
 
-	type := aJinTypescriptTypeReference
+{ #category : #accessing }
+MOVariable >> typeReference: aJinTypescriptTypeReference [ 
+(	aJinTypescriptTypeReference isNil) ifTrue: [ self halt  ].
+
+	typeReference := aJinTypescriptTypeReference
 ]
 
 { #category : #'as yet unclassified' }

@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #visiting }
-MOProcedure >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitProcedure: self 
+MOProcedure >> acceptVisitor: aJinInspectorBuilder [
+	^ aJinInspectorBuilder visitProcedure: self
 ]
 
 { #category : #accessing }

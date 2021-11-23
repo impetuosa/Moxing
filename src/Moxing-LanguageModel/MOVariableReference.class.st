@@ -1,5 +1,5 @@
 Class {
-	#name : #MOVariableRererence,
+	#name : #MOVariableReference,
 	#superclass : #MOLanguageObject,
 	#instVars : [
 		'variable'
@@ -8,18 +8,23 @@ Class {
 }
 
 { #category : #visiting }
-MOVariableRererence >> acceptVisitor: aMOTypescriptCodeGenerator [
+MOVariableReference >> acceptVisitor: aMOTypescriptCodeGenerator [
 
 	aMOTypescriptCodeGenerator visitVariableReference:
 		self
 ]
 
+{ #category : #generated }
+MOVariableReference >> type [
+	^ variable type 
+]
+
 { #category : #accessing }
-MOVariableRererence >> variable [
+MOVariableReference >> variable [
 	^ variable
 ]
 
 { #category : #accessing }
-MOVariableRererence >> variable: aMOVariable [ 
+MOVariableReference >> variable: aMOVariable [ 
 	variable := aMOVariable
 ]
