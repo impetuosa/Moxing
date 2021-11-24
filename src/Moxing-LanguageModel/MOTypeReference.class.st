@@ -1,6 +1,6 @@
 Class {
 	#name : #MOTypeReference,
-	#superclass : #MOReference,
+	#superclass : #MOTypedReference,
 	#category : #'Moxing-LanguageModel-Model'
 }
 
@@ -20,5 +20,10 @@ MOTypeReference >> printOn: aStream [
 
 	aStream
 		nextPutAll: '->';
-		nextPutAll: type name
+		nextPutAll: self name
+]
+
+{ #category : #printing }
+MOTypeReference >> type [ 
+	^ candidate
 ]

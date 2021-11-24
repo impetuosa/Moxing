@@ -23,5 +23,5 @@ MOMethod >> printOn: aStream [
 		nextPutAll: '/';
 		nextPutAll: parameters size asString;
 		nextPutAll: '=>';
-		nextPutAll: (type ifNil: [ 'void' ] ifNotNil: [ :t | t name ])
+		nextPutAll: (returnTypeReference ifNil: [ 'void' ] ifNotNil: [ :t | t name ])
 ]

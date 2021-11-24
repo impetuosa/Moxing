@@ -12,6 +12,12 @@ MOSelf >> acceptVisitor: aMOJavaCodeGenerator [
 	aMOJavaCodeGenerator visitSelfReference: self 
 ]
 
+{ #category : #'as yet unclassified' }
+MOSelf >> name [
+
+	^ name ifNil: [ name := #self ]
+]
+
 { #category : #initialization }
 MOSelf >> setOwnerClass: aMOClass [
 

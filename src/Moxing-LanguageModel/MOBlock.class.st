@@ -40,7 +40,5 @@ MOBlock >> statements [
 { #category : #accessing }
 MOBlock >> statements: aCollection [
 
-	(aCollection anySatisfy: [ :a | 
-		 a isCollection  ]) ifTrue: [ self halt ].
 	statements := aCollection
 ]

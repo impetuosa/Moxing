@@ -15,6 +15,12 @@ MOPackage >> acceptVisitor: aVisitor [
 ]
 
 { #category : #adding }
+MOPackage >> addClass: aMOClass [
+
+	self addType: aMOClass
+]
+
+{ #category : #adding }
 MOPackage >> addPackage: aMOPackage [
 
 	subpackages add: aMOPackage

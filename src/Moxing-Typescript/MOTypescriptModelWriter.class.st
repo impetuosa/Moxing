@@ -1,5 +1,5 @@
 Class {
 	#name : #MOTypescriptModelWriter,
-	#superclass : #MOModelWriter,
+	#superclass : #MOModelWriterOld,
 	#category : #'Moxing-Typescript'
 }

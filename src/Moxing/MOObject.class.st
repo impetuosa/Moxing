@@ -39,6 +39,5 @@ MOObject >> parent [
 
 { #category : #accessing }
 MOObject >> parent: aParent [
-
-	parent := aParent
+	parent := aParent.
 ]

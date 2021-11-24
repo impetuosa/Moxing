@@ -2,8 +2,6 @@ Class {
 	#name : #MOVariable,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'class',
-		'visibility',
 		'defaultValue',
 		'modifiers',
 		'typeReference'
@@ -76,11 +74,6 @@ MOVariable >> printOn: aStream [
 		nextPutAll: ')'
 ]
 
-{ #category : #accessing }
-MOVariable >> setOwnerClass: aClassObject [ 
-	class := aClassObject 
-]
-
 { #category : #generated }
 MOVariable >> type [
 
@@ -97,14 +90,4 @@ MOVariable >> typeReference: aJinTypescriptTypeReference [
 (	aJinTypescriptTypeReference isNil) ifTrue: [ self halt  ].
 
 	typeReference := aJinTypescriptTypeReference
-]
-
-{ #category : #'as yet unclassified' }
-MOVariable >> visibility [
-	^ visibility
-]
-
-{ #category : #'as yet unclassified' }
-MOVariable >> visibility: aString [
-	visibility := aString
 ]

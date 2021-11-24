@@ -84,7 +84,7 @@ MOTypescriptClassLoader >> visitDecoratorExpression: aDecoratorExpression [
 MOTypescriptClassLoader >> visitImportDeclaration: anImport [
 
 	| import |
-	import := MOImport newForTypescriptIn: model.
+	import := MOFileImport newForTypescriptIn: model.
 	import parent: result.
 	import types: ((anImport imports flatCollect: [ :i | 
 			  i specifiers collect: [ :s | s binding name value ] ]) asSet 

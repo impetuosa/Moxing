@@ -1,6 +1,6 @@
 Class {
 	#name : #MOInvocation,
-	#superclass : #MOReference,
+	#superclass : #MOTypedReference,
 	#instVars : [
 		'selector',
 		'arguments'

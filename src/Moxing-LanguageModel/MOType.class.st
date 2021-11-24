@@ -16,6 +16,11 @@ MOType >> addModifier: aModifier [
 ]
 
 { #category : #accessing }
+MOType >> fullName [
+	self shouldBeImplemented.
+]
+
+{ #category : #accessing }
 MOType >> initialize [
 
 	super initialize.

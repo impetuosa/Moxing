@@ -2,90 +2,59 @@ Class {
 	#name : #MOModelWriter,
 	#superclass : #Object,
 	#instVars : [
-		'destinationModel',
-		'surface',
-		'brush',
-		'replace',
-		'transformations',
-		'derivativeModel'
+		'model',
+		'builder',
+		'entity'
 	],
-	#category : #Moxing
+	#category : #'Moxing-MicroWriters'
 }
 
-{ #category : #accessing }
-MOModelWriter >> brush: aMOMethodBrush [
+{ #category : #adding }
+MOModelWriter >> addPackage: aMOPackage [
 
-	brush := aMOMethodBrush
-]
-
-{ #category : #'instance creation' }
-MOModelWriter >> instantiate: aClass [ 
-	^ destinationModel instantiate: aClass
+	self assert: (model entities includes: aMOPackage).
+	entity := aMOPackage
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> instantiate: aClass forReplacing: aMOFunction [
+MOModelWriter >> buildExpression: aFullBlockClosure [
 
-	| entity |
-	replace at: aMOFunction ifPresent: [ self error: ' eunexpected ' ].
-	entity := derivativeModel instantiate: aClass.
-	replace at: aMOFunction put: entity.
-	^ entity
+	^ (aFullBlockClosure value: builder) build
+]
+
+{ #category : #accessing }
+MOModelWriter >> builder: aMOModelBuilder [ 
+	builder := aMOModelBuilder
 ]
 
 { #category : #accessing }
 MOModelWriter >> model: aMOModel [ 
-	destinationModel := aMOModel 
-]
-
-{ #category : #accessing }
-MOModelWriter >> surface: aMOClass [
-
-	surface := aMOClass
+	model := aMOModel
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
+MOModelWriter >> typeReferenceNamed: aString [
 
-	derivativeModel swap: aMOExit with: aMOReturnEmpty context: aMOBlock
-]
-
-{ #category : #'as yet unclassified' }
-MOModelWriter >> useSurface: aMOClass during: aFullBlockClosure [
-
-	| previousSurface |
-	previousSurface := surface.
-	surface := aMOClass.
-	^ aFullBlockClosure ensure: [ surface := previousSurface ]
+	^ builder typeReferenceBuilder
+		  name: aString;
+		  build
 ]
 
 { #category : #writing }
-MOModelWriter >> write: aMOFunction [
-	self assert: destinationModel isNotNil.
-	self assert: replace isNotNil.
-	^ brush write: aMOFunction into: self
+MOModelWriter >> variableReferenceNamed: aString [
+
+	^ builder variableReferenceBuilder
+		  name: aString;
+		  build
 ]
 
 { #category : #writing }
-MOModelWriter >> write: aMOFunction with: aMOModelDerivative [
-
-	replace := Dictionary new.
-	derivativeModel := aMOModelDerivative.
-	^ brush write: aMOFunction into: self
-]
-
-{ #category : #writing }
-MOModelWriter >> writeClass: aMOClass [
-
-	aMOClass language: surface language.
-	surface addType: aMOClass.
-	aMOClass parent: surface. 
-]
-
-{ #category : #writing }
-MOModelWriter >> writeMethod: aMOMethod [
-
-	aMOMethod language: surface language.
-	surface addMethod: aMOMethod.
-	aMOMethod parent: surface
+MOModelWriter >> writePackage: aBlock [
+	| writer | 
+	writer := MOPackageWriter new. 
+	writer builder: builder. 
+	writer surface: self . 
+	writer initializeWriteBuilder.
+	writer write: aBlock.
+	^ entity 
 ]

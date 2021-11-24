@@ -1,9 +1,8 @@
 Class {
 	#name : #MOClass,
-	#superclass : #MOInterface,
+	#superclass : #MOClassType,
 	#instVars : [
 		'types',
-		'methods',
 		'superclass'
 	],
 	#classInstVars : [
@@ -24,22 +23,10 @@ MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 	aJinTypescriptCodeGenerator visitClass: self .
 ]
 
-{ #category : #adding }
-MOClass >> addFunction: aMOFunction [
-
-	methods add: aMOFunction
-]
-
-{ #category : #adding }
-MOClass >> addMethod: aJinTypescriptMethod [ 
-	methods  add: aJinTypescriptMethod .
-	aJinTypescriptMethod setOwnerClass: self . 
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #generated }
 MOClass >> allVisibleMethods [
 
-	^ methods
+	^ super allVisibleMethods 
 	  ,
 	  (superclass
 		   ifNotNil: [ superclass allVisibleMethods ]
@@ -54,7 +41,7 @@ MOClass >> dependencies [
 			str nextPutAll: imports.
 			decorator ifNotNil: [ str nextPutAll: decorator dependencies ].
 			str nextPutAll: (self types flatCollect: [ :t | t dependencies ]).
-			str nextPutAll: (properties flatCollect: [ :t | t dependencies ]).
+			str nextPutAll: (attributes flatCollect: [ :t | t dependencies ]).
 			str nextPutAll: (methods flatCollect: [ :t | t dependencies ]).
 			str
 				nextPutAll: (superclass ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
@@ -81,11 +68,6 @@ MOClass >> initialize [
 ]
 
 { #category : #accessing }
-MOClass >> methods [
-	^ methods
-]
-
-{ #category : #accessing }
 MOClass >> parents [
 	self shouldBeImplemented.
 ]
@@ -101,10 +83,10 @@ MOClass >> printOn: aStream [
 { #category : #accessing }
 MOClass >> superclass [
 
-	^ superclass ifNil: [ superclass := self class object  ]
+	^ superclass
 ]
 
 { #category : #accessing }
-MOClass >> types [
-	^ types ifNil: [ {  } ]
+MOClass >> superclass: anUndefinedObject [ 
+	superclass := anUndefinedObject
 ]

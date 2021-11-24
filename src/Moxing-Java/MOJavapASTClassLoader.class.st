@@ -175,7 +175,7 @@ MOJavapASTClassLoader >> visitInterfaceDeclaration: anInterfaceDeclaration [
 		           (self calculatePackageNaming: anInterfaceDeclaration name).
 	className := self typeNameFor: anInterfaceDeclaration name.
 	package types detect: [ :a | a name = className ] ifNone: [ 
-		class := model instantiate: MOInterface.
+		class := model instantiate: MOClassType.
 		class modifiers:
 			(anInterfaceDeclaration modifiers collect: [ :m | m source ]).
 		class name: className.

@@ -1,5 +1,5 @@
 Class {
 	#name : #MOJavaModelWriter,
-	#superclass : #MOModelWriter,
+	#superclass : #MOModelWriterOld,
 	#category : #'Moxing-Java-Writer'
 }
