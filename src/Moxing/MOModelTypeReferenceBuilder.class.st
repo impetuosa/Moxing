@@ -13,10 +13,16 @@ Class {
 MOModelTypeReferenceBuilder >> build [
 
 	^ (self instantiate: MOTypeReference)
-		  candidateAnchor: candidateAnchor;
-		  candidate: candidate;
-		  name: name;
+		  candidateAnchor: self candidateAnchor;
+		  candidate: self candidate;
+		  name: self name;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> candidate [
+
+	^ candidate
 ]
 
 { #category : #accessing }
@@ -25,9 +31,19 @@ MOModelTypeReferenceBuilder >> candidate: aMOClass [
 ]
 
 { #category : #accessing }
+MOModelTypeReferenceBuilder >> candidateAnchor [
+	^ candidateAnchor
+]
+
+{ #category : #accessing }
 MOModelTypeReferenceBuilder >> candidateAnchor: aMOAnchor [
 
 	candidateAnchor := aMOAnchor
+]
+
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> name [ 
+	^ name ifNil: [  self error: ' Type name is Nil! ' ]
 ]
 
 { #category : #accessing }

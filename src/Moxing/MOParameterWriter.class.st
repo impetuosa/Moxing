@@ -10,8 +10,14 @@ MOParameterWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
+MOParameterWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #parameter / anEntity name
+]
+
+{ #category : #writing }
 MOParameterWriter >> privateWriteToSurface: anEntity [
 
 	surface addParameter: anEntity.
-	anEntity parent: surface
+	anEntity parent: surface.
+
 ]

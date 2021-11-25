@@ -11,8 +11,14 @@ MOAttributeWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
+MOAttributeWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #attribute / anEntity name
+]
+
+{ #category : #writing }
 MOAttributeWriter >> privateWriteToSurface: anEntity [
 
 	surface addAttribute: anEntity.
-	anEntity parent: surface
+	anEntity parent: surface.
+
 ]

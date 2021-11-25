@@ -12,9 +12,9 @@ MOModelFunctionBuilder >> build [
 
 	self assert: self returnTypeReference isNotNil .
 	^ (self instantiate: MOFunction)
-		  selector: selector;
+		  selector: self selector;
 		  parameters: self parameters;
-		  block: body;
+		  block: self body;
 		  returnTypeReference: self returnTypeReference
 ]
 
@@ -28,6 +28,8 @@ MOModelFunctionBuilder >> returnType: aMOClass [
 
 { #category : #accessing }
 MOModelFunctionBuilder >> returnTypeReference [
+
+	self assert: (returnTypeReference isKindOf: MOTypeReference).
 	^ returnTypeReference
 ]
 

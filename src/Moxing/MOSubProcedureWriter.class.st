@@ -1,25 +1,29 @@
 Class {
 	#name : #MOSubProcedureWriter,
-	#superclass : #MOModelProceduralWriter,
+	#superclass : #MOConstructorWriter,
 	#category : #'Moxing-MicroWriters'
 }
 
 { #category : #writing }
+MOSubProcedureWriter >> initializeWriteBuilder [
+
+	writeBuilder := builder procedureBuilder
+]
+
+{ #category : #writing }
+MOSubProcedureWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #procedure / anEntity selector
+]
+
+{ #category : #writing }
+MOSubProcedureWriter >> privateWriteToSurface: anEntity [
+
+	surface addProcedure: anEntity.
+	anEntity parent: surface.
+
+]
+
+{ #category : #writing }
 MOSubProcedureWriter >> selector: aSelector [
  	writeBuilder selector: aSelector
-]
-
-{ #category : #writing }
-MOSubProcedureWriter >> writeBlock: aBlock [
-
-	^ self
-		  preWrite: aBlock
-		  inSubWriter: MOBlockWriter
-		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
-]
-
-{ #category : #writing }
-MOSubProcedureWriter >> writeParameter: aBlock [
-
-	^ self preWrite: aBlock inSubWriter: MOParameterWriter
 ]

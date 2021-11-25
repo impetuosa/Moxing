@@ -91,6 +91,23 @@ MOModelBuilder >> comparisonOperatorBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> constructorBuilder [
+
+	^ MOModelConstructorBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> decoratorBuilder [
+
+
+	^ MOModelDecoratorBuilder new
+		parentBuilder: self;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> doUntilStatementBuilder [
 
 	^ MOModelLoopBuilder new
@@ -214,6 +231,13 @@ MOModelBuilder >> packageReferenceBuilder [
 MOModelBuilder >> parameterBuilder [
 
 	^ MOModelParameterBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> parametrizedTypeReferenceBuilder [
+	^ MOModelParametrizedTypeReferenceBuilder  new
 		  parentBuilder: self;
 		  yourself
 ]

@@ -2,12 +2,7 @@ Class {
 	#name : #MOTypescriptAbstractLoader,
 	#superclass : #JSProgramNodeVisitor,
 	#instVars : [
-		'result',
-		'file',
-		'types',
-		'anchor',
-		'model',
-		'parent'
+		'writer'
 	],
 	#classInstVars : [
 		'parent'
@@ -30,33 +25,37 @@ MOTypescriptAbstractLoader class >> load: aJSDecoratorExpressionNode file: aFile
 	^ loader result
 ]
 
-{ #category : #accessing }
-MOTypescriptAbstractLoader >> anchor: anAnchor [
-	anchor := anAnchor. 
+{ #category : #actions }
+MOTypescriptAbstractLoader class >> loadArtefact: anAst writer: aWriter [ 
+
+	| loader |
+	loader := self new.
+	loader writer: aWriter.
+	^ loader loadArtefact: anAst
 ]
 
 { #category : #accessing }
-MOTypescriptAbstractLoader >> file: aFile [
-	file := aFile 
+MOTypescriptAbstractLoader >> any [
+
+	^ writer typeReferenceNamed: #any
+]
+
+{ #category : #generated }
+MOTypescriptAbstractLoader >> use: aWriter during: aBlock [
+
+	| prev |
+	prev := writer.
+	writer := aWriter.
+	aBlock ensure: [ writer := prev ]
+]
+
+{ #category : #visiting }
+MOTypescriptAbstractLoader >> visitCollection: aCollection [
+
+	^ aCollection collect: [ :a | a acceptVisitor: self ]
 ]
 
 { #category : #accessing }
-MOTypescriptAbstractLoader >> model: aModel [ 
-	model := aModel
-]
-
-{ #category : #accessing }
-MOTypescriptAbstractLoader >> parent: aParent [
-
-	parent := aParent
-]
-
-{ #category : #accessing }
-MOTypescriptAbstractLoader >> result [
-	^ result 
-]
-
-{ #category : #accessing }
-MOTypescriptAbstractLoader >> types: aSetOfTypes [
-	types := aSetOfTypes
+MOTypescriptAbstractLoader >> writer: aWriter [ 
+	writer := aWriter
 ]

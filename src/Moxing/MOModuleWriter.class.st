@@ -10,9 +10,15 @@ MOModuleWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
+MOModuleWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #module / anEntity name
+]
+
+{ #category : #writing }
 MOModuleWriter >> privateWriteToSurface: anEntity [
 	surface addModule: anEntity.
 	anEntity parent: surface.
+
 ]
 
 { #category : #writing }

@@ -20,6 +20,7 @@ MOModelProceduralWriter >> build [
 
 	| entity |
 	entity := self writerBuilder build.
+	self privateSetAnchor: entity.
 	subwriters ifNotNil: [ 
 		subwriters do: [ :sw | 
 			sw surface: entity.
@@ -38,9 +39,23 @@ MOModelProceduralWriter >> builder: aMOModelBuilder [
 	builder := aMOModelBuilder
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> immediateWriteParametrizedTypeReference: aFullBlockClosure [ 
+	self shouldBeImplemented.
+]
+
 { #category : #writing }
 MOModelProceduralWriter >> initializeWriteBuilder [
 	self subclassResponsibility 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> parametrizedTypeReferenceNamed: aString arguments: aCollection [
+
+	^ builder parametrizedTypeReferenceBuilder
+		  name: aString;
+		  argumentTypeReferences: aCollection;
+		  build
 ]
 
 { #category : #writing }
@@ -67,6 +82,12 @@ MOModelProceduralWriter >> preWrite: aBlock inSubWriter: aSubWriterClass initial
 	anInitBlock value: sw.
 	self addSubwriter: sw.
 	sw preWrite: aBlock
+]
+
+{ #category : #writing }
+MOModelProceduralWriter >> privateSetAnchor: anEntity [
+
+	self subclassResponsibility
 ]
 
 { #category : #writing }

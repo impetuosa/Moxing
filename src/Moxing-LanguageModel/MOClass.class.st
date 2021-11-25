@@ -2,7 +2,6 @@ Class {
 	#name : #MOClass,
 	#superclass : #MOClassType,
 	#instVars : [
-		'types',
 		'superclass'
 	],
 	#classInstVars : [
@@ -21,6 +20,12 @@ MOClass class >> object [
 { #category : #visiting }
 MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [ 
 	aJinTypescriptCodeGenerator visitClass: self .
+]
+
+{ #category : #adding }
+MOClass >> addConstructor: aMOConstructor [
+
+	methods add: aMOConstructor
 ]
 
 { #category : #generated }
@@ -52,11 +57,6 @@ MOClass >> dependencies [
 MOClass >> hierarchicalChildren [
 
 	^ self properties , self methods
-]
-
-{ #category : #generated }
-MOClass >> implements: aCollection [ 
-	types := aCollection 
 ]
 
 { #category : #generated }

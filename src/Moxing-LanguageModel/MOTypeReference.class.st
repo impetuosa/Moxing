@@ -16,6 +16,13 @@ MOTypeReference >> isDecorator [
 ]
 
 { #category : #printing }
+MOTypeReference >> name: aName [
+
+	(aName isKindOf: String) ifFalse: [ self halt ].
+	super name: aName
+]
+
+{ #category : #printing }
 MOTypeReference >> printOn: aStream [
 
 	aStream

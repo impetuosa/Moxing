@@ -9,24 +9,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOTypescriptClassLoader class >> loadClassFromFile: aFile [
+MOTypescriptClassLoader class >> loadClassFromFile: aFile for: aComponent into: aMOModel [
 
 	| loader |
 	loader := self new.
-	loader file: aFile. 
-	(TypeScriptParser parseFile: aFile) acceptVisitor: loader.
-	^ loader result
-]
-
-{ #category : #'as yet unclassified' }
-MOTypescriptClassLoader class >> loadClassFromFile: aFile for: aComponent  into: aMOModel [ 
-		| loader |
-	loader := self new.
-	loader model: aMOModel. 
-	loader file: aFile. 
-	loader component: aComponent. 
-	(TypeScriptParser parseFile: aFile) acceptVisitor: loader.
-	^ loader result
+	loader writer: aMOModel writer.
+	loader component: aComponent.
+	^ loader loadArtefact: (TypeScriptParser parseFile: aFile)
 ]
 
 { #category : #'instance creation' }
@@ -37,33 +26,28 @@ MOTypescriptClassLoader >> component: aMOAngularComponentBehaviour [
 ]
 
 { #category : #generated }
-MOTypescriptClassLoader >> initialize [
-	super initialize.
-	types := Dictionary new .
+MOTypescriptClassLoader >> loadArtefact: anAstNode [
+
+	component ifNotNil: [ writer anchoringOn: component anchor ].
+	^ writer writeClass: [ :wc | 
+		          self use: wc during: [ anAstNode acceptVisitor: self ] ]
 ]
 
 { #category : #generated }
-MOTypescriptClassLoader >> model: aModel [ 
-	super model: aModel .
-	result := MOClass newForTypescriptIn: model. 
+MOTypescriptClassLoader >> model: aModel [
+
+	super model: aModel.
+	writer := MOModelWriter new
+		          model: aModel;
+		          yourself.
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 
-	result name: aClassExpression name name value.
-	result anchor: component anchor / #class / result name.
-	result implements: (aClassExpression types collect: [ :t | 
-			 MOTypescriptTypeLoader
-				 load: t
-				 file: file
-				 anchor: result anchor
-				 types: types
-				 model: model
-				 parent: result ]).
-	decorator ifNotNil: [ 
-		result decorator: decorator.
-		decorator anchor: result anchor / #decorator / decorator name ].
+	writer name: aClassExpression name name value.
+	aClassExpression types do: [ :t | 
+		writer addSuperTypeReference: (writer typeReferenceNamed: t type source) ].
 
 	self acceptNodes: aClassExpression elements
 ]
@@ -71,56 +55,40 @@ MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 { #category : #generated }
 MOTypescriptClassLoader >> visitDecoratorExpression: aDecoratorExpression [
 
-	decorator := MOTypescriptDecoratorLoader
-		             load: aDecoratorExpression
-		             file: file
-		             anchor: nil
-		             types: types
-		             model: model
-		             parent: result
+	MOTypescriptDecoratorLoader
+		loadArtefact: aDecoratorExpression
+		writer: writer
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitImportDeclaration: anImport [
 
-	| import |
-	import := MOFileImport newForTypescriptIn: model.
-	import parent: result.
-	import types: ((anImport imports flatCollect: [ :i | 
-			  i specifiers collect: [ :s | s binding name value ] ]) asSet 
-			 collect: [ :n | 
-				 types at: anImport from value , '.' , n ifAbsentPut: [ 
-					 ((MOTypescriptPrebuiltTypeReferenceFactory defaultFor: model)
-						  typeReference: n
-						  definedAt: anImport from value)
-						 parent: result;
-						 yourself ] ]).
-	import from: anImport from value.
-	result addImport: import
+	writer writeImport: [ :import | 
+		import file: anImport from value.
+		anImport imports do: [ :imports | 
+			imports specifiers do: [ :spec | 
+				import importTypeName: spec source ] ] ]
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitMemberFunctionDeclaration: aMethodDefinition [
-
+	self halt. 
+"
 	result addMethod: (MOTypescriptMethodLoader
 			 load: aMethodDefinition
 			 file: file
 			 anchor: result anchor
 			 types: types
 			 model: model
-			 parent: result)
+			 parent: result)"
 ]
 
 { #category : #generated }
 MOTypescriptClassLoader >> visitMethodDefinition: aMethodDefinition [
 
-	result addMethod: (MOTypescriptMethodLoader
-			 load: aMethodDefinition
-			 file: file
-			 anchor: result anchor
-			 types: types
-			 model: model
-			 parent: result)
+	^ MOTypescriptMethodLoader
+		  loadArtefact: aMethodDefinition
+		  writer: writer
 ]
 
 { #category : #generated }
@@ -131,11 +99,12 @@ MOTypescriptClassLoader >> visitPropertyAssignment: aDecoratorExpression [
 { #category : #generated }
 MOTypescriptClassLoader >> visitVariableDeclaration: aVariableDeclaration [
 
-	result addProperty: (MOTypescriptVariableDeclarationLoader
+	self halt
+	"result addProperty: (MOTypescriptVariableDeclarationLoader
 			 load: aVariableDeclaration
 			 file: file
 			 anchor: result anchor
 			 types: types
 			 model: model
-			 parent: result)
+			 parent: result)"
 ]

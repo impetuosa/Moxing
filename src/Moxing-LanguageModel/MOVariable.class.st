@@ -70,7 +70,7 @@ MOVariable >> printOn: aStream [
 		nextPutAll: 'VD:';
 		nextPutAll: name;
 		nextPutAll: '(';
-		nextPutAll: (typeReference ifNil: [ ' unknown' ] ifNotNil: [ :t | t type name ]);
+		nextPutAll: (typeReference ifNil: [ ' unknown' ] ifNotNil: [ :t | t name  ]);
 		nextPutAll: ')'
 ]
 

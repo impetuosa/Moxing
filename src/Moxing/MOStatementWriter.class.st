@@ -13,10 +13,16 @@ MOStatementWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
+MOStatementWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #statement / anEntity className 
+]
+
+{ #category : #writing }
 MOStatementWriter >> privateWriteToSurface: anEntity [
 
 	surface addStatement: anEntity.
-	anEntity parent: surface 
+	anEntity parent: surface.
+	
 ]
 
 { #category : #'accessing - token' }

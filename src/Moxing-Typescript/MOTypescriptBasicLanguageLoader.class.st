@@ -10,25 +10,18 @@ Class {
 }
 
 { #category : #adding }
-MOTypescriptBasicLanguageLoader >> addMethod: aSelector type: aReturningTType parameters: params into: aMOClass [ 
+MOTypescriptBasicLanguageLoader >> addMethod: aSelector type: aReturningTType parameters: params into: aClassWriter [
 
-	| var param  |
-	var := model instantiate: MOMethod .
-	var selector: aSelector.
-	aMOClass addMethod: var.
-	var parent: aMOClass.
-	var type:
-		((MOTypescriptPrebuiltTypeReferenceFactory defaultFor: model) 
-			 typeReference: aReturningTType).
-	params do: [ : m |  
-		param := model instantiate: MOVariable. 
-		param parent: var.
-		param name: m key. 
-		var addParameter: param. 
-		param parent: var. 
-		param typeReference: ((MOTypescriptPrebuiltTypeReferenceFactory defaultFor: model) 
-			 typeReference: m value).
-	 ]
+	aClassWriter writeMethod: [ :method | 
+		method selector: aSelector.
+		method returnTypeReference:
+			(aClassWriter typeReferenceNamed: aReturningTType).
+
+		params do: [ :nameTypeAssoc | 
+			method writeParameter: [ :param | 
+				param name: nameTypeAssoc key.
+				param typeReference:
+					(aClassWriter typeReferenceNamed: nameTypeAssoc value) ] ] ]
 ]
 
 { #category : #adding }
@@ -77,17 +70,42 @@ MOTypescriptBasicLanguageLoader >> loadPrimitiveTypes [
 
 { #category : #'as yet unclassified' }
 MOTypescriptBasicLanguageLoader >> loadString [
-	| string |
-	string := model instantiate: MOClass.
-	string anchor: typescript anchor / #classes / #string. 
-	string name: #string. 
-	typescript addType: string. 
-	self addProperty: #length type:#number into: string. 
-	self addMethod: #charAt type:#string parameters: { #index -> #number } into: string. 
-	self addMethod: #charCodeAt type:#number parameters: { #index -> #number } into: string.
-	self addMethod: #concat type:#string parameters: { #VarArg -> #number } into: string.
-	self addMethod: #indexOf type:#string parameters: { (#search -> #string).  (#startingAt -> #number) } into: string.
-	
+
+	| writer loadedClass |
+	writer := MOModelWriter new.
+	writer model: model.
+
+	loadedClass := writer writeClass: [ :string | 
+		               string name: #string.
+		               string package: typescript.
+		               string writeAttribute: [ :length | 
+			               length name: #length.
+			               length typeReference:
+				               (writer typeReferenceNamed: #number) ].
+
+
+		               self
+			               addMethod: #charAt
+			               type: #string
+			               parameters: { (#index -> #number) }
+			               into: string.
+		               self
+			               addMethod: #charCodeAt
+			               type: #number
+			               parameters: { (#index -> #number) }
+			               into: string.
+		               self
+			               addMethod: #concat
+			               type: #string
+			               parameters: { (#VarArg -> #number) }
+			               into: string.
+		               self
+			               addMethod: #indexOf
+			               type: #string
+			               parameters: { 
+					               (#search -> #string).
+					               (#startingAt -> #number) }
+			               into: string ]
 ]
 
 { #category : #accessing }

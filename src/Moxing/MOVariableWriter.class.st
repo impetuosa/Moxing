@@ -10,6 +10,11 @@ MOVariableWriter >> initializeWriteBuilder [
 	writeBuilder := builder variableBuilder
 ]
 
+{ #category : #generated }
+MOVariableWriter >> modifier: aString [ 
+	writeBuilder addModifier: aString 
+]
+
 { #category : #writing }
 MOVariableWriter >> name: aName [
 
@@ -17,10 +22,16 @@ MOVariableWriter >> name: aName [
 ]
 
 { #category : #writing }
+MOVariableWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #variable / anEntity name
+]
+
+{ #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
 
 	surface addVariable: anEntity.
-	anEntity parent: surface
+	anEntity parent: surface.
+	
 ]
 
 { #category : #writing }

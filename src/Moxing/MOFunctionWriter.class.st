@@ -5,21 +5,31 @@ Class {
 }
 
 { #category : #writing }
-MOFunctionWriter >> selector: aSelector [
- 	writeBuilder selector: aSelector
+MOFunctionWriter >> initializeWriteBuilder [
+
+	writeBuilder := builder functionBuilder
 ]
 
 { #category : #writing }
-MOFunctionWriter >> writeBlock: aBlock [
-
-	^ self
-		  preWrite: aBlock
-		  inSubWriter: MOBlockWriter
-		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
+MOFunctionWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #function / anEntity selector
 ]
 
 { #category : #writing }
-MOFunctionWriter >> writeParameter: aBlock [
+MOFunctionWriter >> privateWriteToSurface: anEntity [
 
-	^ self preWrite: aBlock inSubWriter: MOParameterWriter
+	surface addFunction: anEntity.
+	anEntity parent: surface.
+
+]
+
+{ #category : #writing }
+MOFunctionWriter >> returnType: aReference [
+
+	writeBuilder returnType: aReference
+]
+
+{ #category : #writing }
+MOFunctionWriter >> returnTypeReference: aReference [
+	writeBuilder returnTypeReference: aReference
 ]

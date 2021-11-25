@@ -11,38 +11,19 @@ MOMethodWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
+MOMethodWriter >> privateSetAnchor: anEntity [ 
+	anEntity anchor: surface anchor / #method / anEntity selector
+]
+
+{ #category : #writing }
 MOMethodWriter >> privateWriteToSurface: anEntity [
 
 	surface addMethod: anEntity.
 	anEntity parent: surface.
-]
 
-{ #category : #writing }
-MOMethodWriter >> returnType: aReference [
-
-	writeBuilder returnType: aReference
-]
-
-{ #category : #writing }
-MOMethodWriter >> returnTypeReference: aReference [
-	writeBuilder returnTypeReference: aReference
 ]
 
 { #category : #writing }
 MOMethodWriter >> selector: aSelector [
- 	writeBuilder selector: aSelector
-]
-
-{ #category : #writing }
-MOMethodWriter >> writeBlock: aBlock [
-
-	^ self
-		  preWrite: aBlock
-		  inSubWriter: MOBlockWriter
-		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
-]
-
-{ #category : #writing }
-MOMethodWriter >> writeParameter: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOParameterWriter
+	super selector: aSelector
 ]

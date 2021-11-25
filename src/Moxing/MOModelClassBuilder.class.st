@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'name',
 		'packageRefrence',
-		'superclassReference'
+		'superclassReference',
+		'superTypeReferences'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -15,6 +16,12 @@ MOModelClassBuilder >> addAttribute: anAttribute [
 	self attributes add: anAttribute
 ]
 
+{ #category : #adding }
+MOModelClassBuilder >> addSuperTypeReference: aMOTypeReference [
+
+	self superTypeReferences add: aMOTypeReference
+]
+
 { #category : #building }
 MOModelClassBuilder >> build [
 
@@ -22,7 +29,8 @@ MOModelClassBuilder >> build [
 		  name: name;
 		  parent: self packageRefrence;
 		  superclass: self superclassReference;
-		  anchor: self packageRefrence candidate anchor / #class / name
+		  supertypes:  self superTypeReferences;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -50,10 +58,15 @@ MOModelClassBuilder >> packageRefrence [
 
 	^ packageRefrence ifNil: [ 
 		  packageRefrence := self packageReferenceBuilder
-			                     package: (self packageBuilder
-					                      name: '<Default Package>';
-					                      build);
+			                     packageName: '<Default Package>';
 			                     build ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelClassBuilder >> superTypeReferences [
+
+	^ superTypeReferences ifNil: [ 
+		  superTypeReferences := OrderedCollection new ]
 ]
 
 { #category : #accessing }

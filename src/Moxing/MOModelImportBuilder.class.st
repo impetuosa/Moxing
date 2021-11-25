@@ -3,7 +3,9 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'typeReference',
-		'typeReferences'
+		'typeReferences',
+		'class',
+		'file'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -17,7 +19,21 @@ MOModelImportBuilder >> addTypeReference: aTypeReference [
 { #category : #building }
 MOModelImportBuilder >> build [
 
-	^ (self instantiate: MOImport) typeReferences: typeReferences
+	^ file
+		  ifNil: [ 
+			  (self instantiate: MOImport)
+				  typeReferences: typeReferences;
+				  yourself ]
+		  ifNotNil: [ 
+			  (self instantiate: MOFileImport)
+				  from: file;
+				  typeReferences: typeReferences;
+				  yourself ]
+]
+
+{ #category : #accessing }
+MOModelImportBuilder >> file: anAddress [ 
+	file := anAddress 
 ]
 
 { #category : #accessing }
@@ -25,6 +41,14 @@ MOModelImportBuilder >> importType: aMOClass [
 
 	self addTypeReference: (self typeReferenceBuilder
 			 type: aMOClass;
+			 build)
+]
+
+{ #category : #accessing }
+MOModelImportBuilder >> importTypeName: aName [
+
+	self addTypeReference: (self typeReferenceBuilder
+			 name: aName;
 			 build)
 ]
 

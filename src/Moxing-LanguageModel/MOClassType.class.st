@@ -28,12 +28,6 @@ MOClassType >> addMethod: aJinTypescriptMethod [
 	aJinTypescriptMethod setOwnerClass: self . 
 ]
 
-{ #category : #adding }
-MOClassType >> addVariable: aMOVariable [
-
-	self addProperty: aMOVariable
-]
-
 { #category : #'as yet unclassified' }
 MOClassType >> allVisibleMethods [
 
@@ -93,4 +87,9 @@ MOClassType >> printOn: aStream [
 	aStream
 		nextPutAll: 'interface: ';
 		nextPutAll: name
+]
+
+{ #category : #accessing }
+MOClassType >> supertypes: aCollection [ 
+	supertypes := aCollection
 ]

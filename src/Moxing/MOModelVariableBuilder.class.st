@@ -3,18 +3,32 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'name',
-		'typeReference'
+		'typeReference',
+		'modifiers'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
+
+{ #category : #adding }
+MOModelVariableBuilder >> addModifier: aString [
+
+	self modifiers add: aString
+]
 
 { #category : #building }
 MOModelVariableBuilder >> build [
 
 	^ (self instantiate: MOVariable)
-		  name: name;
+		  name: self name;
+		  modifiers: self modifiers; 
 		  typeReference: self typeReference;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelVariableBuilder >> modifiers [
+
+	^ modifiers ifNil: [ modifiers := OrderedCollection new ]
 ]
 
 { #category : #accessing }

@@ -1,39 +1,25 @@
 Class {
 	#name : #MOModelProcedureBuilder,
-	#superclass : #MOModelBuilderDelegate,
+	#superclass : #MOModelConstructorBuilder,
 	#instVars : [
-		'body',
-		'selector',
-		'parameters'
+		'selector'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
-
-{ #category : #adding }
-MOModelProcedureBuilder >> addParameter: aMOParameter [
-
-	self parameters add: aMOParameter
-]
-
-{ #category : #generated }
-MOModelProcedureBuilder >> body: aMOBlock [  
-	body := aMOBlock
-]
 
 { #category : #building }
 MOModelProcedureBuilder >> build [
 
 	^ (self instantiate: MOProcedure)
-		  selector: selector;
+		  selector: self selector;
 		  parameters: self parameters;
-		  block: body;
+		  block: self body;
 		  yourself
 ]
 
-{ #category : #generated }
-MOModelProcedureBuilder >> parameters [
-
-	^ parameters ifNil: [ parameters := OrderedCollection new ]
+{ #category : #accessing }
+MOModelProcedureBuilder >> selector [
+	^ selector ifNil: [ self error: ' Selector is Nil ' ]
 ]
 
 { #category : #accessing }

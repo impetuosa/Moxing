@@ -730,7 +730,7 @@ MOModelFactoryTestCase >> testNewSubPackage [
 		        name: #pack;
 		        parent: parent;
 		        build.
-
+	parent addPackage: pack. 
 	self assert: pack isKindOf: MOPackage.
 	self assert: pack parent isKindOf: MOPackageReference.
 	self assert: pack parent candidate equals: parent.

@@ -8,8 +8,8 @@ Class {
 MOModelMethodBuilder >> build [
 
 	^ (self instantiate: MOMethod)
-		  selector: selector;
+		  selector: self selector;
 		  parameters: self parameters;
-		  block: body;
+		  block: self body;
 		  returnTypeReference: self returnTypeReference
 ]

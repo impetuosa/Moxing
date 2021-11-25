@@ -52,3 +52,11 @@ MOModel >> rootPackages [
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent = self ] ]
 ]
+
+{ #category : #'as yet unclassified' }
+MOModel >> writer [
+
+	^ MOModelWriter new
+		  model: self;
+		  yourself
+]
