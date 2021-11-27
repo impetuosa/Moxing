@@ -2,9 +2,9 @@ Class {
 	#name : #MOType,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'package',
 		'modifiers',
-		'visibility'
+		'visibility',
+		'packageReference'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -35,6 +35,12 @@ MOType >> modifiers [
 { #category : #accessing }
 MOType >> modifiers: aSet [
 	modifiers := aSet
+]
+
+{ #category : #accessing }
+MOType >> packageReference [
+
+	^ packageReference
 ]
 
 { #category : #accessing }

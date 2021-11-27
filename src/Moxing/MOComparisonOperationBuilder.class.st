@@ -4,8 +4,8 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOComparisonOperationBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOComparisonOperationBuilder >> privateBuild [
 
 	^ (self instantiate: MOBinaryComparisonOperation)
 		  operator: self operator;

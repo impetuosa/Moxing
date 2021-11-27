@@ -346,7 +346,8 @@ MOModelFactoryTestCase >> testNewClassWithSuperClassInPackageGetsYouAClass [
 	self assert: class parent isKindOf: MOPackageReference.
 	self assert: class parent candidate equals: parent.
 	self assert: class superclass isKindOf: MOTypeReference.
-	self assert: class superclass candidate equals: superclass
+	self assert: class superclass candidate equals: superclass.
+
 ]
 
 { #category : #running }
@@ -476,7 +477,7 @@ MOModelFactoryTestCase >> testNewImportGetsyouAnImportPointingToSingleType [
 	import := builder importBuilder
 		          importType: class;
 		          build.
-	self assert: import typeReferences size equals: 1
+	self assert: import typeReference isNotNil 
 
 ]
 
@@ -493,7 +494,7 @@ MOModelFactoryTestCase >> testNewImportGetsyouAnImportPointingToSingleTypeRefere
 	import := builder importBuilder
 		          importTypeReference: class;
 		          build.
-	self assert: import typeReferences size equals: 1
+	self assert: import typeReference isNotNil
 ]
 
 { #category : #running }

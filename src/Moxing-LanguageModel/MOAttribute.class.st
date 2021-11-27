@@ -13,6 +13,12 @@ MOAttribute >> acceptVisitor: aJinTypescriptCodeGenerator [
 	aJinTypescriptCodeGenerator visitAttribute: self
 ]
 
+{ #category : #adding }
+MOAttribute >> addAnnotationInstance: aMOAnnotationInstance [
+
+	self annotations add: aMOAnnotationInstance
+]
+
 { #category : #accessing }
 MOAttribute >> setOwnerClass: aClassObject [ 
 	self error: 'Should be using setOwnerType! '

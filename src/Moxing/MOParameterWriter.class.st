@@ -9,6 +9,11 @@ MOParameterWriter >> initializeWriteBuilder [
 	writeBuilder := builder parameterBuilder 
 ]
 
+{ #category : #'as yet unclassified' }
+MOParameterWriter >> mapsToVariableArguments [
+	writeBuilder mapsToVariableArguments: true. 
+]
+
 { #category : #writing }
 MOParameterWriter >> privateSetAnchor: anEntity [ 
 	anEntity anchor: surface anchor / #parameter / anEntity name
@@ -17,7 +22,6 @@ MOParameterWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOParameterWriter >> privateWriteToSurface: anEntity [
 
-	surface addParameter: anEntity.
-	anEntity parent: surface.
-
+	surface setAsParentOf: anEntity.
+	surface addParameter: anEntity
 ]

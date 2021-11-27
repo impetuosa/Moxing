@@ -8,15 +8,6 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelLoopBuilder >> build [
-
-	^ (self instantiate: elementClass)
-		  condition: self condition;
-		  loopingBlock: self loopingBlock;
-		  yourself
-]
-
 { #category : #'as yet unclassified' }
 MOModelLoopBuilder >> forDoUntil [
 
@@ -39,4 +30,13 @@ MOModelLoopBuilder >> loopingBlock: aMOModelBlockBuilder [
 
 	self assert: (aMOModelBlockBuilder isKindOf: MOBlock).
 	loopingBlock := aMOModelBlockBuilder
+]
+
+{ #category : #'as yet unclassified' }
+MOModelLoopBuilder >> privateBuild [
+
+	^ (self instantiate: elementClass)
+		  condition: self condition;
+		  loopingBlock: self loopingBlock;
+		  yourself
 ]

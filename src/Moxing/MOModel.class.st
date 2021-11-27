@@ -2,7 +2,8 @@ Class {
 	#name : #MOModel,
 	#superclass : #MOCatalog,
 	#instVars : [
-		'catalog'
+		'catalog',
+		'unknownType'
 	],
 	#category : #'Moxing-Core'
 }
@@ -51,6 +52,19 @@ MOModel >> rootPackages [
 
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent = self ] ]
+]
+
+{ #category : #']as yet unclassified' }
+MOModel >> typeReferences [
+
+	^ entities select: [ :e | e isKindOf: MOTypeReference ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> unknownType [
+
+	^ unknownType ifNil: [ 
+		  unknownType := (self instantiate: MOType) name: #UNKNOWN ]
 ]
 
 { #category : #'as yet unclassified' }

@@ -41,11 +41,21 @@ MOImport >> name [
 
 { #category : #'as yet unclassified' }
 MOImport >> printOn: aStream [
-	aStream
-		nextPutAll: ' import { ';
-		nextPutAll: (',' join: (typeReferences collect: [ :t | t name ]));
-		nextPutAll: ' } from ';
-		nextPutAll: self fromString
+
+	aStream nextPutAll: 'import '.
+	typeReferences do: [ :t | t printOn: aStream ]
+]
+
+{ #category : #'as yet unclassified' }
+MOImport >> resolvesType: aString [
+
+	^ typeReferences anySatisfy: [ :tr | tr name = aString ]
+]
+
+{ #category : #'sdk functions' }
+MOImport >> typeNamed: aString [
+
+	^ (typeReferences detect: [ :tr | tr name = aString ]) candidate
 ]
 
 { #category : #'as yet unclassified' }

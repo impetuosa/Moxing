@@ -8,18 +8,18 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelCastExpressionBuilder >> build [
+{ #category : #accessing }
+MOModelCastExpressionBuilder >> expression: aMOVariableReference [ 
+	expression := aMOVariableReference
+]
+
+{ #category : #'as yet unclassified' }
+MOModelCastExpressionBuilder >> privateBuild [
 
 	^ (self instantiate: MOCastExpression)
 		  expression: expression;
 		  typeReference: typeReference;
 		  yourself
-]
-
-{ #category : #accessing }
-MOModelCastExpressionBuilder >> expression: aMOVariableReference [ 
-	expression := aMOVariableReference
 ]
 
 { #category : #generated }

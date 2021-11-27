@@ -5,7 +5,9 @@ Class {
 		'builder',
 		'surface',
 		'writeBuilder',
-		'subwriters'
+		'subwriters',
+		'from',
+		'to'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -13,6 +15,14 @@ Class {
 { #category : #writing }
 MOModelProceduralWriter >> addSubwriter: aWriter [ 
 	self subwriters add: aWriter 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> arrayTypeReferenceOf: aMOTypeReference [
+
+	^ builder arrayedTypeReferenceBuilder
+		  baseType: aMOTypeReference;
+		  build
 ]
 
 { #category : #writing }
@@ -25,6 +35,7 @@ MOModelProceduralWriter >> build [
 		subwriters do: [ :sw | 
 			sw surface: entity.
 			sw privateWriteToSurface: sw build ] ].
+	self installFromTo: entity.
 	^ entity
 ]
 
@@ -40,6 +51,12 @@ MOModelProceduralWriter >> builder: aMOModelBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> from: aFrom to: aTo [
+	from := aFrom.
+	to := aTo
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> immediateWriteParametrizedTypeReference: aFullBlockClosure [ 
 	self shouldBeImplemented.
 ]
@@ -47,6 +64,23 @@ MOModelProceduralWriter >> immediateWriteParametrizedTypeReference: aFullBlockCl
 { #category : #writing }
 MOModelProceduralWriter >> initializeWriteBuilder [
 	self subclassResponsibility 
+]
+
+{ #category : #writing }
+MOModelProceduralWriter >> installFromTo: entity [
+
+	(from isNotNil and: [ to isNotNil ]) ifTrue: [ 
+		entity anchor:
+			entity anchor / '@src' / from asString / #to / to asString ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> parametrizedTypeReferenceFullyNamed: aString arguments: aCollection [
+
+	^ builder parametrizedTypeReferenceBuilder
+		  fullName: aString;
+		  argumentTypeReferences: aCollection;
+		  build
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,6 +130,20 @@ MOModelProceduralWriter >> privateWriteToSurface: anEntity [
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> questionMarkTypeReference [
+
+	^ self typeReferenceNamed: #?
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> stringLiteral: aString [
+
+	^ builder stringLiteralBuilder
+		  value: aString;
+		  build
+]
+
 { #category : #writing }
 MOModelProceduralWriter >> subwriters [
 	^ subwriters ifNil: [ subwriters := OrderedCollection new ]
@@ -104,6 +152,20 @@ MOModelProceduralWriter >> subwriters [
 { #category : #accessing }
 MOModelProceduralWriter >> surface: aMOModelWriter [ 
 	surface := aMOModelWriter
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> thrownTypeReferences: aCollection [
+
+	writeBuilder thrownTypeReferences: aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> typeReferenceFullNamed: aString [
+
+	^ builder typeReferenceBuilder
+		  fullName: aString;
+		  build
 ]
 
 { #category : #'as yet unclassified' }

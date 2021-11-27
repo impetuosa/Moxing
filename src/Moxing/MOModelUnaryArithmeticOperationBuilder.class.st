@@ -4,8 +4,8 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelUnaryArithmeticOperationBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelUnaryArithmeticOperationBuilder >> privateBuild [
 
 	^ (self instantiate: MOUnaryArithmeticOperation)
 		  operator: self operator;

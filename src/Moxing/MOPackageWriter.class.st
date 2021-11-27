@@ -23,9 +23,8 @@ MOPackageWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOPackageWriter >> privateWriteToSurface: anEntity [
 
-	surface addPackage: anEntity.
-	anEntity parent: surface.
-
+	surface setAsParentOf: anEntity.
+	surface addPackage: anEntity
 ]
 
 { #category : #writing }

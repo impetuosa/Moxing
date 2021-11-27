@@ -7,9 +7,7 @@ Class {
 { #category : #writing }
 MOStatementWriter >> initializeWriteBuilder [
 
-	" statement writer select builder according with the mehtod usedt "
-
-	
+	self subclassResponsibility 
 ]
 
 { #category : #writing }
@@ -20,13 +18,6 @@ MOStatementWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOStatementWriter >> privateWriteToSurface: anEntity [
 
-	surface addStatement: anEntity.
-	anEntity parent: surface.
-	
-]
-
-{ #category : #'accessing - token' }
-MOStatementWriter >> return [
-
-	^ writeBuilder := builder returnBuilder
+	surface setAsParentOf: anEntity.
+	surface addStatement: anEntity
 ]

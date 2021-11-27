@@ -4,11 +4,12 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelAttributeBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelAttributeBuilder >> privateBuild [
 
 	^ (self instantiate: MOAttribute)
-		  name: name;
-		  typeReference: typeReference;
+		  name: self name;
+		  visibility: self visibility;
+		  typeReference: self typeReference;
 		  yourself
 ]

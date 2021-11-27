@@ -1,23 +1,18 @@
 Class {
 	#name : #MOArrayTypeReference,
-	#superclass : #Object,
-	#instVars : [
-		'innerType'
-	],
+	#superclass : #MOParametrizedTypeReference,
 	#category : #'Moxing-LanguageModel-Model'
 }
 
-{ #category : #'as yet unclassified' }
-MOArrayTypeReference >> dependencies [
-	^ innerType dependencies 
+{ #category : #testing }
+MOArrayTypeReference >> isArrayReference [
+	^ true 
 ]
 
-{ #category : #'as yet unclassified' }
-MOArrayTypeReference >> innerType: aMOTypescriptTypeReference [ 
-	innerType := aMOTypescriptTypeReference
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MOArrayTypeReference >> printOn: aStream [
-	aStream nextPutAll: innerType name ; nextPutAll:'[]'
+
+	aStream nextPutAll: '->'.
+	argumentTypeReferences printOn: aStream.
+	aStream nextPutAll: '[]'
 ]

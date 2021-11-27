@@ -21,6 +21,12 @@ MOPackage >> addClass: aMOClass [
 ]
 
 { #category : #adding }
+MOPackage >> addClassType: aMOClass [
+
+	self addType: aMOClass
+]
+
+{ #category : #adding }
 MOPackage >> addPackage: aMOPackage [
 
 	subpackages add: aMOPackage

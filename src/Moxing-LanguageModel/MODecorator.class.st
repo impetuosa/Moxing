@@ -7,9 +7,10 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
-{ #category : #visiting }
-MODecorator >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitDecorator: self 
+{ #category : #accessing }
+MODecorator >> acceptVisitor: aMOJavaModelReader [
+
+	^ aMOJavaModelReader visitDecoratorReference: self
 ]
 
 { #category : #accessing }

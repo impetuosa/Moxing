@@ -8,6 +8,19 @@ Class {
 }
 
 { #category : #accessing }
+MOConstructor >> acceptVisitor: aMOCatalogTypeInstaller [
+
+	^ aMOCatalogTypeInstaller visitConstructor: self
+]
+
+{ #category : #generated }
+MOConstructor >> hierarchicalChildren [
+
+	^ self parameters , self annotations , self typeParameters
+	  , { self block }
+]
+
+{ #category : #accessing }
 MOConstructor >> selector [ 
 	^ class name 
 ]

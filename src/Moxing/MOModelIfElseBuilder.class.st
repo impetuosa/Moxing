@@ -8,16 +8,6 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelIfElseBuilder >> build [
-
-	^ (self instantiate: MOIfElse)
-		  condition: self condition;
-		  ifTrue: self ifTrueBlock;
-		  ifFalse: self ifFalseBlock;
-		  yourself
-]
-
 { #category : #accessing }
 MOModelIfElseBuilder >> ifFalseBlock [
 
@@ -38,4 +28,14 @@ MOModelIfElseBuilder >> ifTrueBlock [
 { #category : #accessing }
 MOModelIfElseBuilder >> ifTrueBlock: aMOModelBlockBuilder [ 
 	ifTrueBlock := aMOModelBlockBuilder
+]
+
+{ #category : #'as yet unclassified' }
+MOModelIfElseBuilder >> privateBuild [
+
+	^ (self instantiate: MOIfElse)
+		  condition: self condition;
+		  ifTrue: self ifTrueBlock;
+		  ifFalse: self ifFalseBlock;
+		  yourself
 ]

@@ -11,3 +11,14 @@ Class {
 MOParametrizedTypeReference >> argumentTypeReferences: aCollection [ 
 	argumentTypeReferences := aCollection 
 ]
+
+{ #category : #accessing }
+MOParametrizedTypeReference >> fullName [
+
+	^ '.' join: self accessChain
+]
+
+{ #category : #'as yet unclassified' }
+MOParametrizedTypeReference >> isArrayReference [
+	^ false 
+]

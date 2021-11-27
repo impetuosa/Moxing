@@ -8,19 +8,19 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
+{ #category : #accessing }
+MOModelDecoratorBuilder >> name: aString [
+
+	name := aString
+]
+
 { #category : #'as yet unclassified' }
-MOModelDecoratorBuilder >> build [
+MOModelDecoratorBuilder >> privateBuild [
 
 	^ (self instantiate: MODecorator)
 		  name: name;
 		  attributes: self properties;
 		  yourself
-]
-
-{ #category : #accessing }
-MOModelDecoratorBuilder >> name: aString [
-
-	name := aString
 ]
 
 { #category : #'as yet unclassified' }

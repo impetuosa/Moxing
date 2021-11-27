@@ -33,7 +33,7 @@ MOJavaTarCatalogLoader >> load [
 
 	self class javaCatalog ifNotNil: [ ^ self class javaCatalog ].
 	model := MOCatalog new.
-
+	model anchor: (MOAnchor on: #/) / #catalog.
 	path := LibC resultOfCommand:
 		        ('mvn -f {1} dependency:build-classpath' format:
 			         { pom fullName }).
@@ -59,8 +59,8 @@ MOJavaTarCatalogLoader >> processClassDefinition: aString [
 	processing := aString trimBoth copyReplaceAll: 'static {};' with:''. 
 	
 	(processing beginsWith: 'public') ifFalse: [ ^ self ]. " We only process public stuff for the catalog  "
-	(JavaParser parse: processing) acceptVisitor: (MOJavapASTClassLoader new
-			 model: model;
+	(JavaParser parse: processing) acceptVisitor: (MOJavaFileLoader new
+			 writer: model writer;
 			 yourself)
 ]
 

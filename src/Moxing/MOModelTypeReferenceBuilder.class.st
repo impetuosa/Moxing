@@ -4,18 +4,38 @@ Class {
 	#instVars : [
 		'candidateAnchor',
 		'candidate',
-		'name'
+		'name',
+		'parent'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelTypeReferenceBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelTypeReferenceBuilder >> buildSubtypeReference [
+
+	| parentType typeNames |
+	self assert: self candidate isNil.
+	self assert: self candidateAnchor isNil.
+	typeNames := '$' split: self name.
+	parentType := (self instantiate: MOTypeReference)
+		              candidate: self candidate;
+		              name: typeNames first;
+		              parent: self parent;
+		              yourself.
+	^ typeNames allButFirst inject: parentType into: [ :prev :eachName | 
+		(self instantiate: MOTypeReference)
+			name: eachName;
+			parent: prev ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeReferenceBuilder >> buildTypeReference [
 
 	^ (self instantiate: MOTypeReference)
 		  candidateAnchor: self candidateAnchor;
 		  candidate: self candidate;
 		  name: self name;
+		  parent: self parent;
 		  yourself
 ]
 
@@ -42,6 +62,25 @@ MOModelTypeReferenceBuilder >> candidateAnchor: aMOAnchor [
 ]
 
 { #category : #accessing }
+MOModelTypeReferenceBuilder >> fullName: aString [
+
+	| parts |
+	parts := '.' split: aString.
+
+	self name: parts removeLast.
+
+	parent := parts size > 1
+		          ifTrue: [ 
+			          self packageReferenceBuilder
+				          packageFullName: ('.' join: parts);
+				          build ]
+		          ifFalse: [ 
+			          self packageReferenceBuilder
+				          packageName: parts first;
+				          build ]
+]
+
+{ #category : #accessing }
 MOModelTypeReferenceBuilder >> name [ 
 	^ name ifNil: [  self error: ' Type name is Nil! ' ]
 ]
@@ -49,6 +88,25 @@ MOModelTypeReferenceBuilder >> name [
 { #category : #accessing }
 MOModelTypeReferenceBuilder >> name: aString [ 
 	name := aString
+]
+
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> parent [
+	^ parent 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeReferenceBuilder >> privateBuild [
+
+	^ self refersToSubtype
+		  ifTrue: [ self buildSubtypeReference ]
+		  ifFalse: [ self buildTypeReference ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeReferenceBuilder >> refersToSubtype [
+
+	^ (name indexOf: $$) > 0
 ]
 
 { #category : #generated }

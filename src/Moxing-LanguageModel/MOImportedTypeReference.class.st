@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+MOImportedTypeReference >> acceptVisitor: aMOJavaModelReader [
+
+	^ aMOJavaModelReader visitImportedTypeReference: self
+]
+
+{ #category : #accessing }
 MOImportedTypeReference >> definedAt [
 	^ definedAt
 ]

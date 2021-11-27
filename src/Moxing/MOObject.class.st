@@ -41,3 +41,8 @@ MOObject >> parent [
 MOObject >> parent: aParent [
 	parent := aParent.
 ]
+
+{ #category : #initialization }
+MOObject >> setAsParentOf: aMOAnnotationInstance [ 
+	aMOAnnotationInstance parent: self 
+]

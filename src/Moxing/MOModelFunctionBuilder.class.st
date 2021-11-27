@@ -7,11 +7,14 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelFunctionBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelFunctionBuilder >> privateBuild [
 
-	self assert: self returnTypeReference isNotNil .
+	self assert: self returnTypeReference isNotNil.
 	^ (self instantiate: MOFunction)
+		  thrownTypeReferences: self thrownTypeReferences;
+		  visibility: self visibility;
+		  modifiers: self modifiers;
 		  selector: self selector;
 		  parameters: self parameters;
 		  block: self body;

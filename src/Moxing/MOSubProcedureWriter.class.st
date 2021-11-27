@@ -18,9 +18,8 @@ MOSubProcedureWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOSubProcedureWriter >> privateWriteToSurface: anEntity [
 
-	surface addProcedure: anEntity.
-	anEntity parent: surface.
-
+	surface setAsParentOf: anEntity.
+	surface addProcedure: anEntity
 ]
 
 { #category : #writing }

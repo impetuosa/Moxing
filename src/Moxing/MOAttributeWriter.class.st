@@ -4,6 +4,12 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #adding }
+MOAttributeWriter >> addModifier: aString [
+
+	writeBuilder addModifier: aString
+]
+
 { #category : #writing }
 MOAttributeWriter >> initializeWriteBuilder [
 
@@ -18,7 +24,17 @@ MOAttributeWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOAttributeWriter >> privateWriteToSurface: anEntity [
 
-	surface addAttribute: anEntity.
-	anEntity parent: surface.
+	surface setAsParentOf: anEntity.
+	surface addAttribute: anEntity
+]
 
+{ #category : #accessing }
+MOAttributeWriter >> visibility: anUndefinedObject [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #writing }
+MOAttributeWriter >> writeAnnotation: aFullBlockClosure [
+
+	^ self preWrite: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]

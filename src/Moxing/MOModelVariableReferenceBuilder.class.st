@@ -9,16 +9,6 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelVariableReferenceBuilder >> build [
-
-	^ (self instantiate: MOVariableReference)
-		  name: name;
-		  candidate: candidate;
-		  kind: kindOfEntry;
-		  yourself
-]
-
 { #category : #accessing }
 MOModelVariableReferenceBuilder >> candidate: aMOAttribute [ 
 	candidate := aMOAttribute 
@@ -33,6 +23,16 @@ MOModelVariableReferenceBuilder >> kindOfEntry: aString [
 { #category : #accessing }
 MOModelVariableReferenceBuilder >> name: aString [ 
 	name := aString
+]
+
+{ #category : #'as yet unclassified' }
+MOModelVariableReferenceBuilder >> privateBuild [
+
+	^ (self instantiate: MOVariableReference)
+		  name: name;
+		  candidate: candidate;
+		  kind: kindOfEntry;
+		  yourself
 ]
 
 { #category : #generated }

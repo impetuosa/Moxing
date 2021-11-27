@@ -11,8 +11,19 @@ MOVariableWriter >> initializeWriteBuilder [
 ]
 
 { #category : #generated }
+MOVariableWriter >> initializer: anUndefinedObject [ 
+	writeBuilder initializer: anUndefinedObject 
+]
+
+{ #category : #generated }
 MOVariableWriter >> modifier: aString [ 
 	writeBuilder addModifier: aString 
+]
+
+{ #category : #generated }
+MOVariableWriter >> modifiers: aCollection [
+
+	writeBuilder modifiers: aCollection
 ]
 
 { #category : #writing }
@@ -29,12 +40,19 @@ MOVariableWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
 
-	surface addVariable: anEntity.
-	anEntity parent: surface.
-	
+	surface setAsParentOf: anEntity.
+	surface addVariable: anEntity
 ]
 
 { #category : #writing }
 MOVariableWriter >> typeReference: aTypeReference [
 	writeBuilder typeReference: aTypeReference.
+]
+
+{ #category : #writing }
+MOVariableWriter >> writeNewExpression: aFullBlockClosure [
+
+	^ self
+		  preWrite: aFullBlockClosure
+		  inSubWriter: MOStatementNewExpressionWriter
 ]

@@ -10,6 +10,14 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> annotationInstanceBuilder [
+
+	^ MOModelAnnotationInstanceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> arithmeticOperatorBuilder [
 
 	^ MOArithmeticOperationBuilder new
@@ -21,6 +29,13 @@ MOModelBuilder >> arithmeticOperatorBuilder [
 MOModelBuilder >> arithmeticUnaryOperationBuilder [
 
 	^ MOModelUnaryArithmeticOperationBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> arrayedTypeReferenceBuilder [
+	^ MOModelArrayTypeReferenceBuilder  new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -77,6 +92,15 @@ MOModelBuilder >> castExpressionBuilder [
 MOModelBuilder >> classBuilder [
 
 	^ MOModelClassBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> classTypeBuilder [
+
+	^ MOModelClassTypeBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
 		  yourself
@@ -202,6 +226,14 @@ MOModelBuilder >> model: aModel [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> newExpressionBuilder [
+
+	^ MOModelNewExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> numericLiteralBuilder [
 
 	^ MONumericLiteralBuilder new
@@ -262,6 +294,14 @@ MOModelBuilder >> returnBuilder [
 MOModelBuilder >> stringLiteralBuilder [
 
 	^ MOStringLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> typeParameterBuilder [
+
+	^ MOModelTypeParameterBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

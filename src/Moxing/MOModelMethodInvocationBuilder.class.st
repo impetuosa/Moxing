@@ -7,13 +7,13 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelMethodInvocationBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelMethodInvocationBuilder >> privateBuild [
 
 	^ (self instantiate: MOMethodInvocation)
 		  receiverReference: self receiverReference;
 		  arguments: self arguments;
-		  selector: selector;
+		  selector: self selector;
 		  yourself
 ]
 

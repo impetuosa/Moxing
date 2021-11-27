@@ -5,30 +5,19 @@ Class {
 		'typeReference',
 		'typeReferences',
 		'class',
-		'file'
+		'file',
+		'importsPackage'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #accessing }
-MOModelImportBuilder >> addTypeReference: aTypeReference [
+{ #category : #'as yet unclassified' }
+MOModelImportBuilder >> buildImportFile [
 
-	self typeReferences add: aTypeReference
-]
-
-{ #category : #building }
-MOModelImportBuilder >> build [
-
-	^ file
-		  ifNil: [ 
-			  (self instantiate: MOImport)
-				  typeReferences: typeReferences;
-				  yourself ]
-		  ifNotNil: [ 
-			  (self instantiate: MOFileImport)
-				  from: file;
-				  typeReferences: typeReferences;
-				  yourself ]
+	^ (self instantiate: MOFileImport)
+		  from: file;
+		  typeReferences: typeReferences;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -36,10 +25,18 @@ MOModelImportBuilder >> file: anAddress [
 	file := anAddress 
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelImportBuilder >> importAllTypesOnPackage: aString [
+	importsPackage := true.
+	self typeReference: (self packageReferenceBuilder
+			 packageName: aString;
+			 build)
+]
+
 { #category : #accessing }
 MOModelImportBuilder >> importType: aMOClass [
 
-	self addTypeReference: (self typeReferenceBuilder
+	self typeReference: (self typeReferenceBuilder
 			 type: aMOClass;
 			 build)
 ]
@@ -47,18 +44,39 @@ MOModelImportBuilder >> importType: aMOClass [
 { #category : #accessing }
 MOModelImportBuilder >> importTypeName: aName [
 
-	self addTypeReference: (self typeReferenceBuilder
-			 name: aName;
+	self typeReference: (self typeReferenceBuilder
+			 fullName: aName;
 			 build)
 ]
 
 { #category : #accessing }
-MOModelImportBuilder >> importTypeReference: aReference [ 
-	self addTypeReference: aReference.
+MOModelImportBuilder >> importTypeReference: aReference [
+
+	self typeReference: aReference
+]
+
+{ #category : #'as yet unclassified' }
+MOModelImportBuilder >> importsFile [
+
+	^ file isNotNil
+]
+
+{ #category : #'as yet unclassified' }
+MOModelImportBuilder >> importsPackage [
+
+	^ importsPackage ifNil: [ importsPackage := false ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelImportBuilder >> privateBuild [
+
+	^ self importsFile
+		  ifTrue: [ self buildImportFile ]
+		  ifFalse: [ self buildImportNamespace ]
 ]
 
 { #category : #accessing }
-MOModelImportBuilder >> typeReferences [
+MOModelImportBuilder >> typeReference: aReference [
 
-	^ typeReferences ifNil: [ typeReferences := OrderedCollection new ]
+	typeReference := aReference
 ]

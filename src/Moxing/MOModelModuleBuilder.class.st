@@ -3,21 +3,11 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'name',
-		'packageRefrence',
-		'superclassReference'
+		'superclassReference',
+		'packageReference'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
-
-{ #category : #building }
-MOModelModuleBuilder >> build [
-
-	^ (self instantiate: MOClass)
-		  name: name;
-		  parent: self packageRefrence;
-		  superclass: self superclassReference;
-		  anchor: self packageRefrence candidate anchor / #class / name
-]
 
 { #category : #accessing }
 MOModelModuleBuilder >> name: aString [
@@ -33,19 +23,28 @@ MOModelModuleBuilder >> package: aMOPackage [
 			 build)
 ]
 
-{ #category : #'as yet unclassified' }
-MOModelModuleBuilder >> packageReference: aMOPackageReference [
-
-	packageRefrence := aMOPackageReference
-]
-
 { #category : #accessing }
-MOModelModuleBuilder >> packageRefrence [
+MOModelModuleBuilder >> packageReference [
 
-	^ packageRefrence ifNil: [ 
-		  packageRefrence := self packageReferenceBuilder
+	^ packageReference ifNil: [ 
+		  packageReference := self packageReferenceBuilder
 			                     package: (self packageBuilder
 					                      name: '<Default Package>';
 					                      build);
 			                     build ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelModuleBuilder >> packageReference: aMOPackageReference [
+
+	packageReference := aMOPackageReference
+]
+
+{ #category : #'as yet unclassified' }
+MOModelModuleBuilder >> privateBuild [
+
+	^ (self instantiate: MOClass)
+		  name: name;
+		  parent: self packageReference;
+		  anchor: self packageReference candidate anchor / #module / name
 ]

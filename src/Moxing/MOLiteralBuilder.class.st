@@ -14,16 +14,16 @@ MOLiteralBuilder >> assertValueType [
 ]
 
 { #category : #accessing }
-MOLiteralBuilder >> build [
+MOLiteralBuilder >> literalClass [
+	^ self subclassResponsibility 
+]
+
+{ #category : #'as yet unclassified' }
+MOLiteralBuilder >> privateBuild [
 
 	^ (self instantiate: self literalClass)
 		  literal: self value;
 		  yourself
-]
-
-{ #category : #accessing }
-MOLiteralBuilder >> literalClass [
-	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

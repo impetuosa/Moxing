@@ -2,7 +2,7 @@ Class {
 	#name : #MOClass,
 	#superclass : #MOClassType,
 	#instVars : [
-		'superclass'
+		'superclassReference'
 	],
 	#classInstVars : [
 		'object'
@@ -33,8 +33,8 @@ MOClass >> allVisibleMethods [
 
 	^ super allVisibleMethods 
 	  ,
-	  (superclass
-		   ifNotNil: [ superclass allVisibleMethods ]
+	  (superclassReference
+		   ifNotNil: [ superclassReference allVisibleMethods ]
 		   ifNil: [ {  } ])
 ]
 
@@ -49,14 +49,15 @@ MOClass >> dependencies [
 			str nextPutAll: (attributes flatCollect: [ :t | t dependencies ]).
 			str nextPutAll: (methods flatCollect: [ :t | t dependencies ]).
 			str
-				nextPutAll: (superclass ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
+				nextPutAll: (superclassReference ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
 	^ MOImport compressDependencyCollection: deps
 ]
 
 { #category : #generated }
 MOClass >> hierarchicalChildren [
 
-	^ self properties , self methods
+	^ self annotations , self imports , self typeParameters
+	  , self attributes , self methods
 ]
 
 { #category : #generated }
@@ -65,6 +66,14 @@ MOClass >> initialize [
 	super initialize.
 	methods := OrderedCollection new.
 	visibility := #default
+]
+
+{ #category : #accessing }
+MOClass >> parent: aParent [
+
+	aParent ifNil: [ ^ self ].
+	parent ifNotNil: [ self halt ].
+	parent := aParent
 ]
 
 { #category : #accessing }
@@ -81,12 +90,12 @@ MOClass >> printOn: aStream [
 ]
 
 { #category : #accessing }
-MOClass >> superclass [
+MOClass >> superclassReference [
 
-	^ superclass
+	^ superclassReference
 ]
 
 { #category : #accessing }
-MOClass >> superclass: anUndefinedObject [ 
-	superclass := anUndefinedObject
+MOClass >> superclassReference: anUndefinedObject [ 
+	superclassReference := anUndefinedObject
 ]

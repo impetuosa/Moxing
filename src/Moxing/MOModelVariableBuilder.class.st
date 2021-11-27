@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'name',
 		'typeReference',
-		'modifiers'
+		'modifiers',
+		'visibility'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -15,16 +16,6 @@ MOModelVariableBuilder >> addModifier: aString [
 	self modifiers add: aString
 ]
 
-{ #category : #building }
-MOModelVariableBuilder >> build [
-
-	^ (self instantiate: MOVariable)
-		  name: self name;
-		  modifiers: self modifiers; 
-		  typeReference: self typeReference;
-		  yourself
-]
-
 { #category : #accessing }
 MOModelVariableBuilder >> modifiers [
 
@@ -32,8 +23,28 @@ MOModelVariableBuilder >> modifiers [
 ]
 
 { #category : #accessing }
+MOModelVariableBuilder >> modifiers: aCollection [ 
+	modifiers := aCollection
+]
+
+{ #category : #accessing }
+MOModelVariableBuilder >> name [
+	^ name ifNil: [ self error: ' Name is Nil ' ]
+]
+
+{ #category : #accessing }
 MOModelVariableBuilder >> name: aString [ 
 	name := aString 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelVariableBuilder >> privateBuild [
+
+	^ (self instantiate: MOVariable)
+		  name: self name;
+		  modifiers: self modifiers; 
+		  typeReference: self typeReference;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -57,4 +68,9 @@ MOModelVariableBuilder >> typeReference [
 MOModelVariableBuilder >> typeReference: aMOTypeReference [
 
 	typeReference := aMOTypeReference
+]
+
+{ #category : #accessing }
+MOModelVariableBuilder >> visibility [
+	^ visibility 
 ]

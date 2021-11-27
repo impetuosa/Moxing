@@ -30,8 +30,32 @@ MOBlockWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOBlockWriter >> privateWriteToSurface: anEntity [
 
-	surface perform: messageToRegisterBlock withArguments: { anEntity }.
-	anEntity parent: surface
+	surface setAsParentOf: anEntity.
+	surface perform: messageToRegisterBlock withArguments: { anEntity }
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeMethodInvocation: aFullBlockClosure [ 
+
+
+	^ self
+		  preWrite: aFullBlockClosure
+		  inSubWriter: MOStatementMethodInvocationWriter 
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeNewExpression: aFullBlockClosure [
+
+	^ self
+		  preWrite: aFullBlockClosure
+		  inSubWriter: MOStatementNewExpressionWriter
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeReturnStatement: aFullBlockClosure [ 
+	^ self
+		  preWrite: aFullBlockClosure
+		  inSubWriter: MOStatementReturnWriter 
 ]
 
 { #category : #writing }

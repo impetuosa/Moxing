@@ -15,8 +15,8 @@ MOModelBlockBuilder >> addStatement: aMOModelVariableBuilder [
 	self statements add: aMOModelVariableBuilder
 ]
 
-{ #category : #building }
-MOModelBlockBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelBlockBuilder >> privateBuild [
 
 	^ (self instantiate: MOBlock)
 		  statements: self statements;

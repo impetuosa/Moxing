@@ -7,10 +7,13 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelProcedureBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelProcedureBuilder >> privateBuild [
 
 	^ (self instantiate: MOProcedure)
+		  thrownTypeReferences: self thrownTypeReferences;
+		  visibility: self visibility;
+		  modifiers: self modifiers;
 		  selector: self selector;
 		  parameters: self parameters;
 		  block: self body;

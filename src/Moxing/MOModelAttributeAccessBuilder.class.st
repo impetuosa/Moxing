@@ -30,17 +30,17 @@ MOModelAttributeAccessBuilder >> addVariableReference: aMOVariableReference [
 	segments add: aMOVariableReference
 ]
 
-{ #category : #building }
-MOModelAttributeAccessBuilder >> build [
-
-	^ (self instantiate: MOAttributeAccess)
-		  segments: segments;
-		  yourself
-]
-
 { #category : #adding }
 MOModelAttributeAccessBuilder >> initialize [
 
 	super initialize.
 	segments := OrderedCollection new
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAttributeAccessBuilder >> privateBuild [
+
+	^ (self instantiate: MOAttributeAccess)
+		  segments: segments;
+		  yourself
 ]

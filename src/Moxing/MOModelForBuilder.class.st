@@ -9,17 +9,6 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelForBuilder >> build [
-
-	^ (self instantiate: MOFor)
-		  initializeOperation: self initializeOperation;
-		  updateOperation: self updateOperation;
-		  condition: self condition;
-		  loopingBlock: self loopingBlock;
-		  yourself
-]
-
 { #category : #accessing }
 MOModelForBuilder >> initializeOperation [
 
@@ -40,6 +29,17 @@ MOModelForBuilder >> loopingBlock [
 { #category : #accessing }
 MOModelForBuilder >> loopingBlock: aMOBlock [ 
 	loopingBlock := aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
+MOModelForBuilder >> privateBuild [
+
+	^ (self instantiate: MOFor)
+		  initializeOperation: self initializeOperation;
+		  updateOperation: self updateOperation;
+		  condition: self condition;
+		  loopingBlock: self loopingBlock;
+		  yourself
 ]
 
 { #category : #accessing }

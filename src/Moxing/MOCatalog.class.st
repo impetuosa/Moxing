@@ -4,10 +4,38 @@ Class {
 	#instVars : [
 		'entities',
 		'anchor',
-		'name'
+		'name',
+		'language'
 	],
 	#category : #'Moxing-Core'
 }
+
+{ #category : #'instance creation' }
+MOCatalog class >> newJava [
+
+	| instance |
+	instance := self new.
+	instance language: (MOLanguage javaFor: instance).
+	^ instance
+]
+
+{ #category : #'instance creation' }
+MOCatalog class >> newMicrosoftAccess [
+
+	| instance |
+	instance := self new.
+	instance language: (MOLanguage microsoftAccessFor: instance).
+	^ instance
+]
+
+{ #category : #'instance creation' }
+MOCatalog class >> newTypescript [
+
+	| instance |
+	instance := self new.
+	instance language: (MOLanguage typescriptFor: instance).
+	^ instance
+]
 
 { #category : #accessing }
 MOCatalog >> anchor [
@@ -26,6 +54,20 @@ MOCatalog >> entities [
 	^ entities
 ]
 
+{ #category : #generated }
+MOCatalog >> imports [
+	^ entities select: [ : e  | e isKindOf: MOImport ]
+]
+
+{ #category : #'as yet unclassified' }
+MOCatalog >> inPackage: aString [
+
+	^ self types select: [ :t | 
+		  t parent isNotNil and: [ 
+			  (t parent isKindOf: MOPackageReference) and: [ 
+				  t parent accessChainString = aString ] ] ]
+]
+
 { #category : #initialization }
 MOCatalog >> initialize [ 
 	super initialize.
@@ -38,6 +80,16 @@ MOCatalog >> instantiate: aClass [
 	instance := aClass newInstanceFromModel .
 	entities add: instance.
 	^ instance
+]
+
+{ #category : #accessing }
+MOCatalog >> language [
+	^ language
+]
+
+{ #category : #accessing }
+MOCatalog >> language: aMOLanguage [ 
+	language := aMOLanguage
 ]
 
 { #category : #accessing }
@@ -58,8 +110,34 @@ MOCatalog >> packages [
 ]
 
 { #category : #accessing }
+MOCatalog >> references [
+	^ entities select: [ : e | e isKindOf: MOReference ]
+]
+
+{ #category : #accessing }
 MOCatalog >> rootPackages [
 
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent isNil ] ]
+]
+
+{ #category : #accessing }
+MOCatalog >> types [
+
+	^ entities select: [ :e | e isKindOf: MOType ]
+]
+
+{ #category : #'as yet unclassified' }
+MOCatalog >> typesNamed: aString [
+
+	^ entities select: [ :e | 
+		  (e isKindOf: MOType) and: [ e name = aString ] ]
+]
+
+{ #category : #accessing }
+MOCatalog >> writer [
+
+	^ MOModelWriter new
+		  model: self;
+		  yourself
 ]

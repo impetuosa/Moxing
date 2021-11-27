@@ -18,9 +18,8 @@ MOFunctionWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOFunctionWriter >> privateWriteToSurface: anEntity [
 
-	surface addFunction: anEntity.
-	anEntity parent: surface.
-
+	surface setAsParentOf: anEntity.
+	surface addFunction: anEntity
 ]
 
 { #category : #writing }

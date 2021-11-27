@@ -8,8 +8,8 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #building }
-MOModelAssignmentBuilder >> build [
+{ #category : #'as yet unclassified' }
+MOModelAssignmentBuilder >> privateBuild [
 
 	^ (self instantiate: MOAssignment)
 		  read: read;

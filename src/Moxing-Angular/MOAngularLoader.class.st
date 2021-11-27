@@ -19,7 +19,7 @@ MOAngularLoader >> isWellKnownNotDirectory: aFileReference [
 MOAngularLoader >> loadNamed: aName [
 
 	| schema |
-	model := MOModel new.
+	model := MOModel newTypescript.
 	model name: aName.
 	model anchor: (MOAnchor on: #/) / aName.
 

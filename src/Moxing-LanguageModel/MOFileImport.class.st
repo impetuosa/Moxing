@@ -23,3 +23,12 @@ MOFileImport >> from: aFileReference [
 MOFileImport >> fromString [
 	^ from ifNil: [ 'ERROR! FROM IS EMPTTY' ] ifNotNil: [ from ]
 ]
+
+{ #category : #'as yet unclassified' }
+MOFileImport >> printOn: aStream [
+	aStream
+		nextPutAll: ' import { ';
+		nextPutAll: (',' join: (typeReferences collect: [ :t | t name ]));
+		nextPutAll: ' } from ';
+		nextPutAll: self fromString
+]

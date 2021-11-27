@@ -32,7 +32,7 @@ MOJavapASTClassLoader >> lastIdString [
 { #category : #accessing }
 MOJavapASTClassLoader >> model: aMOModel [
 
-	model := aMOModel catalog. 
+	model := aMOModel . 
 ]
 
 { #category : #initialization }

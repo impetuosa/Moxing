@@ -1,12 +1,12 @@
 Class {
 	#name : #MOClassType,
-	#superclass : #MOType,
+	#superclass : #MOTypeParameter,
 	#instVars : [
 		'attributes',
 		'imports',
 		'decorator',
 		'methods',
-		'supertypes'
+		'typeParameters'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -23,16 +23,23 @@ MOClassType >> addImport: aMOTypescriptImport [
 ]
 
 { #category : #adding }
-MOClassType >> addMethod: aJinTypescriptMethod [ 
-	methods  add: aJinTypescriptMethod .
-	aJinTypescriptMethod setOwnerClass: self . 
+MOClassType >> addMethod: aJinTypescriptMethod [
+
+	self methods add: aJinTypescriptMethod.
+	aJinTypescriptMethod setOwnerClass: self
+]
+
+{ #category : #adding }
+MOClassType >> addTypeParameter: aMOTypeParameter [
+
+	self typeParameters add: aMOTypeParameter
 ]
 
 { #category : #'as yet unclassified' }
 MOClassType >> allVisibleMethods [
 
-	^ methods , (supertypes
-		   ifNotNil: [ supertypes flatCollect: [ :t | t allVisibleMethods ] ]
+	^ self methods , (supertypeReferences
+		   ifNotNil: [ supertypeReferences flatCollect: [ :t | t allVisibleMethods ] ]
 		   ifNil: [ {  } ])
 ]
 
@@ -69,6 +76,11 @@ MOClassType >> imports [
 	^ imports
 ]
 
+{ #category : #accessing }
+MOClassType >> imports: aCollection [ 
+	imports := aCollection
+]
+
 { #category : #generated }
 MOClassType >> initialize [ 
 	super initialize .
@@ -76,9 +88,10 @@ MOClassType >> initialize [
 	imports := OrderedCollection new. 
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 MOClassType >> methods [
-	^ methods
+
+	^ methods ifNil: [ methods := OrderedCollection new ]
 ]
 
 { #category : #adding }
@@ -89,7 +102,8 @@ MOClassType >> printOn: aStream [
 		nextPutAll: name
 ]
 
-{ #category : #accessing }
-MOClassType >> supertypes: aCollection [ 
-	supertypes := aCollection
+{ #category : #generated }
+MOClassType >> typeParameters [
+
+	^ typeParameters ifNil: [ typeParameters := OrderedCollection new ]
 ]

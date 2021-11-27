@@ -11,21 +11,6 @@ Class {
 }
 
 { #category : #actions }
-MOTypescriptAbstractLoader class >> load: aJSDecoratorExpressionNode file: aFile anchor: anAnchor types: types model: aModel parent: aParent [
-
-	| loader |
-	loader := self new.
-	loader types: types.
-	loader file: aFile.
-	loader anchor: anAnchor.
-	loader model: aModel.
-	loader parent: parent. 
-	aJSDecoratorExpressionNode acceptVisitor: loader.
-	loader result parent: aParent.
-	^ loader result
-]
-
-{ #category : #actions }
 MOTypescriptAbstractLoader class >> loadArtefact: anAst writer: aWriter [ 
 
 	| loader |

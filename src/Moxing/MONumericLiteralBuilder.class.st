@@ -10,8 +10,8 @@ MONumericLiteralBuilder >> assertValueType [
 	self assert: value isNumber
 ]
 
-{ #category : #building }
-MONumericLiteralBuilder >> build [
+{ #category : #'as yet unclassified' }
+MONumericLiteralBuilder >> privateBuild [
 
 	self value isInteger ifTrue: [ 
 		^ (self instantiate: MOIntegerLiteral)

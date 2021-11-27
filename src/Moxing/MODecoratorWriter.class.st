@@ -22,9 +22,9 @@ MODecoratorWriter >> privateSetAnchor: anEntity [
 
 { #category : #initialization }
 MODecoratorWriter >> privateWriteToSurface: anEntity [
-	surface decorator: anEntity.
-	anEntity parent: surface.
 
+	surface setAsParentOf: anEntity.
+	surface decorator: anEntity
 ]
 
 { #category : #'as yet unclassified' }

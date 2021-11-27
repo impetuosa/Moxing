@@ -9,6 +9,12 @@ MOImportWriter >> file: aString [
 	writeBuilder file: aString 
 ]
 
+{ #category : #'as yet unclassified' }
+MOImportWriter >> importAllTypesOnPackage: aString [
+
+	writeBuilder importAllTypesOnPackage: aString
+]
+
 { #category : #accessing }
 MOImportWriter >> importTypeName: aString [ 
 	writeBuilder importTypeName: aString 
@@ -28,6 +34,6 @@ MOImportWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOImportWriter >> privateWriteToSurface: anEntity [
 
-	surface addImport: anEntity.
-	anEntity parent: surface
+	surface setAsParentOf: anEntity.
+	surface addImport: anEntity
 ]
