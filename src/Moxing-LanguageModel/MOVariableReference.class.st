@@ -10,8 +10,7 @@ Class {
 { #category : #visiting }
 MOVariableReference >> acceptVisitor: aMOTypescriptCodeGenerator [
 
-	aMOTypescriptCodeGenerator visitVariableReference:
-		self
+	^ aMOTypescriptCodeGenerator visitVariableReference: self
 ]
 
 { #category : #accessing }

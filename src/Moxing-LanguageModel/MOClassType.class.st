@@ -11,6 +11,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
+{ #category : #accessing }
+MOClassType >> acceptVisitor: aMOCatalogTypeInstaller [
+
+	^ aMOCatalogTypeInstaller visitClassType: self
+]
+
 { #category : #adding }
 MOClassType >> addAttribute: aProperty [
 	attributes add: aProperty.
@@ -48,6 +54,12 @@ MOClassType >> attributes [
 	^ attributes 
 ]
 
+{ #category : #'as yet unclassified' }
+MOClassType >> constructors [
+
+	^ self methods select: [ :m | m isKindOf: MOConstructor ]
+]
+
 { #category : #generated }
 MOClassType >> decorator [
 	^ decorator
@@ -71,6 +83,13 @@ MOClassType >> dependencies [
 	^ MOImport compressDependencyCollection: deps
 ]
 
+{ #category : #generated }
+MOClassType >> hierarchicalChildren [
+
+	^ self annotations , self imports , self typeParameters
+	  , self attributes , self methods
+]
+
 { #category : #'as yet unclassified' }
 MOClassType >> imports [
 	^ imports
@@ -79,6 +98,12 @@ MOClassType >> imports [
 { #category : #accessing }
 MOClassType >> imports: aCollection [ 
 	imports := aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOClassType >> inheritanceTypeReferences [
+
+	^ supertypeReferences copy
 ]
 
 { #category : #generated }

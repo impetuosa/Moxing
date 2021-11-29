@@ -28,7 +28,7 @@ MOFileImport >> fromString [
 MOFileImport >> printOn: aStream [
 	aStream
 		nextPutAll: ' import { ';
-		nextPutAll: (',' join: (typeReferences collect: [ :t | t name ]));
+		nextPutAll: (',' join: (typeReference collect: [ :t | t name ]));
 		nextPutAll: ' } from ';
 		nextPutAll: self fromString
 ]

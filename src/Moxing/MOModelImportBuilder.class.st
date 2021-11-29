@@ -3,7 +3,6 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'typeReference',
-		'typeReferences',
 		'class',
 		'file',
 		'importsPackage'
@@ -16,8 +15,22 @@ MOModelImportBuilder >> buildImportFile [
 
 	^ (self instantiate: MOFileImport)
 		  from: file;
-		  typeReferences: typeReferences;
+		  typeReferences: typeReference;
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelImportBuilder >> buildImportNamespace [
+
+	^ self importsPackage
+		  ifTrue: [ 
+			  (self instantiate: MOImportPackage)
+				  typeReference: typeReference;
+				  yourself ]
+		  ifFalse: [ 
+			  (self instantiate: MOImport)
+				  typeReference: typeReference;
+				  yourself ]
 ]
 
 { #category : #accessing }
@@ -27,6 +40,7 @@ MOModelImportBuilder >> file: anAddress [
 
 { #category : #'as yet unclassified' }
 MOModelImportBuilder >> importAllTypesOnPackage: aString [
+
 	importsPackage := true.
 	self typeReference: (self packageReferenceBuilder
 			 packageName: aString;

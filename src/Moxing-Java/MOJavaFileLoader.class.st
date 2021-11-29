@@ -120,9 +120,10 @@ MOJavaFileLoader >> visitClassDeclaration: aJavaClassDeclarationNode [
 			class addSuperTypeReference: (self typeReferenceFor: int) ].
 		(self isFullName: name)
 			ifTrue: [ class fullName: name ]
-			ifFalse: [ class name: name ].
+			ifFalse: [ 
+				class name: name.
+				class packageReference: packageReference ].
 		class imports: imports.
-		class packageReference: packageReference.
 		self use: class during: [ 
 			aJavaClassDeclarationNode typeParameters ifNotNil: [ :p | 
 				self visitCollection: p parameters ].
@@ -199,11 +200,12 @@ MOJavaFileLoader >> visitInterfaceDeclaration: aJavaInterfaceDeclarationNode [
 			class addSuperTypeReference: (self typeReferenceFor: int) ].
 		(self isFullName: name)
 			ifTrue: [ 
-				self halt.
 				class fullName: name ]
-			ifFalse: [ class name: name ].
+			ifFalse: [ 
+				class name: name.
+				class packageReference: packageReference ].
 		class imports: imports.
-		class packageReference: packageReference.
+
 		self use: class during: [ 
 			aJavaInterfaceDeclarationNode typeParameters ifNotNil: [ :p | 
 				self visitCollection: p parameters ].
@@ -288,7 +290,7 @@ MOJavaFileLoader >> visitNew: aJavaNewNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitPackageDeclaration: aJavaPackageDeclarationNode [
 
-	packageReference := writer packageReference:
+	packageReference := writer packageReferenceNamed:
 		                    aJavaPackageDeclarationNode name source
 ]
 

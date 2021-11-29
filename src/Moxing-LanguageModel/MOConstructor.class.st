@@ -22,7 +22,7 @@ MOConstructor >> hierarchicalChildren [
 
 { #category : #accessing }
 MOConstructor >> selector [ 
-	^ class name 
+	^ parent name 
 ]
 
 { #category : #accessing }

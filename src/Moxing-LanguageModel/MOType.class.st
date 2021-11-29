@@ -3,8 +3,7 @@ Class {
 	#superclass : #MOLanguageObject,
 	#instVars : [
 		'modifiers',
-		'visibility',
-		'packageReference'
+		'visibility'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -17,7 +16,8 @@ MOType >> addModifier: aModifier [
 
 { #category : #accessing }
 MOType >> fullName [
-	self shouldBeImplemented.
+
+	^ parent name , '.' , self name
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ MOType >> modifiers: aSet [
 { #category : #accessing }
 MOType >> packageReference [
 
-	^ packageReference
+	^ parent
 ]
 
 { #category : #accessing }

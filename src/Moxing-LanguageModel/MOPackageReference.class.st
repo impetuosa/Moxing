@@ -11,7 +11,7 @@ MOPackageReference >> acceptVisitor: aMOModelLinker [
 ]
 
 { #category : #'as yet unclassified' }
-MOPackageReference >> accessChain [
+MOPackageReference >> accessChain2 [
 
 	| current chain |
 	chain := OrderedCollection new.
@@ -22,12 +22,6 @@ MOPackageReference >> accessChain [
 		chain add: current name.
 		current := current parent ].
 	^ chain reversed
-]
-
-{ #category : #'as yet unclassified' }
-MOPackageReference >> accessChainString [
-
-	^ '.' join: self accessChain
 ]
 
 { #category : #adding }
@@ -42,6 +36,17 @@ MOPackageReference >> addPackage: aMOPackage [
 	candidate addPackage: aMOPackage
 ]
 
+{ #category : #accessing }
+MOPackageReference >> parent: aParent [ 
+	" dont care about parents "
+]
+
+{ #category : #accessing }
+MOPackageReference >> path [
+
+	^ '.' split: name
+]
+
 { #category : #adding }
 MOPackageReference >> printOn: aStream [
 
@@ -53,4 +58,10 @@ MOPackageReference >> printOn: aStream [
 		chain add: str name.
 		str := str parent ].
 	aStream nextPutAll: ('.' join: chain reversed)
+]
+
+{ #category : #accessing }
+MOPackageReference >> types [
+
+	^ candidate types
 ]

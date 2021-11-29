@@ -40,24 +40,6 @@ MOModelPackageReferenceBuilder >> package: aPackage [
 ]
 
 { #category : #accessing }
-MOModelPackageReferenceBuilder >> packageFullName: aString [
-
-	| parts |
-	parts := '.' split: aString.
-	self packageName: parts removeLast. 
-	parent := parts allButFirst
-		inject: (self packageReferenceBuilder
-				 packageName: parts first;
-				 build)
-		into: [ :prev :each | 
-			(self packageReferenceBuilder
-				 packageName: each;
-				 build)
-				parent: prev;
-				yourself ]
-]
-
-{ #category : #accessing }
 MOModelPackageReferenceBuilder >> packageName: aName [ 
 	name := aName
 ]
@@ -70,9 +52,12 @@ MOModelPackageReferenceBuilder >> parent [
 { #category : #'as yet unclassified' }
 MOModelPackageReferenceBuilder >> privateBuild [
 
-	^ (self instantiate: MOPackageReference)
-		  parent: self parent;
-		  candidateAnchor: self candidateAnchor;
-		  name: self name;
-		  candidate: self candidate
+	^ self
+		  findInModel: [ :a | 
+		  (a isKindOf: MOPackageReference) and: [ a name = self name ] ]
+		  ifNone: [ 
+			  (self instantiate: MOPackageReference)
+				  candidateAnchor: self candidateAnchor;
+				  name: self name;
+				  candidate: self candidate ]
 ]

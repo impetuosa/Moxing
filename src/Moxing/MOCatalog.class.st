@@ -109,6 +109,15 @@ MOCatalog >> packages [
 	^ entities select: [ :a | a isKindOf: MOPackage ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOCatalog >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
+
+	^ entities
+		  detect: [ :e | 
+		  (e isKindOf: MOPrimitiveType) and: [ e name = aString ] ]
+		  ifNone: [ aFullBlockClosure value ]
+]
+
 { #category : #accessing }
 MOCatalog >> references [
 	^ entities select: [ : e | e isKindOf: MOReference ]
@@ -119,6 +128,15 @@ MOCatalog >> rootPackages [
 
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent isNil ] ]
+]
+
+{ #category : #'as yet unclassified' }
+MOCatalog >> typeDefinedInPackage: aString [
+
+	^ entities select: [ :e | 
+		  (e isKindOf: MOType) and: [ 
+			  (e parent isKindOf: MOPackageReference) and: [ 
+				  e parent name = aString ] ] ]
 ]
 
 { #category : #accessing }

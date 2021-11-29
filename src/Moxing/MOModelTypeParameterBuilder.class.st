@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'name',
 		'superTypeReferences',
-		'parent'
+		'packageRefrence'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -18,20 +18,15 @@ MOModelTypeParameterBuilder >> addSuperTypeReference: aMOTypeReference [
 { #category : #accessing }
 MOModelTypeParameterBuilder >> fullName: aString [
 
-	| parts |
+	| parts packageName |
 	parts := '.' split: aString.
 
 	self name: parts removeLast.
+	packageName := '.' join: parts.
 
-	parent := parts size > 1
-		          ifTrue: [ 
-			          self packageReferenceBuilder
-				          packageFullName: ('.' join: parts);
-				          build ]
-		          ifFalse: [ 
-			          self packageReferenceBuilder
-				          packageName: parts first;
-				          build ]
+	self packageReference: (self packageReferenceBuilder
+			 packageName: packageName;
+			 build)
 ]
 
 { #category : #accessing }
@@ -45,9 +40,24 @@ MOModelTypeParameterBuilder >> name: aString [
 	name := aString
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> package: aMOPackage [
+
+	self packageReference: (self packageReferenceBuilder
+			 package: aMOPackage;
+			 build)
+]
+
 { #category : #accessing }
-MOModelTypeParameterBuilder >> parent [
-	^ parent
+MOModelTypeParameterBuilder >> packageReference [
+
+	^ packageRefrence 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> packageReference: aMOPackageReference [
+
+	packageRefrence := aMOPackageReference
 ]
 
 { #category : #'as yet unclassified' }
@@ -55,7 +65,7 @@ MOModelTypeParameterBuilder >> privateBuild [
 
 	^ (self instantiate: MOTypeParameter)
 		  name: self name;
-		  parent: self parent; 
+		  parent: self packageReference; 
 		  superTypeReferences: self superTypeReferences;
 		  yourself
 ]

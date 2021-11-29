@@ -28,6 +28,13 @@ MOClass >> addConstructor: aMOConstructor [
 	methods add: aMOConstructor
 ]
 
+{ #category : #navigation }
+MOClass >> allMethods [
+
+	^ methods
+	  , (self superClass ifNotNil: [ :s | s allMethods ] ifNil: [ {  } ])
+]
+
 { #category : #generated }
 MOClass >> allVisibleMethods [
 
@@ -60,6 +67,14 @@ MOClass >> hierarchicalChildren [
 	  , self attributes , self methods
 ]
 
+{ #category : #'as yet unclassified' }
+MOClass >> inheritanceTypeReferences [
+
+	^ super inheritanceTypeReferences , (superclassReference
+		   ifNotNil: [ { superclassReference } ]
+		   ifNil: [ {  } ])
+]
+
 { #category : #generated }
 MOClass >> initialize [
 
@@ -87,6 +102,12 @@ MOClass >> printOn: aStream [
 	aStream
 		nextPutAll: 'class: ';
 		nextPutAll: name
+]
+
+{ #category : #'as yet unclassified' }
+MOClass >> superClass [
+
+	^ self superclassReference ifNotNil: [ :s | s candidate ]
 ]
 
 { #category : #accessing }

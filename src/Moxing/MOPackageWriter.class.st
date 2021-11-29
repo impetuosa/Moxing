@@ -15,6 +15,14 @@ MOPackageWriter >> name: aString [
 	writeBuilder name: aString
 ]
 
+{ #category : #accessing }
+MOPackageWriter >> path: aCollection [
+
+	writeBuilder
+		parent: (builder ensurePackagePath: aCollection allButLast);
+		name: aCollection last
+]
+
 { #category : #writing }
 MOPackageWriter >> privateSetAnchor: anEntity [ 
 	anEntity anchor: surface anchor / #package / anEntity name

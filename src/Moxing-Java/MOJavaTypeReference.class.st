@@ -83,7 +83,7 @@ MOJavaTypeReference >> visitName: aJavaNameNode [
 { #category : #visiting }
 MOJavaTypeReference >> visitPrimitiveType: aJavaLongTypeNode [
 
-	^ writer typeReferenceNamed: aJavaLongTypeNode token value
+	^ writer primitiveTypeReferenceNamed: aJavaLongTypeNode token value
 ]
 
 { #category : #visiting }
@@ -126,7 +126,8 @@ MOJavaTypeReference >> visitTypeName: aJavaTypeNameNode [
 { #category : #visiting }
 MOJavaTypeReference >> visitVoidType: aJavaVoidTypeNode [
 
-	^ writer typeReferenceNamed: aJavaVoidTypeNode voidToken value
+	^ writer primitiveTypeReferenceNamed:
+		  aJavaVoidTypeNode voidToken value
 ]
 
 { #category : #accessing }

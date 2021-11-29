@@ -30,6 +30,14 @@ MOModelBuilderDelegate >> classBuilder [
 	^ parentBuilder classBuilder
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilderDelegate >> findInModel: aFullBlockClosure ifNone: aFullBlockClosure2 [
+
+	^ parentBuilder
+		  findInModel: aFullBlockClosure
+		  ifNone: aFullBlockClosure2
+]
+
 { #category : #'instance creation' }
 MOModelBuilderDelegate >> instantiate: aClass [
 

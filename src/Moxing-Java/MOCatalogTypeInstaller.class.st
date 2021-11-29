@@ -2,18 +2,33 @@ Class {
 	#name : #MOCatalogTypeInstaller,
 	#superclass : #Object,
 	#instVars : [
-		'writer'
+		'writer',
+		'model'
 	],
 	#category : #'Moxing-Java-Loader'
 }
 
 { #category : #'as yet unclassified' }
+MOCatalogTypeInstaller >> getType: aMOClassType from: aMOModel [
+
+	| packageReference |
+	packageReference := aMOClassType parent.
+	packageReference ifNil: [ ^ {  } ].
+	^ (aMOModel typesNamed: aMOClassType name) select: [ :t | 
+		  t parent isNotNil and: [ t parent name = packageReference name ] ]
+]
+
+{ #category : #'as yet unclassified' }
 MOCatalogTypeInstaller >> install: aMOInterface into: aMOModel [
 
 	self assert: (aMOInterface isKindOf: MOType).
-	writer := aMOModel writer.
-	aMOInterface acceptVisitor: self.
-	^ writer entity
+	model := aMOModel .
+	^ (self getType: aMOInterface from: aMOModel)
+		  ifEmpty: [ 
+			  writer := aMOModel writer.
+			  aMOInterface acceptVisitor: self.
+			  writer entity ]
+		  ifNotEmpty: [ :t | t anyOne ]
 ]
 
 { #category : #evaluating }
@@ -23,6 +38,15 @@ MOCatalogTypeInstaller >> use: aWriter during: aBlock [
 	prev := writer.
 	writer := aWriter.
 	aBlock ensure: [ writer := prev ]
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitArrayTypeReference: aMOArrayTypeReference [
+
+	| params |
+	params := aMOArrayTypeReference argumentTypeReferences collect: [ :t | 
+		          t acceptVisitor: self ].
+	^ writer arrayTypeReferenceOf: params first
 ]
 
 { #category : #visiting }
@@ -52,6 +76,7 @@ MOCatalogTypeInstaller >> visitBlock: aMOBlock [
 MOCatalogTypeInstaller >> visitClass: aMOClass [
 
 	^ writer writeClass: [ :class | 
+		  class packageReference: (aMOClass parent acceptVisitor: self).
 		  class name: aMOClass name.
 		  class superclassReference:
 			  (aMOClass superclassReference ifNotNil: [ :i | 
@@ -61,6 +86,20 @@ MOCatalogTypeInstaller >> visitClass: aMOClass [
 		  self
 			  use: class
 			  during: [ self visitCollection: aMOClass hierarchicalChildren ] ]
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitClassType: aMOClassType [
+
+	^ writer writeClassType: [ :class | 
+		  class packageReference: (aMOClassType parent acceptVisitor: self).
+		  class name: aMOClassType name.
+		  class superTypeReferences:
+			  (self visitCollection: aMOClassType supertypeReferences).
+		  self
+			  use: class
+			  during: [ 
+			  self visitCollection: aMOClassType hierarchicalChildren ] ]
 ]
 
 { #category : #visiting }
@@ -102,23 +141,18 @@ MOCatalogTypeInstaller >> visitMethod: aMOMethod [
 ]
 
 { #category : #visiting }
-MOCatalogTypeInstaller >> visitPackage: aMOPackage [
+MOCatalogTypeInstaller >> visitPackageDependency: aMOImportPackage [
 
-	| new |
-	aMOPackage parent ifNotNil: [ aMOPackage parent acceptVisitor: self ].
-	package
-		ifNil: [ 
-			package := model rootPackages detect: [ :p | 
-				           p name = aMOPackage name ] ]
-		ifNotNil: [ 
-			package := package subpackages
-				           detect: [ :p | p name = aMOPackage name ]
-				           ifNone: [ 
-					           new := MOPackage newForJavaIn: model.
-					           new name: aMOPackage name.
-					           package addPackage: new.
-					           new anchor: package anchor / #packages / new name.
-					           new ] ]
+	writer writeImport: [ :i | 
+		i importAllTypesOnPackage: aMOImportPackage typeReference name ]
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitPackageReference: aMOPackageReference [
+
+	^ (writer packageReferenceNamed: aMOPackageReference name) parent:
+		  (aMOPackageReference parent ifNotNil: [ :p | 
+			   p acceptVisitor: self ])
 ]
 
 { #category : #visiting }
@@ -135,14 +169,49 @@ MOCatalogTypeInstaller >> visitParameter: aMOParameter [
 ]
 
 { #category : #visiting }
+MOCatalogTypeInstaller >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
+
+	| params type ref |
+	type := self getType: aMOParametrizedTypeReference from: model.
+	params := aMOParametrizedTypeReference argumentTypeReferences 
+		          collect: [ :t | t acceptVisitor: self ].
+	ref := writer
+		       parametrizedTypeReferenceNamed:
+		       aMOParametrizedTypeReference name
+		       arguments: params.
+	type ifNotEmpty: [ ref candidate: type anyOne ].
+	^ ref
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
+
+	^ writer primitiveTypeReferenceNamed: aMOPrimitiveTypeReference name
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitTypeParameter: aMOTypeParameter [
+
+	writer writeTypeParameter: [ :typeParameter | 
+		typeParameter name: aMOTypeParameter name.
+		typeParameter superTypeReferences:
+			(self visitCollection: aMOTypeParameter supertypeReferences) ]
+]
+
+{ #category : #visiting }
 MOCatalogTypeInstaller >> visitTypeReference: aMOParametrizedTypeReference [
 
-	| fullName |
+	| fullName reference type |
+	type := self getType: aMOParametrizedTypeReference from: model.
+
 	fullName := aMOParametrizedTypeReference fullName.
-	^ (fullName indexOf: $.) > 0
-		  ifTrue: [ 
-			  writer typeReferenceFullNamed:
-				  aMOParametrizedTypeReference fullName ]
-		  ifFalse: [ 
-		  writer typeReferenceNamed: aMOParametrizedTypeReference fullName ]
+	reference := (fullName indexOf: $.) > 0
+		             ifTrue: [ 
+			             writer typeReferenceFullNamed:
+				             aMOParametrizedTypeReference fullName ]
+		             ifFalse: [ 
+		             writer typeReferenceNamed:
+			             aMOParametrizedTypeReference fullName ].
+	type ifNotEmpty: [ reference candidate: type anyOne ].
+	^ reference
 ]

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+MOTypeParameter >> acceptVisitor: aMOCatalogTypeInstaller [
+
+	^ aMOCatalogTypeInstaller visitTypeParameter: self
+]
+
+{ #category : #accessing }
 MOTypeParameter >> printOn: aStream [
 
 	aStream

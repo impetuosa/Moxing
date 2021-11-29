@@ -27,3 +27,8 @@ MOReference >> candidate: aMOPackage [
 MOReference >> candidateAnchor: aCandidateAnchor [ 
 	candidateAnchor := aCandidateAnchor
 ]
+
+{ #category : #accessing }
+MOReference >> isTypeReference [ 
+	^ false
+]

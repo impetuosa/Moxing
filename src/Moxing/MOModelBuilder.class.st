@@ -141,6 +141,19 @@ MOModelBuilder >> doUntilStatementBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> ensurePackagePath: aCollection [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> findInModel: aDetectionBlock ifNone: anIfNoneBlock [
+
+	^ model entities
+		  detect: [ :a | aDetectionBlock value: a ]
+		  ifNone: [ anIfNoneBlock value ]
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> forStatementBuilder [
 
 	^ MOModelForBuilder new
@@ -272,6 +285,39 @@ MOModelBuilder >> parametrizedTypeReferenceBuilder [
 	^ MOModelParametrizedTypeReferenceBuilder  new
 		  parentBuilder: self;
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> primitiveTypeBuilder [
+
+	^ MOPrimitiveTypeBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'primitive types' }
+MOModelBuilder >> primitiveTypeNamed: aString [
+
+	^ model primitiveTypeNamed: aString ifAbsent: [ 
+		  self primitiveTypeBuilder
+			  name: aString;
+			  build ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> primitiveTypeReferenceBuilder [
+
+	^ MOModelPrimitiveTypeReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> primitiveTypeReferenceNamed: aString [
+
+	^ self primitiveTypeReferenceBuilder
+		  type: (self primitiveTypeNamed: aString);
+		  build
 ]
 
 { #category : #'as yet unclassified' }

@@ -9,7 +9,6 @@ MOModelAnnotationTypeBuilder >> privateBuild [
 
 	^ (self instantiate: MOAnnotationType)
 		  name: self name;
-		  parent: self parent; 
 		  modifiers: self modifiers;
 		  imports: self imports;
 		  parent: self packageReference;

@@ -14,6 +14,9 @@ Class {
 MOModelWriter >> addClass: aMOClass [
 
 	self assert: (aMOClass isKindOf: MOClass).
+	self assert:
+		(model types select: [ :t | t fullName = aMOClass fullName ]) size
+		= 1.
 	entity := aMOClass
 ]
 
@@ -21,6 +24,9 @@ MOModelWriter >> addClass: aMOClass [
 MOModelWriter >> addClassType: aMOClassType [
 
 	self assert: (aMOClassType isKindOf: MOClassType).
+	self assert:
+		(model types select: [ :t | t fullName = aMOClassType fullName ])
+			size = 1.
 	entity := aMOClassType
 ]
 
@@ -89,7 +95,7 @@ MOModelWriter >> model: aMOModel [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> packageReference: aString [
+MOModelWriter >> packageReferenceNamed: aString [
 
 	^ self builder packageReferenceBuilder
 		  packageName: aString;
@@ -103,6 +109,21 @@ MOModelWriter >> parametrizedTypeReferenceFullyNamed: aString arguments: aCollec
 		  fullName: aString;
 		  argumentTypeReferences: aCollection;
 		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> parametrizedTypeReferenceNamed: aString arguments: aCollection [
+
+	^ builder parametrizedTypeReferenceBuilder
+		  name: aString;
+		  argumentTypeReferences: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> primitiveTypeReferenceNamed: aString [
+
+	^ builder primitiveTypeReferenceNamed: aString
 ]
 
 { #category : #'as yet unclassified' }

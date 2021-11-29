@@ -5,6 +5,21 @@ Class {
 }
 
 { #category : #testing }
+MOArrayTypeReference >> acceptVisitor: aMOJavaModelReader [
+
+	^ aMOJavaModelReader visitArrayTypeReference: self
+]
+
+{ #category : #testing }
+MOArrayTypeReference >> fullName [
+
+	| conf |
+	conf := argumentTypeReferences collect: [ :t | t fullName ].
+	conf := ',' join: conf.
+	^ conf , '[]'
+]
+
+{ #category : #testing }
 MOArrayTypeReference >> isArrayReference [
 	^ true 
 ]

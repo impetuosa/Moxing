@@ -32,7 +32,7 @@ MOModelFunctionBuilder >> returnType: aMOClass [
 { #category : #accessing }
 MOModelFunctionBuilder >> returnTypeReference [
 
-	self assert: (returnTypeReference isKindOf: MOTypeReference).
+	self assert: returnTypeReference isTypeReference.
 	^ returnTypeReference
 ]
 

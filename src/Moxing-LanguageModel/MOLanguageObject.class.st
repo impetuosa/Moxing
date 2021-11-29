@@ -45,7 +45,8 @@ MOLanguageObject >> acceptLanguageVisitor: aVisitor [
 
 { #category : #accessing }
 MOLanguageObject >> acceptVisitor: ads [
-	self subclassResponsibility 
+
+	self subclassResponsibility
 ]
 
 { #category : #adding }

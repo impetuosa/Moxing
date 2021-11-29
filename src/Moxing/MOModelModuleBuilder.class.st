@@ -26,12 +26,7 @@ MOModelModuleBuilder >> package: aMOPackage [
 { #category : #accessing }
 MOModelModuleBuilder >> packageReference [
 
-	^ packageReference ifNil: [ 
-		  packageReference := self packageReferenceBuilder
-			                     package: (self packageBuilder
-					                      name: '<Default Package>';
-					                      build);
-			                     build ]
+	^ packageReference
 ]
 
 { #category : #'as yet unclassified' }

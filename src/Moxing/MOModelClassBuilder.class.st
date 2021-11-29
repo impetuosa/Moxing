@@ -15,7 +15,6 @@ MOModelClassBuilder >> privateBuild [
 		  modifiers: self modifiers;
 		  imports: self imports;
 		  parent: self packageReference;
-		  parent: self parent;
 		  superclassReference: self superclassReference;
 		  superTypeReferences: self superTypeReferences;
 		  yourself

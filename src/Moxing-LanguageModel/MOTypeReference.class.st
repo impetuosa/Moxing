@@ -10,17 +10,10 @@ MOTypeReference >> acceptVisitor: aMOJavaModelReader [
 	^ aMOJavaModelReader visitTypeReference: self
 ]
 
-{ #category : #printing }
-MOTypeReference >> candidate: aCandidate [
-
-	(aCandidate isKindOf: MOModelLinker) ifTrue: [ self halt ].
-	super candidate: aCandidate
-]
-
 { #category : #accessing }
 MOTypeReference >> fullName [
 
-	^ '.' join: self accessChain
+	^ (parent ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) , name
 ]
 
 { #category : #printing }
@@ -28,19 +21,16 @@ MOTypeReference >> isDecorator [
 	 ^ false 
 ]
 
-{ #category : #printing }
-MOTypeReference >> name: aName [
-
-	(aName isKindOf: String) ifFalse: [ self halt ].
-	super name: aName
+{ #category : #accessing }
+MOTypeReference >> isTypeReference [ 
+	^ true 
 ]
 
 { #category : #printing }
 MOTypeReference >> printOn: aStream [
 
-	parent printOn: aStream.
 	aStream
-		nextPutAll: '.';
+		nextPutAll: '->';
 		nextPutAll: name
 ]
 

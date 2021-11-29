@@ -8,14 +8,28 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MOParametrizedTypeReference >> acceptVisitor: aMOJavaModelReader [
+
+	^ aMOJavaModelReader visitParametrizedTypeReference: self
+]
+
+{ #category : #accessing }
+MOParametrizedTypeReference >> argumentTypeReferences [
+	^ argumentTypeReferences
+]
+
+{ #category : #'as yet unclassified' }
 MOParametrizedTypeReference >> argumentTypeReferences: aCollection [ 
 	argumentTypeReferences := aCollection 
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 MOParametrizedTypeReference >> fullName [
 
-	^ '.' join: self accessChain
+	| conf |
+	conf := argumentTypeReferences collect: [ :t | t fullName ].
+	conf := ',' join: conf.
+	^ parent name , '.' , name , '<' , conf , '>'
 ]
 
 { #category : #'as yet unclassified' }

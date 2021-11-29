@@ -118,6 +118,12 @@ MOModelProceduralWriter >> preWrite: aBlock inSubWriter: aSubWriterClass initial
 	sw preWrite: aBlock
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> primitiveTypeReferenceNamed: aString [
+
+	^ builder primitiveTypeReferenceNamed: aString
+]
+
 { #category : #writing }
 MOModelProceduralWriter >> privateSetAnchor: anEntity [
 

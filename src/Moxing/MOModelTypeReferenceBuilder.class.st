@@ -64,20 +64,15 @@ MOModelTypeReferenceBuilder >> candidateAnchor: aMOAnchor [
 { #category : #accessing }
 MOModelTypeReferenceBuilder >> fullName: aString [
 
-	| parts |
+	| parts packageName |
 	parts := '.' split: aString.
 
 	self name: parts removeLast.
+	packageName := '.' join: parts.
 
-	parent := parts size > 1
-		          ifTrue: [ 
-			          self packageReferenceBuilder
-				          packageFullName: ('.' join: parts);
-				          build ]
-		          ifFalse: [ 
-			          self packageReferenceBuilder
-				          packageName: parts first;
-				          build ]
+	parent := self packageReferenceBuilder
+		          packageName: packageName;
+		          build
 ]
 
 { #category : #accessing }

@@ -9,6 +9,17 @@ Class {
 }
 
 { #category : #accessing }
+MOModelPackageBuilder >> fullName: aString [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #accessing }
+MOModelPackageBuilder >> name [
+
+	^ name ifNil: [ self error: 'Name is Nil' ]
+]
+
+{ #category : #accessing }
 MOModelPackageBuilder >> name: aName [
 
 	name := aName
@@ -31,7 +42,7 @@ MOModelPackageBuilder >> parentReference: aParentReference [
 MOModelPackageBuilder >> privateBuild [
 
 	^ (self instantiate: MOPackage)
-		  name: name;
+		  name: self name;
 		  anchor: baseAnchor / #package / name;
 		  parent: parentReference;
 		  yourself

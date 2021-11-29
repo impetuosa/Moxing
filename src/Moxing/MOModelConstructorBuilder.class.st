@@ -31,7 +31,10 @@ MOModelConstructorBuilder >> addThrownTypeReference: aMOTypeReference [
 { #category : #accessing }
 MOModelConstructorBuilder >> body [
 
-	^ body ifNil: [ body := self instantiate: MOBlock ]
+	^ body ifNil: [ 
+		  body := self
+			          findInModel: [ :a | a isKindOf: MOEmptyBlock ]
+			          ifNone: [ self instantiate: MOEmptyBlock ] ]
 ]
 
 { #category : #generated }

@@ -49,7 +49,7 @@ MOJavapASTClassLoader >> resetLastId [
 
 { #category : #'as yet unclassified' }
 MOJavapASTClassLoader >> resolvePackage: aCollection [
-
+	self halt .
 	^ aCollection allButFirst
 		  inject: (model entities
 				   detect: [ :e | 
