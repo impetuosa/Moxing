@@ -7,8 +7,21 @@ Class {
 		'writer',
 		'pom'
 	],
+	#classInstVars : [
+		'northwind'
+	],
 	#category : #'Moxing-Java-Loader'
 }
+
+{ #category : #'as yet unclassified' }
+MOJavaMavenProjectLoader class >> northwind [
+
+	^ northwind ifNil: [ 
+		  northwind := self new
+			               workingDirectory:
+				               '/Users/sbragagn/git/jnorthwind/jnorthwind';
+			               loadNamed: #java ]
+]
 
 { #category : #load }
 MOJavaMavenProjectLoader >> catalog [

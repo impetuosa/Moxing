@@ -47,7 +47,7 @@ MOJavaFileLoader >> setPosition: aMOMethodWriter from: aJavaMethodDeclarationNod
 { #category : #'as yet unclassified' }
 MOJavaFileLoader >> typeReferenceFor: aJavaClassTypeNode [
 
-	^ MOJavaTypeReference new
+	^ MOJavaTypeReferenceVisitor new
 		  writer: writer;
 		  typeReferenceFor: aJavaClassTypeNode
 ]
@@ -95,6 +95,11 @@ MOJavaFileLoader >> visitAnnotation: aJavaAnnotationNode [
 			(self typeReferenceFor: aJavaAnnotationNode name).
 		annotation arguments:
 			(self visitCollection: aJavaAnnotationNode values) ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitBinaryExpression: aJavaBinaryExpressionNode [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #visiting }

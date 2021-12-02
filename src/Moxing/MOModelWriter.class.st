@@ -43,6 +43,12 @@ MOModelWriter >> addPackage: aMOPackage [
 	entity := aMOPackage
 ]
 
+{ #category : #adding }
+MOModelWriter >> addStatement: aMOMethodInvocation [
+
+	entity := aMOMethodInvocation
+]
+
 { #category : #accessing }
 MOModelWriter >> anchor [
 	^ anchoringOn
@@ -188,10 +194,36 @@ MOModelWriter >> writeClassType: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOModelWriter >> writeCopyOf: aMOClass [
+
+	| copy |
+	copy := model instantiate: aMOClass class.
+	aMOClass class allSlots do: [ :a | 
+		a write: (a read: aMOClass) to: copy ].
+	^ copy
+]
+
+{ #category : #writing }
+MOModelWriter >> writeFunction: aFullBlockClosure [ 
+	
+	| writer |
+	writer := MOFunctionWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeImport: aFullBlockClosure [
 
 	| writer |
 	writer := MOImportWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeMethodInvocation: aFullBlockClosure [
+
+	| writer |
+	writer := MOStatementMethodInvocationWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
 ]
 

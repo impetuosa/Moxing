@@ -1,93 +1,78 @@
 Class {
-	#name : #MOJavaTypeReference,
-	#superclass : #Object,
-	#instVars : [
-		'writer'
-	],
+	#name : #MOJavaTypeReferenceVisitor,
+	#superclass : #MOTypeReferenceVisitor,
 	#category : #'Moxing-Java-Loader'
 }
 
-{ #category : #'as yet unclassified' }
-MOJavaTypeReference >> typeReferenceFor: aJavaClassTypeNode [
-
-	^ aJavaClassTypeNode acceptVisitor: self
-]
-
 { #category : #visiting }
-MOJavaTypeReference >> visitArrayType: aJavaArrayTypeNode [
+MOJavaTypeReferenceVisitor >> visitArrayType: aJavaArrayTypeNode [
 
 	^ writer arrayTypeReferenceOf:
 		  (aJavaArrayTypeNode baseType acceptVisitor: self)
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitBooleanType: aJavaBooleanTypeNode [
+MOJavaTypeReferenceVisitor >> visitBooleanType: aJavaBooleanTypeNode [
 
 	^ self visitPrimitiveType: aJavaBooleanTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitByteType: aJavaByteTypeNode [
+MOJavaTypeReferenceVisitor >> visitByteType: aJavaByteTypeNode [
 
 	^ self visitPrimitiveType: aJavaByteTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitCharType: aJavaCharTypeNode [
+MOJavaTypeReferenceVisitor >> visitCharType: aJavaCharTypeNode [
 
 	^ self visitPrimitiveType: aJavaCharTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitClassType: aJavaClassTypeNode [
+MOJavaTypeReferenceVisitor >> visitClassType: aJavaClassTypeNode [
 
 	^ aJavaClassTypeNode name acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitCollection: aCollection [
+MOJavaTypeReferenceVisitor >> visitCollection: aCollection [
 
 	^ aCollection collect: [ :element | element acceptVisitor: self ]
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitDoubleType: aJavaDoubleTypeNode [
+MOJavaTypeReferenceVisitor >> visitDoubleType: aJavaDoubleTypeNode [
 
 	^ self visitPrimitiveType: aJavaDoubleTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitFloatType: aJavaFloatTypeNode [
+MOJavaTypeReferenceVisitor >> visitFloatType: aJavaFloatTypeNode [
 
 	^ self visitPrimitiveType: aJavaFloatTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitIntType: aJavaIntTypeNode [
+MOJavaTypeReferenceVisitor >> visitIntType: aJavaIntTypeNode [
 
 	^ self visitPrimitiveType: aJavaIntTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitLongType: aJavaLongTypeNode [
+MOJavaTypeReferenceVisitor >> visitLongType: aJavaLongTypeNode [
 
 	^ self visitPrimitiveType: aJavaLongTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitName: aJavaNameNode [
-
-	^ writer typeReferenceNamed: aJavaNameNode name value
-]
-
-{ #category : #visiting }
-MOJavaTypeReference >> visitPrimitiveType: aJavaLongTypeNode [
+MOJavaTypeReferenceVisitor >> visitPrimitiveType: aJavaLongTypeNode [
 
 	^ writer primitiveTypeReferenceNamed: aJavaLongTypeNode token value
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitQualifiedTypeName: aJavaQualifiedTypeNameNode [
+MOJavaTypeReferenceVisitor >> visitQualifiedTypeName: aJavaQualifiedTypeNameNode [
 
 	| fullName |
 	fullName := aJavaQualifiedTypeNameNode nspace source , '.'
@@ -103,13 +88,13 @@ MOJavaTypeReference >> visitQualifiedTypeName: aJavaQualifiedTypeNameNode [
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitShortType: aJavaShortTypeNode [
+MOJavaTypeReferenceVisitor >> visitShortType: aJavaShortTypeNode [
 
 	^ self visitPrimitiveType: aJavaShortTypeNode
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitTypeArgument: aJavaTypeArgumentNode [
+MOJavaTypeReferenceVisitor >> visitTypeArgument: aJavaTypeArgumentNode [
 
 	^ aJavaTypeArgumentNode type
 		  ifNil: [ 
@@ -119,18 +104,13 @@ MOJavaTypeReference >> visitTypeArgument: aJavaTypeArgumentNode [
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitTypeName: aJavaTypeNameNode [ 
+MOJavaTypeReferenceVisitor >> visitTypeName: aJavaTypeNameNode [ 
 	^ writer typeReferenceNamed: aJavaTypeNameNode name value. 
 ]
 
 { #category : #visiting }
-MOJavaTypeReference >> visitVoidType: aJavaVoidTypeNode [
+MOJavaTypeReferenceVisitor >> visitVoidType: aJavaVoidTypeNode [
 
 	^ writer primitiveTypeReferenceNamed:
 		  aJavaVoidTypeNode voidToken value
-]
-
-{ #category : #accessing }
-MOJavaTypeReference >> writer: aMOClassWriter [ 
-	writer := aMOClassWriter
 ]

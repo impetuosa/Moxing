@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #accessing }
+MOModelDerivative >> anchor [
+
+	^ model anchor
+]
+
+{ #category : #accessing }
 MOModelDerivative >> entities [
 	^ entities
 ]
@@ -28,8 +34,20 @@ MOModelDerivative >> instantiate: aClass [
 ]
 
 { #category : #accessing }
+MOModelDerivative >> language [
+
+	^ model language
+]
+
+{ #category : #accessing }
 MOModelDerivative >> model: aMOModel [ 
 	model := aMOModel
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
+
+	^ model primitiveTypeNamed: aString ifAbsent: aFullBlockClosure
 ]
 
 { #category : #'as yet unclassified' }
@@ -39,4 +57,12 @@ MOModelDerivative >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
 	self assert: (model entities includes: aMOExit) not.
 	entities replaceAll: aMOExit with: aMOReturnEmpty.
 	aMOBlock statements replaceAll: aMOExit with: aMOReturnEmpty
+]
+
+{ #category : #'instance creation' }
+MOModelDerivative >> writer [
+
+	^ MOModelWriter new
+		  model: self;
+		  yourself
 ]

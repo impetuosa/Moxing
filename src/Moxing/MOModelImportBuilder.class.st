@@ -15,7 +15,7 @@ MOModelImportBuilder >> buildImportFile [
 
 	^ (self instantiate: MOFileImport)
 		  from: file;
-		  typeReferences: typeReference;
+		  typeReference: typeReference;
 		  yourself
 ]
 

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #printing }
+MOPrimitiveType >> fullName [
+
+	^ name
+]
+
+{ #category : #printing }
 MOPrimitiveType >> printOn: aStream [
 
 	aStream

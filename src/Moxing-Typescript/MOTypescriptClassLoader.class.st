@@ -12,10 +12,14 @@ Class {
 MOTypescriptClassLoader class >> loadClassFromFile: aFile for: aComponent into: aMOModel [
 
 	| loader |
+
 	loader := self new.
 	loader writer: aMOModel writer.
 	loader component: aComponent.
-	^ loader loadArtefact: (TypeScriptParser parseFile: aFile)
+
+	^ loader
+		  loadArtefact: (TypeScriptParser parseFile: aFile)
+		  intoPackage: aFile basename
 ]
 
 { #category : #'instance creation' }
@@ -26,11 +30,12 @@ MOTypescriptClassLoader >> component: aMOAngularComponentBehaviour [
 ]
 
 { #category : #generated }
-MOTypescriptClassLoader >> loadArtefact: anAstNode [
+MOTypescriptClassLoader >> loadArtefact: anAstNode intoPackage: aPackageName [
 
 	component ifNotNil: [ writer anchoringOn: component anchor ].
 	^ writer writeClass: [ :wc | 
-		          self use: wc during: [ anAstNode acceptVisitor: self ] ]
+		  wc packageReference: (writer packageReferenceNamed: aPackageName).
+		  self use: wc during: [ anAstNode acceptVisitor: self ] ]
 ]
 
 { #category : #generated }

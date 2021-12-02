@@ -147,7 +147,6 @@ MOModelLinker >> link: aMOModel [
 	self ensureAllVariableReferences: aMOModel. 
 	self ensureAllInvocableBindings: aMOModel.
 	
-	self halt
 ]
 
 { #category : #'as yet unclassified' }

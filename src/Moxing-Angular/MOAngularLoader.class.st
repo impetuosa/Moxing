@@ -110,7 +110,8 @@ MOAngularLoader >> visitAngularClass: aComponentBehavior [
 			 loadClassFromFile: aComponentBehavior fileReference
 			 for: aComponentBehavior
 			 into: model).
-	aComponentBehavior classRepresentation parent: aComponentBehavior
+	aComponentBehavior classRepresentation parent candidate:
+		aComponentBehavior
 ]
 
 { #category : #visiting }

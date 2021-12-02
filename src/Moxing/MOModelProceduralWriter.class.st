@@ -7,7 +7,8 @@ Class {
 		'writeBuilder',
 		'subwriters',
 		'from',
-		'to'
+		'to',
+		'onBuild'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -36,6 +37,7 @@ MOModelProceduralWriter >> build [
 			sw surface: entity.
 			sw privateWriteToSurface: sw build ] ].
 	self installFromTo: entity.
+	onBuild ifNotNil: [ onBuild cull: entity ].
 	^ entity
 ]
 
@@ -72,6 +74,12 @@ MOModelProceduralWriter >> installFromTo: entity [
 	(from isNotNil and: [ to isNotNil ]) ifTrue: [ 
 		entity anchor:
 			entity anchor / '@src' / from asString / #to / to asString ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> onBuild: aFullBlockClosure [
+
+	onBuild := aFullBlockClosure
 ]
 
 { #category : #'as yet unclassified' }
