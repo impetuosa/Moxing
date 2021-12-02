@@ -2,7 +2,6 @@ Class {
 	#name : #MOType,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'package',
 		'modifiers',
 		'visibility'
 	],
@@ -13,6 +12,12 @@ Class {
 MOType >> addModifier: aModifier [
 
 	modifiers add: aModifier
+]
+
+{ #category : #accessing }
+MOType >> fullName [
+
+	^ parent name , '.' , self name
 ]
 
 { #category : #accessing }
@@ -30,6 +35,12 @@ MOType >> modifiers [
 { #category : #accessing }
 MOType >> modifiers: aSet [
 	modifiers := aSet
+]
+
+{ #category : #accessing }
+MOType >> packageReference [
+
+	^ parent
 ]
 
 { #category : #accessing }

@@ -1,10 +1,8 @@
 Class {
 	#name : #MOClass,
-	#superclass : #MOInterface,
+	#superclass : #MOClassType,
 	#instVars : [
-		'types',
-		'methods',
-		'superclass'
+		'superclassReference'
 	],
 	#classInstVars : [
 		'object'
@@ -25,24 +23,25 @@ MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #adding }
-MOClass >> addFunction: aMOFunction [
+MOClass >> addConstructor: aMOConstructor [
 
-	methods add: aMOFunction
+	methods add: aMOConstructor
 ]
 
-{ #category : #adding }
-MOClass >> addMethod: aJinTypescriptMethod [ 
-	methods  add: aJinTypescriptMethod .
-	aJinTypescriptMethod setOwnerClass: self . 
-]
-
-{ #category : #'as yet unclassified' }
-MOClass >> allVisibleMethods [
+{ #category : #navigation }
+MOClass >> allMethods [
 
 	^ methods
+	  , (self superClass ifNotNil: [ :s | s allMethods ] ifNil: [ {  } ])
+]
+
+{ #category : #generated }
+MOClass >> allVisibleMethods [
+
+	^ super allVisibleMethods 
 	  ,
-	  (superclass
-		   ifNotNil: [ superclass allVisibleMethods ]
+	  (superclassReference
+		   ifNotNil: [ superclassReference allVisibleMethods ]
 		   ifNil: [ {  } ])
 ]
 
@@ -54,22 +53,26 @@ MOClass >> dependencies [
 			str nextPutAll: imports.
 			decorator ifNotNil: [ str nextPutAll: decorator dependencies ].
 			str nextPutAll: (self types flatCollect: [ :t | t dependencies ]).
-			str nextPutAll: (properties flatCollect: [ :t | t dependencies ]).
+			str nextPutAll: (attributes flatCollect: [ :t | t dependencies ]).
 			str nextPutAll: (methods flatCollect: [ :t | t dependencies ]).
 			str
-				nextPutAll: (superclass ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
+				nextPutAll: (superclassReference ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
 	^ MOImport compressDependencyCollection: deps
 ]
 
 { #category : #generated }
 MOClass >> hierarchicalChildren [
 
-	^ self properties , self methods
+	^ self annotations , self imports , self typeParameters
+	  , self attributes , self methods
 ]
 
-{ #category : #generated }
-MOClass >> implements: aCollection [ 
-	types := aCollection 
+{ #category : #'as yet unclassified' }
+MOClass >> inheritanceTypeReferences [
+
+	^ super inheritanceTypeReferences , (superclassReference
+		   ifNotNil: [ { superclassReference } ]
+		   ifNil: [ {  } ])
 ]
 
 { #category : #generated }
@@ -81,8 +84,11 @@ MOClass >> initialize [
 ]
 
 { #category : #accessing }
-MOClass >> methods [
-	^ methods
+MOClass >> parent: aParent [
+
+	aParent ifNil: [ ^ self ].
+	parent ifNotNil: [ self halt ].
+	parent := aParent
 ]
 
 { #category : #accessing }
@@ -98,13 +104,19 @@ MOClass >> printOn: aStream [
 		nextPutAll: name
 ]
 
-{ #category : #accessing }
-MOClass >> superclass [
+{ #category : #'as yet unclassified' }
+MOClass >> superClass [
 
-	^ superclass ifNil: [ superclass := self class object  ]
+	^ self superclassReference ifNotNil: [ :s | s candidate ]
 ]
 
 { #category : #accessing }
-MOClass >> types [
-	^ types ifNil: [ {  } ]
+MOClass >> superclassReference [
+
+	^ superclassReference
+]
+
+{ #category : #accessing }
+MOClass >> superclassReference: anUndefinedObject [ 
+	superclassReference := anUndefinedObject
 ]

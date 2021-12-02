@@ -2,8 +2,7 @@ Class {
 	#name : #MOImport,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'types',
-		'from'
+		'typeReference'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -36,49 +35,45 @@ MOImport >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #'as yet unclassified' }
-MOImport >> from [
-	^ from
-]
-
-{ #category : #'as yet unclassified' }
-MOImport >> from: aFileReference [
-	(aFileReference isKindOf: FileReference)
-		ifTrue: [ self halt ].
-	from := aFileReference
-]
-
-{ #category : #'as yet unclassified' }
-MOImport >> fromString [
-	^ from ifNil: [ 'ERROR! FROM IS EMPTTY' ] ifNotNil: [ from ]
-]
-
-{ #category : #'as yet unclassified' }
 MOImport >> name [
-	^ name ifNil: [ name := '|' join: (types collect:#name)  ]
+
+	^ name ifNil: [ name := typeReference name ]
 ]
 
 { #category : #'as yet unclassified' }
 MOImport >> printOn: aStream [
-	aStream
-		nextPutAll: ' import { ';
-		nextPutAll: (',' join: (types collect: [ :t | t name ]));
-		nextPutAll: ' } from ';
-		nextPutAll: self fromString
+
+	aStream nextPutAll: 'import '.
+	typeReference printOn: aStream
 ]
 
 { #category : #'as yet unclassified' }
-MOImport >> type: aString [
-	types
-		ifNil: [ types := {aString} asOrderedCollection ]
-		ifNotNil: [ types add: aString ]
+MOImport >> resolvesType: aString [
+
+	^ typeReference name = aString
 ]
 
 { #category : #']as yet unclassified' }
-MOImport >> types [
-	^ types
+MOImport >> type [
+
+	^ typeReference candidate
+]
+
+{ #category : #'sdk functions' }
+MOImport >> typeNamed: aString [
+
+	self assert: (self resolvesType: aString).
+	^ self type 
+]
+
+{ #category : #']as yet unclassified' }
+MOImport >> typeReference [
+
+	^ typeReference 
 ]
 
 { #category : #'as yet unclassified' }
-MOImport >> types: aCollection [
-	types := aCollection
+MOImport >> typeReference: aReference [
+
+	typeReference := aReference
 ]

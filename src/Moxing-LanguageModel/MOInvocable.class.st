@@ -6,10 +6,18 @@ Class {
 		'class',
 		'visibility',
 		'modifiers',
-		'block'
+		'block',
+		'thrownTypeReferences',
+		'typeParameters'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
+
+{ #category : #adding }
+MOInvocable >> addAnnotationInstance: aMOAnnotationInstance [
+
+	self annotations add: aMOAnnotationInstance
+]
 
 { #category : #adding }
 MOInvocable >> addModifier: aString [
@@ -20,6 +28,12 @@ MOInvocable >> addModifier: aString [
 { #category : #adding }
 MOInvocable >> addParameter: aJinVariable [ 
 	parameters add: aJinVariable 
+]
+
+{ #category : #adding }
+MOInvocable >> addTypeParameter: aMOTypeParameter [
+
+	self typeParameters add: aMOTypeParameter
 ]
 
 { #category : #accessing }
@@ -38,6 +52,13 @@ MOInvocable >> dependencies [
 
 	^ (parameters flatCollect: [ :p | p dependencies ])
 	  , block dependencies
+]
+
+{ #category : #generated }
+MOInvocable >> hierarchicalChildren [
+
+	^ self parameters , self annotations , self typeParameters
+	  , { self block }
 ]
 
 { #category : #accessing }
@@ -72,6 +93,23 @@ MOInvocable >> parameters: aCollection [
 MOInvocable >> setOwnerClass: aClassObject [ 
 	class := aClassObject 
 	
+]
+
+{ #category : #accessing }
+MOInvocable >> thrownTypeReferences [
+	^ thrownTypeReferences
+]
+
+{ #category : #'as yet unclassified' }
+MOInvocable >> thrownTypeReferences: aCollection [
+
+	thrownTypeReferences := aCollection
+]
+
+{ #category : #generated }
+MOInvocable >> typeParameters [
+
+	^ typeParameters ifNil: [ typeParameters := OrderedCollection new ]
 ]
 
 { #category : #accessing }

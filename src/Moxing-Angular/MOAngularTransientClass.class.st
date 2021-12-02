@@ -16,7 +16,7 @@ MOAngularTransientClass >> acceptVisitor: aVisitor [
 
 { #category : #'as yet unclassified' }
 MOAngularTransientClass >> dependencies [
-	^ {(MOImport new
+	^ {(MOFileImport new
 		type: class;
 		from: self importingPath;
 		yourself)},  class dependencies

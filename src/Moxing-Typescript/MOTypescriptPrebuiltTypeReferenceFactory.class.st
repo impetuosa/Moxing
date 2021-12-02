@@ -88,10 +88,10 @@ MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aR
 
 { #category : #'building methods' }
 MOTypescriptPrebuiltTypeReferenceFactory >> genericType: aTypeName definedAt: aRef argumentTypes: arguments [
-	^ MOGenericTypeReference new
+	^ MOParametrizedTypeReference new
 		name: aTypeName;
 		definedAt: aRef;
-		arguments: (arguments collect: [ :p | self typeReference: p ]);
+		argumentTypeReferences: (arguments collect: [ :p | self typeReference: p ]);
 		yourself
 ]
 

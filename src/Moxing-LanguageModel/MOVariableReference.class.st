@@ -1,8 +1,8 @@
 Class {
 	#name : #MOVariableReference,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOTypedReference,
 	#instVars : [
-		'variable'
+		'kind'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -10,21 +10,16 @@ Class {
 { #category : #visiting }
 MOVariableReference >> acceptVisitor: aMOTypescriptCodeGenerator [
 
-	aMOTypescriptCodeGenerator visitVariableReference:
-		self
+	^ aMOTypescriptCodeGenerator visitVariableReference: self
+]
+
+{ #category : #accessing }
+MOVariableReference >> kind: aString [
+
+	kind := aString
 ]
 
 { #category : #generated }
 MOVariableReference >> type [
-	^ variable type 
-]
-
-{ #category : #accessing }
-MOVariableReference >> variable [
-	^ variable
-]
-
-{ #category : #accessing }
-MOVariableReference >> variable: aMOVariable [ 
-	variable := aMOVariable
+	^ candidate type 
 ]

@@ -19,7 +19,7 @@ MOAngularLoader >> isWellKnownNotDirectory: aFileReference [
 MOAngularLoader >> loadNamed: aName [
 
 	| schema |
-	model := MOModel new.
+	model := MOModel newTypescript.
 	model name: aName.
 	model anchor: (MOAnchor on: #/) / aName.
 
@@ -110,7 +110,8 @@ MOAngularLoader >> visitAngularClass: aComponentBehavior [
 			 loadClassFromFile: aComponentBehavior fileReference
 			 for: aComponentBehavior
 			 into: model).
-	aComponentBehavior classRepresentation parent: aComponentBehavior
+	aComponentBehavior classRepresentation parent candidate:
+		aComponentBehavior
 ]
 
 { #category : #visiting }

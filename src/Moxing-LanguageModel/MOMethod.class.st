@@ -22,6 +22,9 @@ MOMethod >> printOn: aStream [
 		nextPutAll: selector;
 		nextPutAll: '/';
 		nextPutAll: parameters size asString;
-		nextPutAll: '=>';
-		nextPutAll: (type ifNil: [ 'void' ] ifNotNil: [ :t | t name ])
+		nextPutAll: '=>'.
+
+	returnTypeReference
+		ifNil: [ aStream nextPutAll: 'void' ]
+		ifNotNil: [ :t | returnTypeReference printOn: aStream ]
 ]

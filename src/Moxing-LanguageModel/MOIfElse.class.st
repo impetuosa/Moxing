@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'condition',
 		'ifTrue',
-		'ifFalses'
+		'ifFalse'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -38,7 +38,13 @@ MOIfElse >> condition: aFylgjaMissingOperator [
 { #category : #generated }
 MOIfElse >> ifFalse [
 
-	^ ifFalses
+	^ ifFalse
+]
+
+{ #category : #controlling }
+MOIfElse >> ifFalse: aMOBlock [
+
+	ifFalse := aMOBlock
 ]
 
 { #category : #accessing }
@@ -49,4 +55,9 @@ MOIfElse >> ifTrue [
 { #category : #accessing }
 MOIfElse >> ifTrue: aMOBlock [ 
 	ifTrue := aMOBlock
+]
+
+{ #category : #accessing }
+MOIfElse >> ifTrueBlock: aMOModelBlockBuilder [ 
+	self shouldBeImplemented.
 ]

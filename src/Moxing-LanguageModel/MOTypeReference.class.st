@@ -1,9 +1,6 @@
 Class {
 	#name : #MOTypeReference,
-	#superclass : #MOLanguageObject,
-	#instVars : [
-		'type'
-	],
+	#superclass : #MOTypedReference,
 	#category : #'Moxing-LanguageModel-Model'
 }
 
@@ -13,9 +10,20 @@ MOTypeReference >> acceptVisitor: aMOJavaModelReader [
 	^ aMOJavaModelReader visitTypeReference: self
 ]
 
+{ #category : #accessing }
+MOTypeReference >> fullName [
+
+	^ (parent ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) , name
+]
+
 { #category : #printing }
 MOTypeReference >> isDecorator [
 	 ^ false 
+]
+
+{ #category : #accessing }
+MOTypeReference >> isTypeReference [ 
+	^ true 
 ]
 
 { #category : #printing }
@@ -23,15 +31,10 @@ MOTypeReference >> printOn: aStream [
 
 	aStream
 		nextPutAll: '->';
-		nextPutAll: type name
+		nextPutAll: name
 ]
 
-{ #category : #accessing }
-MOTypeReference >> type [
-	^ type
-]
-
-{ #category : #accessing }
-MOTypeReference >> type: aMOClass [ 
-	type := aMOClass
+{ #category : #printing }
+MOTypeReference >> type [ 
+	^ candidate
 ]

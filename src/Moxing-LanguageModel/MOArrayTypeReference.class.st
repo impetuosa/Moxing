@@ -1,23 +1,33 @@
 Class {
 	#name : #MOArrayTypeReference,
-	#superclass : #Object,
-	#instVars : [
-		'innerType'
-	],
+	#superclass : #MOParametrizedTypeReference,
 	#category : #'Moxing-LanguageModel-Model'
 }
 
-{ #category : #'as yet unclassified' }
-MOArrayTypeReference >> dependencies [
-	^ innerType dependencies 
+{ #category : #testing }
+MOArrayTypeReference >> acceptVisitor: aMOJavaModelReader [
+
+	^ aMOJavaModelReader visitArrayTypeReference: self
 ]
 
-{ #category : #'as yet unclassified' }
-MOArrayTypeReference >> innerType: aMOTypescriptTypeReference [ 
-	innerType := aMOTypescriptTypeReference
+{ #category : #testing }
+MOArrayTypeReference >> fullName [
+
+	| conf |
+	conf := argumentTypeReferences collect: [ :t | t fullName ].
+	conf := ',' join: conf.
+	^ conf , '[]'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+MOArrayTypeReference >> isArrayReference [
+	^ true 
+]
+
+{ #category : #testing }
 MOArrayTypeReference >> printOn: aStream [
-	aStream nextPutAll: innerType name ; nextPutAll:'[]'
+
+	aStream nextPutAll: '->'.
+	argumentTypeReferences printOn: aStream.
+	aStream nextPutAll: '[]'
 ]

@@ -2,90 +2,235 @@ Class {
 	#name : #MOModelWriter,
 	#superclass : #Object,
 	#instVars : [
-		'destinationModel',
-		'surface',
-		'brush',
-		'replace',
-		'transformations',
-		'derivativeModel'
+		'model',
+		'builder',
+		'entity',
+		'anchoringOn'
 	],
-	#category : #Moxing
+	#category : #'Moxing-MicroWriters'
 }
 
-{ #category : #accessing }
-MOModelWriter >> brush: aMOMethodBrush [
+{ #category : #adding }
+MOModelWriter >> addClass: aMOClass [
 
-	brush := aMOMethodBrush
+	self assert: (aMOClass isKindOf: MOClass).
+	self assert:
+		(model types select: [ :t | t fullName = aMOClass fullName ]) size
+		= 1.
+	entity := aMOClass
 ]
 
-{ #category : #'instance creation' }
-MOModelWriter >> instantiate: aClass [ 
-	^ destinationModel instantiate: aClass
+{ #category : #adding }
+MOModelWriter >> addClassType: aMOClassType [
+
+	self assert: (aMOClassType isKindOf: MOClassType).
+	self assert:
+		(model types select: [ :t | t fullName = aMOClassType fullName ])
+			size = 1.
+	entity := aMOClassType
+]
+
+{ #category : #adding }
+MOModelWriter >> addImport: aMOImport [
+
+	entity := aMOImport
+]
+
+{ #category : #adding }
+MOModelWriter >> addPackage: aMOPackage [
+
+	self assert: (model entities includes: aMOPackage).
+	entity := aMOPackage
+]
+
+{ #category : #adding }
+MOModelWriter >> addStatement: aMOMethodInvocation [
+
+	entity := aMOMethodInvocation
+]
+
+{ #category : #accessing }
+MOModelWriter >> anchor [
+	^ anchoringOn
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> instantiate: aClass forReplacing: aMOFunction [
+MOModelWriter >> anchoringOn: aMOAnchor [
 
-	| entity |
-	replace at: aMOFunction ifPresent: [ self error: ' eunexpected ' ].
-	entity := derivativeModel instantiate: aClass.
-	replace at: aMOFunction put: entity.
+	anchoringOn := aMOAnchor
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> arrayTypeReferenceOf: aMOTypeReference [
+
+	^ builder arrayedTypeReferenceBuilder
+		  baseType: aMOTypeReference;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> buildExpression: aFullBlockClosure [
+
+	^ (aFullBlockClosure value: builder) build
+]
+
+{ #category : #writing }
+MOModelWriter >> builder [
+
+	^ builder ifNil: [ 
+		  builder := MOModelBuilder new.
+		  builder model: model.
+		  builder language: model language. 
+		  builder ]
+]
+
+{ #category : #accessing }
+MOModelWriter >> builder: aMOModelBuilder [ 
+	builder := aMOModelBuilder
+]
+
+{ #category : #accessing }
+MOModelWriter >> entity [
 	^ entity
 ]
 
 { #category : #accessing }
 MOModelWriter >> model: aMOModel [ 
-	destinationModel := aMOModel 
-]
-
-{ #category : #accessing }
-MOModelWriter >> surface: aMOClass [
-
-	surface := aMOClass
+	model := aMOModel.
+	anchoringOn ifNil: [ anchoringOn := model anchor ]
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
+MOModelWriter >> packageReferenceNamed: aString [
 
-	derivativeModel swap: aMOExit with: aMOReturnEmpty context: aMOBlock
+	^ self builder packageReferenceBuilder
+		  packageName: aString;
+		  build
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> useSurface: aMOClass during: aFullBlockClosure [
+MOModelWriter >> parametrizedTypeReferenceFullyNamed: aString arguments: aCollection [
 
-	| previousSurface |
-	previousSurface := surface.
-	surface := aMOClass.
-	^ aFullBlockClosure ensure: [ surface := previousSurface ]
+	^ builder parametrizedTypeReferenceBuilder
+		  fullName: aString;
+		  argumentTypeReferences: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> parametrizedTypeReferenceNamed: aString arguments: aCollection [
+
+	^ builder parametrizedTypeReferenceBuilder
+		  name: aString;
+		  argumentTypeReferences: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> primitiveTypeReferenceNamed: aString [
+
+	^ builder primitiveTypeReferenceNamed: aString
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> questionMarkTypeReference [
+
+	^ self typeReferenceNamed: #?
+]
+
+{ #category : #initialization }
+MOModelWriter >> setAsParentOf: aMOImport [ 
+
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> typeReferenceFullNamed: aString [
+
+	^ builder typeReferenceBuilder
+		  fullName: aString;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> typeReferenceNamed: aString [
+
+	^ builder typeReferenceBuilder
+		  name: aString;
+		  build
 ]
 
 { #category : #writing }
-MOModelWriter >> write: aMOFunction [
-	self assert: destinationModel isNotNil.
-	self assert: replace isNotNil.
-	^ brush write: aMOFunction into: self
+MOModelWriter >> variableReferenceNamed: aString [
+
+	^ builder variableReferenceBuilder
+		  name: aString;
+		  build
 ]
 
 { #category : #writing }
-MOModelWriter >> write: aMOFunction with: aMOModelDerivative [
+MOModelWriter >> write: aBlock withWriter: writer [
 
-	replace := Dictionary new.
-	derivativeModel := aMOModelDerivative.
-	^ brush write: aMOFunction into: self
+	writer builder: self builder.
+	writer surface: self.
+	writer initializeWriteBuilder.
+	writer write: aBlock.
+	^ entity
 ]
 
 { #category : #writing }
-MOModelWriter >> writeClass: aMOClass [
+MOModelWriter >> writeClass: aFullBlockClosure [
 
-	aMOClass language: surface language.
-	surface addType: aMOClass.
-	aMOClass parent: surface. 
+	| writer |
+	writer := MOClassWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
 ]
 
 { #category : #writing }
-MOModelWriter >> writeMethod: aMOMethod [
+MOModelWriter >> writeClassType: aFullBlockClosure [
 
-	aMOMethod language: surface language.
-	surface addMethod: aMOMethod.
-	aMOMethod parent: surface
+	| writer |
+	writer := MOClassTypeWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeCopyOf: aMOClass [
+
+	| copy |
+	copy := model instantiate: aMOClass class.
+	aMOClass class allSlots do: [ :a | 
+		a write: (a read: aMOClass) to: copy ].
+	^ copy
+]
+
+{ #category : #writing }
+MOModelWriter >> writeFunction: aFullBlockClosure [ 
+	
+	| writer |
+	writer := MOFunctionWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeImport: aFullBlockClosure [
+
+	| writer |
+	writer := MOImportWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeMethodInvocation: aFullBlockClosure [
+
+	| writer |
+	writer := MOStatementMethodInvocationWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writePackage: aBlock [
+
+	| writer |
+	writer := MOPackageWriter new.
+	^ self write: aBlock withWriter: writer
 ]

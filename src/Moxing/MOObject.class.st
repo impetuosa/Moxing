@@ -39,6 +39,10 @@ MOObject >> parent [
 
 { #category : #accessing }
 MOObject >> parent: aParent [
+	parent := aParent.
+]
 
-	parent := aParent
+{ #category : #initialization }
+MOObject >> setAsParentOf: aMOAnnotationInstance [ 
+	aMOAnnotationInstance parent: self 
 ]

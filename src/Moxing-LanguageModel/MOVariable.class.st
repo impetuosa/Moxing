@@ -2,11 +2,10 @@ Class {
 	#name : #MOVariable,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'class',
-		'visibility',
 		'defaultValue',
 		'modifiers',
-		'typeReference'
+		'typeReference',
+		'initializer'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -20,6 +19,12 @@ MOVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 MOVariable >> addModifier: aModifier [
 
 	modifiers add: aModifier
+]
+
+{ #category : #adding }
+MOVariable >> addStatement: aMONewExpression [
+
+	initializer := aMONewExpression
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,10 +46,22 @@ MOVariable >> dependencies [
 		ifNotNil: [ deps , defaultValue dependencies ]
 ]
 
+{ #category : #generated }
+MOVariable >> hierarchicalChildren [
+
+	^ self annotations
+	  , (self initializer ifNil: [ {  } ] ifNotNil: [ :i | { i } ])
+]
+
 { #category : #accessing }
 MOVariable >> initialize [ 
 	super initialize.
 	modifiers := OrderedCollection new
+]
+
+{ #category : #accessing }
+MOVariable >> initializer [
+	^ initializer
 ]
 
 { #category : #'as yet unclassified' }
@@ -71,14 +88,11 @@ MOVariable >> printOn: aStream [
 	aStream
 		nextPutAll: 'VD:';
 		nextPutAll: name;
-		nextPutAll: '(';
-		nextPutAll: (typeReference ifNil: [ ' unknown' ] ifNotNil: [ :t | t type name ]);
-		nextPutAll: ')'
-]
-
-{ #category : #accessing }
-MOVariable >> setOwnerClass: aClassObject [ 
-	class := aClassObject 
+		nextPutAll: '('.
+	typeReference
+		ifNil: [ aStream nextPutAll: ' unknown' ]
+		ifNotNil: [ :t | t printOn: aStream ].
+	aStream nextPutAll: ')'
 ]
 
 { #category : #generated }
@@ -97,14 +111,4 @@ MOVariable >> typeReference: aJinTypescriptTypeReference [
 (	aJinTypescriptTypeReference isNil) ifTrue: [ self halt  ].
 
 	typeReference := aJinTypescriptTypeReference
-]
-
-{ #category : #'as yet unclassified' }
-MOVariable >> visibility [
-	^ visibility
-]
-
-{ #category : #'as yet unclassified' }
-MOVariable >> visibility: aString [
-	visibility := aString
 ]

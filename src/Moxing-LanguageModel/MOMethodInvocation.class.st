@@ -2,7 +2,7 @@ Class {
 	#name : #MOMethodInvocation,
 	#superclass : #MOInvocation,
 	#instVars : [
-		'receiver'
+		'receiverReference'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -13,11 +13,17 @@ MOMethodInvocation >> acceptVisitor: aMOTransformationApplier [
 ]
 
 { #category : #accessing }
-MOMethodInvocation >> receiver: aMOVariableReference [ 
-	receiver := aMOVariableReference
+MOMethodInvocation >> receiverReference [
+	^ receiverReference
+]
+
+{ #category : #accessing }
+MOMethodInvocation >> receiverReference: aMOVariableReference [
+
+	receiverReference := aMOVariableReference
 ]
 
 { #category : #generated }
 MOMethodInvocation >> type [
-	^ candidates anyOne type 
+	^ candidate anyOne type 
 ]

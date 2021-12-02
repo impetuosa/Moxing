@@ -5,10 +5,10 @@ Class {
 		'mapper',
 		'model',
 		'context',
-		'stack',
 		'read',
 		'contextStack',
-		'createdElements'
+		'trace',
+		'writer'
 	],
 	#category : #Moxing
 }
@@ -16,9 +16,8 @@ Class {
 { #category : #visiting }
 MOModelReader >> initialize [
 	super initialize.
-	stack := Stack new.
 	contextStack := Stack new.
-	createdElements := Dictionary new.
+	trace := Set new.
 ]
 
 { #category : #visiting }
@@ -26,7 +25,7 @@ MOModelReader >> instantiate: aClass for: anAlcixFunction [
 
 	| element |
 	element := self instantiateLangAware: aClass .
-	createdElements at: anAlcixFunction put: element.
+	trace at: anAlcixFunction put: element.
 	self
 		withTop: [ :top | element parent: top ]
 		ifEmpty: [ " nothing to set. i am root " ].
@@ -49,13 +48,6 @@ MOModelReader >> model [
 ]
 
 { #category : #visiting }
-MOModelReader >> push: aValue during: aBlock [
-
-	stack push: aValue.
-	^ aBlock ensure: [ stack pop ]
-]
-
-{ #category : #visiting }
 MOModelReader >> pushContext: aValue during: aBlock [
 	contextStack push: aValue.
 	^ aBlock
@@ -69,11 +61,20 @@ MOModelReader >> read: anEntity [
 
 { #category : #'as yet unclassified' }
 MOModelReader >> read: anAlcixFunction context: aMOClass of: aMOModel [
-	model := aMOModel derivative.
+	writer := aMOModel writer. 
 	mapper
 		destinationContext: aMOClass;
-		destinationModel: aMOModel derivative.
+		destinationModel: aMOModel.
 	^ self read: anAlcixFunction
+]
+
+{ #category : #accessing }
+MOModelReader >> use: aWriter during: aBlock [
+
+	| prev |
+	prev := writer.
+	writer := aWriter.
+	aBlock ensure: [ writer := prev ]
 ]
 
 { #category : #visiting }
@@ -103,18 +104,4 @@ MOModelReader >> withCurrentContext: aBlock ifEmpty: aanEmptyBlock [
 	^ contextStack
 		  ifEmpty: aanEmptyBlock
 		  ifNotEmpty: [ aBlock value: contextStack top ]
-]
-
-{ #category : #visiting }
-MOModelReader >> withTop: aBlock [
-
-	^ self withTop: aBlock ifEmpty: [ self error: 'Stack is empty!' ]
-]
-
-{ #category : #visiting }
-MOModelReader >> withTop: aBlock ifEmpty: aanEmptyBlock [
-
-	^ stack
-		  ifEmpty: aanEmptyBlock
-		  ifNotEmpty: [ aBlock value: stack top ]
 ]

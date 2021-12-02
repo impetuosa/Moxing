@@ -2,8 +2,7 @@ Class {
 	#name : #MOPackage,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'types',
-		'subpackages'
+		'types'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -15,14 +14,31 @@ MOPackage >> acceptVisitor: aVisitor [
 ]
 
 { #category : #adding }
-MOPackage >> addPackage: aMOPackage [
+MOPackage >> addClass: aMOClass [
 
-	subpackages add: aMOPackage
+	self addType: aMOClass
 ]
 
 { #category : #adding }
-MOPackage >> addType: aMOPrimitiveType [ 
-	types add: aMOPrimitiveType 
+MOPackage >> addClassType: aMOClass [
+
+	self addType: aMOClass
+]
+
+{ #category : #adding }
+MOPackage >> addType: aMOPrimitiveType [
+
+	self assert:
+		(types noneSatisfy: [ :t | t name = aMOPrimitiveType name ]).
+	types add: aMOPrimitiveType
+]
+
+{ #category : #adding }
+MOPackage >> fullName [
+
+	^ ((parent isKindOf: MOPackage)
+		   ifTrue: [ parent fullName , '.' ]
+		   ifFalse: [ '' ]) , self name
 ]
 
 { #category : #adding }
@@ -30,7 +46,6 @@ MOPackage >> initialize [
 
 	super initialize.
 	types := OrderedCollection new.
-	subpackages := OrderedCollection new.
 ]
 
 { #category : #adding }
@@ -38,12 +53,7 @@ MOPackage >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'package: ';
-		nextPutAll: name
-]
-
-{ #category : #accessing }
-MOPackage >> subpackages [
-	^ subpackages
+		nextPutAll: self fullName
 ]
 
 { #category : #accessing }

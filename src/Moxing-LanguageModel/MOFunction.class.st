@@ -2,7 +2,7 @@ Class {
 	#name : #MOFunction,
 	#superclass : #MOProcedure,
 	#instVars : [
-		'type'
+		'returnTypeReference'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -16,7 +16,7 @@ MOFunction >> acceptVisitor: aJinInspectorBuilder [
 MOFunction >> dependencies [
 
 	^ super dependencies
-	  , (type ifNotNil: [ :t | t dependencies ] ifNil: [ {  } ])
+	  , (returnTypeReference ifNotNil: [ :t | t dependencies ] ifNil: [ {  } ])
 ]
 
 { #category : #'as yet unclassified' }
@@ -28,12 +28,12 @@ MOFunction >> fullSelector [
 ]
 
 { #category : #generated }
-MOFunction >> type [ 
-	^ type
+MOFunction >> returnTypeReference [
+	^ returnTypeReference
 ]
 
 { #category : #generated }
-MOFunction >> type: aJinTypescriptTypeReference [ 
-	type := aJinTypescriptTypeReference 
-	
+MOFunction >> returnTypeReference: aTypeReference [
+
+	returnTypeReference := aTypeReference
 ]

@@ -17,34 +17,36 @@ Class {
 { #category : #'as yet unclassified' }
 MOLanguage class >> javaFor: aMOModel [
 
-	^ java ifNil: [ 
-		  java := (aMOModel instantiate: self)
-			          name: #java;
-			          returnPolicy: MOReturnExpressionPolicy;
-			          errorPolicy: MOErrorTryCatchPolicy;
-			          yourself ]
+	^ (aMOModel instantiate: self)
+		  name: #java;
+		  returnPolicy: MOReturnExpressionPolicy;
+		  errorPolicy: MOErrorTryCatchPolicy;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 MOLanguage class >> microsoftAccessFor: aMOModel [
 
-	^ microsoftAccess ifNil: [ 
-		  microsoftAccess := (aMOModel instantiate: self)
-			                            name: #MicrosoftAccess;
-			                            returnPolicy: MOReturnAssignmentPolicy;
-			                            errorPolicy: MOErrorGoToPolicy;
-			                            yourself ]
+	^ (aMOModel instantiate: self)
+		  name: #MicrosoftAccess;
+		  returnPolicy: MOReturnAssignmentPolicy;
+		  errorPolicy: MOErrorGoToPolicy;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 MOLanguage class >> microsoftAccessForAlceModel: anAlcixModel [
 
-	^ microsoftAccess ifNil: [ 
-		  microsoftAccess := self newInstanceFromModel
-			                     name: #MicrosoftAccess;
-			                     returnPolicy: MOReturnAssignmentPolicy;
-			                     errorPolicy: MOErrorGoToPolicy;
-			                     yourself ]
+	^ self newInstanceFromModel
+		  name: #MicrosoftAccess;
+		  returnPolicy: MOReturnAssignmentPolicy;
+		  errorPolicy: MOErrorGoToPolicy;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguage class >> newFor: aModel [ 	
+	^ aModel instantiate: self 
 ]
 
 { #category : #accessing }
@@ -58,12 +60,11 @@ MOLanguage class >> resetLangs [
 { #category : #accessing }
 MOLanguage class >> typescriptFor: aMOModel [
 
-	^ typescript ifNil: [ 
-		  typescript := (aMOModel instantiate: self)
-			                name: #typescript;
-			                returnPolicy: MOReturnExpressionPolicy;
-			                errorPolicy: MOErrorTryCatchPolicy;
-			                yourself ]
+	^ (aMOModel instantiate: self)
+		  name: #typescript;
+		  returnPolicy: MOReturnExpressionPolicy;
+		  errorPolicy: MOErrorTryCatchPolicy;
+		  yourself
 ]
 
 { #category : #printing }
