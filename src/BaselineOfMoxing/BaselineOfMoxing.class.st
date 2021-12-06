@@ -27,6 +27,6 @@ BaselineOfMoxing >> baseline: spec [
 		with: [ spec requires: #( Moxing 'Moxing-Typescript' ) ].
 	spec
 		group: 'default'
-		with: #( Moxing 'Moxing-Java''Moxing-Typescript'
+		with: #( Moxing 'Moxing-Java' 'Moxing-Typescript'
 			   'Moxing-Angular' )
 ]
