@@ -1,10 +1,13 @@
+"
+I am in charge of installing and linking imported types. 
+"
 Class {
 	#name : #MOModelImportLinker,
 	#superclass : #Object,
 	#instVars : [
 		'model'
 	],
-	#category : #'Moxing-Core'
+	#category : #'Moxing-Linking'
 }
 
 { #category : #'as yet unclassified' }
@@ -19,15 +22,13 @@ MOModelImportLinker >> ensureAllDependentTypesExists: aMOClass [
 ]
 
 { #category : #visiting }
-MOModelImportLinker >> getCatalogType: aMOTypeReference [
+MOModelImportLinker >> getCatalogType: aMOTypeReference from: packageReference [
 
-	| packageReference typeName catalogType |
-	packageReference := aMOTypeReference parent.
-
+	| catalogType |
 	catalogType := (model catalog typesNamed: aMOTypeReference name) 
 		               select: [ :t | 
-			               t parent isNotNil and: [ 
-				               t parent name = packageReference name ] ].
+			               t packageReference isNotNil and: [ 
+				               t packageReference name = packageReference name ] ].
 
 
 	^ catalogType
@@ -46,21 +47,32 @@ MOModelImportLinker >> getCatalogTypes: aMOPackageReference [
 MOModelImportLinker >> getType: aMOTypeReference [
 
 	| packageReference types |
-	packageReference := aMOTypeReference parent.
+	packageReference := aMOTypeReference packageReference.
 
 	types := (model typesNamed: aMOTypeReference name) select: [ :t | 
-		         t parent isNotNil and: [ 
-			         t parent name = packageReference name ] ].
+		         t packageReference isNotNil and: [ 
+			         t packageReference name = packageReference name ] ].
 
 
 	^ types
 ]
 
-{ #category : #visiting }
+{ #category : #initialization }
 MOModelImportLinker >> install: aMOTypeReference [
 
+	self assert: aMOTypeReference packageReference isNotNil.
+	self
+		install: aMOTypeReference
+		from: aMOTypeReference packageReference
+]
+
+{ #category : #visiting }
+MOModelImportLinker >> install: aMOTypeReference from: aPackageReference [
+
 	| typeOrEmpty installedType |
-	typeOrEmpty := self getCatalogType: aMOTypeReference.
+	typeOrEmpty := self
+		               getCatalogType: aMOTypeReference
+		               from: aPackageReference.
 
 	typeOrEmpty ifNotEmpty: [ 
 		self ensureAllDependentTypesExists: typeOrEmpty first.
@@ -75,13 +87,12 @@ MOModelImportLinker >> installAll: aMOPackageReference [
 
 	| types installedTypes |
 	types := self getCatalogTypes: aMOPackageReference.
-
 	installedTypes := types collect: [ :type | 
 		                  self ensureAllDependentTypesExists: type.
 		                  MOCatalogTypeInstaller new
 			                  install: type
 			                  into: model ].
-	aMOPackageReference candidate types addAll: installedTypes
+	aMOPackageReference candidate allTypes addAll: installedTypes
 ]
 
 { #category : #visiting }
@@ -97,28 +108,17 @@ MOModelImportLinker >> visitCollection: aCollection [
 ]
 
 { #category : #visiting }
-MOModelImportLinker >> visitDependency: import [
+MOModelImportLinker >> visitImport: import [
 
-	import typeReference candidate ifNil: [ 
-		import typeReference parent candidate types
-			detect: [ :type | type name = import typeReference name ]
-			ifFound: [ :type | import typeReference candidate: type ]
-			ifNone: [ self install: import typeReference ] ]
-]
-
-{ #category : #visiting }
-MOModelImportLinker >> visitPackageDependency: aMOImportPackage [ 
-	self assert: 
-	aMOImportPackage typeReference candidate isNotNil. 
-	aMOImportPackage typeReference candidate types ifEmpty: [ 
-		 self installAll: aMOImportPackage typeReference 
-  ].
-	
-	"
-	
-	ifNil: [ 
-		import typeReference parent candidate types
-			detect: [ :type | type name = import typeReference name ]
-			ifFound: [ :type | import typeReference candidate: type ]
-			ifNone: [ self install: import typeReference ] ]"
+	import importsAllPackage
+		ifTrue: [ 
+			import packageReference candidate allTypes ifEmpty: [ 
+				self installAll: import packageReference ] ]
+		ifFalse: [ 
+			import typeReference candidate ifNil: [ 
+				import packageReference candidate allTypes
+					detect: [ :type | type name = import typeReference name ]
+					ifFound: [ :type | import typeReference candidate: type ]
+					ifNone: [ 
+					self install: import typeReference from: import packageReference ] ] ]
 ]

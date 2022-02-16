@@ -1,5 +1,5 @@
 Class {
 	#name : #MOUnaryBooleanOperation,
 	#superclass : #MOUnaryOperation,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }

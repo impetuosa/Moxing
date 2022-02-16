@@ -5,8 +5,9 @@ Class {
 }
 
 { #category : #accessing }
-MOAngularModule >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitAngularModule: self 
+MOAngularModule >> acceptVisitor: aJinInspectorBuilder [
+
+	^ aJinInspectorBuilder visitAngularModule: self
 ]
 
 { #category : #accessing }

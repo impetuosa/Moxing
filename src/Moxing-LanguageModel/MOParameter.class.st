@@ -1,10 +1,19 @@
 Class {
 	#name : #MOParameter,
 	#superclass : #MOVariable,
-	#category : #'Moxing-LanguageModel'
+	#instVars : [
+		'isOptional'
+	],
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }
 MOParameter >> acceptVisitor: aJinTypescriptCodeGenerator [
-	aJinTypescriptCodeGenerator visitParameter: self
+
+	^ aJinTypescriptCodeGenerator visitParameter: self
+]
+
+{ #category : #accessing }
+MOParameter >> isOptional: aBoolean [ 
+	isOptional := aBoolean
 ]

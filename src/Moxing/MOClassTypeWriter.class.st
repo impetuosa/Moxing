@@ -1,3 +1,6 @@
+"
+I build class types allowing to write in my context attributes, constructors, methods, etc 
+"
 Class {
 	#name : #MOClassTypeWriter,
 	#superclass : #MOTypeParameterWriter,
@@ -8,19 +11,38 @@ Class {
 }
 
 { #category : #adding }
+MOClassTypeWriter >> addAttribute: aMOAttribute [
+
+	writeBuilder addAttribute: aMOAttribute
+]
+
+{ #category : #adding }
+MOClassTypeWriter >> addDecorator: aMODecorator [
+
+	writeBuilder addDecorator: aMODecorator
+]
+
+{ #category : #adding }
+MOClassTypeWriter >> addMethod: aMOProcedure [
+
+	writeBuilder addMethod: aMOProcedure
+]
+
+{ #category : #adding }
 MOClassTypeWriter >> addModifier: aString [
 	writeBuilder addModifier: aString
+]
+
+{ #category : #adding }
+MOClassTypeWriter >> addTypeParameter: aMOTypeParameter [
+
+	writeBuilder addTypeParameter: aMOTypeParameter
 ]
 
 { #category : #accessing }
 MOClassTypeWriter >> fullName: aString [
 
 	writeBuilder fullName: aString
-]
-
-{ #category : #generated }
-MOClassTypeWriter >> imports: aCollection [ 
-	writeBuilder imports: aCollection 
 ]
 
 { #category : #writing }
@@ -63,12 +85,6 @@ MOClassTypeWriter >> writeConstructor: aFullBlockClosure [
 { #category : #writing }
 MOClassTypeWriter >> writeDecorator: aFullBlockClosure [ 
 		^ self preWrite: aFullBlockClosure inSubWriter: MODecoratorWriter
-]
-
-{ #category : #writing }
-MOClassTypeWriter >> writeImport: aFullBlockClosure [
-
-	^ self preWrite: aFullBlockClosure inSubWriter: MOImportWriter
 ]
 
 { #category : #writing }

@@ -1,3 +1,6 @@
+"
+I build simple static invocations 
+"
 Class {
 	#name : #MOModelInvocationBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -23,6 +26,31 @@ MOModelInvocationBuilder >> arguments [
 { #category : #accessing }
 MOModelInvocationBuilder >> arguments: aCollection [ 
 	arguments := aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOModelInvocationBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MOInvocation. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #selector. #selector }.
+		  { #arguments. #arguments } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelInvocationBuilder >> buildsType [
+
+	<generated>
+	^ MOInvocation
+]
+
+{ #category : #'as yet unclassified' }
+MOModelInvocationBuilder >> loadBuilderWithEntity: anEntity [
+
+	self selector: anEntity selector.
+	self arguments: anEntity arguments
 ]
 
 { #category : #'as yet unclassified' }

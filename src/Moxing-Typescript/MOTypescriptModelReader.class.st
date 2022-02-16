@@ -9,3 +9,8 @@ MOTypescriptModelReader >> instantiateLangAware: aClass [
 
 	^ aClass newForTypescriptIn: model
 ]
+
+{ #category : #visiting }
+MOTypescriptModelReader >> read: anEntity [
+	read := anEntity copy
+]

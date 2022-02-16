@@ -16,24 +16,24 @@ MOTypescriptCodeGenerator >> printClassHeader: name implements: types [
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitClass: aJinTypescriptClass [
+
 	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].
-	aJinTypescriptClass decorator
-		ifNotNil: [ :d | d acceptVisitor: self ].
-	self printClassHeader: aJinTypescriptClass name implements: aJinTypescriptClass types.
-	
+	aJinTypescriptClass decorators do: [ :d | d acceptVisitor: self ].
+	self
+		printClassHeader: aJinTypescriptClass name
+		implements: aJinTypescriptClass types.
+
 	stream
 		nextPutAll: ' {';
 		newLine.
-	aJinTypescriptClass properties
-		do: [ :m | 
-			m acceptVisitor: self.
-			stream
-				nextPutAll: ';';
-				newLine ].
-	aJinTypescriptClass methods
-		do: [ :m | 
-			m acceptVisitor: self.
-			stream newLine ].
+	aJinTypescriptClass properties do: [ :m | 
+		m acceptVisitor: self.
+		stream
+			nextPutAll: ';';
+			newLine ].
+	aJinTypescriptClass methods do: [ :m | 
+		m acceptVisitor: self.
+		stream newLine ].
 	stream nextPutAll: '}'
 ]
 
@@ -52,7 +52,7 @@ MOTypescriptCodeGenerator >> visitDecorator: aJinTypescriptDecorator [
 ]
 
 { #category : #visiting }
-MOTypescriptCodeGenerator >> visitDependency: aMOTypescriptImport [
+MOTypescriptCodeGenerator >> visitImport: aMOTypescriptImport [
 	stream
 		nextPutAll: 'import {';
 		nextPutAll: (',' join: (aMOTypescriptImport types collect: [ :t | t name ]));

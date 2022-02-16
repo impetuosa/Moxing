@@ -1,11 +1,11 @@
 Class {
 	#name : #MOTypedReference,
 	#superclass : #MOReference,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #generated }
 MOTypedReference >> type [
 
-	^ candidate type
+	^ candidate constructingTypeName
 ]

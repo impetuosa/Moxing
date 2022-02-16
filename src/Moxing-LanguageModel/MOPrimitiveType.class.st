@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPrimitiveType,
 	#superclass : #MOType,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #printing }

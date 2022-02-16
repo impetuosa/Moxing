@@ -10,7 +10,7 @@ Class {
 { #category : #visiting }
 MOAngularClass >> acceptVisitor: aJinInspectorBuilder [
 
-	aJinInspectorBuilder visitAngularClass: self
+	^ aJinInspectorBuilder visitAngularClass: self
 ]
 
 { #category : #'as yet unclassified' }

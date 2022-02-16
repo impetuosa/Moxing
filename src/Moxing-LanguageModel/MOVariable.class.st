@@ -2,17 +2,19 @@ Class {
 	#name : #MOVariable,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'defaultValue',
-		'modifiers',
-		'typeReference',
-		'initializer'
+		'#modifiers => MOPropertySlot',
+		'#typeReference => MOReferenceSlot one',
+		'#initializer => MOExpressionSlot one',
+		'#annotationInstances => MOReferenceSlot many',
+		'#bindingKind => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
 MOVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
-	aJinTypescriptCodeGenerator visitVariable: self
+
+	^ aJinTypescriptCodeGenerator visitVariable: self
 ]
 
 { #category : #adding }
@@ -27,30 +29,30 @@ MOVariable >> addStatement: aMONewExpression [
 	initializer := aMONewExpression
 ]
 
-{ #category : #'as yet unclassified' }
-MOVariable >> defaultValue [
-	^ defaultValue
+{ #category : #accessing }
+MOVariable >> annotationInstances: aCollection [
+
+	annotationInstances := aCollection
 ]
 
-{ #category : #'as yet unclassified' }
-MOVariable >> defaultValue: aMOTypescriptLiteral [
-	defaultValue := aMOTypescriptLiteral
+{ #category : #accessing }
+MOVariable >> bindingKind [
+
+	^ bindingKind
+]
+
+{ #category : #adding }
+MOVariable >> bindingKind: aString [ 
+	bindingKind := aString
 ]
 
 { #category : #accessing }
 MOVariable >> dependencies [
 	| deps |
 	deps := typeReference ifNotNil: [ typeReference dependencies ] ifNil: [ {} ].
-	^ defaultValue
+	^ initializer 
 		ifNil: [ deps ]
-		ifNotNil: [ deps , defaultValue dependencies ]
-]
-
-{ #category : #generated }
-MOVariable >> hierarchicalChildren [
-
-	^ self annotations
-	  , (self initializer ifNil: [ {  } ] ifNotNil: [ :i | { i } ])
+		ifNotNil: [ deps , initializer dependencies ]
 ]
 
 { #category : #accessing }
@@ -64,6 +66,21 @@ MOVariable >> initializer [
 	^ initializer
 ]
 
+{ #category : #accessing }
+MOVariable >> initializer: aMONewExpression [ 
+	initializer := aMONewExpression
+]
+
+{ #category : #accessing }
+MOVariable >> isDynamicBinding [
+	^ self bindingKind = #dynamic.
+]
+
+{ #category : #'as yet unclassified' }
+MOVariable >> isStaticBinding [
+	^ self bindingKind = #static.
+]
+
 { #category : #'as yet unclassified' }
 MOVariable >> modifiers [
 
@@ -73,13 +90,6 @@ MOVariable >> modifiers [
 { #category : #'as yet unclassified' }
 MOVariable >> modifiers: aSet [
 	modifiers := aSet
-]
-
-{ #category : #accessing }
-MOVariable >> name: aName [
-
-	name = 'hibernateProperties' ifTrue: [ self halt ].
-	super name: aName
 ]
 
 { #category : #accessing }
@@ -107,8 +117,6 @@ MOVariable >> typeReference [
 ]
 
 { #category : #accessing }
-MOVariable >> typeReference: aJinTypescriptTypeReference [ 
-(	aJinTypescriptTypeReference isNil) ifTrue: [ self halt  ].
-
+MOVariable >> typeReference: aJinTypescriptTypeReference [
 	typeReference := aJinTypescriptTypeReference
 ]

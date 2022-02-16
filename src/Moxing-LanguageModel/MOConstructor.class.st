@@ -1,10 +1,7 @@
 Class {
 	#name : #MOConstructor,
 	#superclass : #MOInvocable,
-	#instVars : [
-		'type'
-	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
@@ -13,26 +10,13 @@ MOConstructor >> acceptVisitor: aMOCatalogTypeInstaller [
 	^ aMOCatalogTypeInstaller visitConstructor: self
 ]
 
-{ #category : #generated }
-MOConstructor >> hierarchicalChildren [
+{ #category : #'as yet unclassified' }
+MOConstructor >> constructingTypeName [
 
-	^ self parameters , self annotations , self typeParameters
-	  , { self block }
+	^ parent name
 ]
 
 { #category : #accessing }
 MOConstructor >> selector [ 
 	^ parent name 
-]
-
-{ #category : #accessing }
-MOConstructor >> type [
-
-	^ type
-]
-
-{ #category : #accessing }
-MOConstructor >> type: aTypeRefrence [
-
-	type := aTypeRefrence
 ]

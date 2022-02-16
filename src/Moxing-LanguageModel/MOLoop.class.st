@@ -1,11 +1,11 @@
 Class {
 	#name : #MOLoop,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOStatement,
 	#instVars : [
-		'condition',
-		'loopingBlock'
+		'#condition => MOExpressionSlot one',
+		'#loopingBlock => MOContainmentSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #accessing }

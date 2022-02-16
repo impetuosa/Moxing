@@ -1,0 +1,24 @@
+Class {
+	#name : #MOModelResumeBuilder,
+	#superclass : #MOModelBuilderDelegate,
+	#instVars : [
+		'destinations'
+	],
+	#category : #'Moxing-MicroBuilders'
+}
+
+{ #category : #accessing }
+MOModelResumeBuilder >> destinations: aCollection [ 
+	destinations := aCollection
+]
+
+{ #category : #accessing }
+MOModelResumeBuilder >> privateBuild [
+
+	^ destinations isEmptyOrNil
+		  ifFalse: [ 
+			  (self instantiate: MOAlceResumeLabel)
+				  destinations: destinations;
+				  yourself ]
+		  ifTrue: [ (self instantiate: MOAlceResume) yourself ]
+]

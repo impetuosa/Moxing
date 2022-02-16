@@ -1,3 +1,6 @@
+"
+I am in charge of binding a variable reference with a variable / attribute / parameter declarations
+"
 Class {
 	#name : #MOModelVariableLinker,
 	#superclass : #Object,
@@ -5,7 +8,7 @@ Class {
 		'model',
 		'resolving'
 	],
-	#category : #'Moxing-Core'
+	#category : #'Moxing-Linking'
 }
 
 { #category : #accessing }
@@ -36,15 +39,37 @@ MOModelVariableLinker >> visitBlock: aMOBlock [
 ]
 
 { #category : #visiting }
+MOModelVariableLinker >> visitClass: aMOClass [
+
+	aMOClass attributes
+		detect: [ :v | 
+		(v isKindOf: MOVariable) and: [ v name = resolving name ] ]
+		ifFound: [ :c | resolving candidate: c ]
+		ifNone: [ aMOClass parent acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableLinker >> visitMethod: aMOMethod [
+
+	aMOMethod parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableLinker >> visitMethodInvocation: aMOMethodInvocation [
 
-	aMOMethodInvocation parent acceptVisitor: self
+	^ aMOMethodInvocation parent acceptVisitor: self
 ]
 
 { #category : #visiting }
 MOModelVariableLinker >> visitReturn: aMOReturn [
 
 	aMOReturn parent acceptVisitor: self
+]
+
+{ #category : #'as yet unclassified' }
+MOModelVariableLinker >> visitStatementExpression: aMOStatementExpression [
+
+	^ aMOStatementExpression parent acceptVisitor: self
 ]
 
 { #category : #visiting }

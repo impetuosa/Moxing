@@ -1,12 +1,34 @@
+"
+I build loops: such while or do Until kind 
+"
 Class {
 	#name : #MOModelLoopBuilder,
-	#superclass : #MOModelControlFlowBuilder,
+	#superclass : #MOModelConditionalControlFlowBuilder,
 	#instVars : [
 		'loopingBlock',
 		'elementClass'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
+
+{ #category : #'as yet unclassified' }
+MOModelLoopBuilder >> bindingConfiguration [
+
+	^ { 
+		  { #condition. #condition }.
+		  { #loopingBlock. #loopingBlock } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelLoopBuilder >> buildsType [
+	 ^ elementClass 
+]
+
+{ #category : #accessing }
+MOModelLoopBuilder >> elementClass: anObject [
+
+	elementClass := anObject
+]
 
 { #category : #'as yet unclassified' }
 MOModelLoopBuilder >> forDoUntil [
@@ -19,16 +41,24 @@ MOModelLoopBuilder >> forWhile [
 	elementClass := MOWhile
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelLoopBuilder >> loadBuilderWithEntity: anEntity [ 
+	self condition: anEntity condition. 
+ self loopingBlock: anEntity loopingBlock. 
+ 
+	
+]
+
 { #category : #accessing }
 MOModelLoopBuilder >> loopingBlock [
 
-	^ loopingBlock ifNil: [ self error: 'Looping block is nil ' ]
+	^ loopingBlock 
 ]
 
 { #category : #accessing }
 MOModelLoopBuilder >> loopingBlock: aMOModelBlockBuilder [
 
-	self assert: (aMOModelBlockBuilder isKindOf: MOBlock).
+
 	loopingBlock := aMOModelBlockBuilder
 ]
 

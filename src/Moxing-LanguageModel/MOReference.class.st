@@ -1,17 +1,12 @@
 Class {
 	#name : #MOReference,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOExpression,
 	#instVars : [
-		'candidate',
-		'candidateAnchor'
+		'#candidate => MOPropertySlot',
+		'#candidateAnchor => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
-
-{ #category : #adding }
-MOReference >> addVariableReference: aMOVariableReference [ 
-	" Nothing to do "
-]
 
 { #category : #accessing }
 MOReference >> candidate [
@@ -19,13 +14,18 @@ MOReference >> candidate [
 ]
 
 { #category : #accessing }
-MOReference >> candidate: aMOPackage [ 
+MOReference >> candidate: aMOPackage [
 	candidate := aMOPackage
 ]
 
 { #category : #accessing }
 MOReference >> candidateAnchor: aCandidateAnchor [ 
 	candidateAnchor := aCandidateAnchor
+]
+
+{ #category : #testing }
+MOReference >> isReference [
+	^ true
 ]
 
 { #category : #accessing }

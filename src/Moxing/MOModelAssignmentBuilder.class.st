@@ -1,3 +1,9 @@
+"
+I build assignments. 
+I require a reading and a writing part. 
+writing <- reading. 
+
+"
 Class {
 	#name : #MOModelAssignmentBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -9,6 +15,39 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MOModelAssignmentBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MOAssignment. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #read. #read }.
+		  { #write. #write } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAssignmentBuilder >> buildsType [
+<generated>
+	^MOAssignment
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAssignmentBuilder >> copyBuilder [
+
+	^ MOModelCopyAssignmentBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAssignmentBuilder >> loadBuilderWithEntity: anEntity [ 
+	self read: anEntity read. 
+ self write: anEntity write. 
+ 
+	
+]
+
+{ #category : #'as yet unclassified' }
 MOModelAssignmentBuilder >> privateBuild [
 
 	^ (self instantiate: MOAssignment)
@@ -17,10 +56,20 @@ MOModelAssignmentBuilder >> privateBuild [
 		  yourself
 ]
 
+{ #category : #accessing }
+MOModelAssignmentBuilder >> read [
+	^ read
+]
+
 { #category : #'meta-object-protocol' }
 MOModelAssignmentBuilder >> read: aMOVariableReference [
 
 	read := aMOVariableReference
+]
+
+{ #category : #accessing }
+MOModelAssignmentBuilder >> write [
+	^ write
 ]
 
 { #category : #writing }

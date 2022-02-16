@@ -2,9 +2,9 @@ Class {
 	#name : #MOVariableReference,
 	#superclass : #MOTypedReference,
 	#instVars : [
-		'kind'
+		'#kind => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #visiting }
@@ -17,6 +17,14 @@ MOVariableReference >> acceptVisitor: aMOTypescriptCodeGenerator [
 MOVariableReference >> kind: aString [
 
 	kind := aString
+]
+
+{ #category : #generated }
+MOVariableReference >> printOn: aStream [
+
+	aStream
+		nextPutAll: '->';
+		nextPutAll: name
 ]
 
 { #category : #generated }

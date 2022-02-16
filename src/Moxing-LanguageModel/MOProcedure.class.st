@@ -2,14 +2,24 @@ Class {
 	#name : #MOProcedure,
 	#superclass : #MOInvocable,
 	#instVars : [
-		'selector'
+		'#selector => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }
 MOProcedure >> acceptVisitor: aJinInspectorBuilder [
 	^ aJinInspectorBuilder visitProcedure: self
+]
+
+{ #category : #accessing }
+MOProcedure >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Procedure: ';
+		nextPutAll: selector;
+		nextPutAll: '/';
+		nextPutAll: parameters size asString.
 ]
 
 { #category : #accessing }

@@ -1,3 +1,6 @@
+"
+I build new expressions: new Type () 
+"
 Class {
 	#name : #MOModelNewExpressionBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -19,9 +22,34 @@ MOModelNewExpressionBuilder >> arguments: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelNewExpressionBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MONewExpression. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #typeReference. #typeReference }.
+		  { #arguments. #arguments } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelNewExpressionBuilder >> buildsType [
+<generated>
+	^MONewInvocation
+]
+
+{ #category : #'as yet unclassified' }
+MOModelNewExpressionBuilder >> loadBuilderWithEntity: anEntity [ 
+	self typeReference: anEntity typeReference. 
+ self arguments: anEntity arguments. 
+ 
+	
+]
+
+{ #category : #'as yet unclassified' }
 MOModelNewExpressionBuilder >> privateBuild [
 
-	^ (self instantiate: MONewExpression)
+	^ (self instantiate: MONewInvocation)
 		  typeReference: self typeReference;
 		  arguments: self arguments;
 		  yourself

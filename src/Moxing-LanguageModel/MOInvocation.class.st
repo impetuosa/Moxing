@@ -2,15 +2,16 @@ Class {
 	#name : #MOInvocation,
 	#superclass : #MOTypedReference,
 	#instVars : [
-		'selector',
-		'arguments'
+		'#selector => MOPropertySlot',
+		'#arguments => MOExpressionSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }
-MOInvocation >> acceptVisitor: aMOTransformationApplier [ 
-	aMOTransformationApplier visitInvocation: self 
+MOInvocation >> acceptVisitor: aMOTransformationApplier [
+
+	^ aMOTransformationApplier visitInvocation: self
 ]
 
 { #category : #accessing }
@@ -20,8 +21,18 @@ MOInvocation >> arguments [
 
 { #category : #'as yet unclassified' }
 MOInvocation >> arguments: aCollection [ 
-	aCollection isCollection ifFalse: [ self halt  ].
 	arguments := aCollection
+]
+
+{ #category : #initialization }
+MOInvocation >> initialize [
+
+	super initialize.
+]
+
+{ #category : #accessing }
+MOInvocation >> isInvocation [
+	^ true 
 ]
 
 { #category : #accessing }

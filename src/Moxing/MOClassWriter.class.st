@@ -1,8 +1,33 @@
+"
+I write classes allow to include as much as my parent and constructors 
+"
 Class {
 	#name : #MOClassWriter,
 	#superclass : #MOClassTypeWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOClassWriter >> addAccessor: aMOAccessor [ 
+	writeBuilder addAccessor: aMOAccessor 
+]
+
+{ #category : #adding }
+MOClassWriter >> addConstructor: aMOConstructor [ 
+	writeBuilder addConstructor: aMOConstructor 
+]
+
+{ #category : #adding }
+MOClassWriter >> addFunction: aMOProcedure [
+
+	self addMethod: aMOProcedure
+]
+
+{ #category : #adding }
+MOClassWriter >> addProcedure: aMOProcedure [
+
+	self addMethod: aMOProcedure
+]
 
 { #category : #initialization }
 MOClassWriter >> initializeWriteBuilder [
@@ -25,4 +50,30 @@ MOClassWriter >> privateWriteToSurface: anEntity [
 MOClassWriter >> superclassReference: superClassReference [
 
 	writeBuilder superclassReference: superClassReference
+]
+
+{ #category : #writing }
+MOClassWriter >> writeAttributeAccessor: aFullBlockClosure [
+
+	^ self preWrite: aFullBlockClosure inSubWriter: MOAccessorWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeFunction: aBlock [
+
+	^ self
+		  preWrite: [ :function | 
+			  function setDynamicBinding.
+			  aBlock value: function ]
+		  inSubWriter: MOFunctionWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeSubprocedure: aBlock [
+
+	^ self
+		  preWrite: [ :function | 
+			  function setDynamicBinding.
+			  aBlock value: function ]
+		  inSubWriter: MOSubProcedureWriter
 ]

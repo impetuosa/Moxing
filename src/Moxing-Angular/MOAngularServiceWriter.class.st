@@ -62,7 +62,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 								literal: '"headers"';
 								yourself)
 								->
-									(MONewExpression new
+									(MONewInvocation new
 										type: MOTypescriptPrebuiltTypeReferenceFactory default httpHeaders;
 										arguments:
 											{(MOObjectLiteral new

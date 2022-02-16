@@ -1,8 +1,17 @@
+"
+I do write variables .
+"
 Class {
 	#name : #MOVariableWriter,
 	#superclass : #MOModelProceduralWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOVariableWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	writeBuilder addAnnotationInstance: aMOAnnotationInstance
+]
 
 { #category : #writing }
 MOVariableWriter >> initializeWriteBuilder [
@@ -11,8 +20,8 @@ MOVariableWriter >> initializeWriteBuilder [
 ]
 
 { #category : #generated }
-MOVariableWriter >> initializer: anUndefinedObject [ 
-	writeBuilder initializer: anUndefinedObject 
+MOVariableWriter >> initializer: aBlock [ 
+	writeBuilder initializer: (self writeExpression: aBlock) 
 ]
 
 { #category : #generated }
@@ -50,9 +59,9 @@ MOVariableWriter >> typeReference: aTypeReference [
 ]
 
 { #category : #writing }
-MOVariableWriter >> writeNewExpression: aFullBlockClosure [
+MOVariableWriter >> writeExpression: aBlock [
 
-	^ self
-		  preWrite: aFullBlockClosure
-		  inSubWriter: MOStatementNewExpressionWriter
+	| stmnt |
+	stmnt := self immediatelyWrite: aBlock withWriter: MOExpressionWriter.
+	^ stmnt
 ]

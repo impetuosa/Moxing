@@ -1,3 +1,6 @@
+"
+I do write attributes. I allow the annotation and modifiers of such attirbutes 
+"
 Class {
 	#name : #MOAttributeWriter,
 	#superclass : #MOVariableWriter,

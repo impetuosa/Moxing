@@ -1,3 +1,6 @@
+"
+I build literals in general
+"
 Class {
 	#name : #MOLiteralBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -15,7 +18,8 @@ MOLiteralBuilder >> assertValueType [
 
 { #category : #accessing }
 MOLiteralBuilder >> literalClass [
-	^ self subclassResponsibility 
+
+	^ MONullLiteral
 ]
 
 { #category : #'as yet unclassified' }

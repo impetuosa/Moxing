@@ -10,6 +10,7 @@ Class {
 { #category : #actions }
 MOJavaVariableReference >> load: aJavaNameNode [
 
+	aJavaNameNode ifNil: [ ^ writer referenceToSelf ].
 	^ aJavaNameNode acceptVisitor: self
 ]
 

@@ -1,12 +1,13 @@
 Class {
 	#name : #MOObjectLiteral,
 	#superclass : #MOLiteral,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #accessing }
-MOObjectLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitObjectLiteral: self .
+MOObjectLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitObjectLiteral: self
 ]
 
 { #category : #accessing }

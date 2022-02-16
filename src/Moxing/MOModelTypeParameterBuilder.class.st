@@ -1,10 +1,14 @@
+"
+I build typeParameters like generics or templates 
+"
 Class {
 	#name : #MOModelTypeParameterBuilder,
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'name',
 		'superTypeReferences',
-		'packageRefrence'
+		'packageRefrence',
+		'parent'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -13,6 +17,31 @@ Class {
 MOModelTypeParameterBuilder >> addSuperTypeReference: aMOTypeReference [
 
 	self superTypeReferences add: aMOTypeReference
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MOTypeParameter. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #name. #name }.
+		  { #parent. #parent }.
+		  { #packageReference. #packageReference }.
+		  { #superTypeReferences. #superTypeReferences } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> buildsType [
+<generated>
+	^MOTypeParameter
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> declarationUnit: aMODeclarationUnit [
+ 
+	parent := aMODeclarationUnit
 ]
 
 { #category : #accessing }
@@ -29,6 +58,16 @@ MOModelTypeParameterBuilder >> fullName: aString [
 			 build)
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> loadBuilderWithEntity: anEntity [ 
+	self name: anEntity name. 
+ self parent: anEntity parent. 
+ self packageReference: anEntity packageReference. 
+ self superTypeReferences: anEntity superTypeReferences. 
+ 
+	
+]
+
 { #category : #accessing }
 MOModelTypeParameterBuilder >> name [
 	^ name ifNil: [  self error: ' NAme is Nil! ' ]
@@ -43,6 +82,7 @@ MOModelTypeParameterBuilder >> name: aString [
 { #category : #'as yet unclassified' }
 MOModelTypeParameterBuilder >> package: aMOPackage [
 
+	parent := aMOPackage.
 	self packageReference: (self packageReferenceBuilder
 			 package: aMOPackage;
 			 build)
@@ -61,11 +101,22 @@ MOModelTypeParameterBuilder >> packageReference: aMOPackageReference [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> parent [
+ 	^ parent
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> parent: aParent [ 
+	 parent := aParent 
+]
+
+{ #category : #'as yet unclassified' }
 MOModelTypeParameterBuilder >> privateBuild [
 
 	^ (self instantiate: MOTypeParameter)
 		  name: self name;
-		  parent: self packageReference; 
+		  parent: self parent;
+		  packageReference: self packageReference; 
 		  superTypeReferences: self superTypeReferences;
 		  yourself
 ]

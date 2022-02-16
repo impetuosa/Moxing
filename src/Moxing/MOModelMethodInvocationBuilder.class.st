@@ -1,3 +1,6 @@
+"
+i build method invocations 
+"
 Class {
 	#name : #MOModelMethodInvocationBuilder,
 	#superclass : #MOModelInvocationBuilder,
@@ -6,6 +9,33 @@ Class {
 	],
 	#category : #'Moxing-MicroBuilders'
 }
+
+{ #category : #'as yet unclassified' }
+MOModelMethodInvocationBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MOMethodInvocation. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #receiverReference. #receiverReference }.
+		  { #arguments. #arguments }.
+		  { #selector. #selector } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelMethodInvocationBuilder >> buildsType [
+
+	<generated>
+	^ MOMethodInvocation
+]
+
+{ #category : #'as yet unclassified' }
+MOModelMethodInvocationBuilder >> loadBuilderWithEntity: anEntity [
+
+	self receiverReference: anEntity receiverReference.
+	self arguments: anEntity arguments.
+	self selector: anEntity selector
+]
 
 { #category : #'as yet unclassified' }
 MOModelMethodInvocationBuilder >> privateBuild [
@@ -21,12 +51,11 @@ MOModelMethodInvocationBuilder >> privateBuild [
 MOModelMethodInvocationBuilder >> receiverReference [
 
 	^ receiverReference ifNil: [ 
-		  receiverReference := self variableReferenceBuilder
-			                       variable: (self instantiate: MOSelf);
-			                       build ]
+		  self error: ' Receiver reference must be provided ' ]
 ]
 
 { #category : #accessing }
-MOModelMethodInvocationBuilder >> receiverReference: aMOVariableReference [ 
+MOModelMethodInvocationBuilder >> receiverReference: aMOVariableReference [
+
 	receiverReference := aMOVariableReference
 ]

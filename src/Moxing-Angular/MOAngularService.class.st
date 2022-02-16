@@ -10,7 +10,7 @@ Class {
 { #category : #visiting }
 MOAngularService >> acceptVisitor: aJinInspectorBuilder [
 
-	aJinInspectorBuilder visitAngularService: self
+	^ aJinInspectorBuilder visitAngularService: self
 ]
 
 { #category : #accessing }

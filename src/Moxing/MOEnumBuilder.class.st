@@ -1,0 +1,72 @@
+Class {
+	#name : #MOEnumBuilder,
+	#superclass : #MOModelBuilderDelegate,
+	#instVars : [
+		'name',
+		'entries',
+		'visibility'
+	],
+	#category : #'Moxing-MicroBuilders'
+}
+
+{ #category : #adding }
+MOEnumBuilder >> addEnumEntry: aMOEnumEntry [
+
+	self entries add: aMOEnumEntry
+]
+
+{ #category : #asserting }
+MOEnumBuilder >> buildsType [
+
+	^ MOEnum
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> entries [
+
+	^ entries ifNil: [ entries := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> entries: aCollection [ 
+	entries := aCollection
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> loadBuilderWithEntity: aMOEnum [
+
+	self name: aMOEnum name.
+	self entries: aMOEnum entries.
+	self visibility: aMOEnum visibility
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> name [
+	^ name
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> name: aString [ 
+	name := aString
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> privateBuild [
+
+	^ (self instantiate: MOEnum)
+		  name: self name;
+		  visibility: self visibility;
+		  entries: self entries;
+		  yourself
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> visibility [
+	^ visibility
+]
+
+{ #category : #accessing }
+MOEnumBuilder >> visibility: aString [
+
+	visibility := aString
+]

@@ -1,3 +1,6 @@
+"
+I build binary operations in general .
+"
 Class {
 	#name : #MOModelBinaryOperationBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -11,7 +14,8 @@ Class {
 
 { #category : #accessing }
 MOModelBinaryOperationBuilder >> left [
-	^ left ifNil: [ self error: ' Left operand is Nil ' ]
+
+	^ (left ifNil: [ self error: ' Left operand is Nil ' ]) value
 ]
 
 { #category : #accessing }
@@ -32,7 +36,7 @@ MOModelBinaryOperationBuilder >> operator: aString [
 
 { #category : #accessing }
 MOModelBinaryOperationBuilder >> right [
-	^ right ifNil: [ self error: ' Rigth operand is Nil ' ]
+	^ (right ifNil: [ self error: ' Rigth operand is Nil ' ]) value 
 ]
 
 { #category : #accessing }

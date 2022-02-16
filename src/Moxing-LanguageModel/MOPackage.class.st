@@ -2,35 +2,40 @@ Class {
 	#name : #MOPackage,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'types'
+		'#types => MOContainmentSlot many',
+		'#declarationUnits => MOContainmentSlot many',
+		'#packageReference => MOReferenceSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
 MOPackage >> acceptVisitor: aVisitor [
 
-	aVisitor visitPackage: self
+	^ aVisitor visitPackage: self
 ]
 
 { #category : #adding }
-MOPackage >> addClass: aMOClass [
+MOPackage >> addDeclarationUnit: aMODeclarationUnit [
 
-	self addType: aMOClass
+	declarationUnits add: aMODeclarationUnit
 ]
 
-{ #category : #adding }
-MOPackage >> addClassType: aMOClass [
+{ #category : #accessing }
+MOPackage >> allTypes [
 
-	self addType: aMOClass
+	^ types , (declarationUnits flatCollect: [ :u | u types ])
 ]
 
-{ #category : #adding }
-MOPackage >> addType: aMOPrimitiveType [
+{ #category : #accessing }
+MOPackage >> declarationUnits [
+	^ declarationUnits
+]
 
-	self assert:
-		(types noneSatisfy: [ :t | t name = aMOPrimitiveType name ]).
-	types add: aMOPrimitiveType
+{ #category : #accessing }
+MOPackage >> declarationUnits: asetOfDeclarationUnits [
+
+	declarationUnits := asetOfDeclarationUnits
 ]
 
 { #category : #adding }
@@ -45,7 +50,16 @@ MOPackage >> fullName [
 MOPackage >> initialize [
 
 	super initialize.
+	declarationUnits := OrderedCollection new. 
 	types := OrderedCollection new.
+]
+
+{ #category : #accessing }
+MOPackage >> packageReference: aPackageReference [
+
+	" if the pack is child of an other package. "
+
+	packageReference := aPackageReference
 ]
 
 { #category : #adding }
@@ -57,6 +71,7 @@ MOPackage >> printOn: aStream [
 ]
 
 { #category : #accessing }
-MOPackage >> types [
-	^ types
+MOPackage >> types: asetOfTypes [
+
+	types := asetOfTypes
 ]

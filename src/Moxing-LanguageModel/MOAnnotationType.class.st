@@ -1,7 +1,7 @@
 Class {
 	#name : #MOAnnotationType,
 	#superclass : #MOClass,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }

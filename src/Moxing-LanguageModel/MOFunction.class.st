@@ -2,14 +2,15 @@ Class {
 	#name : #MOFunction,
 	#superclass : #MOProcedure,
 	#instVars : [
-		'returnTypeReference'
+		'#returnTypeReference => MOReferenceSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }
-MOFunction >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitFunction: self 
+MOFunction >> acceptVisitor: aJinInspectorBuilder [
+
+	^ aJinInspectorBuilder visitFunction: self
 ]
 
 { #category : #accessing }
@@ -25,6 +26,20 @@ MOFunction >> fullSelector [
 	^ '{1}.{2}' format: { 
 			  parent name.
 			  selector }
+]
+
+{ #category : #generated }
+MOFunction >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Function: ';
+		nextPutAll: selector;
+		nextPutAll: '/';
+		nextPutAll: parameters size asString.
+
+	returnTypeReference
+		ifNil: [ aStream nextPutAll: 'UNKNOWN' ]
+		ifNotNil: [ :t | returnTypeReference printOn: aStream ]
 ]
 
 { #category : #generated }

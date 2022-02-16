@@ -1,8 +1,14 @@
 Class {
 	#name : #MOEmptyBlock,
 	#superclass : #MOLanguageObject,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
+
+{ #category : #accessing }
+MOEmptyBlock >> acceptVisitor: aMOCatalogTypeInstaller [
+
+	^ aMOCatalogTypeInstaller visitEmptyBlock: self
+]
 
 { #category : #adding }
 MOEmptyBlock >> addStatement: aMOAssignment [

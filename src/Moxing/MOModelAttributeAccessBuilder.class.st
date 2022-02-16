@@ -1,46 +1,66 @@
+"
+I know how to build Attributes accessors (such as properties.
+"
 Class {
 	#name : #MOModelAttributeAccessBuilder,
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
-		'segments'
+		'name',
+		'receiverReference'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
 
-{ #category : #adding }
-MOModelAttributeAccessBuilder >> addAttributeName: aString [
+{ #category : #'as yet unclassified' }
+MOModelAttributeAccessBuilder >> bindingConfiguration [
 
-	self addVariableReference: (self variableReferenceBuilder
-			 name: aString;
-			 build)
+	"On the left the attribute names for MOAttributeAccess. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #receiverReference. #receiverReference }.
+		  { #name. #name } }
 ]
 
-{ #category : #adding }
-MOModelAttributeAccessBuilder >> addVariable: aMOAttribute [
-
-	self addVariableReference: (self variableReferenceBuilder
-			 variable: aMOAttribute;
-			 build)
+{ #category : #'as yet unclassified' }
+MOModelAttributeAccessBuilder >> buildsType [
+<generated>
+	^MOAttributeAccess
 ]
 
-{ #category : #adding }
-MOModelAttributeAccessBuilder >> addVariableReference: aMOVariableReference [
+{ #category : #'as yet unclassified' }
+MOModelAttributeAccessBuilder >> loadBuilderWithEntity: anEntity [
 
-	segments ifNotEmpty: [ aMOVariableReference parent: segments last ].
-	segments add: aMOVariableReference
+	self receiverReference: anEntity receiverReference.
+	self name: anEntity name
 ]
 
-{ #category : #adding }
-MOModelAttributeAccessBuilder >> initialize [
+{ #category : #accessing }
+MOModelAttributeAccessBuilder >> name [
+	^ name
+]
 
-	super initialize.
-	segments := OrderedCollection new
+{ #category : #accessing }
+MOModelAttributeAccessBuilder >> name: aString [ 
+	name := aString 
 ]
 
 { #category : #'as yet unclassified' }
 MOModelAttributeAccessBuilder >> privateBuild [
 
 	^ (self instantiate: MOAttributeAccess)
-		  segments: segments;
+		  receiverReference: self receiverReference;
+		  name: self name;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelAttributeAccessBuilder >> receiverReference [
+	^ receiverReference
+]
+
+{ #category : #accessing }
+MOModelAttributeAccessBuilder >> receiverReference: aMOTypeReference [
+
+	receiverReference := aMOTypeReference
 ]

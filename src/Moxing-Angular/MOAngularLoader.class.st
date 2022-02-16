@@ -6,8 +6,22 @@ Class {
 		'model',
 		'workingDirectory'
 	],
+	#classInstVars : [
+		'northwind'
+	],
 	#category : #'Moxing-Angular-Loader'
 }
+
+{ #category : #'as yet unclassified' }
+MOAngularLoader class >> northwind [
+
+	^ northwind ifNil: [ 
+		  northwind := self new
+			               workingDirectory:
+				               '/Users/sbragagn/git/northwind-angular'
+					               asFileReference;
+			               loadNamed: #angular ]
+]
 
 { #category : #convenience }
 MOAngularLoader >> isWellKnownNotDirectory: aFileReference [
@@ -110,8 +124,7 @@ MOAngularLoader >> visitAngularClass: aComponentBehavior [
 			 loadClassFromFile: aComponentBehavior fileReference
 			 for: aComponentBehavior
 			 into: model).
-	aComponentBehavior classRepresentation parent candidate:
-		aComponentBehavior
+	aComponentBehavior classRepresentation parent: aComponentBehavior
 ]
 
 { #category : #visiting }

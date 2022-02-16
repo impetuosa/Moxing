@@ -1,3 +1,6 @@
+"
+I build references to packages 
+"
 Class {
 	#name : #MOModelPackageReferenceBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -10,9 +13,33 @@ Class {
 	#category : #'Moxing-MicroBuilders'
 }
 
+{ #category : #'as yet unclassified' }
+MOModelPackageReferenceBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MOPackageReference. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #candidateAnchor. #candidateAnchor }.
+		  { #name. #name }.
+		  { #candidate. #candidate } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelPackageReferenceBuilder >> buildsType [
+<generated>
+	^MOPackageReference
+]
+
 { #category : #accessing }
 MOModelPackageReferenceBuilder >> candidate [
 	^ candidate
+]
+
+{ #category : #accessing }
+MOModelPackageReferenceBuilder >> candidate: anObject [
+
+	candidate := anObject
 ]
 
 { #category : #accessing }
@@ -23,6 +50,14 @@ MOModelPackageReferenceBuilder >> candidateAnchor [
 { #category : #accessing }
 MOModelPackageReferenceBuilder >> candidateAnchor: aMOAnchor [ 
 	candidateAnchor := aMOAnchor
+]
+
+{ #category : #'as yet unclassified' }
+MOModelPackageReferenceBuilder >> loadBuilderWithEntity: anEntity [
+
+	self candidateAnchor: anEntity candidateAnchor.
+	self name: anEntity name.
+	self candidate: anEntity candidate
 ]
 
 { #category : #accessing }
@@ -46,7 +81,14 @@ MOModelPackageReferenceBuilder >> packageName: aName [
 
 { #category : #accessing }
 MOModelPackageReferenceBuilder >> parent [
+
 	^ parent
+]
+
+{ #category : #accessing }
+MOModelPackageReferenceBuilder >> parent: anObject [
+
+	parent := anObject
 ]
 
 { #category : #'as yet unclassified' }

@@ -1,8 +1,17 @@
+"
+I build references to primitive types 
+"
 Class {
 	#name : #MOModelPrimitiveTypeReferenceBuilder,
 	#superclass : #MOModelTypeReferenceBuilder,
 	#category : #'Moxing-MicroBuilders'
 }
+
+{ #category : #'as yet unclassified' }
+MOModelPrimitiveTypeReferenceBuilder >> buildsType [
+<generated>
+	^MOPrimitiveTypeReference
+]
 
 { #category : #accessing }
 MOModelPrimitiveTypeReferenceBuilder >> candidate [

@@ -2,8 +2,8 @@ Class {
 	#name : #MOAnchoredObject,
 	#superclass : #MONamedObject,
 	#instVars : [
-		'anchor',
-		'fileReference'
+		'#anchor => MOPropertySlot',
+		'#fileReference => MOPropertySlot'
 	],
 	#category : #'Moxing-Core'
 }
@@ -15,8 +15,17 @@ MOAnchoredObject >> anchor [
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> anchor: aMOAnchor [ 
+MOAnchoredObject >> anchor: aMOAnchor [
+
+	(anchor isNotNil and: [ anchor pathIsNotSet ]) ifTrue: [ 
+		aMOAnchor from: anchor srcFrom to: anchor srcTo ].
 	anchor := aMOAnchor
+]
+
+{ #category : #'as yet unclassified' }
+MOAnchoredObject >> anchorFrom: from to: to [
+
+	(anchor ifNil: [ anchor := MOAnchor new ]) from: from to: to
 ]
 
 { #category : #accessing }
@@ -46,6 +55,11 @@ MOAnchoredObject >> fileReference: aFileReference [
 MOAnchoredObject >> installCalculatedAnchorIfMissing [
 
 	anchor ifNil: [ anchor := self calculateAnchorIfMissing ]
+]
+
+{ #category : #accessing }
+MOAnchoredObject >> mapSpaceAnchor [
+	^ anchor
 ]
 
 { #category : #accessing }

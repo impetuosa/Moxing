@@ -1,3 +1,10 @@
+"
+I build numeric literals. 
+My value must be either an integer (small, long, etc) 
+or a float.
+Given a numeric value i know which kind of literal to create. 
+I do not support fractions or other pharo values.
+"
 Class {
 	#name : #MONumericLiteralBuilder,
 	#superclass : #MOLiteralBuilder,

@@ -1,6 +1,9 @@
+"
+i do write type paraemeters 
+"
 Class {
 	#name : #MOTypeParameterWriter,
-	#superclass : #MOModelProceduralWriter,
+	#superclass : #MOPrimitiveTypeWriter,
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -12,18 +15,6 @@ MOTypeParameterWriter >> addSuperTypeReference: aMOTypeReference [
 { #category : #initialization }
 MOTypeParameterWriter >> initializeWriteBuilder [
 	writeBuilder := builder typeParameterBuilder
-]
-
-{ #category : #writing }
-MOTypeParameterWriter >> name: aName [
-
-	(aName indexOf: $.) > 0 ifTrue: [ self halt ].
-	writeBuilder name: aName
-]
-
-{ #category : #initialization }
-MOTypeParameterWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #type / anEntity name
 ]
 
 { #category : #initialization }

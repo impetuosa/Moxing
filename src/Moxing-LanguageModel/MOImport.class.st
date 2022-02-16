@@ -1,10 +1,11 @@
 Class {
 	#name : #MOImport,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOStatement,
 	#instVars : [
-		'typeReference'
+		'#typeReference => MOReferenceSlot one',
+		'#packageReference => MOReferenceSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #'as yet unclassified' }
@@ -30,14 +31,32 @@ MOImport class >> compressDependencyCollection: deps [
 ]
 
 { #category : #'as yet unclassified' }
-MOImport >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitDependency:  self .
+MOImport >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitImport: self
+]
+
+{ #category : #'as yet unclassified' }
+MOImport >> importsAllPackage [
+
+	^ typeReference isNil
 ]
 
 { #category : #'as yet unclassified' }
 MOImport >> name [
 
-	^ name ifNil: [ name := typeReference name ]
+	^ name ifNil: [ 
+		  name := typeReference ifNil: [ #ALL ] ifNotNil: [ :r | r name ] ]
+]
+
+{ #category : #accessing }
+MOImport >> packageReference [
+	^ packageReference
+]
+
+{ #category : #accessing }
+MOImport >> packageReference: aMOPackageReference [ 
+	packageReference := aMOPackageReference
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,10 +66,19 @@ MOImport >> printOn: aStream [
 	typeReference printOn: aStream
 ]
 
-{ #category : #'as yet unclassified' }
-MOImport >> resolvesType: aString [
+{ #category : #visiting }
+MOImport >> resolvesType: aTypeReference [
 
-	^ typeReference name = aString
+	(aTypeReference packageReference isNil or: [ 
+		 aTypeReference packageReference = packageReference ]) ifFalse: [ 
+		^ false ].
+
+	^ name = #ALL
+		  ifTrue: [ 
+			  packageReference candidate allTypes contains: [ :a | 
+				  a name = aTypeReference name ] ]
+		  ifFalse: [ 
+		  self types anySatisfy: [ :tr | tr name = aTypeReference name ] ]
 ]
 
 { #category : #']as yet unclassified' }
@@ -59,11 +87,10 @@ MOImport >> type [
 	^ typeReference candidate
 ]
 
-{ #category : #'sdk functions' }
+{ #category : #visiting }
 MOImport >> typeNamed: aString [
 
-	self assert: (self resolvesType: aString).
-	^ self type 
+	^ self types detect: [ :a | a name = aString ]
 ]
 
 { #category : #']as yet unclassified' }
@@ -76,4 +103,15 @@ MOImport >> typeReference [
 MOImport >> typeReference: aReference [
 
 	typeReference := aReference
+]
+
+{ #category : #']as yet unclassified' }
+MOImport >> types [
+
+	^ typeReference
+		  ifNil: [ packageReference candidate allTypes ]
+		  ifNotNil: [ 
+			  typeReference candidate
+				  ifNil: [ {  } ]
+				  ifNotNil: [ { typeReference candidate } ] ]
 ]

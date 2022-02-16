@@ -2,10 +2,10 @@ Class {
 	#name : #MOFor,
 	#superclass : #MOLoop,
 	#instVars : [
-		'initializeOperation',
-		'updateOperation'
+		'#initializeOperation => MOExpressionSlot one',
+		'#updateOperation => MOExpressionSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #accessing }

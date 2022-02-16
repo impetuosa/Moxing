@@ -2,9 +2,9 @@ Class {
 	#name : #MOParametrizableType,
 	#superclass : #MOType,
 	#instVars : [
-		'parameters'
+		'#parameters => MOContainmentSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }

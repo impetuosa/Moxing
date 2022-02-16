@@ -1,26 +1,39 @@
 Class {
 	#name : #MOJavaTarCatalogLoader,
 	#superclass : #Object,
-	#instVars : [
-		'pom',
-		'model',
-		'path',
-		'parts'
-	],
 	#classInstVars : [
-		'javaCatalog'
+		'catalogCatalog'
 	],
 	#category : #'Moxing-Java-Loader'
 }
 
 { #category : #accessing }
-MOJavaTarCatalogLoader class >> javaCatalog [
-	^ javaCatalog  
+MOJavaTarCatalogLoader class >> catalogCatalog [
+
+	^ catalogCatalog ifNil: [ catalogCatalog := Dictionary new ]
 ]
 
 { #category : #accessing }
-MOJavaTarCatalogLoader class >> javaCatalog: aJavaCatalog [
-	javaCatalog := aJavaCatalog 
+MOJavaTarCatalogLoader class >> loadSingleCatalogFor: aPom [
+
+	| loader catalog |
+	self catalogCatalog at: aPom ifPresent: [ :e | ^ e ].
+	loader := self new.
+	
+	catalog := MOCatalog new.
+	catalog anchor: (MOAnchor on: #/) / #catalog.
+	loader loadBuiltInInto: catalog.
+	loader loadMavenDependencies: aPom into: catalog.
+
+	self catalogCatalog at: aPom put: catalog.
+	^ catalog
+]
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader class >> resetCatalog [
+
+	<script>
+	catalogCatalog := nil
 ]
 
 { #category : #'as yet unclassified' }
@@ -29,11 +42,29 @@ MOJavaTarCatalogLoader >> javaAllClasses [
 ]
 
 { #category : #accessing }
-MOJavaTarCatalogLoader >> load [
+MOJavaTarCatalogLoader >> javaLang [
 
-	self class javaCatalog ifNotNil: [ ^ self class javaCatalog ].
-	model := MOCatalog new.
-	model anchor: (MOAnchor on: #/) / #catalog.
+	^ self javaAllClasses select: [ :c | c beginsWith: 'java.lang.' ]
+]
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader >> load: aCollectionOfClassNames into: aCatalog [
+
+	aCollectionOfClassNames do: [ :a | 
+		self processJavaBaseClass: a into: aCatalog ].
+	^ aCatalog
+]
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader >> loadBuiltInInto: aCatalog [
+
+	self load: self javaAllClasses into: aCatalog
+]
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader >> loadMavenDependencies: pom into: catalog [
+
+	| path parts |
 	path := LibC resultOfCommand:
 		        ('mvn -f {1} dependency:build-classpath' format:
 			         { pom fullName }).
@@ -41,31 +72,23 @@ MOJavaTarCatalogLoader >> load [
 	parts := ':' split: (path readStream
 			          upToAll: '[INFO] Dependencies classpath:';
 			          upToAll: '[INFO]') trimBoth.
-	parts do: [ :p | self processJarFile: p asFileReference ].
-
-	self javaAllClasses do: [ :a | self processJavaBaseClass: a ].
-	self class javaCatalog: model.
-	^ model
-]
-
-{ #category : #accessing }
-MOJavaTarCatalogLoader >> pom: aPomFile [
-	 pom := aPomFile 
+	parts do: [ :p | 
+		self processJarFile: p asFileReference into: catalog ]
 ]
 
 { #category : #'as yet unclassified' }
-MOJavaTarCatalogLoader >> processClassDefinition: aString [
+MOJavaTarCatalogLoader >> processClassDefinition: aString into: aCatalog [
 	| processing |
 	processing := aString trimBoth copyReplaceAll: 'static {};' with:''. 
 	
 	(processing beginsWith: 'public') ifFalse: [ ^ self ]. " We only process public stuff for the catalog  "
 	(JavaParser parse: processing) acceptVisitor: (MOJavaFileLoader new
-			 writer: model writer;
+			 writer: aCatalog writer;
 			 yourself)
 ]
 
 { #category : #accessing }
-MOJavaTarCatalogLoader >> processJarFile: aFileReference [
+MOJavaTarCatalogLoader >> processJarFile: aFileReference into: aCatalog [
 	| classNames  classDefinitionsString stream classDefinitions |
 	
 	classNames := (LibC resultOfCommand: ('jar tf {1}' format: { aFileReference fullName })) lines .
@@ -79,14 +102,14 @@ MOJavaTarCatalogLoader >> processJarFile: aFileReference [
 		stream nextLine.
 		classDefinitions add: (stream upToAll: 'Compiled from "').	
 	 ].
-	classDefinitions do: [ : c | self processClassDefinition: c  ].
+	classDefinitions do: [ : c | self processClassDefinition: c  into: aCatalog].
 
 	
 	
 ]
 
 { #category : #accessing }
-MOJavaTarCatalogLoader >> processJavaBaseClass: aClassName [
+MOJavaTarCatalogLoader >> processJavaBaseClass: aClassName into: aCatalog [
 
 	| classDefinitionsString stream classDefinitions |
 	classDefinitionsString := LibC resultOfCommand:
@@ -98,5 +121,6 @@ MOJavaTarCatalogLoader >> processJavaBaseClass: aClassName [
 	[ stream atEnd ] whileFalse: [ 
 		stream nextLine.
 		classDefinitions add: (stream upToAll: 'Compiled from "') ].
-	classDefinitions do: [ :c | self processClassDefinition: c ]
+	classDefinitions do: [ :c | 
+		self processClassDefinition: c into: aCatalog ]
 ]

@@ -1,3 +1,7 @@
+"
+I am a derivative model. 
+A model on changing transition. I do hold new entities and relations before been add to the real model 
+"
 Class {
 	#name : #MOModelDerivative,
 	#superclass : #Object,
@@ -17,6 +21,20 @@ MOModelDerivative >> anchor [
 { #category : #accessing }
 MOModelDerivative >> entities [
 	^ entities
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> getModifiableVersionOf: aMOVariable [
+
+	^ (entities includes: aMOVariable)
+		  ifTrue: [ aMOVariable ]
+		  ifFalse: [ self shallowCopy: aMOVariable ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> includes: anEntity [
+
+	^ (entities includes: anEntity) or: [ model includes: anEntity ]
 ]
 
 { #category : #accessing }
@@ -40,14 +58,47 @@ MOModelDerivative >> language [
 ]
 
 { #category : #accessing }
+MOModelDerivative >> model [
+	^ model
+]
+
+{ #category : #accessing }
 MOModelDerivative >> model: aMOModel [ 
 	model := aMOModel
+]
+
+{ #category : #accessing }
+MOModelDerivative >> name [
+	^ model name
 ]
 
 { #category : #'as yet unclassified' }
 MOModelDerivative >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
 
-	^ model primitiveTypeNamed: aString ifAbsent: aFullBlockClosure
+	^ entities
+		  detect: [ :e | 
+		  (e isKindOf: MOPrimitiveType) and: [ e name = aString ] ]
+		  ifNone: [ 
+		  model primitiveTypeNamed: aString ifAbsent: aFullBlockClosure ]
+]
+
+{ #category : #registry }
+MOModelDerivative >> register: aMOBlock [
+
+	entities add: aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> shallowCopy: aMOBlock [
+
+	| e |
+	e := aMOBlock copy.
+
+	self register: e.
+	e class allSlots do: [ :slot | 
+		(slot read: e) isCollection ifTrue: [ 
+			slot write: (slot read: e) copy to: e ] ].
+	^ e
 ]
 
 { #category : #'as yet unclassified' }

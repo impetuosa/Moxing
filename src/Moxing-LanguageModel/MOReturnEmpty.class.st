@@ -1,14 +1,11 @@
 Class {
 	#name : #MOReturnEmpty,
-	#superclass : #MOLanguageObject,
-	#instVars : [
-		'expression'
-	],
-	#category : #'Moxing-LanguageModel-Model'
+	#superclass : #MOStatement,
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #visiting }
 MOReturnEmpty >> acceptVisitor: aVisitor [
 
-	aVisitor visitReturnEmpty: self
+	^ aVisitor visitReturnEmpty: self
 ]

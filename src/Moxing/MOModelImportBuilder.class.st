@@ -1,48 +1,21 @@
+"
+I build imports
+"
 Class {
 	#name : #MOModelImportBuilder,
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'typeReference',
-		'class',
-		'file',
-		'importsPackage'
+		'packageReference'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
 
 { #category : #'as yet unclassified' }
-MOModelImportBuilder >> buildImportFile [
-
-	^ (self instantiate: MOFileImport)
-		  from: file;
-		  typeReference: typeReference;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelImportBuilder >> buildImportNamespace [
-
-	^ self importsPackage
-		  ifTrue: [ 
-			  (self instantiate: MOImportPackage)
-				  typeReference: typeReference;
-				  yourself ]
-		  ifFalse: [ 
-			  (self instantiate: MOImport)
-				  typeReference: typeReference;
-				  yourself ]
-]
-
-{ #category : #accessing }
-MOModelImportBuilder >> file: anAddress [ 
-	file := anAddress 
-]
-
-{ #category : #'as yet unclassified' }
 MOModelImportBuilder >> importAllTypesOnPackage: aString [
 
-	importsPackage := true.
-	self typeReference: (self packageReferenceBuilder
+	self assert: self typeReference isNil.
+	self packageReference: (self packageReferenceBuilder
 			 packageName: aString;
 			 build)
 ]
@@ -52,15 +25,8 @@ MOModelImportBuilder >> importType: aMOClass [
 
 	self typeReference: (self typeReferenceBuilder
 			 type: aMOClass;
-			 build)
-]
-
-{ #category : #accessing }
-MOModelImportBuilder >> importTypeName: aName [
-
-	self typeReference: (self typeReferenceBuilder
-			 fullName: aName;
-			 build)
+			 build).
+	self packageReference: aMOClass packageReference copy
 ]
 
 { #category : #accessing }
@@ -70,23 +36,35 @@ MOModelImportBuilder >> importTypeReference: aReference [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelImportBuilder >> importsFile [
+MOModelImportBuilder >> importsPackage [
 
-	^ file isNotNil
+	^ typeReference isNil
 ]
 
 { #category : #'as yet unclassified' }
-MOModelImportBuilder >> importsPackage [
+MOModelImportBuilder >> packageReference [
+	^ packageReference ifNil: [ self error: 'Package reference is compulsory for an import ' ]
+]
 
-	^ importsPackage ifNil: [ importsPackage := false ]
+{ #category : #accessing }
+MOModelImportBuilder >> packageReference: aMOPackageReference [
+
+	packageReference := aMOPackageReference
 ]
 
 { #category : #'as yet unclassified' }
 MOModelImportBuilder >> privateBuild [
 
-	^ self importsFile
-		  ifTrue: [ self buildImportFile ]
-		  ifFalse: [ self buildImportNamespace ]
+	^ (self instantiate: MOImport)
+		  packageReference: self packageReference;
+		  typeReference: self typeReference;
+		  yourself
+]
+
+{ #category : #accessing }
+MOModelImportBuilder >> typeReference [
+
+	^ typeReference
 ]
 
 { #category : #accessing }

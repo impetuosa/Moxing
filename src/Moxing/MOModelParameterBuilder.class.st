@@ -1,8 +1,12 @@
+"
+I build parameters . I manage simple and multiple parameters 
+"
 Class {
 	#name : #MOModelParameterBuilder,
 	#superclass : #MOModelVariableBuilder,
 	#instVars : [
-		'mapsToVariableArguments'
+		'mapsToVariableArguments',
+		'isOptional'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -12,7 +16,11 @@ MOModelParameterBuilder >> buildParameter [
 
 	^ (self instantiate: MOParameter)
 		  name: name;
+		  bindingKind: self bindingKind;
+		  initializer: self initializer;
 		  typeReference: typeReference;
+		  isOptional: self isOptional;
+		  annotationInstances: self annotationInstances;
 		  yourself
 ]
 
@@ -21,8 +29,22 @@ MOModelParameterBuilder >> buildVariableArgumentsParameter [
 
 	^ (self instantiate: MOVariableArgumentsParameter)
 		  name: name;
+		  bindingKind: self bindingKind;
+		  initializer: self initializer;
 		  typeReference: typeReference;
+		  annotationInstances: self annotationInstances;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelParameterBuilder >> isOptional [
+	^ isOptional
+]
+
+{ #category : #testing }
+MOModelParameterBuilder >> isOptional: aBoolean [
+
+	isOptional := aBoolean
 ]
 
 { #category : #'as yet unclassified' }

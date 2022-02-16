@@ -1,0 +1,28 @@
+Class {
+	#name : #MOSelectWriter,
+	#superclass : #MOAbstractStatementWriter,
+	#category : #'Moxing-MicroWriters'
+}
+
+{ #category : #adding }
+MOSelectWriter >> addCase: aMOCase [
+
+	writeBuilder addCase: aMOCase
+]
+
+{ #category : #generated }
+MOSelectWriter >> expression: aConditionBlock [
+	writeBuilder expression: (self writeExpression: aConditionBlock)
+]
+
+{ #category : #writing }
+MOSelectWriter >> initializeWriteBuilder [
+
+	writeBuilder := builder selectBuilder
+]
+
+{ #category : #generated }
+MOSelectWriter >> writeCase: aBlock [
+
+	^ self preWrite: aBlock inSubWriter: MOCaseWriter
+]

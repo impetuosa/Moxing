@@ -2,9 +2,9 @@ Class {
 	#name : #MOImportedTypeReference,
 	#superclass : #MOTypeReference,
 	#instVars : [
-		'definedAt'
+		'#definedAt => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }

@@ -1,3 +1,6 @@
+"
+I build references to parametrized types: List<Int>  
+"
 Class {
 	#name : #MOModelParametrizedTypeReferenceBuilder,
 	#superclass : #MOModelTypeReferenceBuilder,
@@ -28,14 +31,17 @@ MOModelParametrizedTypeReferenceBuilder >> buildSubtypeReference [
 	parentType := (self instantiate: MOTypeReference)
 		              candidate: self candidate;
 		              name: typeNames first;
+		              packageReference: self packageReference;
 		              parent: self parent;
 		              yourself.
+
 	^ typeNames allButFirst
 		  inject: parentType
 		  into: [ :prev :eachName | 
 			  (self instantiate: MOParametrizedTypeReference)
 				  name: eachName;
 				  parent: prev;
+				  packageReference: self packageReference;
 				  argumentTypeReferences: self argumentTypeReferences;
 				  yourself ]
 ]
@@ -47,6 +53,7 @@ MOModelParametrizedTypeReferenceBuilder >> buildTypeReference [
 		  candidateAnchor: self candidateAnchor;
 		  candidate: self candidate;
 		  name: self name;
+		  packageReference: self packageReference;
 		  parent: self parent;
 		  argumentTypeReferences: self argumentTypeReferences;
 		  yourself

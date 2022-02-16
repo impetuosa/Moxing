@@ -1,3 +1,6 @@
+"
+I am a model. A façade an entities holder. 
+"
 Class {
 	#name : #MOModel,
 	#superclass : #MOCatalog,
@@ -57,6 +60,11 @@ MOModel >> instantiate: aClass [
 	instance := aClass newInstanceFromModel .
 	entities add: instance.
 	^ instance
+]
+
+{ #category : #accessing }
+MOModel >> mapSpaceAnchor [
+	^ anchor 
 ]
 
 { #category : #'as yet unclassified' }

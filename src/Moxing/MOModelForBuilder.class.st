@@ -1,6 +1,9 @@
+"
+I build classical for control flow 
+"
 Class {
 	#name : #MOModelForBuilder,
-	#superclass : #MOModelControlFlowBuilder,
+	#superclass : #MOModelConditionalControlFlowBuilder,
 	#instVars : [
 		'loopingBlock',
 		'initializeOperation',
@@ -8,6 +11,25 @@ Class {
 	],
 	#category : #'Moxing-MicroBuilders'
 }
+
+{ #category : #'as yet unclassified' }
+MOModelForBuilder >> bindingConfiguration [
+
+	"On the left the attribute names for MOFor. On the right the attribute names for this builder. "
+
+	<generated>
+	^ { 
+		  { #initializeOperation. #initializeOperation }.
+		  { #updateOperation. #updateOperation }.
+		  { #condition. #condition }.
+		  { #loopingBlock. #loopingBlock } }
+]
+
+{ #category : #'as yet unclassified' }
+MOModelForBuilder >> buildsType [
+<generated>
+	^MOFor
+]
 
 { #category : #accessing }
 MOModelForBuilder >> initializeOperation [
@@ -19,6 +41,16 @@ MOModelForBuilder >> initializeOperation [
 { #category : #accessing }
 MOModelForBuilder >> initializeOperation: aMOVariable [ 
 	initializeOperation := aMOVariable
+]
+
+{ #category : #'as yet unclassified' }
+MOModelForBuilder >> loadBuilderWithEntity: anEntity [ 
+	self initializeOperation: anEntity initializeOperation. 
+ self updateOperation: anEntity updateOperation. 
+ self condition: anEntity condition. 
+ self loopingBlock: anEntity loopingBlock. 
+ 
+	
 ]
 
 { #category : #accessing }

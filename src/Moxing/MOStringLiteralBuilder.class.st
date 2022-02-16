@@ -1,3 +1,7 @@
+"
+I build string literals. 
+I contain only strings 
+"
 Class {
 	#name : #MOStringLiteralBuilder,
 	#superclass : #MOLiteralBuilder,

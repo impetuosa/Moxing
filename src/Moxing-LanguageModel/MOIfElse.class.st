@@ -1,28 +1,18 @@
 Class {
 	#name : #MOIfElse,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOStatement,
 	#instVars : [
-		'condition',
-		'ifTrue',
-		'ifFalse'
+		'#condition => MOExpressionSlot one',
+		'#ifTrue => MOContainmentSlot one',
+		'#ifFalse => MOContainmentSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #visiting }
 MOIfElse >> acceptVisitor: aMOTypescriptCodeGenerator [
 
-	aMOTypescriptCodeGenerator visitIfElse: self
-]
-
-{ #category : #accessing }
-MOIfElse >> block [
-	self shouldBeImplemented.
-]
-
-{ #category : #generated }
-MOIfElse >> block: aMOBlock [ 
-	" ??? should change the code reader to not send block in the case of if? not sure"
+	^ aMOTypescriptCodeGenerator visitIfElse: self
 ]
 
 { #category : #accessing }
@@ -55,9 +45,4 @@ MOIfElse >> ifTrue [
 { #category : #accessing }
 MOIfElse >> ifTrue: aMOBlock [ 
 	ifTrue := aMOBlock
-]
-
-{ #category : #accessing }
-MOIfElse >> ifTrueBlock: aMOModelBlockBuilder [ 
-	self shouldBeImplemented.
 ]

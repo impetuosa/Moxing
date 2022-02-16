@@ -1,3 +1,6 @@
+"
+I build Unary operations
+"
 Class {
 	#name : #MOModelUnaryOperationBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -35,4 +38,20 @@ MOModelUnaryOperationBuilder >> operator: aString [
 MOModelUnaryOperationBuilder >> order [
 
 	^ order ifNil: [ order := #postfix ]
+]
+
+{ #category : #accessing }
+MOModelUnaryOperationBuilder >> order: anObject [
+
+	order := anObject
+]
+
+{ #category : #accessing }
+MOModelUnaryOperationBuilder >> setAsPostfixOperator [ 
+	order := #postfix 
+]
+
+{ #category : #accessing }
+MOModelUnaryOperationBuilder >> setAsPrefixOperator [ 
+	order := #prefix 
 ]

@@ -1,3 +1,6 @@
+"
+I build references to types 
+"
 Class {
 	#name : #MOModelTypeReferenceBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -5,7 +8,8 @@ Class {
 		'candidateAnchor',
 		'candidate',
 		'name',
-		'parent'
+		'parent',
+		'packageReference'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -20,12 +24,17 @@ MOModelTypeReferenceBuilder >> buildSubtypeReference [
 	parentType := (self instantiate: MOTypeReference)
 		              candidate: self candidate;
 		              name: typeNames first;
+		              packageReference: self packageReference;
 		              parent: self parent;
 		              yourself.
-	^ typeNames allButFirst inject: parentType into: [ :prev :eachName | 
-		(self instantiate: MOTypeReference)
-			name: eachName;
-			parent: prev ]
+	^ typeNames allButFirst
+		  inject: parentType
+		  into: [ :prev :eachName | 
+			  (self instantiate: MOTypeReference)
+				  name: eachName;
+				  parent: self parent;
+				  packageReference: prev;
+				  yourself ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -35,6 +44,7 @@ MOModelTypeReferenceBuilder >> buildTypeReference [
 		  candidateAnchor: self candidateAnchor;
 		  candidate: self candidate;
 		  name: self name;
+		  packageReference: self packageReference;
 		  parent: self parent;
 		  yourself
 ]
@@ -70,9 +80,9 @@ MOModelTypeReferenceBuilder >> fullName: aString [
 	self name: parts removeLast.
 	packageName := '.' join: parts.
 
-	parent := self packageReferenceBuilder
-		          packageName: packageName;
-		          build
+	packageReference := self packageReferenceBuilder
+		                    packageName: packageName;
+		                    build
 ]
 
 { #category : #accessing }
@@ -86,8 +96,20 @@ MOModelTypeReferenceBuilder >> name: aString [
 ]
 
 { #category : #accessing }
+MOModelTypeReferenceBuilder >> packageReference [
+	^ packageReference
+]
+
+{ #category : #accessing }
 MOModelTypeReferenceBuilder >> parent [
-	^ parent 
+
+	^ parent
+]
+
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> parent: anObject [
+
+	parent := anObject
 ]
 
 { #category : #'as yet unclassified' }

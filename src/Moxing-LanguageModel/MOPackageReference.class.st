@@ -1,27 +1,13 @@
 Class {
 	#name : #MOPackageReference,
 	#superclass : #MOReference,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }
 MOPackageReference >> acceptVisitor: aMOModelLinker [
 
 	^ aMOModelLinker visitPackageReference: self
-]
-
-{ #category : #'as yet unclassified' }
-MOPackageReference >> accessChain2 [
-
-	| current chain |
-	chain := OrderedCollection new.
-
-	current := self .
-
-	[ current isNil ] whileFalse: [ 
-		chain add: current name.
-		current := current parent ].
-	^ chain reversed
 ]
 
 { #category : #adding }
@@ -34,6 +20,11 @@ MOPackageReference >> addClass: aMOClass [
 MOPackageReference >> addPackage: aMOPackage [
 
 	candidate addPackage: aMOPackage
+]
+
+{ #category : #accessing }
+MOPackageReference >> mapSpaceAnchor [
+	^ candidate mapSpaceAnchor
 ]
 
 { #category : #accessing }

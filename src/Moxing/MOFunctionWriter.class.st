@@ -1,3 +1,6 @@
+"
+I build functions and allow to add the same as my parent. I do allow to define a return type rerference .
+"
 Class {
 	#name : #MOFunctionWriter,
 	#superclass : #MOSubProcedureWriter,

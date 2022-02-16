@@ -1,3 +1,6 @@
+"
+I am a catalog model.  A secondary model that do not link and that gets all the possible elements regarding the project that may be used and do not have yet any relation with the analyzed call .
+"
 Class {
 	#name : #MOCatalog,
 	#superclass : #Object,
@@ -37,6 +40,12 @@ MOCatalog class >> newTypescript [
 	^ instance
 ]
 
+{ #category : #'as yet unclassified' }
+MOCatalog >> allInvocations [
+
+	^ entities select: [ :e | e isKindOf: MOInvocation ]
+]
+
 { #category : #accessing }
 MOCatalog >> anchor [
 	^ anchor
@@ -47,6 +56,12 @@ MOCatalog >> anchor: aMOAnchor [
 
 	anchor := aMOAnchor.
 
+]
+
+{ #category : #accessing }
+MOCatalog >> catalog [
+
+	^ self
 ]
 
 { #category : #accessing }
@@ -68,10 +83,18 @@ MOCatalog >> inPackage: aString [
 				  t parent accessChainString = aString ] ] ]
 ]
 
+{ #category : #accessing }
+MOCatalog >> includes: anEntity [
+
+	^ entities includes: anEntity
+]
+
 { #category : #initialization }
-MOCatalog >> initialize [ 
+MOCatalog >> initialize [
+
 	super initialize.
 	entities := OrderedCollection new.
+	anchor := MOAnchor on: #/
 ]
 
 { #category : #initialization }
@@ -135,8 +158,14 @@ MOCatalog >> typeDefinedInPackage: aString [
 
 	^ entities select: [ :e | 
 		  (e isKindOf: MOType) and: [ 
-			  (e parent isKindOf: MOPackageReference) and: [ 
-				  e parent name = aString ] ] ]
+			  e packageReference isNotNil and: [ 
+				  e packageReference name = aString ] ] ]
+]
+
+{ #category : #']as yet unclassified' }
+MOCatalog >> typeReferences [
+
+	^ entities select: [ :e | e isKindOf: MOTypeReference ]
 ]
 
 { #category : #accessing }
@@ -150,6 +179,12 @@ MOCatalog >> typesNamed: aString [
 
 	^ entities select: [ :e | 
 		  (e isKindOf: MOType) and: [ e name = aString ] ]
+]
+
+{ #category : #accessing }
+MOCatalog >> variableReferences [
+
+	^ entities select: [ :a | a isKindOf: MOVariableReference ]
 ]
 
 { #category : #accessing }

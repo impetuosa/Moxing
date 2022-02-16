@@ -8,6 +8,6 @@ Class {
 MOReturnAssignmentPolicy class >> appliesToStatement: aStatement [
 
 	^ { 
-		  MOExit.
+		  MOAlceExit.
 		  MOReturnEmpty } includes: aStatement class
 ]

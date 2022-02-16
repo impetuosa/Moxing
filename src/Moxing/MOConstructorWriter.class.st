@@ -1,8 +1,19 @@
+"
+I build constructors and allow to include annotations, blocks, parameters and type parameters
+"
 Class {
 	#name : #MOConstructorWriter,
 	#superclass : #MOModelProceduralWriter,
+	#traits : 'MOHoldsTypeReferences',
+	#classTraits : 'MOHoldsTypeReferences classTrait',
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOConstructorWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	writeBuilder addAnnotationInstance: aMOAnnotationInstance
+]
 
 { #category : #adding }
 MOConstructorWriter >> addModifier: aString [ 
@@ -10,9 +21,27 @@ MOConstructorWriter >> addModifier: aString [
 ]
 
 { #category : #adding }
+MOConstructorWriter >> addParameter: aMOParameter [
+
+	writeBuilder addParameter: aMOParameter
+]
+
+{ #category : #adding }
 MOConstructorWriter >> addThrownTypeReference: aMOTypeReference [
 
 	writeBuilder addThrownTypeReference: aMOTypeReference
+]
+
+{ #category : #adding }
+MOConstructorWriter >> addTypeParameter: aMOTypeParameter [
+
+	writeBuilder addTypeParameter: aMOTypeParameter
+]
+
+{ #category : #generated }
+MOConstructorWriter >> block: aMOBlock [
+
+	writeBuilder block: aMOBlock
 ]
 
 { #category : #writing }

@@ -2,7 +2,7 @@ Class {
 	#name : #MONamedObject,
 	#superclass : #MOObject,
 	#instVars : [
-		'name'
+		'#name => MOPropertySlot'
 	],
 	#category : #'Moxing-Core'
 }

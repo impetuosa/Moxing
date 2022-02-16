@@ -1,7 +1,7 @@
 Class {
 	#name : #MOArrayTypeReference,
 	#superclass : #MOParametrizedTypeReference,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #testing }

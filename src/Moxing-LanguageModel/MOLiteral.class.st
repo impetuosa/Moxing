@@ -1,15 +1,16 @@
 Class {
 	#name : #MOLiteral,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOExpression,
 	#instVars : [
-		'literal'
+		'#literal => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #accessing }
-MOLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitLiteral: self .
+MOLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitNullLiteral: self
 ]
 
 { #category : #accessing }
@@ -19,5 +20,6 @@ MOLiteral >> literal [
 
 { #category : #accessing }
 MOLiteral >> literal: aLiteral [
-	literal := aLiteral
+	literal := aLiteral.
+	name := #literal, literal asString.
 ]

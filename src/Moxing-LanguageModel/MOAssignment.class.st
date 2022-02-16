@@ -1,17 +1,27 @@
 Class {
 	#name : #MOAssignment,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOExpression,
 	#instVars : [
-		'read',
-		'write'
+		'#read => MOExpressionSlot one',
+		'#write => MOExpressionSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #visiting }
 MOAssignment >> acceptVisitor: aMOTypescriptCodeGenerator [
+	^ aMOTypescriptCodeGenerator visitAssignment: self
+]
 
-	aMOTypescriptCodeGenerator visitAssignment: self
+{ #category : #accessing }
+MOAssignment >> printOn: aStream [
+
+	aStream
+		nextPutAll: '(';
+		print: write;
+		nextPutAll: ' <- ';
+		print: read;
+		nextPutAll: ')'
 ]
 
 { #category : #accessing }

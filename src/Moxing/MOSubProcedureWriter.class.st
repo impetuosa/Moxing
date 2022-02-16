@@ -1,3 +1,6 @@
+"
+I build procedures and allow to add the same as my parent
+"
 Class {
 	#name : #MOSubProcedureWriter,
 	#superclass : #MOConstructorWriter,
@@ -25,4 +28,16 @@ MOSubProcedureWriter >> privateWriteToSurface: anEntity [
 { #category : #writing }
 MOSubProcedureWriter >> selector: aSelector [
  	writeBuilder selector: aSelector
+]
+
+{ #category : #writing }
+MOSubProcedureWriter >> setDynamicBinding [
+
+	writeBuilder setDynamicBinding
+]
+
+{ #category : #writing }
+MOSubProcedureWriter >> setStaticBinding [
+
+	writeBuilder setStaticBinding
 ]

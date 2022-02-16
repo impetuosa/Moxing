@@ -6,7 +6,7 @@ Class {
 
 { #category : #visiting }
 MOAngularComponentTemplate >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitAngularComponentTemplate: self 
+	^ aJinInspectorBuilder visitAngularComponentTemplate: self 
 ]
 
 { #category : #accessing }

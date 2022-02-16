@@ -1,3 +1,7 @@
+"
+I build booleans. 
+My value must be a pharo boolean.
+"
 Class {
 	#name : #MOBooleanLiteralBuilder,
 	#superclass : #MOLiteralBuilder,

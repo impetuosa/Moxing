@@ -1,3 +1,6 @@
+"
+i build returns 
+"
 Class {
 	#name : #MOModelReturnBuilder,
 	#superclass : #MOModelBuilderDelegate,
@@ -20,6 +23,12 @@ MOModelReturnBuilder >> privateBuild [
 	^ (self instantiate: MOReturn)
 		  expression: returns;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelReturnBuilder >> returns [
+
+	^ returns
 ]
 
 { #category : #accessing }

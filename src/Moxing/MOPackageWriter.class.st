@@ -1,8 +1,29 @@
+"
+I write packages. I allow the wirting of subpackages, classes and declaration units 
+"
 Class {
 	#name : #MOPackageWriter,
 	#superclass : #MOModelProceduralWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOPackageWriter >> addClass: aMOClass [
+
+	writeBuilder addClass: aMOClass
+]
+
+{ #category : #adding }
+MOPackageWriter >> addDeclarationUnit: aMODeclarationUnit [
+
+	writeBuilder addDeclarationUnit: aMODeclarationUnit
+]
+
+{ #category : #adding }
+MOPackageWriter >> addPrimitiveType: aMOPrimitiveType [
+
+	writeBuilder addPrimitiveType: aMOPrimitiveType
+]
 
 { #category : #writing }
 MOPackageWriter >> initializeWriteBuilder [
@@ -30,7 +51,7 @@ MOPackageWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOPackageWriter >> privateWriteToSurface: anEntity [
-
+	
 	surface setAsParentOf: anEntity.
 	surface addPackage: anEntity
 ]
@@ -42,7 +63,29 @@ MOPackageWriter >> writeClass: aBlock [
 ]
 
 { #category : #writing }
+MOPackageWriter >> writeClassType: aFullBlockClosure [
+
+	self preWrite: aFullBlockClosure inSubWriter: MOClassTypeWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeDeclarationUnit: aBlock [
+	self preWrite: aBlock inSubWriter: MODeclarationUnitWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeModule: aFullBlockClosure [
+
+	self preWrite: aFullBlockClosure inSubWriter: MOModuleWriter
+]
+
+{ #category : #writing }
 MOPackageWriter >> writePackage: aBlock [
 
 	self preWrite: aBlock inSubWriter: MOPackageWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writePrimitiveType: aFullBlockClosure [ 
+	self preWrite: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter
 ]

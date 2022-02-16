@@ -12,22 +12,21 @@ Class {
 MOCatalogTypeInstaller >> getType: aMOClassType from: aMOModel [
 
 	| packageReference |
-	packageReference := aMOClassType parent.
+	packageReference := aMOClassType packageReference.
 	packageReference ifNil: [ ^ {  } ].
 	^ (aMOModel typesNamed: aMOClassType name) select: [ :t | 
-		  t parent isNotNil and: [ t parent name = packageReference name ] ]
+		  t packageReference isNotNil and: [ t packageReference name = packageReference name ] ]
 ]
 
 { #category : #'as yet unclassified' }
 MOCatalogTypeInstaller >> install: aMOInterface into: aMOModel [
 
-	self assert: (aMOInterface isKindOf: MOType).
-	model := aMOModel .
+	model := aMOModel.
 	^ (self getType: aMOInterface from: aMOModel)
 		  ifEmpty: [ 
 			  writer := aMOModel writer.
-			  aMOInterface acceptVisitor: self.
-			  writer entity ]
+			  aMOInterface parent acceptVisitor: self.
+			  writer entity types detect: [ :a | a name = aMOInterface name ] ]
 		  ifNotEmpty: [ :t | t anyOne ]
 ]
 
@@ -37,7 +36,7 @@ MOCatalogTypeInstaller >> use: aWriter during: aBlock [
 	| prev |
 	prev := writer.
 	writer := aWriter.
-	aBlock ensure: [ writer := prev ]
+	^ aBlock ensure: [ writer := prev ]
 ]
 
 { #category : #visiting }
@@ -60,7 +59,7 @@ MOCatalogTypeInstaller >> visitAttribute: aMOAttribute [
 		  self
 			  use: a
 			  during: [ 
-			  self visitCollection: aMOAttribute hierarchicalChildren ] ]
+			  self visitCollection: aMOAttribute allContainments ] ]
 ]
 
 { #category : #visiting }
@@ -76,30 +75,34 @@ MOCatalogTypeInstaller >> visitBlock: aMOBlock [
 MOCatalogTypeInstaller >> visitClass: aMOClass [
 
 	^ writer writeClass: [ :class | 
-		  class packageReference: (aMOClass parent acceptVisitor: self).
 		  class name: aMOClass name.
-		  class superclassReference:
-			  (aMOClass superclassReference ifNotNil: [ :i | 
-				   i acceptVisitor: self ]).
-		  class superTypeReferences:
-			  (self visitCollection: aMOClass supertypeReferences).
-		  self
-			  use: class
-			  during: [ self visitCollection: aMOClass hierarchicalChildren ] ]
+
+
+
+		  self use: class during: [ 
+			  class packageReference:
+				  (aMOClass packageReference acceptVisitor: self).
+			  class superclassReference:
+				  (aMOClass superclassReference ifNotNil: [ :i | 
+					   i acceptVisitor: self ]).
+			  class superTypeReferences:
+				  (self visitCollection: aMOClass superTypeReferences).
+			  self visitCollection: aMOClass allContainments ] ]
 ]
 
 { #category : #visiting }
 MOCatalogTypeInstaller >> visitClassType: aMOClassType [
 
 	^ writer writeClassType: [ :class | 
-		  class packageReference: (aMOClassType parent acceptVisitor: self).
 		  class name: aMOClassType name.
-		  class superTypeReferences:
-			  (self visitCollection: aMOClassType supertypeReferences).
-		  self
-			  use: class
-			  during: [ 
-			  self visitCollection: aMOClassType hierarchicalChildren ] ]
+
+		  self use: class during: [ 
+			  class packageReference:
+				  (aMOClassType packageReference acceptVisitor: self).
+
+			  class superTypeReferences:
+				  (self visitCollection: aMOClassType superTypeReferences).
+			  self visitCollection: aMOClassType allContainments ] ]
 ]
 
 { #category : #visiting }
@@ -120,7 +123,31 @@ MOCatalogTypeInstaller >> visitConstructor: aMOConstructor [
 		  self
 			  use: constructor
 			  during: [ 
-			  self visitCollection: aMOConstructor hierarchicalChildren ] ]
+			  self visitCollection: aMOConstructor allContainments ] ]
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitDeclarationUnit: aMODeclarationUnit [
+
+	^ writer writeDeclarationUnit: [ :unit | 
+		  self use: unit during: [ 
+			  self visitCollection: aMODeclarationUnit imports.
+			  self visitCollection: aMODeclarationUnit types ] ]
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitEmptyBlock: aMOEmptyBlock [ 
+	
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitImport: aMOImportPackage [
+	writer writeImport: [ :i | 
+		i importingPackageReference:
+			(aMOImportPackage packageReference acceptVisitor: self).
+		aMOImportPackage importsAllPackage ifFalse: [ 
+			i importingTypeReference:
+				(aMOImportPackage typeReference acceptVisitor: self) ] ]
 ]
 
 { #category : #visiting }
@@ -137,14 +164,7 @@ MOCatalogTypeInstaller >> visitMethod: aMOMethod [
 
 		  self
 			  use: method
-			  during: [ self visitCollection: aMOMethod hierarchicalChildren ] ]
-]
-
-{ #category : #visiting }
-MOCatalogTypeInstaller >> visitPackageDependency: aMOImportPackage [
-
-	writer writeImport: [ :i | 
-		i importAllTypesOnPackage: aMOImportPackage typeReference name ]
+			  during: [ self visitCollection: aMOMethod allContainments ] ]
 ]
 
 { #category : #visiting }
@@ -165,7 +185,7 @@ MOCatalogTypeInstaller >> visitParameter: aMOParameter [
 		  self
 			  use: parameter
 			  during: [ 
-			  self visitCollection: aMOParameter hierarchicalChildren ] ]
+			  self visitCollection: aMOParameter allContainments ] ]
 ]
 
 { #category : #visiting }
@@ -195,7 +215,7 @@ MOCatalogTypeInstaller >> visitTypeParameter: aMOTypeParameter [
 	writer writeTypeParameter: [ :typeParameter | 
 		typeParameter name: aMOTypeParameter name.
 		typeParameter superTypeReferences:
-			(self visitCollection: aMOTypeParameter supertypeReferences) ]
+			(self visitCollection: aMOTypeParameter superTypeReferences) ]
 ]
 
 { #category : #visiting }

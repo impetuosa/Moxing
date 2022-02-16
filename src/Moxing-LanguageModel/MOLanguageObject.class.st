@@ -2,8 +2,7 @@ Class {
 	#name : #MOLanguageObject,
 	#superclass : #MOAnchoredObject,
 	#instVars : [
-		'language',
-		'annotations'
+		'#language => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -49,38 +48,19 @@ MOLanguageObject >> acceptVisitor: ads [
 	self subclassResponsibility
 ]
 
-{ #category : #adding }
-MOLanguageObject >> addAnnotation: aMOAnnotation [ 
-	self annotations add: aMOAnnotation
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguageObject >> anchorFrom: aJSDecoratorExpressionNode at: aFileReference [
-
-	| start stop |
-	start := aJSDecoratorExpressionNode startPosition.
-	stop := aJSDecoratorExpressionNode stopPosition.
-
-	anchor := MOAnchor new
-		          start: start;
-		          stop: stop;
-		          file: aFileReference;
-		          yourself
-]
-
-{ #category : #generated }
-MOLanguageObject >> annotations [
-	^ annotations ifNil: [ annotations := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-MOLanguageObject >> annotations: aCollection [ 
-	annotations := aCollection
-]
-
 { #category : #'as yet unclassified' }
 MOLanguageObject >> dependencies [
 	^ {}
+]
+
+{ #category : #testing }
+MOLanguageObject >> isExpression [
+	^ false 
+]
+
+{ #category : #testing }
+MOLanguageObject >> isLabelledAs: aString [ 
+	^ false
 ]
 
 { #category : #accessing }
@@ -102,9 +82,5 @@ MOLanguageObject >> produceCode [
 { #category : #generated }
 MOLanguageObject >> sourceCode [
 
-	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ 
-		  | gen |
-		  gen := MOCodeGenerator new.
-		  self acceptVisitor: gen.
-		  gen sourceCode ]
+	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ self produceCode ]
 ]

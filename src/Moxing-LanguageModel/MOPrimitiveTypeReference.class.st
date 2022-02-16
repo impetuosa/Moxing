@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPrimitiveTypeReference,
 	#superclass : #MOTypedReference,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }

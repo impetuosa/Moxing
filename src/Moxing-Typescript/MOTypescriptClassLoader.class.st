@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOTypescriptAbstractLoader,
 	#instVars : [
 		'decorator',
-		'component'
+		'component',
+		'packageName'
 	],
 	#category : #'Moxing-Typescript-Loader'
 }
@@ -33,9 +34,8 @@ MOTypescriptClassLoader >> component: aMOAngularComponentBehaviour [
 MOTypescriptClassLoader >> loadArtefact: anAstNode intoPackage: aPackageName [
 
 	component ifNotNil: [ writer anchoringOn: component anchor ].
-	^ writer writeClass: [ :wc | 
-		  wc packageReference: (writer packageReferenceNamed: aPackageName).
-		  self use: wc during: [ anAstNode acceptVisitor: self ] ]
+	packageName := aPackageName.
+	^ anAstNode acceptVisitor: self
 ]
 
 { #category : #generated }
@@ -50,10 +50,11 @@ MOTypescriptClassLoader >> model: aModel [
 { #category : #generated }
 MOTypescriptClassLoader >> visitClassExpression: aClassExpression [
 
+	writer packageReference: (writer packageReferenceNamed: packageName).
 	writer name: aClassExpression name name value.
 	aClassExpression types do: [ :t | 
-		writer addSuperTypeReference: (writer typeReferenceNamed: t type source) ].
-
+		writer addSuperTypeReference:
+			(writer typeReferenceNamed: t type source) ].
 	self acceptNodes: aClassExpression elements
 ]
 
@@ -66,13 +67,24 @@ MOTypescriptClassLoader >> visitDecoratorExpression: aDecoratorExpression [
 ]
 
 { #category : #generated }
+MOTypescriptClassLoader >> visitExportImplementationElement: anExportImplementationElement [
+
+	self assert: (anExportImplementationElement declaration isKindOf:
+			 JSClassExpressionNode).
+	^ writer writeClass: [ :class | 
+		  self
+			  use: class
+			  during: [ self visitTSExport: anExportImplementationElement ] ]
+]
+
+{ #category : #generated }
 MOTypescriptClassLoader >> visitImportDeclaration: anImport [
 
-	writer writeImport: [ :import | 
+	writer writeFileImport: [ :import | 
 		import file: anImport from value.
 		anImport imports do: [ :imports | 
 			imports specifiers do: [ :spec | 
-				import importTypeName: spec source ] ] ]
+				import addImportingTypeName: spec source ] ] ]
 ]
 
 { #category : #generated }
@@ -99,6 +111,13 @@ MOTypescriptClassLoader >> visitMethodDefinition: aMethodDefinition [
 { #category : #generated }
 MOTypescriptClassLoader >> visitPropertyAssignment: aDecoratorExpression [
 
+]
+
+{ #category : #generated }
+MOTypescriptClassLoader >> visitTSSourceFile: aTSSourceFile [
+
+	^ writer writeDeclarationUnit: [ :unit | 
+		  self use: unit during: [ self visitProgram: aTSSourceFile ] ]
 ]
 
 { #category : #generated }

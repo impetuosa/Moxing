@@ -1,16 +1,16 @@
 Class {
 	#name : #MOReturn,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOStatement,
 	#instVars : [
-		'expression'
+		'#expression => MOExpressionSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #visiting }
 MOReturn >> acceptVisitor: aVisitor [
 
-	aVisitor visitReturn: self
+	^ aVisitor visitReturn: self
 ]
 
 { #category : #accessing }

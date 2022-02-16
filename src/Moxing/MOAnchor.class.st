@@ -1,10 +1,13 @@
+"
+I am an Anchor that mixes kind of entry and entry name.
+"
 Class {
 	#name : #MOAnchor,
 	#superclass : #Object,
 	#instVars : [
 		'path',
-		'start',
-		'stop'
+		'to',
+		'from'
 	],
 	#category : #'Moxing-Core'
 }
@@ -29,10 +32,41 @@ MOAnchor >> containsSource [
 	^ path segments includes: '@src'
 ]
 
+{ #category : #'instance creation' }
+MOAnchor >> from: aFrom to: aTo [
+
+	from := aFrom.
+	to := aTo
+]
+
+{ #category : #testing }
+MOAnchor >> isRoot [
+
+	^ path isRoot
+]
+
 { #category : #arithmetic }
 MOAnchor >> names [
 
-	^ (1 to: path size by: 2) collect: [ :i | path at: i ]
+	self containsSource ifTrue: [ 
+		^ (2 to: (path segments indexOf: '@src') by: 2) collect: [ :i | 
+			  path at: i ] ].
+	^ (2 to: path segments size by: 2) collect: [ :i | path at: i ]
+]
+
+{ #category : #accessing }
+MOAnchor >> parent [
+
+	| new fragment |
+	new := self class new.
+	new privateSetPath: path parent.
+	^ new
+]
+
+{ #category : #'as yet unclassified' }
+MOAnchor >> pathIsNotSet [
+
+	^ path isNil
 ]
 
 { #category : #arithmetic }
@@ -65,8 +99,8 @@ MOAnchor >> sourceCode: file [
 
 	| stream code |
 	stream := file readStream.
-	stream position: start - 1.
-	code := stream next: stop - start + 1.
+	stream position: from - 1.
+	code := stream next: to - from + 1.
 	stream close.
 	^ code
 ]
@@ -74,16 +108,11 @@ MOAnchor >> sourceCode: file [
 { #category : #arithmetic }
 MOAnchor >> srcFrom [
 
-	^ self containsSource
-		  ifTrue: [ 
-			  (path segments reverse at:
-				   (path segments reverse indexOf: '@src') - 1) asNumber ]
-		  ifFalse: [ -1 ]
+	^ from
 ]
 
 { #category : #arithmetic }
 MOAnchor >> srcTo [
 
-	^ (path segments reverse at: (path segments reverse indexOf: #to) - 1)
-		  asNumber
+	^ to
 ]

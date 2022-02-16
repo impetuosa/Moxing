@@ -2,38 +2,39 @@ Class {
 	#name : #MOInvocable,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'parameters',
-		'class',
-		'visibility',
-		'modifiers',
-		'block',
-		'thrownTypeReferences',
-		'typeParameters'
+		'#parameters => MOContainmentSlot many',
+		'#visibility => MOPropertySlot',
+		'#modifiers => MOPropertySlot',
+		'#block => MOContainmentSlot one',
+		'#thrownTypeReferences => MOReferenceSlot many',
+		'#typeParameters => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many',
+		'#bindingKind => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
-{ #category : #adding }
-MOInvocable >> addAnnotationInstance: aMOAnnotationInstance [
+{ #category : #'as yet unclassified' }
+MOInvocable >> annotationInstances [
 
-	self annotations add: aMOAnnotationInstance
+	^ annotationInstances
 ]
 
-{ #category : #adding }
-MOInvocable >> addModifier: aString [
+{ #category : #accessing }
+MOInvocable >> annotationInstances: aCollection [
 
-	modifiers add: aString
+	annotationInstances := aCollection
 ]
 
-{ #category : #adding }
-MOInvocable >> addParameter: aJinVariable [ 
-	parameters add: aJinVariable 
+{ #category : #accessing }
+MOInvocable >> bindingKind [
+
+	^ bindingKind
 ]
 
-{ #category : #adding }
-MOInvocable >> addTypeParameter: aMOTypeParameter [
-
-	self typeParameters add: aMOTypeParameter
+{ #category : #accessing }
+MOInvocable >> bindingKind: aString [ 
+	bindingKind := aString
 ]
 
 { #category : #accessing }
@@ -54,19 +55,22 @@ MOInvocable >> dependencies [
 	  , block dependencies
 ]
 
-{ #category : #generated }
-MOInvocable >> hierarchicalChildren [
-
-	^ self parameters , self annotations , self typeParameters
-	  , { self block }
-]
-
 { #category : #accessing }
 MOInvocable >> initialize [
 
 	super initialize.
 	parameters := OrderedCollection new.
 	modifiers := OrderedCollection new
+]
+
+{ #category : #accessing }
+MOInvocable >> isDynamicBinding [
+	^ self bindingKind = #dynamic.
+]
+
+{ #category : #accessing }
+MOInvocable >> isStaticBinding [
+	^ self bindingKind = #static.
 ]
 
 { #category : #accessing }
@@ -90,9 +94,8 @@ MOInvocable >> parameters: aCollection [
 ]
 
 { #category : #accessing }
-MOInvocable >> setOwnerClass: aClassObject [ 
-	class := aClassObject 
-	
+MOInvocable >> setStaticBinding [
+	bindingKind := #static.
 ]
 
 { #category : #accessing }
@@ -110,6 +113,11 @@ MOInvocable >> thrownTypeReferences: aCollection [
 MOInvocable >> typeParameters [
 
 	^ typeParameters ifNil: [ typeParameters := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOInvocable >> typeParameters: aCollection [ 
+	typeParameters := aCollection
 ]
 
 { #category : #accessing }

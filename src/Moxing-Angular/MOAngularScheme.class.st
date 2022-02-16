@@ -15,7 +15,7 @@ MOAngularScheme class >> onPath:  aFileReference [
 
 { #category : #visiting }
 MOAngularScheme >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitAngularScheme: self 
+	^ aJinInspectorBuilder visitAngularScheme: self 
 ]
 
 { #category : #'as yet unclassified' }
