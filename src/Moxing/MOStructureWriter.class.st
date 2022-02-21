@@ -24,7 +24,7 @@ MOStructureWriter >> privateWriteToSurface: anEntity [
 
 { #category : #accessing }
 MOStructureWriter >> visibility: aString [
-writeBuilder visibility: aString
+	writeBuilder visibility: aString
 ]
 
 { #category : #writing }

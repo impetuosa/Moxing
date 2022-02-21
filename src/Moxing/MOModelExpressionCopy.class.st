@@ -52,12 +52,22 @@ MOModelExpressionCopy >> visitBooleanLiteral: aMOBooleanLiteral [
 ]
 
 { #category : #visiting }
+MOModelExpressionCopy >> visitConstantReference: aMOConstantReference [ 
+	^ writer constantReferenceNamed: aMOConstantReference name
+]
+
+{ #category : #visiting }
 MOModelExpressionCopy >> visitInvocation: aMOInvocation [
 
 	^ writer
 		  invokeNamed: aMOInvocation selector
 		  arguments: [ :expr | 
 		  aMOInvocation arguments collect: [ :a | self copy: a ] ]
+]
+
+{ #category : #visiting }
+MOModelExpressionCopy >> visitLabelReference: aMOAlceLabelReference [ 
+	^ writer labelReference: aMOAlceLabelReference name 
 ]
 
 { #category : #visiting }
@@ -72,6 +82,12 @@ MOModelExpressionCopy >> visitMethodInvocation: aMOMethodInvocation [
 ]
 
 { #category : #visiting }
+MOModelExpressionCopy >> visitNullLiteral: aMONullLiteral [
+
+	^ writer nullLiteral
+]
+
+{ #category : #visiting }
 MOModelExpressionCopy >> visitStringLiteral: aMOStringLiteral [
 
 	^ writer stringLiteral: aMOStringLiteral literal
@@ -80,6 +96,15 @@ MOModelExpressionCopy >> visitStringLiteral: aMOStringLiteral [
 { #category : #visiting }
 MOModelExpressionCopy >> visitTypeReference: aMOTypeReference [ 
 	^ writer typeReferenceNamed: aMOTypeReference name
+]
+
+{ #category : #visiting }
+MOModelExpressionCopy >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
+
+	^ writer
+		  operate: [ :e | self copy: aMOUnaryArithmeticOperation operand ]
+		  operator: aMOUnaryArithmeticOperation operator
+		  order: aMOUnaryArithmeticOperation order
 ]
 
 { #category : #visiting }

@@ -22,12 +22,12 @@ MOModelWriteTypeBasedCopyResolver >> copyExpression [
 { #category : #copying }
 MOModelWriteTypeBasedCopyResolver >> copyExpressionStatement [
 
-	^ writer writeStatement: [ :stmt | writingBlock value: stmt ]
+	^ writer writeExpressionStatement: [ :stmt | writingBlock value: stmt ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> copyStatement [
-	^ writer writeStatement: [ :stmt | 
+	^ writer writeExpressionStatement: [ :stmt | 
 		  writingBlock value: stmt ]
 ]
 
@@ -56,7 +56,7 @@ MOModelWriteTypeBasedCopyResolver >> visitAccessor: aMOAccessor [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitArrayAccess: aMOArrayAccess [
 
-	^ self defaultCopy
+	^ self copyExpression
 ]
 
 { #category : #visiting }
@@ -114,8 +114,14 @@ MOModelWriteTypeBasedCopyResolver >> visitConstant: aMOConstant [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitConstantReference: aMOConstantReference [ 
+	
+	^ self copyExpression 
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitEmptyBlock: aMOEmptyBlock [ 
-^ self defaultCopy 
+	^ self visitBlock: aMOEmptyBlock 
 ]
 
 { #category : #visiting }
@@ -159,12 +165,12 @@ MOModelWriteTypeBasedCopyResolver >> visitInvocation: aMOInvocation [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitLabelReference: aMOAlceLabelReference [
 
-	^ self defaultCopy
+	^ self copyExpression 
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitLiteral: aMONullLiteral [ 
-	^ self defaultCopy 
+	^ self copyExpression  
 ]
 
 { #category : #visiting }
@@ -188,7 +194,7 @@ MOModelWriteTypeBasedCopyResolver >> visitModule: aMOModule [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitNewExpression: aMONewInvocation [ 
 
-	^ self defaultCopy  
+	^ self copyExpression  
 ]
 
 { #category : #visiting }
@@ -198,8 +204,9 @@ MOModelWriteTypeBasedCopyResolver >> visitNullLiteral: aMONullLiteral [
 ]
 
 { #category : #visiting }
-MOModelWriteTypeBasedCopyResolver >> visitOnErrorGoToLabel: aMOAlceOnErrorGoToLabel [ 
-	^ self copyStatement 
+MOModelWriteTypeBasedCopyResolver >> visitOnErrorGoToLabel: aMOAlceOnErrorGoToLabel [
+
+	^ writer writeOnErrorGoTo: [ :goto | writingBlock cull: goto ]
 ]
 
 { #category : #visiting }
@@ -248,7 +255,8 @@ MOModelWriteTypeBasedCopyResolver >> visitSelect: aMOSelect [
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitSetToReturn: aMOSetToReturn [ 
-	^ self copyStatement
+
+	^ writer writeSetToReturn: [ :block | writingBlock value: block ]
 ]
 
 { #category : #visiting }
@@ -276,7 +284,7 @@ MOModelWriteTypeBasedCopyResolver >> visitTypeReference: aMOTypeReference [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
 
-	^ self defaultCopy
+	^ self copyExpression 
 ]
 
 { #category : #visiting }

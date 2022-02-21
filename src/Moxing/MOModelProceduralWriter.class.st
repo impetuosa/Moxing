@@ -334,11 +334,18 @@ MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildD
 	self installCopyingBuilder.
 
 
-	^ self write: [ :s | 
-		  copyHelper
-			  buildCopyOf: aProvenanceEntity
-			  readingValues: aChildDelegateLoadingBlock
-			  into: self ]
+	^ copyHelper
+		  buildCopyOf: aProvenanceEntity
+		  readingValues: aChildDelegateLoadingBlock
+		  into: self
+]
+
+{ #category : #writing }
+MOModelProceduralWriter >> writeExpression: aBlock [
+
+	| stmnt |
+	stmnt := self immediatelyWrite: aBlock withWriter: MOExpressionWriter.
+	^ stmnt
 ]
 
 { #category : #accessing }
@@ -349,7 +356,8 @@ MOModelProceduralWriter >> writeResult [
 { #category : #writing }
 MOModelProceduralWriter >> writeToSurface: anEntity [
 
-	^ self privateWriteToSurface: anEntity
+	self privateWriteToSurface: anEntity.
+	^ anEntity 
 ]
 
 { #category : #writing }

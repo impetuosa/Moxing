@@ -65,6 +65,7 @@ MOBlockWriter >> setAddingStatemntsAtFirst [
 
 { #category : #generated }
 MOBlockWriter >> statements [
+self halt. 
 	^ writeBuilder statements
 ]
 
@@ -72,6 +73,14 @@ MOBlockWriter >> statements [
 MOBlockWriter >> statements: aCollection [
 
 	writeBuilder statements: aCollection
+]
+
+{ #category : #writing }
+MOBlockWriter >> writReturn: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOReturnWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
@@ -93,6 +102,16 @@ MOBlockWriter >> writeDoUntil: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeExpressionStatement: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOStatementExpressionWriter.
 	^ stmnt
 ]
 
@@ -151,6 +170,14 @@ MOBlockWriter >> writeLastStatement: aBlock [
 ]
 
 { #category : #writing }
+MOBlockWriter >> writeOnErrorGoTo: aFullBlockClosure [ 
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorWriter.
+	^ stmnt
+
+]
+
+{ #category : #writing }
 MOBlockWriter >> writeResume: aBlock [
 
 	| stmnt |
@@ -163,6 +190,14 @@ MOBlockWriter >> writeSelect: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOSelectWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeSetToReturn: aFullBlockClosure [ 
+	
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOSetToReturnWriter.
 	^ stmnt
 ]
 

@@ -6,7 +6,6 @@ Class {
 
 { #category : #adding }
 MOEnumWriter >> addConstant: aMOConstant [
-
 	writeBuilder  addEntry: aMOConstant
 ]
 
@@ -32,13 +31,11 @@ MOEnumWriter >> visibility: aString [
 
 { #category : #writing }
 MOEnumWriter >> writeConstant: aFullBlockClosure [
-
 	^ self writeEntry: aFullBlockClosure
 ]
 
 { #category : #writing }
 MOEnumWriter >> writeEntry: aBlock [
-
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOEnumEntryWriter.
 	^ stmnt

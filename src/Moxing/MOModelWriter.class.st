@@ -469,12 +469,14 @@ MOModelWriter >> updateWhile: aMOClass with: aFullBlockClosure [
 { #category : #'as yet unclassified' }
 MOModelWriter >> updaterFor: aDestinationContext with: aProvenanceEntity do: anUpdatingBlock [
 
-	^ MOModelUpdateResolver new
-		resolveWriterFor: aProvenanceEntity
-		forUpdating: aDestinationContext
-		writingContext: self
-		do: anUpdatingBlock.
-
+	| result |
+	result := MOModelUpdateResolver new
+		          resolveWriterFor: aProvenanceEntity
+		          forUpdating: aDestinationContext
+		          writingContext: self
+		          do: anUpdatingBlock.
+	self populateAnchor.
+	^ result
 ]
 
 { #category : #statements }

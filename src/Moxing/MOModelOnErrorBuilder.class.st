@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+MOModelOnErrorBuilder >> destination: aMOAlceLabelReference [ 
+	goTo := aMOAlceLabelReference 
+]
+
+{ #category : #accessing }
 MOModelOnErrorBuilder >> goTo [
 	^ goTo ifNil: [  self error: 'GoTo is compiulsorty ' ]
 ]

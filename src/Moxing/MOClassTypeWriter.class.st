@@ -50,6 +50,11 @@ MOClassTypeWriter >> initializeWriteBuilder [
 	writeBuilder := builder classTypeBuilder
 ]
 
+{ #category : #generated }
+MOClassTypeWriter >> modifiers: aCollection [ 
+	writeBuilder modifiers: aCollection 
+]
+
 { #category : #accessing }
 MOClassTypeWriter >> package: aMOPackage [ 
 	writeBuilder package: aMOPackage 

@@ -36,10 +36,18 @@ MOIfElseWriter >> writeBlock: aFullBlockClosure [
 
 { #category : #writing }
 MOIfElseWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
-   
-	self condition: [ :expr | aChildDelegateLoadingBlock cull: expr cull: aProvenanceEntity condition ].
-	self writeIfTrueBlock:  [ : block | aChildDelegateLoadingBlock cull: block cull: aProvenanceEntity ifTrue ].
-	self writeIfFalseBlock:  [ : block | aChildDelegateLoadingBlock cull: block cull: aProvenanceEntity ifFalse ].
+
+	self condition: [ :expr | 
+		aChildDelegateLoadingBlock
+			cull: expr
+			cull: aProvenanceEntity condition ].
+	self setIfTrueBlock:
+		(aChildDelegateLoadingBlock
+			 cull: self
+			 cull: aProvenanceEntity ifTrue).
+	self setIfFalseBlock: (aChildDelegateLoadingBlock
+			 cull: self
+			 cull: aProvenanceEntity ifFalse)
 ]
 
 { #category : #writing }

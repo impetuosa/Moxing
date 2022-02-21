@@ -19,6 +19,7 @@ MOModelAnnotationTypeBuilder >> privateBuild [
 	^ (self instantiate: MOAnnotationType)
 		  name: self name;
 		  modifiers: self modifiers;
+		  visibility: self visibility;
 		  attributes: self attributes;
 		  methods: self methods;
 		  parent: self parent;

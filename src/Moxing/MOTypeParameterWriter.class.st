@@ -27,3 +27,8 @@ MOTypeParameterWriter >> privateWriteToSurface: anEntity [
 MOTypeParameterWriter >> superTypeReferences: aCollection [ 
 	writeBuilder superTypeReferences: aCollection 
 ]
+
+{ #category : #accessing }
+MOTypeParameterWriter >> visibility: aString [ 
+	^ writeBuilder visibility: aString 
+]

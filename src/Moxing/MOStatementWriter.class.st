@@ -17,18 +17,7 @@ MOStatementWriter >> attributeAccess: aCollection [
 { #category : #writing }
 MOStatementWriter >> build [
 
-	^ writeResult ifNil: [ 
-		  super build
-		  " subwriters ifNotNil: [ 
-			  subwriters do: [ :sw | 
-				  sw surface: self.
-				  sw buildAndWrite ] ].
-		  entity := self writerBuilder build.
-
-		  self installFromTo: entity.
-		  futureChilds do: [ :c | c parent: entity ].
-		  onBuild ifNotNil: [ onBuild cull: entity ].
-		  entity" ]
+	^ writeResult ifNil: [ self error: ' Un expected' ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,11 +50,6 @@ MOStatementWriter >> do: aLoopingBlock until: aConditionBlock [
 MOStatementWriter >> exit [
 
 	^ self registerStatement: builder buildExit
-]
-
-{ #category : #generated }
-MOStatementWriter >> expression: aMOAssignment [ 
-	writeBuilder expression: aMOAssignment 
 ]
 
 { #category : #statements }
@@ -121,13 +105,14 @@ MOStatementWriter >> if: aConditionBlock ifTrue: ifTrueBlock ifFalse: ifFalseBlo
 
 { #category : #initialization }
 MOStatementWriter >> initializeWriteBuilder [
-	writeBuilder := builder statementBuilder .
+
 ]
 
-{ #category : #initialization }
+{ #category : #expressions }
 MOStatementWriter >> installCopyingBuilder [
 
-	copyHelper := writeBuilder modelCopyHelper
+	self error:
+		'This writer is a helper syntax sugar. useless for copying '
 ]
 
 { #category : #initialization }
@@ -301,6 +286,24 @@ MOStatementWriter >> while: aConditionBlock do: aLoopingBlock [
 			   condition: (self writeExpression: aConditionBlock);
 			   loopingBlock: (self writeBlock: aLoopingBlock);
 			   build)
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
+
+	self installCopyingBuilder.
+
+
+	^ self write: [ :s | 
+		  self registerStatement: (copyHelper
+				   buildCopyOf: aProvenanceEntity
+				   readingValues: aChildDelegateLoadingBlock
+				   into: self) ]
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeStatement: aFullBlockClosure [ 
+	^ aFullBlockClosure value: self 
 ]
 
 { #category : #'as yet unclassified' }

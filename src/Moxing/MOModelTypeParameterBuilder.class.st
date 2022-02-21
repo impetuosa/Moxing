@@ -8,7 +8,8 @@ Class {
 		'name',
 		'superTypeReferences',
 		'packageRefrence',
-		'parent'
+		'parent',
+		'visibility'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -116,6 +117,7 @@ MOModelTypeParameterBuilder >> privateBuild [
 	^ (self instantiate: MOTypeParameter)
 		  name: self name;
 		  parent: self parent;
+		  visibility: self visibility; 
 		  packageReference: self packageReference; 
 		  superTypeReferences: self superTypeReferences;
 		  yourself
@@ -132,4 +134,15 @@ MOModelTypeParameterBuilder >> superTypeReferences [
 MOModelTypeParameterBuilder >> superTypeReferences: aCollection [
 
 	superTypeReferences := aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOModelTypeParameterBuilder >> visibility [
+
+	^ visibility ifNil: [ #default ]
+]
+
+{ #category : #'\\' }
+MOModelTypeParameterBuilder >> visibility: aString [ 
+	visibility := aString 
 ]

@@ -14,13 +14,6 @@ MOBlock >> acceptVisitor: aMOTypescriptCodeGenerator [
 ]
 
 { #category : #adding }
-MOBlock >> addStatement: aMOAssignment [
-	aMOAssignment isCollection
-		ifTrue: [ statements addAll: aMOAssignment ]
-		ifFalse: [ statements add: aMOAssignment ]
-]
-
-{ #category : #adding }
 MOBlock >> initialize [
 
 	super initialize.
@@ -34,6 +27,5 @@ MOBlock >> statements [
 
 { #category : #accessing }
 MOBlock >> statements: aCollection [
-	(aCollection anySatisfy: [ :a | a isKindOf: MOBlock ]) ifTrue: [ self halt  ].
 	statements := aCollection
 ]

@@ -128,6 +128,7 @@ MOModelClassTypeBuilder >> privateBuild [
 		  name: self name;
 		  modifiers: self modifiers;
 		  parent: self parent;
+		  visibility: self visibility;
 		  decorators: self decorators;
 		  typeParameters: self typeParameters;
 		  packageReference: self packageReference;

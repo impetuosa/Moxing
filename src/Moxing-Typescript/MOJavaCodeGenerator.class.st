@@ -147,6 +147,12 @@ MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitConstantReference: aMOConstantReference [
+
+	^ self visitVariableReference: aMOConstantReference
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
 	stream nextPutAll: '{}'
 ]
@@ -462,6 +468,16 @@ MOJavaCodeGenerator >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperati
 				nextPutAll: ')';
 				nextPutAll: aMOUnaryArithmeticOperation operator;
 				nextPutAll: ' ' ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsParameter [
+
+	aMOVariableArgumentsParameter typeReference acceptVisitor: self.
+
+	stream
+		nextPutAll: '... ';
+		nextPutAll: aMOVariableArgumentsParameter name
 ]
 
 { #category : #visiting }
