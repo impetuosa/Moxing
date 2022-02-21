@@ -17,3 +17,9 @@ MOParameter >> acceptVisitor: aJinTypescriptCodeGenerator [
 MOParameter >> isOptional: aBoolean [ 
 	isOptional := aBoolean
 ]
+
+{ #category : #accessing }
+MOParameter >> kindString [
+
+	^ 'PARAM'
+]

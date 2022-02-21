@@ -33,8 +33,6 @@ MOAnnotationWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOAnnotationWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface  addAnnotationInstance: anEntity.
 
 ]

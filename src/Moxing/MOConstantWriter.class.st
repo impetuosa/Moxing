@@ -15,8 +15,6 @@ MOConstantWriter >> initializeWriteBuilder [
 
 { #category : #generated }
 MOConstantWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addConstant: anEntity
 ]
 

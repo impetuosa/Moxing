@@ -35,10 +35,18 @@ MOIfElseWriter >> writeBlock: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOIfElseWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
+   
+	self condition: [ :expr | aChildDelegateLoadingBlock cull: expr cull: aProvenanceEntity condition ].
+	self writeIfTrueBlock:  [ : block | aChildDelegateLoadingBlock cull: block cull: aProvenanceEntity ifTrue ].
+	self writeIfFalseBlock:  [ : block | aChildDelegateLoadingBlock cull: block cull: aProvenanceEntity ifFalse ].
+]
+
+{ #category : #writing }
 MOIfElseWriter >> writeIfFalseBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #setIfFalseBlock: ]
 ]
@@ -47,12 +55,7 @@ MOIfElseWriter >> writeIfFalseBlock: aBlock [
 MOIfElseWriter >> writeIfTrueBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #setIfTrueBlock: ]
-]
-
-{ #category : #writing }
-MOIfElseWriter >> writeStatement: aFullBlockClosure [ 
-	self shouldBeImplemented.
 ]

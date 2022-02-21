@@ -19,8 +19,6 @@ MOStructureWriter >> initializeWriteBuilder [
 
 { #category : #adding }
 MOStructureWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addStructureType: anEntity
 ]
 
@@ -31,5 +29,5 @@ writeBuilder visibility: aString
 
 { #category : #writing }
 MOStructureWriter >> writeAttribute: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOAttributeWriter
+	^ self write: aBlock inSubWriter: MOAttributeWriter
 ]

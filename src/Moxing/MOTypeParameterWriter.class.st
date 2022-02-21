@@ -20,7 +20,6 @@ MOTypeParameterWriter >> initializeWriteBuilder [
 { #category : #initialization }
 MOTypeParameterWriter >> privateWriteToSurface: anEntity [
 
-	surface setAsParentOf: anEntity.
 	surface addTypeParameter: anEntity
 ]
 

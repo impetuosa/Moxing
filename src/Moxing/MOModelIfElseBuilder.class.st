@@ -18,14 +18,6 @@ MOModelIfElseBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelIfElseBuilder >> copyBuilder [
-	
-	.^ MOModelCopyIfElseBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #accessing }
 MOModelIfElseBuilder >> ensureOneBlock [
 
 	self isUpdating ifTrue: [ ^ self ].
@@ -45,6 +37,11 @@ MOModelIfElseBuilder >> ifFalseBlock [
 { #category : #accessing }
 MOModelIfElseBuilder >> ifFalseBlock: aMOModelBlockBuilder [ 
 	ifFalseBlock := aMOModelBlockBuilder
+]
+
+{ #category : #controlling }
+MOModelIfElseBuilder >> ifTrue: anUndefinedObject [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #accessing }

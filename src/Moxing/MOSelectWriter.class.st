@@ -24,5 +24,5 @@ MOSelectWriter >> initializeWriteBuilder [
 { #category : #generated }
 MOSelectWriter >> writeCase: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOCaseWriter
+	^ self write: aBlock inSubWriter: MOCaseWriter
 ]

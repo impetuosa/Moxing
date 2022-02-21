@@ -22,7 +22,8 @@ MOBlockWriter >> addLastStatement: aMOVariable [
 
 { #category : #adding }
 MOBlockWriter >> addStatement: aMOVariable [
-	writeBuilder addStatement: aMOVariable
+
+	^ writeBuilder addStatement: aMOVariable
 ]
 
 { #category : #adding }
@@ -52,8 +53,6 @@ MOBlockWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOBlockWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface
 		perform: (messageToRegisterBlock ifNil: [ #block: ])
 		withArguments: { anEntity }
@@ -62,6 +61,11 @@ MOBlockWriter >> privateWriteToSurface: anEntity [
 { #category : #initialization }
 MOBlockWriter >> setAddingStatemntsAtFirst [
 	writeBuilder  setAddingStatemntsAtFirst
+]
+
+{ #category : #generated }
+MOBlockWriter >> statements [
+	^ writeBuilder statements
 ]
 
 { #category : #generated }
@@ -88,7 +92,7 @@ MOBlockWriter >> writeBlock: aFullBlockClosure [
 MOBlockWriter >> writeDoUntil: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MODoUntilWriter.
+	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
 	^ stmnt
 ]
 
@@ -103,7 +107,7 @@ MOBlockWriter >> writeFirstStatement: aBlock [
 MOBlockWriter >> writeFor: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOForWriter.
+	stmnt := self write: aBlock inSubWriter: MOForWriter.
 	^ stmnt
 ]
 
@@ -111,7 +115,15 @@ MOBlockWriter >> writeFor: aBlock [
 MOBlockWriter >> writeForEach: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOForEachWriter.
+	stmnt := self write: aBlock inSubWriter: MOForEachWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeGoTo: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOGoToWriter.
 	^ stmnt
 ]
 
@@ -119,7 +131,15 @@ MOBlockWriter >> writeForEach: aBlock [
 MOBlockWriter >> writeIfElse: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOIfElseWriter.
+	stmnt := self write: aBlock inSubWriter: MOIfElseWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeLabel: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOLabelWriter.
 	^ stmnt
 ]
 
@@ -130,11 +150,19 @@ MOBlockWriter >> writeLastStatement: aBlock [
 		  (self immediatelyWrite: aBlock withWriter: MOStatementWriter)
 ]
 
+{ #category : #writing }
+MOBlockWriter >> writeResume: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOResumeWriter.
+	^ stmnt
+]
+
 { #category : #enumerating }
 MOBlockWriter >> writeSelect: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOSelectWriter.
+	stmnt := self write: aBlock inSubWriter: MOSelectWriter.
 	^ stmnt
 ]
 
@@ -142,14 +170,14 @@ MOBlockWriter >> writeSelect: aBlock [
 MOBlockWriter >> writeStatement: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOStatementWriter.
+	stmnt := self write: aBlock inSubWriter: MOStatementWriter.
 	^ stmnt
 ]
 
 { #category : #writing }
 MOBlockWriter >> writeTryCatch: aFullBlockClosure [ 
 	| stmnt |
-	stmnt := self preWrite: aFullBlockClosure inSubWriter: MOTryCatchWriter.
+	stmnt := self write: aFullBlockClosure inSubWriter: MOTryCatchWriter.
 	^ stmnt
 ]
 
@@ -157,7 +185,7 @@ MOBlockWriter >> writeTryCatch: aFullBlockClosure [
 MOBlockWriter >> writeVariable: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOVariableWriter.
+	stmnt := self write: aBlock inSubWriter: MOVariableWriter.
 	^ stmnt
 ]
 
@@ -165,6 +193,6 @@ MOBlockWriter >> writeVariable: aBlock [
 MOBlockWriter >> writeWhile: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOWhileWriter.
+	stmnt := self write: aBlock inSubWriter: MOWhileWriter.
 	^ stmnt
 ]

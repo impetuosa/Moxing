@@ -55,6 +55,11 @@ MOConstructorWriter >> modifiers: aCollection [
 	writeBuilder modifiers: aCollection 
 ]
 
+{ #category : #generated }
+MOConstructorWriter >> parameters [
+	^ writeBuilder parameters
+]
+
 { #category : #writing }
 MOConstructorWriter >> privateSetAnchor: anEntity [ 
 	anEntity anchor: surface anchor / #constructor / anEntity parameters size asString 
@@ -63,7 +68,6 @@ MOConstructorWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOConstructorWriter >> privateWriteToSurface: anEntity [
 
-	surface setAsParentOf: anEntity.
 	surface addConstructor: anEntity
 ]
 
@@ -75,14 +79,14 @@ MOConstructorWriter >> visibility: aString [
 { #category : #writing }
 MOConstructorWriter >> writeAnnotation: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOAnnotationWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]
 
 { #category : #writing }
 MOConstructorWriter >> writeBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
 ]
@@ -90,11 +94,11 @@ MOConstructorWriter >> writeBlock: aBlock [
 { #category : #writing }
 MOConstructorWriter >> writeParameter: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOParameterWriter
+	^ self write: aBlock inSubWriter: MOParameterWriter
 ]
 
 { #category : #writing }
 MOConstructorWriter >> writeTypeParameter: aFullBlockClosure [ 
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOTypeParameterWriter
+	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]

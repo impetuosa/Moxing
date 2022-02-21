@@ -32,19 +32,19 @@ MOModelAssignmentBuilder >> buildsType [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelAssignmentBuilder >> copyBuilder [
-
-	^ MOModelCopyAssignmentBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOModelAssignmentBuilder >> loadBuilderWithEntity: anEntity [ 
 	self read: anEntity read. 
  self write: anEntity write. 
  
 	
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAssignmentBuilder >> modelCopyHelper [
+self halt. 
+	^ MOModelCopyAssignmentBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }

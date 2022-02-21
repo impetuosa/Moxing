@@ -23,6 +23,11 @@ MOAttributeAccess >> printOn: aStream [
 ]
 
 { #category : #accessing }
+MOAttributeAccess >> receiver [
+	self shouldBeImplemented.
+]
+
+{ #category : #accessing }
 MOAttributeAccess >> receiverReference [
 	^ receiverReference
 ]

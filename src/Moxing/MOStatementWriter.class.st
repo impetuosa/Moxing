@@ -16,7 +16,19 @@ MOStatementWriter >> attributeAccess: aCollection [
 
 { #category : #writing }
 MOStatementWriter >> build [
-	^ writeResult
+
+	^ writeResult ifNil: [ 
+		  super build
+		  " subwriters ifNotNil: [ 
+			  subwriters do: [ :sw | 
+				  sw surface: self.
+				  sw buildAndWrite ] ].
+		  entity := self writerBuilder build.
+
+		  self installFromTo: entity.
+		  futureChilds do: [ :c | c parent: entity ].
+		  onBuild ifNotNil: [ onBuild cull: entity ].
+		  entity" ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -49,6 +61,11 @@ MOStatementWriter >> do: aLoopingBlock until: aConditionBlock [
 MOStatementWriter >> exit [
 
 	^ self registerStatement: builder buildExit
+]
+
+{ #category : #generated }
+MOStatementWriter >> expression: aMOAssignment [ 
+	writeBuilder expression: aMOAssignment 
 ]
 
 { #category : #statements }
@@ -103,19 +120,14 @@ MOStatementWriter >> if: aConditionBlock ifTrue: ifTrueBlock ifFalse: ifFalseBlo
 ]
 
 { #category : #initialization }
-MOStatementWriter >> initializeUpdateBuilderFor: anEntity [
+MOStatementWriter >> initializeWriteBuilder [
+	writeBuilder := builder statementBuilder .
 ]
 
 { #category : #initialization }
-MOStatementWriter >> initializeWriteBuilder [
-
-]
-
-{ #category : #statements }
 MOStatementWriter >> installCopyingBuilder [
 
-	writeBuilder := builder copyBuilder.
-	writeBuilder useAnchor: anchor
+	copyHelper := writeBuilder modelCopyHelper
 ]
 
 { #category : #initialization }
@@ -220,7 +232,7 @@ MOStatementWriter >> registerStatement: aStatement [
 				               expression: aStatement;
 				               build ]
 		               ifFalse: [ aStatement ].
-	^ aStatement
+	^ writeResult
 ]
 
 { #category : #controlling }
@@ -289,30 +301,6 @@ MOStatementWriter >> while: aConditionBlock do: aLoopingBlock [
 			   condition: (self writeExpression: aConditionBlock);
 			   loopingBlock: (self writeBlock: aLoopingBlock);
 			   build)
-]
-
-{ #category : #statements }
-MOStatementWriter >> writeCopy: aFullBlockClosure [
-
-	^ self registerStatement:
-		  (self immediatelyWrite: aFullBlockClosure withWriter: MOCopyWriter)
-]
-
-{ #category : #initialization }
-MOStatementWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
-
-	^ self registerStatement: (super
-			   writeCopyOf: aProvenanceEntity
-			   readingValues: aChildDelegateLoadingBlock)
-]
-
-{ #category : #writing }
-MOStatementWriter >> writeStatement: aBlock [
-
-	^ aBlock value: self
-	"| stmnt |
-	stmnt := self immediatelyWrite: aBlock withWriter: MOStatementWriter.
-	^ stmnt"
 ]
 
 { #category : #'as yet unclassified' }

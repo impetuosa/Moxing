@@ -8,41 +8,48 @@ Class {
 		'writingBlock',
 		'writer',
 		'mainWriter',
-		'context'
+		'lookup'
 	],
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #copying }
+MOModelWriteTypeBasedCopyResolver >> copyExpression [
+
+	^ writer writeExpression: [ :exp | writingBlock value: exp ]
+]
+
+{ #category : #copying }
+MOModelWriteTypeBasedCopyResolver >> copyExpressionStatement [
+
+	^ writer writeStatement: [ :stmt | writingBlock value: stmt ]
+]
+
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> copyStatement [
-
 	^ writer writeStatement: [ :stmt | 
-		  stmt anchor: context anchor.
 		  writingBlock value: stmt ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> defaultCopy [
-
+	self halt .
 	^ writer writeCopy: [ :c | 
-		  c anchor: context anchor.
 		  writingBlock value: c ]
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriteTypeBasedCopyResolver >> resolveWriterFor: aMOVariable context: aMOBlock writingContext: aMOBlockWriter do: aFullBlockClosure [
+MOModelWriteTypeBasedCopyResolver >> resolveWriterFor: aProvenanceEntity writingContext: aDestinationContexWriter do: aFullBlockClosure [
 
-	context := aMOBlock.
-	writer := aMOBlockWriter.
+	writer := aDestinationContexWriter.
 	writingBlock := aFullBlockClosure.
-	^ aMOVariable acceptVisitor: self
+	^ aProvenanceEntity acceptVisitor: self
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitAccessor: aMOAccessor [ 
 	
 	^ writer writeAttributeAccessor: [ : method  | 
-		  method anchor: context anchor.
 		  writingBlock value: method ]
 ]
 
@@ -55,63 +62,55 @@ MOModelWriteTypeBasedCopyResolver >> visitArrayAccess: aMOArrayAccess [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitAssignment: aMOAssignment [
 
-	^ self defaultCopy
+	^ self copyExpression
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitAttribute: aMOAttribute [
 
 	^ writer writeAttribute: [ :variable | 
-		  variable anchor: context anchor.
 		  writingBlock value: variable ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitAttributeAccess: aMOAttributeAccess [
 
-	^ self defaultCopy
+	^ self copyExpression
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
 
-	^ self defaultCopy
+	^ self copyExpression
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitBlock: aMOBlock [
 
-	^ writer writeBlock: [ :block | 
-		  block anchor: context anchor.
-		  writingBlock value: block ]
+	^ writer writeBlock: [ :block | writingBlock value: block ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitBooleanLiteral: aMOBooleanLiteral [ 
-	^ self defaultCopy 
+	^ self copyExpression  
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitCase: aMOCase [
 
-	^ writer writeCase: [ :variable | 
-		  variable anchor: context anchor.
-		  writingBlock value: variable ]
+	^ writer writeCase: [ :variable | writingBlock value: variable ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitClass: aMOClass [
-	^ writer writeClass: [ :class | 
-		  class anchor: context anchor.
-		  writingBlock value: class ]
+
+	^ writer writeClass: [ :class | writingBlock value: class ]
 ]
 
 { #category : #visiting }
-MOModelWriteTypeBasedCopyResolver >> visitConstant: aMOConstant [ 
+MOModelWriteTypeBasedCopyResolver >> visitConstant: aMOConstant [
 
-	^ writer writeConstant: [ :variable | 
-		  variable anchor: context anchor.
-		  writingBlock value: variable ]
+	^ writer writeConstant: [ :variable | writingBlock value: variable ]
 ]
 
 { #category : #visiting }
@@ -122,17 +121,13 @@ MOModelWriteTypeBasedCopyResolver >> visitEmptyBlock: aMOEmptyBlock [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitEnum: aMOEnum [
 
-	^ writer writeEnum: [ :class | 
-		  class anchor: context anchor.
-		  writingBlock value: class ]
+	^ writer writeEnum: [ :class | writingBlock value: class ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitEnumEntry: aMOEnumEntry [
 
-	^ writer writeEntry: [ :variable | 
-		  variable anchor: context anchor.
-		  writingBlock value: variable ]
+	^ writer writeEntry: [ :variable | writingBlock value: variable ]
 ]
 
 { #category : #visiting }
@@ -143,25 +138,22 @@ MOModelWriteTypeBasedCopyResolver >> visitExit: aMOAlceExit [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitFunction: aMOFunction [
 
-	^ writer writeFunction: [ :function | 
-		  function anchor: context anchor.
-		  writingBlock value: function ]
+	^ writer writeFunction: [ :function | writingBlock value: function ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitIfElse: aMOIfElse [
-"
+
+	"
 	^ self defaultCopy"
 
-	^ writer writeIfElse: [ :block | 
-		  block anchor: context anchor.
-		  writingBlock value: block ]
+	^ writer writeIfElse: [ :block | writingBlock value: block ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitInvocation: aMOInvocation [
 
-	^ self defaultCopy
+	^ self copyExpression 
 ]
 
 { #category : #visiting }
@@ -178,22 +170,19 @@ MOModelWriteTypeBasedCopyResolver >> visitLiteral: aMONullLiteral [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitMethod: aMOMethod [
 
-	^ writer writeMethod: [ : method  | 
-		  method anchor: context anchor.
-		  writingBlock value: method ]
+	^ writer writeMethod: [ :method | writingBlock value: method ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitMethodInvocation: aMOMethodInvocation [
 
-	^ self defaultCopy
+	^ self copyExpression 
 ]
 
 { #category : #visiting }
-MOModelWriteTypeBasedCopyResolver >> visitModule: aMOModule [ 
-	^ writer writeModule: [ :class | 
-		  class anchor: context anchor.
-		  writingBlock value: class ]
+MOModelWriteTypeBasedCopyResolver >> visitModule: aMOModule [
+
+	^ writer writeModule: [ :class | writingBlock value: class ]
 ]
 
 { #category : #visiting }
@@ -223,7 +212,6 @@ MOModelWriteTypeBasedCopyResolver >> visitOnErrorResumeNext: aMOAlceOnErrorResum
 MOModelWriteTypeBasedCopyResolver >> visitParameter: aMOParameter [
 
 	^ writer writeParameter: [ :parameter | 
-		  parameter anchor: context anchor.
 		  writingBlock value: parameter ]
 ]
 
@@ -237,7 +225,6 @@ MOModelWriteTypeBasedCopyResolver >> visitPrimitiveTypeReference: aMOPrimitiveTy
 MOModelWriteTypeBasedCopyResolver >> visitProcedure: aMOProcedure [
 
 	^ writer writeSubprocedure: [ :procedure | 
-		  procedure anchor: context anchor.
 		  writingBlock value: procedure ]
 ]
 
@@ -256,9 +243,7 @@ MOModelWriteTypeBasedCopyResolver >> visitResumeLabel: aMOAlceResumeLabel [
 { #category : #enumerating }
 MOModelWriteTypeBasedCopyResolver >> visitSelect: aMOSelect [
 
-	^ writer writeSelect: [ :block | 
-		  block anchor: context anchor.
-		  writingBlock value: block ]
+	^ writer writeSelect: [ :block | writingBlock value: block ]
 ]
 
 { #category : #visiting }
@@ -269,25 +254,23 @@ MOModelWriteTypeBasedCopyResolver >> visitSetToReturn: aMOSetToReturn [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitStatementExpression: aMOStatementExpression [
 
-	^ self copyStatement
+	^ self copyExpressionStatement 
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitStringLiteral: aMOStringLiteral [ 
-	^ self defaultCopy 
+	^ self copyExpression  
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitStructure: aMOStructure [
 
-	^ writer writeStructure: [ :structure | 
-		  structure anchor: context anchor.
-		  writingBlock cull: structure ]
+	^ writer writeStructure: [ :structure | writingBlock cull: structure ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitTypeReference: aMOTypeReference [ 
-	^ self defaultCopy 
+	^ self copyExpression  
 ]
 
 { #category : #visiting }
@@ -302,23 +285,27 @@ MOModelWriteTypeBasedCopyResolver >> visitUnaryExpression: aMOUnaryArithmeticOpe
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitVarArgParameter: aMOVariableArgumentsParameter [
+
+	^ writer writeParameter: [ :parameter | 
+		  parameter mapsToVariableArguments.
+		  writingBlock value: parameter ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitVariable: aMOVariable [
 
-	^ writer writeVariable: [ :variable | 
-		  variable anchor: context anchor.
-		  writingBlock value: variable ]
+	^ writer writeVariable: [ :variable | writingBlock value: variable ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitVariableReference: aMOVariableReference [
 
-	^ self defaultCopy
+	^ self copyExpression 
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitWhile: aMOWhile [
 
-	^ writer writeWhile: [ :while | 
-		  while anchor: context anchor.
-		  writingBlock value: while ]
+	^ writer writeWhile: [ :while | writingBlock value: while ]
 ]

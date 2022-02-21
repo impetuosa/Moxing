@@ -70,10 +70,10 @@ MOModelBuilderDelegate >> contextleReferenceBuilder [
 	^ parentBuilder contextReferenceBuilder 
 ]
 
-{ #category : #copying }
-MOModelBuilderDelegate >> copyBuilder [
+{ #category : #accessing }
+MOModelBuilderDelegate >> fileReference: anUndefinedObject [
 
-	^ parentBuilder copyBuilder
+	self assert: anUndefinedObject isNil
 ]
 
 { #category : #'as yet unclassified' }
@@ -133,6 +133,17 @@ MOModelBuilderDelegate >> isUpdating: anObject [
 { #category : #accessing }
 MOModelBuilderDelegate >> loadBuilderWithEntity: anEntity [ 
 	self subclassResponsibility 
+]
+
+{ #category : #copying }
+MOModelBuilderDelegate >> modelCopyHelper [
+
+	^ parentBuilder modelCopyHelper
+]
+
+{ #category : #accessing }
+MOModelBuilderDelegate >> name: aString [ 
+
 ]
 
 { #category : #accessing }

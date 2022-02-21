@@ -7,6 +7,11 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #accessing }
+MOFunctionWriter >> fileReference: anUndefinedObject [ 
+	writeBuilder fileReference: anUndefinedObject 
+]
+
 { #category : #writing }
 MOFunctionWriter >> initializeWriteBuilder [
 
@@ -20,8 +25,6 @@ MOFunctionWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOFunctionWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addFunction: anEntity
 ]
 

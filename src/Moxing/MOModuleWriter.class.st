@@ -63,56 +63,54 @@ MOModuleWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOModuleWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addModule: anEntity
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeAttribute: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOAttributeWriter
+	^ self write: aBlock inSubWriter: MOAttributeWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeAttributeAccessor: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOAccessorWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAccessorWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeConstant: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOConstantWriter.
+	stmnt := self write: aBlock inSubWriter: MOConstantWriter.
 	^ stmnt
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeEnum: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOEnumWriter
+	^ self write: aFullBlockClosure inSubWriter: MOEnumWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeFunction: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOFunctionWriter
+	^ self write: aBlock inSubWriter: MOFunctionWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeStructure: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOStructureWriter
+	^ self write: aBlock inSubWriter: MOStructureWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeSubprocedure: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOSubProcedureWriter
+	^ self write: aBlock inSubWriter: MOSubProcedureWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeVariable: aBlock [
 
-	self preWrite: aBlock inSubWriter: MOVariableWriter
+	self write: aBlock inSubWriter: MOVariableWriter
 ]

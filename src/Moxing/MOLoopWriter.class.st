@@ -14,7 +14,7 @@ MOLoopWriter >> setLoopingBlock: aBlock [
 MOLoopWriter >> writeLoopingBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #setLoopingBlock: ]
 ]

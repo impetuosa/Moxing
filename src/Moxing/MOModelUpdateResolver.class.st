@@ -20,11 +20,12 @@ MOModelUpdateResolver >> genericUpdate: aMOBinaryArithmeticOperation [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelUpdateResolver >> resolveWriterFor: aMOVariable forUpdating: aMOBlock writingContext: aMOModelWriter do: aFullBlockClosure [
-	writer := aMOModelWriter.
-	writingEntity := aMOVariable.
+MOModelUpdateResolver >> resolveWriterFor: aProvenanceEntity forUpdating: aDestinationContext writingContext: aContextWriter do: aFullBlockClosure [
+
+	writer := aContextWriter.
+	writingEntity := aProvenanceEntity.
 	writingBlock := aFullBlockClosure.
-	^ self updateEntity: aMOBlock
+	^ self updateEntity: aDestinationContext
 ]
 
 { #category : #'as yet unclassified' }

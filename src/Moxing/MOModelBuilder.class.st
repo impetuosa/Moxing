@@ -215,14 +215,6 @@ MOModelBuilder >> contextReferenceBuilder [
 		  yourself
 ]
 
-{ #category : #copying }
-MOModelBuilder >> copyBuilder [
-
-	^ MOModelCopyBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
 { #category : #'as yet unclassified' }
 MOModelBuilder >> declarationUnitBuilder [
 
@@ -260,6 +252,11 @@ MOModelBuilder >> enumEntryBuilder [
 	^ MOModelEnumEntryBuilder new
 		  parentBuilder: self;
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> expressionCopyHelper [
+	^ MOModelExpressionCopy new 
 ]
 
 { #category : #'as yet unclassified' }
@@ -414,6 +411,12 @@ MOModelBuilder >> model [
 { #category : #accessing }
 MOModelBuilder >> model: aModel [ 
 	 model := aModel
+]
+
+{ #category : #copying }
+MOModelBuilder >> modelCopyHelper [
+
+	^ MOModelCopy new 
 ]
 
 { #category : #'as yet unclassified' }
@@ -594,6 +597,14 @@ MOModelBuilder >> setToReturnBuilder [
 MOModelBuilder >> shallowCopy: aMOBlock [
 
 	^ model shallowCopy: aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> statementBuilder [
+
+	^ MOModelStatementExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #initialization }

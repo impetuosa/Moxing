@@ -12,7 +12,5 @@ MOEnumEntryWriter >> initializeWriteBuilder [
 
 { #category : #initialization }
 MOEnumEntryWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addEnumEntry: anEntity
 ]

@@ -15,6 +15,12 @@ MOConstant >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOConstant >> kindString [
+
+	^ 'CONST'
+]
+
+{ #category : #accessing }
 MOConstant >> value [
 	 ^ value 
 ]

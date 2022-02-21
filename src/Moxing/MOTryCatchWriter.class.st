@@ -25,7 +25,7 @@ MOTryCatchWriter >> winitializeWriteBuilder [
 { #category : #writing }
 MOTryCatchWriter >> writeCatch: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOCatchWriter
+	^ self write: aFullBlockClosure inSubWriter: MOCatchWriter
 ]
 
 { #category : #writing }

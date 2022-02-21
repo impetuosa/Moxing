@@ -9,3 +9,9 @@ MOEnumEntry >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitEnumEntry: self
 ]
+
+{ #category : #visiting }
+MOEnumEntry >> kindString [
+
+	^ 'EnumEntry'
+]

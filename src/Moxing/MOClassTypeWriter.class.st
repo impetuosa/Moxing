@@ -67,33 +67,31 @@ MOClassTypeWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOClassTypeWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addClassType: anEntity
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeAttribute: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOAttributeWriter
+	^ self write: aBlock inSubWriter: MOAttributeWriter
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeConstructor: aFullBlockClosure [ 
-		^ self preWrite: aFullBlockClosure inSubWriter: MOConstructorWriter 
+		^ self write: aFullBlockClosure inSubWriter: MOConstructorWriter 
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeDecorator: aFullBlockClosure [ 
-		^ self preWrite: aFullBlockClosure inSubWriter: MODecoratorWriter
+		^ self write: aFullBlockClosure inSubWriter: MODecoratorWriter
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeMethod: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOMethodWriter
+	^ self write: aBlock inSubWriter: MOMethodWriter
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeTypeParameter: aFullBlockClosure [ 
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOTypeParameterWriter
+	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]

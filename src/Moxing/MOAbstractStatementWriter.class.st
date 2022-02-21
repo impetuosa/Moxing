@@ -11,9 +11,8 @@ MOAbstractStatementWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOAbstractStatementWriter >> privateWriteToSurface: anEntity [
-	surface setAsParentOf: anEntity .
-	surface addStatement: anEntity
 
+	^ surface addStatement: anEntity
 ]
 
 { #category : #initialization }

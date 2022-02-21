@@ -27,7 +27,6 @@ MOCatchWriter >> initializeWriteBuilder [
 
 { #category : #writing }
 MOCatchWriter >> privateWriteToSurface: anEntity [
-	surface setAsParentOf: anEntity .
 	surface addCatch: anEntity
 
 ]
@@ -36,7 +35,7 @@ MOCatchWriter >> privateWriteToSurface: anEntity [
 MOCatchWriter >> writeBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
 ]
@@ -44,5 +43,5 @@ MOCatchWriter >> writeBlock: aBlock [
 { #category : #writing }
 MOCatchWriter >> writeParameter: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOParameterWriter
+	^ self write: aBlock inSubWriter: MOParameterWriter
 ]

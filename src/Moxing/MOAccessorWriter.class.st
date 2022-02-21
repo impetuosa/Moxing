@@ -18,7 +18,5 @@ MOAccessorWriter >> kind: aKind [
 
 { #category : #initialization }
 MOAccessorWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addAccessor: anEntity
 ]

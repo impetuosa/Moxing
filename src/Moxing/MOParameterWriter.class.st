@@ -29,7 +29,5 @@ MOParameterWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOParameterWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addParameter: anEntity
 ]

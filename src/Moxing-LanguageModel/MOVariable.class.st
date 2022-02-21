@@ -81,6 +81,12 @@ MOVariable >> isStaticBinding [
 	^ self bindingKind = #static.
 ]
 
+{ #category : #accessing }
+MOVariable >> kindString [
+
+	^ 'VAR'
+]
+
 { #category : #'as yet unclassified' }
 MOVariable >> modifiers [
 
@@ -96,7 +102,8 @@ MOVariable >> modifiers: aSet [
 MOVariable >> printOn: aStream [
 
 	aStream
-		nextPutAll: 'VD:';
+		nextPutAll: self kindString;
+		nextPutAll: ':';
 		nextPutAll: name;
 		nextPutAll: '('.
 	typeReference

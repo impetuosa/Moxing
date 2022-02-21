@@ -470,10 +470,11 @@ MOModelWriter >> updateWhile: aMOClass with: aFullBlockClosure [
 MOModelWriter >> updaterFor: aDestinationContext with: aProvenanceEntity do: anUpdatingBlock [
 
 	^ MOModelUpdateResolver new
-		  resolveWriterFor: aProvenanceEntity
-		  forUpdating: aDestinationContext
-		  writingContext: self
-		  do: anUpdatingBlock
+		resolveWriterFor: aProvenanceEntity
+		forUpdating: aDestinationContext
+		writingContext: self
+		do: anUpdatingBlock.
+
 ]
 
 { #category : #statements }

@@ -26,7 +26,6 @@ MOCaseWriter >> initializeWriteBuilder [
 
 { #category : #writing }
 MOCaseWriter >> privateWriteToSurface: anEntity [
-	surface setAsParentOf: anEntity .
 	surface addCase: anEntity
 
 ]
@@ -35,7 +34,7 @@ MOCaseWriter >> privateWriteToSurface: anEntity [
 MOCaseWriter >> writeBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
 ]

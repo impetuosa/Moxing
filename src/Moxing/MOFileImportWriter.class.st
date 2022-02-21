@@ -39,7 +39,5 @@ MOFileImportWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOFileImportWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addImport: anEntity
 ]

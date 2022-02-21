@@ -51,41 +51,39 @@ MOPackageWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOPackageWriter >> privateWriteToSurface: anEntity [
-	
-	surface setAsParentOf: anEntity.
 	surface addPackage: anEntity
 ]
 
 { #category : #writing }
 MOPackageWriter >> writeClass: aBlock [
 
-	self preWrite: aBlock inSubWriter: MOClassWriter
+	self write: aBlock inSubWriter: MOClassWriter
 ]
 
 { #category : #writing }
 MOPackageWriter >> writeClassType: aFullBlockClosure [
 
-	self preWrite: aFullBlockClosure inSubWriter: MOClassTypeWriter
+	self write: aFullBlockClosure inSubWriter: MOClassTypeWriter
 ]
 
 { #category : #writing }
 MOPackageWriter >> writeDeclarationUnit: aBlock [
-	self preWrite: aBlock inSubWriter: MODeclarationUnitWriter
+	self write: aBlock inSubWriter: MODeclarationUnitWriter
 ]
 
 { #category : #writing }
 MOPackageWriter >> writeModule: aFullBlockClosure [
 
-	self preWrite: aFullBlockClosure inSubWriter: MOModuleWriter
+	self write: aFullBlockClosure inSubWriter: MOModuleWriter
 ]
 
 { #category : #writing }
 MOPackageWriter >> writePackage: aBlock [
 
-	self preWrite: aBlock inSubWriter: MOPackageWriter
+	self write: aBlock inSubWriter: MOPackageWriter
 ]
 
 { #category : #writing }
 MOPackageWriter >> writePrimitiveType: aFullBlockClosure [ 
-	self preWrite: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter
+	self write: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter
 ]

@@ -26,8 +26,6 @@ MOAttributeWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOAttributeWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addAttribute: anEntity
 ]
 
@@ -39,5 +37,5 @@ MOAttributeWriter >> visibility: anUndefinedObject [
 { #category : #writing }
 MOAttributeWriter >> writeAnnotation: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOAnnotationWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]

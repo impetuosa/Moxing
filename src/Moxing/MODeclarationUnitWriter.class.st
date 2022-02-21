@@ -60,25 +60,25 @@ MODeclarationUnitWriter >> privateWriteToSurface: anEntity [
 MODeclarationUnitWriter >> writeClass: aBlock [
 
 
-	self preWrite: aBlock inSubWriter: MOClassWriter
+	self write: aBlock inSubWriter: MOClassWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeClassType: aBlock [
 
-	self preWrite: aBlock inSubWriter: MOClassTypeWriter
+	self write: aBlock inSubWriter: MOClassTypeWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeFileImport: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOFileImportWriter
+	^ self write: aFullBlockClosure inSubWriter: MOFileImportWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeImport: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOImportWriter
+	^ self write: aFullBlockClosure inSubWriter: MOImportWriter
 ]
 
 { #category : #writing }

@@ -25,8 +25,6 @@ MODecoratorWriter >> privateSetAnchor: anEntity [
 
 { #category : #initialization }
 MODecoratorWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addDecorator: anEntity
 ]
 

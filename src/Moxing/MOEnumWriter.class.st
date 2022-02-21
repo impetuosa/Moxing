@@ -22,8 +22,6 @@ MOEnumWriter >> initializeWriteBuilder [
 
 { #category : #writing }
 MOEnumWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addEnum: anEntity
 ]
 
@@ -42,6 +40,6 @@ MOEnumWriter >> writeConstant: aFullBlockClosure [
 MOEnumWriter >> writeEntry: aBlock [
 
 	| stmnt |
-	stmnt := self preWrite: aBlock inSubWriter: MOEnumEntryWriter.
+	stmnt := self write: aBlock inSubWriter: MOEnumEntryWriter.
 	^ stmnt
 ]

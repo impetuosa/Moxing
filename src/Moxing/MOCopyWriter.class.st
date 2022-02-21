@@ -9,7 +9,8 @@ Class {
 
 { #category : #'as yet unclassified' }
 MOCopyWriter >> initializeWriteBuilder [
-	writeBuilder := builder copyBuilder
+
+	copyHelper := builder modelCopyHelper
 ]
 
 { #category : #'as yet unclassified' }

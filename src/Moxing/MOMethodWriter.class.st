@@ -20,8 +20,6 @@ MOMethodWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOMethodWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addMethod: anEntity
 ]
 

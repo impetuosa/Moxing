@@ -7,6 +7,11 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #accessing }
+MOSubProcedureWriter >> bindingKind: aString [ 
+	 writeBuilder bindingKind: aString 
+]
+
 { #category : #writing }
 MOSubProcedureWriter >> initializeWriteBuilder [
 
@@ -20,8 +25,6 @@ MOSubProcedureWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOSubProcedureWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addProcedure: anEntity
 ]
 

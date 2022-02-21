@@ -41,8 +41,6 @@ MOClassWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOClassWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addClass: anEntity
 ]
 
@@ -55,14 +53,14 @@ MOClassWriter >> superclassReference: superClassReference [
 { #category : #writing }
 MOClassWriter >> writeAttributeAccessor: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOAccessorWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAccessorWriter
 ]
 
 { #category : #writing }
 MOClassWriter >> writeFunction: aBlock [
 
 	^ self
-		  preWrite: [ :function | 
+		  write: [ :function | 
 			  function setDynamicBinding.
 			  aBlock value: function ]
 		  inSubWriter: MOFunctionWriter
@@ -72,7 +70,7 @@ MOClassWriter >> writeFunction: aBlock [
 MOClassWriter >> writeSubprocedure: aBlock [
 
 	^ self
-		  preWrite: [ :function | 
+		  write: [ :function | 
 			  function setDynamicBinding.
 			  aBlock value: function ]
 		  inSubWriter: MOSubProcedureWriter

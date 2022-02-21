@@ -31,8 +31,6 @@ MOExpressionWriter >> build [
 
 	entity := writeResult .
 	self installFromTo: entity.
-	futureChilds do: [ :c | c parent: entity ].
-	onBuild ifNotNil: [ onBuild cull: entity ].
 	^ entity
 ]
 
@@ -49,6 +47,14 @@ MOExpressionWriter >> compare: aLeft is: anOperatorString than: aRight [
 { #category : #writing }
 MOExpressionWriter >> initializeWriteBuilder [
 
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> installCopyingBuilder [
+
+	copyHelper := builder expressionCopyHelper
+		              writer: self;
+		              yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -168,6 +174,18 @@ MOExpressionWriter >> operateBoolean: anExpressionBuildingBlock operator: anOper
 MOExpressionWriter >> referenceToSelf [
 
 	^ builder referenceToSelf
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
+
+	self installCopyingBuilder.
+
+
+	^ copyHelper
+		  buildCopyOf: aProvenanceEntity
+		  readingValues: aChildDelegateLoadingBlock
+		  into: self
 ]
 
 { #category : #writing }

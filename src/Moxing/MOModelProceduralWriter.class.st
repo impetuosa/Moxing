@@ -11,22 +11,15 @@ Class {
 		'builder',
 		'surface',
 		'writeBuilder',
-		'subwriters',
 		'from',
 		'to',
-		'onBuild',
 		'anchor',
 		'writeResult',
-		'futureChilds',
-		'parentWriter'
+		'parentWriter',
+		'copyHelper'
 	],
 	#category : #'Moxing-MicroWriters'
 }
-
-{ #category : #writing }
-MOModelProceduralWriter >> addSubwriter: aWriter [ 
-	self subwriters add: aWriter 
-]
 
 { #category : #accessing }
 MOModelProceduralWriter >> anchor: aMOAnchor [
@@ -58,14 +51,9 @@ MOModelProceduralWriter >> booleanLiteral: aBoolean [
 MOModelProceduralWriter >> build [
 
 	| entity |
-	subwriters ifNotNil: [ 
-		subwriters do: [ :sw | 
-			sw surface: self.
-			sw buildAndWrite ] ].
+
 	entity := self writerBuilder build.
 	self installFromTo: entity.
-	futureChilds do: [ :c | c parent: entity ].
-	onBuild ifNotNil: [ onBuild cull: entity ].
 	^ entity
 ]
 
@@ -91,6 +79,11 @@ MOModelProceduralWriter >> constantReferenceNamed: aString [
 	^ builder constantReferenceBuilder
 		  name: aString;
 		  build
+]
+
+{ #category : #accessing }
+MOModelProceduralWriter >> fileReference: anUndefinedObject [ 
+	writeBuilder fileReference: anUndefinedObject 
 ]
 
 { #category : #'as yet unclassified' }
@@ -121,13 +114,6 @@ MOModelProceduralWriter >> immediatelyWrite: aFullBlockClosure withWriter: aClas
 ]
 
 { #category : #initialization }
-MOModelProceduralWriter >> initialize [
-
-	super initialize.
-	futureChilds := Set new
-]
-
-{ #category : #initialization }
 MOModelProceduralWriter >> initializeUpdateBuilderFor: anEntity [
 	self initializeWriteBuilder.
 	writeBuilder forUpdate: anEntity
@@ -141,8 +127,9 @@ MOModelProceduralWriter >> initializeWriteBuilder [
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> installCopyingBuilder [
 
-	writeBuilder := writeBuilder  copyBuilder.
-	writeBuilder useAnchor: anchor
+	copyHelper := writeBuilder  modelCopyHelper.
+
+	
 ]
 
 { #category : #writing }
@@ -169,17 +156,17 @@ MOModelProceduralWriter >> model [
 	^ builder model
 ]
 
+{ #category : #accessing }
+MOModelProceduralWriter >> name: aString [ 
+	
+]
+
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> numericLiteral: anInteger [
 
 	^ builder numericLiteralBuilder
 		  value: anInteger;
 		  build
-]
-
-{ #category : #'as yet unclassified' }
-MOModelProceduralWriter >> onBuild: aFullBlockClosure [
-	onBuild := aFullBlockClosure
 ]
 
 { #category : #'as yet unclassified' }
@@ -218,34 +205,6 @@ MOModelProceduralWriter >> parentWriter: aMODeclarationUnitWriter [
 	parentWriter := aMODeclarationUnitWriter
 ]
 
-{ #category : #writing }
-MOModelProceduralWriter >> preWrite: aBlock [
-
-	^ aBlock value: self
-]
-
-{ #category : #writing }
-MOModelProceduralWriter >> preWrite: aBlock inSubWriter: aSubWriterClass [
-
-	^ self
-		  preWrite: aBlock
-		  inSubWriter: aSubWriterClass
-		  initializeWith: [ :a |  ]
-]
-
-{ #category : #writing }
-MOModelProceduralWriter >> preWrite: aBlock inSubWriter: aSubWriterClass initializeWith: anInitBlock [
-
-	| sw |
-	sw := aSubWriterClass new.
-	sw builder: builder.
-	sw initializeWriteBuilder.
-	anInitBlock value: sw.
-	sw parentWriter: self.
-	self addSubwriter: sw.
-	^ sw preWrite: aBlock
-]
-
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> primitiveTypeReferenceNamed: aString [
 
@@ -282,23 +241,12 @@ MOModelProceduralWriter >> setAnchor: anEntity [
 	self isUpdating ifFalse: [ self privateSetAnchor: anEntity ]
 ]
 
-{ #category : #initialization }
-MOModelProceduralWriter >> setAsParentOf: aMOBlock [
-
-	futureChilds add: aMOBlock 
-]
-
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> stringLiteral: aString [
 
 	^ builder stringLiteralBuilder
 		  value: aString;
 		  build
-]
-
-{ #category : #writing }
-MOModelProceduralWriter >> subwriters [
-	^ subwriters ifNil: [ subwriters := OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -346,8 +294,32 @@ MOModelProceduralWriter >> variableReferenceNamed: aString [
 { #category : #writing }
 MOModelProceduralWriter >> write: aBlock [
 
-	writeResult := self preWrite: aBlock.
-	self writeToSurface: self build
+	writeResult := aBlock value: self.
+	^ self writeToSurface: self build
+]
+
+{ #category : #writing }
+MOModelProceduralWriter >> write: aBlock inSubWriter: aSubWriterClass [
+
+	^ self
+		  write: aBlock
+		  inSubWriter: aSubWriterClass
+		  initializeWith: [ :a |  ]
+]
+
+{ #category : #writing }
+MOModelProceduralWriter >> write: aBlock inSubWriter: aSubWriterClass initializeWith: anInitBlock [
+
+	| sw |
+	sw := aSubWriterClass new.
+	sw builder: builder.
+	sw initializeWriteBuilder.
+	anInitBlock value: sw.
+	sw parentWriter: self.
+	sw surface: self.
+
+
+	^ sw write: aBlock
 ]
 
 { #category : #writing }
@@ -360,9 +332,13 @@ MOModelProceduralWriter >> writeCopy: aFullBlockClosure [
 MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
 
 	self installCopyingBuilder.
-	^ writeBuilder
-		buildCopyOf: aProvenanceEntity
-		readingValues: aChildDelegateLoadingBlock
+
+
+	^ self write: [ :s | 
+		  copyHelper
+			  buildCopyOf: aProvenanceEntity
+			  readingValues: aChildDelegateLoadingBlock
+			  into: self ]
 ]
 
 { #category : #accessing }
@@ -373,7 +349,7 @@ MOModelProceduralWriter >> writeResult [
 { #category : #writing }
 MOModelProceduralWriter >> writeToSurface: anEntity [
 
-	 self privateWriteToSurface: anEntity.
+	^ self privateWriteToSurface: anEntity
 ]
 
 { #category : #writing }

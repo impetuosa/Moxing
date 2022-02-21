@@ -37,6 +37,12 @@ MOObjectObjectRelation >> printOn: aStream [
 	to printOn: aStream
 ]
 
+{ #category : #'meta-object-protocol' }
+MOObjectObjectRelation >> read: aMOModelMethodBuilder [
+
+	^ aMOModelMethodBuilder perform: slot name
+]
+
 { #category : #accessing }
 MOObjectObjectRelation >> slot [
 	^ slot
@@ -61,10 +67,11 @@ MOObjectObjectRelation >> to: anUndefinedObject [
 MOObjectObjectRelation >> write: anObject to: aDestination [
 
 	slot isToMany ifTrue: [ 
-		((self slot read: aDestination) includes: anObject ) ifTrue: [ self halt ].
-		(self slot read: aDestination) add: anObject .
-"		self assert:
-			((self slot read: aDestination) anySatisfy: [ :a | a == anObject ]).
-"		^ self ].
-	slot write: anObject to: aDestination
+		((self read: aDestination) includes: anObject) ifTrue: [ self halt ].
+		slot shouldAccept: anObject into: aDestination .
+		(self read: aDestination) add: anObject.
+
+		^ self ].
+
+	aDestination perform: slot name , ':' withArguments: { anObject }
 ]

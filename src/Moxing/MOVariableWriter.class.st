@@ -13,6 +13,12 @@ MOVariableWriter >> addAnnotationInstance: aMOAnnotationInstance [
 	writeBuilder addAnnotationInstance: aMOAnnotationInstance
 ]
 
+{ #category : #accessing }
+MOVariableWriter >> bindingKind: aString [
+
+	writeBuilder bindingKind: aString
+]
+
 { #category : #writing }
 MOVariableWriter >> initializeWriteBuilder [
 
@@ -48,8 +54,6 @@ MOVariableWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addVariable: anEntity
 ]
 
