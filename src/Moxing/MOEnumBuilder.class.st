@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'name',
 		'entries',
-		'visibility'
+		'visibility',
+		'modifiers'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -37,7 +38,20 @@ MOEnumBuilder >> loadBuilderWithEntity: aMOEnum [
 
 	self name: aMOEnum name.
 	self entries: aMOEnum entries.
-	self visibility: aMOEnum visibility
+	self visibility: aMOEnum visibility.
+	self modifiers: aMOEnum modifiers. 
+]
+
+{ #category : #generated }
+MOEnumBuilder >> modifiers [
+
+	^ modifiers
+]
+
+{ #category : #generated }
+MOEnumBuilder >> modifiers: aCollection [
+
+	modifiers := aCollection
 ]
 
 { #category : #accessing }
@@ -57,6 +71,7 @@ MOEnumBuilder >> privateBuild [
 		  name: self name;
 		  visibility: self visibility;
 		  entries: self entries;
+		  modifiers: self modifiers;
 		  yourself
 ]
 

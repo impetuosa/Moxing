@@ -52,7 +52,7 @@ MOModelLoopBuilder >> loadBuilderWithEntity: anEntity [
 { #category : #accessing }
 MOModelLoopBuilder >> loopingBlock [
 
-	^ loopingBlock 
+	^ loopingBlock ifNil: [  self error: 'Looping block is compulsory ' ]
 ]
 
 { #category : #accessing }

@@ -60,7 +60,7 @@ MOStatementWriter >> for: anInitBlock condition: aConditionBlock update: anUpdat
 	^ self registerStatement: (builder forStatementBuilder
 			   initializeOperation: (self writeExpression: anInitBlock);
 			   updateOperation: (self writeExpression: anUpdateBlock);
-			   condition: (self writeExpression: aConditionBlock);
+			   writeCondition: (self writeExpression: aConditionBlock);
 			   loopingBlock: (self writeBlock: aLoopingBlock);
 			   build)
 ]
@@ -285,6 +285,15 @@ MOStatementWriter >> while: aConditionBlock do: aLoopingBlock [
 			   forWhile;
 			   condition: (self writeExpression: aConditionBlock);
 			   loopingBlock: (self writeBlock: aLoopingBlock);
+			   build)
+]
+
+{ #category : #enumerating }
+MOStatementWriter >> with: anExpressionBlock do: aBlockWritingBlock [
+
+	^ self registerStatement: (builder withBuilder
+			   expression: (self writeExpression: anExpressionBlock);
+			   block: (self writeBlock: aBlockWritingBlock);
 			   build)
 ]
 

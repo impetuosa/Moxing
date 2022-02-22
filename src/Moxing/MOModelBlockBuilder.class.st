@@ -85,9 +85,13 @@ MOModelBlockBuilder >> loadBuilderWithEntity: anEntity [
 MOModelBlockBuilder >> privateBuild [
 
 	| block |
-	block := (self instantiate: MOBlock)
-		         statements: self statements;
-		         yourself.
+	block := self statements
+		         ifEmpty: [ self instantiate: MOEmptyBlock ]
+		         ifNotEmpty: [ 
+			         (self instantiate: MOBlock)
+				         statements: self statements;
+				         yourself ].
+
 	self statements do: [ :s | s parent: block ].
 	^ block
 ]

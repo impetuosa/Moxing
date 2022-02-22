@@ -46,3 +46,17 @@ MOIfElse >> ifTrue [
 MOIfElse >> ifTrue: aMOBlock [ 
 	ifTrue := aMOBlock
 ]
+
+{ #category : #accessing }
+MOIfElse >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'IF ';
+		print: condition;
+		nextPutAll: ': ';
+		print: ifTrue.
+	ifFalse isEmptyOrNil ifFalse: [ 
+		aStream
+			nextPutAll: ' ELSE ';
+			print: ifFalse ]
+]

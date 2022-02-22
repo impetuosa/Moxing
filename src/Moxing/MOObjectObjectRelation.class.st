@@ -67,7 +67,6 @@ MOObjectObjectRelation >> to: anUndefinedObject [
 MOObjectObjectRelation >> write: anObject to: aDestination [
 
 	slot isToMany ifTrue: [ 
-		slot name = #statements ifTrue: [ self halt ].
 		((self read: aDestination) includes: anObject) ifTrue: [ self halt ].
 		slot shouldAccept: anObject into: aDestination .
 		(self read: aDestination) add: anObject.

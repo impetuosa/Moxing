@@ -19,3 +19,11 @@ MOSetToReturn >> invocableSelector [
 		invocable := invocable parent ].
 	^ invocable selector
 ]
+
+{ #category : #visiting }
+MOSetToReturn >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Set-To-Return ';
+		print: expression
+]

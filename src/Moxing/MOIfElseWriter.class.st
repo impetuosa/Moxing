@@ -9,7 +9,7 @@ Class {
 
 { #category : #writing }
 MOIfElseWriter >> condition: aConditionBlock [
-	writeBuilder condition: (self writeExpression: aConditionBlock)
+	writeBuilder condition: aConditionBlock 
 ]
 
 { #category : #writing }
@@ -35,9 +35,14 @@ MOIfElseWriter >> writeBlock: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOIfElseWriter >> writeCondition: aConditionBlock [
+	writeBuilder condition: (self writeExpression: aConditionBlock)
+]
+
+{ #category : #writing }
 MOIfElseWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
 
-	self condition: [ :expr | 
+	self writeCondition: [ :expr | 
 		aChildDelegateLoadingBlock
 			cull: expr
 			cull: aProvenanceEntity condition ].

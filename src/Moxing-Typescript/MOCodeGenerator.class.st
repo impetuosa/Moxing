@@ -77,13 +77,19 @@ MOCodeGenerator >> sourceCode [
 ]
 
 { #category : #'as yet unclassified' }
-MOCodeGenerator >> streamArguments: aCollection [
+MOCodeGenerator >> stream: aCollection splitingWith: aBlock [
 
 	aCollection isEmptyOrNil ifTrue: [ ^ self ].
 	aCollection allButLast do: [ :e | 
 		e acceptVisitor: self.
-		stream nextPutAll: ', ' ].
+		aBlock value ].
 	aCollection last acceptVisitor: self
+]
+
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> streamArguments: aCollection [
+
+	self stream: aCollection splitingWith: [ stream nextPutAll: ', ' ]
 ]
 
 { #category : #visiting }
@@ -168,7 +174,6 @@ MOCodeGenerator >> visitMissingVariable: aFylgjaMissingVariable [
 
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> visitNewExpression: aMOTypescriptNewExpression [
-
 	stream
 		nextPutAll: 'new ';
 		nextPutAll: aMOTypescriptNewExpression typeReference name;

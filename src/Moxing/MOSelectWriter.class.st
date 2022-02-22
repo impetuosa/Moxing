@@ -11,8 +11,9 @@ MOSelectWriter >> addCase: aMOCase [
 ]
 
 { #category : #generated }
-MOSelectWriter >> expression: aConditionBlock [
-	writeBuilder expression: (self writeExpression: aConditionBlock)
+MOSelectWriter >> expression: anExpression [
+
+	writeBuilder expression: anExpression
 ]
 
 { #category : #writing }
@@ -25,4 +26,9 @@ MOSelectWriter >> initializeWriteBuilder [
 MOSelectWriter >> writeCase: aBlock [
 
 	^ self write: aBlock inSubWriter: MOCaseWriter
+]
+
+{ #category : #generated }
+MOSelectWriter >> writeCondition: aConditionBlock [
+	writeBuilder expression: (self writeExpression: aConditionBlock)
 ]

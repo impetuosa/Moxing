@@ -33,7 +33,7 @@ MOModelCaseBuilder >> expression [
 { #category : #accessing }
 MOModelCaseBuilder >> expressions [
 
-	^ expressions
+	^ expressions ifNil: [ expressions := OrderedCollection new ]
 ]
 
 { #category : #generated }

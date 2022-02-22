@@ -25,29 +25,6 @@ MOModelFactoryTestCase >> testAssignmentBuilderGetsYouAnAssignment [
 ]
 
 { #category : #running }
-MOModelFactoryTestCase >> testAttributeAccess [
-
-	| access name1 name2 name3 |
-	name1 := builder variableBuilder
-		         name: #var;
-		         build.
-	name2 := builder variableReferenceBuilder
-		         name: #field;
-		         build.
-	name3 := 'field2'.
-
-	access := builder attributeAccessBuilder
-		          addVariable: name1;
-		          addVariableReference: name2;
-		          addAttributeName: name3;
-		          build.
-	self assert: access isKindOf: MOAttributeAccess.
-	self assert: access name equals: name3.
-	self assert: access segments second name equals: name2 name.
-	self assert: access segments first name equals: name1 name
-]
-
-{ #category : #running }
 MOModelFactoryTestCase >> testAttributeBuilderGetsYouAnAttribute [
 
 	| param |

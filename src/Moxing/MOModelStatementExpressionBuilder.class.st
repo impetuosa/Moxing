@@ -15,7 +15,7 @@ MOModelStatementExpressionBuilder >> buildsType [
 
 { #category : #accessing }
 MOModelStatementExpressionBuilder >> expression [
-	^ expression
+	^ expression ifNil: [  self error: 'Expression cannot be nil' ]
 ]
 
 { #category : #accessing }

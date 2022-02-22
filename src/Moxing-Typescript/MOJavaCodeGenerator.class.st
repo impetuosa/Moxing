@@ -147,6 +147,13 @@ MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitConstant: aMOConstant [
+
+	stream nextPutAll: 'const '.
+	self visitVariable: aMOConstant
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitConstantReference: aMOConstantReference [
 
 	^ self visitVariableReference: aMOConstantReference
@@ -161,6 +168,7 @@ MOJavaCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [
 MOJavaCodeGenerator >> visitEnum: aMOEnum [
 
 	stream
+		newLine;
 		nextPutAll: aMOEnum visibility;
 		nextPutAll: ' enum ';
 		nextPutAll: aMOEnum name.
@@ -174,6 +182,8 @@ MOJavaCodeGenerator >> visitEnum: aMOEnum [
 			stream
 				nextPutAll: ',';
 				newLine ].
+		stream newLine.
+		self printIndentation.
 		stream nextPutAll: '}' ]
 ]
 
@@ -205,6 +215,11 @@ MOJavaCodeGenerator >> visitImport: aMOTypescriptImport [
 		nextPutAll: aMOTypescriptImport from;
 		nextPutAll: '";';
 		newLine
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [ 
+	stream print: aMOIntegerLiteral literal 
 ]
 
 { #category : #visiting }
@@ -247,7 +262,9 @@ MOJavaCodeGenerator >> visitMethod: aJinTypescriptMethod [
 			nextPutAll: ' ' ].
 	aJinTypescriptMethod isStaticBinding ifTrue: [ 
 		stream nextPutAll: ' static ' ].
-	aJinTypescriptMethod returnTypeReference acceptVisitor: self.
+	aJinTypescriptMethod returnTypeReference
+		ifNil: [ stream nextPutAll: 'UNKNOWN' ]
+		ifNotNil: [ :rt | rt acceptVisitor: self ].
 	stream
 		nextPutAll: ' ';
 		nextPutAll: aJinTypescriptMethod selector;
@@ -408,6 +425,29 @@ MOJavaCodeGenerator >> visitStatementExpression: aMOStatementExpression [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitStructure: aMOStructure [
+
+	self comment: [ 
+		stream nextPutAll: 'TODO '.
+
+		stream
+			nextPutAll: 'struct ';
+			nextPutAll: aMOStructure name;
+			nextPutAll: '{';
+			newLine.
+		self increaseDeepDuring: [ 
+			self printIndentation.
+			self stream: aMOStructure attributes splitingWith: [ 
+				stream
+					nextPutAll: self lineDelimiter;
+					newLine.
+				self printIndentation ] ] ].
+	stream newLine.
+	self printIndentation.
+	stream nextPutAll: '}'
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitTemplatedMethod: aMOTypescriptTemplatedMethod [
 
 	stream
@@ -497,4 +537,22 @@ MOJavaCodeGenerator >> visitVariable: aMOTypescriptVariable [
 	aMOTypescriptVariable initializer ifNotNil: [ 
 		stream nextPutAll: '='.
 		aMOTypescriptVariable initializer acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitWhile: aMOWhile [ 
+	stream nextPutAll: 'while ('.
+	aMOWhile condition acceptVisitor: self. 
+	stream nextPutAll: ')'.
+	aMOWhile loopingBlock  acceptVisitor: self 
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitWith: aMOAlceWith [
+
+	self comment: [ 
+		stream nextPutAll: ' TODO: With ('.
+		aMOAlceWith expression acceptVisitor: self.
+		stream nextPutAll: ')'.
+		aMOAlceWith block acceptVisitor: self ]
 ]

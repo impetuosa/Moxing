@@ -65,7 +65,6 @@ MOBlockWriter >> setAddingStatemntsAtFirst [
 
 { #category : #generated }
 MOBlockWriter >> statements [
-self halt. 
 	^ writeBuilder statements
 ]
 
@@ -102,6 +101,14 @@ MOBlockWriter >> writeDoUntil: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeExit: aFullBlockClosure [ 
+
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOExitWriter .
 	^ stmnt
 ]
 
@@ -172,7 +179,15 @@ MOBlockWriter >> writeLastStatement: aBlock [
 { #category : #writing }
 MOBlockWriter >> writeOnErrorGoTo: aFullBlockClosure [ 
 	| stmnt |
-	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorWriter.
+	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorGoToWriter.
+	^ stmnt
+
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeOnErrorResumeNext: aFullBlockClosure [ 
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorResumeNextWriter.
 	^ stmnt
 
 ]
@@ -229,5 +244,13 @@ MOBlockWriter >> writeWhile: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOWhileWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeWith: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOWithWriter.
 	^ stmnt
 ]

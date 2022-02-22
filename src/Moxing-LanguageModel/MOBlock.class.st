@@ -1,6 +1,6 @@
 Class {
 	#name : #MOBlock,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOEmptyBlock,
 	#instVars : [
 		'#statements => MOContainmentSlot many'
 	],
@@ -18,6 +18,21 @@ MOBlock >> initialize [
 
 	super initialize.
 	statements := OrderedCollection new
+]
+
+{ #category : #testing }
+MOBlock >> isEmptyOrNil [
+
+	^ statements isEmptyOrNil
+]
+
+{ #category : #accessing }
+MOBlock >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Block(';
+		print: statements size;
+		nextPutAll: ')'
 ]
 
 { #category : #accessing }

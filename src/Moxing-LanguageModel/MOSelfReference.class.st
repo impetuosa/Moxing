@@ -26,6 +26,11 @@ MOSelfReference >> name [
 ]
 
 { #category : #accessing }
+MOSelfReference >> printOn: aStream [ 
+	aStream nextPutAll: 'REF SELF'
+]
+
+{ #category : #accessing }
 MOSelfReference >> type [
  	self error: 'should implement '
 ]

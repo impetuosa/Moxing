@@ -22,6 +22,15 @@ MOModelExpressionCopy >> copy: anEntity [
 ]
 
 { #category : #visiting }
+MOModelExpressionCopy >> visitArrayAccess: aMOArrayAccess [
+
+	^ writer
+		  arrayAccess: [ :exp | self copy: aMOArrayAccess receiverReference ]
+		  arguments: [ :expr | 
+		  aMOArrayAccess arguments collect: [ :a | self copy: a ] ]
+]
+
+{ #category : #visiting }
 MOModelExpressionCopy >> visitAssignment: aMOAssignment [
 
 	^ writer
@@ -57,6 +66,12 @@ MOModelExpressionCopy >> visitConstantReference: aMOConstantReference [
 ]
 
 { #category : #visiting }
+MOModelExpressionCopy >> visitIntegerLiteral: aMOIntegerLiteral [
+
+	^ writer numericLiteral: aMOIntegerLiteral literal
+]
+
+{ #category : #visiting }
 MOModelExpressionCopy >> visitInvocation: aMOInvocation [
 
 	^ writer
@@ -79,6 +94,14 @@ MOModelExpressionCopy >> visitMethodInvocation: aMOMethodInvocation [
 		  self copy: aMOMethodInvocation receiverReference ]
 		  arguments: [ :expr | 
 			  aMOMethodInvocation arguments collect: [ :a | self copy: a ] ]
+]
+
+{ #category : #visiting }
+MOModelExpressionCopy >> visitNewExpression: aMONewInvocation [
+
+	self assert: aMONewInvocation arguments isEmptyOrNil.
+
+	^ writer new: (self copy: aMONewInvocation typeReference)
 ]
 
 { #category : #visiting }

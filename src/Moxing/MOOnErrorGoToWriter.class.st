@@ -1,18 +1,15 @@
 Class {
-	#name : #MOOnErrorWriter,
+	#name : #MOOnErrorGoToWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#instVars : [
-		'caseExpression'
-	],
 	#category : #'Moxing-MicroWriters'
 }
 
 { #category : #accessing }
-MOOnErrorWriter >> destination: aMOAlceLabelReference [ 
+MOOnErrorGoToWriter >> destination: aMOAlceLabelReference [ 
 	writeBuilder destination: aMOAlceLabelReference 
 ]
 
 { #category : #writing }
-MOOnErrorWriter >> initializeWriteBuilder [
+MOOnErrorGoToWriter >> initializeWriteBuilder [
 	writeBuilder := builder onErrorBuilder
 ]

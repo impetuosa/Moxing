@@ -5,13 +5,19 @@ Class {
 }
 
 { #category : #writing }
+MOLoopWriter >> loopingBlock: aBlock [
+
+	writeBuilder loopingBlock: aBlock
+]
+
+{ #category : #writing }
 MOLoopWriter >> setLoopingBlock: aBlock [
 
 	writeBuilder loopingBlock: aBlock
 ]
 
 { #category : #writing }
-MOLoopWriter >> writeLoopingBlock: aBlock [
+MOLoopWriter >> writeBlock: aBlock [
 
 	^ self
 		  write: aBlock

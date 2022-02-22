@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 MOLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
 
-	^ aJinTypescriptCodeGenerator visitNullLiteral: self
+	^ aJinTypescriptCodeGenerator visitLiteral: self
 ]
 
 { #category : #accessing }
@@ -22,4 +22,12 @@ MOLiteral >> literal [
 MOLiteral >> literal: aLiteral [
 	literal := aLiteral.
 	name := #literal, literal asString.
+]
+
+{ #category : #printing }
+MOLiteral >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'LIT ';
+		print: literal
 ]

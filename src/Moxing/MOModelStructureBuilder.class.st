@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'name',
 		'attributes',
-		'visibility'
+		'visibility',
+		'modifiers'
 	],
 	#category : #'Moxing-MicroBuilders'
 }
@@ -36,7 +37,20 @@ MOModelStructureBuilder >> buildsType [
 MOModelStructureBuilder >> loadBuilderWithEntity: anEntity [
 
 	self name: anEntity name.
-	self attributes: anEntity attributes
+	self attributes: anEntity attributes.
+	self visibility: anEntity visibility.
+	self modifiers: anEntity modifiers
+]
+
+{ #category : #accessing }
+MOModelStructureBuilder >> modifiers [
+	^ modifiers
+]
+
+{ #category : #generated }
+MOModelStructureBuilder >> modifiers: aCollection [
+
+	modifiers := aCollection
 ]
 
 { #category : #accessing }
@@ -54,6 +68,8 @@ MOModelStructureBuilder >> privateBuild [
 
 	^ (self instantiate: MOStructure)
 		  name: self name;
+		  visibility: self visibility;
+		  modifiers: self modifiers;
 		  attributes: self attributes;
 		  yourself
 ]

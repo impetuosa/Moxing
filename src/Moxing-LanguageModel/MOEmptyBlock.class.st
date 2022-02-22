@@ -11,14 +11,9 @@ MOEmptyBlock >> acceptVisitor: aMOCatalogTypeInstaller [
 ]
 
 { #category : #adding }
-MOEmptyBlock >> addStatement: aMOAssignment [
+MOEmptyBlock >> isEmptyOrNil [
 
-	self error: 'EmptyBlock cannot add statements'
-]
-
-{ #category : #adding }
-MOEmptyBlock >> addVariable: aVariable [
-	self error: 'EmptyBlock cannot add variables '
+	^ true
 ]
 
 { #category : #adding }

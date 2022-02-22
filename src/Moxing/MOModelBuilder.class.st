@@ -131,11 +131,6 @@ MOModelBuilder >> buildExit [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> buildLabel: aString [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> caseBuilder [
 	^ MOModelCaseBuilder new
 		  parentBuilder: self;
@@ -250,6 +245,13 @@ MOModelBuilder >> ensurePackagePath: aCollection [
 MOModelBuilder >> enumEntryBuilder [
 	
 	^ MOModelEnumEntryBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> exitBuilder [ 
+	^ MOModelExitBuilder  new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -680,6 +682,14 @@ MOModelBuilder >> variableBuilder [
 MOModelBuilder >> variableReferenceBuilder [
 
 	^ MOModelVariableReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> withBuilder [
+	
+	^ MOModelWithBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

@@ -23,7 +23,7 @@ MOModelSelectBuilder >> buildsType [
 
 { #category : #accessing }
 MOModelSelectBuilder >> cases [
-	^ cases
+	^ cases ifNil: [ cases := OrderedCollection new ]
 ]
 
 { #category : #accessing }

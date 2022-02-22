@@ -1,11 +1,13 @@
 Class {
 	#name : #MOResumeWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#instVars : [
-		'caseExpression'
-	],
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #accessing }
+MOResumeWriter >> destinations [
+	^ writeBuilder destinations 
+]
 
 { #category : #writing }
 MOResumeWriter >> initializeWriteBuilder [

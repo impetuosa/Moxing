@@ -19,6 +19,12 @@ MOCaseWriter >> caseExpression: aConditionBlock [
 	writeBuilder caseExpression: (self writeExpression: aConditionBlock)
 ]
 
+{ #category : #generated }
+MOCaseWriter >> expressions [
+
+	^ writeBuilder expressions
+]
+
 { #category : #writing }
 MOCaseWriter >> initializeWriteBuilder [
 	writeBuilder := builder caseBuilder 

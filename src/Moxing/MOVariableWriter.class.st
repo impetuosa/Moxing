@@ -26,8 +26,8 @@ MOVariableWriter >> initializeWriteBuilder [
 ]
 
 { #category : #generated }
-MOVariableWriter >> initializer: aBlock [ 
-	writeBuilder initializer: (self writeExpression: aBlock) 
+MOVariableWriter >> initializer: anInit [  
+	writeBuilder initializer: anInit 
 ]
 
 { #category : #generated }
@@ -62,10 +62,20 @@ MOVariableWriter >> typeReference: aTypeReference [
 	writeBuilder typeReference: aTypeReference.
 ]
 
+{ #category : #accessing }
+MOVariableWriter >> visibility: anUndefinedObject [ 
+	writeBuilder visibility: anUndefinedObject 
+]
+
 { #category : #writing }
 MOVariableWriter >> writeExpression: aBlock [
 
 	| stmnt |
 	stmnt := self immediatelyWrite: aBlock withWriter: MOExpressionWriter.
 	^ stmnt
+]
+
+{ #category : #generated }
+MOVariableWriter >> writeInitializer: aBlock [ 
+	writeBuilder initializer: (self writeExpression: aBlock) 
 ]

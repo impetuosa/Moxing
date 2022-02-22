@@ -17,6 +17,12 @@ MOStructureWriter >> initializeWriteBuilder [
 	writeBuilder := builder structureBuilder  
 ]
 
+{ #category : #generated }
+MOStructureWriter >> modifiers: aCollection [
+
+	writeBuilder modifiers: aCollection
+]
+
 { #category : #adding }
 MOStructureWriter >> privateWriteToSurface: anEntity [
 	surface addStructureType: anEntity

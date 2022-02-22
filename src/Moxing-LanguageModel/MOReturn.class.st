@@ -22,3 +22,11 @@ MOReturn >> expression [
 MOReturn >> expression: aMOVariableRererence [ 
 	expression := aMOVariableRererence
 ]
+
+{ #category : #accessing }
+MOReturn >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Return ';
+		print: expression
+]

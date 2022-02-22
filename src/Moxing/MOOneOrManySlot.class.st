@@ -186,8 +186,8 @@ MOOneOrManySlot >> wantsInitialization [
 { #category : #printing }
 MOOneOrManySlot >> write: aValue to: anObject [
 
-	(self shouldAcceptSingleOrMany: aValue into: anObject)
-		ifTrue: [ super write: aValue to: anObject ]
-		ifFalse: [ 
-		self error: 'The slot does not accept this kind of values ' ]
+	^ (self shouldAcceptSingleOrMany: aValue into: anObject)
+		  ifTrue: [ super write: aValue to: anObject ]
+		  ifFalse: [ 
+		  self error: 'The slot does not accept this kind of values ' ]
 ]

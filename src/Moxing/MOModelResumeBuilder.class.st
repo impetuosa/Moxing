@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+MOModelResumeBuilder >> destinations [ 
+	 ^ destinations ifNil: [  destinations := OrderedCollection new  ]
+]
+
+{ #category : #accessing }
 MOModelResumeBuilder >> destinations: aCollection [ 
 	destinations := aCollection
 ]

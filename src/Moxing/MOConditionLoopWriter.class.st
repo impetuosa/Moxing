@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #writing }
-MOConditionLoopWriter >> condition: aConditionBlock [
+MOConditionLoopWriter >> condition: aCondition [
+
+	writeBuilder condition: aCondition
+]
+
+{ #category : #writing }
+MOConditionLoopWriter >> writeCondition: aConditionBlock [
 	writeBuilder condition: (self writeExpression: aConditionBlock)
 ]

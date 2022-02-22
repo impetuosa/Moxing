@@ -19,6 +19,11 @@ MOEnumWriter >> initializeWriteBuilder [
 	writeBuilder := builder primitiveEnumBuilder 
 ]
 
+{ #category : #generated }
+MOEnumWriter >> modifiers: aCollection [ 
+	writeBuilder modifiers: aCollection 
+]
+
 { #category : #writing }
 MOEnumWriter >> privateWriteToSurface: anEntity [
 	surface addEnum: anEntity

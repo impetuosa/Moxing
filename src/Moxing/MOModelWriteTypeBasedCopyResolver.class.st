@@ -27,6 +27,7 @@ MOModelWriteTypeBasedCopyResolver >> copyExpressionStatement [
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> copyStatement [
+self error: ' Cannot '.
 	^ writer writeExpressionStatement: [ :stmt | 
 		  writingBlock value: stmt ]
 ]
@@ -137,8 +138,9 @@ MOModelWriteTypeBasedCopyResolver >> visitEnumEntry: aMOEnumEntry [
 ]
 
 { #category : #visiting }
-MOModelWriteTypeBasedCopyResolver >> visitExit: aMOAlceExit [ 
-	^ self copyStatement 
+MOModelWriteTypeBasedCopyResolver >> visitExit: aMOAlceExit [
+
+	^ writer writeExit: [ :exit | writingBlock cull: exit ] 
 ]
 
 { #category : #visiting }
@@ -157,6 +159,11 @@ MOModelWriteTypeBasedCopyResolver >> visitIfElse: aMOIfElse [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitIntegerLiteral: aMOIntegerLiteral [ 
+	^ self visitLiteral: aMOIntegerLiteral 
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitInvocation: aMOInvocation [
 
 	^ self copyExpression 
@@ -170,7 +177,10 @@ MOModelWriteTypeBasedCopyResolver >> visitLabelReference: aMOAlceLabelReference 
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitLiteral: aMONullLiteral [ 
-	^ self copyExpression  
+	| lit | 
+	lit := self copyExpression .
+	self assert: lit literal isNotNil. 
+	^ lit.
 ]
 
 { #category : #visiting }
@@ -212,7 +222,8 @@ MOModelWriteTypeBasedCopyResolver >> visitOnErrorGoToLabel: aMOAlceOnErrorGoToLa
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitOnErrorResumeNext: aMOAlceOnErrorResumeNext [
 
-	^ self copyStatement
+
+	^ writer writeOnErrorResumeNext:  [ :goto | writingBlock cull: goto ]
 ]
 
 { #category : #visiting }
@@ -238,13 +249,13 @@ MOModelWriteTypeBasedCopyResolver >> visitProcedure: aMOProcedure [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitResume: aMOAlceResume [
 
-	^ self copyStatement 
+	 ^ writer writeResume: [ : resume | writingBlock cull: resume ]
 ]
 
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitResumeLabel: aMOAlceResumeLabel [
 
-	^ self copyStatement
+	^ writer writeResume:  [ : resume | writingBlock value: resume  ]
 ]
 
 { #category : #enumerating }
@@ -266,8 +277,9 @@ MOModelWriteTypeBasedCopyResolver >> visitStatementExpression: aMOStatementExpre
 ]
 
 { #category : #visiting }
-MOModelWriteTypeBasedCopyResolver >> visitStringLiteral: aMOStringLiteral [ 
-	^ self copyExpression  
+MOModelWriteTypeBasedCopyResolver >> visitStringLiteral: aMOStringLiteral [
+
+	^ self visitLiteral: aMOStringLiteral
 ]
 
 { #category : #visiting }
@@ -316,4 +328,10 @@ MOModelWriteTypeBasedCopyResolver >> visitVariableReference: aMOVariableReferenc
 MOModelWriteTypeBasedCopyResolver >> visitWhile: aMOWhile [
 
 	^ writer writeWhile: [ :while | writingBlock value: while ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitWith: aMOAlceWith [
+
+	^ writer writeWith: [ :with | writingBlock value: with ]
 ]
