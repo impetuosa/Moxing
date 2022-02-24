@@ -1,6 +1,9 @@
 Class {
 	#name : #MOExpressionWriter,
 	#superclass : #MOModelProceduralWriter,
+	#instVars : [
+		'shouldRegisterResult'
+	],
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -42,6 +45,19 @@ MOExpressionWriter >> compare: aLeft is: anOperatorString than: aRight [
 		  left: aLeft;
 		  right: aRight;
 		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> doNotRegister [
+
+	shouldRegisterResult := false
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> initialize [
+
+	super initialize.
+	shouldRegisterResult := true 
 ]
 
 { #category : #writing }
@@ -126,6 +142,11 @@ MOExpressionWriter >> let: aVariableReferenceOrBlock beAssignedWith: aValueExpre
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> messageToRegister: aVal [
+	 ^ shouldRegisterResult := aVal
+]
+
 { #category : #'instance creation' }
 MOExpressionWriter >> new: aMOTypeReference [
 
@@ -170,6 +191,12 @@ MOExpressionWriter >> operateBoolean: anExpressionBuildingBlock operator: anOper
 		  build
 ]
 
+{ #category : #writing }
+MOExpressionWriter >> privateWriteToSurface: anEntity [
+
+	shouldRegisterResult ifTrue: [ surface expression: anEntity ]
+]
+
 { #category : #'as yet unclassified' }
 MOExpressionWriter >> referenceToSelf [
 
@@ -190,7 +217,7 @@ MOExpressionWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelega
 
 { #category : #writing }
 MOExpressionWriter >> writeExpression: aFullBlockClosure [ 
-	^ aFullBlockClosure cull: self 
+	^ self writeUnregisteredExpression: aFullBlockClosure
 ]
 
 { #category : #'as yet unclassified' }

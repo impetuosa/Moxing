@@ -9,6 +9,15 @@ Class {
 }
 
 { #category : #asserting }
+MOParentSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+
+	^ aRule
+		  applyOnParent: aRelationObject
+		  readingValues: aFullBlockClosure
+		  into: aWriter
+]
+
+{ #category : #asserting }
 MOParentSlot >> emitStore: aMethodBuilder [
 	"generate bytecode to call the reflective write method of the Slot"
 	| tempName |

@@ -2,12 +2,29 @@ Class {
 	#name : #MOObjectObjectRelation,
 	#superclass : #Object,
 	#instVars : [
+		'from',
 		'to',
 		'name',
 		'slot'
 	],
 	#category : #'Moxing-Core'
 }
+
+{ #category : #visiting }
+MOObjectObjectRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClosure into: aMOMethodWriter [
+
+	^ slot
+		  acceptRule: aMOModelCopy
+		  forRelation: self
+		  readingValues: aFullBlockClosure
+		  into: aMOMethodWriter
+]
+
+{ #category : #accessing }
+MOObjectObjectRelation >> from: aFrom to: aTo [ 
+	from := aFrom. 
+	to := aTo
+]
 
 { #category : #testing }
 MOObjectObjectRelation >> hasValue [
@@ -31,10 +48,14 @@ MOObjectObjectRelation >> name: aString [
 MOObjectObjectRelation >> printOn: aStream [
 
 	aStream
-		nextPutAll: '=[';
+		nextPutAll: '(';
+		print: from;
+		nextPutAll: ')=[';
 		nextPutAll: name capitalized;
-		nextPutAll: ']=>'.
-	to printOn: aStream
+		nextPutAll: ']=>';
+		nextPutAll: '(';
+		print: to;
+		nextPutAll: ')'
 ]
 
 { #category : #'meta-object-protocol' }
@@ -56,11 +77,6 @@ MOObjectObjectRelation >> slot: aMOContainmentSlot [
 { #category : #accessing }
 MOObjectObjectRelation >> to [
 	^ to
-]
-
-{ #category : #accessing }
-MOObjectObjectRelation >> to: anUndefinedObject [ 
-	to := anUndefinedObject
 ]
 
 { #category : #writing }

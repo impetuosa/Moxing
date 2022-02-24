@@ -48,7 +48,7 @@ MOModelTryCatchBuilder >> tryBlock [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelTryCatchBuilder >> tryCatch: aMOBlock [
+MOModelTryCatchBuilder >> tryBlock: aMOBlock [
 
 	tryBlock := aMOBlock
 ]

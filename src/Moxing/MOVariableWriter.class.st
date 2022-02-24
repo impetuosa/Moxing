@@ -70,9 +70,7 @@ MOVariableWriter >> visibility: anUndefinedObject [
 { #category : #writing }
 MOVariableWriter >> writeExpression: aBlock [
 
-	| stmnt |
-	stmnt := self immediatelyWrite: aBlock withWriter: MOExpressionWriter.
-	^ stmnt
+	^ self writeUnregisteredExpression: aBlock
 ]
 
 { #category : #generated }

@@ -16,7 +16,7 @@ Class {
 { #category : #copying }
 MOModelWriteTypeBasedCopyResolver >> copyExpression [
 
-	^ writer writeExpression: [ :exp | writingBlock value: exp ]
+	^ writer writeUnregisteredExpression:  [ :exp | writingBlock value: exp ]
 ]
 
 { #category : #copying }

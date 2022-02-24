@@ -12,5 +12,5 @@ MOConditionLoopWriter >> condition: aCondition [
 
 { #category : #writing }
 MOConditionLoopWriter >> writeCondition: aConditionBlock [
-	writeBuilder condition: (self writeExpression: aConditionBlock)
+	writeBuilder condition: (self writeUnregisteredExpression: aConditionBlock)
 ]

@@ -8,6 +8,15 @@ Class {
 	#category : #'Moxing-Core-Slots'
 }
 
+{ #category : #visiting }
+MOPropertySlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+
+	^ aRule
+		  applyOnProperty: aRelationObject
+		  readingValues: aFullBlockClosure
+		  into: aWriter
+]
+
 { #category : #testing }
 MOPropertySlot >> isToMany [
 	^ false 

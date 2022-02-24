@@ -220,7 +220,8 @@ MOModelProceduralWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOModelProceduralWriter >> privateWriteToSurface: anEntity [
 
-	surface setCopyEntity: anEntity
+	self subclassResponsibility
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -294,7 +295,7 @@ MOModelProceduralWriter >> variableReferenceNamed: aString [
 { #category : #writing }
 MOModelProceduralWriter >> write: aBlock [
 
-	writeResult := aBlock value: self.
+	writeResult := aBlock cull: self.
 	^ self writeToSurface: self build
 ]
 
@@ -325,7 +326,7 @@ MOModelProceduralWriter >> write: aBlock inSubWriter: aSubWriterClass initialize
 { #category : #writing }
 MOModelProceduralWriter >> writeCopy: aFullBlockClosure [
 
-	^ self immediatelyWrite: aFullBlockClosure withWriter: MOCopyWriter
+	^ self write: aFullBlockClosure inSubWriter: MOCopyWriter
 ]
 
 { #category : #writing }
@@ -344,7 +345,7 @@ MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildD
 MOModelProceduralWriter >> writeExpression: aBlock [
 
 	| stmnt |
-	stmnt := self immediatelyWrite: aBlock withWriter: MOExpressionWriter.
+	stmnt := self write: aBlock inSubWriter: MOExpressionWriter.
 	^ stmnt
 ]
 
@@ -358,6 +359,16 @@ MOModelProceduralWriter >> writeToSurface: anEntity [
 
 	self privateWriteToSurface: anEntity.
 	^ anEntity 
+]
+
+{ #category : #writing }
+MOModelProceduralWriter >> writeUnregisteredExpression: aBlock [ 
+	| stmnt |
+	stmnt := self
+		         write: aBlock
+		         inSubWriter: MOExpressionWriter
+		         initializeWith: [ :exp | exp doNotRegister ].
+	^ stmnt
 ]
 
 { #category : #writing }

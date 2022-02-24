@@ -5,20 +5,21 @@ Class {
 }
 
 { #category : #initialization }
-MOForEachWriter >> collection: anCollectionBlock [
-
-	writeBuilder collection: (self writeExpression: anCollectionBlock)
-]
-
-{ #category : #initialization }
-MOForEachWriter >> each: anEachBlock [
-
-	writeBuilder each: (self writeExpression: anEachBlock)
-]
-
-{ #category : #initialization }
 MOForEachWriter >> initializeWriteBuilder [
 
 	writeBuilder := builder forEachStatementBuilder.
 
+]
+
+{ #category : #initialization }
+MOForEachWriter >> writeCollection: anCollectionBlock [
+
+	writeBuilder collection:
+		(self writeUnregisteredExpression: anCollectionBlock)
+]
+
+{ #category : #initialization }
+MOForEachWriter >> writeEach: anEachBlock [
+
+	writeBuilder each: (self writeUnregisteredExpression:  anEachBlock)
 ]

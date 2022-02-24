@@ -16,6 +16,12 @@ MOTryCatchWriter >> initializeWriteBuilder [
 	writeBuilder := builder tryCatchBuilder
 ]
 
+{ #category : #generated }
+MOTryCatchWriter >> tryBlock: aMOBlock [
+
+	writeBuilder tryBlock: aMOBlock
+]
+
 { #category : #writing }
 MOTryCatchWriter >> winitializeWriteBuilder [
 
@@ -31,5 +37,8 @@ MOTryCatchWriter >> writeCatch: aFullBlockClosure [
 { #category : #writing }
 MOTryCatchWriter >> writeTry: aFullBlockClosure [
 
-	writeBuilder tryCatch: (self writeBlock: aFullBlockClosure)
+	^ self
+		  write: aFullBlockClosure
+		  inSubWriter: MOBlockWriter
+		  initializeWith: [ :b | b messageToRegisterBlock: #tryBlock: ]
 ]

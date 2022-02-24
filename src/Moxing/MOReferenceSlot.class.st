@@ -11,6 +11,15 @@ Class {
 }
 
 { #category : #asserting }
+MOReferenceSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+
+	^ aRule
+		  applyOnReference: aRelationObject
+		  readingValues: aFullBlockClosure
+		  into: aWriter
+]
+
+{ #category : #asserting }
 MOReferenceSlot >> shouldAccept: aValue into: anObject [ 
 
 	^ aValue isNil or: [ aValue isReference ]

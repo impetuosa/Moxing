@@ -8,26 +8,47 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MOModelCopy >> applyOnContainment: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+
+	^ self
+		  setContainment: aMOObjectObjectRelation
+		  using: aChildDelegateLoadingBlock
+		  into: aDestinationWriter
+]
+
+{ #category : #'as yet unclassified' }
+MOModelCopy >> applyOnExpression: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+
+	^ self
+		  setExpression: aMOObjectObjectRelation
+		  using: aChildDelegateLoadingBlock
+		  into: aDestinationWriter
+]
+
+{ #category : #'as yet unclassified' }
+MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBlockClosure into: aDestinationWriter [
+
+	^ self
+		  setPropertyCopy: aMOObjectObjectRelation
+		  into: aDestinationWriter
+]
+
+{ #category : #'as yet unclassified' }
+MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+
+	^ self
+		  setReference: aMOObjectObjectRelation
+		  using: aChildDelegateLoadingBlock
+		  into: aDestinationWriter
+]
+
+{ #category : #'as yet unclassified' }
 MOModelCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
-	aProvenanceEntity allPropertyRelations do: [ :r | 
-		self setPropertyCopy: r into: aDestinationWriter ].
 
-	aProvenanceEntity allReferenceRelations do: [ :r | 
-		self
-			setReference: r
-			using: aChildDelegateLoadingBlock
-			into: aDestinationWriter ].
-
-	aProvenanceEntity allExpressionRelations do: [ :r | 
-		self
-			setExpression: r
-			using: aChildDelegateLoadingBlock
-			into: aDestinationWriter ].
-
-	aProvenanceEntity allContainmentRelations do: [ :r | 
-		self
-			setContainment: r
-			using: aChildDelegateLoadingBlock
+	aProvenanceEntity allRelations do: [ :relation | 
+		relation
+			acceptRule: self
+			readingValues: aChildDelegateLoadingBlock
 			into: aDestinationWriter ]
 ]
 
@@ -38,6 +59,7 @@ MOModelCopy >> setContainment: aMOObjectObjectRelation using: aFullBlockClosure 
 	destination := aFullBlockClosure
 		               cull: aDestinationWriter
 		               cull: aMOObjectObjectRelation to.
+
 "	aMOObjectObjectRelation write: destination to: aDestinationWriter"
 ]
 
@@ -45,9 +67,11 @@ MOModelCopy >> setContainment: aMOObjectObjectRelation using: aFullBlockClosure 
 MOModelCopy >> setExpression: aMOObjectObjectRelation using: aFullBlockClosure into: aDestinationWriter [
 
 	| destination |
+	
 	destination := aFullBlockClosure
 		               cull: aDestinationWriter
 		               cull: aMOObjectObjectRelation to.
+	
 	aMOObjectObjectRelation write: destination to: aDestinationWriter
 ]
 
@@ -62,7 +86,7 @@ MOModelCopy >> setPropertyCopy: aMOObjectObjectRelation into: aDestinationWriter
 	"
 	aMOObjectObjectRelation to isMOObject ifTrue: [ ^ self ].
 
-	copy := aMOObjectObjectRelation to shallowCopy.
+	copy := aMOObjectObjectRelation to shallowCopy .
 	aMOObjectObjectRelation write: copy to: aDestinationWriter
 ]
 
@@ -70,8 +94,19 @@ MOModelCopy >> setPropertyCopy: aMOObjectObjectRelation into: aDestinationWriter
 MOModelCopy >> setReference: aMOObjectObjectRelation using: aFullBlockClosure into: aBuildingEntity [
 
 	| destination |
+
 	destination := aFullBlockClosure
 		               cull: aBuildingEntity
 		               cull: aMOObjectObjectRelation to.
 	aMOObjectObjectRelation write: destination to: aBuildingEntity
+]
+
+{ #category : #visiting }
+MOModelCopy >> visitMOContainmentSlot: aCollection [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
+MOModelCopy >> visitMOContainmentSlotRelation: aMOObjectObjectRelation [ 
+
 ]

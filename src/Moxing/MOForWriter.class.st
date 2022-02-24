@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-MOForWriter >> initializeOperation: anInitBlock [
-
-	writeBuilder initializeOperation: (self writeExpression: anInitBlock)
-]
-
-{ #category : #initialization }
 MOForWriter >> initializeWriteBuilder [
 
 	writeBuilder := builder forStatementBuilder.
@@ -18,7 +12,13 @@ MOForWriter >> initializeWriteBuilder [
 ]
 
 { #category : #initialization }
-MOForWriter >> updateOperation: anUpdateBlock [
+MOForWriter >> writeInitializeOperation: anInitBlock [
 
-	writeBuilder updateOperation: (self writeExpression: anUpdateBlock)
+	writeBuilder initializeOperation: (self writeUnregisteredExpression:  anInitBlock)
+]
+
+{ #category : #initialization }
+MOForWriter >> writeUpdateOperation: anUpdateBlock [
+
+	writeBuilder updateOperation: (self writeUnregisteredExpression:  anUpdateBlock)
 ]

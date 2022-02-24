@@ -26,8 +26,8 @@ MOModelWriterTestCase >> testWriteAPackageWithClassWithAttribueAndMethod [
 					           returnTypeReference:
 						           (getName typeReferenceNamed: #String);
 					           writeBlock: [ :getNameBody | 
-						           getNameBody writeStatement: [ :st | 
-								           st return: [ :expr | 
+						           getNameBody writeReturn: [ : return | 
+								           return writeExpression: [ :expr | 
 										           expr variableReferenceNamed: #name ] ] ] ].
 			           myClass writeMethod: [ :getAge | 
 				           getAge
@@ -35,17 +35,17 @@ MOModelWriterTestCase >> testWriteAPackageWithClassWithAttribueAndMethod [
 					           returnTypeReference:
 						           (getAge typeReferenceNamed: #Integer);
 					           writeBlock: [ :getNameBody | 
-						           getNameBody writeStatement: [ :st | 
-								           st return: [ :expression | 
+						           getNameBody writeReturn:  [ :return | 
+								           return writeExpression: [ :expression | 
 										           expression
-											           operate: [ 
-												           expression
+											           operate: [ : opEx | 
+												           opEx
 													           invokeMethodNamed: #now
 													           receiver: [ :expr | 
 														           expr typeReferenceNamed: #Date ] ]
 											           operator: #-
-											           with: [ 
-												           expression variableReferenceNamed: #birthDate ] ] ] ] ] ] ].
+											           with: [ : opEx| 
+												           opEx variableReferenceNamed: #birthDate ] ] ] ] ] ] ].
 
 
 	self assert: package name equals: #bl.

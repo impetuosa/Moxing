@@ -44,6 +44,13 @@ MOOneOrManySlot class >> one [
 ]
 
 { #category : #printing }
+MOOneOrManySlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+	self subclassResponsibility 
+
+	
+]
+
+{ #category : #printing }
 MOOneOrManySlot >> cardinality [
 
 	^ cardinality ifNil: [ cardinality := self class constantSymbolOne  ]
@@ -130,7 +137,7 @@ MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 			  (aBlock value: value)
 				  ifTrue: [ 
 					  { (MOObjectObjectRelation new
-						   to: value;
+						   from: anObject to: value;
 						   name: self name;
 						   slot: self;
 						   yourself) } ]
@@ -138,7 +145,7 @@ MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 		  ifFalse: [ 
 			  (value select: aBlock) collectWithIndex: [ :val :idx | 
 				  MOObjectObjectRelation new
-					  to: val;
+					  from: anObject to: val;
 					  slot: self;
 					  name: self name , '%' , idx asString;
 					  yourself ] ]

@@ -10,6 +10,15 @@ Class {
 }
 
 { #category : #asserting }
+MOContainmentSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+
+	^ aRule
+		  applyOnContainment: aRelationObject
+		  readingValues: aFullBlockClosure
+		  into: aWriter
+]
+
+{ #category : #asserting }
 MOContainmentSlot >> shouldAccept: aValue into: anObject [
 
 	aValue == anObject ifTrue: [ ^ false ].

@@ -13,12 +13,6 @@ MOCaseWriter >> block: aMOBlock [
 	writeBuilder block: aMOBlock
 ]
 
-{ #category : #accessing }
-MOCaseWriter >> caseExpression: aConditionBlock [
-
-	writeBuilder caseExpression: (self writeExpression: aConditionBlock)
-]
-
 { #category : #generated }
 MOCaseWriter >> expressions [
 
@@ -43,4 +37,11 @@ MOCaseWriter >> writeBlock: aBlock [
 		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
+]
+
+{ #category : #accessing }
+MOCaseWriter >> writeCaseExpression: aConditionBlock [
+
+	writeBuilder expressions:
+		(self writeUnregisteredExpression: aConditionBlock)
 ]

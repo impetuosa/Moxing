@@ -14,15 +14,19 @@ MOStatementWriterTestCase >> testWriteArithemtic [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements
-					      operate: [ :e | e numericLiteral: 30 ]
-					      operator: #**
-					      with: [ :e | e variableReferenceNamed: #p ] ] ] ].
+			      block writeExpressionStatement: [ :statement | 
+				      statement writeExpression: [ :exp | 
+					      exp
+						      operate: [ :e | e numericLiteral: 30 ]
+						      operator: #**
+						      with: [ :e | e variableReferenceNamed: #p ] ] ] ] ].
 	expression := fn block statements first.
 	self assert: expression parent equals: fn block.
-	self assert: (expression expression isKindOf: MOBinaryArithmeticOperation).
+	self assert:
+		(expression expression isKindOf: MOBinaryArithmeticOperation).
 	self assert: expression expression operator equals: #**.
+	self assert: expression expression left literal equals: 30.
+	self assert: expression expression right name equals: #p.
 	self assertAllAnchorsAreSet.
 	self assertAllParentsAreSet
 ]
@@ -37,10 +41,11 @@ MOStatementWriterTestCase >> testWriteAssignment [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements
-					      let: [ :exp | exp variableReferenceNamed: #p ]
-					      beAssignedWith: [ :exp | exp numericLiteral: 30 ] ] ] ].
+			      block writeExpressionStatement: [ :statement | 
+				      statement writeExpression: [ :expr | 
+					      expr
+						      let: [ :exp | exp variableReferenceNamed: #p ]
+						      beAssignedWith: [ :exp | exp numericLiteral: 30 ] ] ] ] ].
 	assignment := fn block statements first.
 	self assert: assignment parent equals: fn block.
 	self assert: (assignment expression isKindOf: MOAssignment).
@@ -60,11 +65,12 @@ MOStatementWriterTestCase >> testWriteBooleanArithemtic [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements
-					      operateBoolean: [ :exp | exp booleanLiteral: true ]
-					      operator: #&&
-					      with: [ :exp | exp variableReferenceNamed: #p ] ] ] ].
+			      block writeExpressionStatement: [ :statement | 
+				      statement writeExpression: [ :expr | 
+					      expr
+						      operateBoolean: [ :exp | exp booleanLiteral: true ]
+						      operator: #&&
+						      with: [ :exp | exp variableReferenceNamed: #p ] ] ] ] ].
 	expression := fn block statements first.
 	self assert: expression parent equals: fn block.
 	self assert: expression expression parent equals: expression.
@@ -85,14 +91,16 @@ MOStatementWriterTestCase >> testWriteComparison [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements
-					      compare: (statements numericLiteral: 10)
-					      is: #>
-					      than: [ statements variableReferenceNamed: #p ] ] ] ].
+			      block writeExpressionStatement: [ :statements | 
+				      statements writeExpression: [ :expr | 
+					      expr
+						      compare: (statements numericLiteral: 10)
+						      is: #>
+						      than: [ statements variableReferenceNamed: #p ] ] ] ] ].
 	expression := fn block statements first.
 	self assert: expression parent equals: fn block.
-	self assert: (expression expression isKindOf: MOBinaryComparisonOperation).
+	self assert:
+		(expression expression isKindOf: MOBinaryComparisonOperation).
 	self assert: expression expression operator equals: #>.
 	self assertAllAnchorsAreSet.
 	self assertAllParentsAreSet
@@ -108,10 +116,9 @@ MOStatementWriterTestCase >> testWriteInvokeFunction [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements
-					      invokeNamed: #fnExample
-					      arguments: [ :exp | {  } ] ] ] ].
+			      block writeExpressionStatement: [ :statements | 
+				      statements writeExpression: [ :expr | 
+					      expr invokeNamed: #fnExample arguments: [ :exp | {  } ] ] ] ] ].
 
 	return := fn block statements first.
 	self assert: return parent equals: fn block.
@@ -131,11 +138,12 @@ MOStatementWriterTestCase >> testWriteInvokeMethod [
 		      function returnTypeReference:
 			      (function typeReferenceNamed: #int).
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements
-					      invokeMethodNamed: #mthInvocationSelector
-					      receiver: [ :exp | exp referenceToSelf ]
-					      arguments: [ :exp | {  } ] ] ] ].
+			      block writeExpressionStatement: [ :statements | 
+				      statements writeExpression: [ :expr | 
+					      expr
+						      invokeMethodNamed: #mthInvocationSelector
+						      receiver: [ :exp | exp referenceToSelf ]
+						      arguments: [ :exp | {  } ] ] ] ] ].
 	return := fn block statements first.
 	self assert: return parent equals: fn block.
 	self assert: (return isKindOf: MOStatementExpression).
@@ -159,12 +167,12 @@ MOStatementWriterTestCase >> testWriteReturn [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements return: [ :exp | 
+			      block writeReturn: [ :statements | 
+				      statements writeExpression: [ :exp | 
 					      exp
-						      operate: [ exp numericLiteral: 30 ]
+						      operate: [ : opEx | opEx numericLiteral: 30 ]
 						      operator: #+
-						      with: [ exp variableReferenceNamed: #p ] ] ] ] ].
+						      with: [  : opEx | opEx  variableReferenceNamed: #p ] ] ] ] ].
 	return := fn block statements first.
 	self assert: return parent equals: fn block.
 	self assert: (return isKindOf: MOReturn).
@@ -184,12 +192,12 @@ MOStatementWriterTestCase >> testWriteSetToReturn [
 			      (function typeReferenceNamed: #int).
 
 		      function writeBlock: [ :block | 
-			      block writeStatement: [ :statements | 
-				      statements setToReturn: [ :expression | 
+			      block writeSetToReturn: [ :statements | 
+				      statements writeExpression: [ :expression | 
 					      expression
-						      operate: [ expression numericLiteral: 30 ]
+						      operate: [ : opEx |opEx numericLiteral: 30 ]
 						      operator: #+
-						      with: [ expression variableReferenceNamed: #p ] ] ] ] ].
+						      with: [ : opEx|  opEx variableReferenceNamed: #p ] ] ] ] ].
 	return := fn block statements first.
 	self assert: return parent equals: fn block.
 	self assert: (return isKindOf: MOSetToReturn).

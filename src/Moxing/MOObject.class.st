@@ -78,7 +78,7 @@ MOObject >> allPropertyRelations [
 		  select: [ :slot | slot class = MOPropertySlot ]
 		  thenCollect: [ :slot | 
 			  MOObjectObjectRelation new
-				  to: (slot read: self);
+				  from: self to: (slot read: self);
 				  name: slot name;
 				  slot: slot;
 				  yourself ]
@@ -100,6 +100,13 @@ MOObject >> allReferences [
 		   slot readAll: self ])
 	  , (self allExpressions asOrderedCollection select: [ :expr | 
 			   expr isReference ])
+]
+
+{ #category : #traverse }
+MOObject >> allRelations [
+
+	^ self allContainmentRelations , self allExpressionRelations
+	  , self allReferenceRelations , self allPropertyRelations
 ]
 
 { #category : #traverse }

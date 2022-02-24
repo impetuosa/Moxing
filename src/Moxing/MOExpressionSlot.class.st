@@ -12,6 +12,15 @@ Class {
 }
 
 { #category : #asserting }
+MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+
+	^ aRule
+		  applyOnExpression: aRelationObject
+		  readingValues: aFullBlockClosure
+		  into: aWriter
+]
+
+{ #category : #asserting }
 MOExpressionSlot >> shouldAccept: aValue into: anObject [ 
 
 	^ aValue isNil or: [ aValue isKindOf: MOObject ]

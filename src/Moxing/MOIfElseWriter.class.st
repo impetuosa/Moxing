@@ -28,15 +28,16 @@ MOIfElseWriter >> setIfTrueBlock: aBlock [
 ]
 
 { #category : #writing }
-MOIfElseWriter >> writeBlock: aFullBlockClosure [ 
+MOIfElseWriter >> writeBlock: aFullBlockClosure [
 
-		^ self immediatelyWrite: aFullBlockClosure withWriter: MOBlockWriter.
-		 
+	^ self immediatelyWrite: aFullBlockClosure withWriter: MOBlockWriter
 ]
 
 { #category : #writing }
 MOIfElseWriter >> writeCondition: aConditionBlock [
-	writeBuilder condition: (self writeExpression: aConditionBlock)
+
+	writeBuilder condition:
+		(self writeUnregisteredExpression: aConditionBlock)
 ]
 
 { #category : #writing }

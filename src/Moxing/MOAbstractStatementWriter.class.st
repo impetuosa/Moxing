@@ -17,13 +17,13 @@ MOAbstractStatementWriter >> privateWriteToSurface: anEntity [
 
 { #category : #initialization }
 MOAbstractStatementWriter >> writeBlock: aFullBlockClosure [
-	^ self immediatelyWrite: aFullBlockClosure withWriter: MOBlockWriter
+	^ self write: aFullBlockClosure inSubWriter: MOBlockWriter
 ]
 
 { #category : #writing }
 MOAbstractStatementWriter >> writeExpression: aBlock [
 
 	| stmnt |
-	stmnt := self immediatelyWrite: aBlock withWriter: MOExpressionWriter.
+	stmnt := self write: aBlock inSubWriter: MOExpressionWriter.
 	^ stmnt
 ]

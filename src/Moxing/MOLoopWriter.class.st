@@ -11,16 +11,10 @@ MOLoopWriter >> loopingBlock: aBlock [
 ]
 
 { #category : #writing }
-MOLoopWriter >> setLoopingBlock: aBlock [
-
-	writeBuilder loopingBlock: aBlock
-]
-
-{ #category : #writing }
 MOLoopWriter >> writeBlock: aBlock [
 
 	^ self
 		  write: aBlock
 		  inSubWriter: MOBlockWriter
-		  initializeWith: [ :b | b messageToRegisterBlock: #setLoopingBlock: ]
+		  initializeWith: [ :b | b messageToRegisterBlock: #loopingBlock: ]
 ]

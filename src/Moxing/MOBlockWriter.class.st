@@ -75,18 +75,10 @@ MOBlockWriter >> statements: aCollection [
 ]
 
 { #category : #writing }
-MOBlockWriter >> writReturn: aBlock [
-
-	| stmnt |
-	stmnt := self write: aBlock inSubWriter: MOReturnWriter.
-	^ stmnt
-]
-
-{ #category : #writing }
 MOBlockWriter >> writeAndAddStatement: aBlock [
 
 	| stmnt |
-	stmnt := self immediatelyWrite: aBlock withWriter: MOStatementWriter.
+	stmnt := self write: aBlock inSubWriter: MOStatementWriter.
 	self addStatement: stmnt.
 	^ stmnt
 ]
@@ -126,7 +118,7 @@ MOBlockWriter >> writeExpressionStatement: aFullBlockClosure [
 MOBlockWriter >> writeFirstStatement: aBlock [
 
 	^ self addFirstStatement:
-		  (self immediatelyWrite: aBlock withWriter: MOStatementWriter)
+		  (self write: aBlock inSubWriter: MOStatementWriter)
 ]
 
 { #category : #writing }
@@ -173,7 +165,7 @@ MOBlockWriter >> writeLabel: aBlock [
 MOBlockWriter >> writeLastStatement: aBlock [
 
 	^ self addLastStatement:
-		  (self immediatelyWrite: aBlock withWriter: MOStatementWriter)
+		  (self write: aBlock inSubWriter: MOStatementWriter)
 ]
 
 { #category : #writing }
@@ -197,6 +189,14 @@ MOBlockWriter >> writeResume: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOResumeWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeReturn: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOReturnWriter.
 	^ stmnt
 ]
 

@@ -9,6 +9,12 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #adding }
+MOStatementWriter >> addStatement: aMOIfElse [
+
+	^ self registerStatement: aMOIfElse
+]
+
 { #category : #'as yet unclassified' }
 MOStatementWriter >> attributeAccess: aCollection [ 
 	self shouldBeImplemented.
@@ -57,22 +63,22 @@ MOStatementWriter >> for: anInitBlock condition: aConditionBlock update: anUpdat
 
 	" for ( initBlock; conditionBlock; updateBlock) loopingBlock "
 
-	^ self registerStatement: (builder forStatementBuilder
-			   initializeOperation: (self writeExpression: anInitBlock);
-			   updateOperation: (self writeExpression: anUpdateBlock);
-			   writeCondition: (self writeExpression: aConditionBlock);
-			   loopingBlock: (self writeBlock: aLoopingBlock);
-			   build)
+	^ self writeFor: [ :for | 
+		  for
+			  writeInitializeOperation: anInitBlock;
+			  writeCondition: aConditionBlock;
+			  writeUpdateOperation: anUpdateBlock;
+			  writeBlock: aLoopingBlock ]
 ]
 
 { #category : #statements }
 MOStatementWriter >> for: anEachBlock in: anCollectionBlock do: aLoopingBlock [
 
-	^ self registerStatement: (builder forEachStatementBuilder
-			   each: (self writeExpression: anEachBlock);
-			   collection: (self writeExpression: anCollectionBlock);
-			   loopingBlock: (self writeBlock: aLoopingBlock);
-			   build)
+	^ self writeForEach: [ :foreach | 
+		  foreach
+			  writeEach: anEachBlock;
+			  writeCollection: anCollectionBlock;
+			  writeBlock: aLoopingBlock ]
 ]
 
 { #category : #statements }
@@ -96,11 +102,11 @@ MOStatementWriter >> if: aConditionBlock ifTrue: ifTrueBlock [
 { #category : #statements }
 MOStatementWriter >> if: aConditionBlock ifTrue: ifTrueBlock ifFalse: ifFalseBlock [
 
-	^ self registerStatement: (builder ifStatementBuilder
-			   condition: (self writeExpression: aConditionBlock);
-			   ifTrueBlock: (self writeBlock: ifTrueBlock);
-			   ifFalseBlock: (self writeBlock: ifFalseBlock);
-			   build)
+	^ self writeIfElse: [ :ifElse | 
+		  ifElse
+			  writeCondition: aConditionBlock;
+			  writeIfTrueBlock: ifTrueBlock;
+			  writeIfFalseBlock: ifFalseBlock ]
 ]
 
 { #category : #initialization }
@@ -176,9 +182,8 @@ MOStatementWriter >> let: anExpressionBuildingBlock beAssignedWith: anOtherExpre
 { #category : #statements }
 MOStatementWriter >> onErrorGoTo: aMOLabelReference [
 
-	^ self registerStatement: (builder onErrorBuilder
-			   goTo: (self writeExpression: aMOLabelReference);
-			   build)
+	^ self writeOnErrorGoTo: [ :goto | 
+		  goto writeDestination: aMOLabelReference ] 
 ]
 
 { #category : #'as yet unclassified' }
@@ -223,40 +228,36 @@ MOStatementWriter >> registerStatement: aStatement [
 { #category : #controlling }
 MOStatementWriter >> resume [
 
-	^ self registerStatement: builder resumeBuilder build
+	^ self writeResume: [ :r |  ]
 ]
 
 { #category : #statements }
 MOStatementWriter >> resume: aMOLabelReferenceBuilder [
 
-	^ self registerStatement: (builder resumeBuilder
-			   destinations: (self writeExpression: aMOLabelReferenceBuilder);
-			   build)
+	^ self writeResume: [ :d | 
+		  d writeDestinations: aMOLabelReferenceBuilder ]
 ]
 
 { #category : #statements }
 MOStatementWriter >> return: anExpressionOrBlock [
 
-	^ self registerStatement: (builder returnBuilder
-			   expression:  (self writeExpression: anExpressionOrBlock);
-			   build)
+	^ self writeReturn: [ :ret | 
+		  ret writeExpression: anExpressionOrBlock ]
 ]
 
 { #category : #'as yet unclassified' }
 MOStatementWriter >> select: anExpressionOrBlock cases: aCasesBlock [
 
-	^ self registerStatement: (builder selectBuilder
-			   expression: (self writeExpression: anExpressionOrBlock);
-			   cases: (self writeExpression: aCasesBlock);
-			   build)
+	^ self writeSelect: [ :select | 
+		  select writeCondition: anExpressionOrBlock.
+		  aCasesBlock value: select ]
 ]
 
 { #category : #statements }
 MOStatementWriter >> setToReturn: aFullBlockClosure [
 
-	^ self registerStatement: (builder setToReturnBuilder
-			   returns: (self writeExpression: aFullBlockClosure);
-			   build)
+	^ self writeSetToReturn: [ :set | 
+		  set writeExpression: aFullBlockClosure ]
 ]
 
 { #category : #statements }
@@ -281,20 +282,19 @@ MOStatementWriter >> variable: aName typeReference: aTypeReference initializer: 
 { #category : #statements }
 MOStatementWriter >> while: aConditionBlock do: aLoopingBlock [
 
-	^ self registerStatement: (builder loopStatementBuilder
-			   forWhile;
-			   condition: (self writeExpression: aConditionBlock);
-			   loopingBlock: (self writeBlock: aLoopingBlock);
-			   build)
+	^ self writeWhile: [ :while | 
+		  while
+			  writeCondition: aConditionBlock;
+			  writeBlock: aLoopingBlock ]
 ]
 
 { #category : #enumerating }
 MOStatementWriter >> with: anExpressionBlock do: aBlockWritingBlock [
 
-	^ self registerStatement: (builder withBuilder
-			   expression: (self writeExpression: anExpressionBlock);
-			   block: (self writeBlock: aBlockWritingBlock);
-			   build)
+	^ self writeWith: [ :with | 
+		  with
+			  writeExpression: anExpressionBlock;
+			  writeBlock: aBlockWritingBlock ]
 ]
 
 { #category : #statements }
@@ -310,9 +310,95 @@ MOStatementWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegat
 				   into: self) ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> writeExpression: anExpressionBlock [
+
+	^ self writeUnregisteredExpression: anExpressionBlock
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeFor: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOForWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeForEach: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOForEachWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeIfElse: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOIfElseWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeOnErrorGoTo: aFullBlockClosure [ 
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorGoToWriter.
+	^ stmnt
+
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeResume: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOResumeWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeReturn: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOReturnWriter.
+	^ stmnt
+]
+
+{ #category : #enumerating }
+MOStatementWriter >> writeSelect: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOSelectWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeSetToReturn: aFullBlockClosure [ 
+	
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOSetToReturnWriter.
+	^ stmnt
+]
+
 { #category : #writing }
 MOStatementWriter >> writeStatement: aFullBlockClosure [ 
 	^ aFullBlockClosure value: self 
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeWhile: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOWhileWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeWith: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOWithWriter.
+	^ stmnt
 ]
 
 { #category : #'as yet unclassified' }
