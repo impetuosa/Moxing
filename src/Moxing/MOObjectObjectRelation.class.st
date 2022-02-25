@@ -21,6 +21,11 @@ MOObjectObjectRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClos
 ]
 
 { #category : #accessing }
+MOObjectObjectRelation >> from [
+	^ from
+]
+
+{ #category : #accessing }
 MOObjectObjectRelation >> from: aFrom to: aTo [ 
 	from := aFrom. 
 	to := aTo

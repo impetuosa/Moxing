@@ -10,74 +10,27 @@ Class {
 { #category : #'as yet unclassified' }
 MOModelCopy >> applyOnContainment: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-	^ self
-		  setContainment: aMOObjectObjectRelation
-		  using: aChildDelegateLoadingBlock
-		  into: aDestinationWriter
+	| destination |
+	destination := aChildDelegateLoadingBlock
+		               cull: aDestinationWriter
+		               cull: aMOObjectObjectRelation to
 ]
 
 { #category : #'as yet unclassified' }
 MOModelCopy >> applyOnExpression: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-	^ self
-		  setExpression: aMOObjectObjectRelation
-		  using: aChildDelegateLoadingBlock
-		  into: aDestinationWriter
-]
-
-{ #category : #'as yet unclassified' }
-MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBlockClosure into: aDestinationWriter [
-
-	^ self
-		  setPropertyCopy: aMOObjectObjectRelation
-		  into: aDestinationWriter
-]
-
-{ #category : #'as yet unclassified' }
-MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
-
-	^ self
-		  setReference: aMOObjectObjectRelation
-		  using: aChildDelegateLoadingBlock
-		  into: aDestinationWriter
-]
-
-{ #category : #'as yet unclassified' }
-MOModelCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
-
-	aProvenanceEntity allRelations do: [ :relation | 
-		relation
-			acceptRule: self
-			readingValues: aChildDelegateLoadingBlock
-			into: aDestinationWriter ]
-]
-
-{ #category : #initialization }
-MOModelCopy >> setContainment: aMOObjectObjectRelation using: aFullBlockClosure into: aDestinationWriter [
-
-	| destination |
-	destination := aFullBlockClosure
-		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation to.
-
-"	aMOObjectObjectRelation write: destination to: aDestinationWriter"
-]
-
-{ #category : #initialization }
-MOModelCopy >> setExpression: aMOObjectObjectRelation using: aFullBlockClosure into: aDestinationWriter [
-
+	
 	| destination |
 	
-	destination := aFullBlockClosure
+	destination := aChildDelegateLoadingBlock
 		               cull: aDestinationWriter
 		               cull: aMOObjectObjectRelation to.
 	
 	aMOObjectObjectRelation write: destination to: aDestinationWriter
 ]
 
-{ #category : #initialization }
-MOModelCopy >> setPropertyCopy: aMOObjectObjectRelation into: aDestinationWriter [
-
+{ #category : #'as yet unclassified' }
+MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBlockClosure into: aDestinationWriter [
 	| copy |
 	" 
 	 Some properties may be a ASG object.
@@ -90,23 +43,22 @@ MOModelCopy >> setPropertyCopy: aMOObjectObjectRelation into: aDestinationWriter
 	aMOObjectObjectRelation write: copy to: aDestinationWriter
 ]
 
-{ #category : #initialization }
-MOModelCopy >> setReference: aMOObjectObjectRelation using: aFullBlockClosure into: aBuildingEntity [
+{ #category : #'as yet unclassified' }
+MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
 	| destination |
-
-	destination := aFullBlockClosure
-		               cull: aBuildingEntity
+	destination := aChildDelegateLoadingBlock
+		               cull: aDestinationWriter
 		               cull: aMOObjectObjectRelation to.
-	aMOObjectObjectRelation write: destination to: aBuildingEntity
+	aMOObjectObjectRelation write: destination to: aDestinationWriter
 ]
 
-{ #category : #visiting }
-MOModelCopy >> visitMOContainmentSlot: aCollection [ 
-	self shouldBeImplemented.
-]
+{ #category : #'as yet unclassified' }
+MOModelCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-{ #category : #visiting }
-MOModelCopy >> visitMOContainmentSlotRelation: aMOObjectObjectRelation [ 
-
+	aProvenanceEntity allRelations do: [ :relation | 
+		relation
+			acceptRule: self
+			readingValues: aChildDelegateLoadingBlock
+			into: aDestinationWriter ]
 ]

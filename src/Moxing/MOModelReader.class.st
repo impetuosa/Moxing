@@ -16,9 +16,9 @@ MOModelReader >> model: aModel [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelReader >> read: anEntity [ 
-	read := anEntity acceptVisitor: self .
-	^ read 
+MOModelReader >> read: anEntity [
+
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
