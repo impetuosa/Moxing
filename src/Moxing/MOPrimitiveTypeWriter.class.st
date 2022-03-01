@@ -25,3 +25,8 @@ MOPrimitiveTypeWriter >> privateSetAnchor: anEntity [
 MOPrimitiveTypeWriter >> privateWriteToSurface: anEntity [
 	surface addPrimitiveType: anEntity
 ]
+
+{ #category : #writing }
+MOPrimitiveTypeWriter >> typeReference: aTypeReference [
+	 writeBuilder typeReference: aTypeReference
+]

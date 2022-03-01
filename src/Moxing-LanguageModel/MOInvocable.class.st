@@ -74,6 +74,12 @@ MOInvocable >> isStaticBinding [
 ]
 
 { #category : #accessing }
+MOInvocable >> localVariables [
+
+	^ block statements select: [ :s | s isVariable ]
+]
+
+{ #category : #accessing }
 MOInvocable >> modifiers [
 	^ modifiers
 ]

@@ -121,7 +121,8 @@ MOModelProceduralWriter >> initializeUpdateBuilderFor: anEntity [
 
 { #category : #writing }
 MOModelProceduralWriter >> initializeWriteBuilder [
-	self subclassResponsibility 
+
+	writeBuilder := builder libraryBuilder
 ]
 
 { #category : #'as yet unclassified' }

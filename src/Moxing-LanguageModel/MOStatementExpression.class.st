@@ -14,6 +14,11 @@ MOStatementExpression >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
+MOStatementExpression >> candidate: aCandidate [  
+	expression candidate: aCandidate  
+]
+
+{ #category : #accessing }
 MOStatementExpression >> expression [
 	^ expression
 ]

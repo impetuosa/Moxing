@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #accessing }
+MOBinaryOperation >> candidate: aMOVariable [ 
+
+]
+
+{ #category : #accessing }
 MOBinaryOperation >> kindOfOp [
 	^ 'binary'
 ]

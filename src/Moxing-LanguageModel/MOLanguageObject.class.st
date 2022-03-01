@@ -63,6 +63,12 @@ MOLanguageObject >> isLabelledAs: aString [
 	^ false
 ]
 
+{ #category : #testing }
+MOLanguageObject >> isVariable [
+
+	^ false
+]
+
 { #category : #accessing }
 MOLanguageObject >> language [
 	^ language

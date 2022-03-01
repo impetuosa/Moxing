@@ -21,10 +21,10 @@ MOModelCopy >> applyOnExpression: aMOObjectObjectRelation readingValues: aChildD
 
 	
 	| destination |
-	
+
 	destination := aChildDelegateLoadingBlock
 		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation to.
+		               cull: aMOObjectObjectRelation to .
 	
 	aMOObjectObjectRelation write: destination to: aDestinationWriter
 ]

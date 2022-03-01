@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'read',
-		'trace',
 		'writer'
 	],
 	#category : #'Moxing-Reader'

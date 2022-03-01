@@ -294,6 +294,14 @@ MOModelBuilder >> forStatementBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> formBuilder [
+
+	^ MOModelFormBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> functionBuilder [
 
 	^ MOModelFunctionBuilder new
@@ -379,6 +387,14 @@ MOModelBuilder >> language [
 { #category : #accessing }
 MOModelBuilder >> language: aMOLanguage [ 
 	language := aMOLanguage
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> libraryBuilder [
+
+	^ MOLibraryBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -555,11 +571,35 @@ MOModelBuilder >> procedureBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> projectBuilder [
+
+	^ MOProjectBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> queryBuilder [
+
+	^ MOModelQueryBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> referenceToSelf [
 
 	^ self contextReferenceBuilder
 		  forSelf;
 		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> reportBuilder [
+
+	^ MOModelReportBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -644,6 +684,14 @@ MOModelBuilder >> surface [
 MOModelBuilder >> surface: anObject [
 
 	surface := anObject
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> tableBuilder [
+
+	^ MOModelTableBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }

@@ -31,9 +31,27 @@ MOModelDeclarationUnitBuilder >> addClassType: aMOClass [
 ]
 
 { #category : #adding }
+MOModelDeclarationUnitBuilder >> addEnum: aMOEnum [
+
+	self addType: aMOEnum
+]
+
+{ #category : #adding }
 MOModelDeclarationUnitBuilder >> addImport: aMOImport [
 
 	self imports add: aMOImport
+]
+
+{ #category : #adding }
+MOModelDeclarationUnitBuilder >> addModule: aMOModule [
+
+	self addType: aMOModule
+]
+
+{ #category : #adding }
+MOModelDeclarationUnitBuilder >> addStructureType: aMOStructure [
+
+	self addType: aMOStructure
 ]
 
 { #category : #adding }

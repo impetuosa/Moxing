@@ -29,11 +29,10 @@ MOPrimitiveTypeBuilder >> buildsType [
 ]
 
 { #category : #'as yet unclassified' }
-MOPrimitiveTypeBuilder >> loadBuilderWithEntity: anEntity [ 
-	self name: anEntity name. 
- self parent: anEntity parent. 
- 
-	
+MOPrimitiveTypeBuilder >> loadBuilderWithEntity: anEntity [
+
+	self name: anEntity name.
+	self parent: anEntity parent
 ]
 
 { #category : #accessing }

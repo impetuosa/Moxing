@@ -21,6 +21,12 @@ MOModelWriter >> addAccessor: aMOAccessor [
 ]
 
 { #category : #adding }
+MOModelWriter >> addArtefact: aMOProject [
+
+	entity := aMOProject
+]
+
+{ #category : #adding }
 MOModelWriter >> addCase: aMOCase [
 
 	entity := aMOCase
@@ -607,6 +613,13 @@ MOModelWriter >> writeFileImport: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOModelWriter >> writeForm: aFullBlockClosure [ 
+| writer |
+	writer := MOFormWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeFunction: aFullBlockClosure [ 
 	
 	| writer |
@@ -620,6 +633,15 @@ MOModelWriter >> writeImport: aFullBlockClosure [
 	| writer |
 	writer := MOImportWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeLibrary: aBlock [
+
+	| writer stmt |
+	writer := MOLibraryWriter new.
+	stmt := self write: aBlock withWriter: writer.
+	^ stmt
 ]
 
 { #category : #writing }
@@ -647,6 +669,30 @@ MOModelWriter >> writePackageNamed: aString ifDoesNotExistUsing: aFullBlockClosu
 ]
 
 { #category : #writing }
+MOModelWriter >> writeProject: aBlock [
+
+	| writer stmt |
+	writer := MOProjectWriter new.
+	stmt := self write: aBlock withWriter: writer.
+	^ stmt
+]
+
+{ #category : #writing }
+MOModelWriter >> writeQuery: aFullBlockClosure [ 
+| writer |
+	writer := MOQueryWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeReport: aFullBlockClosure [
+
+	| writer |
+	writer := MOReportWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeStatement: aBlock [
 
 	| writer stmt |
@@ -661,6 +707,13 @@ MOModelWriter >> writeSubprocedure: aBlock [
 	| writer |
 	writer := MOSubProcedureWriter new.
 	^ self write: aBlock withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeTable: aFullBlockClosure [ 
+| writer |
+	writer := MOTableWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
 ]
 
 { #category : #writing }

@@ -86,12 +86,6 @@ MOModuleWriter >> writeConstant: aBlock [
 ]
 
 { #category : #writing }
-MOModuleWriter >> writeEnum: aFullBlockClosure [
-
-	^ self write: aFullBlockClosure inSubWriter: MOEnumWriter
-]
-
-{ #category : #writing }
 MOModuleWriter >> writeFunction: aBlock [
 
 	^ self write: aBlock inSubWriter: MOFunctionWriter
@@ -112,5 +106,5 @@ MOModuleWriter >> writeSubprocedure: aBlock [
 { #category : #writing }
 MOModuleWriter >> writeVariable: aBlock [
 
-	self write: aBlock inSubWriter: MOVariableWriter
+	^ self write: aBlock inSubWriter: MOVariableWriter
 ]

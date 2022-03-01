@@ -32,3 +32,9 @@ MOReference >> isReference [
 MOReference >> isTypeReference [ 
 	^ false
 ]
+
+{ #category : #accessing }
+MOReference >> name: aName [
+
+	super name: aName
+]

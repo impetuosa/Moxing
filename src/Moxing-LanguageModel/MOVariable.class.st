@@ -82,6 +82,12 @@ MOVariable >> isStaticBinding [
 ]
 
 { #category : #accessing }
+MOVariable >> isVariable [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOVariable >> kindString [
 
 	^ 'VAR'
