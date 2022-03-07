@@ -41,19 +41,18 @@ MOIfElseWriter >> writeCondition: aConditionBlock [
 ]
 
 { #category : #writing }
-MOIfElseWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
+MOIfElseWriter >> writeCopyOf: aProvenanceEntityRelation readingValues: aChildDelegateLoadingBlock [
 
 	self writeCondition: [ :expr | 
 		aChildDelegateLoadingBlock
 			cull: expr
-			cull: aProvenanceEntity condition ].
-	self setIfTrueBlock:
-		(aChildDelegateLoadingBlock
+			cull: (aProvenanceEntityRelation to relationNamed: #condition) ].
+	self setIfTrueBlock: (aChildDelegateLoadingBlock
 			 cull: self
-			 cull: aProvenanceEntity ifTrue).
+			 cull: (aProvenanceEntityRelation to relationNamed: #ifTrue)).
 	self setIfFalseBlock: (aChildDelegateLoadingBlock
 			 cull: self
-			 cull: aProvenanceEntity ifFalse)
+			 cull: (aProvenanceEntityRelation to relationNamed: #ifFalse))
 ]
 
 { #category : #writing }

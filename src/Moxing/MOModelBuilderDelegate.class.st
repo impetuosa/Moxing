@@ -187,6 +187,12 @@ MOModelBuilderDelegate >> shallowCopy: aMOBlock [
 	^ parentBuilder shallowCopy: aMOBlock
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilderDelegate >> shallowRelationCopy: aMOBlock [
+
+	^ parentBuilder shallowRelationCopy: aMOBlock
+]
+
 { #category : #accessing }
 MOModelBuilderDelegate >> typeReferenceBuilder [
 	^ parentBuilder typeReferenceBuilder

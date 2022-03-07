@@ -13,24 +13,22 @@ MOModelCopy >> applyOnContainment: aMOObjectObjectRelation readingValues: aChild
 	| destination |
 	destination := aChildDelegateLoadingBlock
 		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation to
+		               cull: aMOObjectObjectRelation
 ]
 
 { #category : #'as yet unclassified' }
 MOModelCopy >> applyOnExpression: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-	
 	| destination |
-
 	destination := aChildDelegateLoadingBlock
 		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation to .
-	
+		               cull: aMOObjectObjectRelation.
 	aMOObjectObjectRelation write: destination to: aDestinationWriter
 ]
 
 { #category : #'as yet unclassified' }
 MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBlockClosure into: aDestinationWriter [
+
 	| copy |
 	" 
 	 Some properties may be a ASG object.
@@ -39,7 +37,7 @@ MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBloc
 	"
 	aMOObjectObjectRelation to isMOObject ifTrue: [ ^ self ].
 
-	copy := aMOObjectObjectRelation to shallowCopy .
+	copy := aMOObjectObjectRelation to shallowCopy.
 	aMOObjectObjectRelation write: copy to: aDestinationWriter
 ]
 
@@ -49,14 +47,14 @@ MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDe
 	| destination |
 	destination := aChildDelegateLoadingBlock
 		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation to.
+		               cull: aMOObjectObjectRelation.
 	aMOObjectObjectRelation write: destination to: aDestinationWriter
 ]
 
 { #category : #'as yet unclassified' }
 MOModelCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-	aProvenanceEntity allRelations do: [ :relation | 
+	aProvenanceEntity to allRelations do: [ :relation | 
 		relation
 			acceptRule: self
 			readingValues: aChildDelegateLoadingBlock

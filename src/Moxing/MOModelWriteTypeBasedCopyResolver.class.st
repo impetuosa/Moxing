@@ -44,7 +44,7 @@ MOModelWriteTypeBasedCopyResolver >> resolveWriterFor: aProvenanceEntity writing
 
 	writer := aDestinationContexWriter.
 	writingBlock := aFullBlockClosure.
-	^ aProvenanceEntity acceptVisitor: self
+	^ aProvenanceEntity to acceptVisitor: self
 ]
 
 { #category : #visiting }

@@ -302,7 +302,7 @@ MOStatementWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegat
 
 	self installCopyingBuilder.
 
-
+	self halt .
 	^ self write: [ :s | 
 		  self registerStatement: (copyHelper
 				   buildCopyOf: aProvenanceEntity

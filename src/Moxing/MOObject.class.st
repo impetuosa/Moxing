@@ -159,6 +159,19 @@ MOObject >> parent: aParent [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+MOObject >> relationNamed: aString [
+
+	^ (self relationsNamed: aString) first
+]
+
+{ #category : #'as yet unclassified' }
+MOObject >> relationsNamed: aString [
+
+	^ (self class allSlots detect: [ :slot | slot name = aString ]) 
+		  readAllRelations: self
+]
+
 { #category : #initialization }
 MOObject >> setAsParentOf: aMOAnnotationInstance [ 
 	aMOAnnotationInstance parent: self 

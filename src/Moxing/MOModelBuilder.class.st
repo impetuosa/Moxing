@@ -642,6 +642,12 @@ MOModelBuilder >> shallowCopy: aMOBlock [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> shallowRelationCopy: aMOBlock [
+
+	^ model shallowRelationCopy: aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> statementBuilder [
 
 	^ MOModelStatementExpressionBuilder new

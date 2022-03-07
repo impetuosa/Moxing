@@ -2,7 +2,8 @@ Class {
 	#name : #MOExpressionWriter,
 	#superclass : #MOModelProceduralWriter,
 	#instVars : [
-		'shouldRegisterResult'
+		'shouldRegisterResult',
+		'writingRelation'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -54,6 +55,11 @@ MOExpressionWriter >> doNotRegister [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> forUpdate: aMOVariableReference [ 
+	writeBuilder forUpdate: aMOVariableReference 
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> initialize [
 
 	super initialize.
@@ -62,7 +68,7 @@ MOExpressionWriter >> initialize [
 
 { #category : #writing }
 MOExpressionWriter >> initializeWriteBuilder [
-
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -142,11 +148,6 @@ MOExpressionWriter >> let: aVariableReferenceOrBlock beAssignedWith: aValueExpre
 		  build
 ]
 
-{ #category : #'as yet unclassified' }
-MOExpressionWriter >> messageToRegister: aVal [
-	 ^ shouldRegisterResult := aVal
-]
-
 { #category : #'instance creation' }
 MOExpressionWriter >> new: aMOTypeReference [
 
@@ -191,10 +192,20 @@ MOExpressionWriter >> operateBoolean: anExpressionBuildingBlock operator: anOper
 		  build
 ]
 
+{ #category : #generated }
+MOExpressionWriter >> operator: aString [ 
+	writeBuilder operator: aString 
+]
+
 { #category : #writing }
 MOExpressionWriter >> privateWriteToSurface: anEntity [
 
 	shouldRegisterResult ifTrue: [ surface expression: anEntity ]
+]
+
+{ #category : #accessing }
+MOExpressionWriter >> receiverReference: aMOTypeReference [ 
+	writeBuilder receiverReference: aMOTypeReference 
 ]
 
 { #category : #'as yet unclassified' }
@@ -203,20 +214,15 @@ MOExpressionWriter >> referenceToSelf [
 	^ builder referenceToSelf
 ]
 
-{ #category : #'as yet unclassified' }
-MOExpressionWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
+{ #category : #initialization }
+MOExpressionWriter >> setWriteVariable: aMOVariableReference [
 
-	self installCopyingBuilder.
-
-
-	^ copyHelper
-		  buildCopyOf: aProvenanceEntity
-		  readingValues: aChildDelegateLoadingBlock
-		  into: self
+	writeBuilder write: aMOVariableReference
 ]
 
 { #category : #writing }
 MOExpressionWriter >> writeExpression: aFullBlockClosure [ 
+
 	^ self writeUnregisteredExpression: aFullBlockClosure
 ]
 

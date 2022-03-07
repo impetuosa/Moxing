@@ -292,6 +292,12 @@ MOModelWriter >> shallowCopy: aMOBlock [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> shallowRelationCopy: aMOBlock [
+
+	^ self builder shallowRelationCopy: aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> stringLiteral: aString [
 
 	^ self builder stringLiteralBuilder
@@ -473,12 +479,12 @@ MOModelWriter >> updateWhile: aMOClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> updaterFor: aDestinationContext with: aProvenanceEntity do: anUpdatingBlock [
+MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntityRelation do: anUpdatingBlock [
 
 	| result |
 	result := MOModelUpdateResolver new
-		          resolveWriterFor: aProvenanceEntity
-		          forUpdating: aDestinationContext
+		          resolveWriterFor: aProvenanceEntityRelation
+		          forUpdating: aDestinationContextRelation
 		          writingContext: self
 		          do: anUpdatingBlock.
 	self populateAnchor.

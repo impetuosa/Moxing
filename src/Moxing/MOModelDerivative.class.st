@@ -24,6 +24,12 @@ MOModelDerivative >> entities [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelDerivative >> exclusivelyincludes: anEntity [
+
+	^ entities includes: anEntity
+]
+
+{ #category : #'as yet unclassified' }
 MOModelDerivative >> getModifiableVersionOf: aMOVariable [
 
 	^ (entities includes: aMOVariable)
@@ -89,16 +95,31 @@ MOModelDerivative >> register: aMOBlock [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelDerivative >> shallowCopy: aMOBlock [
+MOModelDerivative >> shallowCopy: anEntity [
 
 	| e |
-	e := aMOBlock copy.
-
+	e := anEntity copy.
+	
 	self register: e.
 	e class allSlots do: [ :slot | 
 		(slot read: e) isCollection ifTrue: [ 
 			slot write: (slot read: e) copy to: e ] ].
 	^ e
+	
+
+
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> shallowRelationCopy: aMOObjectObjectRelation [
+
+	| relation to |
+	relation := aMOObjectObjectRelation copy.
+	to := self shallowCopy: aMOObjectObjectRelation to.
+
+	self register: to.
+	relation to: to.
+	^ relation
 ]
 
 { #category : #'as yet unclassified' }

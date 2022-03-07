@@ -84,15 +84,24 @@ MOObjectObjectRelation >> to [
 	^ to
 ]
 
+{ #category : #accessing }
+MOObjectObjectRelation >> to: aMOClass [ 
+	to := aMOClass
+]
+
 { #category : #writing }
 MOObjectObjectRelation >> write: anObject to: aDestination [
 
+	| selector |
+	selector := slot name = #write
+		            ifTrue: [ #setWriteVariable ]
+		            ifFalse: [ slot name ].
 	slot isToMany ifTrue: [ 
 		((self read: aDestination) includes: anObject) ifTrue: [ self halt ].
-		slot shouldAccept: anObject into: aDestination .
+		slot shouldAccept: anObject into: aDestination.
 		(self read: aDestination) add: anObject.
 
 		^ self ].
 
-	aDestination perform: slot name , ':' withArguments: { anObject }
+	aDestination perform: selector, ':' withArguments: { anObject }
 ]

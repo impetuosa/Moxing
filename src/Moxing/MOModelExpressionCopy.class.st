@@ -9,33 +9,42 @@ Class {
 }
 
 { #category : #accessing }
-MOModelExpressionCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestination [
+MOModelExpressionCopy >> buildCopyOf: aProvenanceEntityRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-	writer := aDestination.
+	writer := aDestinationWriter.
 	block := aChildDelegateLoadingBlock.
-	^ aProvenanceEntity acceptVisitor: self
+	^ aProvenanceEntityRelation to acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> copy: anEntity [
-	^ block cull: writer cull: anEntity
+MOModelExpressionCopy >> copy: anEntity relation: aRelationName [ 
+	
+	^ block cull: writer cull: (anEntity relationNamed: aRelationName)
+]
+
+{ #category : #visiting }
+MOModelExpressionCopy >> copyAll: anEntity relation: aRelationName [
+
+	^ (anEntity relationsNamed: aRelationName) collect: [ :relEntity | 
+		  block cull: writer cull: relEntity ]
 ]
 
 { #category : #visiting }
 MOModelExpressionCopy >> visitArrayAccess: aMOArrayAccess [
 
 	^ writer
-		  arrayAccess: [ :exp | self copy: aMOArrayAccess receiverReference ]
+		  arrayAccess: [ :exp | 
+		  self copy: aMOArrayAccess relation: #receiverReference ]
 		  arguments: [ :expr | 
-		  aMOArrayAccess arguments collect: [ :a | self copy: a ] ]
+		  self copyAll: aMOArrayAccess relation: #arguments ]
 ]
 
 { #category : #visiting }
 MOModelExpressionCopy >> visitAssignment: aMOAssignment [
 
 	^ writer
-		  let: [ :exp | self copy: aMOAssignment write ]
-		  beAssignedWith: [ :exp | self copy: aMOAssignment read ]
+		  let: [ :exp | self copy: aMOAssignment relation: #write ]
+		  beAssignedWith: [ :exp | self copy: aMOAssignment relation: #read ]
 ]
 
 { #category : #visiting }
@@ -43,16 +52,16 @@ MOModelExpressionCopy >> visitAttributeAccess: aMOAttributeAccess [
 
 	^ writer
 		  accessAttribute: aMOAttributeAccess name
-		  receiver: [ :exp | self copy: aMOAttributeAccess receiverReference  ]
+		  receiver: [ :exp | self copy: aMOAttributeAccess relation: #receiverReference  ]
 ]
 
 { #category : #visiting }
 MOModelExpressionCopy >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
 
 	^ writer
-		  operate: [ :e | self copy: aMOBinaryArithmeticOperation left ]
+		  operate: [ :e | self copy: aMOBinaryArithmeticOperation relation: #left ]
 		  operator: aMOBinaryArithmeticOperation operator
-		  with: [ :e | self copy: aMOBinaryArithmeticOperation right ]
+		  with: [ :e | self copy: aMOBinaryArithmeticOperation relation: #right ]
 ]
 
 { #category : #visiting }
@@ -77,7 +86,7 @@ MOModelExpressionCopy >> visitInvocation: aMOInvocation [
 	^ writer
 		  invokeNamed: aMOInvocation selector
 		  arguments: [ :expr | 
-		  aMOInvocation arguments collect: [ :a | self copy: a ] ]
+		  self copyAll: aMOInvocation relation: #arguments ]
 ]
 
 { #category : #visiting }
@@ -91,9 +100,9 @@ MOModelExpressionCopy >> visitMethodInvocation: aMOMethodInvocation [
 	^ writer
 		  invokeMethodNamed: aMOMethodInvocation selector
 		  receiver: [ :expr | 
-		  self copy: aMOMethodInvocation receiverReference ]
+		  self copy: aMOMethodInvocation relation: #receiverReference ]
 		  arguments: [ :expr | 
-			  aMOMethodInvocation arguments collect: [ :a | self copy: a ] ]
+		  self copyAll: aMOMethodInvocation relation: #arguments ]
 ]
 
 { #category : #visiting }
@@ -101,7 +110,7 @@ MOModelExpressionCopy >> visitNewExpression: aMONewInvocation [
 
 	self assert: aMONewInvocation arguments isEmptyOrNil.
 
-	^ writer new: (self copy: aMONewInvocation typeReference)
+	^ writer new: (self copy: aMONewInvocation relation: #typeReference)
 ]
 
 { #category : #visiting }
@@ -125,7 +134,7 @@ MOModelExpressionCopy >> visitTypeReference: aMOTypeReference [
 MOModelExpressionCopy >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
 
 	^ writer
-		  operate: [ :e | self copy: aMOUnaryArithmeticOperation operand ]
+		  operate: [ :e | self copy: aMOUnaryArithmeticOperation relation: #operand ]
 		  operator: aMOUnaryArithmeticOperation operator
 		  order: aMOUnaryArithmeticOperation order
 ]

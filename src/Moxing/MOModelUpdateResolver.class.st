@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'writingBlock',
 		'writer',
-		'writingEntity'
+		'writingEntityRelation'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -16,22 +16,22 @@ Class {
 MOModelUpdateResolver >> genericUpdate: aMOBinaryArithmeticOperation [
 	^ writer
 		  genericUpdate: aMOBinaryArithmeticOperation
-		  with: [ :block | writingBlock cull: writingEntity cull: block ]
+		  with: [ :block | writingBlock cull: writingEntityRelation cull: block ]
 ]
 
 { #category : #'as yet unclassified' }
-MOModelUpdateResolver >> resolveWriterFor: aProvenanceEntity forUpdating: aDestinationContext writingContext: aContextWriter do: aFullBlockClosure [
+MOModelUpdateResolver >> resolveWriterFor: aProvenanceEntityRelation forUpdating: aDestinationContextRelation writingContext: aContextWriter do: aFullBlockClosure [
 
 	writer := aContextWriter.
-	writingEntity := aProvenanceEntity.
+	writingEntityRelation := aProvenanceEntityRelation.
 	writingBlock := aFullBlockClosure.
-	^ self updateEntity: aDestinationContext
+	^ self updateEntity: aDestinationContextRelation
 ]
 
 { #category : #'as yet unclassified' }
-MOModelUpdateResolver >> updateEntity: aMOBlock [
+MOModelUpdateResolver >> updateEntity: anEntityRelation [
 
-	^ aMOBlock acceptVisitor: self
+	^ anEntityRelation to acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -39,7 +39,7 @@ MOModelUpdateResolver >> visitAccessor: aMOAccessor [
 
 	| addedElement |
 	writer updateAccessor: aMOAccessor with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -60,7 +60,7 @@ MOModelUpdateResolver >> visitAttribute: aMOAttribute [
 
 	| addedElement |
 	writer updateAttribute: aMOAttribute with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -82,7 +82,7 @@ MOModelUpdateResolver >> visitBlock: aMOBlock [
 	writer
 		updateBlock: aMOBlock
 		with: [ :block | 
-		statement := writingBlock cull: writingEntity cull: block ].
+		statement := writingBlock cull: writingEntityRelation cull: block ].
 	^ statement
 ]
 
@@ -91,7 +91,7 @@ MOModelUpdateResolver >> visitCase: aMOCase [
 
 	| addedElement |
 	writer updateCase: aMOCase with: [ :classWriter | 
-		addedElement := writingBlock cull: writingEntity cull: classWriter ].
+		addedElement := writingBlock cull: writingEntityRelation cull: classWriter ].
 	^ addedElement
 ]
 
@@ -100,7 +100,7 @@ MOModelUpdateResolver >> visitClass: aMOClass [
 
 	| addedElement |
 	writer updateClass: aMOClass with: [ :classWriter | 
-		addedElement := writingBlock cull: writingEntity cull: classWriter ].
+		addedElement := writingBlock cull: writingEntityRelation cull: classWriter ].
 	^ addedElement
 ]
 
@@ -109,7 +109,7 @@ MOModelUpdateResolver >> visitConstant: aMOConstant [
 
 	| addedElement |
 	writer updateConstant: aMOConstant with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -120,7 +120,7 @@ MOModelUpdateResolver >> visitEmptyBlock: aMOEmptyBlock [
 	writer
 		updateBlock: aMOEmptyBlock
 		with: [ :block | 
-		statement := writingBlock cull: writingEntity cull: block ].
+		statement := writingBlock cull: writingEntityRelation cull: block ].
 	^ statement
 ]
 
@@ -130,7 +130,7 @@ MOModelUpdateResolver >> visitEnum: aMOEnum [
 	| addedElement |
 
 	writer updateEnum: aMOEnum with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -138,7 +138,7 @@ MOModelUpdateResolver >> visitEnum: aMOEnum [
 MOModelUpdateResolver >> visitFunction: aMOFunction [ 
 	| addedElement |
 	writer updateFunction: aMOFunction with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -146,7 +146,7 @@ MOModelUpdateResolver >> visitFunction: aMOFunction [
 MOModelUpdateResolver >> visitIfElse: aMOIfElse [
 	^ writer 
 		  updateIfElse: aMOIfElse
-		  with: [ :block | writingBlock cull: writingEntity cull: block ]
+		  with: [ :block | writingBlock cull: writingEntityRelation cull: block ]
 ]
 
 { #category : #visiting }
@@ -159,7 +159,7 @@ MOModelUpdateResolver >> visitMethod: aMOMethod [
 
 	| addedElement |
 	writer updateMethod: aMOMethod with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -173,7 +173,7 @@ MOModelUpdateResolver >> visitModule: aMOModule [
 
 	| addedElement |
 	writer updateModule: aMOModule with: [ :classWriter | 
-		addedElement := writingBlock cull: writingEntity cull: classWriter ].
+		addedElement := writingBlock cull: writingEntityRelation cull: classWriter ].
 
 	^ addedElement
 ]
@@ -195,7 +195,7 @@ MOModelUpdateResolver >> visitParameter: aMOParameter [
 
 	^ writer
 		  updateParameter: aMOParameter
-		  with: [ :entity | writingBlock cull: writingEntity cull: entity ]
+		  with: [ :entity | writingBlock cull: writingEntityRelation cull: entity ]
 ]
 
 { #category : #visiting }
@@ -204,7 +204,7 @@ MOModelUpdateResolver >> visitProcedure: aMOProcedure [
 	| addedElement |
 
 	writer updateProcedure: aMOProcedure with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -219,7 +219,7 @@ MOModelUpdateResolver >> visitSelect: aMOSelect [
 
 	| addedElement |
 	writer updateSelect: aMOSelect with: [ :classWriter | 
-		addedElement := writingBlock cull: writingEntity cull: classWriter ].
+		addedElement := writingBlock cull: writingEntityRelation cull: classWriter ].
 
 	^ addedElement
 ]
@@ -241,7 +241,7 @@ MOModelUpdateResolver >> visitStructure: aMOStructure [
 
 	| addedElement |
 	writer updateStructure: aMOStructure with: [ :classWriter | 
-		addedElement := writingBlock cull: writingEntity cull: classWriter ].
+		addedElement := writingBlock cull: writingEntityRelation cull: classWriter ].
 
 	^ addedElement
 ]
@@ -256,7 +256,7 @@ MOModelUpdateResolver >> visitVariable: aMOVariable [
 
 	| addedElement |
 	writer updateVariable: aMOVariable with: [ :block | 
-		addedElement := writingBlock cull: writingEntity cull: block ].
+		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]
 
@@ -265,7 +265,7 @@ MOModelUpdateResolver >> visitWhile: aMOWhile [
 
 	| addedElement |
 	writer updateWhile: aMOWhile with: [ :classWriter | 
-		addedElement := writingBlock cull: writingEntity cull: classWriter ].
+		addedElement := writingBlock cull: writingEntityRelation cull: classWriter ].
 
 	^ addedElement
 ]

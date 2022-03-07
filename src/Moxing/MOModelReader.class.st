@@ -20,6 +20,22 @@ MOModelReader >> read: anEntity [
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelReader >> readEntitysContextualizingRelation: anEntity [
+
+	| relation |
+	relation := anEntity parent allRelations select: [ :a | 
+		            a to = anEntity ].
+	self assert: relation size = 1.
+	^ self readRelation: relation first 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelReader >> readRelation: aRelation [
+
+	^ writer shallowRelationCopy: aRelation
+]
+
 { #category : #accessing }
 MOModelReader >> use: aWriter during: aBlock [
 
