@@ -258,7 +258,7 @@ MOModelBuilder >> exitBuilder [
 
 { #category : #'as yet unclassified' }
 MOModelBuilder >> expressionCopyHelper [
-	^ MOModelExpressionCopy new 
+	^ MOModelCopyExpression new 
 ]
 
 { #category : #'as yet unclassified' }

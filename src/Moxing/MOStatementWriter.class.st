@@ -297,19 +297,6 @@ MOStatementWriter >> with: anExpressionBlock do: aBlockWritingBlock [
 			  writeBlock: aBlockWritingBlock ]
 ]
 
-{ #category : #statements }
-MOStatementWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
-
-	self installCopyingBuilder.
-
-	self halt .
-	^ self write: [ :s | 
-		  self registerStatement: (copyHelper
-				   buildCopyOf: aProvenanceEntity
-				   readingValues: aChildDelegateLoadingBlock
-				   into: self) ]
-]
-
 { #category : #'as yet unclassified' }
 MOStatementWriter >> writeExpression: anExpressionBlock [
 

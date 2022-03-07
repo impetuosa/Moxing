@@ -92,7 +92,7 @@ MOJavaCodeGenerator >> visitCase: aMOCase [
 	self increaseDeepDuring: [ 
 		self printIndentation.
 		aMOCase expressions
-			ifEmpty: [ stream nextPutAll: 'default ' ]
+			ifEmpty: [ stream nextPutAll: 'default: ' ]
 			ifNotEmpty: [ 
 				stream nextPutAll: 'case '.
 				aMOCase expressions first acceptVisitor: self.
@@ -157,6 +157,12 @@ MOJavaCodeGenerator >> visitConstant: aMOConstant [
 MOJavaCodeGenerator >> visitConstantReference: aMOConstantReference [
 
 	^ self visitVariableReference: aMOConstantReference
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [ 
+	self visitCollection: aMODeclarationUnit imports.
+	self visitCollection: aMODeclarationUnit types.
 ]
 
 { #category : #visiting }

@@ -59,6 +59,11 @@ MOLanguageObject >> isExpression [
 ]
 
 { #category : #testing }
+MOLanguageObject >> isInvocable [
+	^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> isLabelledAs: aString [ 
 	^ false
 ]

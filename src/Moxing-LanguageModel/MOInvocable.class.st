@@ -69,6 +69,12 @@ MOInvocable >> isDynamicBinding [
 ]
 
 { #category : #accessing }
+MOInvocable >> isInvocable [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOInvocable >> isStaticBinding [
 	^ self bindingKind = #static.
 ]

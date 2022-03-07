@@ -1,6 +1,6 @@
 Class {
-	#name : #MOModelExpressionCopy,
-	#superclass : #MOModelCopy,
+	#name : #MOModelCopyExpression,
+	#superclass : #Object,
 	#instVars : [
 		'writer',
 		'block'
@@ -9,28 +9,27 @@ Class {
 }
 
 { #category : #accessing }
-MOModelExpressionCopy >> buildCopyOf: aProvenanceEntityRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
-
+MOModelCopyExpression >> buildCopyOf: aProvenanceEntityRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 	writer := aDestinationWriter.
 	block := aChildDelegateLoadingBlock.
 	^ aProvenanceEntityRelation to acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> copy: anEntity relation: aRelationName [ 
+MOModelCopyExpression >> copy: anEntity relation: aRelationName [ 
 	
 	^ block cull: writer cull: (anEntity relationNamed: aRelationName)
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> copyAll: anEntity relation: aRelationName [
+MOModelCopyExpression >> copyAll: anEntity relation: aRelationName [
 
 	^ (anEntity relationsNamed: aRelationName) collect: [ :relEntity | 
 		  block cull: writer cull: relEntity ]
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitArrayAccess: aMOArrayAccess [
+MOModelCopyExpression >> visitArrayAccess: aMOArrayAccess [
 
 	^ writer
 		  arrayAccess: [ :exp | 
@@ -40,7 +39,7 @@ MOModelExpressionCopy >> visitArrayAccess: aMOArrayAccess [
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitAssignment: aMOAssignment [
+MOModelCopyExpression >> visitAssignment: aMOAssignment [
 
 	^ writer
 		  let: [ :exp | self copy: aMOAssignment relation: #write ]
@@ -48,7 +47,7 @@ MOModelExpressionCopy >> visitAssignment: aMOAssignment [
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitAttributeAccess: aMOAttributeAccess [
+MOModelCopyExpression >> visitAttributeAccess: aMOAttributeAccess [
 
 	^ writer
 		  accessAttribute: aMOAttributeAccess name
@@ -56,7 +55,7 @@ MOModelExpressionCopy >> visitAttributeAccess: aMOAttributeAccess [
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
+MOModelCopyExpression >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
 
 	^ writer
 		  operate: [ :e | self copy: aMOBinaryArithmeticOperation relation: #left ]
@@ -65,23 +64,23 @@ MOModelExpressionCopy >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOper
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitBooleanLiteral: aMOBooleanLiteral [ 
+MOModelCopyExpression >> visitBooleanLiteral: aMOBooleanLiteral [ 
 	^ writer booleanLiteral: aMOBooleanLiteral literal
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitConstantReference: aMOConstantReference [ 
+MOModelCopyExpression >> visitConstantReference: aMOConstantReference [ 
 	^ writer constantReferenceNamed: aMOConstantReference name
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitIntegerLiteral: aMOIntegerLiteral [
+MOModelCopyExpression >> visitIntegerLiteral: aMOIntegerLiteral [
 
 	^ writer numericLiteral: aMOIntegerLiteral literal
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitInvocation: aMOInvocation [
+MOModelCopyExpression >> visitInvocation: aMOInvocation [
 
 	^ writer
 		  invokeNamed: aMOInvocation selector
@@ -90,12 +89,12 @@ MOModelExpressionCopy >> visitInvocation: aMOInvocation [
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitLabelReference: aMOAlceLabelReference [ 
+MOModelCopyExpression >> visitLabelReference: aMOAlceLabelReference [ 
 	^ writer labelReference: aMOAlceLabelReference name 
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitMethodInvocation: aMOMethodInvocation [
+MOModelCopyExpression >> visitMethodInvocation: aMOMethodInvocation [
 
 	^ writer
 		  invokeMethodNamed: aMOMethodInvocation selector
@@ -106,7 +105,7 @@ MOModelExpressionCopy >> visitMethodInvocation: aMOMethodInvocation [
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitNewExpression: aMONewInvocation [
+MOModelCopyExpression >> visitNewExpression: aMONewInvocation [
 
 	self assert: aMONewInvocation arguments isEmptyOrNil.
 
@@ -114,24 +113,24 @@ MOModelExpressionCopy >> visitNewExpression: aMONewInvocation [
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitNullLiteral: aMONullLiteral [
+MOModelCopyExpression >> visitNullLiteral: aMONullLiteral [
 
 	^ writer nullLiteral
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitStringLiteral: aMOStringLiteral [
+MOModelCopyExpression >> visitStringLiteral: aMOStringLiteral [
 
 	^ writer stringLiteral: aMOStringLiteral literal
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitTypeReference: aMOTypeReference [ 
+MOModelCopyExpression >> visitTypeReference: aMOTypeReference [ 
 	^ writer typeReferenceNamed: aMOTypeReference name
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
+MOModelCopyExpression >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
 
 	^ writer
 		  operate: [ :e | self copy: aMOUnaryArithmeticOperation relation: #operand ]
@@ -140,11 +139,11 @@ MOModelExpressionCopy >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOpera
 ]
 
 { #category : #visiting }
-MOModelExpressionCopy >> visitVariableReference: aMOVariableReference [ 
+MOModelCopyExpression >> visitVariableReference: aMOVariableReference [ 
 	^ writer variableReferenceNamed: aMOVariableReference name
 ]
 
 { #category : #accessing }
-MOModelExpressionCopy >> writer: aMOExpressionWriter [ 
+MOModelCopyExpression >> writer: aMOExpressionWriter [ 
 	writer := aMOExpressionWriter
 ]

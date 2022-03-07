@@ -52,11 +52,21 @@ MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDe
 ]
 
 { #category : #'as yet unclassified' }
+MOModelCopy >> buildCopyOf: aProvenanceEntity croppingWith: aBlock readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+
+	^ (aBlock value: aProvenanceEntity to allRelations) do: [ :relation | 
+		  relation
+			  acceptRule: self
+			  readingValues: aChildDelegateLoadingBlock
+			  into: aDestinationWriter ]
+]
+
+{ #category : #'as yet unclassified' }
 MOModelCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
 
-	aProvenanceEntity to allRelations do: [ :relation | 
-		relation
-			acceptRule: self
-			readingValues: aChildDelegateLoadingBlock
-			into: aDestinationWriter ]
+	^ self
+		buildCopyOf: aProvenanceEntity
+		croppingWith: [ :col | col ]
+		readingValues: aChildDelegateLoadingBlock
+		into: aDestinationWriter
 ]
