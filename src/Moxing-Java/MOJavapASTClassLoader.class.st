@@ -156,7 +156,7 @@ MOJavapASTClassLoader >> visitFieldDeclaration: aFieldDeclaration [
 	type := self typeReferenceTo: aFieldDeclaration type.
 
 	aFieldDeclaration variableDeclarations do: [ :vd | 
-		field := model instantiate: MOVariable.
+		field := model instantiate: MOLocalVariable.
 		field modifiers:
 			(aFieldDeclaration modifiers collect: [ :m | m source ]).
 		field name: vd variable name value.
@@ -211,7 +211,7 @@ MOJavapASTClassLoader >> visitMethodDeclaration: aMethodDeclaration [
 MOJavapASTClassLoader >> visitParameter: aParameter [
 
 	| param |
-	param := model instantiate: MOVariable.
+	param := model instantiate: MOLocalVariable.
 	param name: (aParameter variable
 			 ifNil: [ 'param' , self lastIdString ]
 			 ifNotNil: [ self halt ]).

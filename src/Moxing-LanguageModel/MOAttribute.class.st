@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAttribute,
-	#superclass : #MOVariable,
+	#superclass : #MOAbstractVariable,
 	#instVars : [
 		'visibility'
 	],

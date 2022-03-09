@@ -30,7 +30,7 @@ MOModelDeclarationTestCase >> testDeclareClassInPackage [
 	" ClzzName L <T implements Object> "
 	package := writer writePackage: [ :pack | 
 		           pack name: 'Test'.
-		           pack writeClass: [ :cls | 
+		           pack writeParametrizableClass: [ :cls | 
 			           cls name: #ClzzName.
 			           cls writeTypeParameter: [ :tp | 
 				           tp name: #T.
@@ -63,7 +63,7 @@ MOModelDeclarationTestCase >> testDeclareClassWithImports [
 			           unit writeImport: [ :import | 
 				           import importTypeName: 'MyType'.
 				           import packageName: 'example.com' ].
-			           unit writeClass: [ :cls | 
+			           unit writeParametrizableClass: [ :cls | 
 				           cls name: #ClzzName.
 				           cls writeTypeParameter: [ :tp | 
 					           tp name: #T.
@@ -123,7 +123,7 @@ MOModelDeclarationTestCase >> testDeclareClassWithTypeParameters [
 
 	| class |
 	" ClzzName L <T implements Object> "
-	class := writer writeClass: [ :cls | 
+	class := writer writeParametrizableClass: [ :cls | 
 		         cls name: #ClzzName.
 		         cls writeTypeParameter: [ :tp | 
 			         tp name: #T.

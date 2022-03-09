@@ -29,11 +29,6 @@ MOAttributeWriter >> privateWriteToSurface: anEntity [
 	surface addAttribute: anEntity
 ]
 
-{ #category : #accessing }
-MOAttributeWriter >> visibility: anUndefinedObject [ 
-	self shouldBeImplemented.
-]
-
 { #category : #writing }
 MOAttributeWriter >> writeAnnotation: aFullBlockClosure [
 

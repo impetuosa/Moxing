@@ -1,8 +1,12 @@
 Class {
 	#name : #MOClass,
-	#superclass : #MOClassType,
+	#superclass : #MOType,
 	#instVars : [
-		'#superclassReference => MOReferenceSlot one'
+		'#superTypeReferences => MOReferenceSlot many',
+		'#superclassReference => MOReferenceSlot one',
+		'#attributes => MOContainmentSlot many',
+		'#decorators => MOReferenceSlot many',
+		'#methods => MOContainmentSlot many'
 	],
 	#classInstVars : [
 		'#object'
@@ -40,11 +44,24 @@ MOClass >> allVisibleMethods [
 		   ifNil: [ {  } ])
 ]
 
+{ #category : #accessing }
+MOClass >> attributes [
+
+	^ attributes
+]
+
+{ #category : #accessing }
+MOClass >> attributes: aCollection [ 
+
+	attributes :=aCollection
+]
+
 { #category : #generated }
 MOClass >> dependencies [
 
 	| deps |
-	deps := OrderedCollection streamContents: [ :str | 
+	self shouldBeImplemented 
+	"deps := OrderedCollection streamContents: [ :str | 
 		        parent ifNotNil: [ :p | str nextPutAll: p dependencies ].
 		        self decorators ifNotNil: [ 
 			        str nextPutAll:
@@ -60,15 +77,15 @@ MOClass >> dependencies [
 			        (superclassReference
 				         ifNil: [ {  } ]
 				         ifNotNil: [ :s | s dependencies ]) ].
-	^ MOImport compressDependencyCollection: deps
+	^ MOImport compressDependencyCollection: deps"
 ]
 
 { #category : #'as yet unclassified' }
 MOClass >> inheritanceTypeReferences [
 
-	^ super inheritanceTypeReferences , (superclassReference
-		   ifNotNil: [ { superclassReference } ]
-		   ifNil: [ {  } ])
+	^ superclassReference
+		  ifNotNil: [ { superclassReference } ]
+		  ifNil: [ {  } ]
 ]
 
 { #category : #generated }
@@ -77,6 +94,16 @@ MOClass >> initialize [
 	super initialize.
 	methods := OrderedCollection new.
 	visibility := #default
+]
+
+{ #category : #accessing }
+MOClass >> methods [
+	^ methods
+]
+
+{ #category : #accessing }
+MOClass >> methods: aCollection [ 
+	methods := aCollection
 ]
 
 { #category : #accessing }
@@ -104,6 +131,16 @@ MOClass >> printOn: aStream [
 MOClass >> superClass [
 
 	^ self superclassReference ifNotNil: [ :s | s candidate ]
+]
+
+{ #category : #navigation }
+MOClass >> superTypeReferences [
+	^ superTypeReferences
+]
+
+{ #category : #generated }
+MOClass >> superTypeReferences: aCollection [ 
+	superTypeReferences := aCollection
 ]
 
 { #category : #accessing }

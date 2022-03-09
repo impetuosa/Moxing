@@ -3,9 +3,7 @@ I build constructors and allow to include annotations, blocks, parameters and ty
 "
 Class {
 	#name : #MOConstructorWriter,
-	#superclass : #MOModelProceduralWriter,
-	#traits : 'MOHoldsTypeReferences',
-	#classTraits : 'MOHoldsTypeReferences classTrait',
+	#superclass : #MOInvocableWriter,
 	#category : #'Moxing-MicroWriters'
 }
 

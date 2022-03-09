@@ -29,7 +29,7 @@ MOTypescriptBasicLanguageLoader >> addMethod: aSelector type: aReturningTType pa
 MOTypescriptBasicLanguageLoader >> addProperty: aPropNAme type: aTypeName into: aMOClass [
 
 	| var |
-	var := model instantiate: MOVariable.
+	var := model instantiate: MOLocalVariable.
 	var name: aPropNAme.
 	aMOClass addProperty: var.
 	var parent: aMOClass.

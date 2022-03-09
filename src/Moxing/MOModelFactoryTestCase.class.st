@@ -43,7 +43,7 @@ MOModelFactoryTestCase >> testBlockBuilderGetsABlock [
 	| block |
 
 	block := builder blockBuilder
-		         addStatement: (builder variableBuilder
+		         addStatement: (builder localVariableBuilder
 				          name: 'var';
 				          typeReference: (builder typeReferenceBuilder
 						           name: 'String';
@@ -71,7 +71,7 @@ MOModelFactoryTestCase >> testCastReferenceGetsCastedType [
 		          package: parent;
 		          build.
 
-	variable := builder variableBuilder
+	variable := builder localVariableBuilder
 		            type: class;
 		            name: 'var';
 		            build.
@@ -174,7 +174,7 @@ MOModelFactoryTestCase >> testNewFunctionGetsYouAFunction [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
@@ -298,7 +298,7 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethod [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
@@ -353,7 +353,7 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethodWithInvocations [
 
 	| method body |
 	body := builder blockBuilder
-		        addExpressionStatement: (builder variableBuilder
+		        addExpressionStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
@@ -457,7 +457,7 @@ MOModelFactoryTestCase >> testNewProcedureGetsYouAProcedure [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
@@ -566,13 +566,13 @@ MOModelFactoryTestCase >> testTypedReferenceGetsTheTypeIfPossible [
 MOModelFactoryTestCase >> testVariableBuilderGetsYouVariable [
 
 	| param |
-	param := builder variableBuilder
+	param := builder localVariableBuilder
 		         name: #param1;
 		         typeReference: (builder typeReferenceBuilder
 				          name: 'String';
 				          build);
 		         build.
-	self assert: param isKindOf: MOVariable
+	self assert: param isKindOf: MOLocalVariable
 ]
 
 { #category : #running }
@@ -613,7 +613,7 @@ MOModelFactoryTestCase >> testVariableReferenceOverParameter [
 MOModelFactoryTestCase >> testVariableReferenceOverVariable [
 
 	| param reference |
-	param := builder variableBuilder
+	param := builder localVariableBuilder
 		         name: #param1;
 		         typeReference: (builder typeReferenceBuilder
 				          name: 'String';

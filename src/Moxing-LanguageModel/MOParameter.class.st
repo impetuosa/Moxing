@@ -1,6 +1,6 @@
 Class {
 	#name : #MOParameter,
-	#superclass : #MOVariable,
+	#superclass : #MOAbstractVariable,
 	#instVars : [
 		'isOptional'
 	],

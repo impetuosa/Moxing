@@ -675,6 +675,14 @@ MOModelWriter >> writePackageNamed: aString ifDoesNotExistUsing: aFullBlockClosu
 ]
 
 { #category : #writing }
+MOModelWriter >> writeParametrizableClass: aFullBlockClosure [
+
+	| writer |
+	writer := MOParametrizableClassWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeProject: aBlock [
 
 	| writer stmt |

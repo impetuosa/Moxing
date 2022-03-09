@@ -11,7 +11,7 @@ MOControlFlowBuilderTestCase >> testDoUntilStatement [
 	while := builder doUntilStatementBuilder
 		         condition: (builder comparisonOperatorBuilder
 				          operator: #>;
-				          left: (builder variableBuilder
+				          left: (builder localVariableBuilder
 						           name: 'var';
 						           build);
 				          right: (builder numericLiteralBuilder
@@ -58,7 +58,7 @@ MOControlFlowBuilderTestCase >> testDoUntilStatementNoLoopingBlock [
 			builder doUntilStatementBuilder
 				condition: (builder comparisonOperatorBuilder
 						 operator: #>;
-						 left: (builder variableBuilder
+						 left: (builder localVariableBuilder
 								  name: 'var';
 								  build);
 						 right: (builder numericLiteralBuilder
@@ -74,7 +74,7 @@ MOControlFlowBuilderTestCase >> testForStatement [
 
 	| for |
 	for := builder forStatementBuilder
-		       initializeOperation: (builder variableBuilder
+		       initializeOperation: (builder localVariableBuilder
 				        name: #i;
 				        build);
 		       updateOperation: (builder arithmeticUnaryOperationBuilder
@@ -104,7 +104,7 @@ MOControlFlowBuilderTestCase >> testForStatement [
 		       build.
 	self assert: for isKindOf: MOFor.
 	self assert: for condition operator equals: #>.
-	self assert: for initializeOperation isKindOf: MOVariable.
+	self assert: for initializeOperation isKindOf: MOLocalVariable.
 	self assert: for updateOperation isKindOf: MOUnaryArithmeticOperation.
 	self assert: for loopingBlock statements size equals: 1
 ]
@@ -115,7 +115,7 @@ MOControlFlowBuilderTestCase >> testForStatementNoCondition [
 	self
 		should: [ 
 			builder forStatementBuilder
-				initializeOperation: (builder variableBuilder
+				initializeOperation: (builder localVariableBuilder
 						 name: #i;
 						 build);
 				updateOperation: (builder arithmeticUnaryOperationBuilder
@@ -178,7 +178,7 @@ MOControlFlowBuilderTestCase >> testForStatementNoLoopingBlock [
 	self
 		should: [ 
 			builder forStatementBuilder
-				initializeOperation: (builder variableBuilder
+				initializeOperation: (builder localVariableBuilder
 						 name: #i;
 						 build);
 				updateOperation: (builder arithmeticUnaryOperationBuilder
@@ -205,7 +205,7 @@ MOControlFlowBuilderTestCase >> testForStatementNoUpdateOperation [
 
 	| for |
 	for := builder forStatementBuilder
-		       initializeOperation: (builder variableBuilder
+		       initializeOperation: (builder localVariableBuilder
 				        name: #i;
 				        build);
 		       condition: (builder comparisonOperatorBuilder
@@ -229,7 +229,7 @@ MOControlFlowBuilderTestCase >> testForStatementNoUpdateOperation [
 		         build.
 	self assert: for isKindOf: MOFor.
 	self assert: for condition operator equals: #>.
-	self assert: for initializeOperation isKindOf: MOVariable.
+	self assert: for initializeOperation isKindOf: MOLocalVariable.
 	self assert: for updateOperation isKindOf: MONoOp.
 	self assert: for loopingBlock statements size equals: 1
 ]
@@ -241,7 +241,7 @@ MOControlFlowBuilderTestCase >> testIfElseStatement [
 	if := builder ifStatementBuilder
 		      condition: (builder comparisonOperatorBuilder
 				       operator: #>;
-				       left: (builder variableBuilder
+				       left: (builder localVariableBuilder
 						        name: 'var';
 						        build);
 				       right: (builder numericLiteralBuilder
@@ -281,7 +281,7 @@ MOControlFlowBuilderTestCase >> testIfNoBlockBuilding [
 			builder ifStatementBuilder
 				condition: (builder comparisonOperatorBuilder
 						 operator: #>;
-						 left: (builder variableBuilder
+						 left: (builder localVariableBuilder
 								  name: 'var';
 								  build);
 						 right: (builder numericLiteralBuilder
@@ -315,7 +315,7 @@ MOControlFlowBuilderTestCase >> testIfOnlyElseStatement [
 	if := builder ifStatementBuilder
 		      condition: (builder comparisonOperatorBuilder
 				       operator: #>;
-				       left: (builder variableBuilder
+				       left: (builder localVariableBuilder
 						        name: 'var';
 						        build);
 				       right: (builder numericLiteralBuilder
@@ -345,7 +345,7 @@ MOControlFlowBuilderTestCase >> testIfStatement [
 	if := builder ifStatementBuilder
 		      condition: (builder comparisonOperatorBuilder
 				       operator: #>;
-				       left: (builder variableBuilder
+				       left: (builder localVariableBuilder
 						        name: 'var';
 						        build);
 				       right: (builder numericLiteralBuilder
@@ -395,7 +395,7 @@ MOControlFlowBuilderTestCase >> testWhileNoLoopingBlock [
 			while := builder loopStatementBuilder
 				         condition: (builder comparisonOperatorBuilder
 						          operator: #>;
-						          left: (builder variableBuilder
+						          left: (builder localVariableBuilder
 								           name: 'var';
 								           build);
 						          right: (builder numericLiteralBuilder
@@ -413,7 +413,7 @@ MOControlFlowBuilderTestCase >> testWhileStatement [
 	while := builder loopStatementBuilder
 		         condition: (builder comparisonOperatorBuilder
 				          operator: #>;
-				          left: (builder variableBuilder
+				          left: (builder localVariableBuilder
 						           name: 'var';
 						           build);
 				          right: (builder numericLiteralBuilder

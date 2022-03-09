@@ -22,7 +22,7 @@ MOVariableWriter >> bindingKind: aString [
 { #category : #writing }
 MOVariableWriter >> initializeWriteBuilder [
 
-	writeBuilder := builder variableBuilder
+	writeBuilder := builder localVariableBuilder
 ]
 
 { #category : #generated }
@@ -54,7 +54,7 @@ MOVariableWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
-	surface addVariable: anEntity
+	surface addLocalVariable: anEntity
 ]
 
 { #category : #writing }

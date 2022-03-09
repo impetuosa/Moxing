@@ -1,6 +1,6 @@
 Class {
 	#name : #MOEnumEntry,
-	#superclass : #MOConstant,
+	#superclass : #MOGlobalConstant,
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 

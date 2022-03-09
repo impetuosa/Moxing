@@ -6,25 +6,10 @@ Class {
 		'#visibility => MOPropertySlot',
 		'#modifiers => MOPropertySlot',
 		'#block => MOContainmentSlot one',
-		'#thrownTypeReferences => MOReferenceSlot many',
-		'#typeParameters => MOContainmentSlot many',
-		'#annotationInstances => MOReferenceSlot many',
 		'#bindingKind => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
-
-{ #category : #'as yet unclassified' }
-MOInvocable >> annotationInstances [
-
-	^ annotationInstances
-]
-
-{ #category : #accessing }
-MOInvocable >> annotationInstances: aCollection [
-
-	annotationInstances := aCollection
-]
 
 { #category : #accessing }
 MOInvocable >> bindingKind [
@@ -108,28 +93,6 @@ MOInvocable >> parameters: aCollection [
 { #category : #accessing }
 MOInvocable >> setStaticBinding [
 	bindingKind := #static.
-]
-
-{ #category : #accessing }
-MOInvocable >> thrownTypeReferences [
-	^ thrownTypeReferences
-]
-
-{ #category : #'as yet unclassified' }
-MOInvocable >> thrownTypeReferences: aCollection [
-
-	thrownTypeReferences := aCollection
-]
-
-{ #category : #generated }
-MOInvocable >> typeParameters [
-
-	^ typeParameters ifNil: [ typeParameters := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-MOInvocable >> typeParameters: aCollection [ 
-	typeParameters := aCollection
 ]
 
 { #category : #accessing }

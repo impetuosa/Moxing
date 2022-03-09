@@ -10,7 +10,7 @@ MOAngularPrebuiltMethodFactory >> addElementsMethod: aType url: anUrlVariable [
 	method := MOTemplatedMethod new
 		selector: ('add{1}' format: {aType name});
 		addParameter:
-			(MOVariable new
+			(MOLocalVariable new
 				name: 'object';
 				type: aType);
 		body:
@@ -34,7 +34,7 @@ MOAngularPrebuiltMethodFactory >> deleteElementsMethod: aType url: anUrlVariable
 	method := MOTemplatedMethod new
 		selector: ('delete{1}' format: {aType name});
 		addParameter:
-			(MOVariable new
+			(MOLocalVariable new
 				name: 'object';
 				type: aType);
 		body:
@@ -60,7 +60,7 @@ MOAngularPrebuiltMethodFactory >> editElementsMethod: aType url: anUrlVariable [
 	method := MOTemplatedMethod new
 		selector: ('update{1}' format: {aType name});
 		addParameter:
-			(MOVariable new
+			(MOLocalVariable new
 				name: 'object';
 				type: aType);
 		body:
@@ -91,7 +91,7 @@ MOAngularPrebuiltMethodFactory >> filterElementsMethod: aType url: anUrlVariable
 	method := MOTemplatedMethod new
 		selector: ('search{1}' format: {aType name});
 		addParameter:
-			(MOVariable new
+			(MOLocalVariable new
 				name: 'filter';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default string);
 		body:
@@ -165,7 +165,7 @@ MOAngularPrebuiltMethodFactory >> handleError [
 		yourself.
 	handleErrorMethod
 		addParameter:
-			(MOVariable new
+			(MOLocalVariable new
 				name: 'operation';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default string;
 				defaultValue:
@@ -174,7 +174,7 @@ MOAngularPrebuiltMethodFactory >> handleError [
 						yourself);
 				yourself);
 		addParameter:
-			(MOVariable new
+			(MOLocalVariable new
 				name: 'result?';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default T;
 				yourself).

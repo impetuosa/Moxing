@@ -1,11 +1,10 @@
 Class {
 	#name : #MOClassType,
-	#superclass : #MOTypeParameter,
+	#superclass : #MOType,
 	#instVars : [
+		'#superTypeReferences => MOReferenceSlot many',
 		'#attributes => MOContainmentSlot many',
-		'#decorators => MOReferenceSlot many',
-		'#methods => MOContainmentSlot many',
-		'#typeParameters => MOContainmentSlot many'
+		'#methods => MOContainmentSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -41,24 +40,15 @@ MOClassType >> constructors [
 ]
 
 { #category : #generated }
-MOClassType >> decorators [
-	^ decorators
-]
-
-{ #category : #accessing }
-MOClassType >> decorators: aCollection [ 
-	decorators := aCollection
-]
-
-{ #category : #generated }
 MOClassType >> dependencies [
 
 	| deps |
+	self shouldBeImplemented ."
 	deps := OrderedCollection streamContents: [ :str | 
-		        decorators do: [ :d | str nextPutAll: d dependencies ].
+		      
 		        str nextPutAll:
 			        (attributes flatCollect: [ :t | t dependencies ]) ].
-	^ MOImport compressDependencyCollection: deps
+	^ MOImport compressDependencyCollection: deps"
 ]
 
 { #category : #adding }
@@ -99,14 +89,12 @@ MOClassType >> printOn: aStream [
 		nextPutAll: name
 ]
 
-{ #category : #generated }
-MOClassType >> typeParameters [
-
-	^ typeParameters
+{ #category : #accessing }
+MOClassType >> superTypeReferences [
+	^ superTypeReferences
 ]
 
-{ #category : #generated }
-MOClassType >> typeParameters: aCollection [
-
-	typeParameters := aCollection
+{ #category : #adding }
+MOClassType >> superTypeReferences: aCollection [ 
+	superTypeReferences := aCollection
 ]

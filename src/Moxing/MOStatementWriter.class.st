@@ -263,7 +263,7 @@ MOStatementWriter >> setToReturn: aFullBlockClosure [
 { #category : #statements }
 MOStatementWriter >> variable: aString typeReference: aMOTypeReference [
 
-	^ self registerStatement: (builder variableBuilder
+	^ self registerStatement: (builder localVariableBuilder
 			   name: aString;
 			   typeReference: aMOTypeReference value;
 			   build)
@@ -272,7 +272,7 @@ MOStatementWriter >> variable: aString typeReference: aMOTypeReference [
 { #category : #statements }
 MOStatementWriter >> variable: aName typeReference: aTypeReference initializer: anExpressionBlock [
 
-	^ self registerStatement: (builder variableBuilder
+	^ self registerStatement: (builder localVariableBuilder
 			   name: aName;
 			   typeReference: aTypeReference value;
 			   initializer: (self writeExpression: anExpressionBlock);

@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #printing }
+MOPrimitiveType >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitPrimitiveType: self
+]
+
+{ #category : #printing }
 MOPrimitiveType >> fullName [
 
 	^ name

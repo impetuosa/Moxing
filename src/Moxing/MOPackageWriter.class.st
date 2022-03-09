@@ -85,6 +85,12 @@ MOPackageWriter >> writePackage: aBlock [
 ]
 
 { #category : #writing }
+MOPackageWriter >> writeParametrizableClass: aFullBlockClosure [ 
+
+	^ self write: aFullBlockClosure inSubWriter: MOParametrizableClassWriter  
+]
+
+{ #category : #writing }
 MOPackageWriter >> writePrimitiveType: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter

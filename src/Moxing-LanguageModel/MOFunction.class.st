@@ -1,7 +1,8 @@
 Class {
 	#name : #MOFunction,
-	#superclass : #MOProcedure,
+	#superclass : #MOInvocable,
 	#instVars : [
+		'#selector => MOPropertySlot',
 		'#returnTypeReference => MOReferenceSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
@@ -18,14 +19,6 @@ MOFunction >> dependencies [
 
 	^ super dependencies
 	  , (returnTypeReference ifNotNil: [ :t | t dependencies ] ifNil: [ {  } ])
-]
-
-{ #category : #'as yet unclassified' }
-MOFunction >> fullSelector [
-
-	^ '{1}.{2}' format: { 
-			  parent name.
-			  selector }
 ]
 
 { #category : #generated }
@@ -51,4 +44,17 @@ MOFunction >> returnTypeReference [
 MOFunction >> returnTypeReference: aTypeReference [
 
 	returnTypeReference := aTypeReference
+]
+
+{ #category : #generated }
+MOFunction >> selector [
+	^ selector
+	
+]
+
+{ #category : #generated }
+MOFunction >> selector: aString [
+
+	selector := aString.
+	name := aString 
 ]

@@ -33,12 +33,6 @@ MOClassTypeWriter >> addModifier: aString [
 	writeBuilder addModifier: aString
 ]
 
-{ #category : #adding }
-MOClassTypeWriter >> addTypeParameter: aMOTypeParameter [
-
-	writeBuilder addTypeParameter: aMOTypeParameter
-]
-
 { #category : #accessing }
 MOClassTypeWriter >> fullName: aString [
 
@@ -83,11 +77,6 @@ MOClassTypeWriter >> writeAttribute: aBlock [
 { #category : #writing }
 MOClassTypeWriter >> writeConstructor: aFullBlockClosure [ 
 		^ self write: aFullBlockClosure inSubWriter: MOConstructorWriter 
-]
-
-{ #category : #writing }
-MOClassTypeWriter >> writeDecorator: aFullBlockClosure [ 
-		^ self write: aFullBlockClosure inSubWriter: MODecoratorWriter
 ]
 
 { #category : #writing }

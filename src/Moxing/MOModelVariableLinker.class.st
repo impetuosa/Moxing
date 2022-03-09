@@ -33,7 +33,7 @@ MOModelVariableLinker >> visitBlock: aMOBlock [
 
 	aMOBlock statements
 		detect: [ :v | 
-		(v isKindOf: MOVariable) and: [ v name = resolving name ] ]
+		(v isKindOf: MOLocalVariable) and: [ v name = resolving name ] ]
 		ifFound: [ :c | resolving candidate: c ]
 		ifNone: [ aMOBlock parent acceptVisitor: self ]
 ]
@@ -43,7 +43,7 @@ MOModelVariableLinker >> visitClass: aMOClass [
 
 	aMOClass attributes
 		detect: [ :v | 
-		(v isKindOf: MOVariable) and: [ v name = resolving name ] ]
+		(v isKindOf: MOLocalVariable) and: [ v name = resolving name ] ]
 		ifFound: [ :c | resolving candidate: c ]
 		ifNone: [ aMOClass parent acceptVisitor: self ]
 ]

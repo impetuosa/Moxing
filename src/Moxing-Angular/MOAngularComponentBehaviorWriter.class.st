@@ -48,7 +48,7 @@ MOAngularComponentBehaviorWriter >> visitCSNPage: aJinCasinoPage [
 MOAngularComponentBehaviorWriter >> visitDataBinding: aMODataBindingAttribute [
 	behavior angularModel
 		addProperty:
-			(MOVariable new
+			(MOLocalVariable new
 				name: aMODataBindingAttribute binding entity compilableIdentifier;
 				type:
 					(MOTypescriptPrebuiltTypeReferenceFactory default

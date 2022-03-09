@@ -63,7 +63,7 @@ MOClassWriter >> writeFunction: aBlock [
 		  write: [ :function | 
 			  function setDynamicBinding.
 			  aBlock value: function ]
-		  inSubWriter: MOFunctionWriter
+		  inSubWriter: MOClassFunctionWriter
 ]
 
 { #category : #writing }
@@ -73,5 +73,5 @@ MOClassWriter >> writeSubprocedure: aBlock [
 		  write: [ :function | 
 			  function setDynamicBinding.
 			  aBlock value: function ]
-		  inSubWriter: MOSubProcedureWriter
+		  inSubWriter: MOClassSubProcedureWriter
 ]

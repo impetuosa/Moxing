@@ -29,7 +29,7 @@ MOAngularModelWriter >> typeReferenceFor: aType [
 MOAngularModelWriter >> visitColumn: aMDColumn [
 	model
 		addProperty:
-			(MOVariable new
+			(MOLocalVariable new
 				name: aMDColumn compilableIdentifier;
 				type: (self typeReferenceFor: aMDColumn type);
 				yourself)

@@ -3,7 +3,7 @@ I build procedures and allow to add the same as my parent
 "
 Class {
 	#name : #MOSubProcedureWriter,
-	#superclass : #MOConstructorWriter,
+	#superclass : #MOInvocableWriter,
 	#category : #'Moxing-MicroWriters'
 }
 

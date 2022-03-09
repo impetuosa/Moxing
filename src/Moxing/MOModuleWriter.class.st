@@ -102,9 +102,3 @@ MOModuleWriter >> writeSubprocedure: aBlock [
 
 	^ self write: aBlock inSubWriter: MOSubProcedureWriter
 ]
-
-{ #category : #writing }
-MOModuleWriter >> writeVariable: aBlock [
-
-	^ self write: aBlock inSubWriter: MOVariableWriter
-]

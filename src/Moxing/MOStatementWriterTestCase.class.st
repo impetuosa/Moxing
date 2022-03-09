@@ -223,7 +223,7 @@ MOStatementWriterTestCase >> testWriteVariable [
 					      typeReference: (statements typeReferenceNamed: #int) ] ] ].
 	expression := fn block statements first.
 	self assert: expression parent equals: fn block.
-	self assert: (expression isKindOf: MOVariable).
+	self assert: (expression isKindOf: MOLocalVariable).
 	self assert: expression name equals: #name.
 	self assertAllAnchorsAreSet.
 	self assertAllParentsAreSet

@@ -124,6 +124,12 @@ MODeclarationUnitWriter >> writePackageNamed: aString ifDoesNotExistUsing: aFull
 ]
 
 { #category : #writing }
+MODeclarationUnitWriter >> writeParametrizableClass: aFullBlockClosure [ 
+
+	^ self write: aFullBlockClosure inSubWriter: MOParametrizableClassWriter  
+]
+
+{ #category : #writing }
 MODeclarationUnitWriter >> writeQuery: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOQueryWriter

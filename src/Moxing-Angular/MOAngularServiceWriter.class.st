@@ -42,7 +42,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 				injectableProvidedAtRoot.
 	service
 		addProperty:
-			(MOVariable new
+			(MOLocalVariable new
 				visibility: #private;
 				name: 'serviceUrl';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default string;
@@ -52,7 +52,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 						yourself);
 				yourself);
 		addProperty:
-			(MOVariable new
+			(MOLocalVariable new
 				visibility: '';
 				name: 'httpOptions';
 				defaultValue:
@@ -80,7 +80,7 @@ MOAngularServiceWriter >> visitRelationalView: aMDRelationalView [
 		addMethod:
 			((self methodFactory
 				emptyConstructorArguments:
-				{(MOVariable new
+				{(MOLocalVariable new
 				visibility: #private;
 				name: 'http';
 				type: MOTypescriptPrebuiltTypeReferenceFactory default httpClient;

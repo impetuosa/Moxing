@@ -14,13 +14,6 @@ MOTypeParameter >> acceptVisitor: aMOCatalogTypeInstaller [
 ]
 
 { #category : #accessing }
-MOTypeParameter >> fullName [
-
-	^ (parent name ifNotNil: [ :str | str , '.' ] ifNil: [ '' ])
-	  , self name
-]
-
-{ #category : #accessing }
 MOTypeParameter >> printOn: aStream [
 
 	aStream
@@ -35,10 +28,5 @@ MOTypeParameter >> superTypeReferences [
 
 { #category : #accessing }
 MOTypeParameter >> superTypeReferences: aCollection [ 
-	superTypeReferences := aCollection
-]
-
-{ #category : #accessing }
-MOTypeParameter >> supertypes: aCollection [ 
 	superTypeReferences := aCollection
 ]
