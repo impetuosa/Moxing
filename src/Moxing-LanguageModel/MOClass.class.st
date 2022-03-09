@@ -60,15 +60,11 @@ MOClass >> attributes: aCollection [
 MOClass >> dependencies [
 
 	| deps |
-	self shouldBeImplemented 
-	"deps := OrderedCollection streamContents: [ :str | 
-		        parent ifNotNil: [ :p | str nextPutAll: p dependencies ].
-		        self decorators ifNotNil: [ 
-			        str nextPutAll:
-				        (self decorators flatCollect: [ :e | e dependencies ]) ].
-		        str nextPutAll:
-			        (self superTypeReferences flatCollect: [ :t | 
-				         t dependencies ]).
+	deps := OrderedCollection streamContents: [ :str | 
+		        str nextPutAll: self superTypeReferences.
+		        self superclassReference ifNotNil: [ 
+			        str nextPut: self superclassReference ].
+
 		        str nextPutAll:
 			        (attributes flatCollect: [ :t | t dependencies ]).
 		        str nextPutAll:
@@ -77,7 +73,7 @@ MOClass >> dependencies [
 			        (superclassReference
 				         ifNil: [ {  } ]
 				         ifNotNil: [ :s | s dependencies ]) ].
-	^ MOImport compressDependencyCollection: deps"
+	^ MOImport compressDependencyCollection: deps
 ]
 
 { #category : #'as yet unclassified' }

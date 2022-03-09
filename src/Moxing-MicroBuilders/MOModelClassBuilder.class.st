@@ -11,9 +11,15 @@ Class {
 }
 
 { #category : #adding }
-MOModelClassBuilder >> addAccessor: aMOAccessor [
+MOModelClassBuilder >> addAttributeAccessor: aMOAccessor [
 
 	self addMethod: aMOAccessor
+]
+
+{ #category : #adding }
+MOModelClassBuilder >> addConstantAttribute: aMOConstantAttribute [
+
+	self addAttribute: aMOConstantAttribute
 ]
 
 { #category : #adding }

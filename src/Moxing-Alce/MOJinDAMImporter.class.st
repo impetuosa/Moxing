@@ -26,6 +26,17 @@ MOJinDAMImporter class >> northwind [
 	^ northwind ifNil: [ northwind := self loadNorthwind  ]
 ]
 
+{ #category : #accessing }
+MOJinDAMImporter class >> northwind: aVal [ 
+	^ northwind := aVal
+]
+
+{ #category : #accessing }
+MOJinDAMImporter class >> reset [ 
+	<script> 
+	northwind := nil
+]
+
 { #category : #'as yet unclassified' }
 MOJinDAMImporter >> anchorFromToInstall [
 

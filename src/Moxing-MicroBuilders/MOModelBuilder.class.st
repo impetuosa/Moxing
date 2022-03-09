@@ -14,14 +14,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> accessorBuilder [
-
-	^ MOModelAccessorBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> annotationInstanceBuilder [
 
 	^ MOModelAnnotationInstanceBuilder new
@@ -88,6 +80,14 @@ MOModelBuilder >> assignmentBuilder [
 MOModelBuilder >> attributeAccessBuilder [
 
 	^ MOModelAttributeAccessBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> attributeAccessorBuilder [
+
+	^ MOModelAttributeAccessorBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -195,9 +195,9 @@ MOModelBuilder >> comparisonOperatorBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> constantBuilder [
+MOModelBuilder >> constantAttributeBuilder [
 
-	^ MOModelConstantBuilder new
+	^ MOModelConstantAttributeBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -332,6 +332,22 @@ MOModelBuilder >> getModifiableVersionOf: aMOVariable [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> globalConstantBuilder [
+
+	^ MOModelGlobalConstantBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> globalVariableBuilder [
+
+	^ MOModelGlobalVariableBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> goToBuilder [
 
 	^ MOModelGoToBuilder new
@@ -409,6 +425,14 @@ MOModelBuilder >> language: aMOLanguage [
 MOModelBuilder >> libraryBuilder [
 
 	^ MOLibraryBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> localConstantBuilder [
+
+	^ MOModelLocalConstantBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -562,6 +586,14 @@ MOModelBuilder >> parametrizableClassTypeBuilder [
 	^ MOModelParametrizableClassTypeBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> parametrizableMethodBuilder [
+
+	^ MOModelParametrizableMethodBuilder new
+		  parentBuilder: self;
 		  yourself
 ]
 
@@ -771,6 +803,14 @@ MOModelBuilder >> typeParameterBuilder [
 MOModelBuilder >> typeReferenceBuilder [
 
 	^ MOModelTypeReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> variableAccessorBuilder [
+
+	^ MOModelVariableAccessorBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

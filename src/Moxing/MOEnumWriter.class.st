@@ -35,13 +35,13 @@ MOEnumWriter >> visibility: aString [
 ]
 
 { #category : #writing }
-MOEnumWriter >> writeConstant: aFullBlockClosure [
-	^ self writeEntry: aFullBlockClosure
-]
-
-{ #category : #writing }
 MOEnumWriter >> writeEntry: aBlock [
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOEnumEntryWriter.
 	^ stmnt
+]
+
+{ #category : #writing }
+MOEnumWriter >> writeLocalConstant: aFullBlockClosure [
+	^ self writeEntry: aFullBlockClosure
 ]

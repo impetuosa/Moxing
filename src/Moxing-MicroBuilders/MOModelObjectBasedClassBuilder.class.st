@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #adding }
-MOModelObjectBasedClassBuilder >> addAccessor: aMOAccessor [
+MOModelObjectBasedClassBuilder >> addAttributeAccessor: aMOAccessor [
 
 	self addMethod: aMOAccessor
 ]

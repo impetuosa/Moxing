@@ -158,10 +158,32 @@ MOModelTypeLinker >> visitParameter: aMOParameter [
 ]
 
 { #category : #visiting }
+MOModelTypeLinker >> visitParametrizableClass: aMOParametrizableClass [
+
+	self registerPossibles:
+		(aMOParametrizableClass typeParameters select: [ :t | 
+			 t name = resolving name ]).
+	self typeHasBeenResolved
+		ifFalse: [ 
+			aMOParametrizableClass packageReference acceptVisitor: self.
+			aMOParametrizableClass parent acceptVisitor: self ]
+		ifTrue: [ self halt ]
+]
+
+{ #category : #visiting }
+MOModelTypeLinker >> visitParametrizableClassType: aMOParametrizableClassType [
+
+	self registerPossibles:
+		(aMOParametrizableClassType typeParameters select: [ :t | 
+			 t name = resolving name ]).
+	self typeHasBeenResolved ifFalse: [ 
+		aMOParametrizableClassType packageReference acceptVisitor: self.
+		aMOParametrizableClassType parent acceptVisitor: self ]
+]
+
+{ #category : #visiting }
 MOModelTypeLinker >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
 
-"	aMOParametrizedTypeReference argumentTypeReferences do: [ :a | 
-		a acceptVisitor: self ]."
 	self visitTypeReference: aMOParametrizedTypeReference
 ]
 
@@ -184,6 +206,14 @@ MOModelTypeLinker >> visitTypeReference: aMOTypeReference [
 	aMOTypeReference parent isTypeReference ifFalse: [ 
 		""
 		aMOTypeReference parent acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelTypeLinker >> visitVarArgParameter: aMOVariableArgumentsParameter [
+
+	self assert:
+		aMOVariableArgumentsParameter typeReference candidate isNil.
+	aMOVariableArgumentsParameter parent acceptVisitor: self
 ]
 
 { #category : #visiting }

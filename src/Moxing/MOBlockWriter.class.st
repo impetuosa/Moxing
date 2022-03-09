@@ -21,6 +21,12 @@ MOBlockWriter >> addLastStatement: aMOVariable [
 ]
 
 { #category : #adding }
+MOBlockWriter >> addLocalVariable: aMOLocalVariable [
+
+	writeBuilder addLocalVariable: aMOLocalVariable
+]
+
+{ #category : #adding }
 MOBlockWriter >> addStatement: aMOVariable [
 
 	^ writeBuilder addStatement: aMOVariable

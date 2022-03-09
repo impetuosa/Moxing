@@ -7,6 +7,12 @@ Class {
 	#category : #'Moxing-MicroBuilders-statements'
 }
 
+{ #category : #asserting }
+MOModelResumeBuilder >> buildsType [
+
+	^ MOAlceResume
+]
+
 { #category : #accessing }
 MOModelResumeBuilder >> destinations [ 
 	 ^ destinations ifNil: [  destinations := OrderedCollection new  ]

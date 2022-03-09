@@ -9,3 +9,9 @@ MOConstantAttribute >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitConstantAttribute: self
 ]
+
+{ #category : #visiting }
+MOConstantAttribute >> kindString [
+
+	^ 'CONST ATTR'
+]

@@ -10,3 +10,9 @@ MOModelClassProcedureBuilder >> buildsType [
 	<generated>
 	^ MOClassProcedure
 ]
+
+{ #category : #asserting }
+MOModelClassProcedureBuilder >> setDefaultBinding [
+
+	self setDynamicBinding
+]

@@ -8,8 +8,14 @@ Class {
 }
 
 { #category : #adding }
-MOClassWriter >> addAccessor: aMOAccessor [ 
-	writeBuilder addAccessor: aMOAccessor 
+MOClassWriter >> addAttributeAccessor: aMOAccessor [ 
+	writeBuilder addAttributeAccessor: aMOAccessor 
+]
+
+{ #category : #adding }
+MOClassWriter >> addConstantAttribute: aMOConstantAttribute [
+
+	writeBuilder addConstantAttribute: aMOConstantAttribute
 ]
 
 { #category : #adding }
@@ -53,17 +59,33 @@ MOClassWriter >> superclassReference: superClassReference [
 { #category : #writing }
 MOClassWriter >> writeAttributeAccessor: aFullBlockClosure [
 
-	^ self write: aFullBlockClosure inSubWriter: MOAccessorWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAttributeAccessorWriter
 ]
 
 { #category : #writing }
-MOClassWriter >> writeFunction: aBlock [
+MOClassWriter >> writeClassFunction: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOClassFunctionWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeClassProcedure: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOClassSubProcedureWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeConstantAttribute: aFullBlockClosure [
 
 	^ self
-		  write: [ :function | 
-			  function setDynamicBinding.
-			  aBlock value: function ]
-		  inSubWriter: MOClassFunctionWriter
+		  write: aFullBlockClosure
+		  inSubWriter: MOConstantAttributeWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeFunction: aFullBlockClosure [
+
+	^ self writeClassFunction: aFullBlockClosure
 ]
 
 { #category : #writing }

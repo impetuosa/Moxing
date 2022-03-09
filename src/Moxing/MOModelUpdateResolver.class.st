@@ -108,7 +108,7 @@ MOModelUpdateResolver >> visitClass: aMOClass [
 MOModelUpdateResolver >> visitConstant: aMOConstant [
 
 	| addedElement |
-	writer updateConstant: aMOConstant with: [ :block | 
+	writer updateLocalConstant: aMOConstant with: [ :block | 
 		addedElement := writingBlock cull: writingEntityRelation cull: block ].
 	^ addedElement
 ]

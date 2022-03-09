@@ -18,7 +18,7 @@ MOType >> addModifier: aModifier [
 { #category : #accessing }
 MOType >> fullName [
 
-	^ (parent ifNotNil: [ : p  |  p name , '.'  ] ifNil: [ '' ]), self name
+	^ (packageReference ifNotNil: [ : p  |  p name , '.'  ] ifNil: [ '' ]), self name
 ]
 
 { #category : #accessing }

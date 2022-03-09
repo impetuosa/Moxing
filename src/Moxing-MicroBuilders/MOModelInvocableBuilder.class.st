@@ -33,12 +33,6 @@ MOModelInvocableBuilder >> addThrownTypeReference: aMOTypeReference [
 	self thrownTypeReferences add: aMOTypeReference
 ]
 
-{ #category : #adding }
-MOModelInvocableBuilder >> addTypeParameter: aMOTypeParameter [
-
-	self typeParameters add: aMOTypeParameter
-]
-
 { #category : #generated }
 MOModelInvocableBuilder >> block: aMOBlock [
 

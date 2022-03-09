@@ -389,3 +389,9 @@ MOModelProceduralWriter >> writeUnregisteredExpression: aBlock [
 MOModelProceduralWriter >> writerBuilder [
 	^ writeBuilder 
 ]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> writingType [
+
+	^ writeBuilder buildsType
+]

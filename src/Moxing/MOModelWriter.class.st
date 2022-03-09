@@ -15,15 +15,15 @@ Class {
 }
 
 { #category : #adding }
-MOModelWriter >> addAccessor: aMOAccessor [
-
-	entity := aMOAccessor
-]
-
-{ #category : #adding }
 MOModelWriter >> addArtefact: aMOProject [
 
 	entity := aMOProject
+]
+
+{ #category : #adding }
+MOModelWriter >> addAttributeAccessor: aMOAccessor [
+
+	entity := aMOAccessor
 ]
 
 { #category : #adding }
@@ -250,15 +250,15 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
-
-	anEntity allContainmentRelations , anEntity allReferenceRelations, anEntity allExpressionRelations  
-		do: [ :relation | 
-			subentity := relation to.
-			subentity parent: anEntity.
-			subentity anchor:
-				anEntity anchor / (subentity name ifNil: [ relation name ])
-				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
-			self populateAnchorOn: subentity ]
+	anEntity allContainmentRelations , anEntity allReferenceRelations
+	, anEntity allExpressionRelations do: [ :relation | 
+		subentity := relation to.
+		subentity parent: anEntity.
+		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
+				 ifTrue: [ relation name ]
+				 ifFalse: [ subentity name ])
+			/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
+		self populateAnchorOn: subentity ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -320,7 +320,7 @@ MOModelWriter >> updateAccessor: aMOAccessor with: aFullBlockClosure [
 ^ self
 		  write: aFullBlockClosure
 		  forUpdating: aMOAccessor
-		  withWriter: MOAccessorWriter new
+		  withWriter: MOAttributeAccessorWriter new
 ]
 
 { #category : #'as yet unclassified' }
@@ -368,15 +368,6 @@ MOModelWriter >> updateClass: aMOClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> updateConstant: aMOVariable with: aFullBlockClosure [
-
-	^ self
-		  write: aFullBlockClosure
-		  forUpdating: aMOVariable
-		  withWriter: MOConstantWriter new
-]
-
-{ #category : #'as yet unclassified' }
 MOModelWriter >> updateEnum: aMOMethod with: aFullBlockClosure [
 
 	^ self
@@ -404,6 +395,15 @@ MOModelWriter >> updateIfElse: aMOIfElse with: aFullBlockClosure [
 		forUpdating: aMOIfElse
 		withWriter: writer.
 	^ writer writeResult
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateLocalConstant: aMOVariable with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOVariable
+		  withWriter: MOLocalConstantWriter new
 ]
 
 { #category : #'as yet unclassified' }
@@ -683,6 +683,14 @@ MOModelWriter >> writeParametrizableClass: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOModelWriter >> writeParametrizableClassType: aFullBlockClosure [
+
+	| writer |
+	writer := MOParametrizableClassTypeWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeProject: aBlock [
 
 	| writer stmt |
@@ -736,4 +744,9 @@ MOModelWriter >> writeVariable: aFullBlockClosure [
 	| writer |
 	writer := MOVariableWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> writingType [
+	^ entity class 
 ]

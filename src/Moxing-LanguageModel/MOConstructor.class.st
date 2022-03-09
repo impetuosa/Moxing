@@ -1,6 +1,11 @@
 Class {
 	#name : #MOConstructor,
 	#superclass : #MOInvocable,
+	#instVars : [
+		'#thrownTypeReferences => MOReferenceSlot many',
+		'#typeParameters => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many'
+	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
@@ -8,6 +13,11 @@ Class {
 MOConstructor >> acceptVisitor: aMOCatalogTypeInstaller [
 
 	^ aMOCatalogTypeInstaller visitConstructor: self
+]
+
+{ #category : #accessing }
+MOConstructor >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -19,4 +29,14 @@ MOConstructor >> constructingTypeName [
 { #category : #accessing }
 MOConstructor >> selector [ 
 	^ parent name 
+]
+
+{ #category : #accessing }
+MOConstructor >> thrownTypeReferences: aCollection [ 
+	thrownTypeReferences := aCollection
+]
+
+{ #category : #accessing }
+MOConstructor >> typeParameters: aCollection [ 
+	typeParameters := aCollection
 ]

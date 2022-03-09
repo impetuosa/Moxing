@@ -122,10 +122,6 @@ MOJavaCodeGenerator >> visitCatch: aMOCatch [
 
 { #category : #visiting }
 MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
-
-	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].
-	aJinTypescriptClass decorators do: [ :d | d acceptVisitor: self ].
-
 	stream nextPutAll: aJinTypescriptClass visibility asLowercase.
 	self
 		printClassHeader: aJinTypescriptClass name
@@ -154,15 +150,25 @@ MOJavaCodeGenerator >> visitConstant: aMOConstant [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitConstantAttribute: aMOConstantAttribute [
+
+	stream nextPutAll: 'final '.
+	self visitVariable: aMOConstantAttribute
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitConstantReference: aMOConstantReference [
 
 	^ self visitVariableReference: aMOConstantReference
 ]
 
 { #category : #visiting }
-MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [ 
+MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [
+
 	self visitCollection: aMODeclarationUnit imports.
-	self visitCollection: aMODeclarationUnit types.
+	aMODeclarationUnit types do: [ :t | 
+		self assert: t dependencies isEmpty ].
+	self visitCollection: aMODeclarationUnit types
 ]
 
 { #category : #visiting }
@@ -253,6 +259,12 @@ MOJavaCodeGenerator >> visitLabelReference: aMOAlceLabelReference [
 		  stream
 			  nextPutAll: ' Label Usage:   ';
 			  nextPutAll: aMOAlceLabelReference name ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitLocalVariable: aMOLocalVariable [
+
+	^ self visitVariable: aMOLocalVariable
 ]
 
 { #category : #visiting }

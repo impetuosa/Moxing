@@ -30,6 +30,12 @@ MOAbstractVariable >> addStatement: aMONewExpression [
 ]
 
 { #category : #accessing }
+MOAbstractVariable >> annotationInstances [
+
+	^ annotationInstances
+]
+
+{ #category : #accessing }
 MOAbstractVariable >> annotationInstances: aCollection [
 
 	annotationInstances := aCollection

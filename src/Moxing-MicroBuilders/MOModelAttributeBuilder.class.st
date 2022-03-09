@@ -4,39 +4,47 @@ I build attributes
 Class {
 	#name : #MOModelAttributeBuilder,
 	#superclass : #MOModelVariableBuilder,
+	#instVars : [
+		'visibility'
+	],
 	#category : #'Moxing-MicroBuilders-variables'
 }
 
 { #category : #'as yet unclassified' }
 MOModelAttributeBuilder >> buildsType [
-<generated>
-	^MOAttribute
+
+	<generated>
+	^ MOAttribute
 ]
 
 { #category : #'as yet unclassified' }
 MOModelAttributeBuilder >> loadBuilderWithEntity: anEntity [
 
-	self name: anEntity name.
-	self initializer: anEntity initializer.
-	self visibility: anEntity visibility.
-	self typeReference: anEntity typeReference
+	super loadBuilderWithEntity: anEntity.
+	self visibility: anEntity visibility
 ]
 
 { #category : #'as yet unclassified' }
 MOModelAttributeBuilder >> privateBuild [
 
-	^ (self instantiate: MOAttribute)
-		  name: self name;
-		  bindingKind: self bindingKind;
-		  modifiers: self modifiers;
-		  initializer: self initializer;
+	^ super privateBuild
 		  visibility: self visibility;
-		  typeReference: self typeReference;
-		  annotationInstances: self annotationInstances;
 		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 MOModelAttributeBuilder >> setDefaultBinding [
 	self setDynamicBinding.
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAttributeBuilder >> visibility [
+
+	^ visibility
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAttributeBuilder >> visibility: anObject [
+
+	visibility := anObject
 ]

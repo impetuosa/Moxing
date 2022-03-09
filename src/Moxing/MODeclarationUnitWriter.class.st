@@ -130,6 +130,12 @@ MODeclarationUnitWriter >> writeParametrizableClass: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MODeclarationUnitWriter >> writeParametrizableClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOParametrizableClassTypeWriter
+]
+
+{ #category : #writing }
 MODeclarationUnitWriter >> writeQuery: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOQueryWriter

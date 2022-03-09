@@ -1,6 +1,6 @@
 Class {
 	#name : #MOEnumEntryWriter,
-	#superclass : #MOConstantWriter,
+	#superclass : #MOLocalConstantWriter,
 	#category : #'Moxing-MicroWriters'
 }
 

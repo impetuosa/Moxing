@@ -3,8 +3,8 @@ Class {
 	#superclass : #MOLanguageObject,
 	#instVars : [
 		'#invocables => MOContainmentSlot many',
-		'#attributes => MOContainmentSlot many',
-		'#packageReference => MOReferenceSlot one',
+		'#variables => MOContainmentSlot many',
+		'#constants => MOContainmentSlot many',
 		'#types => MOContainmentSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
@@ -17,13 +17,13 @@ MOModule >> acceptVisitor: aMOModelWriteTypeBasedCopyResolver [
 ]
 
 { #category : #accessing }
-MOModule >> attributes [
-	^ attributes
+MOModule >> constants [
+	^ constants
 ]
 
 { #category : #accessing }
-MOModule >> attributes: aCollection [ 
-	attributes := aCollection
+MOModule >> constants: aCollection [ 
+	constants := aCollection
 ]
 
 { #category : #generated }
@@ -48,12 +48,6 @@ MOModule >> invocables: aCollection [
 	invocables := aCollection
 ]
 
-{ #category : #adding }
-MOModule >> packageReference [
-
-	^ packageReference
-]
-
 { #category : #accessing }
 MOModule >> types [
 	^ types
@@ -63,4 +57,14 @@ MOModule >> types [
 MOModule >> types: aCollection [
 
 	types := aCollection
+]
+
+{ #category : #accessing }
+MOModule >> variables [
+	^ variables
+]
+
+{ #category : #accessing }
+MOModule >> variables: aCollection [ 
+	variables := aCollection
 ]

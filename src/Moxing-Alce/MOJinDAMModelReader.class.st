@@ -122,7 +122,6 @@ MOJinDAMModelReader >> visitAttribute: aJinDAMAttribute [
 
 { #category : #visiting }
 MOJinDAMModelReader >> visitAttributeAccessor: aJinDAMAttributeAccessor [
-
 	^ self
 		  trace: aJinDAMAttributeAccessor
 		  with: (writer writeAttributeAccessor: [ :accessor | 
@@ -206,10 +205,15 @@ MOJinDAMModelReader >> visitEnum: aJinDAMEnum [
 			   enum name: aJinDAMEnum name.
 			   aJinDAMEnum values do: [ :e | 
 				   self trace: e with: (enum writeEntry: [ :entry | 
+						    | lit |
+						    lit := e value isNumber
+							           ifTrue: [ enum numericLiteral: e value ]
+							           ifFalse: [ 
+							           enum ifNil: [ nil ] ifNotNil: [ self halt ] ].
 						    entry
 							    typeReference: (entry typeReferenceNamed: aJinDAMEnum name);
 							    name: e name;
-							    value: e value ]) ] ])
+							    value: lit ]) ] ])
 ]
 
 { #category : #visiting }

@@ -231,3 +231,9 @@ MOExpressionWriter >> writenExpression: aMOVariableReference [
 
 	^ aMOVariableReference
 ]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> writingType [
+
+	^ nil
+]

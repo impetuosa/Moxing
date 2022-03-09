@@ -1,6 +1,9 @@
 Class {
 	#name : #MOEnumEntry,
-	#superclass : #MOGlobalConstant,
+	#superclass : #MOAbstractVariable,
+	#instVars : [
+		'value'
+	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
@@ -14,4 +17,15 @@ MOEnumEntry >> acceptVisitor: aJinTypescriptCodeGenerator [
 MOEnumEntry >> kindString [
 
 	^ 'EnumEntry'
+]
+
+{ #category : #visiting }
+MOEnumEntry >> value [
+
+	^ value
+]
+
+{ #category : #visiting }
+MOEnumEntry >> value: aValue [
+ 	 value := aValue 
 ]

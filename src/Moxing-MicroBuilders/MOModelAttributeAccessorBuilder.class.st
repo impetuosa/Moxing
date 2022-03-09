@@ -1,5 +1,5 @@
 Class {
-	#name : #MOModelAccessorBuilder,
+	#name : #MOModelAttributeAccessorBuilder,
 	#superclass : #MOModelMethodBuilder,
 	#instVars : [
 		'kind'
@@ -8,30 +8,30 @@ Class {
 }
 
 { #category : #asserting }
-MOModelAccessorBuilder >> buildsType [
+MOModelAttributeAccessorBuilder >> buildsType [
 
 	<generated>
-	^ MOAccessor
+	^ MOAttributeAccessor
 ]
 
 { #category : #accessing }
-MOModelAccessorBuilder >> kind [
+MOModelAttributeAccessorBuilder >> kind [
 	^ kind ifNil: [ self error: 'Accessor kind must be explicited' ]
 ]
 
 { #category : #accessing }
-MOModelAccessorBuilder >> kind: aString [ 
+MOModelAttributeAccessorBuilder >> kind: aString [ 
 	kind := aString
 ]
 
 { #category : #asserting }
-MOModelAccessorBuilder >> loadBuilderWithEntity: anEntity [
+MOModelAttributeAccessorBuilder >> loadBuilderWithEntity: anEntity [
 	super loadBuilderWithEntity: anEntity.
 	self kind: anEntity kind.
 ]
 
 { #category : #asserting }
-MOModelAccessorBuilder >> privateBuild [
+MOModelAttributeAccessorBuilder >> privateBuild [
 
 	^ super privateBuild
 		  kind: self kind;

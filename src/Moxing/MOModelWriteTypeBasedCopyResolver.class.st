@@ -109,9 +109,22 @@ MOModelWriteTypeBasedCopyResolver >> visitClass: aMOClass [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitClassFunction: aMOClassFunction [
+
+	^ writer writeClassFunction: [ :function | 
+		  writingBlock value: function ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitClassProcedure: aMOClassProcedure [
+
+	^ writer writeClassProcedure: [ :proc | writingBlock value: proc ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitConstant: aMOConstant [
 
-	^ writer writeConstant: [ :variable | writingBlock value: variable ]
+	^ writer writeLocalConstant: [ :variable | writingBlock value: variable ]
 ]
 
 { #category : #visiting }
@@ -150,6 +163,17 @@ MOModelWriteTypeBasedCopyResolver >> visitFunction: aMOFunction [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitGlobalConstant: aMOGlobalConstant [
+
+	^ writer writeGlobalConstant: [ :const | writingBlock value: const ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitGlobalVariable: aMOGlobalVariable [ 
+	^ writer writeGlobalVariable: [ :const | writingBlock value: const ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitIfElse: aMOIfElse [
 
 	"
@@ -181,6 +205,12 @@ MOModelWriteTypeBasedCopyResolver >> visitLiteral: aMONullLiteral [
 	lit := self copyExpression .
 	self assert: lit literal isNotNil. 
 	^ lit.
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitLocalVariable: aMOLocalVariable [
+
+	^ writer writeVariable: [ :variable | writingBlock value: variable ]
 ]
 
 { #category : #visiting }
@@ -316,6 +346,12 @@ MOModelWriteTypeBasedCopyResolver >> visitVarArgParameter: aMOVariableArgumentsP
 MOModelWriteTypeBasedCopyResolver >> visitVariable: aMOVariable [
 
 	^ writer writeVariable: [ :variable | writingBlock value: variable ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitVariableAccessor: aMOVariableAccessor [
+
+	^ writer writeAttributeAccessor: [ :acc | writingBlock value: acc ]
 ]
 
 { #category : #visiting }

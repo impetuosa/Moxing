@@ -10,7 +10,6 @@ Class {
 		'name',
 		'typeReference',
 		'modifiers',
-		'visibility',
 		'initializer',
 		'annotationInstances'
 	],
@@ -36,6 +35,12 @@ MOModelVariableBuilder >> annotationInstances [
 		  annotationInstances := OrderedCollection new ]
 ]
 
+{ #category : #accessing }
+MOModelVariableBuilder >> annotationInstances: aCol [
+
+	annotationInstances := aCol
+]
+
 { #category : #'as yet unclassified' }
 MOModelVariableBuilder >> buildsType [
 <generated>
@@ -53,13 +58,14 @@ MOModelVariableBuilder >> initializer: aMONewExpression [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelVariableBuilder >> loadBuilderWithEntity: anEntity [ 
-	self name: anEntity name. 
- self initializer: anEntity initializer. 
- self modifiers: anEntity modifiers. 
- self typeReference: anEntity typeReference. 
- 
-	
+MOModelVariableBuilder >> loadBuilderWithEntity: anEntity [
+
+	self name: anEntity name.
+	self initializer: anEntity initializer.
+	self modifiers: anEntity modifiers.
+	self typeReference: anEntity typeReference.
+	self bindingKind: anEntity bindingKind.
+	self annotationInstances: anEntity annotationInstances
 ]
 
 { #category : #accessing }
@@ -86,7 +92,7 @@ MOModelVariableBuilder >> name: aString [
 { #category : #'as yet unclassified' }
 MOModelVariableBuilder >> privateBuild [
 
-	^ (self instantiate: MOLocalVariable)
+	^ (self instantiate: self buildsType)
 		  name: self name;
 		  bindingKind: self bindingKind;
 		  initializer: self initializer;
@@ -122,15 +128,4 @@ MOModelVariableBuilder >> typeReference [
 MOModelVariableBuilder >> typeReference: aMOTypeReference [
 
 	typeReference := aMOTypeReference
-]
-
-{ #category : #accessing }
-MOModelVariableBuilder >> visibility [
-	^ visibility 
-]
-
-{ #category : #accessing }
-MOModelVariableBuilder >> visibility: anObject [
-
-	visibility := anObject
 ]

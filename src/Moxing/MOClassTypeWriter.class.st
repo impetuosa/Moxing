@@ -85,6 +85,11 @@ MOClassTypeWriter >> writeMethod: aBlock [
 ]
 
 { #category : #writing }
+MOClassTypeWriter >> writeParametrizableMethod: aBlock [
+	^ self write: aBlock inSubWriter: MOParametrizableMethodWriter
+]
+
+{ #category : #writing }
 MOClassTypeWriter >> writeTypeParameter: aFullBlockClosure [ 
 
 	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter

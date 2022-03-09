@@ -2,8 +2,7 @@ Class {
 	#name : #MOLocalConstant,
 	#superclass : #MOLocalVariable,
 	#instVars : [
-		'#value => MOExpressionSlot one',
-		'#visibility => MOPropertySlot'
+		'#value => MOExpressionSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -17,7 +16,7 @@ MOLocalConstant >> acceptVisitor: aJinTypescriptCodeGenerator [
 { #category : #accessing }
 MOLocalConstant >> kindString [
 
-	^ 'CONST'
+	^ 'LOCAL CONST'
 ]
 
 { #category : #accessing }
@@ -28,14 +27,4 @@ MOLocalConstant >> value [
 { #category : #accessing }
 MOLocalConstant >> value: aValue [
  	value := aValue 
-]
-
-{ #category : #accessing }
-MOLocalConstant >> visibility [ 
-	 ^ visibility 
-]
-
-{ #category : #accessing }
-MOLocalConstant >> visibility: aVisibility [ 
-	visibility := aVisibility 
 ]

@@ -5,7 +5,6 @@ Class {
 		'#selector => MOPropertySlot',
 		'#returnTypeReference => MOReferenceSlot one',
 		'#thrownTypeReferences => MOReferenceSlot many',
-		'#typeParameters => MOContainmentSlot many',
 		'#annotationInstances => MOReferenceSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
@@ -75,15 +74,4 @@ MOMethod >> thrownTypeReferences [
 MOMethod >> thrownTypeReferences: aCollection [
 
 	thrownTypeReferences := aCollection
-]
-
-{ #category : #generated }
-MOMethod >> typeParameters [
-
-	^ typeParameters ifNil: [ typeParameters := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-MOMethod >> typeParameters: aCollection [ 
-	typeParameters := aCollection
 ]

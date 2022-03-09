@@ -57,6 +57,12 @@ MOVariableWriter >> privateWriteToSurface: anEntity [
 	surface addLocalVariable: anEntity
 ]
 
+{ #category : #initialization }
+MOVariableWriter >> setStaticBinding [
+
+	writeBuilder setStaticBinding
+]
+
 { #category : #writing }
 MOVariableWriter >> typeReference: aTypeReference [
 	writeBuilder typeReference: aTypeReference.

@@ -1,5 +1,5 @@
 Class {
-	#name : #MOAccessor,
+	#name : #MOAttributeAccessor,
 	#superclass : #MOMethod,
 	#instVars : [
 		'#kind => MOPropertySlot'
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #accessing }
-MOAccessor >> acceptVisitor: aJinInspectorBuilder [ 
+MOAttributeAccessor >> acceptVisitor: aJinInspectorBuilder [ 
 		^ aJinInspectorBuilder visitAccessor: self 
 ]
 
 { #category : #accessing }
-MOAccessor >> kind [
+MOAttributeAccessor >> kind [
 	^ kind
 ]
 
 { #category : #accessing }
-MOAccessor >> kind: aString [ 
+MOAttributeAccessor >> kind: aString [ 
 	kind := aString
 ]
 
 { #category : #accessing }
-MOAccessor >> printOn: aStream [
+MOAttributeAccessor >> printOn: aStream [
 
 	aStream
-		nextPutAll: 'Accessor: ';
+		nextPutAll: 'Attribute Accessor: ';
 		nextPutAll: selector;
 		nextPutAll: '/';
 		nextPutAll: parameters size asString;

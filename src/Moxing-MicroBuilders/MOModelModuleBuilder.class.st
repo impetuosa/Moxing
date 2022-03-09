@@ -7,22 +7,17 @@ Class {
 	#instVars : [
 		'name',
 		'invocables',
-		'attributes',
-		'types'
+		'types',
+		'variables',
+		'constants'
 	],
 	#category : #'Moxing-MicroBuilders-types'
 }
 
 { #category : #adding }
-MOModelModuleBuilder >> addAccessor: aMOAccessor [
+MOModelModuleBuilder >> addAttributeAccessor: aMOAccessor [
 
 	self addFunction: aMOAccessor
-]
-
-{ #category : #adding }
-MOModelModuleBuilder >> addAttribute: aMOAttribute [
-
-	self attributes add: aMOAttribute
 ]
 
 { #category : #adding }
@@ -35,6 +30,17 @@ MOModelModuleBuilder >> addConstant: aMOConstant [
 MOModelModuleBuilder >> addFunction: aMOFunction [
 
 	self addInvocable: aMOFunction
+]
+
+{ #category : #adding }
+MOModelModuleBuilder >> addGlobalConstant: aMOGlobalConstant [ 
+	self constants add: aMOGlobalConstant
+]
+
+{ #category : #adding }
+MOModelModuleBuilder >> addGlobalVariable: aMOAttribute [
+
+	self variables add: aMOAttribute
 ]
 
 { #category : #adding }
@@ -62,20 +68,20 @@ MOModelModuleBuilder >> addType: aMOEnum [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelModuleBuilder >> attributes [
-
-	^ attributes ifNil: [ attributes := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-MOModelModuleBuilder >> attributes: aCollection [ 
-	attributes := aCollection
-]
-
-{ #category : #'as yet unclassified' }
 MOModelModuleBuilder >> buildsType [
 <generated>
 	^MOModule
+]
+
+{ #category : #'as yet unclassified' }
+MOModelModuleBuilder >> constants [
+
+	^ constants ifNil: [ constants := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelModuleBuilder >> constants: aCollection [ 
+	constants := aCollection
 ]
 
 { #category : #adding }
@@ -95,8 +101,9 @@ MOModelModuleBuilder >> loadBuilderWithEntity: anEntity [
 
 	self name: anEntity name.
 	self invocables: anEntity invocables.
-	self attributes: anEntity attributes.
-	self types: anEntity types.
+	self variables: anEntity variables.
+	self constants: anEntity constants.
+	self types: anEntity types
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,7 +122,8 @@ MOModelModuleBuilder >> privateBuild [
 
 	^ (self instantiate: self buildsType)
 		  name: self name;
-		  attributes: self attributes;
+		  variables: self variables;
+		  constants: self constants;
 		  invocables: self invocables;
 		  types: self types;
 		  yourself
@@ -131,4 +139,15 @@ MOModelModuleBuilder >> types [
 MOModelModuleBuilder >> types: aCol [
 
 	^ types := aCol
+]
+
+{ #category : #'as yet unclassified' }
+MOModelModuleBuilder >> variables [
+
+	^ variables ifNil: [ variables := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelModuleBuilder >> variables: aCollection [ 
+	variables := aCollection
 ]

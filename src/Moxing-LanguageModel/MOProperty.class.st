@@ -9,3 +9,9 @@ MOProperty >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitProperty: self
 ]
+
+{ #category : #visiting }
+MOProperty >> kindString [
+
+	^ 'PROPERTY'
+]

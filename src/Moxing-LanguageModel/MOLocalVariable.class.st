@@ -9,3 +9,9 @@ MOLocalVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitLocalVariable: self
 ]
+
+{ #category : #visiting }
+MOLocalVariable >> kindString [
+
+	^ 'LOCAL VAR'
+]

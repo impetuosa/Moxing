@@ -7,6 +7,12 @@ Class {
 	#category : #'Moxing-MicroBuilders-statements'
 }
 
+{ #category : #asserting }
+MOModelOnErrorBuilder >> buildsType [
+
+	^ MOAlceOnErrorGoToLabel
+]
+
 { #category : #accessing }
 MOModelOnErrorBuilder >> destination: aMOAlceLabelReference [ 
 	goTo := aMOAlceLabelReference 

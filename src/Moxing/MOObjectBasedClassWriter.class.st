@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #adding }
-MOObjectBasedClassWriter >> addAccessor: aMOAccessor [ 
-	writeBuilder addAccessor: aMOAccessor 
+MOObjectBasedClassWriter >> addAttributeAccessor: aMOAccessor [ 
+	writeBuilder addAttributeAccessor: aMOAccessor 
 ]
 
 { #category : #adding }
@@ -44,7 +44,7 @@ MOObjectBasedClassWriter >> privateWriteToSurface: anEntity [
 { #category : #writing }
 MOObjectBasedClassWriter >> writeAttributeAccessor: aFullBlockClosure [
 
-	^ self write: aFullBlockClosure inSubWriter: MOAccessorWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAttributeAccessorWriter
 ]
 
 { #category : #writing }

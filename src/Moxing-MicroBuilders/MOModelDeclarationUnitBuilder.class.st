@@ -81,11 +81,10 @@ MOModelDeclarationUnitBuilder >> imports: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelDeclarationUnitBuilder >> loadBuilderWithEntity: anEntity [ 
-	self imports: anEntity imports. 
- self types: anEntity types. 
- 
-	
+MOModelDeclarationUnitBuilder >> loadBuilderWithEntity: anEntity [
+	self name: anEntity name.
+	self imports: anEntity imports.
+	self types: anEntity types
 ]
 
 { #category : #accessing }
@@ -103,8 +102,8 @@ MOModelDeclarationUnitBuilder >> package: aMOPackage [
 MOModelDeclarationUnitBuilder >> privateBuild [
 
 	| instance |
-
 	instance := (self instantiate: MODeclarationUnit)
+		            name: (' ' join: (self types collect: #name));
 		            imports: self imports;
 		            types: self types;
 		            parent: self package;

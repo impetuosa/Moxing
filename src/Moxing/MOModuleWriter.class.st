@@ -10,14 +10,14 @@ Class {
 }
 
 { #category : #adding }
-MOModuleWriter >> addAccessor: aMOAccessor [ 
-	writeBuilder addAccessor: aMOAccessor .
-]
-
-{ #category : #adding }
 MOModuleWriter >> addAttribute: aMOAttribute [
 
 	writeBuilder addAttribute: aMOAttribute
+]
+
+{ #category : #adding }
+MOModuleWriter >> addAttributeAccessor: aMOAccessor [ 
+	writeBuilder addAttributeAccessor: aMOAccessor .
 ]
 
 { #category : #adding }
@@ -34,6 +34,21 @@ MOModuleWriter >> addEnum: aMOEnum [
 { #category : #adding }
 MOModuleWriter >> addFunction: aMOFunction [ 
 	writeBuilder addFunction: aMOFunction 
+]
+
+{ #category : #adding }
+MOModuleWriter >> addGlobalConstant: aMOGlobalConstant [ 
+	writeBuilder addGlobalConstant: aMOGlobalConstant 
+]
+
+{ #category : #adding }
+MOModuleWriter >> addGlobalVariable: aMOGlobalVariable [ 
+	writeBuilder addGlobalVariable: aMOGlobalVariable 
+]
+
+{ #category : #adding }
+MOModuleWriter >> addLocalConstant: aMOLocalConstant [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #adding }
@@ -68,27 +83,48 @@ MOModuleWriter >> privateWriteToSurface: anEntity [
 
 { #category : #writing }
 MOModuleWriter >> writeAttribute: aBlock [
-	^ self write: aBlock inSubWriter: MOAttributeWriter
+
+	^ self writeGlobalVariable: aBlock
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeAttributeAccessor: aFullBlockClosure [
 
-	^ self write: aFullBlockClosure inSubWriter: MOAccessorWriter
+	^ self writeVariableAccessor: aFullBlockClosure
 ]
 
 { #category : #writing }
-MOModuleWriter >> writeConstant: aBlock [
+MOModuleWriter >> writeConstant: aFullBlockClosure [
 
-	| stmnt |
-	stmnt := self write: aBlock inSubWriter: MOConstantWriter.
-	^ stmnt
+	^ self writeGlobalConstant: aFullBlockClosure
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeFunction: aBlock [
 
 	^ self write: aBlock inSubWriter: MOFunctionWriter
+]
+
+{ #category : #writing }
+MOModuleWriter >> writeGlobalConstant: aFullBlockClosure [ 
+
+	| stmnt |
+
+	stmnt := self write: aFullBlockClosure inSubWriter: MOGlobalConstantWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOModuleWriter >> writeGlobalVariable: aBlock [
+	^ self write: aBlock inSubWriter: MOGlobalVariableWriter 
+]
+
+{ #category : #writing }
+MOModuleWriter >> writeLocalConstant: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOLocalConstantWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
@@ -101,4 +137,9 @@ MOModuleWriter >> writeStructure: aBlock [
 MOModuleWriter >> writeSubprocedure: aBlock [
 
 	^ self write: aBlock inSubWriter: MOSubProcedureWriter
+]
+
+{ #category : #writing }
+MOModuleWriter >> writeVariableAccessor: aFullBlockClosure [
+	^ self write: aFullBlockClosure inSubWriter: MOVariableAccessorWriter
 ]

@@ -31,6 +31,12 @@ MOModelBlockBuilder >> addLastStatement: aStatement [
 	self statements addLast: aStatement.
 ]
 
+{ #category : #adding }
+MOModelBlockBuilder >> addLocalVariable: aMOLocalVariable [
+
+	self addStatement: aMOLocalVariable
+]
+
 { #category : #generated }
 MOModelBlockBuilder >> addStatement: aStatement [
 	aStatement ifNil: [ self halt ].
