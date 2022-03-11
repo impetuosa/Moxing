@@ -33,6 +33,12 @@ MOModelPackageBuilder >> addDeclarationUnit: aMODeclarationUnit [
 ]
 
 { #category : #adding }
+MOModelPackageBuilder >> addModule: aMOModule [
+
+	self types add: aMOModule
+]
+
+{ #category : #adding }
 MOModelPackageBuilder >> addPrimitiveType: aMOPrimitiveType [
 
 	^ self addType: aMOPrimitiveType
@@ -77,14 +83,13 @@ MOModelPackageBuilder >> fullName: aString [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelPackageBuilder >> loadBuilderWithEntity: anEntity [ 
-	self name: anEntity name. 
- self declarationUnits: anEntity declarationUnits. 
- self types: anEntity types. 
- self packageReference: anEntity packageReference. 
- self parent: anEntity parent. 
- 
-	
+MOModelPackageBuilder >> loadBuilderWithEntity: anEntity [
+
+	self name: anEntity name.
+	self declarationUnits: anEntity declarationUnits.
+	self types: anEntity types.
+	self packageReference: anEntity packageReference.
+	self parent: anEntity parent
 ]
 
 { #category : #accessing }
@@ -140,7 +145,8 @@ MOModelPackageBuilder >> privateBuild [
 		           package: pack;
 		           build.
 	self types , self declarationUnits do: [ :t | 
-		t packageReference: packRef ].
+		(t respondsTo: #packageReference:) ifTrue: [ 
+			t packageReference: packRef ] ].
 	^ pack
 ]
 

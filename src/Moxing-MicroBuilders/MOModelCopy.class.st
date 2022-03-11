@@ -60,13 +60,3 @@ MOModelCopy >> buildCopyOf: aProvenanceEntity croppingWith: aBlock readingValues
 			  readingValues: aChildDelegateLoadingBlock
 			  into: aDestinationWriter ]
 ]
-
-{ #category : #'as yet unclassified' }
-MOModelCopy >> buildCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
-
-	^ self
-		buildCopyOf: aProvenanceEntity
-		croppingWith: [ :col | col ]
-		readingValues: aChildDelegateLoadingBlock
-		into: aDestinationWriter
-]

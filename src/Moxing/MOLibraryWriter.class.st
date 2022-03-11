@@ -15,6 +15,12 @@ MOLibraryWriter >> addFunction: aMOFunction [
 	writeBuilder addFunction: aMOFunction
 ]
 
+{ #category : #adding }
+MOLibraryWriter >> initializeWriteBuilder [
+
+	writeBuilder := builder libraryBuilder
+]
+
 { #category : #writing }
 MOLibraryWriter >> writeAttribute: aBlock [
 	^ self write: aBlock inSubWriter: MOAttributeWriter

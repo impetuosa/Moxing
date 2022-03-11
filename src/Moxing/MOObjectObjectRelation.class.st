@@ -40,6 +40,12 @@ MOObjectObjectRelation >> hasValue [
 ]
 
 { #category : #accessing }
+MOObjectObjectRelation >> isReference [
+
+	^ to isReference
+]
+
+{ #category : #accessing }
 MOObjectObjectRelation >> name [
 	^ name
 ]

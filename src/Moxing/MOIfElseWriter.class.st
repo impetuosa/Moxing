@@ -41,7 +41,7 @@ MOIfElseWriter >> writeCondition: aConditionBlock [
 ]
 
 { #category : #writing }
-MOIfElseWriter >> writeCopyOf: aProvenanceEntityRelation readingValues: aChildDelegateLoadingBlock [
+MOIfElseWriter >> writeCopyOf: aProvenanceEntityRelation croppingRelationsWith: aBlock readingValues: aChildDelegateLoadingBlock [
 
 	self writeCondition: [ :expr | 
 		aChildDelegateLoadingBlock

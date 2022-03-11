@@ -122,7 +122,7 @@ MOModelProceduralWriter >> initializeUpdateBuilderFor: anEntity [
 { #category : #writing }
 MOModelProceduralWriter >> initializeWriteBuilder [
 
-	writeBuilder := builder libraryBuilder
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }
@@ -331,7 +331,7 @@ MOModelProceduralWriter >> writeCopy: aFullBlockClosure [
 ]
 
 { #category : #writing }
-MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity croppingWith: aBlock readingValues: aChildDelegateLoadingBlock [
+MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity croppingRelationsWith: aBlock readingValues: aChildDelegateLoadingBlock [
 
 	self installCopyingBuilder.
 
@@ -339,18 +339,6 @@ MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity croppingWith: aBlock r
 	^ copyHelper
 		  buildCopyOf: aProvenanceEntity
 		  croppingWith: aBlock
-		  readingValues: aChildDelegateLoadingBlock
-		  into: self
-]
-
-{ #category : #writing }
-MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity readingValues: aChildDelegateLoadingBlock [
-
-	self installCopyingBuilder.
-
-
-	^ copyHelper
-		  buildCopyOf: aProvenanceEntity
 		  readingValues: aChildDelegateLoadingBlock
 		  into: self
 ]

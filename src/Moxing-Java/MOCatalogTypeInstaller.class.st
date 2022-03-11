@@ -76,9 +76,6 @@ MOCatalogTypeInstaller >> visitClass: aMOClass [
 
 	^ writer writeClass: [ :class | 
 		  class name: aMOClass name.
-
-
-
 		  self use: class during: [ 
 			  class packageReference:
 				  (aMOClass packageReference acceptVisitor: self).

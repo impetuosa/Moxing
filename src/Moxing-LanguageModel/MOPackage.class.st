@@ -55,6 +55,11 @@ MOPackage >> initialize [
 ]
 
 { #category : #accessing }
+MOPackage >> packageReference [
+	^ packageReference
+]
+
+{ #category : #accessing }
 MOPackage >> packageReference: aPackageReference [
 
 	" if the pack is child of an other package. "
@@ -68,6 +73,11 @@ MOPackage >> printOn: aStream [
 	aStream
 		nextPutAll: 'package: ';
 		nextPutAll: self fullName
+]
+
+{ #category : #accessing }
+MOPackage >> types [
+	^ types
 ]
 
 { #category : #accessing }

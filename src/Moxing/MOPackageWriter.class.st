@@ -20,6 +20,11 @@ MOPackageWriter >> addDeclarationUnit: aMODeclarationUnit [
 ]
 
 { #category : #adding }
+MOPackageWriter >> addModule: aMOModule [ 
+	writeBuilder addModule: aMOModule 
+]
+
+{ #category : #adding }
 MOPackageWriter >> addPrimitiveType: aMOPrimitiveType [
 
 	writeBuilder addPrimitiveType: aMOPrimitiveType

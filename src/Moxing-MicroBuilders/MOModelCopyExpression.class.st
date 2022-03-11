@@ -3,15 +3,18 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'writer',
-		'block'
+		'block',
+		'croppingBlock'
 	],
 	#category : #'Moxing-MicroBuilders-core'
 }
 
 { #category : #accessing }
-MOModelCopyExpression >> buildCopyOf: aProvenanceEntityRelation readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+MOModelCopyExpression >> buildCopyOf: aProvenanceEntityRelation croppingWith: aBlock readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+
 	writer := aDestinationWriter.
 	block := aChildDelegateLoadingBlock.
+	croppingBlock := aBlock.
 	^ aProvenanceEntityRelation to acceptVisitor: self
 ]
 

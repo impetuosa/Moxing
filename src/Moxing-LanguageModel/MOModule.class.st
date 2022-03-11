@@ -49,6 +49,11 @@ MOModule >> invocables: aCollection [
 ]
 
 { #category : #accessing }
+MOModule >> packageReference: aMOPackageReference [ 
+
+]
+
+{ #category : #accessing }
 MOModule >> types [
 	^ types
 ]

@@ -368,6 +368,15 @@ MOModelWriter >> updateClass: aMOClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateDeclarationUnit: aMODeclarationUnit with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMODeclarationUnit
+		  withWriter: MODeclarationUnitWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateEnum: aMOMethod with: aFullBlockClosure [
 
 	^ self
@@ -422,6 +431,15 @@ MOModelWriter >> updateModule: aMOClass with: aFullBlockClosure [
 		  write: aFullBlockClosure
 		  forUpdating: aMOClass
 		  withWriter: MOModuleWriter new
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updatePackage: aMOClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOClass
+		  withWriter: MOPackageWriter new
 ]
 
 { #category : #'as yet unclassified' }
@@ -488,6 +506,7 @@ MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntity
 		          writingContext: self
 		          do: anUpdatingBlock.
 	self populateAnchor.
+	self populateAnchorOn: aDestinationContextRelation to.
 	^ result
 ]
 

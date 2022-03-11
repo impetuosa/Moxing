@@ -114,6 +114,19 @@ MOModelUpdateResolver >> visitConstant: aMOConstant [
 ]
 
 { #category : #visiting }
+MOModelUpdateResolver >> visitDeclarationUnit: aMODeclarationUnit [
+
+	| addedElement |
+	writer
+		updateDeclarationUnit: aMODeclarationUnit
+		with: [ :classWriter | 
+			addedElement := writingBlock
+				                cull: writingEntityRelation
+				                cull: classWriter ].
+	^ addedElement
+]
+
+{ #category : #visiting }
 MOModelUpdateResolver >> visitEmptyBlock: aMOEmptyBlock [
 
 	| statement |
@@ -187,7 +200,12 @@ MOModelUpdateResolver >> visitOnErrorGoToLabel: aMOAlceOnErrorGoToLabel [
 { #category : #visiting }
 MOModelUpdateResolver >> visitPackage: aMOPackage [
 
-	^ self genericUpdate: aMOPackage
+	| addedElement |
+	writer updatePackage: aMOPackage with: [ :classWriter | 
+		addedElement := writingBlock
+			                cull: writingEntityRelation
+			                cull: classWriter ].
+	^ addedElement
 ]
 
 { #category : #visiting }
