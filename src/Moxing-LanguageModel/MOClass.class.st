@@ -5,7 +5,6 @@ Class {
 		'#superTypeReferences => MOReferenceSlot many',
 		'#superclassReference => MOReferenceSlot one',
 		'#attributes => MOContainmentSlot many',
-		'#decorators => MOReferenceSlot many',
 		'#methods => MOContainmentSlot many'
 	],
 	#classInstVars : [

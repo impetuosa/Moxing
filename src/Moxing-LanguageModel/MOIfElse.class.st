@@ -47,6 +47,11 @@ MOIfElse >> ifTrue: aMOBlock [
 	ifTrue := aMOBlock
 ]
 
+{ #category : #generated }
+MOIfElse >> name [ 
+	 ^ 'If'
+]
+
 { #category : #accessing }
 MOIfElse >> printOn: aStream [
 

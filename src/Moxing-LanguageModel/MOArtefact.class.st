@@ -16,6 +16,12 @@ MOArtefact >> declarationUnits: aCollection [
 ]
 
 { #category : #accessing }
+MOArtefact >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOArtefact >> packages: aCollection [ 
 	packages := aCollection
 ]

@@ -49,6 +49,12 @@ MOInvocable >> initialize [
 ]
 
 { #category : #accessing }
+MOInvocable >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOInvocable >> isDynamicBinding [
 	^ self bindingKind = #dynamic.
 ]

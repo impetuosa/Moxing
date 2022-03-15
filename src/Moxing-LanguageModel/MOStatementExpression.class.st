@@ -35,6 +35,11 @@ MOStatementExpression >> isLabelledAs: aLabel [
 ]
 
 { #category : #accessing }
+MOStatementExpression >> name [ 
+	 ^ 'Expression Statement'
+]
+
+{ #category : #accessing }
 MOStatementExpression >> printOn: aStream [
 
 	aStream

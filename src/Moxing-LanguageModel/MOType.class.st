@@ -29,6 +29,12 @@ MOType >> initialize [
 ]
 
 { #category : #accessing }
+MOType >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOType >> isType [ 
 	 ^ true 
 ]

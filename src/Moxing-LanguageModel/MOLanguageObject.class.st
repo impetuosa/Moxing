@@ -54,6 +54,12 @@ MOLanguageObject >> dependencies [
 ]
 
 { #category : #testing }
+MOLanguageObject >> isDeclaration [
+
+	^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> isExpression [
 	^ false 
 ]

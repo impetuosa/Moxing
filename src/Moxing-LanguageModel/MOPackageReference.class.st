@@ -51,6 +51,11 @@ MOPackageReference >> printOn: aStream [
 	aStream nextPutAll: ('.' join: chain reversed)
 ]
 
+{ #category : #'as yet unclassified' }
+MOPackageReference >> refersToObjectsLike: aDeclaration [ 
+	 ^ aDeclaration species = MOPackage
+]
+
 { #category : #accessing }
 MOPackageReference >> types [
 

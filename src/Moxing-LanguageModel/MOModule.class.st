@@ -49,6 +49,12 @@ MOModule >> invocables: aCollection [
 ]
 
 { #category : #accessing }
+MOModule >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOModule >> packageReference: aMOPackageReference [ 
 
 ]

@@ -2,7 +2,7 @@ Class {
 	#name : #MOReference,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#candidate => MOPropertySlot',
+		'#candidate => MOCandidateSlot',
 		'#candidateAnchor => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-References'
@@ -37,4 +37,10 @@ MOReference >> isTypeReference [
 MOReference >> name: aName [
 
 	super name: aName
+]
+
+{ #category : #'as yet unclassified' }
+MOReference >> refersToObjectsLike: aDeclarationObject [
+
+	self subclassResponsibility
 ]

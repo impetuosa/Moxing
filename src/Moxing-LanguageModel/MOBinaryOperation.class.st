@@ -30,6 +30,12 @@ MOBinaryOperation >> left: aMOVariableReference [
 ]
 
 { #category : #accessing }
+MOBinaryOperation >> name [
+
+	^ operator
+]
+
+{ #category : #accessing }
 MOBinaryOperation >> operator [
 	^ operator
 ]

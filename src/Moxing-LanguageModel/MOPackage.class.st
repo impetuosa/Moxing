@@ -55,6 +55,12 @@ MOPackage >> initialize [
 ]
 
 { #category : #accessing }
+MOPackage >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOPackage >> packageReference [
 	^ packageReference
 ]

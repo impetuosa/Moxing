@@ -36,6 +36,12 @@ MOInvocation >> isInvocation [
 ]
 
 { #category : #accessing }
+MOInvocation >> name [
+
+	^ selector
+]
+
+{ #category : #accessing }
 MOInvocation >> printOn: aStream [
 
 	aStream
