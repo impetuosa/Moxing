@@ -21,7 +21,7 @@ MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues
 ]
 
 { #category : #asserting }
-MOExpressionSlot >> shouldAccept: aValue into: anObject [ 
+MOExpressionSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
 	^ aValue isNil or: [ aValue isKindOf: MOObject ]
 ]

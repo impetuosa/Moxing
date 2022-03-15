@@ -19,7 +19,7 @@ MOContainmentSlot >> acceptRule: aRule forRelation: aRelationObject readingValue
 ]
 
 { #category : #asserting }
-MOContainmentSlot >> shouldAccept: aValue into: anObject [
+MOContainmentSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
 	aValue == anObject ifTrue: [ ^ false ].
 	^ aValue isNil or: [ aValue isReference not ]

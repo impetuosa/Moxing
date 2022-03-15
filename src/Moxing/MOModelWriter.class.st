@@ -182,6 +182,12 @@ MOModelWriter >> entity [
 	^ entity
 ]
 
+{ #category : #generated }
+MOModelWriter >> expression: aMOVariableReference [
+
+	entity := aMOVariableReference
+]
+
 { #category : #'as yet unclassified' }
 MOModelWriter >> genericUpdate: aMOAssignment with: aFullBlockClosure [
 
@@ -250,6 +256,8 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
+	
+	
 	anEntity allContainmentRelations , anEntity allReferenceRelations
 	, anEntity allExpressionRelations do: [ :relation | 
 		subentity := relation to.
@@ -505,6 +513,11 @@ MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntity
 		          forUpdating: aDestinationContextRelation
 		          writingContext: self
 		          do: anUpdatingBlock.
+	aProvenanceEntityRelation isExpression ifTrue: [ 
+		self assert: aDestinationContextRelation isExpression.
+		aProvenanceEntityRelation
+			write: result
+			to: aDestinationContextRelation to ].
 	self populateAnchor.
 	self populateAnchorOn: aDestinationContextRelation to.
 	^ result
@@ -755,6 +768,16 @@ MOModelWriter >> writeTable: aFullBlockClosure [
 | writer |
 	writer := MOTableWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeUnregisteredExpression: aBlock [
+
+	| writer stmt |
+	writer := MOExpressionWriter new.
+
+	stmt := self write: aBlock withWriter: writer.
+	^ stmt
 ]
 
 { #category : #writing }

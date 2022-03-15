@@ -3,7 +3,7 @@ I am a regular slot that is aware of the cardinality of my content. Either i am 
 "
 Class {
 	#name : #MOOneOrManySlot,
-	#superclass : #InstanceVariableSlot,
+	#superclass : #MORelationSlot,
 	#instVars : [
 		'cardinality'
 	],
@@ -44,13 +44,6 @@ MOOneOrManySlot class >> one [
 ]
 
 { #category : #printing }
-MOOneOrManySlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
-	self subclassResponsibility 
-
-	
-]
-
-{ #category : #printing }
 MOOneOrManySlot >> cardinality [
 
 	^ cardinality ifNil: [ cardinality := self class constantSymbolOne  ]
@@ -59,21 +52,6 @@ MOOneOrManySlot >> cardinality [
 { #category : #accessing }
 MOOneOrManySlot >> cardinality: aString [ 
 	cardinality := aString
-]
-
-{ #category : #printing }
-MOOneOrManySlot >> emitStore: aMethodBuilder [
-	"generate bytecode to call the reflective write method of the Slot"
-	| tempName |
-	tempName := '0slotTempForStackManipulation'.  
-	aMethodBuilder
-		addTemp: tempName;
-		storeTemp: tempName;
-		popTop;
-		pushReceiver;
-		pushLiteral: self;
-		pushTemp: tempName;
-		send: #writeSlot:value:
 ]
 
 { #category : #printing }
@@ -121,12 +99,6 @@ MOOneOrManySlot >> readAll: anObject [
 ]
 
 { #category : #printing }
-MOOneOrManySlot >> readAllRelations: anObject [
-
-	^ self readAllRelations: anObject selecting: [ :a | true ]
-]
-
-{ #category : #printing }
 MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 
 	| value |
@@ -152,49 +124,24 @@ MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 ]
 
 { #category : #printing }
-MOOneOrManySlot >> shouldAccept: aValue  into: anObject [ 
-	self subclassResponsibility 
-]
-
-{ #category : #printing }
-MOOneOrManySlot >> shouldAcceptSingleOrMany: aValue [
+MOOneOrManySlot >> shouldAccept:  aValue into: anObject [
 
 	aValue ifNil: [ ^ true ].
 	^ self isToMany
 		  ifTrue: [ 
 			  aValue isCollection and: [ 
-				  aValue allSatisfy: [ :e | self shouldAccept: e ] ] ]
-		  ifFalse: [ self shouldAccept: aValue ]
+				  aValue allSatisfy: [ :e | self shouldAcceptSingleValue: e into: anObject ] ] ]
+		  ifFalse: [ self shouldAcceptSingleValue: aValue into: anObject ]
 ]
 
 { #category : #printing }
-MOOneOrManySlot >> shouldAcceptSingleOrMany: aValue into: anObject [
+MOOneOrManySlot >> shouldAcceptSingleValue: aValue into: anObject [
 
-	aValue ifNil: [ ^ true ].
-	^ self isToMany
-		  ifTrue: [ 
-			  aValue isCollection and: [ 
-				  aValue allSatisfy: [ :e | self shouldAccept: e into: anObject ] ] ]
-		  ifFalse: [ self shouldAccept: aValue into: anObject ]
-]
-
-{ #category : #printing }
-MOOneOrManySlot >> theContentIsValidFor: anObject [
-
-	^ self shouldAcceptSingleOrMany: (self read: anObject)
+	self subclassResponsibility
 ]
 
 { #category : #printing }
 MOOneOrManySlot >> wantsInitialization [
 	"we need to call the initialize to set the default value for the base slot"
 	^true
-]
-
-{ #category : #printing }
-MOOneOrManySlot >> write: aValue to: anObject [
-
-	^ (self shouldAcceptSingleOrMany: aValue into: anObject)
-		  ifTrue: [ super write: aValue to: anObject ]
-		  ifFalse: [ 
-		  self error: 'The slot does not accept this kind of values ' ]
 ]

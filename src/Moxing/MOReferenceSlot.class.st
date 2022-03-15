@@ -20,7 +20,6 @@ MOReferenceSlot >> acceptRule: aRule forRelation: aRelationObject readingValues:
 ]
 
 { #category : #asserting }
-MOReferenceSlot >> shouldAccept: aValue into: anObject [ 
-
+MOReferenceSlot >> shouldAcceptSingleValue: aValue into: anObject [
 	^ aValue isNil or: [ aValue isReference ]
 ]

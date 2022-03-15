@@ -39,6 +39,12 @@ MOObjectObjectRelation >> hasValue [
 	^ true
 ]
 
+{ #category : #testing }
+MOObjectObjectRelation >> isExpression [
+
+	^ to isExpression
+]
+
 { #category : #accessing }
 MOObjectObjectRelation >> isReference [
 
@@ -98,10 +104,6 @@ MOObjectObjectRelation >> to: aMOClass [
 { #category : #writing }
 MOObjectObjectRelation >> write: anObject to: aDestination [
 
-	| selector |
-	selector := slot name = #write
-		            ifTrue: [ #setWriteVariable ]
-		            ifFalse: [ slot name ].
 	slot isToMany ifTrue: [ 
 		((self read: aDestination) includes: anObject) ifTrue: [ self halt ].
 		slot shouldAccept: anObject into: aDestination.
@@ -109,5 +111,5 @@ MOObjectObjectRelation >> write: anObject to: aDestination [
 
 		^ self ].
 
-	aDestination perform: selector, ':' withArguments: { anObject }
+	aDestination perform: slot name , ':' withArguments: { anObject }
 ]

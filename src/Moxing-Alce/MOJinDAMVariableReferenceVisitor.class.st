@@ -29,11 +29,11 @@ MOJinDAMVariableReferenceVisitor >> infereTarget: aJinDAMMemberReference [
 		ifFalse: [ 
 			aJinDAMMemberReference arguments
 				ifEmpty: [ 
-					producedSegments
-						ifEmpty: [ 
-						^ writer variableReferenceNamed: aJinDAMMemberReference name ]
-						ifNotEmpty: [ 
-							^ writer
+					^ producedSegments
+						  ifEmpty: [ 
+						  writer variableReferenceNamed: aJinDAMMemberReference name ]
+						  ifNotEmpty: [ 
+							  writer
 								  accessAttribute: aJinDAMMemberReference name
 								  receiver: [ :exp | producedSegments removeLast ] ] ]
 				ifNotEmpty: [ 

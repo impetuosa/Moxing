@@ -51,10 +51,10 @@ MOModelCopyExpression >> visitAssignment: aMOAssignment [
 
 { #category : #visiting }
 MOModelCopyExpression >> visitAttributeAccess: aMOAttributeAccess [
-
 	^ writer
 		  accessAttribute: aMOAttributeAccess name
-		  receiver: [ :exp | self copy: aMOAttributeAccess relation: #receiverReference  ]
+		  receiver: [ :exp | 
+		  self copy: aMOAttributeAccess relation: #receiverReference ]
 ]
 
 { #category : #visiting }

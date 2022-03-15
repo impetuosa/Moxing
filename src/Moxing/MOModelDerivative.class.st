@@ -64,6 +64,12 @@ MOModelDerivative >> language [
 ]
 
 { #category : #accessing }
+MOModelDerivative >> mapSpaceAnchor [
+
+	^ model mapSpaceAnchor
+]
+
+{ #category : #accessing }
 MOModelDerivative >> model [
 	^ model
 ]
@@ -94,6 +100,12 @@ MOModelDerivative >> register: aMOBlock [
 	entities add: aMOBlock
 ]
 
+{ #category : #removing }
+MOModelDerivative >> removeEntity: aFylgjaCandidateStub [
+
+	entities remove: aFylgjaCandidateStub
+]
+
 { #category : #'as yet unclassified' }
 MOModelDerivative >> shallowCopy: anEntity [
 
@@ -120,6 +132,13 @@ MOModelDerivative >> shallowRelationCopy: aMOObjectObjectRelation [
 	self register: to.
 	relation to: to.
 	^ relation
+]
+
+{ #category : #accessing }
+MOModelDerivative >> swap: aFylgjaCandidateStub with: aMOVariableReference [
+
+	entities remove: aFylgjaCandidateStub.
+	self assert: (entities includes: aMOVariableReference)
 ]
 
 { #category : #'as yet unclassified' }
