@@ -109,15 +109,6 @@ MOExpressionWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingB
 ]
 
 { #category : #'as yet unclassified' }
-MOExpressionWriter >> invokeNamed: aString arguments: anOtherExpressionBuildingBlock [
-
-	^ builder invocationBuilder
-		  selector: aString;
-		  arguments: (self writeExpression: anOtherExpressionBuildingBlock);
-		  build
-]
-
-{ #category : #'as yet unclassified' }
 MOExpressionWriter >> invokeNewExpressionOnType: aTypeReference withArguments: aCollection [
 
 	^ builder newExpressionBuilder

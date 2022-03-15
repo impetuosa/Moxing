@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #adding }
+MOArtefactWriter >> addAliasType: aMOAlias [
+
+	writeBuilder addAliasType: aMOAlias
+]
+
+{ #category : #adding }
 MOArtefactWriter >> addDeclarationUnit: aMODeclarationUnit [ 
 	writeBuilder addDeclarationUnit: aMODeclarationUnit 
 ]
@@ -35,7 +41,7 @@ MOArtefactWriter >> privateWriteToSurface: anEntity [
 { #category : #writing }
 MOArtefactWriter >> writeAlias: aBlock [
 
-	^ self write: aBlock inSubWriter: MODeclarationUnitWriter
+	^ self write: aBlock inSubWriter: MOAliasWriter
 ]
 
 { #category : #writing }

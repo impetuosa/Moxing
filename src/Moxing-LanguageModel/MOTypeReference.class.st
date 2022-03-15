@@ -53,6 +53,12 @@ MOTypeReference >> printOn: aStream [
 		nextPutAll: name
 ]
 
+{ #category : #'as yet unclassified' }
+MOTypeReference >> refersToObjectsLike: aMOClass [
+
+	^ aMOClass species = MOModule or: [ aMOClass isKindOf: MOType ]
+]
+
 { #category : #printing }
 MOTypeReference >> type [ 
 	^ candidate

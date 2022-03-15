@@ -27,6 +27,16 @@ MOVariableReference >> printOn: aStream [
 		nextPutAll: name
 ]
 
+{ #category : #'as yet unclassified' }
+MOVariableReference >> refersToObjectsLike: aMOAttribute [
+
+	^ aMOAttribute isNil or: [ 
+		  (aMOAttribute isKindOf: MOAbstractVariable) or: [ 
+			  { 
+				  MOAlceForm.
+				  MOAlceReport } includes: aMOAttribute species ] ]
+]
+
 { #category : #generated }
 MOVariableReference >> type [
 	^ candidate type 

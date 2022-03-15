@@ -14,6 +14,14 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> aliasTypeBuilder [
+
+	^ MOAliasTypeBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> annotationInstanceBuilder [
 
 	^ MOModelAnnotationInstanceBuilder new

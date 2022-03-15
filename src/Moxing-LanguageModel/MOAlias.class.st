@@ -18,3 +18,18 @@ MOAlias >> allMethods [
 
 	^ typeReference candidate allMethods
 ]
+
+{ #category : #accessing }
+MOAlias >> printOn: aStream [
+
+	aStream
+		nextPutAll: name;
+		nextPutAll: ' AliasOf (';
+		nextPutAll: typeReference name;
+		nextPutAll: ')'
+]
+
+{ #category : #accessing }
+MOAlias >> typeReference: aMOPrimitiveTypeReference [ 
+	typeReference := aMOPrimitiveTypeReference
+]

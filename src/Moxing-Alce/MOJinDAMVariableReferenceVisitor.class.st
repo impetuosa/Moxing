@@ -42,7 +42,7 @@ MOJinDAMVariableReferenceVisitor >> infereTarget: aJinDAMMemberReference [
 						= aJinDAMMemberReference.
 					({ #Join. #Replace } includes: aJinDAMMemberReference name) 
 						ifFalse: [ self halt ].
-
+					aJinDAMMemberReference candidate ifNotNil: [  : candi | self halt  ].
 					^ writer
 						  invocation: aJinDAMMemberReference name
 						  arguments: [ arguments ] ] ]
@@ -113,14 +113,24 @@ MOJinDAMVariableReferenceVisitor >> visitAttribute: aJinDAMAttribute [
 ]
 
 { #category : #visiting }
-MOJinDAMVariableReferenceVisitor >> visitAttributeAccessor: aJinDAMAttributeAccessor [ 
-	
+MOJinDAMVariableReferenceVisitor >> visitAttributeAccessor: aJinDAMAttributeAccessor [
+
+	| parent |
 	self assert: producedSegments size <= 1.
+
 	^ producedSegments
 		  ifEmpty: [ 
-			  writer
-				  invocation: aJinDAMAttributeAccessor selector
-				  arguments: [ :exp | arguments ] ]
+			  parent := reader parentOfInvocable: aJinDAMAttributeAccessor.
+			  (parent isKindOf: JinDAMClass)
+				  ifTrue: [ 
+					  writer
+						  invokeMethodNamed: aJinDAMAttributeAccessor selector
+						  receiver: [ :e | e referenceToSelf ]
+						  arguments: [ :e | arguments ] ]
+				  ifFalse: [ 
+					  writer
+						  invocation: aJinDAMAttributeAccessor selector
+						  arguments: [ :exp | arguments ] ] ]
 		  ifNotEmpty: [ 
 			  | receiver |
 			  receiver := producedSegments removeLast.
@@ -184,21 +194,23 @@ MOJinDAMVariableReferenceVisitor >> visitParameter: aJinDAMParameter [
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitSubProcedure: aJinDAMSubProcedure [
 
+	| parent |
 	self assert: producedSegments size <= 1.
-
-
-	^ producedSegments
-		  ifEmpty: [ 
+	parent := reader parentOfInvocable: aJinDAMSubProcedure.
+	^ (parent isKindOf: JinDAMClass)
+		  ifTrue: [ 
+			  writer
+				  invokeMethodNamed: aJinDAMSubProcedure selector
+				  receiver: [ :e | 
+					  producedSegments
+						  ifEmpty: [ e referenceToSelf ]
+						  ifNotEmpty: [ producedSegments removeLast ] ]
+				  arguments: [ :e | arguments ] ]
+		  ifFalse: [ 
+			  producedSegments ifNotEmpty: [ producedSegments removeLast ].
 			  writer
 				  invocation: aJinDAMSubProcedure selector
 				  arguments: [ :exp | arguments ] ]
-		  ifNotEmpty: [ 
-			  | receiver |
-			  receiver := producedSegments removeLast.
-			  writer
-				  invokeMethodNamed: aJinDAMSubProcedure selector
-				  receiver: [ :e | receiver ]
-				  arguments: [ :e | arguments ] ]
 ]
 
 { #category : #visiting }

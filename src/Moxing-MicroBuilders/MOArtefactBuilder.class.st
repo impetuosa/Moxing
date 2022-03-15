@@ -9,6 +9,12 @@ Class {
 	#category : #'Moxing-MicroBuilders-project'
 }
 
+{ #category : #adding }
+MOArtefactBuilder >> addAliasType: aMOAlias [
+
+	self addType: aMOAlias
+]
+
 { #category : #accessing }
 MOArtefactBuilder >> addDeclarationUnit: aMODeclarationUnit [
 

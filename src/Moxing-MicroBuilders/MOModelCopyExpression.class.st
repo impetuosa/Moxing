@@ -86,7 +86,7 @@ MOModelCopyExpression >> visitIntegerLiteral: aMOIntegerLiteral [
 MOModelCopyExpression >> visitInvocation: aMOInvocation [
 
 	^ writer
-		  invokeNamed: aMOInvocation selector
+		  invocation: aMOInvocation selector
 		  arguments: [ :expr | 
 		  self copyAll: aMOInvocation relation: #arguments ]
 ]

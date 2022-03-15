@@ -51,6 +51,16 @@ MOInvocation >> printOn: aStream [
 		nextPutAll: arguments size asString
 ]
 
+{ #category : #'as yet unclassified' }
+MOInvocation >> refersToObjectsLike: aMOFunction [
+
+	^ aMOFunction ifNil: [ true ] ifNotNil: [ 
+		  { 
+			  MOVariableAccessor.
+			  MOFunction.
+			  MOProcedure } includes: aMOFunction species ]
+]
+
 { #category : #accessing }
 MOInvocation >> selector [
 	^ selector

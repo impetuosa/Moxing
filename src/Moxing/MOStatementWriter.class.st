@@ -147,15 +147,6 @@ MOStatementWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBl
 				   arguments: anOtherExpressionBuildingBlock ])
 ]
 
-{ #category : #expressions }
-MOStatementWriter >> invokeNamed: aString arguments: anOtherExpressionBuildingBlock [
-
-	^ self registerStatement: (self writeExpression: [ :exp | 
-			   exp
-				   invokeNamed: aString
-				   arguments: anOtherExpressionBuildingBlock ])
-]
-
 { #category : #'as yet unclassified' }
 MOStatementWriter >> isuable [
 

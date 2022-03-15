@@ -118,7 +118,7 @@ MOStatementWriterTestCase >> testWriteInvokeFunction [
 		      function writeBlock: [ :block | 
 			      block writeExpressionStatement: [ :statements | 
 				      statements writeExpression: [ :expr | 
-					      expr invokeNamed: #fnExample arguments: [ :exp | {  } ] ] ] ] ].
+					      expr invocation: #fnExample arguments: [ :exp | {  } ] ] ] ] ].
 
 	return := fn block statements first.
 	self assert: return parent equals: fn block.

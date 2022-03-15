@@ -19,6 +19,17 @@ MOConstantReference >> kind: aString [
 	kind := aString
 ]
 
+{ #category : #'as yet unclassified' }
+MOConstantReference >> refersToObjectsLike: aMOEnumEntry [
+
+	^ aMOEnumEntry ifNil: [ true ] ifNotNil: [ 
+		  { 
+			  MOEnumEntry.
+			  MOGlobalConstant.
+			  MOLocalConstant.
+			  MOConstantAttribute } includes: aMOEnumEntry species ]
+]
+
 { #category : #generated }
 MOConstantReference >> type [
 	^ candidate type 

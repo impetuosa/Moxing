@@ -34,6 +34,14 @@ MOPrimitiveTypeReference >> printOn: aStream [
 		nextPutAll: self name
 ]
 
+{ #category : #'as yet unclassified' }
+MOPrimitiveTypeReference >> refersToObjectsLike: aMOPrimitiveType [
+
+	^ aMOPrimitiveType species = MOPrimitiveType or: [ 
+		  aMOPrimitiveType species = MOAttribute and: [ 
+			  aMOPrimitiveType name = #Null ] ]
+]
+
 { #category : #generated }
 MOPrimitiveTypeReference >> type [ 
 	^ candidate

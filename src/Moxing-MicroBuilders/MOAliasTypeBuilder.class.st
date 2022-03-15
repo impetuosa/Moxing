@@ -24,3 +24,13 @@ MOAliasTypeBuilder >> privateBuild [
 		  typeReference: self typeReference;
 		  yourself
 ]
+
+{ #category : #accessing }
+MOAliasTypeBuilder >> typeReference [
+	^ typeReference ifNil: [  self error: ' Type refernece is nil! ' ]
+]
+
+{ #category : #accessing }
+MOAliasTypeBuilder >> typeReference: aMOPrimitiveTypeReference [ 
+	typeReference := aMOPrimitiveTypeReference
+]

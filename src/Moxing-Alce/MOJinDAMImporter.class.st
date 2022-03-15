@@ -50,6 +50,7 @@ MOJinDAMImporter >> anchorFromToInstall [
 { #category : #visiting }
 MOJinDAMImporter >> import: aJinDamModel [
 
+	jindamModel := aJinDamModel.
 	self read: aJinDamModel.
 	self linkWith: aJinDamModel.
 	self anchorFromToInstall

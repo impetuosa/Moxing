@@ -36,6 +36,17 @@ MOMethodInvocation >> receiverReference: aMOVariableReference [
 	receiverReference := aMOVariableReference
 ]
 
+{ #category : #'as yet unclassified' }
+MOMethodInvocation >> refersToObjectsLike: aMOClassProcedure [
+
+	^ aMOClassProcedure ifNil: [ true ] ifNotNil: [ 
+		  { 
+			  MOAttributeAccessor.
+			  MOClassFunction.
+			  MOClassProcedure.
+			  MOMethod } includes: aMOClassProcedure class ]
+]
+
 { #category : #generated }
 MOMethodInvocation >> type [
 	^ candidate anyOne type 

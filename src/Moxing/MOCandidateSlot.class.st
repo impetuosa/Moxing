@@ -16,8 +16,7 @@ MOCandidateSlot >> acceptRule: aRule forRelation: aRelationObject readingValues:
 { #category : #visiting }
 MOCandidateSlot >> shouldAccept: aValue into: anObject [
 
-	^ true "
 	^ aValue
 		  ifNil: [ true ]
-		  ifNotNil: [ anObject refersToObjectsLike: aValue ]"
+		  ifNotNil: [ anObject refersToObjectsLike: aValue ]
 ]

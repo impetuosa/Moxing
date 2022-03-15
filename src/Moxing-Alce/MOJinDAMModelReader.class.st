@@ -2,10 +2,19 @@ Class {
 	#name : #MOJinDAMModelReader,
 	#superclass : #MOModelReader,
 	#instVars : [
-		'traces'
+		'traces',
+		'jindamModel'
 	],
 	#category : #'Moxing-Alce'
 }
+
+{ #category : #'as yet unclassified' }
+MOJinDAMModelReader >> parentOfInvocable: aJinDAMSubProcedure [
+
+	^ jindamModel entities detect: [ :a | 
+		  (a isKindOf: JinDAMModule) and: [ 
+			  a invocables includes: aJinDAMSubProcedure ] ]
+]
 
 { #category : #visiting }
 MOJinDAMModelReader >> read: anEntity [ 
@@ -17,8 +26,6 @@ MOJinDAMModelReader >> read: anEntity [
 { #category : #'as yet unclassified' }
 MOJinDAMModelReader >> trace: aJinDAMTypeReference with: aMOTypeReference [
 
-	(aMOTypeReference isKindOf: MOModelProceduralWriter) ifTrue: [ 
-		self halt ].
 	(self traces
 		 at: aJinDAMTypeReference
 		 ifAbsentPut: [ OrderedCollection new ]) add: aMOTypeReference.
@@ -87,7 +94,8 @@ MOJinDAMModelReader >> visitAlias: aJinDAMAlias [
 
 	^ self trace: aJinDAMAlias with: (writer writeAlias: [ :alias | 
 			   alias name: aJinDAMAlias name.
-			   self typeReferenceFor: aJinDAMAlias typeReference using: alias ])
+			   alias typeReference:
+				   (self typeReferenceFor: aJinDAMAlias typeReference using: alias) ])
 ]
 
 { #category : #visiting }
