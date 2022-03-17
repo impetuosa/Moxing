@@ -186,6 +186,40 @@ MOCatalogTypeInstaller >> visitParameter: aMOParameter [
 ]
 
 { #category : #visiting }
+MOCatalogTypeInstaller >> visitParametrizableClass: aMOParametrizableClass [
+
+	^ writer writeParametrizableClass: [ :class | 
+		  class name: aMOParametrizableClass name.
+		  self use: class during: [ 
+			  class packageReference:
+				  (aMOParametrizableClass packageReference acceptVisitor: self).
+			  class superclassReference:
+				  (aMOParametrizableClass superclassReference ifNotNil: [ :i | 
+					   i acceptVisitor: self ]).
+			  class superTypeReferences:
+				  (self visitCollection:
+					   aMOParametrizableClass superTypeReferences).
+			  self visitCollection: aMOParametrizableClass allContainments ] ]
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitParametrizableMethod: aMOParametrizableMethod [ 
+
+	^ writer writeParametrizableMethod:  [ :method | 
+		  method selector: aMOParametrizableMethod selector.
+		  method returnTypeReference:
+			  (aMOParametrizableMethod returnTypeReference acceptVisitor: self).
+		  method modifiers: aMOParametrizableMethod modifiers copy.
+		  method visibility: aMOParametrizableMethod visibility copy.
+		  method thrownTypeReferences:
+			  (self visitCollection: aMOParametrizableMethod thrownTypeReferences).
+
+		  self
+			  use: method
+			  during: [ self visitCollection: aMOParametrizableMethod allContainments ] ]
+]
+
+{ #category : #visiting }
 MOCatalogTypeInstaller >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
 
 	| params type ref |
@@ -231,4 +265,19 @@ MOCatalogTypeInstaller >> visitTypeReference: aMOParametrizedTypeReference [
 			             aMOParametrizedTypeReference fullName ].
 	type ifNotEmpty: [ reference candidate: type anyOne ].
 	^ reference
+]
+
+{ #category : #visiting }
+MOCatalogTypeInstaller >> visitVarArgParameter: aMOVariableArgumentsParameter [
+
+	^ writer writeParameter: [ :parameter | 
+		  parameter mapsToVariableArguments.
+		  parameter name: aMOVariableArgumentsParameter name.
+		  parameter typeReference:
+			  (aMOVariableArgumentsParameter typeReference acceptVisitor: self).
+		  self
+			  use: parameter
+			  during: [ 
+			  self visitCollection:
+				  aMOVariableArgumentsParameter allContainments ] ]
 ]

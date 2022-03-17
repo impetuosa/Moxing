@@ -16,6 +16,14 @@ MOEnumBuilder >> addEnumEntry: aMOEnumEntry [
 	self entries add: aMOEnumEntry
 ]
 
+{ #category : #adding }
+MOEnumBuilder >> addModifier: aString [
+
+	(#( protected private public ) includes: aString) ifTrue: [ 
+		^ self visibility: aString ].
+	self halt
+]
+
 { #category : #asserting }
 MOEnumBuilder >> buildsType [
 

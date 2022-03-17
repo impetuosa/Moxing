@@ -341,7 +341,7 @@ MOModelProceduralWriter >> writeCopy: aFullBlockClosure [
 ]
 
 { #category : #writing }
-MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity croppingRelationsWith: aBlock readingValues: aChildDelegateLoadingBlock [
+MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity croppingRelationsWith: aBlock readingValues: aChildDelegateLoadingBlock bindingWithCandidates: aBindingBlock [
 
 	self installCopyingBuilder.
 
@@ -350,6 +350,7 @@ MOModelProceduralWriter >> writeCopyOf: aProvenanceEntity croppingRelationsWith:
 		  buildCopyOf: aProvenanceEntity
 		  croppingWith: aBlock
 		  readingValues: aChildDelegateLoadingBlock
+		  bindingWithCandidates: aBindingBlock
 		  into: self
 ]
 

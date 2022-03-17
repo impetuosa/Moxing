@@ -23,6 +23,14 @@ MOObject >> acceptVisitor: aVisitor [
 ]
 
 { #category : #traverse }
+MOObject >> allCandidateRelations [
+
+	^ (self class allSlots select: [ :slot | 
+		   slot class = MOCandidateSlot ]) flatCollect: [ :slot | 
+		  slot readAllRelations: self ]
+]
+
+{ #category : #traverse }
 MOObject >> allContainmentRelations [
 
 	^ (self class allSlots select: [ :slot | 
@@ -107,6 +115,7 @@ MOObject >> allRelations [
 
 	^ self allContainmentRelations , self allExpressionRelations
 	  , self allReferenceRelations , self allPropertyRelations
+	  , self allCandidateRelations
 ]
 
 { #category : #traverse }

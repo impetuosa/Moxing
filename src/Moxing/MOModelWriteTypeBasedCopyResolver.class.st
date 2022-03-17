@@ -295,6 +295,12 @@ MOModelWriteTypeBasedCopyResolver >> visitSelect: aMOSelect [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitSelfReference: aMOSelfReference [
+
+	^ self copyExpression
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitSetToReturn: aMOSetToReturn [ 
 
 	^ writer writeSetToReturn: [ :block | writingBlock value: block ]

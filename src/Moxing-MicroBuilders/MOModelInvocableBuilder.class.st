@@ -11,12 +11,6 @@ Class {
 }
 
 { #category : #adding }
-MOModelInvocableBuilder >> addAnnotationInstance: aMOAnnotationInstance [
-
-	self annotationInstances add: aMOAnnotationInstance
-]
-
-{ #category : #adding }
 MOModelInvocableBuilder >> addModifier: aString [ 
 	self modifiers add: aString 
 ]
@@ -42,9 +36,9 @@ MOModelInvocableBuilder >> block: aMOBlock [
 { #category : #accessing }
 MOModelInvocableBuilder >> body [
 
-	^ body ifNil: [
+	^ body ifNil: [ 
 		  body := self
-			          findInModel: [ :a | a isKindOf: MOEmptyBlock ]
+			          findInModel: [ :a | a species = MOEmptyBlock ]
 			          ifNone: [ self instantiateSubClass: MOEmptyBlock ] ]
 ]
 

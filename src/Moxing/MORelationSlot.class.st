@@ -4,6 +4,12 @@ Class {
 	#category : #'Moxing-Core-Slots'
 }
 
+{ #category : #visiting }
+MORelationSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
+
+	self subclassResponsibility
+]
+
 { #category : #printing }
 MORelationSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
 	self subclassResponsibility 

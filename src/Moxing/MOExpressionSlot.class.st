@@ -12,11 +12,12 @@ Class {
 }
 
 { #category : #asserting }
-MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
 		  applyOnExpression: aRelationObject
 		  readingValues: aFullBlockClosure
+		  bindingWithCandidates: anOtherBlock
 		  into: aWriter
 ]
 

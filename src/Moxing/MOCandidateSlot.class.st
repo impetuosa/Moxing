@@ -5,12 +5,19 @@ Class {
 }
 
 { #category : #visiting }
-MOCandidateSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+MOCandidateSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
 		  applyOnCandidate: aRelationObject
 		  readingValues: aFullBlockClosure
+		  bindingWithCandidates: anOtherBlock
 		  into: aWriter
+]
+
+{ #category : #testing }
+MOCandidateSlot >> isToMany [
+
+	^ false
 ]
 
 { #category : #visiting }

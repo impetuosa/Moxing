@@ -182,6 +182,12 @@ MOModelTypeLinker >> visitParametrizableClassType: aMOParametrizableClassType [
 ]
 
 { #category : #visiting }
+MOModelTypeLinker >> visitParametrizableMethod: aMOParametrizableMethod [
+
+	^ self visitMethod: aMOParametrizableMethod
+]
+
+{ #category : #visiting }
 MOModelTypeLinker >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
 
 	self visitTypeReference: aMOParametrizedTypeReference

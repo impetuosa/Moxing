@@ -9,3 +9,9 @@ MOAlceReport >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitReport: self
 ]
+
+{ #category : #visiting }
+MOAlceReport >> canBeReferredAsVariable [
+
+	^ true
+]

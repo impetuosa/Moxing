@@ -503,6 +503,14 @@ MOModelBuilder >> moduleBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> namedArgumentBuilder [
+
+	^ MOModelNamedArgumentBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> newExpressionBuilder [
 
 	^ MOModelNewExpressionBuilder new

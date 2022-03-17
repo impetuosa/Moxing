@@ -9,3 +9,8 @@ MOAlceForm >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitForm: self
 ]
+
+{ #category : #visiting }
+MOAlceForm >> canBeReferredAsVariable [ 
+	 ^ true
+]

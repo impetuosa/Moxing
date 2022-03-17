@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #generated }
+MOParametrizableMethod >> acceptVisitor: aVisitor [
+
+	^ aVisitor visitParametrizableMethod: self
+]
+
+{ #category : #generated }
 MOParametrizableMethod >> printOn: aStream [
 
 	aStream

@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #adding }
+MOClassTypeWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	writeBuilder addAnnotationInstance: aMOAnnotationInstance
+]
+
+{ #category : #adding }
 MOClassTypeWriter >> addAttribute: aMOAttribute [
 
 	writeBuilder addAttribute: aMOAttribute
@@ -67,6 +73,12 @@ MOClassTypeWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOClassTypeWriter >> privateWriteToSurface: anEntity [
 	surface addClassType: anEntity
+]
+
+{ #category : #writing }
+MOClassTypeWriter >> writeAnnotation: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]
 
 { #category : #writing }

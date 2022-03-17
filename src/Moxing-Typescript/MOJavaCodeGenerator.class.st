@@ -122,6 +122,11 @@ MOJavaCodeGenerator >> visitCatch: aMOCatch [
 
 { #category : #visiting }
 MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
+
+	aJinTypescriptClass modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
 	stream nextPutAll: aJinTypescriptClass visibility asLowercase.
 	self
 		printClassHeader: aJinTypescriptClass name
@@ -541,14 +546,17 @@ MOJavaCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsParameter [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitVariable: aMOTypescriptVariable [
 
-	aMOTypescriptVariable typeReference ifNotNil: [ 
-		aMOTypescriptVariable typeReference acceptVisitor: self.
-		stream nextPutAll: ' ' ].
-
+	
 	aMOTypescriptVariable modifiers do: [ :m | 
 		stream
 			nextPutAll: m;
 			nextPutAll: ' ' ].
+		
+	aMOTypescriptVariable typeReference ifNotNil: [ 
+		aMOTypescriptVariable typeReference acceptVisitor: self.
+		stream nextPutAll: ' ' ].
+
+	
 	stream nextPutAll: aMOTypescriptVariable name.
 
 

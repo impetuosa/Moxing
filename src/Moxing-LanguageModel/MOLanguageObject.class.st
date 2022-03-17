@@ -48,6 +48,12 @@ MOLanguageObject >> acceptVisitor: ads [
 	self subclassResponsibility
 ]
 
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsVariable [
+
+	^ false
+]
+
 { #category : #'as yet unclassified' }
 MOLanguageObject >> dependencies [
 	^ {}

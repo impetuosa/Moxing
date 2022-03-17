@@ -8,10 +8,17 @@ Class {
 		'modifiers',
 		'attributes',
 		'methods',
-		'decorators'
+		'decorators',
+		'annotationInstances'
 	],
 	#category : #'Moxing-MicroBuilders-types'
 }
+
+{ #category : #adding }
+MOModelClassTypeBuilder >> addAnnotationInstance: aMOAnnotationInstance [
+
+	self annotationInstances add: aMOAnnotationInstance
+]
 
 { #category : #adding }
 MOModelClassTypeBuilder >> addAttribute: anAttribute [
@@ -28,6 +35,19 @@ MOModelClassTypeBuilder >> addMethod: aMOProcedure [
 { #category : #adding }
 MOModelClassTypeBuilder >> addModifier: aString [ 
 	self modifiers add: aString 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelClassTypeBuilder >> annotationInstances [
+
+	^ annotationInstances ifNil: [ 
+		  annotationInstances := OrderedCollection new ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelClassTypeBuilder >> annotationInstances: aCollection [
+
+	annotationInstances := aCollection
 ]
 
 { #category : #accessing }
@@ -55,7 +75,8 @@ MOModelClassTypeBuilder >> loadBuilderWithEntity: anEntity [
 	super loadBuilderWithEntity: anEntity.
 	self attributes: anEntity attributes.
 	self methods: anEntity methods.
-	self superTypeReferences: anEntity superTypeReferences
+	self superTypeReferences: anEntity superTypeReferences.
+	self annotationInstances: anEntity annotationInstances
 ]
 
 { #category : #accessing }
@@ -89,5 +110,6 @@ MOModelClassTypeBuilder >> privateBuild [
 		  modifiers: self modifiers;
 		  attributes: self attributes;
 		  methods: self methods;
+		  annotationInstances: self annotationInstances;
 		  yourself
 ]

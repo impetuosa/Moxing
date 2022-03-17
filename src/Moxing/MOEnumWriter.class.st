@@ -14,6 +14,12 @@ MOEnumWriter >> addEnumEntry: aMOEnumEntry [
 	writeBuilder addEnumEntry: aMOEnumEntry 
 ]
 
+{ #category : #adding }
+MOEnumWriter >> addModifier: aString [
+
+	writeBuilder addModifier: aString
+]
+
 { #category : #writing }
 MOEnumWriter >> initializeWriteBuilder [
 	writeBuilder := builder primitiveEnumBuilder 

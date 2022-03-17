@@ -11,11 +11,12 @@ Class {
 }
 
 { #category : #asserting }
-MOReferenceSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+MOReferenceSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
 		  applyOnReference: aRelationObject
 		  readingValues: aFullBlockClosure
+		  bindingWithCandidates: anOtherBlock
 		  into: aWriter
 ]
 

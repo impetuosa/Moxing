@@ -5,7 +5,8 @@ Class {
 		'#superTypeReferences => MOReferenceSlot many',
 		'#superclassReference => MOReferenceSlot one',
 		'#attributes => MOContainmentSlot many',
-		'#methods => MOContainmentSlot many'
+		'#methods => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many'
 	],
 	#classInstVars : [
 		'#object'
@@ -44,6 +45,16 @@ MOClass >> allVisibleMethods [
 ]
 
 { #category : #accessing }
+MOClass >> annotationInstances [
+	^ annotationInstances
+]
+
+{ #category : #accessing }
+MOClass >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
+]
+
+{ #category : #accessing }
 MOClass >> attributes [
 
 	^ attributes
@@ -53,6 +64,12 @@ MOClass >> attributes [
 MOClass >> attributes: aCollection [ 
 
 	attributes :=aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOClass >> constructors [
+
+	^ self methods select: [ :m | m isKindOf: MOConstructor ]
 ]
 
 { #category : #generated }

@@ -32,6 +32,11 @@ MOConstructor >> selector [
 ]
 
 { #category : #accessing }
+MOConstructor >> thrownTypeReferences [
+	^ thrownTypeReferences
+]
+
+{ #category : #accessing }
 MOConstructor >> thrownTypeReferences: aCollection [ 
 	thrownTypeReferences := aCollection
 ]

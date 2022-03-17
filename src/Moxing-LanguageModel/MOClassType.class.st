@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'#superTypeReferences => MOReferenceSlot many',
 		'#attributes => MOContainmentSlot many',
-		'#methods => MOContainmentSlot many'
+		'#methods => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -21,6 +22,11 @@ MOClassType >> allVisibleMethods [
 	^ self methods , (superTypeReferences
 		   ifNotNil: [ superTypeReferences flatCollect: [ :t | t allVisibleMethods ] ]
 		   ifNil: [ {  } ])
+]
+
+{ #category : #accessing }
+MOClassType >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
 ]
 
 { #category : #accessing }

@@ -17,6 +17,13 @@ MONewInvocation >> dependencies [
 	^ typeReference dependencies 
 ]
 
+{ #category : #initialization }
+MONewInvocation >> initialize [
+	
+	self class initializeSlots: self.
+	super initialize.
+]
+
 { #category : #'as yet unclassified' }
 MONewInvocation >> printOn: aStream [
 
@@ -26,6 +33,14 @@ MONewInvocation >> printOn: aStream [
 		nextPutAll: '\';
 		nextPutAll:
 			(arguments ifNil: [ 0 ] ifNotNil: [ :a | a size ]) asString
+]
+
+{ #category : #'as yet unclassified' }
+MONewInvocation >> refersToObjectsLike: aMOClassProcedure [
+
+	^ aMOClassProcedure
+		  ifNil: [ true ]
+		  ifNotNil: [ { MOConstructor } includes: aMOClassProcedure class ]
 ]
 
 { #category : #'as yet unclassified' }

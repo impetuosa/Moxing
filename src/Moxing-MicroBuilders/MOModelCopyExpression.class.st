@@ -4,18 +4,21 @@ Class {
 	#instVars : [
 		'writer',
 		'block',
-		'croppingBlock'
+		'croppingBlock',
+		'bindingBlock'
 	],
 	#category : #'Moxing-MicroBuilders-core'
 }
 
-{ #category : #accessing }
-MOModelCopyExpression >> buildCopyOf: aProvenanceEntityRelation croppingWith: aBlock readingValues: aChildDelegateLoadingBlock into: aDestinationWriter [
+{ #category : #'as yet unclassified' }
+MOModelCopyExpression >> buildCopyOf: aProvenanceEntity croppingWith: aBlock readingValues: aChildDelegateLoadingBlock bindingWithCandidates: aBindingBlock into: aDestinationWriter [
 
 	writer := aDestinationWriter.
 	block := aChildDelegateLoadingBlock.
+	bindingBlock := aBindingBlock.
 	croppingBlock := aBlock.
-	^ aProvenanceEntityRelation to acceptVisitor: self
+
+	^ aProvenanceEntity to acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -122,6 +125,11 @@ MOModelCopyExpression >> visitNullLiteral: aMONullLiteral [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitSelfReference: aMOSelfReference [ 
+	^ writer referenceToSelf 
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitStringLiteral: aMOStringLiteral [
 
 	^ writer stringLiteral: aMOStringLiteral literal
@@ -142,8 +150,13 @@ MOModelCopyExpression >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOpera
 ]
 
 { #category : #visiting }
-MOModelCopyExpression >> visitVariableReference: aMOVariableReference [ 
-	^ writer variableReferenceNamed: aMOVariableReference name
+MOModelCopyExpression >> visitVariableReference: aMOVariableReference [
+
+	| copy  |
+	copy := writer variableReferenceNamed: aMOVariableReference name.
+	aMOVariableReference allCandidateRelations collect: [ :rel | 
+		copy := bindingBlock value: writer value: rel value: copy ].
+	^ copy
 ]
 
 { #category : #accessing }

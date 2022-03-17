@@ -123,11 +123,12 @@ MOModelPackageBuilder >> parent [
 
 { #category : #accessing }
 MOModelPackageBuilder >> parent: aParent [
+
 	parent := aParent.
-	
-	self packageReference: (self packageReferenceBuilder
-			 package: aParent;
-			 build)
+	aParent ifNotNil: [ 
+		self packageReference: (self packageReferenceBuilder
+				 package: aParent;
+				 build) ]
 ]
 
 { #category : #'as yet unclassified' }

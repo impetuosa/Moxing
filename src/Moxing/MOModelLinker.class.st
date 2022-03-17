@@ -142,8 +142,10 @@ MOModelLinker >> invocationLinker [
 ]
 
 { #category : #testing }
-MOModelLinker >> isReference: aMOModelBuilder [ 
-	^ aMOModelBuilder isKindOf: MOLanguageObject  
+MOModelLinker >> isReference: aMOModelBuilder [
+
+	^ (aMOModelBuilder isKindOf: MOLanguageObject) and: [ 
+		  (aMOModelBuilder species = MOPackage) not ]
 ]
 
 { #category : #accessing }

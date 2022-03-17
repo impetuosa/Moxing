@@ -10,13 +10,20 @@ Class {
 	#category : #'Moxing-Core'
 }
 
+{ #category : #'as yet unclassified' }
+MOObjectObjectRelation class >> nullRelationTo: aMOPackage [
+
+	^ MONullObjectRelation new to: aMOPackage
+]
+
 { #category : #visiting }
-MOObjectObjectRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClosure into: aMOMethodWriter [
+MOObjectObjectRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aMOMethodWriter [
 
 	^ slot
 		  acceptRule: aMOModelCopy
 		  forRelation: self
 		  readingValues: aFullBlockClosure
+		  bindingWithCandidates: anOtherBlock
 		  into: aMOMethodWriter
 ]
 

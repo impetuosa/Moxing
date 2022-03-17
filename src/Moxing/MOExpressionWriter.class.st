@@ -18,6 +18,21 @@ MOExpressionWriter >> accessAttribute: aString receiver: anExpressionBuildingBlo
 		  build
 ]
 
+{ #category : #adding }
+MOExpressionWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	^ aMOAnnotationInstance
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> argumentNamed: anArgumentName expression: aFullBlockClosure [
+
+	^ builder namedArgumentBuilder
+		  name: anArgumentName;
+		  argumentExpressions: (self writeExpression: aFullBlockClosure);
+		  build
+]
+
 { #category : #'as yet unclassified' }
 MOExpressionWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumentsBlock [
 
@@ -36,6 +51,12 @@ MOExpressionWriter >> build [
 	entity := writeResult .
 	self installFromTo: entity.
 	^ entity
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> classExpression: aMOTypeReference [
+
+	^ builder classExpressionBuilder
 ]
 
 { #category : #'as yet unclassified' }
@@ -209,6 +230,12 @@ MOExpressionWriter >> referenceToSelf [
 MOExpressionWriter >> setWriteVariable: aMOVariableReference [
 
 	writeBuilder write: aMOVariableReference
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeAnnotation: aFullBlockClosure [ 
+	
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]
 
 { #category : #writing }

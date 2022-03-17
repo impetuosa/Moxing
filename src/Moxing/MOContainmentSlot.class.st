@@ -9,12 +9,13 @@ Class {
 	#category : #'Moxing-Core-Slots'
 }
 
-{ #category : #asserting }
-MOContainmentSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure into: aWriter [
+{ #category : #visiting }
+MOContainmentSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
 		  applyOnContainment: aRelationObject
 		  readingValues: aFullBlockClosure
+		  bindingWithCandidates: anOtherBlock
 		  into: aWriter
 ]
 

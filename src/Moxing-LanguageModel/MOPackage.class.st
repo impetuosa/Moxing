@@ -73,6 +73,13 @@ MOPackage >> packageReference: aPackageReference [
 	packageReference := aPackageReference
 ]
 
+{ #category : #accessing }
+MOPackage >> parent: aParent [
+
+	aParent ifNotNil: [ self halt ].
+	super parent: aParent
+]
+
 { #category : #adding }
 MOPackage >> printOn: aStream [
 

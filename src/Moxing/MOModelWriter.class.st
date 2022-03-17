@@ -256,17 +256,16 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
-	
-	
 	anEntity allContainmentRelations , anEntity allReferenceRelations
 	, anEntity allExpressionRelations do: [ :relation | 
-		subentity := relation to.
-		subentity parent: anEntity.
-		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
-				 ifTrue: [ relation name ]
-				 ifFalse: [ subentity name ])
-			/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
-		self populateAnchorOn: subentity ]
+		(model exclusivelyincludes: relation to) ifTrue: [ 
+			subentity := relation to.
+			subentity parent: anEntity.
+			subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
+					 ifTrue: [ relation name ]
+					 ifFalse: [ subentity name ])
+				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
+			self populateAnchorOn: subentity ] ]
 ]
 
 { #category : #'as yet unclassified' }

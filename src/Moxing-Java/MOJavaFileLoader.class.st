@@ -83,11 +83,14 @@ MOJavaFileLoader >> visitAbstractMethodDeclaration: aJavaAbstractMethodDeclarati
 { #category : #visiting }
 MOJavaFileLoader >> visitAnnotation: aJavaAnnotationNode [
 
-	writer writeAnnotation: [ :annotation | 
-		annotation annotationTypeReference:
-			(self typeReferenceFor: aJavaAnnotationNode name using: annotation) .
-		annotation arguments:
-			(self visitCollection: aJavaAnnotationNode values) ]
+	^ writer writeAnnotation: [ :annotation | 
+		  annotation annotationTypeReference:
+			  (self
+				   typeReferenceFor: aJavaAnnotationNode name
+				   using: annotation).
+		  self use: annotation during: [ 
+			  annotation arguments:
+				  (self visitCollection: aJavaAnnotationNode values) ] ]
 ]
 
 { #category : #visiting }
@@ -122,6 +125,12 @@ MOJavaFileLoader >> visitClassDeclaration: aJavaClassDeclarationNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitClassExpression: aJavaClassExpressionNode [
+
+	^ self typeReferenceFor: aJavaClassExpressionNode type using: writer
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitCollection: aCollection [ 
 	^ aCollection collect: [ : a | a accept: self  ]
 ]
@@ -144,8 +153,39 @@ MOJavaFileLoader >> visitConstructorDeclaration: aJavaConstructorDeclarationNode
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitElementArrayInitializer: aJavaElementArrayInitializerNode [
+
+	^ self visitCollection: aJavaElementArrayInitializerNode values
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitElementValuePair: aJavaElementValuePairNode [
+
+	^ writer writeUnregisteredExpression: [ :ue | 
+		  ue
+			  argumentNamed: aJavaElementValuePairNode name source
+			  expression: [ :e | 
+				  self
+					  use: e
+					  during: [ aJavaElementValuePairNode value acceptVisitor: self ] ] ]
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitEmptyMethodBody: aJavaEmptyMethodBodyNode [ 
 	" nothing to inform here. "
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitEnumDeclaration: aJavaEnumDeclarationNode [
+
+	self assert: aJavaEnumDeclarationNode constants isEmpty.
+
+	self assert: aJavaEnumDeclarationNode declarations isEmpty.
+	writer writeEnum: [ :enum | 
+		enum name: aJavaEnumDeclarationNode name source.
+		self
+			use: enum
+			during: [ self visitCollection: aJavaEnumDeclarationNode modifiers ] ]
 ]
 
 { #category : #visiting }
@@ -424,14 +464,13 @@ MOJavaFileLoader >> writeClassTypeWith: aJavaInterfaceDeclarationNode named: nam
 				class packageReference: packageReference ].
 
 
-		self
-			use: class
-			during: [ 
+		self use: class during: [ 
+			self visitCollection: aJavaInterfaceDeclarationNode modifiers.
 			self visitCollection: aJavaInterfaceDeclarationNode declarations ] ]
 ]
 
 { #category : #visiting }
-MOJavaFileLoader >> writeClassWith: aJavaClassDeclarationNode named: name [ 
+MOJavaFileLoader >> writeClassWith: aJavaClassDeclarationNode named: name [
 
 	writer package: package.
 	writer writeClass: [ :class | 
@@ -446,6 +485,7 @@ MOJavaFileLoader >> writeClassWith: aJavaClassDeclarationNode named: name [
 				class name: name.
 				class packageReference: packageReference ].
 		self use: class during: [ 
+			self visitCollection: aJavaClassDeclarationNode modifiers.
 			aJavaClassDeclarationNode typeParameters ifNotNil: [ :p | 
 				self visitCollection: p parameters ].
 			self visitCollection: aJavaClassDeclarationNode declarations ] ]

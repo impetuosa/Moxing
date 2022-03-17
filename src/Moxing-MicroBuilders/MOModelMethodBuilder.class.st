@@ -5,10 +5,29 @@ Class {
 	#name : #MOModelMethodBuilder,
 	#superclass : #MOModelFunctionBuilder,
 	#instVars : [
-		'thrownTypeReferences'
+		'thrownTypeReferences',
+		'annotationInstances'
 	],
 	#category : #'Moxing-MicroBuilders-invocables'
 }
+
+{ #category : #adding }
+MOModelMethodBuilder >> addAnnotationInstance: aMOAnnotationInstance [
+
+	self annotationInstances add: aMOAnnotationInstance
+]
+
+{ #category : #accessing }
+MOModelMethodBuilder >> annotationInstances [
+ 
+	^ annotationInstances ifNil: [ 
+		  annotationInstances := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelMethodBuilder >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
+]
 
 { #category : #'as yet unclassified' }
 MOModelMethodBuilder >> buildsType [
@@ -21,7 +40,8 @@ MOModelMethodBuilder >> buildsType [
 MOModelMethodBuilder >> loadBuilderWithEntity: anEntity [
 
 	super loadBuilderWithEntity: anEntity.
-	self thrownTypeReferences: anEntity thrownTypeReferences
+	self thrownTypeReferences: anEntity thrownTypeReferences.
+	self annotationInstances: anEntity annotationInstances
 ]
 
 { #category : #accessing }
@@ -31,6 +51,7 @@ MOModelMethodBuilder >> privateBuild [
 
 	^ super privateBuild
 		  thrownTypeReferences: self thrownTypeReferences;
+		  annotationInstances: self annotationInstances;
 		  yourself
 ]
 
@@ -51,4 +72,9 @@ MOModelMethodBuilder >> thrownTypeReferences [
 MOModelMethodBuilder >> thrownTypeReferences:  aCollection [ 
 
 	^ thrownTypeReferences := aCollection
+]
+
+{ #category : #generated }
+MOModelMethodBuilder >> typeParameters [
+	self shouldBeImplemented.
 ]

@@ -53,6 +53,11 @@ MOAbstractVariable >> bindingKind: aString [
 ]
 
 { #category : #accessing }
+MOAbstractVariable >> canBeReferredAsVariable [ 
+	 ^ true 
+]
+
+{ #category : #accessing }
 MOAbstractVariable >> dependencies [
 	| deps |
 	deps := typeReference ifNotNil: [ typeReference dependencies ] ifNil: [ {} ].
@@ -75,6 +80,12 @@ MOAbstractVariable >> initializer [
 { #category : #accessing }
 MOAbstractVariable >> initializer: aMONewExpression [ 
 	initializer := aMONewExpression
+]
+
+{ #category : #accessing }
+MOAbstractVariable >> isDeclaration [
+
+	^ true
 ]
 
 { #category : #accessing }

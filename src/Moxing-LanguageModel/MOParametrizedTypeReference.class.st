@@ -15,6 +15,7 @@ MOParametrizedTypeReference >> acceptVisitor: aMOJavaModelReader [
 
 { #category : #accessing }
 MOParametrizedTypeReference >> argumentTypeReferences [
+
 	^ argumentTypeReferences
 ]
 
