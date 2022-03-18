@@ -11,6 +11,11 @@ MOConstantAttribute >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #visiting }
+MOConstantAttribute >> canBeReferredAsConstant [
+	 ^ true 
+]
+
+{ #category : #visiting }
 MOConstantAttribute >> kindString [
 
 	^ 'CONST ATTR'

@@ -13,6 +13,11 @@ MOAttributeAccessor >> acceptVisitor: aJinInspectorBuilder [
 ]
 
 { #category : #accessing }
+MOAttributeAccessor >> canBeReferredAsMethod [
+	 ^ true
+]
+
+{ #category : #accessing }
 MOAttributeAccessor >> kind [
 	^ kind
 ]

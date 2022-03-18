@@ -14,6 +14,12 @@ MOAttribute >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #'as yet unclassified' }
+MOAttribute >> canBeReferredAsAttribute [
+
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 MOAttribute >> kindString [
 
 	^ 'ATTR'

@@ -14,11 +14,23 @@ MOFunction >> acceptVisitor: aJinInspectorBuilder [
 	^ aJinInspectorBuilder visitFunction: self
 ]
 
+{ #category : #generated }
+MOFunction >> canBeReferredAsFunction [
+
+	^ true
+]
+
 { #category : #accessing }
 MOFunction >> dependencies [
 
 	^ super dependencies
 	  , (returnTypeReference ifNotNil: [ :t | t dependencies ] ifNil: [ {  } ])
+]
+
+{ #category : #generated }
+MOFunction >> name [
+
+	^ selector
 ]
 
 { #category : #generated }

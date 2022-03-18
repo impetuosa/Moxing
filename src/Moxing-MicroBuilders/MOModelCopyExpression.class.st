@@ -10,6 +10,20 @@ Class {
 	#category : #'Moxing-MicroBuilders-core'
 }
 
+{ #category : #visiting }
+MOModelCopyExpression >> applyBindTo: aDestinationEntity withCandidateFrom: aProvenanceEntity [
+
+	| candidateRelations |
+	candidateRelations := aProvenanceEntity allCandidateRelations.
+
+	self assert: candidateRelations size = 1.
+
+	^ bindingBlock
+		  value: writer
+		  value: candidateRelations first
+		  value: aDestinationEntity
+]
+
 { #category : #'as yet unclassified' }
 MOModelCopyExpression >> buildCopyOf: aProvenanceEntity croppingWith: aBlock readingValues: aChildDelegateLoadingBlock bindingWithCandidates: aBindingBlock into: aDestinationWriter [
 
@@ -54,10 +68,13 @@ MOModelCopyExpression >> visitAssignment: aMOAssignment [
 
 { #category : #visiting }
 MOModelCopyExpression >> visitAttributeAccess: aMOAttributeAccess [
-	^ writer
-		  accessAttribute: aMOAttributeAccess name
-		  receiver: [ :exp | 
-		  self copy: aMOAttributeAccess relation: #receiverReference ]
+
+	^ self
+		applyBindTo: (writer
+				 accessAttribute: aMOAttributeAccess name
+				 receiver: [ :exp | 
+				 self copy: aMOAttributeAccess relation: #receiverReference ])
+		withCandidateFrom: aMOAttributeAccess
 ]
 
 { #category : #visiting }
@@ -75,8 +92,12 @@ MOModelCopyExpression >> visitBooleanLiteral: aMOBooleanLiteral [
 ]
 
 { #category : #visiting }
-MOModelCopyExpression >> visitConstantReference: aMOConstantReference [ 
-	^ writer constantReferenceNamed: aMOConstantReference name
+MOModelCopyExpression >> visitConstantReference: aMOConstantReference [
+
+	^ self
+		  applyBindTo:
+		  (writer constantReferenceNamed: aMOConstantReference name)
+		  withCandidateFrom: aMOConstantReference
 ]
 
 { #category : #visiting }
@@ -88,26 +109,33 @@ MOModelCopyExpression >> visitIntegerLiteral: aMOIntegerLiteral [
 { #category : #visiting }
 MOModelCopyExpression >> visitInvocation: aMOInvocation [
 
-	^ writer
-		  invocation: aMOInvocation selector
-		  arguments: [ :expr | 
-		  self copyAll: aMOInvocation relation: #arguments ]
+	^ self
+		  applyBindTo: (writer
+				   invocation: aMOInvocation selector
+				   arguments: [ :expr | 
+				   self copyAll: aMOInvocation relation: #arguments ])
+		  withCandidateFrom: aMOInvocation
 ]
 
 { #category : #visiting }
-MOModelCopyExpression >> visitLabelReference: aMOAlceLabelReference [ 
-	^ writer labelReference: aMOAlceLabelReference name 
+MOModelCopyExpression >> visitLabelReference: aMOAlceLabelReference [
+
+	^ self
+		  applyBindTo: (writer labelReference: aMOAlceLabelReference name)
+		  withCandidateFrom: aMOAlceLabelReference
 ]
 
 { #category : #visiting }
 MOModelCopyExpression >> visitMethodInvocation: aMOMethodInvocation [
 
-	^ writer
-		  invokeMethodNamed: aMOMethodInvocation selector
-		  receiver: [ :expr | 
-		  self copy: aMOMethodInvocation relation: #receiverReference ]
-		  arguments: [ :expr | 
-		  self copyAll: aMOMethodInvocation relation: #arguments ]
+	^ self
+		  applyBindTo: (writer
+				   invokeMethodNamed: aMOMethodInvocation selector
+				   receiver: [ :expr | 
+				   self copy: aMOMethodInvocation relation: #receiverReference ]
+				   arguments: [ :expr | 
+				   self copyAll: aMOMethodInvocation relation: #arguments ])
+		  withCandidateFrom: aMOMethodInvocation
 ]
 
 { #category : #visiting }
@@ -115,7 +143,11 @@ MOModelCopyExpression >> visitNewExpression: aMONewInvocation [
 
 	self assert: aMONewInvocation arguments isEmptyOrNil.
 
-	^ writer new: (self copy: aMONewInvocation relation: #typeReference)
+	^ self
+		  applyBindTo:
+		  (writer new:
+			   (self copy: aMONewInvocation relation: #typeReference))
+		  withCandidateFrom: aMONewInvocation
 ]
 
 { #category : #visiting }
@@ -125,8 +157,11 @@ MOModelCopyExpression >> visitNullLiteral: aMONullLiteral [
 ]
 
 { #category : #visiting }
-MOModelCopyExpression >> visitSelfReference: aMOSelfReference [ 
-	^ writer referenceToSelf 
+MOModelCopyExpression >> visitSelfReference: aMOSelfReference [
+
+	^ self
+		  applyBindTo: writer referenceToSelf
+		  withCandidateFrom: aMOSelfReference
 ]
 
 { #category : #visiting }
@@ -136,8 +171,11 @@ MOModelCopyExpression >> visitStringLiteral: aMOStringLiteral [
 ]
 
 { #category : #visiting }
-MOModelCopyExpression >> visitTypeReference: aMOTypeReference [ 
-	^ writer typeReferenceNamed: aMOTypeReference name
+MOModelCopyExpression >> visitTypeReference: aMOTypeReference [
+
+	^ self
+		  applyBindTo: (writer typeReferenceNamed: aMOTypeReference name)
+		  withCandidateFrom: aMOTypeReference
 ]
 
 { #category : #visiting }
@@ -152,11 +190,10 @@ MOModelCopyExpression >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOpera
 { #category : #visiting }
 MOModelCopyExpression >> visitVariableReference: aMOVariableReference [
 
-	| copy  |
-	copy := writer variableReferenceNamed: aMOVariableReference name.
-	aMOVariableReference allCandidateRelations collect: [ :rel | 
-		copy := bindingBlock value: writer value: rel value: copy ].
-	^ copy
+	^ self
+		  applyBindTo:
+		  (writer variableReferenceNamed: aMOVariableReference name)
+		  withCandidateFrom: aMOVariableReference
 ]
 
 { #category : #accessing }

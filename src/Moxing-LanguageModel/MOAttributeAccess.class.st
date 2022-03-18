@@ -39,12 +39,10 @@ MOAttributeAccess >> receiverReference: aMOVariableReference [
 ]
 
 { #category : #'as yet unclassified' }
-MOAttributeAccess >> refersToObjectsLike: aCollection [
+MOAttributeAccess >> refersToObjectsLike: aMOPrimitiveType [
 
-	aCollection isCollection ifTrue: [ 
-		self assert: aCollection size = 3.
-		^ true ].
-	^ aCollection
-		  ifNil: [ true ]
-		  ifNotNil: [ aCollection species = MOAttribute ]
+	^ aMOPrimitiveType isCollection
+		  ifTrue: [ 
+		  aMOPrimitiveType allSatisfy: [ :a | self refersToObjectsLike: a ] ]
+		  ifFalse: [ aMOPrimitiveType canBeReferredAsAttribute ]
 ]

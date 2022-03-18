@@ -16,6 +16,11 @@ MOType >> addModifier: aModifier [
 ]
 
 { #category : #accessing }
+MOType >> canBeReferredAsType [
+	 ^ true
+]
+
+{ #category : #accessing }
 MOType >> fullName [
 
 	^ (packageReference ifNotNil: [ : p  |  p name , '.'  ] ifNil: [ '' ]), self name

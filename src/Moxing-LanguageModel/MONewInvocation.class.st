@@ -38,9 +38,7 @@ MONewInvocation >> printOn: aStream [
 { #category : #'as yet unclassified' }
 MONewInvocation >> refersToObjectsLike: aMOClassProcedure [
 
-	^ aMOClassProcedure
-		  ifNil: [ true ]
-		  ifNotNil: [ { MOConstructor } includes: aMOClassProcedure class ]
+	^ aMOClassProcedure canBeReferredAsConstructor
 ]
 
 { #category : #'as yet unclassified' }

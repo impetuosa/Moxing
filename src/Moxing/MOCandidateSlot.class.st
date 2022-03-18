@@ -21,6 +21,21 @@ MOCandidateSlot >> isToMany [
 ]
 
 { #category : #visiting }
+MOCandidateSlot >> readAllRelations: anObject selecting: aBlock [
+
+	| value |
+	value := self read: anObject.
+	^ (aBlock value: value)
+		  ifTrue: [ 
+			  { (MOObjectObjectRelation new
+				   from: anObject to: value;
+				   name: self name;
+				   slot: self;
+				   yourself) } ]
+		  ifFalse: [ {  } ]
+]
+
+{ #category : #visiting }
 MOCandidateSlot >> shouldAccept: aValue into: anObject [
 
 	^ aValue

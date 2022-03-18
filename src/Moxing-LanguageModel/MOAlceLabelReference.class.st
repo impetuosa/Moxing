@@ -20,3 +20,9 @@ MOAlceLabelReference >> printOn: aStream [
 
 	aStream nextPutAll: 'Label: ' , name
 ]
+
+{ #category : #'as yet unclassified' }
+MOAlceLabelReference >> refersToObjectsLike: aFylgjaMissingCandidateStub [
+
+	^ aFylgjaMissingCandidateStub canBeReferredAsLabel
+]

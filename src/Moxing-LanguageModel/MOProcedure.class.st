@@ -13,6 +13,17 @@ MOProcedure >> acceptVisitor: aJinInspectorBuilder [
 ]
 
 { #category : #accessing }
+MOProcedure >> canBeReferredAsFunction [
+	 ^ true
+]
+
+{ #category : #accessing }
+MOProcedure >> name [
+
+	^ selector
+]
+
+{ #category : #accessing }
 MOProcedure >> printOn: aStream [
 
 	aStream

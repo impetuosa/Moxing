@@ -49,6 +49,29 @@ MOLanguageObject >> acceptVisitor: ads [
 ]
 
 { #category : #testing }
+MOLanguageObject >> canBeReferredAsAttribute [
+
+	^ false
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguageObject >> canBeReferredAsConstant [
+	 ^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsFunction [
+
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsMethod [
+
+	^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> canBeReferredAsVariable [
 
 	^ false

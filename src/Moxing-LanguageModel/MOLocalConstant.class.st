@@ -14,6 +14,11 @@ MOLocalConstant >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOLocalConstant >> canBeReferredAsConstant [
+	 ^ true 
+]
+
+{ #category : #accessing }
 MOLocalConstant >> kindString [
 
 	^ 'LOCAL CONST'

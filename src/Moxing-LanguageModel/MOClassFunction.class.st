@@ -11,6 +11,16 @@ MOClassFunction >> acceptVisitor: aVisitor [
 ]
 
 { #category : #visiting }
+MOClassFunction >> canBeReferredAsFunction [
+	 ^ false 
+]
+
+{ #category : #visiting }
+MOClassFunction >> canBeReferredAsMethod [
+	 ^ true
+]
+
+{ #category : #visiting }
 MOClassFunction >> printOn: aStream [
 
 	aStream

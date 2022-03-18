@@ -54,11 +54,7 @@ MOInvocation >> printOn: aStream [
 { #category : #'as yet unclassified' }
 MOInvocation >> refersToObjectsLike: aMOFunction [
 
-	^ aMOFunction ifNil: [ true ] ifNotNil: [ 
-		  { 
-			  MOVariableAccessor.
-			  MOFunction.
-			  MOProcedure } includes: aMOFunction species ]
+	^ aMOFunction canBeReferredAsFunction
 ]
 
 { #category : #accessing }

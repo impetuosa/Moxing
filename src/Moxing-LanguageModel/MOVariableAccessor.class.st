@@ -14,6 +14,11 @@ MOVariableAccessor >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
+MOVariableAccessor >> canBeReferredAsFunction [
+	^ true
+]
+
+{ #category : #accessing }
 MOVariableAccessor >> kind: aString [
 
 	kind := aString 

@@ -35,6 +35,13 @@ MOTypeReference >> isTypeReference [
 	^ true 
 ]
 
+{ #category : #printing }
+MOTypeReference >> name: aName [
+
+	aName = #Boolean ifTrue: [ self halt ].
+	super name: aName
+]
+
 { #category : #accessing }
 MOTypeReference >> packageReference [
 	^ packageReference
@@ -56,7 +63,7 @@ MOTypeReference >> printOn: aStream [
 { #category : #'as yet unclassified' }
 MOTypeReference >> refersToObjectsLike: aMOClass [
 
-	^ aMOClass species = MOModule or: [ aMOClass isKindOf: MOType ]
+	^ aMOClass canBeReferredAsType
 ]
 
 { #category : #printing }

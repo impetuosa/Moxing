@@ -137,8 +137,9 @@ MOModelDerivative >> shallowRelationCopy: aMOObjectObjectRelation [
 { #category : #accessing }
 MOModelDerivative >> swap: aFylgjaCandidateStub with: aMOVariableReference [
 
-	entities remove: aFylgjaCandidateStub.
-	self assert: (entities includes: aMOVariableReference)
+	aFylgjaCandidateStub = aMOVariableReference ifFalse: [ 
+		entities remove: aFylgjaCandidateStub.
+		self assert: (entities includes: aMOVariableReference) ]
 ]
 
 { #category : #'as yet unclassified' }

@@ -206,16 +206,6 @@ MOModelProceduralWriter >> parentWriter: aMODeclarationUnitWriter [
 	parentWriter := aMODeclarationUnitWriter
 ]
 
-{ #category : #writing }
-MOModelProceduralWriter >> populateAnchor [
-	parentWriter populateAnchor 
-]
-
-{ #category : #writing }
-MOModelProceduralWriter >> populateAnchorOn: aMOMethod [ 
-	^ parentWriter  populateAnchorOn: aMOMethod 
-]
-
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> primitiveTypeReferenceNamed: aString [
 

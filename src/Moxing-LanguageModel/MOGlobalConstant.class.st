@@ -14,6 +14,11 @@ MOGlobalConstant >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #visiting }
+MOGlobalConstant >> canBeReferredAsConstant [
+	 ^ true 
+]
+
+{ #category : #visiting }
 MOGlobalConstant >> kindString [
 
 	^ 'GLOBAL CONST'

@@ -30,6 +30,12 @@ MOSelfReference >> printOn: aStream [
 	aStream nextPutAll: 'REF SELF'
 ]
 
+{ #category : #'as yet unclassified' }
+MOSelfReference >> refersToObjectsLike: aType [
+
+	^ aType canbeReferredAsSelf
+]
+
 { #category : #accessing }
 MOSelfReference >> type [
  	self error: 'should implement '

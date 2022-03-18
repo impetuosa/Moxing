@@ -49,17 +49,7 @@ MORelationSlot >> readAllRelations: anObject [
 { #category : #printing }
 MORelationSlot >> readAllRelations: anObject selecting: aBlock [
 
-	| value |
-	value := self read: anObject.
-	value ifNil: [ ^ {  } ].
-	^ (aBlock value: value)
-		  ifTrue: [ 
-			  { (MOObjectObjectRelation new
-				   from: anObject to: value;
-				   name: self name;
-				   slot: self;
-				   yourself) } ]
-		  ifFalse: [ {  } ]
+	self subclassResponsibility 
 ]
 
 { #category : #printing }

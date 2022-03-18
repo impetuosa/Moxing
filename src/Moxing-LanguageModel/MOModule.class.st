@@ -17,6 +17,11 @@ MOModule >> acceptVisitor: aMOModelWriteTypeBasedCopyResolver [
 ]
 
 { #category : #accessing }
+MOModule >> canBeReferredAsType [
+	 ^ true 
+]
+
+{ #category : #accessing }
 MOModule >> constants [
 	^ constants
 ]

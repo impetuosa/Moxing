@@ -20,6 +20,11 @@ MOConstructor >> annotationInstances: aCollection [
 	annotationInstances := aCollection
 ]
 
+{ #category : #accessing }
+MOConstructor >> canBeReferredAsConstructor [
+	 ^ true 
+]
+
 { #category : #'as yet unclassified' }
 MOConstructor >> constructingTypeName [
 

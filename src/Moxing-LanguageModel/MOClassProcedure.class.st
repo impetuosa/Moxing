@@ -9,3 +9,13 @@ MOClassProcedure >> acceptVisitor: aVisitor [
 
 	^ aVisitor visitClassProcedure: self
 ]
+
+{ #category : #visiting }
+MOClassProcedure >> canBeReferredAsFunction [
+	^ false 
+]
+
+{ #category : #visiting }
+MOClassProcedure >> canBeReferredAsMethod [
+	 ^ true
+]

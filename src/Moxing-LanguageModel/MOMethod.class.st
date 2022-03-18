@@ -27,6 +27,16 @@ MOMethod >> annotationInstances: aCollection [
 	annotationInstances := aCollection
 ]
 
+{ #category : #'as yet unclassified' }
+MOMethod >> canBeReferredAsMethod [
+	 ^ true
+]
+
+{ #category : #'as yet unclassified' }
+MOMethod >> name [
+	 ^ selector
+]
+
 { #category : #accessing }
 MOMethod >> printOn: aStream [
 
