@@ -266,7 +266,7 @@ MOModelWriteTypeBasedCopyResolver >> visitParameter: aMOParameter [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
 
-	^ writer primitiveTypeReferenceNamed: aMOPrimitiveTypeReference name
+	^ writer writeUnregisteredExpression: [ :e | writingBlock cull: e ]
 ]
 
 { #category : #visiting }

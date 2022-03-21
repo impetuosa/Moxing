@@ -27,23 +27,23 @@ MOModelCopyIfElseBuilder >> build: anObject [
 MOModelCopyIfElseBuilder >> buildCopyOf: anIfElseProvenanceEntity readingValues: aChildDelegateLoadingBlock [
 
 	| condition ifTrue ifFalse |
-
 	build := self instantiate: MOIfElse.
-	
+
 	build anchor: anchor.
+	self halt .
 	" set temporary anchor "
 	condition := aChildDelegateLoadingBlock
 		             cull: build
 		             cull: anIfElseProvenanceEntity condition.
 	ifTrue := aChildDelegateLoadingBlock
-		cull: build
-		cull: anIfElseProvenanceEntity ifTrue.
+		          cull: build
+		          cull: anIfElseProvenanceEntity ifTrue.
 	ifFalse := aChildDelegateLoadingBlock
-		cull: build
-		cull: anIfElseProvenanceEntity ifFalse.
+		           cull: build
+		           cull: anIfElseProvenanceEntity ifFalse.
 	build condition: condition.
-	build ifTrue: ifTrue. 
-	build ifFalse: ifFalse. 
+	build ifTrue: ifTrue.
+	build ifFalse: ifFalse.
 	^ build
 ]
 

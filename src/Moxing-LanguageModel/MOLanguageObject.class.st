@@ -72,6 +72,12 @@ MOLanguageObject >> canBeReferredAsMethod [
 ]
 
 { #category : #testing }
+MOLanguageObject >> canBeReferredAsPrimitiveType [
+
+	^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> canBeReferredAsVariable [
 
 	^ false
@@ -91,6 +97,11 @@ MOLanguageObject >> isDeclaration [
 { #category : #testing }
 MOLanguageObject >> isExpression [
 	^ false 
+]
+
+{ #category : #testing }
+MOLanguageObject >> isFylgjaMissingCandidateStub [
+	 ^ false
 ]
 
 { #category : #testing }

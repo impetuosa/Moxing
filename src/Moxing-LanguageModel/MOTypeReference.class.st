@@ -35,13 +35,6 @@ MOTypeReference >> isTypeReference [
 	^ true 
 ]
 
-{ #category : #printing }
-MOTypeReference >> name: aName [
-
-	aName = #Boolean ifTrue: [ self halt ].
-	super name: aName
-]
-
 { #category : #accessing }
 MOTypeReference >> packageReference [
 	^ packageReference

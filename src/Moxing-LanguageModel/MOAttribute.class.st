@@ -20,6 +20,12 @@ MOAttribute >> canBeReferredAsAttribute [
 ]
 
 { #category : #'as yet unclassified' }
+MOAttribute >> canBeReferredAsPrimitiveType [
+
+	^ name == #Null
+]
+
+{ #category : #'as yet unclassified' }
 MOAttribute >> kindString [
 
 	^ 'ATTR'

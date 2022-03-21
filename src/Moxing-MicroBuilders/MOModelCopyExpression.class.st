@@ -157,6 +157,16 @@ MOModelCopyExpression >> visitNullLiteral: aMONullLiteral [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
+
+	^ self
+		  applyBindTo:
+		  (writer primitiveTypeReferenceNamed:
+			   aMOPrimitiveTypeReference name)
+		  withCandidateFrom: aMOPrimitiveTypeReference
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitSelfReference: aMOSelfReference [
 
 	^ self

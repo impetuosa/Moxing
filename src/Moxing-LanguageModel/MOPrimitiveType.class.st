@@ -11,6 +11,12 @@ MOPrimitiveType >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #printing }
+MOPrimitiveType >> canBeReferredAsPrimitiveType [
+
+	^ true
+]
+
+{ #category : #printing }
 MOPrimitiveType >> fullName [
 
 	^ name

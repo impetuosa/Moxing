@@ -129,7 +129,6 @@ MOModelDerivative >> shallowRelationCopy: aMOObjectObjectRelation [
 	relation := aMOObjectObjectRelation copy.
 	to := self shallowCopy: aMOObjectObjectRelation to.
 
-	self register: to.
 	relation to: to.
 	^ relation
 ]
