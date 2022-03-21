@@ -158,3 +158,9 @@ MODeclarationUnitWriter >> writeTable: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOTableWriter
 ]
+
+{ #category : #writing }
+MODeclarationUnitWriter >> writeTypescriptClass: aFullBlockClosure [ 
+
+	^ self write: aFullBlockClosure inSubWriter: MOTypescriptClassWriter
+]

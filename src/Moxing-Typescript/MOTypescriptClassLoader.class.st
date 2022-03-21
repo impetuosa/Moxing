@@ -71,7 +71,7 @@ MOTypescriptClassLoader >> visitExportImplementationElement: anExportImplementat
 
 	self assert: (anExportImplementationElement declaration isKindOf:
 			 JSClassExpressionNode).
-	^ writer writeClass: [ :class | 
+	^ writer writeTypescriptClass: [ :class | 
 		  self
 			  use: class
 			  during: [ self visitTSExport: anExportImplementationElement ] ]

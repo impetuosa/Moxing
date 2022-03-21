@@ -23,6 +23,13 @@ MOAngularLoader class >> northwind [
 			               loadNamed: #angular ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOAngularLoader class >> reset [
+
+	<script>
+	northwind := nil
+]
+
 { #category : #convenience }
 MOAngularLoader >> isWellKnownNotDirectory: aFileReference [
 

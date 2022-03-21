@@ -47,6 +47,12 @@ MOModel >> derivative [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> exclusivelyincludes: aMOPrimitiveType [
+
+	^ self includes: aMOPrimitiveType
+]
+
 { #category : #initialization }
 MOModel >> initialize [ 
 	super initialize.

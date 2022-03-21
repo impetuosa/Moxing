@@ -823,6 +823,15 @@ MOModelBuilder >> typeReferenceBuilder [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+MOModelBuilder >> typescriptClassBuilder [
+
+	^ MOModelTypescriptClassBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
 { #category : #'as yet unclassified' }
 MOModelBuilder >> variableAccessorBuilder [
 
