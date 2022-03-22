@@ -1,6 +1,6 @@
 Class {
 	#name : #MOLanguage,
-	#superclass : #MONamedObject,
+	#superclass : #MONamedDeclaration,
 	#instVars : [
 		'errorPolicy',
 		'returnPolicy'

@@ -1,6 +1,6 @@
 Class {
-	#name : #MOAnchoredObject,
-	#superclass : #MONamedObject,
+	#name : #MOAnchoredDeclaration,
+	#superclass : #MONamedDeclaration,
 	#instVars : [
 		'#anchor => MOPropertySlot',
 		'#fileReference => MOPropertySlot'
@@ -9,13 +9,13 @@ Class {
 }
 
 { #category : #accessing }
-MOAnchoredObject >> anchor [
+MOAnchoredDeclaration >> anchor [
 
 	^ anchor 
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> anchor: aMOAnchor [
+MOAnchoredDeclaration >> anchor: aMOAnchor [
 
 	(anchor isNotNil and: [ anchor pathIsNotSet ]) ifTrue: [ 
 		aMOAnchor from: anchor srcFrom to: anchor srcTo ].
@@ -23,46 +23,46 @@ MOAnchoredObject >> anchor: aMOAnchor [
 ]
 
 { #category : #'as yet unclassified' }
-MOAnchoredObject >> anchorFrom: from to: to [
+MOAnchoredDeclaration >> anchorFrom: from to: to [
 
 	(anchor ifNil: [ anchor := MOAnchor new ]) from: from to: to
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> anchorSelectorName [
+MOAnchoredDeclaration >> anchorSelectorName [
 	^( self class name copyReplaceAll: 'MO' with: '') asLowercase 
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> calculateAnchorIfMissing [
+MOAnchoredDeclaration >> calculateAnchorIfMissing [
 
 	^ anchor ifNil: [ 
 		  parent calculateAnchorIfMissing / self anchorSelectorName / self name ]
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> fileReference [
+MOAnchoredDeclaration >> fileReference [
 	^ fileReference
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> fileReference: aFileReference [
+MOAnchoredDeclaration >> fileReference: aFileReference [
 
 	fileReference := aFileReference
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> installCalculatedAnchorIfMissing [
+MOAnchoredDeclaration >> installCalculatedAnchorIfMissing [
 
 	anchor ifNil: [ anchor := self calculateAnchorIfMissing ]
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> mapSpaceAnchor [
+MOAnchoredDeclaration >> mapSpaceAnchor [
 	^ anchor
 ]
 
 { #category : #accessing }
-MOAnchoredObject >> mustBeSaved [
+MOAnchoredDeclaration >> mustBeSaved [
 	^ false
 ]

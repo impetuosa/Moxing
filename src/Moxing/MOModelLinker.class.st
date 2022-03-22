@@ -169,7 +169,7 @@ MOModelLinker >> linkAllChildOrphanReferencesToParent: aMOLanguage [
 
 	(self allValuesReferredBy: aMOLanguage)
 		select: [ :value | 
-			(value isKindOf: MOObject) and: [ 
+			(value isKindOf: MODeclaration) and: [ 
 				value parent isNil or: [ value parent isKindOf: MOModel ] ] ]
 		thenDo: [ :reference | 
 			(self isReference: reference) ifTrue: [ 

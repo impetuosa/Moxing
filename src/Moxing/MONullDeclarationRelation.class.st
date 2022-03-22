@@ -1,11 +1,11 @@
 Class {
-	#name : #MONullObjectRelation,
-	#superclass : #MOObjectObjectRelation,
+	#name : #MONullDeclarationRelation,
+	#superclass : #MODeclarationStructuralRelation,
 	#category : #'Moxing-Core'
 }
 
 { #category : #printing }
-MONullObjectRelation >> printOn: aStream [
+MONullDeclarationRelation >> printOn: aStream [
 
 	aStream
 		nextPutAll: '(NOTHING)=[NONE RELATION TO]=>';

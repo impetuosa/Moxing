@@ -26,7 +26,7 @@ MOModelReader >> readEntitysContextualizingRelation: anEntity [
 	| relation |
 	anEntity parent ifNil: [ 
 		^ self readRelation:
-			  (MOObjectObjectRelation nullRelationTo: anEntity) ].
+			  (MODeclarationStructuralRelation nullRelationTo: anEntity) ].
 	relation := anEntity parent allRelations select: [ :a | 
 		            a to = anEntity ].
 	self assert: relation size = 1.

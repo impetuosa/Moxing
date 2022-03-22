@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularClass,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
 		'classRepresentation'
 	],

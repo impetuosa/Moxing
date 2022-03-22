@@ -27,7 +27,7 @@ MOCandidateSlot >> readAllRelations: anObject selecting: aBlock [
 	value := self read: anObject.
 	^ (aBlock value: value)
 		  ifTrue: [ 
-			  { (MOObjectObjectRelation new
+			  { (MODeclarationStructuralRelation new
 				   from: anObject to: value;
 				   name: self name;
 				   slot: self;

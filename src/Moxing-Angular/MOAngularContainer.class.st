@@ -1,5 +1,5 @@
 Class {
 	#name : #MOAngularContainer,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#category : #'Moxing-Angular-Model'
 }

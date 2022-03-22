@@ -1,5 +1,5 @@
 Class {
-	#name : #MOObjectObjectRelation,
+	#name : #MODeclarationStructuralRelation,
 	#superclass : #Object,
 	#instVars : [
 		'from',
@@ -11,13 +11,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOObjectObjectRelation class >> nullRelationTo: aMOPackage [
+MODeclarationStructuralRelation class >> nullRelationTo: aMOPackage [
 
-	^ MONullObjectRelation new to: aMOPackage
+	^ MONullDeclarationRelation new to: aMOPackage
 ]
 
 { #category : #visiting }
-MOObjectObjectRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aMOMethodWriter [
+MODeclarationStructuralRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aMOMethodWriter [
 
 	^ slot
 		  acceptRule: aMOModelCopy
@@ -28,18 +28,18 @@ MOObjectObjectRelation >> acceptRule: aMOModelCopy readingValues: aFullBlockClos
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> from [
+MODeclarationStructuralRelation >> from [
 	^ from
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> from: aFrom to: aTo [ 
+MODeclarationStructuralRelation >> from: aFrom to: aTo [ 
 	from := aFrom. 
 	to := aTo
 ]
 
 { #category : #testing }
-MOObjectObjectRelation >> hasValue [
+MODeclarationStructuralRelation >> hasValue [
 
 	to ifNil: [ ^ false ].
 	slot isToMany ifTrue: [ to ifEmpty: [ ^ false ] ].
@@ -47,29 +47,29 @@ MOObjectObjectRelation >> hasValue [
 ]
 
 { #category : #testing }
-MOObjectObjectRelation >> isExpression [
+MODeclarationStructuralRelation >> isExpression [
 
 	^ to isExpression
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> isReference [
+MODeclarationStructuralRelation >> isReference [
 
 	^ to isReference
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> name [
+MODeclarationStructuralRelation >> name [
 	^ name
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> name: aString [ 
+MODeclarationStructuralRelation >> name: aString [ 
 	name := aString
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> printOn: aStream [
+MODeclarationStructuralRelation >> printOn: aStream [
 
 	aStream
 		nextPutAll: '(';
@@ -83,33 +83,33 @@ MOObjectObjectRelation >> printOn: aStream [
 ]
 
 { #category : #'meta-object-protocol' }
-MOObjectObjectRelation >> read: aMOModelMethodBuilder [
+MODeclarationStructuralRelation >> read: aMOModelMethodBuilder [
 
 	^ aMOModelMethodBuilder perform: slot name
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> slot [
+MODeclarationStructuralRelation >> slot [
 	^ slot
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> slot: aMOContainmentSlot [ 
+MODeclarationStructuralRelation >> slot: aMOContainmentSlot [ 
 	slot := aMOContainmentSlot
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> to [
+MODeclarationStructuralRelation >> to [
 	^ to
 ]
 
 { #category : #accessing }
-MOObjectObjectRelation >> to: aMOClass [ 
+MODeclarationStructuralRelation >> to: aMOClass [ 
 	to := aMOClass
 ]
 
 { #category : #writing }
-MOObjectObjectRelation >> write: anObject to: aDestination [
+MODeclarationStructuralRelation >> write: anObject to: aDestination [
 
 	slot isToMany ifTrue: [ 
 		((self read: aDestination) includes: anObject) ifTrue: [ self halt ].

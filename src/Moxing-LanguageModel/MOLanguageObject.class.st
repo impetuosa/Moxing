@@ -1,6 +1,6 @@
 Class {
 	#name : #MOLanguageObject,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
 		'#language => MOPropertySlot'
 	],

@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularComponentTemplate,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#category : #'Moxing-Angular-Model'
 }
 

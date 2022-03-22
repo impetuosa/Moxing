@@ -1,6 +1,6 @@
 Class {
-	#name : #MONamedObject,
-	#superclass : #MOObject,
+	#name : #MONamedDeclaration,
+	#superclass : #MODeclaration,
 	#instVars : [
 		'#name => MOPropertySlot'
 	],
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-MONamedObject >> name [
+MONamedDeclaration >> name [
 
 	^ name  
 ]
 
 { #category : #accessing }
-MONamedObject >> name: aString [ 
+MONamedDeclaration >> name: aString [ 
 	aString ifNil: [ self halt ].
 	name := aString
 ]

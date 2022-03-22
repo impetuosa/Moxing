@@ -6,7 +6,8 @@ Class {
 	#superclass : #MOCatalog,
 	#instVars : [
 		'catalog',
-		'unknownType'
+		'unknownType',
+		'objects'
 	],
 	#category : #'Moxing-Core'
 }

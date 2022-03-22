@@ -11,7 +11,7 @@ Class {
 MOMicroWriterTestCase >> assertAllAnchorsAreSet [
 
 	writer model entities
-		select: [ :a | a isKindOf: MOAnchoredObject ]
+		select: [ :a | a isKindOf: MOAnchoredDeclaration ]
 		thenDo: [ :a | 
 			self assert: a anchor isNotNil.
 			self deny: a anchor pathIsNotSet ]
@@ -25,7 +25,7 @@ MOMicroWriterTestCase >> assertAllParentsAreSet [
 	We only care about Anchored objects in here. 
 	PackageReference do not track down parent since they are single instance per model. 
 	"
-	(writer model entities select: [ :a | a isKindOf: MOAnchoredObject ])
+	(writer model entities select: [ :a | a isKindOf: MOAnchoredDeclaration ])
 		reject: [ :a | a isKindOf: MOPackageReference ]
 		thenDo: [ :a | 
 		a anchor isRoot ifFalse: [ self assert: a parent isNotNil ] ]

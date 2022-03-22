@@ -108,7 +108,7 @@ MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 		  ifTrue: [ 
 			  (aBlock value: value)
 				  ifTrue: [ 
-					  { (MOObjectObjectRelation new
+					  { (MODeclarationStructuralRelation new
 						   from: anObject to: value;
 						   name: self name;
 						   slot: self;
@@ -116,7 +116,7 @@ MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 				  ifFalse: [ {  } ] ]
 		  ifFalse: [ 
 			  (value select: aBlock) collectWithIndex: [ :val :idx | 
-				  MOObjectObjectRelation new
+				  MODeclarationStructuralRelation new
 					  from: anObject to: val;
 					  slot: self;
 					  name: self name , '%' , idx asString;
