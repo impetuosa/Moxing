@@ -55,17 +55,23 @@ MOModel >> exclusivelyincludes: aMOPrimitiveType [
 ]
 
 { #category : #initialization }
-MOModel >> initialize [ 
+MOModel >> initialize [
+
 	super initialize.
-	catalog := MOCatalog new. 
+	catalog := MOCatalog new.
 	catalog anchor: anchor.
+	objects := OrderedCollection new
 ]
 
 { #category : #initialization }
 MOModel >> instantiate: aClass [
-	| instance | 
-	instance := aClass newInstanceFromModel .
-	entities add: instance.
+
+	| instance |
+	instance := aClass newInstanceFromModel.
+	instance isStaticDefinition
+		ifTrue: [ entities add: instance ]
+		ifFalse: [ objects add: instance ].
+
 	^ instance
 ]
 

@@ -141,6 +141,11 @@ MODeclaration >> isReference [
 	^ false
 ]
 
+{ #category : #traverse }
+MODeclaration >> isStaticDefinition [
+	 ^ true 
+]
+
 { #category : #testing }
 MODeclaration >> isType [
 	^ false
