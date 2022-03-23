@@ -1,8 +1,16 @@
+"
+I build functions and allow to add the same as my parent. I do allow to define a return type rerference .
+"
 Class {
 	#name : #MOFunctionWriter,
 	#superclass : #MOSubProcedureWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #accessing }
+MOFunctionWriter >> fileReference: anUndefinedObject [ 
+	writeBuilder fileReference: anUndefinedObject 
+]
 
 { #category : #writing }
 MOFunctionWriter >> initializeWriteBuilder [
@@ -17,8 +25,6 @@ MOFunctionWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOFunctionWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addFunction: anEntity
 ]
 

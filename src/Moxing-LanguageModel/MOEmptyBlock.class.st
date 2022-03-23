@@ -1,18 +1,19 @@
 Class {
 	#name : #MOEmptyBlock,
 	#superclass : #MOLanguageObject,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
-{ #category : #adding }
-MOEmptyBlock >> addStatement: aMOAssignment [
+{ #category : #accessing }
+MOEmptyBlock >> acceptVisitor: aMOCatalogTypeInstaller [
 
-	self error: 'EmptyBlock cannot add statements'
+	^ aMOCatalogTypeInstaller visitEmptyBlock: self
 ]
 
 { #category : #adding }
-MOEmptyBlock >> addVariable: aVariable [
-	self error: 'EmptyBlock cannot add variables '
+MOEmptyBlock >> isEmptyOrNil [
+
+	^ true
 ]
 
 { #category : #adding }

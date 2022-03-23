@@ -1,15 +1,23 @@
 Class {
 	#name : #MOFunction,
-	#superclass : #MOProcedure,
+	#superclass : #MOInvocable,
 	#instVars : [
-		'returnTypeReference'
+		'#selector => MOPropertySlot',
+		'#returnTypeReference => MOReferenceSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }
-MOFunction >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitFunction: self 
+MOFunction >> acceptVisitor: aJinInspectorBuilder [
+
+	^ aJinInspectorBuilder visitFunction: self
+]
+
+{ #category : #generated }
+MOFunction >> canBeReferredAsFunction [
+
+	^ true
 ]
 
 { #category : #accessing }
@@ -19,12 +27,24 @@ MOFunction >> dependencies [
 	  , (returnTypeReference ifNotNil: [ :t | t dependencies ] ifNil: [ {  } ])
 ]
 
-{ #category : #'as yet unclassified' }
-MOFunction >> fullSelector [
+{ #category : #generated }
+MOFunction >> name [
 
-	^ '{1}.{2}' format: { 
-			  parent name.
-			  selector }
+	^ selector
+]
+
+{ #category : #generated }
+MOFunction >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Function: ';
+		nextPutAll: selector;
+		nextPutAll: '/';
+		nextPutAll: parameters size asString.
+
+	returnTypeReference
+		ifNil: [ aStream nextPutAll: 'UNKNOWN' ]
+		ifNotNil: [ :t | returnTypeReference printOn: aStream ]
 ]
 
 { #category : #generated }
@@ -36,4 +56,17 @@ MOFunction >> returnTypeReference [
 MOFunction >> returnTypeReference: aTypeReference [
 
 	returnTypeReference := aTypeReference
+]
+
+{ #category : #generated }
+MOFunction >> selector [
+	^ selector
+	
+]
+
+{ #category : #generated }
+MOFunction >> selector: aString [
+
+	selector := aString.
+	name := aString 
 ]

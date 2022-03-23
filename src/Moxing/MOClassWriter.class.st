@@ -1,8 +1,39 @@
+"
+I write classes allow to include as much as my parent and constructors 
+"
 Class {
 	#name : #MOClassWriter,
 	#superclass : #MOClassTypeWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOClassWriter >> addAttributeAccessor: aMOAccessor [ 
+	writeBuilder addAttributeAccessor: aMOAccessor 
+]
+
+{ #category : #adding }
+MOClassWriter >> addConstantAttribute: aMOConstantAttribute [
+
+	writeBuilder addConstantAttribute: aMOConstantAttribute
+]
+
+{ #category : #adding }
+MOClassWriter >> addConstructor: aMOConstructor [ 
+	writeBuilder addConstructor: aMOConstructor 
+]
+
+{ #category : #adding }
+MOClassWriter >> addFunction: aMOProcedure [
+
+	self addMethod: aMOProcedure
+]
+
+{ #category : #adding }
+MOClassWriter >> addProcedure: aMOProcedure [
+
+	self addMethod: aMOProcedure
+]
 
 { #category : #initialization }
 MOClassWriter >> initializeWriteBuilder [
@@ -16,8 +47,6 @@ MOClassWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOClassWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addClass: anEntity
 ]
 
@@ -25,4 +54,46 @@ MOClassWriter >> privateWriteToSurface: anEntity [
 MOClassWriter >> superclassReference: superClassReference [
 
 	writeBuilder superclassReference: superClassReference
+]
+
+{ #category : #writing }
+MOClassWriter >> writeAttributeAccessor: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOAttributeAccessorWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeClassFunction: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOClassFunctionWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeClassProcedure: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOClassSubProcedureWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeConstantAttribute: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  inSubWriter: MOConstantAttributeWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeFunction: aFullBlockClosure [
+
+	^ self writeClassFunction: aFullBlockClosure
+]
+
+{ #category : #writing }
+MOClassWriter >> writeSubprocedure: aBlock [
+
+	^ self
+		  write: [ :function | 
+			  function setDynamicBinding.
+			  aBlock value: function ]
+		  inSubWriter: MOClassSubProcedureWriter
 ]

@@ -1,3 +1,6 @@
+"
+I do write attributes. I allow the annotation and modifiers of such attirbutes 
+"
 Class {
 	#name : #MOAttributeWriter,
 	#superclass : #MOVariableWriter,
@@ -23,18 +26,11 @@ MOAttributeWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOAttributeWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addAttribute: anEntity
-]
-
-{ #category : #accessing }
-MOAttributeWriter >> visibility: anUndefinedObject [ 
-	self shouldBeImplemented.
 ]
 
 { #category : #writing }
 MOAttributeWriter >> writeAnnotation: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOAnnotationWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]

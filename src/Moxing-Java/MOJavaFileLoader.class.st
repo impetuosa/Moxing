@@ -3,8 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'writer',
-		'packageReference',
-		'imports'
+		'imports',
+		'package',
+		'packageReference'
 	],
 	#category : #'Moxing-Java-Loader'
 }
@@ -45,10 +46,9 @@ MOJavaFileLoader >> setPosition: aMOMethodWriter from: aJavaMethodDeclarationNod
 ]
 
 { #category : #'as yet unclassified' }
-MOJavaFileLoader >> typeReferenceFor: aJavaClassTypeNode [
-
+MOJavaFileLoader >> typeReferenceFor: aJavaClassTypeNode using: aWriter [ 
 	^ MOJavaTypeReferenceVisitor new
-		  writer: writer;
+		  writer: aWriter;
 		  typeReferenceFor: aJavaClassTypeNode
 ]
 
@@ -58,7 +58,7 @@ MOJavaFileLoader >> use: aWriter during: aBlock [
 	| prev |
 	prev := writer.
 	writer := aWriter.
-	aBlock ensure: [ writer := prev ]
+	^ aBlock ensure: [ writer := prev ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -72,29 +72,25 @@ MOJavaFileLoader >> variableReferenceFor: aJavaNameNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitAbstractMethodDeclaration: aJavaAbstractMethodDeclarationNode [
 
-	writer writeMethod: [ :method | 
-		aJavaAbstractMethodDeclarationNode throws ifNotNil: [ :th | 
-			th classTypes do: [ :typeNode | 
-				method addThrownTypeReference: (self typeReferenceFor: typeNode) ] ].
-		self setPosition: method from: aJavaAbstractMethodDeclarationNode.
-
-		method returnTypeReference:
-			(self typeReferenceFor: aJavaAbstractMethodDeclarationNode type).
-		self use: method during: [ 
-			aJavaAbstractMethodDeclarationNode typeParameters ifNotNil: [ :p | 
-				self visitCollection: p parameters ].
-			self visitCollection: aJavaAbstractMethodDeclarationNode modifiers.
-			aJavaAbstractMethodDeclarationNode declarator acceptVisitor: self ] ]
+	aJavaAbstractMethodDeclarationNode typeParameters
+		ifNil: [ 
+		self writeAbstractMethodWith: aJavaAbstractMethodDeclarationNode ]
+		ifNotNil: [ 
+			self writeParametrizableAbstractMethodWith:
+				aJavaAbstractMethodDeclarationNode ]
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitAnnotation: aJavaAnnotationNode [
 
-	writer writeAnnotation: [ :annotation | 
-		annotation annotationTypeReference:
-			(self typeReferenceFor: aJavaAnnotationNode name).
-		annotation arguments:
-			(self visitCollection: aJavaAnnotationNode values) ]
+	^ writer writeAnnotation: [ :annotation | 
+		  annotation annotationTypeReference:
+			  (self
+				   typeReferenceFor: aJavaAnnotationNode name
+				   using: annotation).
+		  self use: annotation during: [ 
+			  annotation arguments:
+				  (self visitCollection: aJavaAnnotationNode values) ] ]
 ]
 
 { #category : #visiting }
@@ -115,24 +111,23 @@ MOJavaFileLoader >> visitBlock: aJavaBlockNode [
 MOJavaFileLoader >> visitClassDeclaration: aJavaClassDeclarationNode [
 
 	| name |
-	name := aJavaClassDeclarationNode name source.
+	" the name of the class Class<T> is Class "
+	name := aJavaClassDeclarationNode name source readStream upToAll: '<'.
+	(writer model entities contains: [ :a | 
+		 (a isKindOf: MOClass) and: [ a fullName = name ] ]) ifTrue: [ 
+		^ self ].
+	aJavaClassDeclarationNode typeParameters
+		ifNil: [ self writeClassWith: aJavaClassDeclarationNode named: name ]
+		ifNotNil: [ 
+			self
+				writeParametrizableClassWith: aJavaClassDeclarationNode
+				named: name ]
+]
 
+{ #category : #visiting }
+MOJavaFileLoader >> visitClassExpression: aJavaClassExpressionNode [
 
-	writer writeClass: [ :class | 
-		aJavaClassDeclarationNode superclass ifNotNil: [ :sc | 
-			class superclassReference: (self typeReferenceFor: sc) ].
-		aJavaClassDeclarationNode interfaces do: [ :int | 
-			class addSuperTypeReference: (self typeReferenceFor: int) ].
-		(self isFullName: name)
-			ifTrue: [ class fullName: name ]
-			ifFalse: [ 
-				class name: name.
-				class packageReference: packageReference ].
-		class imports: imports.
-		self use: class during: [ 
-			aJavaClassDeclarationNode typeParameters ifNotNil: [ :p | 
-				self visitCollection: p parameters ].
-			self visitCollection: aJavaClassDeclarationNode declarations ] ]
+	^ self typeReferenceFor: aJavaClassExpressionNode type using: writer
 ]
 
 { #category : #visiting }
@@ -148,7 +143,7 @@ MOJavaFileLoader >> visitConstructorDeclaration: aJavaConstructorDeclarationNode
 		aJavaConstructorDeclarationNode throws ifNotNil: [ :th | 
 			th classTypes do: [ :typeNode | 
 				constructor addThrownTypeReference:
-					(self typeReferenceFor: typeNode) ] ].
+					(self typeReferenceFor: typeNode using: constructor) ] ].
 		self use: constructor during: [ 
 			aJavaConstructorDeclarationNode typeParameters ifNotNil: [ :p | 
 				self visitCollection: p parameters ].
@@ -158,14 +153,49 @@ MOJavaFileLoader >> visitConstructorDeclaration: aJavaConstructorDeclarationNode
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitElementArrayInitializer: aJavaElementArrayInitializerNode [
+
+	^ self visitCollection: aJavaElementArrayInitializerNode values
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitElementValuePair: aJavaElementValuePairNode [
+
+	^ writer writeUnregisteredExpression: [ :ue | 
+		  ue
+			  argumentNamed: aJavaElementValuePairNode name source
+			  expression: [ :e | 
+				  self
+					  use: e
+					  during: [ aJavaElementValuePairNode value acceptVisitor: self ] ] ]
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitEmptyMethodBody: aJavaEmptyMethodBodyNode [ 
 	" nothing to inform here. "
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitEnumDeclaration: aJavaEnumDeclarationNode [
+
+	self assert: aJavaEnumDeclarationNode constants isEmpty.
+
+	self assert: aJavaEnumDeclarationNode declarations isEmpty.
+	writer writeEnum: [ :enum | 
+		enum name: aJavaEnumDeclarationNode name source.
+		self
+			use: enum
+			during: [ self visitCollection: aJavaEnumDeclarationNode modifiers ] ]
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitExpressionStatement: aJavaExpressionStatementNode [
 
-	aJavaExpressionStatementNode expression acceptVisitor: self
+	writer writeStatement: [ :s | 
+		self
+			use: s
+			during: [ 
+			aJavaExpressionStatementNode expression acceptVisitor: self ] ]
 ]
 
 { #category : #visiting }
@@ -175,7 +205,7 @@ MOJavaFileLoader >> visitFieldDeclaration: aJavaFieldDeclarationNode [
 		writer writeAttribute: [ :attribute | 
 			attribute name: decl variable source.
 			attribute typeReference:
-				(self typeReferenceFor: aJavaFieldDeclarationNode type).
+				(self typeReferenceFor: aJavaFieldDeclarationNode type using: attribute).
 			self
 				use: attribute
 				during: [ 
@@ -198,33 +228,33 @@ MOJavaFileLoader >> visitInterfaceDeclaration: aJavaInterfaceDeclarationNode [
 	name := aJavaInterfaceDeclarationNode name source.
 	self assert:
 		aJavaInterfaceDeclarationNode interfaceToken value = 'interface'.
-
-
-	writer writeClassType: [ :class | 
-		aJavaInterfaceDeclarationNode interfaceTypes do: [ :int | 
-			class addSuperTypeReference: (self typeReferenceFor: int) ].
-		(self isFullName: name)
-			ifTrue: [ 
-				class fullName: name ]
-			ifFalse: [ 
-				class name: name.
-				class packageReference: packageReference ].
-		class imports: imports.
-
-		self use: class during: [ 
-			aJavaInterfaceDeclarationNode typeParameters ifNotNil: [ :p | 
-				self visitCollection: p parameters ].
-			self visitCollection: aJavaInterfaceDeclarationNode declarations ] ]
+	(writer model entities contains: [ :a | 
+		 (a isKindOf: MOClassType) and: [ a fullName = name ] ]) ifTrue: [ 
+		^ self ].
+	writer package: package.
+	aJavaInterfaceDeclarationNode typeParameters
+		ifNil: [ 
+		self writeClassTypeWith: aJavaInterfaceDeclarationNode named: name ]
+		ifNotNil: [ 
+			self
+				writeParametrizableClassTypeWith: aJavaInterfaceDeclarationNode
+				named: name ]
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitLocalVariableDeclaration: aJavaLocalVariableDeclarationNode [
 
 	aJavaLocalVariableDeclarationNode variableDeclarations do: [ :decl | 
-		writer writeVariable: [ :variable | 
-			variable typeReference:
-				(self typeReferenceFor: aJavaLocalVariableDeclarationNode type).
-			self use: variable during: [ decl acceptVisitor: self ] ] ]
+		writer writeStatement: [ :statement | 
+			statement
+				variable: decl variable name source
+				typeReference: (self
+						 typeReferenceFor: aJavaLocalVariableDeclarationNode type
+						 using: writer)
+				initializer: [ :expression | 
+					self
+						use: expression
+						during: [ decl initializer acceptVisitor: self ] ] ] ]
 ]
 
 { #category : #visiting }
@@ -237,21 +267,11 @@ MOJavaFileLoader >> visitLocalVariableDeclarationStatement: aJavaLocalVariableDe
 { #category : #visiting }
 MOJavaFileLoader >> visitMethodDeclaration: aJavaMethodDeclarationNode [
 
-	writer writeMethod: [ :method | 
-		self setPosition: method from: aJavaMethodDeclarationNode.
-
-		aJavaMethodDeclarationNode throws ifNotNil: [ :th | 
-			th classTypes do: [ :typeNode | 
-				method addThrownTypeReference: (self typeReferenceFor: typeNode) ] ].
-
-		method returnTypeReference:
-			(self typeReferenceFor: aJavaMethodDeclarationNode type).
-		self use: method during: [ 
-			aJavaMethodDeclarationNode typeParameters ifNotNil: [ :p | 
-				self visitCollection: p parameters ].
-			self visitCollection: aJavaMethodDeclarationNode modifiers.
-			aJavaMethodDeclarationNode declarator acceptVisitor: self.
-			aJavaMethodDeclarationNode body acceptVisitor: self ] ]
+	aJavaMethodDeclarationNode typeParameters
+		ifNil: [ self writeMethodWith: aJavaMethodDeclarationNode ]
+		ifNotNil:
+			[ self writeParametrizableMethodWith: aJavaMethodDeclarationNode ].
+		
 ]
 
 { #category : #visiting }
@@ -264,13 +284,23 @@ MOJavaFileLoader >> visitMethodDeclarator: aJavaMethodDeclaratorNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitMethodInvocation: aJavaMethodInvocationNode [
 
-	writer writeMethodInvocation: [ :mi | 
-		mi receiverReference:
-			(self variableReferenceFor: aJavaMethodInvocationNode receiver).
-		mi selector: aJavaMethodInvocationNode name source.
-		self use: mi during: [ 
-			mi arguments:
-				(self visitCollection: aJavaMethodInvocationNode arguments) ] ]
+	self assert: aJavaMethodInvocationNode arguments isEmpty.
+
+	^ writer
+		  invokeMethodNamed: aJavaMethodInvocationNode name source
+		  receiver: [ :expression | 
+			  aJavaMethodInvocationNode receiver
+				  ifNil: [ expression referenceToSelf ]
+				  ifNotNil: [ 
+					  self
+						  use: expression
+						  during: [ 
+						  aJavaMethodInvocationNode receiver acceptVisitor: self ] ] ]
+		  arguments: [ :expression | 
+			  self
+				  use: expression
+				  during: [ 
+				  self visitCollection: aJavaMethodInvocationNode expressions ] ]
 ]
 
 { #category : #visiting }
@@ -287,14 +317,20 @@ MOJavaFileLoader >> visitName: aJavaNameNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitNew: aJavaNewNode [
 
-	writer writeNewExpression: [ :new | 
-		new typeReference: (self typeReferenceFor: aJavaNewNode type).
-		new arguments: (self visitCollection: aJavaNewNode arguments) ]
+	^ writer
+		  invokeNewExpressionOnType:
+		  (self typeReferenceFor: aJavaNewNode type using: writer)
+		  withArguments: (self visitCollection: aJavaNewNode arguments)
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitPackageDeclaration: aJavaPackageDeclarationNode [
 
+	package := writer
+		           writePackageNamed:
+		           aJavaPackageDeclarationNode name source
+		           ifDoesNotExistUsing: [ :p | 
+		           p name: aJavaPackageDeclarationNode name source ].
 	packageReference := writer packageReferenceNamed:
 		                    aJavaPackageDeclarationNode name source
 ]
@@ -311,7 +347,7 @@ MOJavaFileLoader >> visitParameter: aJavaParameterNode [
 							  aJavaParameterNode) asString ]
 				 ifNotNil: [ :var | var source ]).
 		parameter typeReference:
-			(self typeReferenceFor: aJavaParameterNode type).
+			(self typeReferenceFor: aJavaParameterNode type using: parameter).
 		self
 			use: parameter
 			during: [ self visitCollection: aJavaParameterNode modifiers ] ]
@@ -326,24 +362,33 @@ MOJavaFileLoader >> visitProgram: aProgram [
 { #category : #visiting }
 MOJavaFileLoader >> visitProgramFile: aJavaProgramFileNode [
 
-	self registerJavaDefaultImports.
-	self visitProgram: aJavaProgramFileNode
+	writer writeDeclarationUnit: [ :unit | 
+		self registerJavaDefaultImports.
+		self use: unit during: [ self visitProgram: aJavaProgramFileNode ] ].
+	writer populateAnchor.
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitReturnStatement: aJavaReturnStatementNode [
 
-	writer writeReturnStatement: [ :return | 
-		return expression:
-			(aJavaReturnStatementNode expression acceptVisitor: self) ]
+	^ writer writeStatement: [ :stmt | 
+		  stmt return: [ :expr | 
+			  self
+				  use: expr
+				  during: [ 
+				  aJavaReturnStatementNode expression acceptVisitor: self ] ] ]
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitSingleTypeImportDeclaration: aJavaSingleTypeImportDeclarationNode [
 
 	self imports add: (writer writeImport: [ :import | 
-			 import importTypeName:
-				 aJavaSingleTypeImportDeclarationNode name source ])
+			 | parts |
+			 parts := '.' split: 
+				          aJavaSingleTypeImportDeclarationNode name source.
+
+			 import importTypeName: parts last.
+			 import packageName: ('.' join: parts allButLast) ])
 ]
 
 { #category : #visiting }
@@ -358,13 +403,13 @@ MOJavaFileLoader >> visitTypeParameter: aJavaTypeParameterNode [
 	writer writeTypeParameter: [ :typeParameter | 
 		typeParameter name: aJavaTypeParameterNode name source.
 		aJavaTypeParameterNode types do: [ :t | 
-			typeParameter addSuperTypeReference: (self typeReferenceFor: t) ] ]
+			typeParameter addSuperTypeReference: (self typeReferenceFor: t using: typeParameter ) ] ]
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitVariableArgumentParameter: aJavaVariableArgumentParameterNode [ 
 	writer writeParameter: [ : parameter |
-		parameter typeReference: (self typeReferenceFor: aJavaVariableArgumentParameterNode type ).
+		parameter typeReference: (self typeReferenceFor: aJavaVariableArgumentParameterNode type using: parameter).
 		parameter name: (aJavaVariableArgumentParameterNode variable
 				 ifNil: [ 
 					 'generatedParamName'
@@ -385,6 +430,170 @@ MOJavaFileLoader >> visitVariableDeclaration: aJavaVariableDeclarationNode [
 MOJavaFileLoader >> visitVariableName: aJavaVariableNameNode [
 
 	writer name: aJavaVariableNameNode name source
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeAbstractMethodWith: aJavaAbstractMethodDeclarationNode [
+
+	writer writeMethod: [ :method | 
+		aJavaAbstractMethodDeclarationNode throws ifNotNil: [ :th | 
+			th classTypes do: [ :typeNode | 
+				method addThrownTypeReference:
+					(self typeReferenceFor: typeNode using: method) ] ].
+		self setPosition: method from: aJavaAbstractMethodDeclarationNode.
+
+		method returnTypeReference: (self
+				 typeReferenceFor: aJavaAbstractMethodDeclarationNode type
+				 using: method).
+		self use: method during: [ 
+			self visitCollection: aJavaAbstractMethodDeclarationNode modifiers.
+			aJavaAbstractMethodDeclarationNode declarator acceptVisitor: self ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeClassTypeWith: aJavaInterfaceDeclarationNode named: name [
+
+	writer writeClassType: [ :class | 
+		aJavaInterfaceDeclarationNode interfaceTypes do: [ :int | 
+			class addSuperTypeReference:
+				(self typeReferenceFor: int using: class) ].
+		(self isFullName: name)
+			ifTrue: [ class fullName: name ]
+			ifFalse: [ 
+				class name: name.
+				class packageReference: packageReference ].
+
+
+		self use: class during: [ 
+			self visitCollection: aJavaInterfaceDeclarationNode modifiers.
+			self visitCollection: aJavaInterfaceDeclarationNode declarations ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeClassWith: aJavaClassDeclarationNode named: name [
+
+	writer package: package.
+	writer writeClass: [ :class | 
+		aJavaClassDeclarationNode superclass ifNotNil: [ :sc | 
+			class superclassReference: (self typeReferenceFor: sc using: class) ].
+		aJavaClassDeclarationNode interfaces do: [ :int | 
+			class addSuperTypeReference:
+				(self typeReferenceFor: int using: class) ].
+		(self isFullName: name)
+			ifTrue: [ class fullName: name ]
+			ifFalse: [ 
+				class name: name.
+				class packageReference: packageReference ].
+		self use: class during: [ 
+			self visitCollection: aJavaClassDeclarationNode modifiers.
+			aJavaClassDeclarationNode typeParameters ifNotNil: [ :p | 
+				self visitCollection: p parameters ].
+			self visitCollection: aJavaClassDeclarationNode declarations ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeMethodWith: aJavaMethodDeclarationNode [
+
+	writer writeMethod: [ :method | 
+		self setPosition: method from: aJavaMethodDeclarationNode.
+
+		aJavaMethodDeclarationNode throws ifNotNil: [ :th | 
+			th classTypes do: [ :typeNode | 
+				method addThrownTypeReference:
+					(self typeReferenceFor: typeNode using: method) ] ].
+
+		method returnTypeReference:
+			(self
+				 typeReferenceFor: aJavaMethodDeclarationNode type
+				 using: method).
+		self use: method during: [ 
+			self visitCollection: aJavaMethodDeclarationNode modifiers.
+			aJavaMethodDeclarationNode declarator acceptVisitor: self.
+			aJavaMethodDeclarationNode body acceptVisitor: self ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeParametrizableAbstractMethodWith: aJavaAbstractMethodDeclarationNode [
+
+	writer writeParametrizableMethod: [ :method | 
+		aJavaAbstractMethodDeclarationNode throws ifNotNil: [ :th | 
+			th classTypes do: [ :typeNode | 
+				method addThrownTypeReference:
+					(self typeReferenceFor: typeNode using: method) ] ].
+		self setPosition: method from: aJavaAbstractMethodDeclarationNode.
+
+		method returnTypeReference: (self
+				 typeReferenceFor: aJavaAbstractMethodDeclarationNode type
+				 using: method).
+		self use: method during: [ 
+			self visitCollection:
+				aJavaAbstractMethodDeclarationNode typeParameters parameters.
+			self visitCollection: aJavaAbstractMethodDeclarationNode modifiers.
+			aJavaAbstractMethodDeclarationNode declarator acceptVisitor: self ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeParametrizableClassTypeWith: aJavaInterfaceDeclarationNode named: name [
+
+	writer writeParametrizableClassType: [ :class | 
+		aJavaInterfaceDeclarationNode interfaceTypes do: [ :int | 
+			class addSuperTypeReference:
+				(self typeReferenceFor: int using: class) ].
+		(self isFullName: name)
+			ifTrue: [ class fullName: name ]
+			ifFalse: [ 
+				class name: name.
+				class packageReference: packageReference ].
+
+
+		self use: class during: [ 
+			self visitCollection:
+				aJavaInterfaceDeclarationNode typeParameters parameters.
+			self visitCollection: aJavaInterfaceDeclarationNode declarations ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeParametrizableClassWith: aJavaClassDeclarationNode named: name [ 
+
+
+	writer package: package.
+	writer writeParametrizableClass: [ :class | 
+		aJavaClassDeclarationNode superclass ifNotNil: [ :sc | 
+			class superclassReference: (self typeReferenceFor: sc using: class) ].
+		aJavaClassDeclarationNode interfaces do: [ :int | 
+			class addSuperTypeReference:
+				(self typeReferenceFor: int using: class) ].
+		(self isFullName: name)
+			ifTrue: [ class fullName: name ]
+			ifFalse: [ 
+				class name: name.
+				class packageReference: packageReference ].
+		self use: class during: [ 
+			self visitCollection:
+				aJavaClassDeclarationNode typeParameters parameters.
+			self visitCollection: aJavaClassDeclarationNode declarations ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> writeParametrizableMethodWith: aJavaMethodDeclarationNode [
+
+	writer writeParametrizableMethod: [ :method | 
+		self setPosition: method from: aJavaMethodDeclarationNode.
+
+		aJavaMethodDeclarationNode throws ifNotNil: [ :th | 
+			th classTypes do: [ :typeNode | 
+				method addThrownTypeReference:
+					(self typeReferenceFor: typeNode using: method) ] ].
+
+		method returnTypeReference:
+			(self
+				 typeReferenceFor: aJavaMethodDeclarationNode type
+				 using: method).
+		self use: method during: [ 
+			self visitCollection: aJavaMethodDeclarationNode typeParameters parameters.
+			self visitCollection: aJavaMethodDeclarationNode modifiers.
+			aJavaMethodDeclarationNode declarator acceptVisitor: self.
+			aJavaMethodDeclarationNode body acceptVisitor: self ] ]
 ]
 
 { #category : #accessing }

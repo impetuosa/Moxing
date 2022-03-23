@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularClass,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
 		'classRepresentation'
 	],
@@ -10,7 +10,7 @@ Class {
 { #category : #visiting }
 MOAngularClass >> acceptVisitor: aJinInspectorBuilder [
 
-	aJinInspectorBuilder visitAngularClass: self
+	^ aJinInspectorBuilder visitAngularClass: self
 ]
 
 { #category : #'as yet unclassified' }

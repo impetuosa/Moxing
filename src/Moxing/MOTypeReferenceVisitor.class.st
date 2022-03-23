@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'writer'
 	],
-	#category : #Moxing
+	#category : #'Moxing-Reader'
 }
 
 { #category : #'as yet unclassified' }

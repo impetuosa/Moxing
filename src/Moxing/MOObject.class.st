@@ -2,47 +2,25 @@ Class {
 	#name : #MOObject,
 	#superclass : #Object,
 	#instVars : [
-		'parent'
+		'type',
+		'state'
 	],
 	#category : #'Moxing-Core'
 }
 
-{ #category : #'instance creation' }
-MOObject class >> new [
-	^ self error: 'must give model'
-]
-
-{ #category : #'instance creation' }
-MOObject class >> newFromModel [
-	^ super model 
-]
-
-{ #category : #'instance creation' }
-MOObject class >> newInstanceFromModel [ 
-	^ super new
+{ #category : #accessing }
+MOObject >> at: name put: aValue [ 
+	state at: name put: aValue 
 ]
 
 { #category : #accessing }
-MOObject >> acceptVisitor: aVisitor [
-	self subclassResponsibility 
-]
+MOObject >> state [
 
-{ #category : #'as yet unclassified' }
-MOObject >> hierarchicalChildren [
-	self subclassResponsibility 
+	^ state ifNil: [ state := Dictionary new ].
+	
 ]
 
 { #category : #accessing }
-MOObject >> parent [
-	^ parent
-]
-
-{ #category : #accessing }
-MOObject >> parent: aParent [
-	parent := aParent.
-]
-
-{ #category : #initialization }
-MOObject >> setAsParentOf: aMOAnnotationInstance [ 
-	aMOAnnotationInstance parent: self 
+MOObject >> type: aType [ 
+	 type := aType 
 ]

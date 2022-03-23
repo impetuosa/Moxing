@@ -1,28 +1,16 @@
 Class {
 	#name : #MOBlock,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOEmptyBlock,
 	#instVars : [
-		'statements'
+		'#statements => MOContainmentSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }
-MOBlock >> acceptVisitor: aMOTypescriptCodeGenerator [ 
-	aMOTypescriptCodeGenerator visitBlock: self 
-]
+MOBlock >> acceptVisitor: aMOTypescriptCodeGenerator [
 
-{ #category : #adding }
-MOBlock >> addStatement: aMOAssignment [
-
-	aMOAssignment isCollection
-		ifTrue: [ statements addAll: aMOAssignment ]
-		ifFalse: [ statements add: aMOAssignment ]
-]
-
-{ #category : #adding }
-MOBlock >> addVariable: aMOVariable [ 
-	statements add: aMOVariable 
+	^ aMOTypescriptCodeGenerator visitBlock: self
 ]
 
 { #category : #adding }
@@ -32,6 +20,21 @@ MOBlock >> initialize [
 	statements := OrderedCollection new
 ]
 
+{ #category : #testing }
+MOBlock >> isEmptyOrNil [
+
+	^ statements isEmptyOrNil
+]
+
+{ #category : #accessing }
+MOBlock >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Block(';
+		print: statements size;
+		nextPutAll: ')'
+]
+
 { #category : #accessing }
 MOBlock >> statements [
 	^ statements
@@ -39,6 +42,5 @@ MOBlock >> statements [
 
 { #category : #accessing }
 MOBlock >> statements: aCollection [
-
 	statements := aCollection
 ]

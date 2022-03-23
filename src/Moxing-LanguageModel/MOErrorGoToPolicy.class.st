@@ -8,6 +8,6 @@ Class {
 MOErrorGoToPolicy class >> appliesToStatement: aStatement [
 
 	^ { 
-		  MOOnErrorGoToLabel.
-		  MOLabel } includes: aStatement class
+		  MOAlceOnErrorGoToLabel.
+		  MOAlceLabel } includes: aStatement class
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPrimitiveTypeReference,
 	#superclass : #MOTypedReference,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }
@@ -32,6 +32,12 @@ MOPrimitiveTypeReference >> printOn: aStream [
 	aStream
 		nextPutAll: 'pt: ';
 		nextPutAll: self name
+]
+
+{ #category : #'as yet unclassified' }
+MOPrimitiveTypeReference >> refersToObjectsLike: aMOPrimitiveType [
+	
+	^ aMOPrimitiveType canBeReferredAsPrimitiveType
 ]
 
 { #category : #generated }

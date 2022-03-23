@@ -1,10 +1,10 @@
 Class {
 	#name : #MOAnnotationInstance,
-	#superclass : #MONewExpression,
-	#category : #'Moxing-LanguageModel-Model'
+	#superclass : #MONewInvocation,
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #visiting }
 MOAnnotationInstance >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitAnnotation: self .
+	^ aJinTypescriptCodeGenerator visitAnnotation: self .
 ]

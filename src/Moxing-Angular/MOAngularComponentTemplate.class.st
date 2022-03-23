@@ -1,12 +1,12 @@
 Class {
 	#name : #MOAngularComponentTemplate,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#category : #'Moxing-Angular-Model'
 }
 
 { #category : #visiting }
 MOAngularComponentTemplate >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitAngularComponentTemplate: self 
+	^ aJinInspectorBuilder visitAngularComponentTemplate: self 
 ]
 
 { #category : #accessing }

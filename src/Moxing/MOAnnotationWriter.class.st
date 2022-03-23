@@ -1,3 +1,6 @@
+"
+I am an annotation writer. I now how to write and annotation instances and add them on the context of usag 
+"
 Class {
 	#name : #MOAnnotationWriter,
 	#superclass : #MOModelProceduralWriter,
@@ -30,8 +33,6 @@ MOAnnotationWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOAnnotationWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface  addAnnotationInstance: anEntity.
 
 ]

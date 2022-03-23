@@ -1,10 +1,11 @@
 Class {
 	#name : #MOStringLiteral,
 	#superclass : #MOLiteral,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #visiting }
-MOStringLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitStringLiteral: self .
+MOStringLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitStringLiteral: self
 ]

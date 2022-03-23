@@ -1,9 +1,13 @@
+"
+I am a model. A façade an entities holder. 
+"
 Class {
 	#name : #MOModel,
 	#superclass : #MOCatalog,
 	#instVars : [
 		'catalog',
-		'unknownType'
+		'unknownType',
+		'objects'
 	],
 	#category : #'Moxing-Core'
 }
@@ -44,6 +48,12 @@ MOModel >> derivative [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> exclusivelyincludes: aMOPrimitiveType [
+
+	^ self includes: aMOPrimitiveType
+]
+
 { #category : #initialization }
 MOModel >> initialize [ 
 	super initialize.
@@ -57,6 +67,11 @@ MOModel >> instantiate: aClass [
 	instance := aClass newInstanceFromModel .
 	entities add: instance.
 	^ instance
+]
+
+{ #category : #accessing }
+MOModel >> mapSpaceAnchor [
+	^ anchor 
 ]
 
 { #category : #'as yet unclassified' }

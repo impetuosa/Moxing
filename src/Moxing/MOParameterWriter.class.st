@@ -1,3 +1,6 @@
+"
+I do write paramteers . I allow the annotation of such a parameter
+"
 Class {
 	#name : #MOParameterWriter,
 	#superclass : #MOVariableWriter,
@@ -7,6 +10,11 @@ Class {
 { #category : #writing }
 MOParameterWriter >> initializeWriteBuilder [
 	writeBuilder := builder parameterBuilder 
+]
+
+{ #category : #testing }
+MOParameterWriter >> isOptional: aBoolean [ 
+	writeBuilder isOptional: aBoolean 
 ]
 
 { #category : #'as yet unclassified' }
@@ -21,7 +29,5 @@ MOParameterWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOParameterWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addParameter: anEntity
 ]

@@ -1,3 +1,6 @@
+"
+I am in charge of binding the invocation with a mehtod/ function declaration 
+"
 Class {
 	#name : #MOModelInvocationLinker,
 	#superclass : #Object,
@@ -5,8 +8,14 @@ Class {
 		'model',
 		'resolving'
 	],
-	#category : #'Moxing-Core'
+	#category : #'Moxing-Linking'
 }
+
+{ #category : #'as yet unclassified' }
+MOModelInvocationLinker >> lookupMethodFor: aMOMethodInvocation [
+
+	^ MOModelMethodLookup new lookupMethodFor: aMOMethodInvocation
+]
 
 { #category : #accessing }
 MOModelInvocationLinker >> model: aMOModel [ 
@@ -38,10 +47,8 @@ MOModelInvocationLinker >> visitMethodInvocation: aMOMethodInvocation [
 
 	| possible |
 	self assert: aMOMethodInvocation = resolving.
-	possible := aMOMethodInvocation receiverReference candidate
-		            typeReference candidate allMethods select: [ :m | 
-		            m selector = aMOMethodInvocation selector ].
-	self assert: possible size < 2.
+	possible := self lookupMethodFor: aMOMethodInvocation.
+	self assert: possible size = 1.
 	possible ifNotEmpty: [ resolving candidate: possible first ]
 ]
 

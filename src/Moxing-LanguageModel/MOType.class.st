@@ -2,10 +2,11 @@ Class {
 	#name : #MOType,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'modifiers',
-		'visibility'
+		'#modifiers => MOPropertySlot',
+		'#visibility => MOPropertySlot',
+		'#packageReference => MOExpressionSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
@@ -15,9 +16,14 @@ MOType >> addModifier: aModifier [
 ]
 
 { #category : #accessing }
+MOType >> canBeReferredAsType [
+	 ^ true
+]
+
+{ #category : #accessing }
 MOType >> fullName [
 
-	^ parent name , '.' , self name
+	^ (packageReference ifNotNil: [ : p  |  p name , '.'  ] ifNil: [ '' ]), self name
 ]
 
 { #category : #accessing }
@@ -25,6 +31,17 @@ MOType >> initialize [
 
 	super initialize.
 	modifiers := OrderedCollection new
+]
+
+{ #category : #accessing }
+MOType >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
+MOType >> isType [ 
+	 ^ true 
 ]
 
 { #category : #accessing }
@@ -40,7 +57,12 @@ MOType >> modifiers: aSet [
 { #category : #accessing }
 MOType >> packageReference [
 
-	^ parent
+	^ packageReference 
+]
+
+{ #category : #'as yet unclassified' }
+MOType >> packageReference: aPackageReference [
+	packageReference := aPackageReference
 ]
 
 { #category : #accessing }

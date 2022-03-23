@@ -2,9 +2,9 @@ Class {
 	#name : #MOTypeParameter,
 	#superclass : #MOType,
 	#instVars : [
-		'supertypeReferences'
+		'#superTypeReferences => MOReferenceSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
@@ -22,16 +22,11 @@ MOTypeParameter >> printOn: aStream [
 ]
 
 { #category : #accessing }
+MOTypeParameter >> superTypeReferences [
+	^ superTypeReferences
+]
+
+{ #category : #accessing }
 MOTypeParameter >> superTypeReferences: aCollection [ 
-	supertypeReferences := aCollection
-]
-
-{ #category : #accessing }
-MOTypeParameter >> supertypeReferences [
-	^ supertypeReferences
-]
-
-{ #category : #accessing }
-MOTypeParameter >> supertypes: aCollection [ 
-	supertypeReferences := aCollection
+	superTypeReferences := aCollection
 ]

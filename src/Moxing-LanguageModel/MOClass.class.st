@@ -1,13 +1,17 @@
 Class {
 	#name : #MOClass,
-	#superclass : #MOClassType,
+	#superclass : #MOType,
 	#instVars : [
-		'superclassReference'
+		'#superTypeReferences => MOReferenceSlot many',
+		'#superclassReference => MOReferenceSlot one',
+		'#attributes => MOContainmentSlot many',
+		'#methods => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many'
 	],
 	#classInstVars : [
-		'object'
+		'#object'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
@@ -18,14 +22,9 @@ MOClass class >> object [
 ]
 
 { #category : #visiting }
-MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitClass: self .
-]
+MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 
-{ #category : #adding }
-MOClass >> addConstructor: aMOConstructor [
-
-	methods add: aMOConstructor
+	^ aJinTypescriptCodeGenerator visitClass: self
 ]
 
 { #category : #navigation }
@@ -45,34 +44,60 @@ MOClass >> allVisibleMethods [
 		   ifNil: [ {  } ])
 ]
 
-{ #category : #generated }
-MOClass >> dependencies [
-	| deps |
-	deps := OrderedCollection
-		streamContents: [ :str | 
-			str nextPutAll: imports.
-			decorator ifNotNil: [ str nextPutAll: decorator dependencies ].
-			str nextPutAll: (self types flatCollect: [ :t | t dependencies ]).
-			str nextPutAll: (attributes flatCollect: [ :t | t dependencies ]).
-			str nextPutAll: (methods flatCollect: [ :t | t dependencies ]).
-			str
-				nextPutAll: (superclassReference ifNil: [ {} ] ifNotNil: [ :s | s dependencies ]) ].
-	^ MOImport compressDependencyCollection: deps
+{ #category : #accessing }
+MOClass >> annotationInstances [
+	^ annotationInstances
+]
+
+{ #category : #accessing }
+MOClass >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
+]
+
+{ #category : #accessing }
+MOClass >> attributes [
+
+	^ attributes
+]
+
+{ #category : #accessing }
+MOClass >> attributes: aCollection [ 
+
+	attributes :=aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOClass >> constructors [
+
+	^ self methods select: [ :m | m isKindOf: MOConstructor ]
 ]
 
 { #category : #generated }
-MOClass >> hierarchicalChildren [
+MOClass >> dependencies [
 
-	^ self annotations , self imports , self typeParameters
-	  , self attributes , self methods
+	| deps |
+	deps := OrderedCollection streamContents: [ :str | 
+		        str nextPutAll: self superTypeReferences.
+		        self superclassReference ifNotNil: [ 
+			        str nextPut: self superclassReference ].
+
+		        str nextPutAll:
+			        (attributes flatCollect: [ :t | t dependencies ]).
+		        str nextPutAll:
+			        (methods flatCollect: [ :t | t dependencies ]).
+		        str nextPutAll:
+			        (superclassReference
+				         ifNil: [ {  } ]
+				         ifNotNil: [ :s | s dependencies ]) ].
+	^ MOImport compressDependencyCollection: deps
 ]
 
 { #category : #'as yet unclassified' }
 MOClass >> inheritanceTypeReferences [
 
-	^ super inheritanceTypeReferences , (superclassReference
-		   ifNotNil: [ { superclassReference } ]
-		   ifNil: [ {  } ])
+	^ superclassReference
+		  ifNotNil: [ { superclassReference } ]
+		  ifNil: [ {  } ]
 ]
 
 { #category : #generated }
@@ -84,10 +109,20 @@ MOClass >> initialize [
 ]
 
 { #category : #accessing }
+MOClass >> methods [
+	^ methods
+]
+
+{ #category : #accessing }
+MOClass >> methods: aCollection [ 
+	methods := aCollection
+]
+
+{ #category : #accessing }
 MOClass >> parent: aParent [
 
 	aParent ifNil: [ ^ self ].
-	parent ifNotNil: [ self halt ].
+	parent ifNotNil: [ parent = aParent ifFalse: [ self halt ] ].
 	parent := aParent
 ]
 
@@ -110,6 +145,16 @@ MOClass >> superClass [
 	^ self superclassReference ifNotNil: [ :s | s candidate ]
 ]
 
+{ #category : #navigation }
+MOClass >> superTypeReferences [
+	^ superTypeReferences
+]
+
+{ #category : #generated }
+MOClass >> superTypeReferences: aCollection [ 
+	superTypeReferences := aCollection
+]
+
 { #category : #accessing }
 MOClass >> superclassReference [
 
@@ -118,5 +163,6 @@ MOClass >> superclassReference [
 
 { #category : #accessing }
 MOClass >> superclassReference: anUndefinedObject [ 
+
 	superclassReference := anUndefinedObject
 ]

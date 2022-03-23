@@ -1,8 +1,16 @@
+"
+I build procedures and allow to add the same as my parent
+"
 Class {
 	#name : #MOSubProcedureWriter,
-	#superclass : #MOConstructorWriter,
+	#superclass : #MOInvocableWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #accessing }
+MOSubProcedureWriter >> bindingKind: aString [ 
+	 writeBuilder bindingKind: aString 
+]
 
 { #category : #writing }
 MOSubProcedureWriter >> initializeWriteBuilder [
@@ -17,12 +25,22 @@ MOSubProcedureWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOSubProcedureWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addProcedure: anEntity
 ]
 
 { #category : #writing }
 MOSubProcedureWriter >> selector: aSelector [
  	writeBuilder selector: aSelector
+]
+
+{ #category : #writing }
+MOSubProcedureWriter >> setDynamicBinding [
+
+	writeBuilder setDynamicBinding
+]
+
+{ #category : #writing }
+MOSubProcedureWriter >> setStaticBinding [
+
+	writeBuilder setStaticBinding
 ]

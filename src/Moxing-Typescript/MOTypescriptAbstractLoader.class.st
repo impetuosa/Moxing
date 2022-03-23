@@ -31,7 +31,7 @@ MOTypescriptAbstractLoader >> use: aWriter during: aBlock [
 	| prev |
 	prev := writer.
 	writer := aWriter.
-	aBlock ensure: [ writer := prev ]
+	^ aBlock ensure: [ writer := prev ]
 ]
 
 { #category : #visiting }

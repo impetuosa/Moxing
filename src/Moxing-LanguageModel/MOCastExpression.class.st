@@ -2,10 +2,10 @@ Class {
 	#name : #MOCastExpression,
 	#superclass : #MOTypedReference,
 	#instVars : [
-		'typeReference',
-		'expression'
+		'#typeReference => MOReferenceSlot one',
+		'#expression => MOExpressionSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #generated }

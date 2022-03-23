@@ -1,3 +1,6 @@
+"
+I do write decorators! typescript style 
+"
 Class {
 	#name : #MODecoratorWriter,
 	#superclass : #MOModelProceduralWriter,
@@ -22,9 +25,7 @@ MODecoratorWriter >> privateSetAnchor: anEntity [
 
 { #category : #initialization }
 MODecoratorWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
-	surface decorator: anEntity
+	surface addDecorator: anEntity
 ]
 
 { #category : #'as yet unclassified' }

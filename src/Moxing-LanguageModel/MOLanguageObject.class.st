@@ -1,9 +1,8 @@
 Class {
 	#name : #MOLanguageObject,
-	#superclass : #MOAnchoredObject,
+	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'language',
-		'annotations'
+		'#language => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -49,38 +48,76 @@ MOLanguageObject >> acceptVisitor: ads [
 	self subclassResponsibility
 ]
 
-{ #category : #adding }
-MOLanguageObject >> addAnnotation: aMOAnnotation [ 
-	self annotations add: aMOAnnotation
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsAttribute [
+
+	^ false
 ]
 
 { #category : #'as yet unclassified' }
-MOLanguageObject >> anchorFrom: aJSDecoratorExpressionNode at: aFileReference [
-
-	| start stop |
-	start := aJSDecoratorExpressionNode startPosition.
-	stop := aJSDecoratorExpressionNode stopPosition.
-
-	anchor := MOAnchor new
-		          start: start;
-		          stop: stop;
-		          file: aFileReference;
-		          yourself
+MOLanguageObject >> canBeReferredAsConstant [
+	 ^ false
 ]
 
-{ #category : #generated }
-MOLanguageObject >> annotations [
-	^ annotations ifNil: [ annotations := OrderedCollection new ]
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsFunction [
+
+	^ false
 ]
 
-{ #category : #accessing }
-MOLanguageObject >> annotations: aCollection [ 
-	annotations := aCollection
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsMethod [
+
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsPrimitiveType [
+
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> canBeReferredAsVariable [
+
+	^ false
 ]
 
 { #category : #'as yet unclassified' }
 MOLanguageObject >> dependencies [
 	^ {}
+]
+
+{ #category : #testing }
+MOLanguageObject >> isDeclaration [
+
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> isExpression [
+	^ false 
+]
+
+{ #category : #testing }
+MOLanguageObject >> isFylgjaMissingCandidateStub [
+	 ^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> isInvocable [
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> isLabelledAs: aString [ 
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> isVariable [
+
+	^ false
 ]
 
 { #category : #accessing }
@@ -102,9 +139,5 @@ MOLanguageObject >> produceCode [
 { #category : #generated }
 MOLanguageObject >> sourceCode [
 
-	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ 
-		  | gen |
-		  gen := MOCodeGenerator new.
-		  self acceptVisitor: gen.
-		  gen sourceCode ]
+	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ self produceCode ]
 ]

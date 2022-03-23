@@ -1,3 +1,6 @@
+"
+I am in charge of linking a model. I take care of delegating different phases to different linking objects.
+"
 Class {
 	#name : #MOModelLinker,
 	#superclass : #Object,
@@ -7,7 +10,7 @@ Class {
 		'variableLinker',
 		'invocationLinker'
 	],
-	#category : #'Moxing-Core'
+	#category : #'Moxing-Linking'
 }
 
 { #category : #'as yet unclassified' }
@@ -64,10 +67,20 @@ MOModelLinker >> ensureAllPackages: aMOModel [
 					ref candidate:
 						(aMOModel writer writePackage: [ :package | 
 							 package name: ref name ]) ] ].
-	aMOModel types do: [ :a | 
-		(a parent isKindOf: MOPackageReference) ifTrue: [ 
-			(a parent types includes: a) ifFalse: [ 
-				a parent candidate addType: a ] ] ]
+
+
+	(aMOModel types select: [ :a | 
+		 a packageReference isNotNil and: [ 
+			 a packageReference candidate isNil ] ]) do: [ :a | 
+		self halt.
+		a packageReference ifNotNil: [ 
+			(a packageReference candidate allTypes includes: a) ifFalse: [ 
+				(a parent isKindOf: MODeclarationUnit)
+					ifTrue: [ 
+						self assert: a parent parent isNil.
+						a parent parent: a packageReference candidate.
+						a packageReference candidate addDeclarationUnit: a parent ]
+					ifFalse: [ a packageReference candidate addType: a ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -129,8 +142,10 @@ MOModelLinker >> invocationLinker [
 ]
 
 { #category : #testing }
-MOModelLinker >> isReference: aMOModelBuilder [ 
-	^ aMOModelBuilder isKindOf: MOLanguageObject  
+MOModelLinker >> isReference: aMOModelBuilder [
+
+	^ (aMOModelBuilder isKindOf: MOLanguageObject) and: [ 
+		  (aMOModelBuilder species = MOPackage) not ]
 ]
 
 { #category : #accessing }
@@ -154,7 +169,7 @@ MOModelLinker >> linkAllChildOrphanReferencesToParent: aMOLanguage [
 
 	(self allValuesReferredBy: aMOLanguage)
 		select: [ :value | 
-			(value isKindOf: MOObject) and: [ 
+			(value isKindOf: MODeclaration) and: [ 
 				value parent isNil or: [ value parent isKindOf: MOModel ] ] ]
 		thenDo: [ :reference | 
 			(self isReference: reference) ifTrue: [ 
@@ -170,7 +185,6 @@ MOModelLinker >> processInvocation: aMOAnnotationInstance [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> processTypeReference: aMOTypeReference [
-
 	self typeLinker processTypeReference: aMOTypeReference
 ]
 

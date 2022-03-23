@@ -1,11 +1,18 @@
 Class {
 	#name : #MOFileImport,
-	#superclass : #MOImport,
+	#superclass : #MOStatement,
 	#instVars : [
-		'from'
+		'#from => MOPropertySlot',
+		'#typeReferences => MOReferenceSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Statements'
 }
+
+{ #category : #'as yet unclassified' }
+MOFileImport >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitFileImport: self
+]
 
 { #category : #'as yet unclassified' }
 MOFileImport >> from [
@@ -28,7 +35,12 @@ MOFileImport >> fromString [
 MOFileImport >> printOn: aStream [
 	aStream
 		nextPutAll: ' import { ';
-		nextPutAll: (',' join: (typeReference collect: [ :t | t name ]));
+		nextPutAll: (',' join: (typeReferences collect: [ :t | t name ]));
 		nextPutAll: ' } from ';
 		nextPutAll: self fromString
+]
+
+{ #category : #accessing }
+MOFileImport >> typeReferences: aCollection [ 
+	typeReferences := aCollection
 ]

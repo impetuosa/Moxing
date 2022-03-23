@@ -1,14 +1,13 @@
 Class {
 	#name : #MOClassType,
-	#superclass : #MOTypeParameter,
+	#superclass : #MOType,
 	#instVars : [
-		'attributes',
-		'imports',
-		'decorator',
-		'methods',
-		'typeParameters'
+		'#superTypeReferences => MOReferenceSlot many',
+		'#attributes => MOContainmentSlot many',
+		'#methods => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
@@ -17,41 +16,27 @@ MOClassType >> acceptVisitor: aMOCatalogTypeInstaller [
 	^ aMOCatalogTypeInstaller visitClassType: self
 ]
 
-{ #category : #adding }
-MOClassType >> addAttribute: aProperty [
-	attributes add: aProperty.
-	aProperty setOwnerType: self
-]
-
-{ #category : #'as yet unclassified' }
-MOClassType >> addImport: aMOTypescriptImport [ 
-	imports add: aMOTypescriptImport 
-]
-
-{ #category : #adding }
-MOClassType >> addMethod: aJinTypescriptMethod [
-
-	self methods add: aJinTypescriptMethod.
-	aJinTypescriptMethod setOwnerClass: self
-]
-
-{ #category : #adding }
-MOClassType >> addTypeParameter: aMOTypeParameter [
-
-	self typeParameters add: aMOTypeParameter
-]
-
 { #category : #'as yet unclassified' }
 MOClassType >> allVisibleMethods [
 
-	^ self methods , (supertypeReferences
-		   ifNotNil: [ supertypeReferences flatCollect: [ :t | t allVisibleMethods ] ]
+	^ self methods , (superTypeReferences
+		   ifNotNil: [ superTypeReferences flatCollect: [ :t | t allVisibleMethods ] ]
 		   ifNil: [ {  } ])
+]
+
+{ #category : #accessing }
+MOClassType >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
 ]
 
 { #category : #accessing }
 MOClassType >> attributes [
 	^ attributes 
+]
+
+{ #category : #accessing }
+MOClassType >> attributes: aCollection [ 
+	attributes := aCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,62 +46,45 @@ MOClassType >> constructors [
 ]
 
 { #category : #generated }
-MOClassType >> decorator [
-	^ decorator
-]
-
-{ #category : #generated }
-MOClassType >> decorator: aDe [	
-	decorator := aDe 
-]
-
-{ #category : #generated }
 MOClassType >> dependencies [
 
 	| deps |
+	self shouldBeImplemented ."
 	deps := OrderedCollection streamContents: [ :str | 
-		        str nextPutAll: imports.
-		        decorator ifNotNil: [ 
-			        str nextPutAll: decorator dependencies ].
+		      
 		        str nextPutAll:
 			        (attributes flatCollect: [ :t | t dependencies ]) ].
-	^ MOImport compressDependencyCollection: deps
+	^ MOImport compressDependencyCollection: deps"
 ]
 
-{ #category : #generated }
-MOClassType >> hierarchicalChildren [
+{ #category : #adding }
+MOClassType >> fullName [
 
-	^ self annotations , self imports , self typeParameters
-	  , self attributes , self methods
-]
-
-{ #category : #'as yet unclassified' }
-MOClassType >> imports [
-	^ imports
-]
-
-{ #category : #accessing }
-MOClassType >> imports: aCollection [ 
-	imports := aCollection
+	^ (packageReference ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ])
+	  , self name
 ]
 
 { #category : #'as yet unclassified' }
 MOClassType >> inheritanceTypeReferences [
 
-	^ supertypeReferences copy
+	^ superTypeReferences copy
 ]
 
 { #category : #generated }
 MOClassType >> initialize [ 
 	super initialize .
 	attributes := OrderedCollection new. 
-	imports := OrderedCollection new. 
 ]
 
 { #category : #adding }
 MOClassType >> methods [
 
 	^ methods ifNil: [ methods := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOClassType >> methods: aCollection [ 
+	methods := aCollection
 ]
 
 { #category : #adding }
@@ -127,8 +95,12 @@ MOClassType >> printOn: aStream [
 		nextPutAll: name
 ]
 
-{ #category : #generated }
-MOClassType >> typeParameters [
+{ #category : #accessing }
+MOClassType >> superTypeReferences [
+	^ superTypeReferences
+]
 
-	^ typeParameters ifNil: [ typeParameters := OrderedCollection new ]
+{ #category : #adding }
+MOClassType >> superTypeReferences: aCollection [ 
+	superTypeReferences := aCollection
 ]

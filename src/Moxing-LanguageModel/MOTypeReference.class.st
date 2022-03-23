@@ -1,7 +1,10 @@
 Class {
 	#name : #MOTypeReference,
 	#superclass : #MOTypedReference,
-	#category : #'Moxing-LanguageModel-Model'
+	#instVars : [
+		'#packageReference => MOPropertySlot'
+	],
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }
@@ -13,7 +16,7 @@ MOTypeReference >> acceptVisitor: aMOJavaModelReader [
 { #category : #accessing }
 MOTypeReference >> fullName [
 
-	^ (parent ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) , name
+	^ (packageReference  ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) , name
 ]
 
 { #category : #printing }
@@ -21,9 +24,25 @@ MOTypeReference >> isDecorator [
 	 ^ false 
 ]
 
+{ #category : #testing }
+MOTypeReference >> isSolvable [
+
+	^ (name = '?') not
+]
+
 { #category : #accessing }
 MOTypeReference >> isTypeReference [ 
 	^ true 
+]
+
+{ #category : #accessing }
+MOTypeReference >> packageReference [
+	^ packageReference
+]
+
+{ #category : #accessing }
+MOTypeReference >> packageReference: aMOPackageReference [ 
+	packageReference := aMOPackageReference
 ]
 
 { #category : #printing }
@@ -32,6 +51,12 @@ MOTypeReference >> printOn: aStream [
 	aStream
 		nextPutAll: '->';
 		nextPutAll: name
+]
+
+{ #category : #'as yet unclassified' }
+MOTypeReference >> refersToObjectsLike: aMOClass [
+
+	^ aMOClass canBeReferredAsType
 ]
 
 { #category : #printing }

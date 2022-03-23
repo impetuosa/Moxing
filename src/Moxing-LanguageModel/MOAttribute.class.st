@@ -1,33 +1,34 @@
 Class {
 	#name : #MOAttribute,
-	#superclass : #MOVariable,
+	#superclass : #MOAbstractVariable,
 	#instVars : [
-		'ownerType',
 		'visibility'
 	],
-	#category : #'Moxing-LanguageModel'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
 MOAttribute >> acceptVisitor: aJinTypescriptCodeGenerator [
-	aJinTypescriptCodeGenerator visitAttribute: self
+
+	^ aJinTypescriptCodeGenerator visitAttribute: self
 ]
 
-{ #category : #adding }
-MOAttribute >> addAnnotationInstance: aMOAnnotationInstance [
+{ #category : #'as yet unclassified' }
+MOAttribute >> canBeReferredAsAttribute [
 
-	self annotations add: aMOAnnotationInstance
+	^ true
 ]
 
-{ #category : #accessing }
-MOAttribute >> setOwnerClass: aClassObject [ 
-	self error: 'Should be using setOwnerType! '
+{ #category : #'as yet unclassified' }
+MOAttribute >> canBeReferredAsPrimitiveType [
+
+	^ name == #Null
 ]
 
-{ #category : #accessing }
-MOAttribute >> setOwnerType: aClassObject [
+{ #category : #'as yet unclassified' }
+MOAttribute >> kindString [
 
-	ownerType := aClassObject
+	^ 'ATTR'
 ]
 
 { #category : #'as yet unclassified' }

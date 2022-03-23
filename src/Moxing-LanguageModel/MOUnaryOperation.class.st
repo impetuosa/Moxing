@@ -1,13 +1,35 @@
 Class {
 	#name : #MOUnaryOperation,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOExpression,
 	#instVars : [
-		'operator',
-		'operand',
-		'order'
+		'#operator => MOPropertySlot',
+		'#operand => MOExpressionSlot one',
+		'#order => MOPropertySlot'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
+
+{ #category : #accessing }
+MOUnaryOperation >> isPostfix [
+
+	" the operator is on the left of the operand: !1 (not 1) "
+
+	^ order = #postfix
+]
+
+{ #category : #accessing }
+MOUnaryOperation >> isPrefix [
+
+	" the operator is on the left of the operand: !1 (not 1) "
+
+	^ order = #prefix
+]
+
+{ #category : #generated }
+MOUnaryOperation >> operand [
+
+	^ operand
+]
 
 { #category : #generated }
 MOUnaryOperation >> operand: aMOVariableReference [

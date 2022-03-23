@@ -1,3 +1,6 @@
+"
+I build class types allowing to write in my context attributes, constructors, methods, etc 
+"
 Class {
 	#name : #MOClassTypeWriter,
 	#superclass : #MOTypeParameterWriter,
@@ -6,6 +9,30 @@ Class {
 	],
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOClassTypeWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	writeBuilder addAnnotationInstance: aMOAnnotationInstance
+]
+
+{ #category : #adding }
+MOClassTypeWriter >> addAttribute: aMOAttribute [
+
+	writeBuilder addAttribute: aMOAttribute
+]
+
+{ #category : #adding }
+MOClassTypeWriter >> addDecorator: aMODecorator [
+
+	writeBuilder addDecorator: aMODecorator
+]
+
+{ #category : #adding }
+MOClassTypeWriter >> addMethod: aMOProcedure [
+
+	writeBuilder addMethod: aMOProcedure
+]
 
 { #category : #adding }
 MOClassTypeWriter >> addModifier: aString [
@@ -18,14 +45,14 @@ MOClassTypeWriter >> fullName: aString [
 	writeBuilder fullName: aString
 ]
 
-{ #category : #generated }
-MOClassTypeWriter >> imports: aCollection [ 
-	writeBuilder imports: aCollection 
-]
-
 { #category : #writing }
 MOClassTypeWriter >> initializeWriteBuilder [
 	writeBuilder := builder classTypeBuilder
+]
+
+{ #category : #generated }
+MOClassTypeWriter >> modifiers: aCollection [ 
+	writeBuilder modifiers: aCollection 
 ]
 
 { #category : #accessing }
@@ -45,39 +72,37 @@ MOClassTypeWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOClassTypeWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addClassType: anEntity
 ]
 
 { #category : #writing }
+MOClassTypeWriter >> writeAnnotation: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
+]
+
+{ #category : #writing }
 MOClassTypeWriter >> writeAttribute: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOAttributeWriter
+	^ self write: aBlock inSubWriter: MOAttributeWriter
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeConstructor: aFullBlockClosure [ 
-		^ self preWrite: aFullBlockClosure inSubWriter: MOConstructorWriter 
-]
-
-{ #category : #writing }
-MOClassTypeWriter >> writeDecorator: aFullBlockClosure [ 
-		^ self preWrite: aFullBlockClosure inSubWriter: MODecoratorWriter
-]
-
-{ #category : #writing }
-MOClassTypeWriter >> writeImport: aFullBlockClosure [
-
-	^ self preWrite: aFullBlockClosure inSubWriter: MOImportWriter
+		^ self write: aFullBlockClosure inSubWriter: MOConstructorWriter 
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeMethod: aBlock [
-	^ self preWrite: aBlock inSubWriter: MOMethodWriter
+	^ self write: aBlock inSubWriter: MOMethodWriter
+]
+
+{ #category : #writing }
+MOClassTypeWriter >> writeParametrizableMethod: aBlock [
+	^ self write: aBlock inSubWriter: MOParametrizableMethodWriter
 ]
 
 { #category : #writing }
 MOClassTypeWriter >> writeTypeParameter: aFullBlockClosure [ 
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOTypeParameterWriter
+	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]

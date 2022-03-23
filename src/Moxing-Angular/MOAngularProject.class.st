@@ -12,7 +12,7 @@ Class {
 
 { #category : #visiting }
 MOAngularProject >> acceptVisitor: aJinInspectorBuilder [ 
-	aJinInspectorBuilder visitAngularProject: self 
+	^ aJinInspectorBuilder visitAngularProject: self 
 ]
 
 { #category : #'as yet unclassified' }

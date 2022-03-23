@@ -2,9 +2,9 @@ Class {
 	#name : #MOParametrizedTypeReference,
 	#superclass : #MOTypeReference,
 	#instVars : [
-		'argumentTypeReferences'
+		'#argumentTypeReferences => MOReferenceSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #'as yet unclassified' }
@@ -15,6 +15,7 @@ MOParametrizedTypeReference >> acceptVisitor: aMOJavaModelReader [
 
 { #category : #accessing }
 MOParametrizedTypeReference >> argumentTypeReferences [
+
 	^ argumentTypeReferences
 ]
 

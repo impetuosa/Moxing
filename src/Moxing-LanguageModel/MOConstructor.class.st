@@ -2,9 +2,11 @@ Class {
 	#name : #MOConstructor,
 	#superclass : #MOInvocable,
 	#instVars : [
-		'type'
+		'#thrownTypeReferences => MOReferenceSlot many',
+		'#typeParameters => MOContainmentSlot many',
+		'#annotationInstances => MOReferenceSlot many'
 	],
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #accessing }
@@ -13,11 +15,20 @@ MOConstructor >> acceptVisitor: aMOCatalogTypeInstaller [
 	^ aMOCatalogTypeInstaller visitConstructor: self
 ]
 
-{ #category : #generated }
-MOConstructor >> hierarchicalChildren [
+{ #category : #accessing }
+MOConstructor >> annotationInstances: aCollection [ 
+	annotationInstances := aCollection
+]
 
-	^ self parameters , self annotations , self typeParameters
-	  , { self block }
+{ #category : #accessing }
+MOConstructor >> canBeReferredAsConstructor [
+	 ^ true 
+]
+
+{ #category : #'as yet unclassified' }
+MOConstructor >> constructingTypeName [
+
+	^ parent name
 ]
 
 { #category : #accessing }
@@ -26,13 +37,16 @@ MOConstructor >> selector [
 ]
 
 { #category : #accessing }
-MOConstructor >> type [
-
-	^ type
+MOConstructor >> thrownTypeReferences [
+	^ thrownTypeReferences
 ]
 
 { #category : #accessing }
-MOConstructor >> type: aTypeRefrence [
+MOConstructor >> thrownTypeReferences: aCollection [ 
+	thrownTypeReferences := aCollection
+]
 
-	type := aTypeRefrence
+{ #category : #accessing }
+MOConstructor >> typeParameters: aCollection [ 
+	typeParameters := aCollection
 ]

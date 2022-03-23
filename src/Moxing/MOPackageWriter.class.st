@@ -1,8 +1,34 @@
+"
+I write packages. I allow the wirting of subpackages, classes and declaration units 
+"
 Class {
 	#name : #MOPackageWriter,
 	#superclass : #MOModelProceduralWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOPackageWriter >> addClass: aMOClass [
+
+	writeBuilder addClass: aMOClass
+]
+
+{ #category : #adding }
+MOPackageWriter >> addDeclarationUnit: aMODeclarationUnit [
+
+	writeBuilder addDeclarationUnit: aMODeclarationUnit
+]
+
+{ #category : #adding }
+MOPackageWriter >> addModule: aMOModule [ 
+	writeBuilder addModule: aMOModule 
+]
+
+{ #category : #adding }
+MOPackageWriter >> addPrimitiveType: aMOPrimitiveType [
+
+	writeBuilder addPrimitiveType: aMOPrimitiveType
+]
 
 { #category : #writing }
 MOPackageWriter >> initializeWriteBuilder [
@@ -30,19 +56,53 @@ MOPackageWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOPackageWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addPackage: anEntity
 ]
 
 { #category : #writing }
 MOPackageWriter >> writeClass: aBlock [
 
-	self preWrite: aBlock inSubWriter: MOClassWriter
+	^ self write: aBlock inSubWriter: MOClassWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeClassType: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOClassTypeWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeDeclarationUnit: aBlock [
+
+	^ self write: aBlock inSubWriter: MODeclarationUnitWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeModule: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOModuleWriter
 ]
 
 { #category : #writing }
 MOPackageWriter >> writePackage: aBlock [
 
-	self preWrite: aBlock inSubWriter: MOPackageWriter
+	^ self write: aBlock inSubWriter: MOPackageWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeParametrizableClass: aFullBlockClosure [ 
+
+	^ self write: aFullBlockClosure inSubWriter: MOParametrizableClassWriter  
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeParametrizableClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOParametrizableClassTypeWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writePrimitiveType: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter
 ]

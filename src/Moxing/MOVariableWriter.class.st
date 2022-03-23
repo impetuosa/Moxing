@@ -1,18 +1,33 @@
+"
+I do write variables .
+"
 Class {
 	#name : #MOVariableWriter,
 	#superclass : #MOModelProceduralWriter,
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #adding }
+MOVariableWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	writeBuilder addAnnotationInstance: aMOAnnotationInstance
+]
+
+{ #category : #accessing }
+MOVariableWriter >> bindingKind: aString [
+
+	writeBuilder bindingKind: aString
+]
+
 { #category : #writing }
 MOVariableWriter >> initializeWriteBuilder [
 
-	writeBuilder := builder variableBuilder
+	writeBuilder := builder localVariableBuilder
 ]
 
 { #category : #generated }
-MOVariableWriter >> initializer: anUndefinedObject [ 
-	writeBuilder initializer: anUndefinedObject 
+MOVariableWriter >> initializer: anInit [  
+	writeBuilder initializer: anInit 
 ]
 
 { #category : #generated }
@@ -39,9 +54,13 @@ MOVariableWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
+	surface addLocalVariable: anEntity
+]
 
-	surface setAsParentOf: anEntity.
-	surface addVariable: anEntity
+{ #category : #initialization }
+MOVariableWriter >> setStaticBinding [
+
+	writeBuilder setStaticBinding
 ]
 
 { #category : #writing }
@@ -49,10 +68,18 @@ MOVariableWriter >> typeReference: aTypeReference [
 	writeBuilder typeReference: aTypeReference.
 ]
 
-{ #category : #writing }
-MOVariableWriter >> writeNewExpression: aFullBlockClosure [
+{ #category : #accessing }
+MOVariableWriter >> visibility: anUndefinedObject [ 
+	writeBuilder visibility: anUndefinedObject 
+]
 
-	^ self
-		  preWrite: aFullBlockClosure
-		  inSubWriter: MOStatementNewExpressionWriter
+{ #category : #writing }
+MOVariableWriter >> writeExpression: aBlock [
+
+	^ self writeUnregisteredExpression: aBlock
+]
+
+{ #category : #generated }
+MOVariableWriter >> writeInitializer: aBlock [ 
+	writeBuilder initializer: (self writeExpression: aBlock) 
 ]

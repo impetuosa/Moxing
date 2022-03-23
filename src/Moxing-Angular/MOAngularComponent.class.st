@@ -11,7 +11,7 @@ Class {
 { #category : #visiting }
 MOAngularComponent >> acceptVisitor: aJinInspectorBuilder [
 
-	aJinInspectorBuilder visitAngularComponent: self
+	^ aJinInspectorBuilder visitAngularComponent: self
 ]
 
 { #category : #accessing }

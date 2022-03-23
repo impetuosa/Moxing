@@ -1,28 +1,8 @@
 Class {
 	#name : #MOModelFactoryTestCase,
-	#superclass : #TestCase,
-	#instVars : [
-		'builder'
-	],
-	#category : #'Moxing-MicroBuilders'
+	#superclass : #MOBuilderTestCase,
+	#category : #'Moxing-MicroBuilderTest'
 }
-
-{ #category : #running }
-MOModelFactoryTestCase >> assert: newClass isKindOf: aType [
-
-	self assert: (newClass isKindOf: aType)
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> setUp [
-
-	super setUp.
-	builder := MOModelBuilder new.
-	builder model: MOModel new.
-	builder model anchor: (MOAnchor on: #/).
-	builder language:
-		((MOLanguage newFor: builder model) name: 'TestLang') yourself
-]
 
 { #category : #running }
 MOModelFactoryTestCase >> testAssignmentBuilderGetsYouAnAssignment [
@@ -45,29 +25,6 @@ MOModelFactoryTestCase >> testAssignmentBuilderGetsYouAnAssignment [
 ]
 
 { #category : #running }
-MOModelFactoryTestCase >> testAttributeAccess [
-
-	| access name1 name2 name3 |
-	name1 := builder variableBuilder
-		         name: #var;
-		         build.
-	name2 := builder variableReferenceBuilder
-		         name: #field;
-		         build.
-	name3 := 'field2'.
-
-	access := builder attributeAccessBuilder
-		          addVariable: name1;
-		          addVariableReference: name2;
-		          addAttributeName: name3;
-		          build.
-	self assert: access isKindOf: MOAttributeAccess.
-	self assert: access name equals: name3.
-	self assert: access context name equals: name2 name.
-	self assert: access context context name equals: name1 name
-]
-
-{ #category : #running }
 MOModelFactoryTestCase >> testAttributeBuilderGetsYouAnAttribute [
 
 	| param |
@@ -84,25 +41,17 @@ MOModelFactoryTestCase >> testAttributeBuilderGetsYouAnAttribute [
 MOModelFactoryTestCase >> testBlockBuilderGetsABlock [
 
 	| block |
+
 	block := builder blockBuilder
-		         addStatement: (builder variableBuilder
+		         addStatement: (builder localVariableBuilder
 				          name: 'var';
 				          typeReference: (builder typeReferenceBuilder
 						           name: 'String';
-						           build));
+						           build);
+				          build);
 		         build.
 	self assert: block isKindOf: MOBlock.
 	self assert: block statements size equals: 1
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testBooleanLiteralBuilder [
-
-	| literal |
-	literal := builder booleanLiteralBuilder
-		           value: true;
-		           build.
-	self assert: literal isKindOf: MOBooleanLiteral 
 ]
 
 { #category : #running }
@@ -122,7 +71,7 @@ MOModelFactoryTestCase >> testCastReferenceGetsCastedType [
 		          package: parent;
 		          build.
 
-	variable := builder variableBuilder
+	variable := builder localVariableBuilder
 		            type: class;
 		            name: 'var';
 		            build.
@@ -139,164 +88,6 @@ MOModelFactoryTestCase >> testCastReferenceGetsCastedType [
 	self assert: varRef candidate equals: cast candidate. 
 	self assert: cast expression equals: varRef.
 	self assert: cast type equals: class2
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testDoUntilStatement [
-
-	| while |
-	while := builder doUntilStatementBuilder
-		         condition: (builder comparisonOperatorBuilder
-				          operator: #>;
-				          left: (builder variableBuilder
-						           name: 'var';
-						           build);
-				          right: (builder numericLiteralBuilder
-						           value: 10;
-						           build);
-				          build);
-		         loopingBlock: (builder blockBuilder
-				          addStatement: (builder invocationBuilder
-						           selector: #function;
-						           addArgument: (builder booleanLiteralBuilder
-								            value: true;
-								            build)) build;
-				          build);
-		         build.
-	self assert: while isKindOf: MODoUntil.
-	self assert: while condition operator equals: #>.
-	self assert: while loopingBlock statements size equals: 1
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testFloatLiteralBuilder [
-
-	| literal |
-	literal := builder numericLiteralBuilder
-		           value: 10.6;
-		           build.
-	self assert: literal isKindOf: MOFloatLiteral
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testForStatement [
-
-	| for |
-	for := builder forStatementBuilder
-		       initializeOperation: (builder variableBuilder
-				        name: #i;
-				        build);
-		       updateOperation: (builder arithmeticUnaryOperationBuilder
-				        operand: (builder variableReferenceBuilder
-						         name: #i;
-						         build);
-				        operator: #++;
-				        build);
-		       condition: (builder comparisonOperatorBuilder
-				        operator: #>;
-				        left: (builder variableReferenceBuilder
-						         name: 'i';
-						         build);
-				        right: (builder numericLiteralBuilder
-						         value: 10;
-						         build);
-				        build);
-		       loopingBlock: (builder blockBuilder
-				        addStatement: (builder invocationBuilder
-						         selector: #function;
-						         addArgument: (builder booleanLiteralBuilder
-								          value: true;
-								          build)) build;
-				        build);
-		       build.
-	self assert: for isKindOf: MOFor.
-	self assert: for condition operator equals: #>.
-	self assert: for initializeOperation isKindOf: MOVariable.
-	self assert: for updateOperation isKindOf: MOUnaryArithmeticOperation.
-	self assert: for loopingBlock statements size equals: 1
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testIfElseStatement [
-
-	| if |
-	if := builder ifStatementBuilder
-		      condition: (builder comparisonOperatorBuilder
-				       operator: #>;
-				       left: (builder variableBuilder
-						        name: 'var';
-						        build);
-				       right: (builder numericLiteralBuilder
-						        value: 10;
-						        build);
-				       build);
-		      ifFalseBlock:
-			      (builder blockBuilder addStatement:
-				       (builder invocationBuilder
-					        selector: #function;
-					        addArgument: (builder booleanLiteralBuilder
-							         value: true;
-							         build)));
-		      build.
-	self assert: if isKindOf: MOIfElse.
-	self assert: if condition operator equals: #>.
-	self assert: if ifFalse statements size equals: 1.
-	self assert: if ifTrue statements size equals: 0
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testIfStatement [
-
-	| if |
-	if := builder ifStatementBuilder
-		      condition: (builder comparisonOperatorBuilder
-				       operator: #>;
-				       left: (builder variableBuilder
-						        name: 'var';
-						        build);
-				       right: (builder numericLiteralBuilder
-						        value: 10;
-						        build);
-				       build);
-		      ifTrueBlock:
-			      (builder blockBuilder addStatement:
-				       (builder invocationBuilder
-					        selector: #function;
-					        addArgument: (builder booleanLiteralBuilder
-							         value: true;
-							         build)));
-		      build.
-	self assert: if isKindOf: MOIfElse.
-	self assert: if condition operator equals: #>.
-	self assert: if ifTrue statements size equals: 1.
-	self assert: if ifFalse statements size equals: 0
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testIntegerLiteralBuilder [
-
-	| literal |
-	literal := builder numericLiteralBuilder
-		           value: 10;
-		           build.
-	self assert: literal isKindOf: MOIntegerLiteral
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testNewAddition [
-
-	| compare |
-	compare := builder arithmeticOperatorBuilder
-		           operator: #+;
-		           left: (builder variableReferenceBuilder
-				            name: #var;
-				            build);
-		           right: (builder variableReferenceBuilder
-				            name: #var;
-				            build);
-		           build.
-	self assert: compare isKindOf: MOBinaryArithmeticOperation.
-	self assert: compare operator equals: #+
 ]
 
 { #category : #running }
@@ -320,8 +111,9 @@ MOModelFactoryTestCase >> testNewClassInPackageGetsYouAClass [
 		         name: #MyClass;
 		         package: parent;
 		         build.
-	self assert: class parent isKindOf: MOPackageReference.
-	self assert: class parent candidate equals: parent
+	self assert: class parent isKindOf: MOPackage.
+	self assert: class packageReference isKindOf: MOPackageReference.
+	self assert: class packageReference candidate equals: parent
 ]
 
 { #category : #running }
@@ -343,10 +135,11 @@ MOModelFactoryTestCase >> testNewClassWithSuperClassInPackageGetsYouAClass [
 		         build.
 
 
-	self assert: class parent isKindOf: MOPackageReference.
-	self assert: class parent candidate equals: parent.
-	self assert: class superclass isKindOf: MOTypeReference.
-	self assert: class superclass candidate equals: superclass.
+	self assert: class parent isKindOf: MOPackage.
+	self assert: class packageReference isKindOf: MOPackageReference.
+	self assert: class packageReference candidate equals: parent.
+	self assert: class superclassReference isKindOf: MOTypeReference.
+	self assert: class superclassReference candidate equals: superclass.
 
 ]
 
@@ -358,8 +151,8 @@ MOModelFactoryTestCase >> testNewClassWithUnknownSuperClassInPackageGetsYouAClas
 		          name: #name;
 		          build.
 	superclassReference := builder typeReferenceBuilder
-		              name: #MyClass;
-		              build.
+		                       name: #MyClass;
+		                       build.
 
 	class := builder classBuilder
 		         name: #MySubclass;
@@ -368,28 +161,12 @@ MOModelFactoryTestCase >> testNewClassWithUnknownSuperClassInPackageGetsYouAClas
 		         build.
 
 
-	self assert: class parent isKindOf: MOPackageReference.
-	self assert: class parent candidate equals: parent.
-	self assert: class superclass isKindOf: MOTypeReference.
-	self assert: class superclass equals: superclassReference.
-	self assert: class superclass candidate isNil
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testNewComparison [
-
-	| compare |
-	compare := builder comparisonOperatorBuilder
-		           operator: #==;
-		           left: (builder variableReferenceBuilder
-				            name: #var;
-				            build);
-		           right: (builder variableReferenceBuilder
-				            name: #var;
-				            build);
-		           build.
-	self assert: compare isKindOf: MOBinaryComparisonOperation.
-	self assert: compare operator equals: #==
+	self assert: class parent isKindOf: MOPackage.
+	self assert: class packageReference isKindOf: MOPackageReference.
+	self assert: class packageReference candidate equals: parent.
+	self assert: class superclassReference isKindOf: MOTypeReference.
+	self assert: class superclassReference equals: superclassReference.
+	self assert: class superclassReference candidate isNil
 ]
 
 { #category : #running }
@@ -397,11 +174,12 @@ MOModelFactoryTestCase >> testNewFunctionGetsYouAFunction [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
-						          build));
+						          build);
+				         build);
 		        addStatement: (builder assignmentBuilder
 				         write: (builder variableReferenceBuilder
 						          name: #var;
@@ -484,15 +262,16 @@ MOModelFactoryTestCase >> testNewImportGetsyouAnImportPointingToSingleType [
 { #category : #running }
 MOModelFactoryTestCase >> testNewImportGetsyouAnImportPointingToSingleTypeReference [
 
-	| parent class import |
-	parent := builder packageBuilder
-		          name: #name;
-		          build.
+	| package class import |
+	package := builder packageReferenceBuilder
+		           packageName: #name;
+		           build.
 	class := builder typeReferenceBuilder
 		         name: #MyClass;
 		         build.
 	import := builder importBuilder
 		          importTypeReference: class;
+		          packageReference: package;
 		          build.
 	self assert: import typeReference isNotNil
 ]
@@ -519,11 +298,13 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethod [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
-						          build));
+						          build);
+				         build);
+		        build;
 		        addStatement: (builder assignmentBuilder
 				         write: (builder variableReferenceBuilder
 						          name: #var;
@@ -572,12 +353,13 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethodWithInvocations [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addExpressionStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
-						          build));
-		        addStatement: (builder assignmentBuilder
+						          build);
+				         build);
+		        addExpressionStatement: (builder assignmentBuilder
 				         write: (builder variableReferenceBuilder
 						          name: #var;
 						          build);
@@ -585,7 +367,7 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethodWithInvocations [
 						          name: #param1;
 						          build);
 				         build);
-		        addStatement: (builder methodInvocationBuilder
+		        addExpressionStatement: (builder methodInvocationBuilder
 				         selector: #method;
 				         receiverReference: (builder variableReferenceBuilder
 						          name: #param2;
@@ -597,7 +379,7 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethodWithInvocations [
 						          name: #param1;
 						          build);
 				         build);
-		        addStatement: (builder invocationBuilder
+		        addExpressionStatement: (builder invocationBuilder
 				         selector: #function;
 				         addArgument: (builder variableReferenceBuilder
 						          name: #param1;
@@ -605,13 +387,12 @@ MOModelFactoryTestCase >> testNewMethodGetsYouAMethodWithInvocations [
 				         addArgument: (builder variableReferenceBuilder
 						          name: #param1;
 						          build)) build;
-		        addStatement: (builder returnBuilder
+		        addExpressionStatement: (builder returnBuilder
 				         returns: (builder variableReferenceBuilder
 						          name: #var;
 						          build);
 				         build);
 		        build.
-
 
 	method := builder methodBuilder
 		          body: body;
@@ -676,11 +457,12 @@ MOModelFactoryTestCase >> testNewProcedureGetsYouAProcedure [
 
 	| method body |
 	body := builder blockBuilder
-		        addStatement: (builder variableBuilder
+		        addStatement: (builder localVariableBuilder
 				         name: 'var';
 				         typeReference: (builder typeReferenceBuilder
 						          name: 'String';
-						          build));
+						          build);
+				         build);
 		        addStatement: (builder assignmentBuilder
 				         write: (builder variableReferenceBuilder
 						          name: #var;
@@ -721,24 +503,6 @@ MOModelFactoryTestCase >> testNewProcedureGetsYouAProcedure [
 ]
 
 { #category : #running }
-MOModelFactoryTestCase >> testNewSubPackage [
-
-	| pack parent |
-	parent := builder packageBuilder
-		          name: #name;
-		          build.
-	pack := builder packageBuilder
-		        name: #pack;
-		        parent: parent;
-		        build.
-	parent addPackage: pack. 
-	self assert: pack isKindOf: MOPackage.
-	self assert: pack parent isKindOf: MOPackageReference.
-	self assert: pack parent candidate equals: parent.
-	self assert: (parent subpackages includes: pack)
-]
-
-{ #category : #running }
 MOModelFactoryTestCase >> testParameterBuilderGetsYouAParameter [
 
 	| param |
@@ -775,16 +539,6 @@ MOModelFactoryTestCase >> testReturnExpressionBuilderOverExpression [
 ]
 
 { #category : #running }
-MOModelFactoryTestCase >> testStringLiteralBuilder [
-
-	| literal |
-	literal := builder stringLiteralBuilder
-		           value: 'Literal';
-		           build.
-	self assert: literal isKindOf: MOStringLiteral
-]
-
-{ #category : #running }
 MOModelFactoryTestCase >> testTypedReferenceGetsTheTypeIfPossible [
 
 	| class parent boundedClassReference unboundClassReference |
@@ -809,29 +563,16 @@ MOModelFactoryTestCase >> testTypedReferenceGetsTheTypeIfPossible [
 ]
 
 { #category : #running }
-MOModelFactoryTestCase >> testUnaryArithetic [
-
-	| operator |
-	operator := builder arithmeticUnaryOperationBuilder
-		            operand: (builder variableReferenceBuilder
-				             name: #i;
-				             build);
-		            operator: #!;
-		            build.
-	self assert: operator isKindOf: MOUnaryArithmeticOperation
-]
-
-{ #category : #running }
 MOModelFactoryTestCase >> testVariableBuilderGetsYouVariable [
 
 	| param |
-	param := builder variableBuilder
+	param := builder localVariableBuilder
 		         name: #param1;
 		         typeReference: (builder typeReferenceBuilder
 				          name: 'String';
 				          build);
 		         build.
-	self assert: param isKindOf: MOVariable
+	self assert: param isKindOf: MOLocalVariable
 ]
 
 { #category : #running }
@@ -872,7 +613,7 @@ MOModelFactoryTestCase >> testVariableReferenceOverParameter [
 MOModelFactoryTestCase >> testVariableReferenceOverVariable [
 
 	| param reference |
-	param := builder variableBuilder
+	param := builder localVariableBuilder
 		         name: #param1;
 		         typeReference: (builder typeReferenceBuilder
 				          name: 'String';
@@ -883,31 +624,4 @@ MOModelFactoryTestCase >> testVariableReferenceOverVariable [
 		             build.
 	self assert: reference isKindOf: MOVariableReference. 
 	self assert: reference candidate equals: param. 
-]
-
-{ #category : #running }
-MOModelFactoryTestCase >> testWhileStatement [
-
-	| while |
-	while := builder whileStatementBuilder
-		         condition: (builder comparisonOperatorBuilder
-				          operator: #>;
-				          left: (builder variableBuilder
-						           name: 'var';
-						           build);
-				          right: (builder numericLiteralBuilder
-						           value: 10;
-						           build);
-				          build);
-		         loopingBlock: (builder blockBuilder
-				          addStatement: (builder invocationBuilder
-						           selector: #function;
-						           addArgument: (builder booleanLiteralBuilder
-								            value: true;
-								            build)) build;
-				          build);
-		         build.
-	self assert: while isKindOf: MOWhile.
-	self assert: while condition operator equals: #>.
-	self assert: while loopingBlock statements size equals: 1
 ]

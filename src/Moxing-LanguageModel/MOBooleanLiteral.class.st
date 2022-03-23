@@ -1,10 +1,11 @@
 Class {
 	#name : #MOBooleanLiteral,
 	#superclass : #MOLiteral,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #visiting }
-MOBooleanLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [ 
-	aJinTypescriptCodeGenerator visitBooleanLiteral: self .
+MOBooleanLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitBooleanLiteral: self
 ]

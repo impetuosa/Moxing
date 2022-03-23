@@ -23,12 +23,17 @@ MOJavaMavenProjectLoader class >> northwind [
 			               loadNamed: #java ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOJavaMavenProjectLoader class >> reset [
+
+	<script>
+	northwind := nil
+]
+
 { #category : #load }
 MOJavaMavenProjectLoader >> catalog [
 
-	^ MOJavaTarCatalogLoader new
-		  pom: pom;
-		  load
+	^ MOJavaTarCatalogLoader loadSingleCatalogFor: pom
 ]
 
 { #category : #configuration }

@@ -77,13 +77,19 @@ MOCodeGenerator >> sourceCode [
 ]
 
 { #category : #'as yet unclassified' }
-MOCodeGenerator >> streamArguments: aCollection [
+MOCodeGenerator >> stream: aCollection splitingWith: aBlock [
 
 	aCollection isEmptyOrNil ifTrue: [ ^ self ].
 	aCollection allButLast do: [ :e | 
 		e acceptVisitor: self.
-		stream nextPutAll: ', ' ].
+		aBlock value ].
 	aCollection last acceptVisitor: self
+]
+
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> streamArguments: aCollection [
+
+	self stream: aCollection splitingWith: [ stream nextPutAll: ', ' ]
 ]
 
 { #category : #visiting }
@@ -119,7 +125,7 @@ MOCodeGenerator >> visitBlock: aMOBlock [
 { #category : #visiting }
 MOCodeGenerator >> visitBooleanLiteral: aMOBooleanLiteral [
 
-	stream nextPutAll: aMOBooleanLiteral literal asLowercase
+	stream nextPutAll: aMOBooleanLiteral literal asString asLowercase
 ]
 
 { #category : #visiting }
@@ -133,12 +139,16 @@ MOCodeGenerator >> visitCollection: aCollection [
 { #category : #visiting }
 MOCodeGenerator >> visitIfElse: aMOIfElse [
 
-	self assert: aMOIfElse ifFalse isNil.
+
 	stream nextPutAll: 'if ('.
 	aMOIfElse condition acceptVisitor: self.
 	stream nextPutAll: ')'.
 	aMOIfElse ifTrue acceptVisitor: self.
-	
+	aMOIfElse ifFalse statements isEmpty ifFalse: [ 
+		self printIndentation.
+		stream nextPutAll:' else '.
+		aMOIfElse ifFalse acceptVisitor: self.
+	 ]
 ]
 
 { #category : #visiting }
@@ -166,13 +176,11 @@ MOCodeGenerator >> visitMissingVariable: aFylgjaMissingVariable [
 MOCodeGenerator >> visitNewExpression: aMOTypescriptNewExpression [
 	stream
 		nextPutAll: 'new ';
-		nextPutAll: aMOTypescriptNewExpression type name;
+		nextPutAll: aMOTypescriptNewExpression typeReference name;
 		nextPutAll: '('.
-	aMOTypescriptNewExpression arguments allButLast
-		do: [ :a | 
-			a acceptVisitor: self.
-			stream nextPutAll: ', ' ].
-	aMOTypescriptNewExpression arguments last acceptVisitor: self.
+
+	self streamArguments: aMOTypescriptNewExpression arguments.
+
 	stream nextPutAll: ')'
 ]
 
@@ -207,9 +215,17 @@ MOCodeGenerator >> visitReturn: aMOReturn [
 { #category : #visiting }
 MOCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 
+	| str |
+	str := ((aMOStringLiteral literal beginsWith: '"') and: [ 
+		        aMOStringLiteral literal endsWith: '"' ])
+		       ifTrue: [ 
+			       aMOStringLiteral literal
+				       copyFrom: 2
+				       to: aMOStringLiteral literal size - 1 ]
+		       ifFalse: [ aMOStringLiteral literal ].
 	stream
 		nextPutAll: '"';
-		nextPutAll: aMOStringLiteral literal;
+		nextPutAll: str;
 		nextPutAll: '"'
 ]
 
@@ -221,6 +237,7 @@ MOCodeGenerator >> visitTransientClass: aMOTransientClass [
 
 { #category : #visiting }
 MOCodeGenerator >> visitVariableReference: aMOVariableRererence [
-
-	stream nextPutAll: aMOVariableRererence variable name
+	(aMOVariableRererence candidate isKindOf: MOSelfReference)
+		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
+		ifFalse: [ stream nextPutAll: aMOVariableRererence name ]
 ]

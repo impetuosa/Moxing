@@ -1,10 +1,11 @@
 Class {
 	#name : #MONoOp,
-	#superclass : #MOLanguageObject,
-	#category : #'Moxing-LanguageModel-Model'
+	#superclass : #MOExpression,
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #accessing }
-MONoOp >> acceptVisitor: aMOJavaCodeGenerator [ 
-	aMOJavaCodeGenerator visitNoOp: self 
+MONoOp >> acceptVisitor: aMOJavaCodeGenerator [
+
+	^ aMOJavaCodeGenerator visitNoOp: self
 ]

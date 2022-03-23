@@ -1,13 +1,11 @@
+"
+I write imports. 
+"
 Class {
 	#name : #MOImportWriter,
 	#superclass : #MOModelProceduralWriter,
 	#category : #'Moxing-MicroWriters'
 }
-
-{ #category : #accessing }
-MOImportWriter >> file: aString [ 
-	writeBuilder file: aString 
-]
 
 { #category : #'as yet unclassified' }
 MOImportWriter >> importAllTypesOnPackage: aString [
@@ -16,14 +14,37 @@ MOImportWriter >> importAllTypesOnPackage: aString [
 ]
 
 { #category : #accessing }
-MOImportWriter >> importTypeName: aString [ 
-	writeBuilder importTypeName: aString 
+MOImportWriter >> importTypeName: aString [
+
+	self importingTypeReference: (self typeReferenceNamed: aString)
+]
+
+{ #category : #accessing }
+MOImportWriter >> importingPackageReference: aMOPackageReference [ 
+	writeBuilder packageReference: aMOPackageReference 
+]
+
+{ #category : #accessing }
+MOImportWriter >> importingTypeReference: aTypeReference [
+
+	writeBuilder typeReference: aTypeReference
 ]
 
 { #category : #writing }
 MOImportWriter >> initializeWriteBuilder [
 
 	writeBuilder := builder importBuilder
+]
+
+{ #category : #accessing }
+MOImportWriter >> packageName: aString [
+
+	self importingPackageReference: (self packageReferenceNamed: aString)
+]
+
+{ #category : #accessing }
+MOImportWriter >> packageReference: aMOPackageReference [ 
+	builder packageReference: aMOPackageReference 
 ]
 
 { #category : #writing }
@@ -33,7 +54,5 @@ MOImportWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOImportWriter >> privateWriteToSurface: anEntity [
-
-	surface setAsParentOf: anEntity.
 	surface addImport: anEntity
 ]

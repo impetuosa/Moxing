@@ -1,8 +1,17 @@
+"
+I build constructors and allow to include annotations, blocks, parameters and type parameters
+"
 Class {
 	#name : #MOConstructorWriter,
-	#superclass : #MOModelProceduralWriter,
+	#superclass : #MOInvocableWriter,
 	#category : #'Moxing-MicroWriters'
 }
+
+{ #category : #adding }
+MOConstructorWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	writeBuilder addAnnotationInstance: aMOAnnotationInstance
+]
 
 { #category : #adding }
 MOConstructorWriter >> addModifier: aString [ 
@@ -10,9 +19,27 @@ MOConstructorWriter >> addModifier: aString [
 ]
 
 { #category : #adding }
+MOConstructorWriter >> addParameter: aMOParameter [
+
+	writeBuilder addParameter: aMOParameter
+]
+
+{ #category : #adding }
 MOConstructorWriter >> addThrownTypeReference: aMOTypeReference [
 
 	writeBuilder addThrownTypeReference: aMOTypeReference
+]
+
+{ #category : #adding }
+MOConstructorWriter >> addTypeParameter: aMOTypeParameter [
+
+	writeBuilder addTypeParameter: aMOTypeParameter
+]
+
+{ #category : #generated }
+MOConstructorWriter >> block: aMOBlock [
+
+	writeBuilder block: aMOBlock
 ]
 
 { #category : #writing }
@@ -26,6 +53,11 @@ MOConstructorWriter >> modifiers: aCollection [
 	writeBuilder modifiers: aCollection 
 ]
 
+{ #category : #generated }
+MOConstructorWriter >> parameters [
+	^ writeBuilder parameters
+]
+
 { #category : #writing }
 MOConstructorWriter >> privateSetAnchor: anEntity [ 
 	anEntity anchor: surface anchor / #constructor / anEntity parameters size asString 
@@ -34,7 +66,6 @@ MOConstructorWriter >> privateSetAnchor: anEntity [
 { #category : #writing }
 MOConstructorWriter >> privateWriteToSurface: anEntity [
 
-	surface setAsParentOf: anEntity.
 	surface addConstructor: anEntity
 ]
 
@@ -46,14 +77,14 @@ MOConstructorWriter >> visibility: aString [
 { #category : #writing }
 MOConstructorWriter >> writeAnnotation: aFullBlockClosure [
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOAnnotationWriter
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]
 
 { #category : #writing }
 MOConstructorWriter >> writeBlock: aBlock [
 
 	^ self
-		  preWrite: aBlock
+		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
 ]
@@ -61,11 +92,11 @@ MOConstructorWriter >> writeBlock: aBlock [
 { #category : #writing }
 MOConstructorWriter >> writeParameter: aBlock [
 
-	^ self preWrite: aBlock inSubWriter: MOParameterWriter
+	^ self write: aBlock inSubWriter: MOParameterWriter
 ]
 
 { #category : #writing }
 MOConstructorWriter >> writeTypeParameter: aFullBlockClosure [ 
 
-	^ self preWrite: aFullBlockClosure inSubWriter: MOTypeParameterWriter
+	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]

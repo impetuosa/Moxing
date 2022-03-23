@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'model',
 		'typescript',
-		'fileBase'
+		'fileBase',
+		'writer'
 	],
 	#category : #'Moxing-Typescript-Loader'
 }
@@ -28,7 +29,7 @@ MOTypescriptBasicLanguageLoader >> addMethod: aSelector type: aReturningTType pa
 MOTypescriptBasicLanguageLoader >> addProperty: aPropNAme type: aTypeName into: aMOClass [
 
 	| var |
-	var := model instantiate: MOVariable.
+	var := model instantiate: MOLocalVariable.
 	var name: aPropNAme.
 	aMOClass addProperty: var.
 	var parent: aMOClass.
@@ -45,45 +46,38 @@ MOTypescriptBasicLanguageLoader >> fileBase: aFileReference [
 { #category : #accessing }
 MOTypescriptBasicLanguageLoader >> load [
 
-	typescript := model instantiate: MOPackage.
-	typescript name: #typescript.
-	typescript anchor: model anchor / #sdk / #typescript.
-	self loadPrimitiveTypes. 
-	self loadPrimitiveObjects .
-	
+	typescript := model writer writePackage: [ :package | 
+		              package name: #typescript.
+		              package anchor: model anchor / #sdk / #typescript.
+		              self use: package during: [ 
+			              self loadPrimitiveTypes.
+			              self loadPrimitiveObjects ] ]
 ]
 
 { #category : #'as yet unclassified' }
 MOTypescriptBasicLanguageLoader >> loadPrimitiveObjects [
 	self loadString.
-	"self loadSymbol. "
+
 ]
 
 { #category : #'as yet unclassified' }
 MOTypescriptBasicLanguageLoader >> loadPrimitiveTypes [
 
 	self typeScriptBasicTypeNames do: [ :tn | 
-		typescript addType: ((model instantiate: MOPrimitiveType)
-				 name: tn;
-				 yourself) ]
+		writer writePrimitiveType: [ :pt | pt name: tn ] ]
 ]
 
 { #category : #'as yet unclassified' }
 MOTypescriptBasicLanguageLoader >> loadString [
 
-	| writer loadedClass |
-	writer := MOModelWriter new.
-	writer model: model.
+	|  loadedClass |
 
 	loadedClass := writer writeClass: [ :string | 
 		               string name: #string.
-		               string package: typescript.
 		               string writeAttribute: [ :length | 
 			               length name: #length.
 			               length typeReference:
-				               (writer typeReferenceNamed: #number) ].
-
-
+				               (string typeReferenceNamed: #number) ].
 		               self
 			               addMethod: #charAt
 			               type: #string
@@ -118,4 +112,13 @@ MOTypescriptBasicLanguageLoader >> typeScriptBasicTypeNames [
 
 	^ #( boolean number tuple enum unknown any void null undefined
 	     never object bigint )
+]
+
+{ #category : #evaluating }
+MOTypescriptBasicLanguageLoader >> use: aWriter during: aBlock [
+
+	| prev |
+	prev := writer.
+	writer := aWriter.
+	^ aBlock ensure: [ writer := prev ]
 ]
