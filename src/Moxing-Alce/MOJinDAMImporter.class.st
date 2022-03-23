@@ -47,6 +47,59 @@ MOJinDAMImporter >> anchorFromToInstall [
 					mo anchor from: origin anchor srcFrom to: origin anchor srcTo ] ] ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOJinDAMImporter >> createDefaultObject: aJinDAMObject [ 
+
+	| obj |
+	obj := model instantiate: MOObject.
+	obj holder: (traces at: aJinDAMObject type) first .
+	obj type: (traces at: aJinDAMObject type) first .
+
+
+	aJinDAMObject state keysAndValuesDo: [ :k :v | 
+		(v isKindOf: JinDAMObject)
+			ifTrue: [ obj state at: k put: (self createObject: v) ]
+			ifFalse: [ obj state at: k put: v ] ]
+]
+
+{ #category : #'as yet unclassified' }
+MOJinDAMImporter >> createObject: aJinDAMObject [
+
+	| obj |
+	obj := model instantiate: MOObject.
+	obj holder: (traces at: aJinDAMObject type) first.
+	obj type: (traces at: aJinDAMObject type typeReference) first.
+
+
+	aJinDAMObject state keysAndValuesDo: [ :k :v | 
+		(v isKindOf: JinDAMObject)
+			ifTrue: [ obj at: k put: (self createObject: v) ]
+			ifFalse: [ obj state at: k put: v ] ].
+	^ obj
+]
+
+{ #category : #'as yet unclassified' }
+MOJinDAMImporter >> createObject: aJinDAMObject type: aJinDAMReport [
+
+	| obj |
+	obj := model instantiate: MOObject.
+	obj holder: (traces at: aJinDAMReport) first .
+	obj type: (traces at: aJinDAMReport).
+
+
+	aJinDAMObject state keysAndValuesDo: [ :k :v | 
+		(v isKindOf: JinDAMObject)
+			ifTrue: [ obj at: k put: (self createObject: v) ]
+			ifFalse: [ obj state at: k put: v ] ]
+]
+
+{ #category : #visiting }
+MOJinDAMImporter >> createObjects: aJinDAMObject [ 
+	| instance | 
+	instance := model instantiate: MOObject.
+	instance 
+]
+
 { #category : #visiting }
 MOJinDAMImporter >> import: aJinDamModel [
 
@@ -82,4 +135,23 @@ MOJinDAMImporter >> model: aModel [
 
 	model := aModel.
 	super model: aModel
+]
+
+{ #category : #visiting }
+MOJinDAMImporter >> visitForm: aJinDAMForm [
+
+	| form |
+	form := super visitForm: aJinDAMForm.
+	self createDefaultObject: aJinDAMForm defaultInstance.
+	^ form
+]
+
+{ #category : #visiting }
+MOJinDAMImporter >> visitReport: aJinDAMReport [
+
+	| form |
+	form := super visitReport: aJinDAMReport.
+	self createDefaultObject: aJinDAMReport defaultInstance.
+
+	^ form
 ]

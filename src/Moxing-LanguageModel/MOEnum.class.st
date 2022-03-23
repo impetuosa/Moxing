@@ -23,3 +23,12 @@ MOEnum >> entries [
 MOEnum >> entries: aCollection [ 
 	entries := aCollection
 ]
+
+{ #category : #accessing }
+MOEnum >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Enum(';
+		nextPutAll: self name;
+		nextPutAll: ')'
+]
