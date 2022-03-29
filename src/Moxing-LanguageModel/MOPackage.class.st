@@ -60,6 +60,11 @@ MOPackage >> isDeclaration [
 	^ true
 ]
 
+{ #category : #testing }
+MOPackage >> isPackage [
+	^ true
+]
+
 { #category : #accessing }
 MOPackage >> packageReference [
 	^ packageReference

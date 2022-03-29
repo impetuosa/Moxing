@@ -48,6 +48,20 @@ MOCodeGenerator >> lineDelimiter [
 	^ ';' 
 ]
 
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> printClassHeader: name extends: superClassRef implements: types [
+
+	stream nextPutAll: (' class {1} ' format: { name }).
+	superClassRef ifNotNil: [ 
+		stream
+			nextPutAll: ' extends ';
+			nextPutAll: superClassRef name ].
+	types ifNotEmpty: [ 
+		stream
+			nextPutAll: ' implements ';
+			nextPutAll: (',' join: (types collect: #name)) ]
+]
+
 { #category : #printing }
 MOCodeGenerator >> printIndentation [
 

@@ -381,7 +381,7 @@ MOJinDAMModelReader >> visitModel: aJinDAMModel [
 	| inst |
 	^ aJinDAMModel accessModulesAndLibraries collect: [ :a | 
 		  inst := a acceptVisitor: self.
-		  writer populateAnchor.
+
 		  inst ]
 ]
 

@@ -35,6 +35,11 @@ MOStatementExpression >> isLabelledAs: aLabel [
 ]
 
 { #category : #accessing }
+MOStatementExpression >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOStatementExpression >> name [ 
 	 ^ 'Expression Statement'
 ]

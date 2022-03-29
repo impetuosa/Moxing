@@ -69,6 +69,12 @@ MOCatalog >> entities [
 	^ entities
 ]
 
+{ #category : #'as yet unclassified' }
+MOCatalog >> exclusivelyincludes: aMOPackageReference [
+
+	^ entities includes: aMOPackageReference
+]
+
 { #category : #generated }
 MOCatalog >> imports [
 	^ entities select: [ : e  | e isKindOf: MOImport ]

@@ -34,6 +34,12 @@ MOFunction >> name [
 ]
 
 { #category : #generated }
+MOFunction >> name: aSelector [
+
+ selector := aSelector 
+]
+
+{ #category : #generated }
 MOFunction >> printOn: aStream [
 
 	aStream

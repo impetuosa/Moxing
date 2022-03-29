@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> printClassHeader: name extends: superClassRef implements: types [
+
+	stream nextPutAll: ' export '.
+	super printClassHeader: name extends: superClassRef implements: types
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> printClassHeader: name implements: types [
 
 	stream nextPutAll: (' export class {1}  ' format: { name }).
@@ -21,7 +28,9 @@ MOTypescriptCodeGenerator >> visitClass: aJinTypescriptClass [
 	aJinTypescriptClass decorators do: [ :d | d acceptVisitor: self ].
 	self
 		printClassHeader: aJinTypescriptClass name
-		implements: aJinTypescriptClass types.
+		extends: aJinTypescriptClass superclassReference
+		implements: aJinTypescriptClass superTypeReferences.
+
 
 	stream
 		nextPutAll: ' {';

@@ -157,6 +157,12 @@ MOModelWriteTypeBasedCopyResolver >> visitExit: aMOAlceExit [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitForm: aMOAlceForm [ 
+	
+	^ writer writeForm: [ :class | writingBlock value: class ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitFunction: aMOFunction [
 
 	^ writer writeFunction: [ :function | writingBlock value: function ]

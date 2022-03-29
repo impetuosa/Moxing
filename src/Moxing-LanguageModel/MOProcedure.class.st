@@ -24,6 +24,12 @@ MOProcedure >> name [
 ]
 
 { #category : #accessing }
+MOProcedure >> name: aSelector [
+
+	selector := aSelector
+]
+
+{ #category : #accessing }
 MOProcedure >> printOn: aStream [
 
 	aStream

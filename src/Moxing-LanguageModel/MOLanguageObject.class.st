@@ -115,6 +115,12 @@ MOLanguageObject >> isLabelledAs: aString [
 ]
 
 { #category : #testing }
+MOLanguageObject >> isRenamable [
+
+	^ true
+]
+
+{ #category : #testing }
 MOLanguageObject >> isVariable [
 
 	^ false

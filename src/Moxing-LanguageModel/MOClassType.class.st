@@ -76,6 +76,11 @@ MOClassType >> initialize [
 	attributes := OrderedCollection new. 
 ]
 
+{ #category : #accessing }
+MOClassType >> isClassType [
+	^ true .
+]
+
 { #category : #adding }
 MOClassType >> methods [
 

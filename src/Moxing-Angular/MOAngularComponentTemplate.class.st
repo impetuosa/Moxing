@@ -16,6 +16,11 @@ MOAngularComponentTemplate >> ast [
 ]
 
 { #category : #accessing }
+MOAngularComponentTemplate >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOAngularComponentTemplate >> name [ 
 	^ 'Template'
 ]

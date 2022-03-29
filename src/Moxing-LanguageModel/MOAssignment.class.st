@@ -14,6 +14,11 @@ MOAssignment >> acceptVisitor: aMOTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOAssignment >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOAssignment >> name [
 	 ^ 'Assignment'
 ]

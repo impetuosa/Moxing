@@ -14,6 +14,11 @@ MOImportWriter >> importAllTypesOnPackage: aString [
 ]
 
 { #category : #accessing }
+MOImportWriter >> importType: aMOClassType [ 
+	writeBuilder importType: aMOClassType 
+]
+
+{ #category : #accessing }
 MOImportWriter >> importTypeName: aString [
 
 	self importingTypeReference: (self typeReferenceNamed: aString)

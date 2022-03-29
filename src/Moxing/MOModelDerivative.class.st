@@ -12,10 +12,23 @@ Class {
 	#category : #'Moxing-Core'
 }
 
+{ #category : #enumerating }
+MOModelDerivative >> allEntitiesSelect: aFullBlockClosure [
+
+	^ (entities select: aFullBlockClosure)
+	  , (model entities select: aFullBlockClosure)
+]
+
 { #category : #accessing }
 MOModelDerivative >> anchor [
 
 	^ model anchor
+]
+
+{ #category : #enumerating }
+MOModelDerivative >> catalogEntitiesSelect: aFullBlockClosure [
+
+	^ model catalog entities select: aFullBlockClosure
 ]
 
 { #category : #accessing }

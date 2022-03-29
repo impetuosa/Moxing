@@ -37,6 +37,12 @@ MODeclarationUnit >> initialize [
 	types := OrderedCollection new 
 ]
 
+{ #category : #'as yet unclassified' }
+MODeclarationUnit >> isRenamable [
+
+	^ false
+]
+
 { #category : #accessing }
 MODeclarationUnit >> packageReference: aMOPackageReference [
 

@@ -15,6 +15,11 @@ MOBinaryOperation >> candidate: aMOVariable [
 ]
 
 { #category : #accessing }
+MOBinaryOperation >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOBinaryOperation >> kindOfOp [
 	^ 'binary'
 ]

@@ -48,6 +48,11 @@ MOIfElse >> ifTrue: aMOBlock [
 ]
 
 { #category : #generated }
+MOIfElse >> isRenamable [
+	^ false
+]
+
+{ #category : #generated }
 MOIfElse >> name [ 
 	 ^ 'If'
 ]

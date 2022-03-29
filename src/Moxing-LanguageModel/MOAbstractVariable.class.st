@@ -59,11 +59,17 @@ MOAbstractVariable >> canBeReferredAsVariable [
 
 { #category : #accessing }
 MOAbstractVariable >> dependencies [
+
 	| deps |
-	deps := typeReference ifNotNil: [ typeReference dependencies ] ifNil: [ {} ].
-	^ initializer 
-		ifNil: [ deps ]
-		ifNotNil: [ deps , initializer dependencies ]
+	deps := typeReference
+		        ifNotNil: [ typeReference dependencies ]
+		        ifNil: [ {  } ].
+	deps := deps , (annotationInstances
+		         ifNil: [ {  } ]
+		         ifNotNil: [ annotationInstances flatCollect: #dependencies ]).
+	^ initializer
+		  ifNil: [ deps ]
+		  ifNotNil: [ deps , initializer dependencies ]
 ]
 
 { #category : #accessing }

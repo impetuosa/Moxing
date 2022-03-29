@@ -20,6 +20,11 @@ MOSelfReference >> callingClass [
 ]
 
 { #category : #'as yet unclassified' }
+MOSelfReference >> isRenamable [
+	^ false
+]
+
+{ #category : #'as yet unclassified' }
 MOSelfReference >> name [
 
 	^ name ifNil: [ name := #self ]

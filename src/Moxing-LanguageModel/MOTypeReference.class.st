@@ -14,6 +14,12 @@ MOTypeReference >> acceptVisitor: aMOJavaModelReader [
 ]
 
 { #category : #accessing }
+MOTypeReference >> dependencies [
+
+	^ { candidate }
+]
+
+{ #category : #accessing }
 MOTypeReference >> fullName [
 
 	^ (packageReference  ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) , name
