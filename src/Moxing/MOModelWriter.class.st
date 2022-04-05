@@ -495,6 +495,15 @@ MOModelWriter >> updateVariable: aMOVariable with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateVisualWorksPackage: aMOClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOClass
+		  withWriter: MOVisualWorksPackageWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateWhile: aMOClass with: aFullBlockClosure [
 
 	^ self
@@ -746,6 +755,13 @@ MOModelWriter >> writeReport: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOModelWriter >> writeStClass: aFullBlockClosure [ 
+	| writer |
+	writer := MOStClassWriter  new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeStatement: aBlock [
 
 	| writer stmt |
@@ -785,6 +801,14 @@ MOModelWriter >> writeVariable: aFullBlockClosure [
 	| writer |
 	writer := MOVariableWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeVisualWorksPackage: aBlock [
+
+	| writer |
+	writer := MOVisualWorksPackageWriter new.
+	^ self write: aBlock withWriter: writer
 ]
 
 { #category : #'as yet unclassified' }

@@ -33,6 +33,14 @@ MOModelProceduralWriter >> anchoringOn: aMOAnchor [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> arrayLiteral: aCollection [
+
+	^ builder arrayLiteralBuilder
+		  value: (aCollection collect: [ :i | self literalForValue: i ]);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> arrayTypeReferenceOf: aMOTypeReference [
 
 	^ builder arrayedTypeReferenceBuilder
@@ -71,6 +79,14 @@ MOModelProceduralWriter >> builder [
 { #category : #accessing }
 MOModelProceduralWriter >> builder: aMOModelBuilder [ 
 	builder := aMOModelBuilder
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> characterLiteral: aCharacter [
+
+	^ builder charLiteralBuilder
+		  value: aCharacter;
+		  build
 ]
 
 { #category : #'as yet unclassified' }
@@ -151,6 +167,19 @@ MOModelProceduralWriter >> isWriter [
 	^ true 
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> literalForValue: aValue [
+
+	aValue isString ifTrue: [ ^ self stringLiteral: aValue ].
+	aValue isCharacter ifTrue: [ ^ self characterLiteral: aValue value ].
+	aValue isNil ifTrue: [ ^ self nullLiteral ].
+	aValue isNumber ifTrue: [ ^ self numericLiteral: aValue ].
+	aValue isArray ifTrue: [ ^ self arrayLiteral: aValue ].
+	(aValue isKindOf: ByteArray) ifTrue: [ ^ self arrayLiteral: aValue asArray ].
+	(aValue isKindOf: Boolean) ifTrue: [ ^ self booleanLiteral: aValue ].
+	self error: 'unexpected'
+]
+
 { #category : #accessing }
 MOModelProceduralWriter >> model [
 
@@ -160,6 +189,12 @@ MOModelProceduralWriter >> model [
 { #category : #accessing }
 MOModelProceduralWriter >> name: aString [ 
 	
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> nullLiteral [
+
+	^ builder nullLiteralBuilder build
 ]
 
 { #category : #'as yet unclassified' }
@@ -235,6 +270,17 @@ MOModelProceduralWriter >> questionMarkTypeReference [
 MOModelProceduralWriter >> referenceToSelf [
 
 	^ builder referenceToSelf
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> referenceToSuper [
+	^ builder referenceToSuper
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> referenceToThisContext [
+
+	^ builder referenceToThisContext
 ]
 
 { #category : #writing }

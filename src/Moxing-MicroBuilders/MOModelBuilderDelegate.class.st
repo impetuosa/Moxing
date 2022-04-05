@@ -176,6 +176,14 @@ MOModelBuilderDelegate >> referenceToSelf [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilderDelegate >> referenceToThisContext [
+
+	^ self contextReferenceBuilder
+		  forThisContext;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilderDelegate >> shallowCopy: aMOBlock [
 
 	^ parentBuilder shallowCopy: aMOBlock

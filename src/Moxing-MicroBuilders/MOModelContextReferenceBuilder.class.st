@@ -16,6 +16,17 @@ MOModelContextReferenceBuilder >> forSelf [
 	selectedKind := MOSelfReference
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelContextReferenceBuilder >> forSuper [
+		selectedKind := MOSuperReference  
+]
+
+{ #category : #'as yet unclassified' }
+MOModelContextReferenceBuilder >> forThisContext [
+
+	selectedKind := MOThisContextReference
+]
+
 { #category : #accessing }
 MOModelContextReferenceBuilder >> privateBuild [
 

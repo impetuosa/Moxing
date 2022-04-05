@@ -14,6 +14,12 @@ MOLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOLiteral >> isReference [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOLiteral >> literal [
 	^ literal
 ]
@@ -29,5 +35,5 @@ MOLiteral >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'LIT ';
-		print: literal
+		print: self literal
 ]

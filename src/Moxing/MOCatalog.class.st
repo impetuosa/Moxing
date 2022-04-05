@@ -32,11 +32,29 @@ MOCatalog class >> newMicrosoftAccess [
 ]
 
 { #category : #'instance creation' }
+MOCatalog class >> newPharo [
+
+	| instance |
+	instance := self new.
+	instance language: (MOLanguage pharoFor: instance).
+	^ instance
+]
+
+{ #category : #'instance creation' }
 MOCatalog class >> newTypescript [
 
 	| instance |
 	instance := self new.
 	instance language: (MOLanguage typescriptFor: instance).
+	^ instance
+]
+
+{ #category : #'instance creation' }
+MOCatalog class >> newVisualWorks [
+
+	| instance |
+	instance := self new.
+	instance language: (MOLanguage visualWorksFor: instance).
 	^ instance
 ]
 

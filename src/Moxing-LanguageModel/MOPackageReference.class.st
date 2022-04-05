@@ -52,8 +52,11 @@ MOPackageReference >> printOn: aStream [
 ]
 
 { #category : #'as yet unclassified' }
-MOPackageReference >> refersToObjectsLike: aDeclaration [ 
-	 ^ aDeclaration species = MOPackage
+MOPackageReference >> refersToObjectsLike: aDeclaration [
+
+	^ { 
+		  MOPackage.
+		  MOVisualWorksPackage } includes: aDeclaration species
 ]
 
 { #category : #accessing }

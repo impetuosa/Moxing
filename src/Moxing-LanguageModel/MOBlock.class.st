@@ -43,4 +43,6 @@ MOBlock >> statements [
 { #category : #accessing }
 MOBlock >> statements: aCollection [
 	statements := aCollection
+	
+
 ]

@@ -251,6 +251,21 @@ MOStatementWriter >> setToReturn: aFullBlockClosure [
 		  set writeExpression: aFullBlockClosure ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> stArrayExpression: aFullBlockClosure [
+
+	^ self registerStatement:
+		  (self writeExpression: [ :a | 
+			   a stArrayExpression: aFullBlockClosure ])
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> stCascadeWith: aFullBlockClosure [
+
+	^ self registerStatement:
+		  (self writeExpression: [ :a | a stCascadeWith: aFullBlockClosure ])
+]
+
 { #category : #statements }
 MOStatementWriter >> variable: aString typeReference: aMOTypeReference [
 
@@ -288,6 +303,13 @@ MOStatementWriter >> with: anExpressionBlock do: aBlockWritingBlock [
 			  writeBlock: aBlockWritingBlock ]
 ]
 
+{ #category : #writing }
+MOStatementWriter >> writeBlockClosure: aFullBlockClosure [
+
+	^ self registerStatement:
+		  (self write: aFullBlockClosure inSubWriter: MOBlockClosureWriter)
+]
+
 { #category : #'as yet unclassified' }
 MOStatementWriter >> writeExpression: anExpressionBlock [
 
@@ -318,12 +340,36 @@ MOStatementWriter >> writeIfElse: aBlock [
 	^ stmnt
 ]
 
+{ #category : #writing }
+MOStatementWriter >> writeLiteralForValue: aValue [
+
+	^ self writenExpression: (self literalForValue: aValue)
+]
+
 { #category : #statements }
 MOStatementWriter >> writeOnErrorGoTo: aFullBlockClosure [ 
 	| stmnt |
 	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorGoToWriter.
 	^ stmnt
 
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeReferenceToSelf [
+
+	^ self writenExpression: self referenceToSelf
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeReferenceToSuper [
+
+	^ self writenExpression: self referenceToSuper
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeReferenceToThisContext [
+
+	^ self writenExpression: self referenceToThisContext
 ]
 
 { #category : #statements }
@@ -361,6 +407,12 @@ MOStatementWriter >> writeSetToReturn: aFullBlockClosure [
 { #category : #writing }
 MOStatementWriter >> writeStatement: aFullBlockClosure [ 
 	^ aFullBlockClosure value: self 
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeVariableAccessNamed: aString [
+
+	^ self writenExpression: (self typeReferenceNamed: aString)
 ]
 
 { #category : #writing }

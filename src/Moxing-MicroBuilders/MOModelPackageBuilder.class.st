@@ -135,7 +135,7 @@ MOModelPackageBuilder >> parent: aParent [
 MOModelPackageBuilder >> privateBuild [
 
 	| pack packRef |
-	pack := (self instantiate: MOPackage)
+	pack := (self instantiate: self buildsType)
 		        name: self name;
 		        declarationUnits: self declarationUnits;
 		        types: self types;

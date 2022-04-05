@@ -14,6 +14,12 @@ MOAssignment >> acceptVisitor: aMOTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOAssignment >> isReference [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOAssignment >> name [
 	 ^ 'Assignment'
 ]

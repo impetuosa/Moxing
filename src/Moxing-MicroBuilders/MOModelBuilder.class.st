@@ -70,6 +70,13 @@ MOModelBuilder >> arrayAccessBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> arrayLiteralBuilder [
+	^ MOArrayLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> arrayedTypeReferenceBuilder [
 	^ MOModelArrayTypeReferenceBuilder  new
 		  parentBuilder: self;
@@ -112,6 +119,14 @@ MOModelBuilder >> attributeBuilder [
 MOModelBuilder >> blockBuilder [
 
 	^ MOModelBlockBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> blockClosureBuilder [
+
+	^ MOStBlockClosureBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -160,6 +175,14 @@ MOModelBuilder >> catchBuilder [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> charLiteralBuilder [
+
+	^ MOCharacterLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
 { #category : #'instance creation' }
 MOModelBuilder >> classBuilder [
 
@@ -191,6 +214,14 @@ MOModelBuilder >> classTypeBuilder [
 	^ MOModelClassTypeBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> classVariableBuilder [
+
+	^ MOModelClassVariableBuilder new
+		  parentBuilder: self;
 		  yourself
 ]
 
@@ -462,6 +493,14 @@ MOModelBuilder >> loopStatementBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> metaclassBuilder [
+
+	^ MOModelMetaClassBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> methodBuilder [
 
 	^ MOModelMethodBuilder new
@@ -694,6 +733,22 @@ MOModelBuilder >> referenceToSelf [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> referenceToSuper [
+
+	^ self contextReferenceBuilder
+		  forSuper;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> referenceToThisContext [
+
+	^ self contextReferenceBuilder
+		  forThisContext;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> reportBuilder [
 
 	^ MOModelReportBuilder new
@@ -744,6 +799,46 @@ MOModelBuilder >> shallowCopy: aMOBlock [
 MOModelBuilder >> shallowRelationCopy: aMOBlock [
 
 	^ model shallowRelationCopy: aMOBlock
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> sharedConstantBuilder [
+
+	^ MOModelSharedConstantBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> sharedVariableBuilder [
+
+	^ MOModelSharedVariableBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> smalltalkClassBuilder [
+
+	^ MOModelStClassBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> stArrayExpressionBuilder [
+
+	^ MOStArrayExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> stCascadeBuilder [
+
+	^ MOStCascadeBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -845,6 +940,15 @@ MOModelBuilder >> variableReferenceBuilder [
 
 	^ MOModelVariableReferenceBuilder new
 		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+MOModelBuilder >> visualWorksPackageBuilder [
+
+	^ MOModelVisualWorksPackageBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
 		  yourself
 ]
 

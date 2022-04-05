@@ -226,10 +226,36 @@ MOExpressionWriter >> referenceToSelf [
 	^ builder referenceToSelf
 ]
 
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> referenceToThisContext [
+
+	^ builder referenceToThisContext
+]
+
 { #category : #initialization }
 MOExpressionWriter >> setWriteVariable: aMOVariableReference [
 
 	writeBuilder write: aMOVariableReference
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> stArrayExpression: aFullBlockClosure [
+
+	| elements |
+	elements := self writeExpression: aFullBlockClosure.
+	^ builder stArrayExpressionBuilder
+		  elements: elements;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> stCascadeWith: aFullBlockClosure [
+
+	| messages |
+	messages := self writeExpression: aFullBlockClosure.
+	^ builder stCascadeBuilder
+		  invocations: messages;
+		  build
 ]
 
 { #category : #writing }
@@ -239,9 +265,50 @@ MOExpressionWriter >> writeAnnotation: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOExpressionWriter >> writeBlockClosure: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOBlockClosureWriter
+]
+
+{ #category : #writing }
 MOExpressionWriter >> writeExpression: aFullBlockClosure [ 
 
 	^ self writeUnregisteredExpression: aFullBlockClosure
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeLiteralForValue: aString [
+
+	^ self literalForValue: aString
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeReferenceToSelf [
+
+	^ self referenceToSelf
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeReferenceToSuper [
+
+	^ self referenceToSuper
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeReferenceToThisContext [
+
+	^ self referenceToThisContext
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeVariableAccess: aFullBlockClosure [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeVariableAccessNamed: aString [
+
+	^ self typeReferenceNamed: aString
 ]
 
 { #category : #'as yet unclassified' }

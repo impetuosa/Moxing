@@ -106,3 +106,9 @@ MOPackageWriter >> writePrimitiveType: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter
 ]
+
+{ #category : #writing }
+MOPackageWriter >> writeStClass: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOStClassWriter
+]

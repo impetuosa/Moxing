@@ -49,6 +49,14 @@ MOLanguage class >> newFor: aModel [
 	^ aModel instantiate: self 
 ]
 
+{ #category : #'as yet unclassified' }
+MOLanguage class >> pharoFor: aMOModel [
+
+	^ (aMOModel instantiate: self)
+		  name: #pharo;
+		  yourself
+]
+
 { #category : #accessing }
 MOLanguage class >> resetLangs [
 
@@ -64,6 +72,14 @@ MOLanguage class >> typescriptFor: aMOModel [
 		  name: #typescript;
 		  returnPolicy: MOReturnExpressionPolicy;
 		  errorPolicy: MOErrorTryCatchPolicy;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguage class >> visualWorksFor: aMOModel [
+
+	^ (aMOModel instantiate: self)
+		  name: #visualworks;
 		  yourself
 ]
 
