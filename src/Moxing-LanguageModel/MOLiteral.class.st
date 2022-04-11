@@ -20,6 +20,12 @@ MOLiteral >> isReference [
 ]
 
 { #category : #accessing }
+MOLiteral >> isRenamable [
+
+	^ false
+]
+
+{ #category : #accessing }
 MOLiteral >> literal [
 	^ literal
 ]

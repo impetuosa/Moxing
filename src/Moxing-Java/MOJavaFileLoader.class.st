@@ -110,15 +110,21 @@ MOJavaFileLoader >> visitBlock: aJavaBlockNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitClassDeclaration: aJavaClassDeclarationNode [
 
-	| name |
+	| name typeParameters |
 	" the name of the class Class<T> is Class "
 	name := aJavaClassDeclarationNode name source readStream upToAll: '<'.
 	(writer model entities contains: [ :a | 
 		 (a isKindOf: MOClass) and: [ a fullName = name ] ]) ifTrue: [ 
 		^ self ].
-	aJavaClassDeclarationNode typeParameters
-		ifNil: [ self writeClassWith: aJavaClassDeclarationNode named: name ]
-		ifNotNil: [ 
+	typeParameters := aJavaClassDeclarationNode typeParameters.
+	typeParameters := typeParameters
+		                  ifNil: [ 
+		                  aJavaClassDeclarationNode name name arguments ]
+		                  ifNotNil: [ typeParameters parameters ].
+	typeParameters isEmptyOrNil
+		ifTrue: [ 
+		self writeClassWith: aJavaClassDeclarationNode named: name ]
+		ifFalse: [ 
 			self
 				writeParametrizableClassWith: aJavaClassDeclarationNode
 				named: name ]
@@ -224,18 +230,24 @@ MOJavaFileLoader >> visitInitializedVariableDeclaration: aJavaInitializedVariabl
 { #category : #visiting }
 MOJavaFileLoader >> visitInterfaceDeclaration: aJavaInterfaceDeclarationNode [
 
-	| name |
-	name := aJavaInterfaceDeclarationNode name source.
+	| name typeParameters |
+	name := aJavaInterfaceDeclarationNode name source readStream 
+		        upToAll: '<'.
 	self assert:
 		aJavaInterfaceDeclarationNode interfaceToken value = 'interface'.
 	(writer model entities contains: [ :a | 
 		 (a isKindOf: MOClassType) and: [ a fullName = name ] ]) ifTrue: [ 
 		^ self ].
 	writer package: package.
-	aJavaInterfaceDeclarationNode typeParameters
-		ifNil: [ 
+	typeParameters := aJavaInterfaceDeclarationNode typeParameters.
+	typeParameters := typeParameters
+		                  ifNil: [ 
+		                  aJavaInterfaceDeclarationNode name name arguments ]
+		                  ifNotNil: [ typeParameters parameters ].
+	typeParameters isEmptyOrNil
+		ifTrue: [ 
 		self writeClassTypeWith: aJavaInterfaceDeclarationNode named: name ]
-		ifNotNil: [ 
+		ifFalse: [ 
 			self
 				writeParametrizableClassTypeWith: aJavaInterfaceDeclarationNode
 				named: name ]
@@ -269,9 +281,8 @@ MOJavaFileLoader >> visitMethodDeclaration: aJavaMethodDeclarationNode [
 
 	aJavaMethodDeclarationNode typeParameters
 		ifNil: [ self writeMethodWith: aJavaMethodDeclarationNode ]
-		ifNotNil:
-			[ self writeParametrizableMethodWith: aJavaMethodDeclarationNode ].
-		
+		ifNotNil: [ 
+		self writeParametrizableMethodWith: aJavaMethodDeclarationNode ]
 ]
 
 { #category : #visiting }
@@ -362,10 +373,13 @@ MOJavaFileLoader >> visitProgram: aProgram [
 { #category : #visiting }
 MOJavaFileLoader >> visitProgramFile: aJavaProgramFileNode [
 
-	writer writeDeclarationUnit: [ :unit | 
-		self registerJavaDefaultImports.
-		self use: unit during: [ self visitProgram: aJavaProgramFileNode ] ].
-	writer populateAnchor.
+	| produced |
+	produced := writer writeDeclarationUnit: [ :unit | 
+		            self registerJavaDefaultImports.
+		            self
+			            use: unit
+			            during: [ self visitProgram: aJavaProgramFileNode ] ].
+	writer populateAnchor
 ]
 
 { #category : #visiting }
@@ -395,6 +409,13 @@ MOJavaFileLoader >> visitSingleTypeImportDeclaration: aJavaSingleTypeImportDecla
 MOJavaFileLoader >> visitStringLiteral: aJavaStringLiteralNode [
 
 	^ writer stringLiteral: aJavaStringLiteralNode token value
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitTypeArgument: aJavaTypeArgumentNode [
+
+	^ writer writeTypeParameter: [ :typeParameter | 
+		  typeParameter name: aJavaTypeArgumentNode type name source ]
 ]
 
 { #category : #visiting }
@@ -535,6 +556,7 @@ MOJavaFileLoader >> writeParametrizableAbstractMethodWith: aJavaAbstractMethodDe
 { #category : #visiting }
 MOJavaFileLoader >> writeParametrizableClassTypeWith: aJavaInterfaceDeclarationNode named: name [
 
+	| typeParameters |
 	writer writeParametrizableClassType: [ :class | 
 		aJavaInterfaceDeclarationNode interfaceTypes do: [ :int | 
 			class addSuperTypeReference:
@@ -546,16 +568,25 @@ MOJavaFileLoader >> writeParametrizableClassTypeWith: aJavaInterfaceDeclarationN
 				class packageReference: packageReference ].
 
 
+		typeParameters := aJavaInterfaceDeclarationNode typeParameters.
+		typeParameters := typeParameters
+			                  ifNil: [ 
+			                  aJavaInterfaceDeclarationNode name name arguments ]
+			                  ifNotNil: [ typeParameters parameters ].
 		self use: class during: [ 
-			self visitCollection:
-				aJavaInterfaceDeclarationNode typeParameters parameters.
+			self visitCollection: typeParameters.
 			self visitCollection: aJavaInterfaceDeclarationNode declarations ] ]
 ]
 
 { #category : #visiting }
-MOJavaFileLoader >> writeParametrizableClassWith: aJavaClassDeclarationNode named: name [ 
+MOJavaFileLoader >> writeParametrizableClassWith: aJavaClassDeclarationNode named: name [
 
-
+	| typeParameters |
+	typeParameters := aJavaClassDeclarationNode typeParameters.
+	typeParameters := typeParameters
+		                  ifNil: [ 
+		                  aJavaClassDeclarationNode name name arguments ]
+		                  ifNotNil: [ typeParameters parameters ].
 	writer package: package.
 	writer writeParametrizableClass: [ :class | 
 		aJavaClassDeclarationNode superclass ifNotNil: [ :sc | 
@@ -569,8 +600,7 @@ MOJavaFileLoader >> writeParametrizableClassWith: aJavaClassDeclarationNode name
 				class name: name.
 				class packageReference: packageReference ].
 		self use: class during: [ 
-			self visitCollection:
-				aJavaClassDeclarationNode typeParameters parameters.
+			self visitCollection: typeParameters .
 			self visitCollection: aJavaClassDeclarationNode declarations ] ]
 ]
 

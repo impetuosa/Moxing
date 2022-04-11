@@ -20,6 +20,11 @@ MOAssignment >> isReference [
 ]
 
 { #category : #accessing }
+MOAssignment >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOAssignment >> name [
 	 ^ 'Assignment'
 ]

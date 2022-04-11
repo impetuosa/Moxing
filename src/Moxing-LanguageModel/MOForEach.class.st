@@ -20,6 +20,13 @@ MOForEach >> collection: aMOVariableReference [
 ]
 
 { #category : #accessing }
+MOForEach >> dependencies [
+
+	^ each dependencies , collection dependencies
+	  , loopingBlock dependencies
+]
+
+{ #category : #accessing }
 MOForEach >> each [
 	^ each
 ]

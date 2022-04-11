@@ -88,30 +88,69 @@ MOJavaTarCatalogLoader >> processClassDefinition: aString into: aCatalog [
 ]
 
 { #category : #accessing }
-MOJavaTarCatalogLoader >> processJarFile: aFileReference into: aCatalog [
-	| classNames  classDefinitionsString stream classDefinitions |
-	
-	classNames := (LibC resultOfCommand: ('jar tf {1}' format: { aFileReference fullName })) lines .
-	classNames := classNames select:[ :c | c endsWith: '.class' ] thenCollect: [ : c | ( c copyFrom: 1 to: (c size -'.class' size))  copyReplaceAll: '/' with: '.' ].
-	classDefinitionsString := (LibC resultOfCommand: ('javap -classpath {1} {2} ' format: { aFileReference fullName . (' ' join: classNames)})).
-	stream := classDefinitionsString readStream.
-	
-	classDefinitions := OrderedCollection new .
-	
-	[  stream atEnd ] whileFalse: [ 
-		stream nextLine.
-		classDefinitions add: (stream upToAll: 'Compiled from "').	
-	 ].
-	classDefinitions do: [ : c | self processClassDefinition: c  into: aCatalog].
+MOJavaTarCatalogLoader >> processJarFile: aFileReference className: classNames into: aCatalog [
 
-	
-	
+	| classDefinitionsString stream classDefinitions |
+	classDefinitionsString := LibC resultOfCommand:
+		                          ('javap -classpath {1} {2} ' format: { 
+				                           aFileReference fullName.
+				                           (' ' join: classNames) }).
+	stream := classDefinitionsString readStream.
+
+	classDefinitions := OrderedCollection new.
+
+	[ stream atEnd ] whileFalse: [ 
+		stream nextLine.
+		classDefinitions add: (stream upToAll: 'Compiled from "') ].
+	classDefinitions do: [ :c | 
+		self processClassDefinition: c into: aCatalog ]
+]
+
+{ #category : #accessing }
+MOJavaTarCatalogLoader >> processJarFile: aFileReference into: aCatalog [
+
+	| classNames namesStream classDefinitionsString stream classDefinitions hasCompiledFrom |
+	classNames := (LibC resultOfCommand:
+		               ('jar tf {1}' format: { aFileReference fullName }))
+		              lines.
+	classNames := classNames
+		              select: [ :c | c endsWith: '.class' ]
+		              thenCollect: [ :c | 
+			              (c copyFrom: 1 to: c size - '.class' size)
+				              copyReplaceAll: '/'
+				              with: '.' ].
+	namesStream := classNames readStream.
+
+
+	[ namesStream atEnd ] whileFalse: [ 
+		| batch |
+		batch := (namesStream next: 10) reject: [ :a | a isNil ].
+		classDefinitionsString := LibC resultOfCommand:
+			                          ('javap -classpath {1} {2} ' format: { 
+					                           aFileReference fullName.
+					                           (' ' join: batch) }).
+		stream := classDefinitionsString readStream.
+		hasCompiledFrom := classDefinitionsString beginsWith:
+			                   'Compiled from "'.
+
+		classDefinitions := OrderedCollection new.
+
+		[ stream atEnd ] whileFalse: [ 
+			hasCompiledFrom
+				ifTrue: [ 
+					stream nextLine.
+					classDefinitions add: (stream upToAll: 'Compiled from "') ]
+				ifFalse: [ classDefinitions add: (stream upToAll: ('}',String lf)) , '}' ] ].
+		classDefinitions do: [ :c | 
+			self processClassDefinition: c into: aCatalog ] ]
 ]
 
 { #category : #accessing }
 MOJavaTarCatalogLoader >> processJavaBaseClass: aClassName into: aCatalog [
 
 	| classDefinitionsString stream classDefinitions |
+	
+	
 	classDefinitionsString := LibC resultOfCommand:
 		                          ('javap -p {1}  ' format: { aClassName }).
 	stream := classDefinitionsString readStream.

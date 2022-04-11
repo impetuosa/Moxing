@@ -21,6 +21,11 @@ MOObject >> at: name put: aValue [
 ]
 
 { #category : #accessing }
+MOObject >> holder [
+	^ holder
+]
+
+{ #category : #accessing }
 MOObject >> holder: aHolder [  
 	holder := aHolder
 ]
@@ -43,6 +48,11 @@ MOObject >> state [
 
 	^ state ifNil: [ state := Dictionary new ].
 	
+]
+
+{ #category : #accessing }
+MOObject >> type [
+	^ type
 ]
 
 { #category : #accessing }

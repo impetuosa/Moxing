@@ -203,6 +203,21 @@ MOCatalogTypeInstaller >> visitParametrizableClass: aMOParametrizableClass [
 ]
 
 { #category : #visiting }
+MOCatalogTypeInstaller >> visitParametrizableClassType: aMOParametrizableClassType [ 
+
+	^ writer writeParametrizableClassType: [ :class | 
+		  class name: aMOParametrizableClassType name.
+
+		  self use: class during: [ 
+			  class packageReference:
+				  (aMOParametrizableClassType packageReference acceptVisitor: self).
+
+			  class superTypeReferences:
+				  (self visitCollection: aMOParametrizableClassType superTypeReferences).
+			  self visitCollection: aMOParametrizableClassType allContainments ] ]
+]
+
+{ #category : #visiting }
 MOCatalogTypeInstaller >> visitParametrizableMethod: aMOParametrizableMethod [ 
 
 	^ writer writeParametrizableMethod:  [ :method | 

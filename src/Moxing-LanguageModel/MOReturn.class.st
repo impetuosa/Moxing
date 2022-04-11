@@ -14,6 +14,12 @@ MOReturn >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
+MOReturn >> dependencies [
+
+	^ expression dependencies
+]
+
+{ #category : #accessing }
 MOReturn >> expression [
 	^ expression
 ]

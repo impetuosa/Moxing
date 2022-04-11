@@ -15,11 +15,6 @@ MOStatementWriter >> addStatement: aMOIfElse [
 	^ self registerStatement: aMOIfElse
 ]
 
-{ #category : #'as yet unclassified' }
-MOStatementWriter >> attributeAccess: aCollection [ 
-	self shouldBeImplemented.
-]
-
 { #category : #writing }
 MOStatementWriter >> build [
 

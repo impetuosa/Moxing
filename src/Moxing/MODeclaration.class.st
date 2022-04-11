@@ -118,11 +118,22 @@ MODeclaration >> allRelations [
 	  , self allCandidateRelations
 ]
 
+{ #category : #'as yet unclassified' }
+MODeclaration >> compareName: aString [
+
+	^ self name = aString or: [ self name = (self sanitize: aString) ]
+]
+
 { #category : #traverse }
 MODeclaration >> initialize [
 
 	super initialize.
 	self class initializeSlots: self
+]
+
+{ #category : #testing }
+MODeclaration >> isClassType [
+	^ false .
 ]
 
 { #category : #testing }
@@ -143,7 +154,19 @@ MODeclaration >> isMOObject [
 
 { #category : #testing }
 MODeclaration >> isPackage [
-	 ^ false 
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isParametrizable [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isPrimitiveType [ 
+
+	^ false
 ]
 
 { #category : #testing }
@@ -194,6 +217,21 @@ MODeclaration >> relationsNamed: aString [
 
 	^ (self class allSlots detect: [ :slot | slot name = aString ]) 
 		  readAllRelations: self
+]
+
+{ #category : #'as yet unclassified' }
+MODeclaration >> sanitize: aString [
+
+	^ { #/. #-. #\. ' ' }
+		  inject: aString
+		  into: [ :acc :each | acc copyReplaceAll: each with: '_' ]
+]
+
+{ #category : #'as yet unclassified' }
+MODeclaration >> sanitizeName [
+
+	self isRenamable ifFalse: [ ^ self error: ' Cannot ' ].
+	self name: (self sanitize: self name)
 ]
 
 { #category : #initialization }

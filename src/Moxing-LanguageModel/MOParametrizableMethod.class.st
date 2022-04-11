@@ -14,6 +14,12 @@ MOParametrizableMethod >> acceptVisitor: aVisitor [
 ]
 
 { #category : #generated }
+MOParametrizableMethod >> isParametrizable [
+
+	^ true
+]
+
+{ #category : #generated }
 MOParametrizableMethod >> printOn: aStream [
 
 	aStream

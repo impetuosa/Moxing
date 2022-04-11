@@ -23,6 +23,12 @@ MOPrimitiveType >> fullName [
 ]
 
 { #category : #printing }
+MOPrimitiveType >> isPrimitiveType [
+
+	^ true
+]
+
+{ #category : #printing }
 MOPrimitiveType >> printOn: aStream [
 
 	aStream

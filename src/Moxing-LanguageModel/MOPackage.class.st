@@ -60,9 +60,9 @@ MOPackage >> isDeclaration [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 MOPackage >> isPackage [
-  ^true
+	^ true
 ]
 
 { #category : #accessing }

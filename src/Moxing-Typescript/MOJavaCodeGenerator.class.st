@@ -25,19 +25,21 @@ MOJavaCodeGenerator >> openComment [
 ]
 
 { #category : #visiting }
-MOJavaCodeGenerator >> printClassHeader: name implements: types [
-
-	stream nextPutAll: (' class {1} ' format: { name }).
-	types ifNotEmpty: [ 
-		stream
-			nextPutAll: ' implements ';
-			nextPutAll: (',' join: (types collect: #name)) ]
-]
-
-{ #category : #visiting }
 MOJavaCodeGenerator >> visitAccessor: aMOAccessor [
 
 	self visitMethod: aMOAccessor
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitAnnotation: aMOAnnotationInstance [
+	self printIndentation.
+	stream
+		nextPutAll: '@';
+		nextPutAll: aMOAnnotationInstance typeReference name.
+	aMOAnnotationInstance arguments ifNotEmpty: [ 
+		stream nextPutAll: '('.
+		self streamArguments: aMOAnnotationInstance arguments.
+		stream nextPutAll: ')' ]
 ]
 
 { #category : #visiting }
@@ -58,6 +60,14 @@ MOJavaCodeGenerator >> visitAssignment: anAssignment [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitAttribute: aMOAttribute [
 
+	aMOAttribute annotationInstances do: [ :m | 
+		m acceptVisitor: self.
+		stream newLine ].
+	self printIndentation.
+	aMOAttribute visibility ifNotNil: [ :v | 
+		stream
+			nextPutAll: v;
+			nextPutAll: ' ' ].
 	self visitVariable: aMOAttribute
 ]
 
@@ -119,6 +129,9 @@ MOJavaCodeGenerator >> visitCatch: aMOCatch [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 
+	aJinTypescriptClass annotationInstances do: [ :m | 
+		m acceptVisitor: self.
+		stream newLine ].
 	aJinTypescriptClass modifiers do: [ :m | 
 		stream
 			nextPutAll: m;
@@ -126,6 +139,7 @@ MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 	stream nextPutAll: aJinTypescriptClass visibility asLowercase.
 	self
 		printClassHeader: aJinTypescriptClass name
+		extends: aJinTypescriptClass superclassReference
 		implements: aJinTypescriptClass superTypeReferences.
 
 	stream
@@ -166,9 +180,12 @@ MOJavaCodeGenerator >> visitConstantReference: aMOConstantReference [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [
 
+	stream
+		nextPutAll: 'package ';
+		nextPutAll: aMODeclarationUnit types anyOne packageReference name;
+		nextPutAll: ';';
+		newLine.
 	self visitCollection: aMODeclarationUnit imports.
-	aMODeclarationUnit types do: [ :t | 
-		self assert: t dependencies isEmpty ].
 	self visitCollection: aMODeclarationUnit types
 ]
 
@@ -215,19 +232,29 @@ MOJavaCodeGenerator >> visitExit: aMOAlceExit [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitForm: aMOAlceForm [
+
+	self visitClass: aMOAlceForm
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitFunction: aMOFunction [ 
 	self visitMethod: aMOFunction
 ]
 
 { #category : #'as yet unclassified' }
-MOJavaCodeGenerator >> visitImport: aMOTypescriptImport [
+MOJavaCodeGenerator >> visitImport: aMOImport [
+
 	stream
 		nextPutAll: 'import ';
-		nextPutAll: (',' join: (aMOTypescriptImport types collect: [ :t | t name ]));
-		nextPutAll: 'from "';
-		nextPutAll: aMOTypescriptImport from;
-		nextPutAll: '";';
-		newLine
+		nextPutAll: aMOImport packageReference name;
+		nextPutAll: '.'.
+
+	aMOImport types size = 1
+		ifTrue: [ stream nextPutAll: aMOImport types first name ]
+		ifFalse: [ stream nextPutAll: '*' ].
+	stream nextPutAll: ';'.
+	stream newLine
 ]
 
 { #category : #visiting }
@@ -266,6 +293,9 @@ MOJavaCodeGenerator >> visitLocalVariable: aMOLocalVariable [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitMethod: aJinTypescriptMethod [
 
+	aJinTypescriptMethod annotationInstances do: [ :m | 
+		m acceptVisitor: self.
+		stream newLine ].
 	self printIndentation.
 	stream
 		nextPutAll: aJinTypescriptMethod visibility;
@@ -315,6 +345,15 @@ MOJavaCodeGenerator >> visitModule: aMOModule [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitNamedArgument: aMONamedArgument [
+
+	stream
+		nextPutAll: aMONamedArgument name;
+		nextPutAll: ' = '.
+	self visitCollection: aMONamedArgument argumentExpressions
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitNullLiteral: aMONullLiteral [ 
 	stream nextPutAll: 'null'
 ]
@@ -342,6 +381,17 @@ MOJavaCodeGenerator >> visitParameter: aMOParameter [
 	stream
 		nextPutAll: ' ';
 		nextPutAll: aMOParameter name
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
+
+	stream
+		nextPutAll: aMOParametrizedTypeReference name;
+		nextPutAll: '<'.
+	self streamArguments:
+		aMOParametrizedTypeReference argumentTypeReferences.
+	stream nextPutAll: '>'
 ]
 
 { #category : #visiting }
@@ -542,12 +592,12 @@ MOJavaCodeGenerator >> visitVariable: aMOTypescriptVariable [
 		stream
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-		
+
 	aMOTypescriptVariable typeReference ifNotNil: [ 
 		aMOTypescriptVariable typeReference acceptVisitor: self.
 		stream nextPutAll: ' ' ].
 
-	
+
 	stream nextPutAll: aMOTypescriptVariable name.
 
 

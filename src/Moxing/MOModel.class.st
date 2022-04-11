@@ -80,6 +80,11 @@ MOModel >> mapSpaceAnchor [
 	^ anchor 
 ]
 
+{ #category : #accessing }
+MOModel >> objects [
+	^ objects
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> rootPackages [
 

@@ -32,9 +32,27 @@ MOMethod >> canBeReferredAsMethod [
 	 ^ true
 ]
 
+{ #category : #accessing }
+MOMethod >> dependencies [
+
+	^ super dependencies
+	  ,
+	  (returnTypeReference
+		   ifNotNil: [ :t | t dependencies ]
+		   ifNil: [ {  } ]) , (annotationInstances
+		   ifNotNil: [ :t | annotationInstances flatCollect: #dependencies ]
+		   ifNil: [ {  } ]) , block dependencies
+]
+
 { #category : #'as yet unclassified' }
 MOMethod >> name [
 	 ^ selector
+]
+
+{ #category : #'as yet unclassified' }
+MOMethod >> name: aSelector [
+
+ selector := aSelector 
 ]
 
 { #category : #accessing }

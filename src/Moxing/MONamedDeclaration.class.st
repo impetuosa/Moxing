@@ -7,6 +7,11 @@ Class {
 	#category : #'Moxing-Core'
 }
 
+{ #category : #testing }
+MONamedDeclaration >> isRenamable [
+	^ false 
+]
+
 { #category : #accessing }
 MONamedDeclaration >> name [
 

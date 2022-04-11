@@ -13,6 +13,12 @@ MOBlock >> acceptVisitor: aMOTypescriptCodeGenerator [
 	^ aMOTypescriptCodeGenerator visitBlock: self
 ]
 
+{ #category : #accessing }
+MOBlock >> dependencies [
+
+	^ self statements flatCollect: [ :a | a dependencies ]
+]
+
 { #category : #adding }
 MOBlock >> initialize [
 

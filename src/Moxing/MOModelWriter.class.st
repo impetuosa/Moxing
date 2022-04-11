@@ -258,14 +258,13 @@ MOModelWriter >> populateAnchorOn: anEntity [
 	| subentity |
 	anEntity allContainmentRelations , anEntity allReferenceRelations
 	, anEntity allExpressionRelations do: [ :relation | 
-		(model exclusivelyincludes: relation to) ifTrue: [ 
-			subentity := relation to.
-			subentity parent: anEntity.
-			subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
-					 ifTrue: [ relation name ]
-					 ifFalse: [ subentity name ])
-				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
-			self populateAnchorOn: subentity ] ]
+		subentity := relation to.
+		subentity parent: anEntity.
+		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
+				 ifTrue: [ relation name ]
+				 ifFalse: [ subentity name ])
+			/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
+		self populateAnchorOn: subentity ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -456,6 +455,15 @@ MOModelWriter >> updateParameter: aMOParameter with: aFullBlockClosure [
 		  write: aFullBlockClosure
 		  forUpdating: aMOParameter
 		  withWriter: MOParameterWriter new
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateParametrizableClass: aMOParametrizableClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOParametrizableClass
+		  withWriter: MOParametrizableClassWriter new
 ]
 
 { #category : #'as yet unclassified' }

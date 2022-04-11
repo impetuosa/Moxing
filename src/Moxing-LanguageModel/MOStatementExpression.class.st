@@ -19,6 +19,12 @@ MOStatementExpression >> candidate: aCandidate [
 ]
 
 { #category : #accessing }
+MOStatementExpression >> dependencies [
+
+	^ expression dependencies
+]
+
+{ #category : #accessing }
 MOStatementExpression >> expression [
 	^ expression
 ]
@@ -32,6 +38,11 @@ MOStatementExpression >> expression: aMOInvocation [
 MOStatementExpression >> isLabelledAs: aLabel [
 
 	^ expression isLabelledAs: aLabel
+]
+
+{ #category : #accessing }
+MOStatementExpression >> isRenamable [
+	^ false
 ]
 
 { #category : #accessing }

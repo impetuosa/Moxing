@@ -80,7 +80,9 @@ MOClass >> dependencies [
 		        str nextPutAll: self superTypeReferences.
 		        self superclassReference ifNotNil: [ 
 			        str nextPut: self superclassReference ].
-
+		        annotationInstances ifNotNil: [ 
+			        str nextPutAll:
+				        (annotationInstances flatCollect: #dependencies) ].
 		        str nextPutAll:
 			        (attributes flatCollect: [ :t | t dependencies ]).
 		        str nextPutAll:
@@ -89,7 +91,7 @@ MOClass >> dependencies [
 			        (superclassReference
 				         ifNil: [ {  } ]
 				         ifNotNil: [ :s | s dependencies ]) ].
-	^ MOImport compressDependencyCollection: deps
+	^ (deps reject: #isNil) removeDuplicates
 ]
 
 { #category : #'as yet unclassified' }

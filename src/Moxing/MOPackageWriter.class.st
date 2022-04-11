@@ -78,6 +78,12 @@ MOPackageWriter >> writeDeclarationUnit: aBlock [
 ]
 
 { #category : #writing }
+MOPackageWriter >> writeForm: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOFormWriter
+]
+
+{ #category : #writing }
 MOPackageWriter >> writeModule: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOModuleWriter

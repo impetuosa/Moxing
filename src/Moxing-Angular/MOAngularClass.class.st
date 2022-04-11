@@ -35,6 +35,11 @@ MOAngularClass >> interfaces [
 ]
 
 { #category : #accessing }
+MOAngularClass >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOAngularClass >> methods [
 	^ self classRepresentation methods 
 ]
