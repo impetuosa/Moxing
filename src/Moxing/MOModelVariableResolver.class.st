@@ -95,6 +95,12 @@ MOModelVariableResolver >> visitPackage: aMOPackage [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitParametrizableClass: aMOParametrizableClass [
+
+	self visitClass: aMOParametrizableClass
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitReturn: aMOReturn [
 
 	aMOReturn parent acceptVisitor: self
