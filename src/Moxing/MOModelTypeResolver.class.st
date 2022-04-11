@@ -3,8 +3,8 @@ I am in charge of binding the type reference with a type declaration
 
 "
 Class {
-	#name : #MOModelTypeLinker,
-	#superclass : #Object,
+	#name : #MOModelTypeResolver,
+	#superclass : #MOModelDeclarationResolver,
 	#instVars : [
 		'model',
 		'resolving'
@@ -13,19 +13,19 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOModelTypeLinker >> lookIntoPackage: aPackage [
+MOModelTypeResolver >> lookIntoPackage: aPackage [
 
 	self registerPossibles:
 		(aPackage allTypes select: [ :t | t name = resolving name ])
 ]
 
 { #category : #accessing }
-MOModelTypeLinker >> model: aMOModel [ 
+MOModelTypeResolver >> model: aMOModel [ 
 	model := aMOModel
 ]
 
 { #category : #'as yet unclassified' }
-MOModelTypeLinker >> processTypeReference: aMOTypeReference [
+MOModelTypeResolver >> processTypeReference: aMOTypeReference [
 
 	aMOTypeReference isSolvable ifFalse: [ ^ self ].
 	resolving := aMOTypeReference.
@@ -34,7 +34,7 @@ MOModelTypeLinker >> processTypeReference: aMOTypeReference [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelTypeLinker >> registerPossibles: aCollection [
+MOModelTypeResolver >> registerPossibles: aCollection [
 
 	(aCollection anySatisfy: [ :a | a isKindOf: MODeclarationUnit ]) 
 		ifTrue: [ self halt ].
@@ -44,62 +44,72 @@ MOModelTypeLinker >> registerPossibles: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelTypeLinker >> typeHasBeenResolved [
+MOModelTypeResolver >> typeHasBeenResolved [
 	^ resolving candidate isNotNil 
 ]
 
 { #category : #'as yet unclassified' }
-MOModelTypeLinker >> unknownType [
+MOModelTypeResolver >> unknownType [
 	^ model unknownType 
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitAnnotation: aMOAnnotationInstance [
+MOModelTypeResolver >> visitAnnotation: aMOAnnotationInstance [
 
 	aMOAnnotationInstance parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitArrayTypeReference: aMOArrayTypeReference [
+MOModelTypeResolver >> visitArrayTypeReference: aMOArrayTypeReference [
 
 	aMOArrayTypeReference argumentTypeReferences do: [ :r | 
 		r acceptVisitor: self ]
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitAttribute: aMOAttribute [
+MOModelTypeResolver >> visitAssignment: aMOAssignment [ 
+	aMOAssignment parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitAttribute: aMOAttribute [
 
 	^ aMOAttribute parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitBlock: aMOBlock [
+MOModelTypeResolver >> visitBlock: aMOBlock [
 
-	^ aMOBlock parent acceptVisitor: self
+	^ aMOBlock parent ifNotNil:[ : f|f acceptVisitor: self]
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitClass: aMOClass [
+MOModelTypeResolver >> visitBlockClosure: aMOStBlockClosure [ 
+	aMOStBlockClosure parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitClass: aMOClass [
 	
 	aMOClass packageReference acceptVisitor: self.
 	aMOClass parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitClassType: aMOClassType [
+MOModelTypeResolver >> visitClassType: aMOClassType [
 
 	aMOClassType packageReference acceptVisitor: self.
 	aMOClassType parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitConstructor: aMOConstructor [
+MOModelTypeResolver >> visitConstructor: aMOConstructor [
 
 	^ aMOConstructor parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitDeclarationUnit: aMODeclarationUnit [
+MOModelTypeResolver >> visitDeclarationUnit: aMODeclarationUnit [
 
 	| possible |
 	possible := aMODeclarationUnit imports select: [ :im | 
@@ -114,25 +124,45 @@ MOModelTypeLinker >> visitDeclarationUnit: aMODeclarationUnit [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitImport: aMOImport [
+MOModelTypeResolver >> visitGlobalVariable: aMOSharedVariable [ 
+	aMOSharedVariable  parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitImport: aMOImport [
 
 	aMOImport packageReference acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitMethod: aMOMethod [
+MOModelTypeResolver >> visitLocalVariable: aMOLocalVariable [ 
+	self visitVariable: aMOLocalVariable 
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitMetaClass: aMOMetaClass [ 
+ aMOMetaClass 	 parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitMethod: aMOMethod [
 
 	aMOMethod parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitNewExpression: aMONewExpression [
+MOModelTypeResolver >> visitMethodInvocation: aMOMethodInvocation [ 
+	aMOMethodInvocation parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitNewExpression: aMONewExpression [
 
 	^ aMONewExpression parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitPackage: aMOPackage [
+MOModelTypeResolver >> visitPackage: aMOPackage [
 
 	resolving packageReference ifNil: [ ^ self ].
 	resolving packageReference candidate = aMOPackage ifTrue: [ 
@@ -141,7 +171,7 @@ MOModelTypeLinker >> visitPackage: aMOPackage [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitPackageReference: aMOPackageReference [
+MOModelTypeResolver >> visitPackageReference: aMOPackageReference [
 
 	self assert: aMOPackageReference candidate isNotNil.
 	self lookIntoPackage: aMOPackageReference candidate.
@@ -151,14 +181,14 @@ MOModelTypeLinker >> visitPackageReference: aMOPackageReference [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitParameter: aMOParameter [
+MOModelTypeResolver >> visitParameter: aMOParameter [
 
 	self assert: aMOParameter typeReference candidate isNil.
 	aMOParameter parent acceptVisitor: self
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitParametrizableClass: aMOParametrizableClass [
+MOModelTypeResolver >> visitParametrizableClass: aMOParametrizableClass [
 
 	self registerPossibles:
 		(aMOParametrizableClass typeParameters select: [ :t | 
@@ -171,7 +201,7 @@ MOModelTypeLinker >> visitParametrizableClass: aMOParametrizableClass [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitParametrizableClassType: aMOParametrizableClassType [
+MOModelTypeResolver >> visitParametrizableClassType: aMOParametrizableClassType [
 
 	self registerPossibles:
 		(aMOParametrizableClassType typeParameters select: [ :t | 
@@ -182,30 +212,60 @@ MOModelTypeLinker >> visitParametrizableClassType: aMOParametrizableClassType [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitParametrizableMethod: aMOParametrizableMethod [
+MOModelTypeResolver >> visitParametrizableMethod: aMOParametrizableMethod [
 
 	^ self visitMethod: aMOParametrizableMethod
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
+MOModelTypeResolver >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
 
 	self visitTypeReference: aMOParametrizedTypeReference
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
+MOModelTypeResolver >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
 
 	self assert: aMOPrimitiveTypeReference candidate isNotNil
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitTypeParameter: aMOTypeParameter [ 
+MOModelTypeResolver >> visitReturn: aMOReturn [ 
+	aMOReturn parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitStArrayExpression: aMOStArrayExpression [ 
+
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitStCascade: aMOStCascade [ 
+	aMOStCascade  parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitStClass: aMOStClass [ 
+	self visitClass: aMOStClass 
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitStMethod: aMOStMethod [ 
+self visitMethod: aMOStMethod 
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitStatementExpression: aMOStatementExpression [ 
+	aMOStatementExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitTypeParameter: aMOTypeParameter [ 
 	aMOTypeParameter parent acceptVisitor: self 
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitTypeReference: aMOTypeReference [
+MOModelTypeResolver >> visitTypeReference: aMOTypeReference [
 
 	aMOTypeReference candidate ifNotNil: [ ^ self ].
 	aMOTypeReference parent ifNil: [ ^ self ].
@@ -215,7 +275,7 @@ MOModelTypeLinker >> visitTypeReference: aMOTypeReference [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitVarArgParameter: aMOVariableArgumentsParameter [
+MOModelTypeResolver >> visitVarArgParameter: aMOVariableArgumentsParameter [
 
 	self assert:
 		aMOVariableArgumentsParameter typeReference candidate isNil.
@@ -223,7 +283,7 @@ MOModelTypeLinker >> visitVarArgParameter: aMOVariableArgumentsParameter [
 ]
 
 { #category : #visiting }
-MOModelTypeLinker >> visitVariable: aMOVariable [
-
-	^ aMOVariable parent acceptVisitor: self
+MOModelTypeResolver >> visitVariable: aMOVariable [
+	
+	^ aMOVariable parent ifNotNil: [: d| d acceptVisitor: self]
 ]

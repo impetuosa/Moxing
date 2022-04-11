@@ -3,7 +3,7 @@ I am in charge of installing and linking imported types.
 "
 Class {
 	#name : #MOModelImportLinker,
-	#superclass : #Object,
+	#superclass : #MOModelDeclarationResolver,
 	#instVars : [
 		'model'
 	],

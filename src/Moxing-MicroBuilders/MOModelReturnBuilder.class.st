@@ -10,6 +10,11 @@ Class {
 	#category : #'Moxing-MicroBuilders-statements'
 }
 
+{ #category : #asserting }
+MOModelReturnBuilder >> buildsType [
+  ^returns ifNil: [ MOReturnEmpty ] ifNotNil: [ MOReturn ]
+]
+
 { #category : #accessing }
 MOModelReturnBuilder >> expression: aMOVariableReference [
 

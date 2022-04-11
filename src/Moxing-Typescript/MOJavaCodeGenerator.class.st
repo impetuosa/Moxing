@@ -2,23 +2,14 @@ Class {
 	#name : #MOJavaCodeGenerator,
 	#superclass : #MOCodeGenerator,
 	#instVars : [
-		'aTryCatch',
-		'isCommenting'
+		'aTryCatch'
 	],
 	#category : #'Moxing-Typescript-Writting'
 }
 
-{ #category : #accessing }
-MOJavaCodeGenerator >> comment: aFullBlockClosure [
-
-	isCommenting
-		ifFalse: [ 
-			stream nextPutAll: '/* TODO '.
-			isCommenting := true.
-			aFullBlockClosure value.
-			stream nextPutAll: '*/'.
-			isCommenting := false ]
-		ifTrue: [ aFullBlockClosure value ]
+{ #category : #visiting }
+MOJavaCodeGenerator >> closeComment [
+  stream nextPutAll: '*/'
 ]
 
 { #category : #visiting }
@@ -26,6 +17,11 @@ MOJavaCodeGenerator >> initialize [
 
 	super initialize.
 	isCommenting := false
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> openComment [
+  stream nextPutAll: '/*'
 ]
 
 { #category : #visiting }
@@ -232,11 +228,6 @@ MOJavaCodeGenerator >> visitImport: aMOTypescriptImport [
 		nextPutAll: aMOTypescriptImport from;
 		nextPutAll: '";';
 		newLine
-]
-
-{ #category : #visiting }
-MOJavaCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [ 
-	stream print: aMOIntegerLiteral literal 
 ]
 
 { #category : #visiting }

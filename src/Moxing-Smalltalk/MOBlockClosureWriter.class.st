@@ -4,6 +4,11 @@ Class {
 	#category : #'Moxing-Smalltalk-writer'
 }
 
+{ #category : #adding }
+MOBlockClosureWriter >> addParameter: aMOParameter [
+  writeBuilder addParameter: aMOParameter
+]
+
 { #category : #accessing }
 MOBlockClosureWriter >> block: aMOBlock [
 
@@ -30,4 +35,10 @@ MOBlockClosureWriter >> writeBlock: aBlock [
 		  write: aBlock
 		  inSubWriter: MOBlockWriter
 		  initializeWith: [ :b | b messageToRegisterBlock: #block: ]
+]
+
+{ #category : #writing }
+MOBlockClosureWriter >> writeParameter: aBlock [
+
+	^ self write: aBlock inSubWriter: MOParameterWriter
 ]

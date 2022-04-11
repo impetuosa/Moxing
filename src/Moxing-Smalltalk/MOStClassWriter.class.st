@@ -76,3 +76,8 @@ MOStClassWriter >> writeSharedVariable: aFullBlockClosure [
 		         inSubWriter: MOSharedVariableWriter.
 	^ stmnt
 ]
+
+{ #category : #writing }
+MOStClassWriter >> writeStMethod: aFullBlockClosure [ 
+	^ self write: aFullBlockClosure inSubWriter: MOStMethodWriter
+]

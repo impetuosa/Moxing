@@ -14,20 +14,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOModelLinker >> accessChainTo: aMOTypeReference [
-
-	| current chain |
-	chain := OrderedCollection new.
-
-	current := aMOTypeReference.
-
-	[ current isNil ] whileFalse: [ 
-		chain add: current name.
-		current := current parent ].
-	^ chain reversed
-]
-
-{ #category : #'as yet unclassified' }
 MOModelLinker >> allValuesReferredBy: aMOLanguage [
 
 	^ (aMOLanguage class allSlots reject: [ :a | a name = #parent ]) 
@@ -41,10 +27,9 @@ MOModelLinker >> allValuesReferredBy: aMOLanguage [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllImports: aMOModel [
-
-	MOModelImportLinker new
-		model: aMOModel;
-		visitCollection: aMOModel imports
+  aMOModel language importLinkingStrategy new
+     model: aMOModel;
+     visitCollection: aMOModel imports
 ]
 
 { #category : #'as yet unclassified' }
@@ -134,11 +119,9 @@ MOModelLinker >> install: aMOTypeReference fromCatalogInto: aMOModel [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> invocationLinker [
-
-	^ invocationLinker ifNil: [ 
-		  invocationLinker := MOModelInvocationLinker new
-			                      model: model;
-			                      yourself ]
+  ^invocationLinker ifNil: [ invocationLinker := model language invocationResolutionStrategy new
+           model: model;
+           yourself ]
 ]
 
 { #category : #testing }
@@ -196,18 +179,14 @@ MOModelLinker >> processVariableReference: aMOVariableReference [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> typeLinker [
-
-	^ typeLinker ifNil: [ 
-		  typeLinker := MOModelTypeLinker new
-			                model: model;
-			                yourself ]
+  ^typeLinker ifNil: [ typeLinker := model language typeResolutionStrategy new
+           model: model;
+           yourself ]
 ]
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> variableLinker [
-
-	^ variableLinker ifNil: [ 
-		  variableLinker := MOModelVariableLinker new
-			                    model: model;
-			                    yourself ]
+  ^variableLinker ifNil: [ variableLinker := model language variableResolutionStrategy new
+           model: model;
+           yourself ]
 ]

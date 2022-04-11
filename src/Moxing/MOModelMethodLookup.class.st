@@ -3,9 +3,10 @@ I implement a method lookup for single parent object oriented fashion
 "
 Class {
 	#name : #MOModelMethodLookup,
-	#superclass : #Object,
+	#superclass : #MOModelDeclarationResolver,
 	#instVars : [
-		'resolving'
+		'resolving',
+		'model'
 	],
 	#category : #'Moxing-Linking'
 }
@@ -33,31 +34,11 @@ MOModelMethodLookup >> lookMethodFor: aMOMethodInvocation in: aTypeWithMethods [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelMethodLookup >> lookupMethodFor: aMOMethodInvocation [
-
-	| type  |
-	resolving := aMOMethodInvocation.
-	type := aMOMethodInvocation receiverReference acceptVisitor: self.
-
-
-
-	^ self lookMethodFor: aMOMethodInvocation in: type
-]
-
-{ #category : #visiting }
-MOModelMethodLookup >> visitMethodInvocation: aMOMethodInvocation [
-
-	^ aMOMethodInvocation candidate returnTypeReference candidate
-]
-
-{ #category : #visiting }
-MOModelMethodLookup >> visitSelfReference: aMOSelfReference [
-
-	^ aMOSelfReference callingClass
-]
-
-{ #category : #visiting }
-MOModelMethodLookup >> visitVariableReference: aMOVariableReference [
-
-	^ aMOVariableReference candidate typeReference candidate
+MOModelMethodLookup >> lookupMethodFor: aMOMethodInvocation using: aMOModel [
+  | type |
+  model := aMOModel.
+  resolving := aMOMethodInvocation.
+  type := aMOMethodInvocation receiverReference acceptVisitor: self.
+  type ifNil: [ ^{} ].
+  ^self lookMethodFor: aMOMethodInvocation in: type
 ]

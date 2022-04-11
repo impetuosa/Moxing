@@ -203,6 +203,13 @@ MOStatementWriter >> operateBoolean: anExpressionBuildingBlock operator: aString
 				   with: anOtherExpressionBuildingBlock ])
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> pragma: aString arguments: aFullBlockClosure [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp pragma: aString arguments: aFullBlockClosure ])
+]
+
 { #category : #writing }
 MOStatementWriter >> registerStatement: aStatement [
 

@@ -290,6 +290,14 @@ MOModelProceduralWriter >> setAnchor: anEntity [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> sharedPoolReferenceNamed: aString [
+
+	^ builder sharedPoolReferenceBuilder
+		  name: aString;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> stringLiteral: aString [
 
 	^ builder stringLiteralBuilder

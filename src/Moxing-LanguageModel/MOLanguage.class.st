@@ -2,8 +2,12 @@ Class {
 	#name : #MOLanguage,
 	#superclass : #MONamedDeclaration,
 	#instVars : [
-		'errorPolicy',
-		'returnPolicy'
+		'methodLookupStrategy',
+		'typeResolutionStrategy',
+		'variableResolutionStrategy',
+		'invocationResolutionStrategy',
+		'importLinkingStrategy',
+		'expressionTypeResolvingStrategy'
 	],
 	#classInstVars : [
 		'typescript',
@@ -16,12 +20,9 @@ Class {
 
 { #category : #'as yet unclassified' }
 MOLanguage class >> javaFor: aMOModel [
-
-	^ (aMOModel instantiate: self)
-		  name: #java;
-		  returnPolicy: MOReturnExpressionPolicy;
-		  errorPolicy: MOErrorTryCatchPolicy;
-		  yourself
+  ^(aMOModel instantiate: self)
+     name: #java;
+     yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -29,8 +30,6 @@ MOLanguage class >> microsoftAccessFor: aMOModel [
 
 	^ (aMOModel instantiate: self)
 		  name: #MicrosoftAccess;
-		  returnPolicy: MOReturnAssignmentPolicy;
-		  errorPolicy: MOErrorGoToPolicy;
 		  yourself
 ]
 
@@ -39,8 +38,6 @@ MOLanguage class >> microsoftAccessForAlceModel: anAlcixModel [
 
 	^ self newInstanceFromModel
 		  name: #MicrosoftAccess;
-		  returnPolicy: MOReturnAssignmentPolicy;
-		  errorPolicy: MOErrorGoToPolicy;
 		  yourself
 ]
 
@@ -51,10 +48,10 @@ MOLanguage class >> newFor: aModel [
 
 { #category : #'as yet unclassified' }
 MOLanguage class >> pharoFor: aMOModel [
-
-	^ (aMOModel instantiate: self)
-		  name: #pharo;
-		  yourself
+  ^(aMOModel instantiate: self)
+     name: #pharo;
+     expressionTypeResolvingStrategy: MOPhExpressionTypeResolver;
+     yourself
 ]
 
 { #category : #accessing }
@@ -70,34 +67,47 @@ MOLanguage class >> typescriptFor: aMOModel [
 
 	^ (aMOModel instantiate: self)
 		  name: #typescript;
-		  returnPolicy: MOReturnExpressionPolicy;
-		  errorPolicy: MOErrorTryCatchPolicy;
 		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 MOLanguage class >> visualWorksFor: aMOModel [
-
-	^ (aMOModel instantiate: self)
-		  name: #visualworks;
-		  yourself
+  ^(aMOModel instantiate: self)
+     name: #visualworks;
+     expressionTypeResolvingStrategy: MOVWExpressionTypeResolver;
+     yourself
 ]
 
-{ #category : #printing }
-MOLanguage >> errorPolicy [
-	^ errorPolicy
+{ #category : #'as yet unclassified' }
+MOLanguage >> expressionTypeResolvingStrategy [
+  ^expressionTypeResolvingStrategy ifNil: [ MOModelExpressionTypeResolver ]
 ]
 
-{ #category : #printing }
-MOLanguage >> errorPolicy: anErrorPolicy [
-
-	errorPolicy := anErrorPolicy
+{ #category : #accessing }
+MOLanguage >> expressionTypeResolvingStrategy: anObject [
+	expressionTypeResolvingStrategy := anObject
 ]
 
-{ #category : #printing }
-MOLanguage >> grammarPolicies [
+{ #category : #accessing }
+MOLanguage >> importLinkingStrategy [
+  ^importLinkingStrategy ifNil: [ MOModelImportLinker ]
+]
 
-	^ { errorPolicy . returnPolicy }
+{ #category : #accessing }
+MOLanguage >> importLinkingStrategy: anObject [
+
+	importLinkingStrategy := anObject
+]
+
+{ #category : #accessing }
+MOLanguage >> invocationResolutionStrategy [
+  ^invocationResolutionStrategy ifNil: [ MOModelInvocationResolver ]
+]
+
+{ #category : #accessing }
+MOLanguage >> invocationResolutionStrategy: anObject [
+
+	invocationResolutionStrategy := anObject
 ]
 
 { #category : #testing }
@@ -111,8 +121,24 @@ MOLanguage >> isMicrosoftAccess [
 ]
 
 { #category : #testing }
+MOLanguage >> isPharo [
+  ^name = #pharo
+]
+
+{ #category : #testing }
 MOLanguage >> isTypescript [
 	^ name = #typescript
+]
+
+{ #category : #'instance creation' }
+MOLanguage >> methodLookupStrategy [
+  ^methodLookupStrategy ifNil: [ MOModelMethodLookup ]
+]
+
+{ #category : #accessing }
+MOLanguage >> methodLookupStrategy: anObject [
+
+	methodLookupStrategy := anObject
 ]
 
 { #category : #'instance creation' }
@@ -121,6 +147,7 @@ MOLanguage >> newCodeTextWriter [
 	self isJava ifTrue: [ ^ MOJavaCodeGenerator new ].
 	self isTypescript ifTrue: [ ^ MOTypescriptCodeGenerator new ].
 	self isMicrosoftAccess ifTrue: [ ^ MOMicrosoftAccessCodeGenerator  new ].
+	self isPharo ifTrue: [ ^ MOPharoCodeGenerator  new ].
 	self error: ' non writer available '
 ]
 
@@ -132,14 +159,24 @@ MOLanguage >> printOn: aStream [
 		nextPutAll: name
 ]
 
-{ #category : #printing }
-MOLanguage >> returnPolicy [
-
-	^ returnPolicy
+{ #category : #accessing }
+MOLanguage >> typeResolutionStrategy [
+  ^typeResolutionStrategy ifNil: [ MOModelTypeResolver ]
 ]
 
-{ #category : #printing }
-MOLanguage >> returnPolicy: aReturnPolict [
+{ #category : #accessing }
+MOLanguage >> typeResolutionStrategy: anObject [
 
-	returnPolicy := aReturnPolict
+	typeResolutionStrategy := anObject
+]
+
+{ #category : #accessing }
+MOLanguage >> variableResolutionStrategy [
+  ^variableResolutionStrategy ifNil: [ MOModelVariableResolver ]
+]
+
+{ #category : #accessing }
+MOLanguage >> variableResolutionStrategy: anObject [
+
+	variableResolutionStrategy := anObject
 ]

@@ -92,6 +92,11 @@ MOModelWriteTypeBasedCopyResolver >> visitBlock: aMOBlock [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitBlockClosure: aMOStBlockClosure [
+  ^writer writeBlockClosure: [:proc |  writingBlock value: proc ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitBooleanLiteral: aMOBooleanLiteral [ 
 	^ self copyExpression  
 ]
@@ -214,6 +219,11 @@ MOModelWriteTypeBasedCopyResolver >> visitLocalVariable: aMOLocalVariable [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitMetaClass: aMOMetaClass [
+  ^writer writeMetaclass: [:class |  writingBlock value: class ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitMethod: aMOMethod [
 
 	^ writer writeMethod: [ :method | writingBlock value: method ]
@@ -257,10 +267,20 @@ MOModelWriteTypeBasedCopyResolver >> visitOnErrorResumeNext: aMOAlceOnErrorResum
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitPackageReference: aMOPackageReference [
+  ^self copyExpression
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitParameter: aMOParameter [
 
 	^ writer writeParameter: [ :parameter | 
 		  writingBlock value: parameter ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitPragma: aMOPhPragma [
+  ^self copyExpression
 ]
 
 { #category : #visiting }
@@ -288,6 +308,11 @@ MOModelWriteTypeBasedCopyResolver >> visitResumeLabel: aMOAlceResumeLabel [
 	^ writer writeResume:  [ : resume | writingBlock value: resume  ]
 ]
 
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitReturn: aMOReturn [
+  ^writer writeReturn: [:return |  writingBlock cull: return ]
+]
+
 { #category : #enumerating }
 MOModelWriteTypeBasedCopyResolver >> visitSelect: aMOSelect [
 
@@ -304,6 +329,21 @@ MOModelWriteTypeBasedCopyResolver >> visitSelfReference: aMOSelfReference [
 MOModelWriteTypeBasedCopyResolver >> visitSetToReturn: aMOSetToReturn [ 
 
 	^ writer writeSetToReturn: [ :block | writingBlock value: block ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitStCascade: aMOStCascade [
+  ^self copyExpression
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitStClass: aMOStClass [
+  ^writer writeStClass: [:class |  writingBlock value: class ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitStMethod: aMOStMethod [
+  ^writer writeStMethod: [:method |  writingBlock value: method ]
 ]
 
 { #category : #visiting }

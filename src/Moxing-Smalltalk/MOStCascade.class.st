@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #accessing }
+MOStCascade >> acceptVisitor: aVisitor [
+  ^aVisitor visitStCascade: self
+]
+
+{ #category : #accessing }
+MOStCascade >> invocations [
+	^ invocations
+]
+
+{ #category : #accessing }
 MOStCascade >> invocations: aCollection [ 
 	invocations := aCollection
 ]

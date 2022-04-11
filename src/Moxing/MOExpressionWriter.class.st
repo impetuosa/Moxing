@@ -209,6 +209,18 @@ MOExpressionWriter >> operator: aString [
 	writeBuilder operator: aString 
 ]
 
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> pragma: aString arguments: aFullBlockClosure [
+
+	| arguments |
+	arguments := self writeExpression: aFullBlockClosure.
+
+	^ builder pragmaBuilder
+		  selector: aString;
+		  arguments: arguments;
+		  build
+]
+
 { #category : #writing }
 MOExpressionWriter >> privateWriteToSurface: anEntity [
 
@@ -280,6 +292,11 @@ MOExpressionWriter >> writeExpression: aFullBlockClosure [
 MOExpressionWriter >> writeLiteralForValue: aString [
 
 	^ self literalForValue: aString
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> writeMethod: aM [.
+	 self halt. 
 ]
 
 { #category : #writing }

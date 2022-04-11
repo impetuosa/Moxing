@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'writer',
 		'bindings',
-		'ringImporter'
+		'ringImporter',
+		'methodCategory'
 	],
 	#classInstVars : [
 		'siren'
@@ -23,6 +24,16 @@ MOVisualWorksChunkImporter class >> siren [
 MOVisualWorksChunkImporter class >> siren: aMOModel [
 
 	siren := aMOModel
+]
+
+{ #category : #accessing }
+MOVisualWorksChunkImporter >> bindings [
+	^ bindings
+]
+
+{ #category : #accessing }
+MOVisualWorksChunkImporter >> bindings: aCollection [ 
+	bindings := aCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -58,10 +69,36 @@ MOVisualWorksChunkImporter >> initialize [
 	bindings := Dictionary new
 ]
 
+{ #category : #accessing }
+MOVisualWorksChunkImporter >> methodCategory [
+	^ methodCategory
+]
+
 { #category : #'as yet unclassified' }
 MOVisualWorksChunkImporter >> packageBindings: aPackageChunk [
 
 	^ aPackageChunk elements collect: [ :a | a name -> a symbolKind ]
+]
+
+{ #category : #parsing }
+MOVisualWorksChunkImporter >> parseWithTimeOut: aString [
+
+	| semaphore result process |
+	semaphore := Semaphore new.
+	process := [ 
+	           [ result := StParser parseMethod: aString ]
+		           on: Error
+		           do: [ :e | result := nil ].
+	           semaphore signal ] forkAt:
+		           Processor userBackgroundPriority.
+	^ semaphore
+		  wait: 5 seconds
+		  onCompletion: [ 
+			  process terminate.
+			  result ]
+		  onTimeout: [ 
+			  process terminate.
+			  nil ]
 ]
 
 { #category : #visiting }
@@ -93,41 +130,6 @@ MOVisualWorksChunkImporter >> visitClassChunk: aClassChunk [
 ]
 
 { #category : #visiting }
-MOVisualWorksChunkImporter >> visitClassDefinition: aRGClassDefinition [
-
-	| classChunk |
-	classChunk := ringImporter allElements detect: [ :a | 
-		              a name = aRGClassDefinition name and: [ 
-			              a kind = #class ] ].
-
-
-	self halt.
-	^ self
-		  addBindings: (self classBindings: aRGClassDefinition)
-		  during: [ 
-			  writer writeStClass: [ :class | 
-				  class name: aRGClassDefinition name.
-				  class sharedPools:
-					  (aRGClassDefinition sharedPools collect: [ :sh | 
-						   class typeReferenceNamed: sh ]).
-				  aRGClassDefinition category ifNotNil: [ 
-					  class packageReference:
-						  (class packageReferenceNamed: aRGClassDefinition category) ].
-				  class superclassReference:
-					  (class typeReferenceNamed: aRGClassDefinition superclassName).
-				  aRGClassDefinition instanceVariables do: [ :i | 
-					  class writeAttribute: [ :attr | attr name: i name ] ].
-				  aRGClassDefinition classVariables do: [ :i | 
-					  class writeAttribute: [ :attr | 
-						  attr setStaticBinding.
-						  attr name: i name ] ].
-
-				  self use: class during: [ 
-					  self visitCollection: aRGClassDefinition methods.
-					  aRGClassDefinition theMetaClass acceptVisitor: self ] ] ]
-]
-
-{ #category : #visiting }
 MOVisualWorksChunkImporter >> visitMetaclass: aRGMetaclassDefinition [
 
 	^ writer writeMetaclass: [ :metaclass | 
@@ -141,10 +143,22 @@ MOVisualWorksChunkImporter >> visitMetaclass: aRGMetaclassDefinition [
 
 { #category : #visiting }
 MOVisualWorksChunkImporter >> visitMethodChunk: aMethodChunk [
+  | ast content indexedContent contentLines pragmas |
 
-	| ast |
-	ast := RBParser parseMethod: aMethodChunk contents onError: [ ^ nil ].
-	^ ast acceptVisitor: self
+  content := aMethodChunk contents.
+  contentLines := content lines.
+  methodCategory := aMethodChunk category. 
+  indexedContent := contentLines withIndexCollect: [:a :b |  a -> b ].
+  pragmas := indexedContent allButFirst select: [:l |  l key trimBoth beginsWith: '<C:' ].
+  pragmas ifNotEmpty: [ pragmas do: [:p |  
+		| pc |
+              pc := p key trimBoth.
+              pc := pc copyFrom: 4 to: pc size - 1.
+              contentLines at: p value put: ('<C:''{1}''>' format: {pc}) ].
+        content := String lf join: contentLines ].
+  [ ast := RBParser parseMethod: content ] on: Exception do: [:e |  self parseWithTimeOut: content ].
+  ast ifNil: [ ^nil ].
+  ^ast acceptVisitor: self
 ]
 
 { #category : #visiting }

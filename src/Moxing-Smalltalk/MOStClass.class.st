@@ -10,6 +10,16 @@ Class {
 }
 
 { #category : #accessing }
+MOStClass >> acceptVisitor: aVisitor [
+  ^aVisitor visitStClass: self
+]
+
+{ #category : #accessing }
+MOStClass >> category [
+	^ category
+]
+
+{ #category : #accessing }
 MOStClass >> category: aString [
 
 	category := aString
@@ -19,6 +29,11 @@ MOStClass >> category: aString [
 MOStClass >> comment: aComment [
 
 	comment := aComment
+]
+
+{ #category : #accessing }
+MOStClass >> metaclass [
+	^ metaclass
 ]
 
 { #category : #accessing }

@@ -126,6 +126,11 @@ MODeclaration >> initialize [
 ]
 
 { #category : #testing }
+MODeclaration >> isDeclaration [
+  ^false
+]
+
+{ #category : #testing }
 MODeclaration >> isInvocation [
 
 	^ false
@@ -134,6 +139,11 @@ MODeclaration >> isInvocation [
 { #category : #traverse }
 MODeclaration >> isMOObject [
 	^ true  
+]
+
+{ #category : #testing }
+MODeclaration >> isPackage [
+	 ^ false 
 ]
 
 { #category : #testing }

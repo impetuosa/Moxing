@@ -2,7 +2,8 @@ Class {
 	#name : #MOStBlockClosure,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#block => MOContainmentSlot one'
+		'#block => MOContainmentSlot one',
+		'#parameters => MOContainmentSlot many'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }
@@ -14,6 +15,11 @@ MOStBlockClosure >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
+MOStBlockClosure >> block [
+	^ block
+]
+
+{ #category : #accessing }
 MOStBlockClosure >> block: aMOBlock [ 
 	block := aMOBlock
 ]
@@ -21,4 +27,14 @@ MOStBlockClosure >> block: aMOBlock [
 { #category : #testing }
 MOStBlockClosure >> isReference [
 	^ true
+]
+
+{ #category : #testing }
+MOStBlockClosure >> parameters [
+	 ^ parameters ifNil: [ {  } ]
+]
+
+{ #category : #testing }
+MOStBlockClosure >> parameters: aCol [
+  parameters := aCol
 ]

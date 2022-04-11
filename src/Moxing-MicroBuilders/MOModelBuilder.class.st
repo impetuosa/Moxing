@@ -660,6 +660,15 @@ MOModelBuilder >> parametrizedTypeReferenceBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> pragmaBuilder [
+
+	^ MOModelPhPragmaBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> primitiveEnumBuilder [
 
 	^ MOEnumBuilder new
@@ -810,6 +819,14 @@ MOModelBuilder >> sharedConstantBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> sharedPoolReferenceBuilder [
+
+	^ MOModelPhSharedPoolReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> sharedVariableBuilder [
 
 	^ MOModelSharedVariableBuilder new
@@ -839,6 +856,13 @@ MOModelBuilder >> stCascadeBuilder [
 	^ MOStCascadeBuilder new
 		  parentBuilder: self;
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> stMethodBuilder [
+  ^MOStModelMethodBuilder new
+     parentBuilder: self;
+     yourself
 ]
 
 { #category : #'as yet unclassified' }

@@ -52,10 +52,11 @@ MORBImportingTrait >> visitAssignmentNode: aRBAssignmentNode [
 { #category : #visiting }
 MORBImportingTrait >> visitBlockNode: aRBBlockNode [
 
-	^ self writer writeBlockClosure: [ :closure | 
-		  self
-			  use: closure
-			  during: [ aRBBlockNode body acceptVisitor: self ] ]
+  ^self writer writeBlockClosure: [:closure |  
+		aRBBlockNode arguments do: [:a |  
+			closure writeParameter: [:parameter |  parameter name: a name ] 
+		].
+      self use: closure during: [ aRBBlockNode body acceptVisitor: self ] ]
 ]
 
 { #category : #visiting }
@@ -103,13 +104,23 @@ MORBImportingTrait >> visitMessageNode: aRBMessageNode [
 MORBImportingTrait >> visitMethodNode: aRBMethodNode [
 
 	^ self addBindings: (self methodBindings: aRBMethodNode) during: [ 
-		  self writer writeMethod: [ :method | 
+		  self writer writeStMethod: [ :method | 
+			  method category: self methodCategory.
 			  method selector: aRBMethodNode selector.
 			  aRBMethodNode arguments do: [ :a | 
 				  method writeParameter: [ :parameter | parameter name: a name ] ].
 			  self
 				  use: method
 				  during: [ aRBMethodNode body acceptVisitor: self ] ] ]
+]
+
+{ #category : #visiting }
+MORBImportingTrait >> visitPragmaNode: aPragmaNode [
+
+	^ self writer pragma: aPragmaNode selector arguments: [ :exp | 
+		  self
+			  use: exp
+			  during: [ self visitCollection: aPragmaNode arguments ] ]
 ]
 
 { #category : #visiting }
@@ -134,6 +145,10 @@ MORBImportingTrait >> visitSequenceNode: aRBSequenceNode [
 		  during: [ 
 			  self writer writeBlock: [ :block | 
 				  self use: block during: [ 
+					  aRBSequenceNode parent isMethod ifTrue: [ 
+						  aRBSequenceNode parent pragmas do: [ :t | 
+							  block writeStatement: [ :stmt | 
+								  self use: stmt during: [ t acceptVisitor: self ] ] ] ].
 					  aRBSequenceNode temporaries do: [ :temp | 
 						  self writer writeVariable: [ :var | var name: temp name ] ] ].
 				  aRBSequenceNode statements do: [ :t | 

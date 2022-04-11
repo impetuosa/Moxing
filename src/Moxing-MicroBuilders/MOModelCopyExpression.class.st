@@ -157,6 +157,16 @@ MOModelCopyExpression >> visitNullLiteral: aMONullLiteral [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitPackageReference: aMOPackageReference [
+  ^writer packageReferenceNamed: aMOPackageReference name
+]
+
+{ #category : #visiting }
+MOModelCopyExpression >> visitPragma: aMOPhPragma [
+  ^writer pragma: aMOPhPragma selector arguments: [:expr |  self copyAll: aMOPhPragma relation: #arguments ]
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
 
 	^ self
@@ -172,6 +182,11 @@ MOModelCopyExpression >> visitSelfReference: aMOSelfReference [
 	^ self
 		  applyBindTo: writer referenceToSelf
 		  withCandidateFrom: aMOSelfReference
+]
+
+{ #category : #visiting }
+MOModelCopyExpression >> visitStCascade: aMOStCascade [
+  ^writer stCascadeWith: [:exp |  self copyAll: aMOStCascade relation: #invocations ]
 ]
 
 { #category : #visiting }

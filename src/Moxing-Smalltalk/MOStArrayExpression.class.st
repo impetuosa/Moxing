@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 MOStArrayExpression >> acceptVisitor: aVisitor [
 
-	^ self visitStArrayExpression: self
+	^ aVisitor visitStArrayExpression: self
 ]
 
 { #category : #accessing }

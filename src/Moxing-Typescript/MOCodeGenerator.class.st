@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'stream',
 		'indentation',
-		'indentationString'
+		'indentationString',
+		'isCommenting'
 	],
 	#category : #'Moxing-Typescript-Writting'
 }
@@ -19,6 +20,16 @@ MOCodeGenerator >> blockDelimiterClose [
 MOCodeGenerator >> blockDelimiterOpen [
 
 	^ '{'
+]
+
+{ #category : #accessing }
+MOCodeGenerator >> comment: aFullBlockClosure [
+  isCommenting ifFalse: [ self openComment.
+        stream nextPutAll: 'TODO '.
+        isCommenting := true.
+        aFullBlockClosure value.
+        self closeComment.
+        isCommenting := false ] ifTrue: [ aFullBlockClosure value ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -37,10 +48,10 @@ MOCodeGenerator >> indentationString [
 
 { #category : #accessing }
 MOCodeGenerator >> initialize [
-
-	super initialize.
-	stream := '' writeStream.
-	indentation := 0
+  super initialize.
+  stream := '' writeStream.
+  indentation := 0.
+  isCommenting := false
 ]
 
 { #category : #visiting }
@@ -87,6 +98,18 @@ MOCodeGenerator >> stream: aCollection splitingWith: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+MOCodeGenerator >> stream: aCollection splitingWith: aBlock enclosingWith: anEnclosingBlock [
+  aCollection isEmptyOrNil ifTrue: [ ^self ].
+  aCollection allButLast do: [:e |  anEnclosingBlock value.
+        e acceptVisitor: self.
+        anEnclosingBlock value.
+        aBlock value ].
+  anEnclosingBlock value.
+  aCollection last acceptVisitor: self.
+  anEnclosingBlock value
+]
+
+{ #category : #'as yet unclassified' }
 MOCodeGenerator >> streamArguments: aCollection [
 
 	self stream: aCollection splitingWith: [ stream nextPutAll: ', ' ]
@@ -105,12 +128,18 @@ MOCodeGenerator >> visitAssignment: aMOAssignment [
 
 { #category : #visiting }
 MOCodeGenerator >> visitBlock: aMOBlock [
-
+	| vars rest |
 	stream
 		nextPutAll: self blockDelimiterOpen ;
 		newLine.
+	vars := aMOBlock statements select:[ :e | e isVariable ].
+	rest := aMOBlock statements reject:[ :e | e isVariable ].
+	stream nextPutAll: '| '.
+	stream nextPutAll: (' ' join: (vars collect: #name )).
+	stream nextPutAll: ' |'.
+	
 	self increaseDeepDuring: [ 
-		aMOBlock statements do: [ :s | 
+		rest do: [ :s | 
 			self printIndentation.
 			s acceptVisitor: self.
 
@@ -149,6 +178,11 @@ MOCodeGenerator >> visitIfElse: aMOIfElse [
 		stream nextPutAll:' else '.
 		aMOIfElse ifFalse acceptVisitor: self.
 	 ]
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [ 
+	stream print: aMOIntegerLiteral literal 
 ]
 
 { #category : #visiting }

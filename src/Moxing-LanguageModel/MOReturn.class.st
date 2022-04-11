@@ -23,6 +23,11 @@ MOReturn >> expression: aMOVariableRererence [
 	expression := aMOVariableRererence
 ]
 
+{ #category : #testing }
+MOReturn >> isReturn [
+  ^true
+]
+
 { #category : #accessing }
 MOReturn >> printOn: aStream [
 

@@ -9,3 +9,8 @@ MOMetaClassWriter >> initializeWriteBuilder [
 
 	writeBuilder := builder metaclassBuilder
 ]
+
+{ #category : #writing }
+MOMetaClassWriter >> writeStMethod: aFullBlockClosure [ 
+	^ self write: aFullBlockClosure inSubWriter: MOStMethodWriter
+]

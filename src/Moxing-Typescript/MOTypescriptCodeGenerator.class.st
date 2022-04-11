@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> closeComment [
+  stream nextPutAll: '*/'
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> openComment [
+  stream nextPutAll: '/*'
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> printClassHeader: name implements: types [
 
 	stream nextPutAll: (' export class {1}  ' format: { name }).
