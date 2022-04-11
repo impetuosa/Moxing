@@ -19,6 +19,12 @@ MOStatementExpression >> candidate: aCandidate [
 ]
 
 { #category : #accessing }
+MOStatementExpression >> dependencies [
+
+	^ expression dependencies
+]
+
+{ #category : #accessing }
 MOStatementExpression >> expression [
 	^ expression
 ]

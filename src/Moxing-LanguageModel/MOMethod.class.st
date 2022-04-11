@@ -41,7 +41,7 @@ MOMethod >> dependencies [
 		   ifNotNil: [ :t | t dependencies ]
 		   ifNil: [ {  } ]) , (annotationInstances
 		   ifNotNil: [ :t | annotationInstances flatCollect: #dependencies ]
-		   ifNil: [ {  } ])
+		   ifNil: [ {  } ]) , block dependencies
 ]
 
 { #category : #'as yet unclassified' }

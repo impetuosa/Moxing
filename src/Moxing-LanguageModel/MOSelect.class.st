@@ -25,6 +25,13 @@ MOSelect >> cases: aCollection [
 ]
 
 { #category : #accessing }
+MOSelect >> dependencies [
+
+	^ expression dependencies
+	  , (cases flatCollect: [ :a | a dependencies ])
+]
+
+{ #category : #accessing }
 MOSelect >> expression [
 	^ expression
 ]

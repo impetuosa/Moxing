@@ -14,6 +14,12 @@ MOParametrizableClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOParametrizableClass >> isParametrizable [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOParametrizableClass >> typeParameters [
 	^ typeParameters
 ]

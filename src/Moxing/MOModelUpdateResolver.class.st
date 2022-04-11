@@ -217,6 +217,19 @@ MOModelUpdateResolver >> visitParameter: aMOParameter [
 ]
 
 { #category : #visiting }
+MOModelUpdateResolver >> visitParametrizableClass: aMOParametrizableClass [
+
+	| addedElement |
+	writer
+		updateParametrizableClass: aMOParametrizableClass
+		with: [ :classWriter | 
+			addedElement := writingBlock
+				                cull: writingEntityRelation
+				                cull: classWriter ].
+	^ addedElement
+]
+
+{ #category : #visiting }
 MOModelUpdateResolver >> visitProcedure: aMOProcedure [
 
 	| addedElement |

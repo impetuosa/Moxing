@@ -458,6 +458,15 @@ MOModelWriter >> updateParameter: aMOParameter with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateParametrizableClass: aMOParametrizableClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOParametrizableClass
+		  withWriter: MOParametrizableClassWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateProcedure: aMOMethod with: aFullBlockClosure [
 
 	^ self

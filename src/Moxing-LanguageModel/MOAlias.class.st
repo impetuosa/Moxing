@@ -20,6 +20,12 @@ MOAlias >> allMethods [
 ]
 
 { #category : #accessing }
+MOAlias >> isPrimitiveType [
+
+	^ typeReference candidate isPrimitiveType
+]
+
+{ #category : #accessing }
 MOAlias >> printOn: aStream [
 
 	aStream

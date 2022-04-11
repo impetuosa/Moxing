@@ -72,6 +72,12 @@ MOModelVariableLinker >> visitPackage: aMOPackage [
 ]
 
 { #category : #visiting }
+MOModelVariableLinker >> visitParametrizableClass: aMOParametrizableClass [
+
+	self visitClass: aMOParametrizableClass
+]
+
+{ #category : #visiting }
 MOModelVariableLinker >> visitReturn: aMOReturn [
 
 	aMOReturn parent acceptVisitor: self

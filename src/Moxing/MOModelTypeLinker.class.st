@@ -167,7 +167,7 @@ MOModelTypeLinker >> visitParametrizableClass: aMOParametrizableClass [
 		ifFalse: [ 
 			aMOParametrizableClass packageReference acceptVisitor: self.
 			aMOParametrizableClass parent acceptVisitor: self ]
-		ifTrue: [ self halt ]
+		
 ]
 
 { #category : #visiting }

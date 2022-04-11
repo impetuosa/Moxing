@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #printing }
+MOBlockClosure >> dependencies [
+
+	^ block dependencies
+	  , (self dependenciesOrEmpty: returnTypeReference)
+	  , (self dependenciesOrEmpty: parameters)
+]
+
+{ #category : #printing }
 MOBlockClosure >> printOn: aStream [
 
 	aStream

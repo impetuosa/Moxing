@@ -89,6 +89,14 @@ MOLanguageObject >> dependencies [
 ]
 
 { #category : #testing }
+MOLanguageObject >> dependenciesOrEmpty: aDeclaration [
+
+	^ aDeclaration
+		  ifNil: [ {  } ]
+		  ifNotNil: [ aDeclaration dependencies ]
+]
+
+{ #category : #testing }
 MOLanguageObject >> isDeclaration [
 
 	^ false

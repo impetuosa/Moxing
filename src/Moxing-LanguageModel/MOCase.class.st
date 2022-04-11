@@ -25,6 +25,12 @@ MOCase >> block: aMOBlock [
 ]
 
 { #category : #accessing }
+MOCase >> dependencies [
+
+	^ (expressions flatCollect: #dependencies) , block dependencies
+]
+
+{ #category : #accessing }
 MOCase >> expressions [
 	^ expressions
 ]

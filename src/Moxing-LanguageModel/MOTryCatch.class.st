@@ -26,6 +26,12 @@ MOTryCatch >> catches: aCollection [
 ]
 
 { #category : #'private parsing' }
+MOTryCatch >> dependencies [
+
+	^ try dependencies , (catches flatCollect: [ :a | a dependencies ])
+]
+
+{ #category : #'private parsing' }
 MOTryCatch >> try [
 	^ try
 ]

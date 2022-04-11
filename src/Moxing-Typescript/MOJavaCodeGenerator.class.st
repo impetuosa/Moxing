@@ -393,6 +393,17 @@ MOJavaCodeGenerator >> visitParameter: aMOParameter [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
+
+	stream
+		nextPutAll: aMOParametrizedTypeReference name;
+		nextPutAll: '<'.
+	self streamArguments:
+		aMOParametrizedTypeReference argumentTypeReferences.
+	stream nextPutAll: '>'
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
 
 	stream nextPutAll: aMOPrimitiveTypeReference name

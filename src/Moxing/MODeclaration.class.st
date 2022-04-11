@@ -153,6 +153,18 @@ MODeclaration >> isPackage [
 ]
 
 { #category : #testing }
+MODeclaration >> isParametrizable [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isPrimitiveType [ 
+
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isReference [
 	^ false
 ]

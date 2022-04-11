@@ -25,6 +25,13 @@ MOIfElse >> condition: aFylgjaMissingOperator [
 	condition := aFylgjaMissingOperator
 ]
 
+{ #category : #accessing }
+MOIfElse >> dependencies [
+
+	^ condition dependencies , (self dependenciesOrEmpty: ifTrue)
+	  , (self dependenciesOrEmpty: ifFalse)
+]
+
 { #category : #generated }
 MOIfElse >> ifFalse [
 

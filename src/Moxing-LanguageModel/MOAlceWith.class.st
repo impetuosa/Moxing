@@ -26,6 +26,12 @@ MOAlceWith >> block: aBlock [
 ]
 
 { #category : #visiting }
+MOAlceWith >> dependencies [
+
+	^ expression dependencies , block dependencies
+]
+
+{ #category : #visiting }
 MOAlceWith >> expression [
 
 	^ expression

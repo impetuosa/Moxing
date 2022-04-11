@@ -19,6 +19,12 @@ MOLoop >> condition: aMOComparisonOperator [
 ]
 
 { #category : #accessing }
+MOLoop >> dependencies [
+
+	^ condition dependencies , (self dependenciesOrEmpty: loopingBlock)
+]
+
+{ #category : #accessing }
 MOLoop >> loopingBlock [
 	^ loopingBlock
 ]

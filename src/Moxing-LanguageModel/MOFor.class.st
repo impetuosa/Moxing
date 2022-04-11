@@ -9,6 +9,14 @@ Class {
 }
 
 { #category : #accessing }
+MOFor >> dependencies [
+
+	^ super dependencies
+	  , (self dependenciesOrEmpty: initializeOperation)
+	  , (self dependenciesOrEmpty: updateOperation)
+]
+
+{ #category : #accessing }
 MOFor >> initializeOperation [
 	^ initializeOperation
 ]
