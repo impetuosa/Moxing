@@ -1,30 +1,30 @@
 Class {
-	#name : #MOPhPragma,
+	#name : #MOStPragma,
 	#superclass : #MOExpression,
 	#instVars : [
 		'#selector => MOPropertySlot',
 		'#arguments => MOExpressionSlot many'
 	],
-	#category : #'Moxing-StPharo'
+	#category : #'Moxing-Smalltalk-model'
 }
 
 { #category : #accessing }
-MOPhPragma >> acceptVisitor: aVisitor [
+MOStPragma >> acceptVisitor: aVisitor [
 	^ aVisitor visitPragma: self 
 ]
 
 { #category : #accessing }
-MOPhPragma >> arguments [
+MOStPragma >> arguments [
 	^ arguments
 ]
 
 { #category : #accessing }
-MOPhPragma >> arguments: aCollection [ 
+MOStPragma >> arguments: aCollection [ 
 	arguments := aCollection
 ]
 
 { #category : #accessing }
-MOPhPragma >> printOn: aStream [
+MOStPragma >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'Pragma(';
@@ -38,12 +38,12 @@ MOPhPragma >> printOn: aStream [
 ]
 
 { #category : #accessing }
-MOPhPragma >> selector [
+MOStPragma >> selector [
 	^ selector
 ]
 
 { #category : #accessing }
-MOPhPragma >> selector: aString [
+MOStPragma >> selector: aString [
 
 	selector := aString
 ]

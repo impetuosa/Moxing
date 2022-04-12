@@ -22,7 +22,7 @@ MOModelPhPragmaBuilder >> arguments: aCollection [
 
 { #category : #asserting }
 MOModelPhPragmaBuilder >> buildsType [ 
-	^ MOPhPragma
+	^ MOStPragma
 ]
 
 { #category : #accessing }
