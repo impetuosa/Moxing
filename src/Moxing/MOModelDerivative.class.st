@@ -97,6 +97,11 @@ MOModelDerivative >> name [
 	^ model name
 ]
 
+{ #category : #enumerating }
+MOModelDerivative >> objectsSelect: aFullBlockClosure [ 
+	^ model objects select: aFullBlockClosure 
+]
+
 { #category : #'as yet unclassified' }
 MOModelDerivative >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
 

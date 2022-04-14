@@ -142,18 +142,12 @@ MOCodeGenerator >> visitAssignment: aMOAssignment [
 
 { #category : #visiting }
 MOCodeGenerator >> visitBlock: aMOBlock [
-	| vars rest |
+
 	stream
 		nextPutAll: self blockDelimiterOpen ;
 		newLine.
-	vars := aMOBlock statements select:[ :e | e isVariable ].
-	rest := aMOBlock statements reject:[ :e | e isVariable ].
-	stream nextPutAll: '| '.
-	stream nextPutAll: (' ' join: (vars collect: #name )).
-	stream nextPutAll: ' |'.
-	
 	self increaseDeepDuring: [ 
-		rest do: [ :s | 
+		aMOBlock statements do: [ :s | 
 			self printIndentation.
 			s acceptVisitor: self.
 
@@ -163,6 +157,7 @@ MOCodeGenerator >> visitBlock: aMOBlock [
 	stream
 		nextPutAll: self blockDelimiterClose ;
 		newLine
+
 ]
 
 { #category : #visiting }
