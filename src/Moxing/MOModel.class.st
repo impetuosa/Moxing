@@ -85,6 +85,12 @@ MOModel >> objects [
 	^ objects
 ]
 
+{ #category : #enumerating }
+MOModel >> objectsSelect: aFullBlockClosure [
+
+	^ objects select: aFullBlockClosure
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> rootPackages [
 
