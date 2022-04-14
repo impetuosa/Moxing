@@ -9,3 +9,8 @@ MOAlceTable >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitTable: self
 ]
+
+{ #category : #visiting }
+MOAlceTable >> isDatasource [ 
+	 ^ true
+]

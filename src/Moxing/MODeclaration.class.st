@@ -124,6 +124,13 @@ MODeclaration >> compareName: aString [
 	^ self name = aString or: [ self name = (self sanitize: aString) ]
 ]
 
+{ #category : #'as yet unclassified' }
+MODeclaration >> doForceNameToBeSanitized [
+
+	self isRenamable ifFalse: [ ^ self error: ' Cannot ' ].
+	self name: (self sanitize: self name)
+]
+
 { #category : #traverse }
 MODeclaration >> initialize [
 
@@ -134,6 +141,11 @@ MODeclaration >> initialize [
 { #category : #testing }
 MODeclaration >> isClassType [
 	^ false .
+]
+
+{ #category : #testing }
+MODeclaration >> isDatasource [
+	^ false
 ]
 
 { #category : #testing }
@@ -228,10 +240,9 @@ MODeclaration >> sanitize: aString [
 ]
 
 { #category : #'as yet unclassified' }
-MODeclaration >> sanitizeName [
+MODeclaration >> sanitizedName [
 
-	self isRenamable ifFalse: [ ^ self error: ' Cannot ' ].
-	self name: (self sanitize: self name)
+	^ self sanitize: self name
 ]
 
 { #category : #initialization }
