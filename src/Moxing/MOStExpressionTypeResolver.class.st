@@ -73,6 +73,11 @@ MOStExpressionTypeResolver >> visitStringLiteral: aMOStringLiteral [
 ]
 
 { #category : #visiting }
+MOStExpressionTypeResolver >> visitSymbolicArrayLiteral: aMOSymbolicArrayLiteral [ 
+^model entities detect: [:a |  a isType and: [ a name = #Array ] ] ifNone: [ nil ]
+]
+
+{ #category : #visiting }
 MOStExpressionTypeResolver >> visitThisContext: aMOThisContextReference [
   ^model entities detect: [:a |  a isType and: [ a name = #Context ] ] ifNone: [ nil ]
 ]

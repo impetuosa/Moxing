@@ -91,7 +91,7 @@ MOModelVariableResolver >> visitMethodInvocation: aMOMethodInvocation [
 
 { #category : #visiting }
 MOModelVariableResolver >> visitPackage: aMOPackage [ 
-
+	" Nothing to do here "
 ]
 
 { #category : #visiting }
@@ -136,4 +136,16 @@ MOModelVariableResolver >> visitStatementExpression: aMOStatementExpression [
 MOModelVariableResolver >> visitVariableReference: aMOVariableReference [
 
 	^ aMOVariableReference parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitVisualWorksPackage: aMOVisualWorksPackage [ 
+
+		^ aMOVisualWorksPackage sharedVariables 
+			detect: [ :v | 
+				(v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ]
+			ifFound: [ :c | resolving candidate: c ]
+	
+
+
 ]

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'#metaclass => MOContainmentSlot one',
 		'#category => MOPropertySlot',
-		'#comment => MOPropertySlot'
+		'#comment => MOPropertySlot',
+		'#isPreexisting => MOPropertySlot'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }

@@ -48,6 +48,11 @@ MOVisualWorksPackage >> parcelName: aString [
 ]
 
 { #category : #accessing }
+MOVisualWorksPackage >> sharedVariables [
+	^ sharedVariables
+]
+
+{ #category : #accessing }
 MOVisualWorksPackage >> sharedVariables: aCollection [
 
 	sharedVariables := aCollection

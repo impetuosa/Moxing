@@ -5,7 +5,8 @@ Class {
 		'metaclass',
 		'category',
 		'sharedVariables',
-		'comment'
+		'comment',
+		'isPreexisting'
 	],
 	#category : #'Moxing-Smalltalk-builer'
 }
@@ -40,6 +41,7 @@ MOModelStClassBuilder >> comment: aComment [
 
 { #category : #accessing }
 MOModelStClassBuilder >> isPreexisting [
+
 	^ isPreexisting
 ]
 
