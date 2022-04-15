@@ -12,6 +12,11 @@ Class {
 }
 
 { #category : #accessing }
+MOVisualWorksPackage >> acceptVisitor: aVisitor [
+	 ^ aVisitor visitVisualWorksPackage: self 
+]
+
+{ #category : #accessing }
 MOVisualWorksPackage >> comment [
 	^ comment
 ]

@@ -311,6 +311,14 @@ MOModelProceduralWriter >> surface: aMOModelWriter [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> symbolicArrayLiteral: aCollection [
+
+	^ builder symbolicArrayLiteralBuilder
+		  value: (aCollection collect: [ :i | self literalForValue: i ]);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> thrownTypeReferences: aCollection [
 
 	writeBuilder thrownTypeReferences: aCollection

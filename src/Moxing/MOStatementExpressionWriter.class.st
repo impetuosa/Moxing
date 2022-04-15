@@ -14,3 +14,11 @@ MOStatementExpressionWriter >> initializeWriteBuilder [
 
 	writeBuilder := builder statementBuilder
 ]
+
+{ #category : #writing }
+MOStatementExpressionWriter >> writeBlockClosure: aFullBlockClosure [ 	
+	| ret |
+	ret := ((self write: aFullBlockClosure inSubWriter: MOBlockClosureWriter)).
+	self expression: ret.
+	^ret
+]

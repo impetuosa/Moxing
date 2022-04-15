@@ -32,6 +32,16 @@ MOStClass >> comment: aComment [
 ]
 
 { #category : #accessing }
+MOStClass >> isPreexisting [
+	 ^ isPreexisting ifNil: [ false  ]
+]
+
+{ #category : #accessing }
+MOStClass >> isPreexisting: aBool [
+  isPreexisting := aBool
+]
+
+{ #category : #accessing }
 MOStClass >> metaclass [
 	^ metaclass
 ]

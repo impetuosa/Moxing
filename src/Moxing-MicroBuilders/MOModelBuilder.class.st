@@ -911,6 +911,13 @@ MOModelBuilder >> surface: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> symbolicArrayLiteralBuilder [
+	^ MOSymbolicArrayLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> tableBuilder [
 
 	^ MOModelTableBuilder new

@@ -34,6 +34,11 @@ MOStClassWriter >> initializeWriteBuilder [
 	writeBuilder := builder smalltalkClassBuilder
 ]
 
+{ #category : #testing }
+MOStClassWriter >> isPreexisting: anUndefinedObject [
+  writeBuilder isPreexisting: anUndefinedObject
+]
+
 { #category : #accessing }
 MOStClassWriter >> sharedVariables: aCollection [
 

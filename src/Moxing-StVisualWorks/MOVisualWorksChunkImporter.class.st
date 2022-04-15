@@ -124,10 +124,11 @@ MOVisualWorksChunkImporter >> typeReferenceNamed: aName using: class [
 MOVisualWorksChunkImporter >> visitClassChunk: aClassChunk [
 	| name |
 	name := self packageLessClassName: aClassChunk name. 
-	
+
 	^ self addBindings: (self classBindings: aClassChunk) during: [ 
 		  writer writeStClass: [ :class | 
 			  class name: name.
+			  class isPreexisting: aClassChunk isPreexisting .
 			  class comment: aClassChunk comment.
 			  class category: aClassChunk category.
 			  aClassChunk packageName ifNotNil: [ 
