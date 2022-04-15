@@ -99,6 +99,11 @@ MOAbstractVariable >> isDynamicBinding [
 	^ self bindingKind = #dynamic.
 ]
 
+{ #category : #testing }
+MOAbstractVariable >> isSharedVariable [
+  ^false
+]
+
 { #category : #'as yet unclassified' }
 MOAbstractVariable >> isStaticBinding [
 	^ self bindingKind = #static.

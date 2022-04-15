@@ -64,9 +64,9 @@ MOPharoCodeGenerator >> visitBlockClosure: aMOStBlockClosure [
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitCharacterLiteral: aMOCharacterLiteral [
-  stream
-     nextPut: $$;
-     nextPut: aMOCharacterLiteral literal
+  aMOCharacterLiteral = Character space ifTrue: [ stream nextPutAll: 'Character space' ] ifFalse: [ stream
+           nextPut: $$;
+           nextPut: aMOCharacterLiteral literal ]
 ]
 
 { #category : #visiting }
@@ -114,7 +114,7 @@ MOPharoCodeGenerator >> visitSelfReference: aMOSelfReference [
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitSharedVariable: aMOSharedVariable [ 
-
+  stream nextPutAll: aMOSharedVariable name
 ]
 
 { #category : #visiting }
@@ -139,6 +139,8 @@ MOPharoCodeGenerator >> visitStCascade: aMOStCascade [
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStClass: aMOStClass [
+
+	aMOStClass isPreexisting ifTrue: [ stream nextPutAll: 'Extention {#name : #'; nextPutAll: aMOStClass name; nextPutAll: '}'; newLine  ] ifFalse: [
 	stream 
 	nextPutAll: 'Class {'; newLine.
 	self increaseDeepDuring: [
@@ -149,15 +151,22 @@ MOPharoCodeGenerator >> visitStClass: aMOStClass [
 	self printIndentation.
 	stream nextPutAll: '#category: #''' ; nextPutAll: aMOStClass category; nextPutAll: ''''; nextPutAll:' ,' ;newLine.
 	self printIndentation.
+	
 	stream nextPutAll:'#instVars: ['.
-			self stream: aMOStClass attributes splitingWith: [ stream nextPutAll: ', '; nextPutAll: String lf ] enclosingWith: [ stream nextPutAll: '''' ].
+			self stream: aMOStClass instanceVariables splitingWith: [ stream nextPutAll: ', '; nextPutAll: String lf ] enclosingWith: [ stream nextPutAll: '''' ].
+			self printIndentation.
+	stream nextPutAll:'],' ;newLine.
+	self printIndentation.
+	
+	stream nextPutAll:'#sharedVars: ['.
+			self stream: aMOStClass sharedVariables splitingWith: [ stream nextPutAll: ', '; nextPutAll: String lf ] enclosingWith: [ stream nextPutAll: '''' ].
 			self printIndentation.
 	stream nextPutAll:'],' ;newLine.
 self printIndentation.
 	stream nextPutAll:'#classInstVars: [' .
 		self stream: aMOStClass metaclass attributes splitingWith: [ stream nextPutAll: ', ' ] enclosingWith: [ stream nextPutAll: '''' ].
 	stream nextPutAll:']';newLine.].
-	stream newLine; nextPutAll: '}'; newLine.
+	stream newLine; nextPutAll: '}'; newLine.].
 	self visitCollection: aMOStClass metaclass methods .
 	self visitCollection: aMOStClass methods 
 	
@@ -201,13 +210,8 @@ MOPharoCodeGenerator >> visitStringLiteral: aMOStringLiteral [
   | str |
   str := aMOStringLiteral literal.
   
-  "((aMOStringLiteral literal beginsWith: '''') and: [ 
-		        aMOStringLiteral literal endsWith: '''' ])
-		       ifTrue: [ 
-			       aMOStringLiteral literal
-				       copyFrom: 2
-				       to: aMOStringLiteral literal size - 1 ]
-		       ifFalse: [ aMOStringLiteral literal ]."stream
+	str := str copyReplaceAll: $' asString with:( $' asString , $'asString ).
+	stream
      nextPutAll: '''';
      nextPutAll: str;
      nextPutAll: ''''
