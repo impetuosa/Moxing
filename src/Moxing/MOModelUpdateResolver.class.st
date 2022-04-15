@@ -44,6 +44,17 @@ MOModelUpdateResolver >> visitAccessor: aMOAccessor [
 ]
 
 { #category : #visiting }
+MOModelUpdateResolver >> visitAngularModule: aMOAngularModule [ 
+
+	| addedElement |
+	writer updateAngularModel: aMOAngularModule with: [ :classWriter | 
+		addedElement := writingBlock
+			                cull: writingEntityRelation
+			                cull: classWriter ].
+	^ addedElement
+]
+
+{ #category : #visiting }
 MOModelUpdateResolver >> visitArrayAccess: aMOArrayAccess [
 
 	^ self genericUpdate: aMOArrayAccess
