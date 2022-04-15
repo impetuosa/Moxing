@@ -29,8 +29,12 @@ MOModelReader >> readEntitysContextualizingRelation: anEntity [
 			  (MODeclarationStructuralRelation nullRelationTo: anEntity) ].
 	relation := anEntity parent allRelations select: [ :a | 
 		            a to = anEntity ].
-	self assert: relation size = 1.
-	^ self readRelation: relation first
+	self assert: relation size <= 1.
+	relation := relation
+		            ifEmpty: [ 
+		            MODeclarationStructuralRelation nullRelationTo: anEntity ]
+		            ifNotEmpty: [ relation first ].
+	^ self readRelation: relation
 ]
 
 { #category : #'as yet unclassified' }

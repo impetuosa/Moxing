@@ -330,6 +330,11 @@ MOModelWriter >> updateAccessor: aMOAccessor with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateAngularModel: aMOAngularModule with: aFullBlockClosure [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateAssignment: aMOAssignment with: aFullBlockClosure [
 
 	^ self
