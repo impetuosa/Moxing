@@ -412,9 +412,15 @@ MOStatementWriter >> writeStatement: aFullBlockClosure [
 ]
 
 { #category : #writing }
-MOStatementWriter >> writeVariableAccessNamed: aString [
+MOStatementWriter >> writeTypeReferenceNamed: aString [
 
 	^ self writenExpression: (self typeReferenceNamed: aString)
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeVariableAccessNamed: aString [
+
+	^ self writenExpression: (self variableReferenceNamed: aString)
 ]
 
 { #category : #writing }

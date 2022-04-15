@@ -61,6 +61,11 @@ MOModelWriteTypeBasedCopyResolver >> visitArrayAccess: aMOArrayAccess [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitArrayLiteral: aMOArrayLiteral [ 
+^ self visitLiteral: aMOArrayLiteral
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitAssignment: aMOAssignment [
 
 	^ self copyExpression
@@ -105,6 +110,11 @@ MOModelWriteTypeBasedCopyResolver >> visitBooleanLiteral: aMOBooleanLiteral [
 MOModelWriteTypeBasedCopyResolver >> visitCase: aMOCase [
 
 	^ writer writeCase: [ :variable | writingBlock value: variable ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitCharacterLiteral: aMOCharacterLiteral [ 
+	^ self visitLiteral: aMOCharacterLiteral
 ]
 
 { #category : #visiting }
@@ -159,6 +169,11 @@ MOModelWriteTypeBasedCopyResolver >> visitEnumEntry: aMOEnumEntry [
 MOModelWriteTypeBasedCopyResolver >> visitExit: aMOAlceExit [
 
 	^ writer writeExit: [ :exit | writingBlock cull: exit ] 
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitFloatLiteral: aMOFloatLiteral [ 
+^ self visitLiteral: aMOFloatLiteral 
 ]
 
 { #category : #visiting }
@@ -338,6 +353,11 @@ MOModelWriteTypeBasedCopyResolver >> visitSetToReturn: aMOSetToReturn [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitSharedVariable: aMOSharedVariable [ 
+ ^writer writeSharedVariable:  [:var |  writingBlock value: var ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitStCascade: aMOStCascade [
   ^self copyExpression
 ]
@@ -368,6 +388,11 @@ MOModelWriteTypeBasedCopyResolver >> visitStringLiteral: aMOStringLiteral [
 MOModelWriteTypeBasedCopyResolver >> visitStructure: aMOStructure [
 
 	^ writer writeStructure: [ :structure | writingBlock cull: structure ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitSymbolicArrayLiteral: aMOArrayLiteral [ 
+^ self visitLiteral: aMOArrayLiteral
 ]
 
 { #category : #visiting }

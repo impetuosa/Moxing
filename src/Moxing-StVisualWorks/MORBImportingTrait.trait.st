@@ -5,14 +5,12 @@ Trait {
 
 { #category : #evaluating }
 MORBImportingTrait >> addBindings: aCollection during: aBlock [
-
-	| prev col |
-	prev := self bindings.
-	col := aCollection asDictionary.
-	self bindings: (self bindings keysAndValuesDo: [ :k :v | 
-			 col at: k ifAbsentPut: [ self bindings at: k ] ]).
-
-	^ aBlock ensure: [ self bindings: prev ]
+  | prev col |
+  prev := self bindings.
+  col := aCollection asDictionary.
+  self bindings keysAndValuesDo: [:k :v |  col at: k ifAbsentPut: [ self bindings at: k ] ].
+  self bindings: col.
+  ^aBlock ensure: [ self bindings: prev ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -139,7 +137,6 @@ MORBImportingTrait >> visitSelfNode: aRBVariableNode [
 
 { #category : #visiting }
 MORBImportingTrait >> visitSequenceNode: aRBSequenceNode [
-
 	^ self
 		  addBindings: (self sequenceBindings: aRBSequenceNode)
 		  during: [ 
@@ -170,6 +167,15 @@ MORBImportingTrait >> visitThisContextNode: aRBVariableNode [
 
 { #category : #visiting }
 MORBImportingTrait >> visitVariableNode: aRBVariableNode [
-
-	^ self writer writeVariableAccessNamed: aRBVariableNode name
+  | symbol |
+  symbol := self bindings at: aRBVariableNode name ifAbsent: [
+	 aRBVariableNode name first isUppercase 
+			ifTrue: [ #Class ] 
+			ifFalse: [ #InstanceVariable ] 
+	].
+(  #(Parameter LocalVariable InstanceVariable Package) includes: symbol ) ifTrue: [ ^self writer writeVariableAccessNamed: aRBVariableNode name ].
+  symbol = #Class ifTrue: [ 
+	self assert: (aRBVariableNode name indexOf: $.) = 0.  
+	^self writer writeTypeReferenceNamed:  aRBVariableNode name].
+ self halt 
 ]

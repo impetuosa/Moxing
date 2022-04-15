@@ -59,6 +59,11 @@ MOModelCopyExpression >> visitArrayAccess: aMOArrayAccess [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitArrayLiteral: aMOArrayLiteral [ 
+	 ^ writer arrayLiteral: aMOArrayLiteral literal
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitAssignment: aMOAssignment [
 
 	^ writer
@@ -92,12 +97,23 @@ MOModelCopyExpression >> visitBooleanLiteral: aMOBooleanLiteral [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitCharacterLiteral: aMOCharacterLiteral [ 
+	^ writer characterLiteral:  aMOCharacterLiteral literal
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitConstantReference: aMOConstantReference [
 
 	^ self
 		  applyBindTo:
 		  (writer constantReferenceNamed: aMOConstantReference name)
 		  withCandidateFrom: aMOConstantReference
+]
+
+{ #category : #visiting }
+MOModelCopyExpression >> visitFloatLiteral: aMOFloatLiteral [ 
+
+	^ writer numericLiteral: aMOFloatLiteral literal
 ]
 
 { #category : #visiting }
@@ -193,6 +209,11 @@ MOModelCopyExpression >> visitStCascade: aMOStCascade [
 MOModelCopyExpression >> visitStringLiteral: aMOStringLiteral [
 
 	^ writer stringLiteral: aMOStringLiteral literal
+]
+
+{ #category : #visiting }
+MOModelCopyExpression >> visitSymbolicArrayLiteral: aMOArrayLiteral [ 
+	 ^ writer symbolicArrayLiteral: aMOArrayLiteral literal
 ]
 
 { #category : #visiting }

@@ -46,6 +46,5 @@ MOModelExpressionTypeResolver >> visitTypeReference: aMOTypeReference [
 
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitVariableReference: aMOVariableReference [
-
-	^ aMOVariableReference candidate typeReference candidate
+  ^aMOVariableReference candidate ifNotNil: [:c |  c typeReference ifNotNil: [:e |  e candidate ] ]
 ]

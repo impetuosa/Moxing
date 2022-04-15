@@ -12,6 +12,11 @@ Class {
 }
 
 { #category : #accessing }
+MOVisualWorksPackage >> acceptVisitor: aVisitor [
+	 ^ aVisitor visitVisualWorksPackage: self 
+]
+
+{ #category : #accessing }
 MOVisualWorksPackage >> comment [
 	^ comment
 ]
@@ -40,6 +45,11 @@ MOVisualWorksPackage >> parcelName [
 { #category : #accessing }
 MOVisualWorksPackage >> parcelName: aString [ 
 	parcelName := aString
+]
+
+{ #category : #accessing }
+MOVisualWorksPackage >> sharedVariables [
+	^ sharedVariables
 ]
 
 { #category : #accessing }

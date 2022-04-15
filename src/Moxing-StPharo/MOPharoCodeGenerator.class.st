@@ -193,6 +193,13 @@ MOPharoCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 ]
 
 { #category : #visiting }
+MOPharoCodeGenerator >> visitSymbolicArrayLiteral: aMOSymbolicArrayLiteral [ 
+	stream nextPutAll: '#('.
+	stream nextPutAll: (	' ' join: 	aMOSymbolicArrayLiteral literal ).
+	stream nextPutAll: ')'
+]
+
+{ #category : #visiting }
 MOPharoCodeGenerator >> visitTypeReference: aMOTypeReference [
   stream nextPutAll: aMOTypeReference name
 ]

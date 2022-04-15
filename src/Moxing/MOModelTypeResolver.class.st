@@ -235,6 +235,11 @@ MOModelTypeResolver >> visitReturn: aMOReturn [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitSharedVariable: aMOSharedVariable [ 
+	 ^ aMOSharedVariable parent acceptVisitor: self 
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitStArrayExpression: aMOStArrayExpression [ 
 
 ]
@@ -286,4 +291,10 @@ MOModelTypeResolver >> visitVarArgParameter: aMOVariableArgumentsParameter [
 MOModelTypeResolver >> visitVariable: aMOVariable [
 	
 	^ aMOVariable parent ifNotNil: [: d| d acceptVisitor: self]
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitVisualWorksPackage: aMOVisualWorksPackage [
+  resolving packageReference ifNil: [ ^self ].
+  resolving packageReference candidate = aMOVisualWorksPackage ifTrue: [ self registerPossibles: (aMOVisualWorksPackage allTypes select: [:i |  i name = resolving name ]) ]
 ]

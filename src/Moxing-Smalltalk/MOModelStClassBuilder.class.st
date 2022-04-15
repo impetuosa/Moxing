@@ -5,7 +5,8 @@ Class {
 		'metaclass',
 		'category',
 		'sharedVariables',
-		'comment'
+		'comment',
+		'isPreexisting'
 	],
 	#category : #'Moxing-Smalltalk-builer'
 }
@@ -38,6 +39,17 @@ MOModelStClassBuilder >> comment: aComment [
 	comment := aComment
 ]
 
+{ #category : #accessing }
+MOModelStClassBuilder >> isPreexisting [
+
+	^ isPreexisting
+]
+
+{ #category : #testing }
+MOModelStClassBuilder >> isPreexisting: anUndefinedObject [
+  isPreexisting := anUndefinedObject
+]
+
 { #category : #asserting }
 MOModelStClassBuilder >> loadBuilderWithEntity: anEntity [
 
@@ -45,6 +57,7 @@ MOModelStClassBuilder >> loadBuilderWithEntity: anEntity [
 	self metaclass: anEntity metaclass.
 	self category: anEntity category.
 	self comment: anEntity comment. 
+	self isPreexisting: anEntity isPreexisting. 
 ]
 
 { #category : #asserting }
@@ -66,5 +79,6 @@ MOModelStClassBuilder >> privateBuild [
 		  metaclass: self metaclass;
 		  category: self category;
 		  comment: self comment;
+		isPreexisting: self isPreexisting
 		  yourself
 ]

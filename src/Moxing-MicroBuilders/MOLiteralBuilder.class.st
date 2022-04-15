@@ -18,8 +18,7 @@ MOLiteralBuilder >> assertValueType [
 
 { #category : #accessing }
 MOLiteralBuilder >> literalClass [
-
-	^ MONullLiteral
+  self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

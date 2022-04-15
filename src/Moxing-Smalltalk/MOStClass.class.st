@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'#metaclass => MOContainmentSlot one',
 		'#category => MOPropertySlot',
-		'#comment => MOPropertySlot'
+		'#comment => MOPropertySlot',
+		'#isPreexisting => MOPropertySlot'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }
@@ -29,6 +30,16 @@ MOStClass >> category: aString [
 MOStClass >> comment: aComment [
 
 	comment := aComment
+]
+
+{ #category : #accessing }
+MOStClass >> isPreexisting [
+	 ^ isPreexisting ifNil: [ false  ]
+]
+
+{ #category : #accessing }
+MOStClass >> isPreexisting: aBool [
+  isPreexisting := aBool
 ]
 
 { #category : #accessing }

@@ -80,6 +80,13 @@ MOVisualWorksChunkImporter >> packageBindings: aPackageChunk [
 	^ aPackageChunk elements collect: [ :a | a name -> a symbolKind ]
 ]
 
+{ #category : #visiting }
+MOVisualWorksChunkImporter >> packageLessClassName: aName [
+  | split |
+  split := '.' split: aName.
+  ^split size = 1 ifTrue: [ split first ] ifFalse: [ split second ]
+]
+
 { #category : #parsing }
 MOVisualWorksChunkImporter >> parseWithTimeOut: aString [
 
@@ -102,23 +109,38 @@ MOVisualWorksChunkImporter >> parseWithTimeOut: aString [
 ]
 
 { #category : #visiting }
+MOVisualWorksChunkImporter >> typeReferenceNamed: aName using: class [
+  | packageRef typeName |
+  typeName := '.' split: aName.
+  typeName size = 1 ifTrue: [ typeName := typeName first.
+        packageRef := nil ] ifFalse: [ class packageReferenceNamed: typeName first.
+        typeName := typeName second ].
+  ^(class typeReferenceNamed: typeName)
+     packageReference: packageRef;
+     yourself
+]
+
+{ #category : #visiting }
 MOVisualWorksChunkImporter >> visitClassChunk: aClassChunk [
+	| name |
+	name := self packageLessClassName: aClassChunk name. 
 
 	^ self addBindings: (self classBindings: aClassChunk) during: [ 
 		  writer writeStClass: [ :class | 
-			  class name: aClassChunk name.
+			  class name: name.
+			  class isPreexisting: aClassChunk isPreexisting .
 			  class comment: aClassChunk comment.
 			  class category: aClassChunk category.
 			  aClassChunk packageName ifNotNil: [ 
 				  class packageReference:
 					  (class packageReferenceNamed: aClassChunk packageName) ].
 			  class superclassReference:
-				  (class typeReferenceNamed: aClassChunk superclass).
+				  (self typeReferenceNamed: aClassChunk superclass using: class).
 			  aClassChunk instanceVariables do: [ :i | 
 				  class writeAttribute: [ :attr | attr name: i name ] ].
 
 			  class writeMetaclass: [ :meta | 
-				  meta name: aClassChunk name , ' class'.
+				  meta name: name , ' class'.
 				  self use: meta during: [ 
 					  aClassChunk classVariables do: [ :i | 
 						  meta writeAttribute: [ :attr | attr name: i name ] ].

@@ -18,3 +18,8 @@ MOReturnWriter >> initializeWriteBuilder [
 
 	writeBuilder := builder returnBuilder
 ]
+
+{ #category : #writing }
+MOReturnWriter >> writeBlockClosure: aFullBlockClosure [ 
+	 ^ self writeExpression: [ : exp | exp writeBlockClosure: aFullBlockClosure  ]
+]

@@ -318,6 +318,12 @@ MOExpressionWriter >> writeReferenceToThisContext [
 ]
 
 { #category : #writing }
+MOExpressionWriter >> writeTypeReferenceNamed: aString [
+
+	^ self typeReferenceNamed: aString
+]
+
+{ #category : #writing }
 MOExpressionWriter >> writeVariableAccess: aFullBlockClosure [ 
 	self shouldBeImplemented.
 ]
@@ -325,7 +331,7 @@ MOExpressionWriter >> writeVariableAccess: aFullBlockClosure [
 { #category : #writing }
 MOExpressionWriter >> writeVariableAccessNamed: aString [
 
-	^ self typeReferenceNamed: aString
+	^ self variableReferenceNamed: aString
 ]
 
 { #category : #'as yet unclassified' }
