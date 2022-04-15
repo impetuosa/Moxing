@@ -140,7 +140,7 @@ MOPharoCodeGenerator >> visitStCascade: aMOStCascade [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStClass: aMOStClass [
 
-	aMOStClass isPreexisting ifTrue: [ stream nextPutAll: 'Extention {#name : #'; nextPutAll: aMOStClass name; nextPutAll: '}'; newLine  ] ifFalse: [
+	aMOStClass isPreexisting ifTrue: [ stream nextPutAll: 'Extension {#name : #'; nextPutAll: aMOStClass name; nextPutAll: '}'; newLine  ] ifFalse: [
 	stream 
 	nextPutAll: 'Class {'; newLine.
 	self increaseDeepDuring: [
