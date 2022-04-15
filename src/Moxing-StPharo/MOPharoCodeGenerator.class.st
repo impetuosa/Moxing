@@ -63,6 +63,23 @@ MOPharoCodeGenerator >> visitBlockClosure: aMOStBlockClosure [
 ]
 
 { #category : #visiting }
+MOPharoCodeGenerator >> visitCharacterLiteral: aMOCharacterLiteral [
+  stream
+     nextPut: $$;
+     nextPut: aMOCharacterLiteral literal
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
+	
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitFloatLiteral: aMOFloatLiteral [
+  stream print: aMOFloatLiteral literal
+]
+
+{ #category : #visiting }
 MOPharoCodeGenerator >> visitMethod: aMOMethod [
 
 ]
@@ -93,6 +110,11 @@ MOPharoCodeGenerator >> visitPragma: aMOPhPragma [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitSelfReference: aMOSelfReference [
   stream nextPutAll: 'self'
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitSharedVariable: aMOSharedVariable [ 
+
 ]
 
 { #category : #visiting }
@@ -176,20 +198,19 @@ MOPharoCodeGenerator >> visitStatementExpression: aMOStatementExpression [
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStringLiteral: aMOStringLiteral [
-
-	| str |
-
-	str := ((aMOStringLiteral literal beginsWith: '''') and: [ 
+  | str |
+  str := aMOStringLiteral literal.
+  
+  "((aMOStringLiteral literal beginsWith: '''') and: [ 
 		        aMOStringLiteral literal endsWith: '''' ])
 		       ifTrue: [ 
 			       aMOStringLiteral literal
 				       copyFrom: 2
 				       to: aMOStringLiteral literal size - 1 ]
-		       ifFalse: [ aMOStringLiteral literal ].
-	stream
-		nextPutAll: '''';
-		nextPutAll: str;
-		nextPutAll: ''''
+		       ifFalse: [ aMOStringLiteral literal ]."stream
+     nextPutAll: '''';
+     nextPutAll: str;
+     nextPutAll: ''''
 ]
 
 { #category : #visiting }
