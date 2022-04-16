@@ -226,6 +226,14 @@ MOModelBuilder >> classVariableBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> colorLiteralBuilder [
+
+	^ MOAlceColorLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> comparisonOperatorBuilder [
 
 	^ MOComparisonOperationBuilder new
@@ -261,6 +269,14 @@ MOModelBuilder >> constructorBuilder [
 MOModelBuilder >> contextReferenceBuilder [
 
 	^ MOModelContextReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> dateLiteralBuilder [
+
+	^ MODateLiteralBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -305,6 +321,14 @@ MOModelBuilder >> enumEntryBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> eventBuilder [
+
+	^ MOModelEventBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> exitBuilder [ 
 	^ MOModelExitBuilder  new
 		  parentBuilder: self;
@@ -314,6 +338,22 @@ MOModelBuilder >> exitBuilder [
 { #category : #'as yet unclassified' }
 MOModelBuilder >> expressionCopyHelper [
 	^ MOModelCopyExpression new 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> externalFunctionBuilder [
+
+	^ MOModelExternalFunctionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> externalProcedureBuilder [
+
+	^ MOModelExternalProcedureBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -912,7 +952,7 @@ MOModelBuilder >> surface: anObject [
 
 { #category : #'as yet unclassified' }
 MOModelBuilder >> symbolicArrayLiteralBuilder [
-	^ MOSymbolicArrayLiteralBuilder new
+	^ MOStSymbolicArrayLiteralBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

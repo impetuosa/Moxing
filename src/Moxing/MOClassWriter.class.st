@@ -24,6 +24,17 @@ MOClassWriter >> addConstructor: aMOConstructor [
 ]
 
 { #category : #adding }
+MOClassWriter >> addEvent: aMOEvent [ 
+	writeBuilder addEvent: aMOEvent 
+]
+
+{ #category : #adding }
+MOClassWriter >> addExternalFunction: aMOExternalFunction [
+
+	self addMethod: aMOExternalFunction
+]
+
+{ #category : #adding }
 MOClassWriter >> addFunction: aMOProcedure [
 
 	self addMethod: aMOProcedure
@@ -75,11 +86,35 @@ MOClassWriter >> writeClassProcedure: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOClassWriter >> writeConstant: aFullBlockClosure [
+
+	^ self writeConstantAttribute: aFullBlockClosure
+]
+
+{ #category : #writing }
 MOClassWriter >> writeConstantAttribute: aFullBlockClosure [
 
 	^ self
 		  write: aFullBlockClosure
 		  inSubWriter: MOConstantAttributeWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeEvent: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOEventWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeExternalFunction: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOExternalFunctionWriter
+]
+
+{ #category : #writing }
+MOClassWriter >> writeExternalProcedure: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOExternalProcedureWriter
 ]
 
 { #category : #writing }

@@ -198,11 +198,15 @@ MOJinDAMModelReader >> visitConstant: aJinDAMConstant [
 		  trace: aJinDAMConstant
 		  with: (writer writeConstant: [ :constant | 
 				   constant name: aJinDAMConstant name.
-
-				   constant writeInitializer: [ :expr | 
-					   self
-						   use: expr
-						   during: [ aJinDAMConstant initializer acceptVisitor: self ] ] ])
+				   aJinDAMConstant initializer ifNotNil: [ 
+					   constant writeInitializer: [ :expr | 
+						   self use: expr during: [ 
+							   aJinDAMConstant initializer isCollection
+								   ifFalse: [ aJinDAMConstant initializer acceptVisitor: self ]
+								   ifTrue: [ 
+									  " self halt:
+										   'This is aweful review JinDAM is important here. '."
+									   nil ] ] ] ] ])
 ]
 
 { #category : #visiting }
@@ -217,11 +221,24 @@ MOJinDAMModelReader >> visitEnum: aJinDAMEnum [
 						    lit := e value isNumber
 							           ifTrue: [ enum numericLiteral: e value ]
 							           ifFalse: [ 
-							           enum ifNil: [ nil ] ifNotNil: [ self halt ] ].
+								           e value isString
+									           ifTrue: [ enum stringLiteral: e value ]
+									           ifFalse: [ self halt ] ].
 						    entry
 							    typeReference: (entry typeReferenceNamed: aJinDAMEnum name);
 							    name: e name;
 							    value: lit ]) ] ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitEvent: aJinDAMEvent [
+
+	^ self trace: aJinDAMEvent with: (writer writeEvent: [ :event | 
+			   event selector: aJinDAMEvent selector.
+			   self
+				   use: event
+				   during: [ 
+				   aJinDAMEvent parameters do: [ :p | p acceptVisitor: self ] ] ])
 ]
 
 { #category : #visiting }
@@ -230,6 +247,51 @@ MOJinDAMModelReader >> visitExit: aJinDAMExit [
 	^ self
 		  trace: aJinDAMExit
 		  with: (writer writeStatement: [ :stmt | stmt exit ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitExternalFunction: aJinDAMExternalFunction [
+
+	| selector librarySelector |
+	selector := aJinDAMExternalFunction realSelector ifNil: [ 
+		            aJinDAMExternalFunction selector ].
+	librarySelector := aJinDAMExternalFunction selector.
+
+	^ self
+		  trace: aJinDAMExternalFunction
+		  with: (writer writeExternalFunction: [ :function | 
+				   function selector: selector.
+				   function libraryName: aJinDAMExternalFunction libraryName.
+				   function librarySelector: librarySelector.
+				   aJinDAMExternalFunction typeReference ifNotNil: [ 
+					   function returnTypeReference: (self
+							    typeReferenceFor: aJinDAMExternalFunction typeReference
+							    using: function) ].
+				   self use: function during: [ 
+					   aJinDAMExternalFunction parameters do: [ :p | 
+						   p acceptVisitor: self ] ] ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitExternalSubProcedure: aJinDAMExternalSubProcedure [ 
+
+	| selector librarySelector |
+	selector := aJinDAMExternalSubProcedure realSelector ifNil: [ 
+		            aJinDAMExternalSubProcedure selector ].
+	librarySelector := aJinDAMExternalSubProcedure selector.
+
+
+	^ self
+		  trace: aJinDAMExternalSubProcedure
+		  with: (writer writeExternalProcedure: [ : procedure | 
+				   procedure selector: selector.
+				   procedure libraryName: aJinDAMExternalSubProcedure libraryName.
+				   procedure librarySelector: librarySelector.
+
+
+				   self use: procedure during: [ 
+					   aJinDAMExternalSubProcedure parameters do: [ :p | 
+						   p acceptVisitor: self ] ] ])
 ]
 
 { #category : #visiting }
@@ -326,8 +388,17 @@ MOJinDAMModelReader >> visitLiteralReference: aJinDAMLiteralReference [
 			  aJinDAMLiteralReference candidate asLowercase = 'true' ].
 	aJinDAMLiteralReference literalKind = 'Null' ifTrue: [ 
 		^ writer nullLiteral ].
+	aJinDAMLiteralReference literalKind = 'Float' ifTrue: [ 
+		^ writer numericLiteral: aJinDAMLiteralReference candidate asNumber ].
 	aJinDAMLiteralReference literalKind = 'Integer' ifTrue: [ 
 		^ writer numericLiteral: aJinDAMLiteralReference candidate asInteger ].
+	
+	aJinDAMLiteralReference literalKind = 'Color' ifTrue: [ 
+		^ writer colorLiteral: aJinDAMLiteralReference candidate ].
+	
+	aJinDAMLiteralReference literalKind = 'Date' ifTrue: [ 
+		^ writer dateLiteral: aJinDAMLiteralReference candidate ].
+	
 	self error: 'Unexpected literal '
 ]
 
