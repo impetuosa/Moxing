@@ -8,3 +8,8 @@ Class {
 MOSharedVariable >> acceptVisitor: aVisitor [
 	 ^ aVisitor visitSharedVariable: self 
 ]
+
+{ #category : #visiting }
+MOSharedVariable >> isSharedVariable [
+^ true 
+]
