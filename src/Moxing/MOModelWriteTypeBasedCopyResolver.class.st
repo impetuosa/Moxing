@@ -368,6 +368,11 @@ MOModelWriteTypeBasedCopyResolver >> visitStClass: aMOStClass [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitStExensionMethodDeclarationUnit: aMOStExensionMethodDeclarationUnit [
+  ^writer writeStExensionMethodDeclarationUnit: [:method |  writingBlock value: method ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitStMethod: aMOStMethod [
   ^writer writeStMethod: [:method |  writingBlock value: method ]
 ]

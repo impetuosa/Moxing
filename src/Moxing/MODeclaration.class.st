@@ -165,6 +165,11 @@ MODeclaration >> isMOObject [
 ]
 
 { #category : #testing }
+MODeclaration >> isMethodExtension [
+^ false 
+]
+
+{ #category : #testing }
 MODeclaration >> isPackage [
 	^ false
 ]

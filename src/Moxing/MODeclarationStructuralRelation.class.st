@@ -88,6 +88,11 @@ MODeclarationStructuralRelation >> read: aMOModelMethodBuilder [
 	^ aMOModelMethodBuilder perform: slot name
 ]
 
+{ #category : #testing }
+MODeclarationStructuralRelation >> relationName [
+  ^slot name
+]
+
 { #category : #accessing }
 MODeclarationStructuralRelation >> slot [
 	^ slot

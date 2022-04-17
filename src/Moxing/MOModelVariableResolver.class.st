@@ -122,6 +122,11 @@ MOModelVariableResolver >> visitStClass: aMOStClass [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitStExensionMethodDeclarationUnit: aMOStExensionMethodDeclarationUnit [
+  ^aMOStExensionMethodDeclarationUnit parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitStMethod: aMOStMethod [ 
 	self visitMethod: aMOStMethod 
 ]

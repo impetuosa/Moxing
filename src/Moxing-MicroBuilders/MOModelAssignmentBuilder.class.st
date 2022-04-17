@@ -30,7 +30,6 @@ MOModelAssignmentBuilder >> loadBuilderWithEntity: anEntity [
 
 { #category : #'as yet unclassified' }
 MOModelAssignmentBuilder >> modelCopyHelper [
-self halt. 
 	^ MOModelCopyAssignmentBuilder new
 		  parentBuilder: self;
 		  yourself

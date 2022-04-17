@@ -122,33 +122,36 @@ MOVisualWorksChunkImporter >> typeReferenceNamed: aName using: class [
 
 { #category : #visiting }
 MOVisualWorksChunkImporter >> visitClassChunk: aClassChunk [
-	| name |
-	name := self packageLessClassName: aClassChunk name. 
+
 
 	^ self addBindings: (self classBindings: aClassChunk) during: [ 
-		  writer writeStClass: [ :class | 
-			  class name: name.
-			  class isPreexisting: aClassChunk isPreexisting .
-			  class comment: aClassChunk comment.
-			  class category: aClassChunk category.
-			  aClassChunk packageName ifNotNil: [ 
-				  class packageReference:
-					  (class packageReferenceNamed: aClassChunk packageName) ].
-			  class superclassReference:
-				  (self typeReferenceNamed: aClassChunk superclass using: class).
-			  aClassChunk instanceVariables do: [ :i | 
-				  class writeAttribute: [ :attr | attr name: i name ] ].
+		
+		
+		aClassChunk isPreexisting ifTrue:[
+			
+			
+			self writeAsMethodExtensionDeclaration: aClassChunk.
+			
+			
 
-			  class writeMetaclass: [ :meta | 
-				  meta name: name , ' class'.
-				  self use: meta during: [ 
-					  aClassChunk classVariables do: [ :i | 
-						  meta writeAttribute: [ :attr | attr name: i name ] ].
-					  self visitCollection: (aClassChunk methods select: #isMeta) ] ].
+			] ifFalse: [
+			self writeAsClass: aClassChunk.
+		]]
+]
 
-			  self use: class during: [ 
-				  self visitCollection: (aClassChunk methods reject: #isMeta).
-				  self visitCollection: aClassChunk sharedVariables ] ] ]
+{ #category : #visiting }
+MOVisualWorksChunkImporter >> visitMessageNode: aRBMessageNode [
+	 
+	^ self writer
+		  invokeMethodNamed: aRBMessageNode selector
+		  receiver: [ :exp | 
+			  self
+				  use: exp
+				  during: [ aRBMessageNode receiver acceptVisitor: self ] ]
+		  arguments: [ :exp | 
+			  self
+				  use: exp
+				  during: [ self visitCollection: aRBMessageNode arguments ] ]
 ]
 
 { #category : #visiting }
@@ -219,6 +222,67 @@ MOVisualWorksChunkImporter >> visitSharedVariableChunk: aSharedVariableChunk [
 				  sharedVar isPreexisting: aSharedVariableChunk isPreexisting.
 				  sharedVar initializer:
 					  (writer literalForValue: aSharedVariableChunk initializer) ] ]
+]
+
+{ #category : #visiting }
+MOVisualWorksChunkImporter >> writeAsClass: aClassChunk [
+	| name |
+	name := self packageLessClassName: aClassChunk name. 
+		  writer writeStClass: [ :class | 
+			  class name: name.
+			  class isPreexisting: aClassChunk isPreexisting .
+			  class comment: aClassChunk comment.
+			  class category: aClassChunk category.
+			  aClassChunk packageName ifNotNil: [ 
+				  class packageReference:
+					  (class packageReferenceNamed: aClassChunk packageName) ].
+			  class superclassReference:
+				  (self typeReferenceNamed: aClassChunk superclass using: class).
+			  aClassChunk instanceVariables do: [ :i | 
+				  class writeAttribute: [ :attr | attr name: i name ] ].
+
+			  class writeMetaclass: [ :meta | 
+				  meta name: name , ' class'.
+				  self use: meta during: [ 
+					  aClassChunk classVariables do: [ :i | 
+						  meta writeAttribute: [ :attr | attr name: i name ] ].
+					  self visitCollection: (aClassChunk methods select: #isMeta) ] ].
+
+			  self use: class during: [ 
+				  self visitCollection: (aClassChunk methods reject: #isMeta).
+				  self visitCollection: aClassChunk sharedVariables ] ] 
+]
+
+{ #category : #visiting }
+MOVisualWorksChunkImporter >> writeAsMethodExtensionDeclaration: aClassChunk [
+| name extension produced   |
+	name := self packageLessClassName: aClassChunk name. 
+	
+	 extension := writer writeStExensionMethodDeclarationUnit: [ : declaration | 
+					| packref|
+					declaration name: name. 
+					aClassChunk packageName ifNotNil: [
+						packref := (declaration packageReferenceNamed: aClassChunk packageName) .
+					].
+					declaration classReference: ((declaration typeReferenceNamed: name)	packageReference: packref;yourself).
+					 self use: declaration during: [ 
+						declaration setAsAddingMethods. 
+				 	   self visitCollection: (aClassChunk methods reject: #isMeta).
+						declaration setAsAddingClassMethods. 
+				 	   self visitCollection: (aClassChunk methods select: #isMeta).
+				   ]
+		].
+	 produced := writer writeStClass: [ :class | 
+			  class name: name.
+			  class isPreexisting: aClassChunk isPreexisting .
+			  class comment: aClassChunk comment.
+			  class category: aClassChunk category.
+			 
+			  class writeMetaclass: [ :meta | 
+				  meta name: name , ' class'.].
+
+	 ] .
+	extension classReference candidate: produced.
 ]
 
 { #category : #'as yet unclassified' }

@@ -23,6 +23,12 @@ MOStModelMethodBuilder >> category: aCat [
 ]
 
 { #category : #asserting }
+MOStModelMethodBuilder >> loadBuilderWithEntity: anEntity [ 
+	super loadBuilderWithEntity: anEntity .
+	self category: anEntity category 
+]
+
+{ #category : #asserting }
 MOStModelMethodBuilder >> privateBuild [
   ^super privateBuild
      category: self category;

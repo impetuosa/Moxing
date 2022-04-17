@@ -255,6 +255,11 @@ MOModelTypeResolver >> visitStClass: aMOStClass [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitStExensionMethodDeclarationUnit: aMOStExensionMethodDeclarationUnit [
+  ^aMOStExensionMethodDeclarationUnit parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitStMethod: aMOStMethod [ 
 self visitMethod: aMOStMethod 
 ]

@@ -57,6 +57,11 @@ MORBPharoImporter >> importPackages: aCollection [
 	self visitCollection: aCollection
 ]
 
+{ #category : #utilities }
+MORBPharoImporter >> methodCategory [
+	 ^ ''
+]
+
 { #category : #visiting }
 MORBPharoImporter >> use: aWriter during: aBlock [
 

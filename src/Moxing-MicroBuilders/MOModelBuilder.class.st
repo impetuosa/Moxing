@@ -859,6 +859,13 @@ MOModelBuilder >> stCascadeBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> stExensionMethodDeclarationUnitBuilder [
+  ^MOStExensionMethodDeclarationUnitBuilder new
+     parentBuilder: self;
+     yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> stMethodBuilder [
   ^MOStModelMethodBuilder new
      parentBuilder: self;
