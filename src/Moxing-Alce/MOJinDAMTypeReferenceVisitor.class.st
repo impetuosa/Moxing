@@ -56,6 +56,13 @@ MOJinDAMTypeReferenceVisitor >> visitModule: aJinDAMModule [
 ]
 
 { #category : #visiting }
+MOJinDAMTypeReferenceVisitor >> visitMultipleTypeReference: aJinDAMMultipleTypeReference [
+
+	self assert: aJinDAMMultipleTypeReference candidate isNil.
+	^ writer typeReferenceNamed: aJinDAMMultipleTypeReference typeName
+]
+
+{ #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitPrimitiveType: aJinDAMPrimitiveType [ 
 	^ writer primitiveTypeReferenceNamed: aJinDAMPrimitiveType name
 ]

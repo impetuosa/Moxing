@@ -5,10 +5,17 @@ Class {
 		'model'
 	],
 	#classInstVars : [
-		'northwind'
+		'northwind',
+		'egrc'
 	],
 	#category : #'Moxing-Alce'
 }
+
+{ #category : #accessing }
+MOJinDAMImporter class >> egrc: aMOModel [
+
+	egrc := aMOModel
+]
 
 { #category : #accessing }
 MOJinDAMImporter class >> loadNorthwind [
