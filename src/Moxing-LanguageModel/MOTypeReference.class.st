@@ -51,6 +51,11 @@ MOTypeReference >> packageReference: aMOPackageReference [
 	packageReference := aMOPackageReference
 ]
 
+{ #category : #accessing }
+MOTypeReference >> packageReferenceName [
+	^ packageReference ifNotNil: [ :r | r name  ]
+]
+
 { #category : #printing }
 MOTypeReference >> printOn: aStream [
 

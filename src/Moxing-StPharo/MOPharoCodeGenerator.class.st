@@ -142,7 +142,7 @@ MOPharoCodeGenerator >> visitStCascade: aMOStCascade [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStClass: aMOStClass [
 
-	aMOStClass isPreexisting ifTrue: [ self halt. stream nextPutAll: 'Extension {#name : #'; nextPutAll: aMOStClass name; nextPutAll: '}'; newLine  ] ifFalse: [
+	aMOStClass isPreexisting ifTrue: [ self error: 'preexisting classes cannot be exported. They do not actually exist. Export rather the ExtensionMethodUnit'.  ] ifFalse: [
 	stream 
 	nextPutAll: 'Class {'; newLine.
 	self increaseDeepDuring: [

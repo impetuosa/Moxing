@@ -60,6 +60,17 @@ MOStExensionMethodDeclarationUnit >> name [
 ]
 
 { #category : #accessing }
+MOStExensionMethodDeclarationUnit >> packageReference [
+  ^classReference packageReference
+]
+
+{ #category : #accessing }
+MOStExensionMethodDeclarationUnit >> packageReferenceName [
+  self assert: parent isPackage.
+  ^parent name
+]
+
+{ #category : #accessing }
 MOStExensionMethodDeclarationUnit >> printOn: aStream [
   aStream
      nextPutAll: 'extension for class: ';

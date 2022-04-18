@@ -66,6 +66,11 @@ MOType >> packageReference: aPackageReference [
 ]
 
 { #category : #accessing }
+MOType >> packageReferenceName [
+	^ packageReference ifNotNil: [ :r | r name  ]
+]
+
+{ #category : #accessing }
 MOType >> visibility [
 	^ visibility
 ]
