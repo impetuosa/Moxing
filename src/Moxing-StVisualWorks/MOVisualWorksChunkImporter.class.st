@@ -260,10 +260,11 @@ MOVisualWorksChunkImporter >> writeAsMethodExtensionDeclaration: aClassChunk [
 	
 	 extension := writer writeStExensionMethodDeclarationUnit: [ : declaration | 
 					| packref|
-					declaration name: name. 
-					aClassChunk packageName ifNotNil: [
+					declaration name: name.
+						self assert:	aClassChunk packageName isNotNil.
 						packref := (declaration packageReferenceNamed: aClassChunk packageName) .
-					].
+
+					declaration packageReference: packref. 
 					declaration classReference: ((declaration typeReferenceNamed: name)	packageReference: packref;yourself).
 					 self use: declaration during: [ 
 						declaration setAsAddingMethods. 

@@ -5,7 +5,8 @@ Class {
 		'extensionMethods',
 		'classReference',
 		'name',
-		'extensionClassMethods'
+		'extensionClassMethods',
+		'packageReference'
 	],
 	#category : #'Moxing-Smalltalk-builer'
 }
@@ -50,6 +51,7 @@ MOStExensionMethodDeclarationUnitBuilder >> extensionMethods [
 MOStExensionMethodDeclarationUnitBuilder >> loadBuilderWithEntity: anEntity [
   self extensionMethods: anEntity extensionMethods.
   self extensionClassMethods: anEntity extensionClassMethods.
+  self packageReference: anEntity packageReference.
   self name: anEntity name.
   self classReference: anEntity classReference
 ]
@@ -71,11 +73,22 @@ MOStExensionMethodDeclarationUnitBuilder >> name: aString [
 ]
 
 { #category : #accessing }
+MOStExensionMethodDeclarationUnitBuilder >> packageReference [ 
+	 ^ packageReference ifNil: [ self error: ' Package reference is compulsory ' ]
+]
+
+{ #category : #accessing }
+MOStExensionMethodDeclarationUnitBuilder >> packageReference: aMOPackageReference [ 
+	packageReference := aMOPackageReference
+]
+
+{ #category : #accessing }
 MOStExensionMethodDeclarationUnitBuilder >> privateBuild [
   ^(self instantiate: self buildsType)
      extensionMethods: self extensionMethods;
      extensionClassMethods: self extensionClassMethods;
      classReference: self classReference;
+     packageReference: self packageReference;
      name: self name;
      yourself
 ]

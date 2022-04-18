@@ -46,6 +46,11 @@ MOStExtensionMethodDeclarationUnitWriter >> name: aString [
 ]
 
 { #category : #writing }
+MOStExtensionMethodDeclarationUnitWriter >> packageReference: aReference [ 
+	 writeBuilder packageReference: aReference 
+]
+
+{ #category : #writing }
 MOStExtensionMethodDeclarationUnitWriter >> privateWriteToSurface: anEntity [
 
 	surface addDeclarationUnit: anEntity 

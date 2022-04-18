@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'#classReference => MOReferenceSlot one',
 		'#extensionMethods => MOContainmentSlot many',
-		'#extensionClassMethods => MOContainmentSlot many'
+		'#extensionClassMethods => MOContainmentSlot many',
+		'#packageReference => MOReferenceSlot one'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }
@@ -12,6 +13,11 @@ Class {
 { #category : #visiting }
 MOStExensionMethodDeclarationUnit >> acceptVisitor: aVisitor [
  	 ^ aVisitor visitStExensionMethodDeclarationUnit: self 
+]
+
+{ #category : #accessing }
+MOStExensionMethodDeclarationUnit >> category: aString [ 
+
 ]
 
 { #category : #accessing }
@@ -61,7 +67,12 @@ MOStExensionMethodDeclarationUnit >> name [
 
 { #category : #accessing }
 MOStExensionMethodDeclarationUnit >> packageReference [
-  ^classReference packageReference
+  ^ packageReference
+]
+
+{ #category : #accessing }
+MOStExensionMethodDeclarationUnit >> packageReference: aMOPackageReference [ 
+	packageReference := aMOPackageReference
 ]
 
 { #category : #accessing }
