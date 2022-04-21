@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOCaseWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitCaseWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOCaseWriter >> block: aMOBlock [
 

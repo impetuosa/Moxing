@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOFunctionWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitFunctionWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOFunctionWriter >> fileReference: anUndefinedObject [ 
 	writeBuilder fileReference: anUndefinedObject 

@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOParametrizableClassTypeWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitTypeWriter: self 
+
+
+]
+
 { #category : #adding }
 MOParametrizableClassTypeWriter >> addTypeParameter: aMOTypeParameter [
 

@@ -10,6 +10,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOClassTypeWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitTypeWriter: self 
+
+
+]
+
 { #category : #adding }
 MOClassTypeWriter >> addAnnotationInstance: aMOAnnotationInstance [
 

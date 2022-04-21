@@ -10,6 +10,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOBlockWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitBlockWriter: self 
+
+
+]
+
 { #category : #adding }
 MOBlockWriter >> addFirstStatement: aMOVariable [
 	writeBuilder addFirstStatement: aMOVariable

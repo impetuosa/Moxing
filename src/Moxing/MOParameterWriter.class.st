@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOParameterWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitParameterWriter: self 
+
+
+]
+
 { #category : #writing }
 MOParameterWriter >> initializeWriteBuilder [
 	writeBuilder := builder parameterBuilder 

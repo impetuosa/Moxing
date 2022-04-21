@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOConstructorWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitConstructorWriter: self 
+
+
+]
+
 { #category : #adding }
 MOConstructorWriter >> addAnnotationInstance: aMOAnnotationInstance [
 

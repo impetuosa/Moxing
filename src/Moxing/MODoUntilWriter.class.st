@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MODoUntilWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitUntilWriter: self 
+
+
+]
+
 { #category : #writing }
 MODoUntilWriter >> initializeWriteBuilder [
 

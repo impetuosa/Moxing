@@ -13,5 +13,5 @@ MOArrayLiteralBuilder >> assertValueType [
 { #category : #asserting }
 MOArrayLiteralBuilder >> literalClass [
 
-	^ MOSymbolicArrayLiteral
+	^ MOArrayLiteral
 ]

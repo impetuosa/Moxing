@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOIfElseWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitElseWriter: self 
+
+
+]
+
 { #category : #writing }
 MOIfElseWriter >> condition: aConditionBlock [
 	writeBuilder condition: aConditionBlock 

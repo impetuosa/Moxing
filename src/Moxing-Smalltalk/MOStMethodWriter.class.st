@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-Smalltalk-model'
 }
 
+{ #category : #visiting }
+MOStMethodWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitMethodWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOStMethodWriter >> category: aString [ 
 	 writeBuilder category: aString 

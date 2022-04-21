@@ -15,6 +15,12 @@ Class {
 }
 
 { #category : #adding }
+MOModelWriter >> addAngularModule: aMOAngularModule [
+
+	^ aMOAngularModule
+]
+
+{ #category : #adding }
 MOModelWriter >> addArtefact: aMOProject [
 
 	entity := aMOProject
@@ -330,8 +336,12 @@ MOModelWriter >> updateAccessor: aMOAccessor with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelWriter >> updateAngularModel: aMOAngularModule with: aFullBlockClosure [ 
-	self shouldBeImplemented.
+MOModelWriter >> updateAngularModel: aMOAngularModule with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOAngularModule
+		  withWriter: MOAngularModuleWriter new
 ]
 
 { #category : #'as yet unclassified' }

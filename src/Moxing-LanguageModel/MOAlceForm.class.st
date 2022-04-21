@@ -14,3 +14,8 @@ MOAlceForm >> acceptVisitor: aJinTypescriptCodeGenerator [
 MOAlceForm >> canBeReferredAsVariable [ 
 	 ^ true
 ]
+
+{ #category : #visiting }
+MOAlceForm >> isWidget [ 
+ 	 ^ true 
+]

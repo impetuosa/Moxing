@@ -9,6 +9,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOStatementWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitStatementWriter: self 
+
+
+]
+
 { #category : #adding }
 MOStatementWriter >> addStatement: aMOIfElse [
 

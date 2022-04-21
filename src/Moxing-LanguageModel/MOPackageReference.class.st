@@ -56,7 +56,8 @@ MOPackageReference >> refersToObjectsLike: aDeclaration [
 
 	^ { 
 		  MOPackage.
-		  MOVisualWorksPackage } includes: aDeclaration species
+		  MOVisualWorksPackage.
+		  MOAngularModule } includes: aDeclaration species
 ]
 
 { #category : #accessing }

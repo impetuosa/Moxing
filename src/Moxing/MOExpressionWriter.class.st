@@ -8,6 +8,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOExpressionWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitExpressionWriter: self 
+
+
+]
+
 { #category : #'as yet unclassified' }
 MOExpressionWriter >> accessAttribute: aString receiver: anExpressionBuildingBlock [ 
 

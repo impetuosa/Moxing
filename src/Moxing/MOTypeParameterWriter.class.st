@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOTypeParameterWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitParameterWriter: self 
+
+
+]
+
 { #category : #adding }
 MOTypeParameterWriter >> addSuperTypeReference: aMOTypeReference [ 
 	writeBuilder addSuperTypeReference: aMOTypeReference 

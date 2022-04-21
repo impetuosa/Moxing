@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOForEachWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitEachWriter: self 
+
+
+]
+
 { #category : #initialization }
 MOForEachWriter >> initializeWriteBuilder [
 

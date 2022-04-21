@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOPackageWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitPackageWriter: self 
+
+
+]
+
 { #category : #adding }
 MOPackageWriter >> addClass: aMOClass [
 

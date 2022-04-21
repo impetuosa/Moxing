@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOFileImportWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitImportWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOFileImportWriter >> addImportingTypeName: aName [
 

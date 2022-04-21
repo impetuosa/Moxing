@@ -2,7 +2,7 @@ Class {
 	#name : #MOProject,
 	#superclass : #MOArtefact,
 	#instVars : [
-		'dependencies'
+		'#dependencies => MOReferenceSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -17,9 +17,4 @@ MOProject >> acceptVisitor: aVisitor [
 MOProject >> dependencies: aCollection [
 
 	dependencies := aCollection
-]
-
-{ #category : #accessing }
-MOProject >> invocables: aCollection [ 
-	self shouldBeImplemented.
 ]

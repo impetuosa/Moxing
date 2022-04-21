@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOImportWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitImportWriter: self 
+
+
+]
+
 { #category : #'as yet unclassified' }
 MOImportWriter >> importAllTypesOnPackage: aString [
 
@@ -32,7 +39,7 @@ MOImportWriter >> importingPackageReference: aMOPackageReference [
 { #category : #accessing }
 MOImportWriter >> importingTypeReference: aTypeReference [
 
-	writeBuilder typeReference: aTypeReference
+	writeBuilder importTypeReference: aTypeReference
 ]
 
 { #category : #writing }

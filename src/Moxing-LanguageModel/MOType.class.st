@@ -45,6 +45,11 @@ MOType >> isType [
 ]
 
 { #category : #accessing }
+MOType >> isWidget [ 
+ 	 ^ false 
+]
+
+{ #category : #accessing }
 MOType >> modifiers [
 	^ modifiers
 ]

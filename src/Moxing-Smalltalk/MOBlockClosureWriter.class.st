@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-Smalltalk-writer'
 }
 
+{ #category : #visiting }
+MOBlockClosureWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitClosureWriter: self 
+
+
+]
+
 { #category : #adding }
 MOBlockClosureWriter >> addParameter: aMOParameter [
   writeBuilder addParameter: aMOParameter

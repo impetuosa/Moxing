@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOAliasWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitAliasWriter: self 
+
+
+]
+
 { #category : #initialization }
 MOAliasWriter >> initializeWriteBuilder [
 	writeBuilder := builder aliasTypeBuilder 

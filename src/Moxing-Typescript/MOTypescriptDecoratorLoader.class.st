@@ -17,14 +17,18 @@ MOTypescriptDecoratorLoader >> loadArtefact: anAstNode [
 
 { #category : #visiting }
 MOTypescriptDecoratorLoader >> visitArrayLiteral: aLiteral [
-	self visitLiteral: aLiteral 
+
+	^ writer arrayLiteral:
+		  (aLiteral expressions collect: [ :a | a value value ]) asArray
 ]
 
 { #category : #visiting }
 MOTypescriptDecoratorLoader >> visitCallExpression: aCallExpression [
 
-	writer name: aCallExpression expression name value.
-	aCallExpression arguments do: [ :a | a acceptVisitor: self ]
+	writer decoratorTypeReference:
+		(writer typeReferenceNamed: aCallExpression expression name value).
+	writer arguments:
+		(aCallExpression arguments collect: [ :a | a acceptVisitor: self ])
 ]
 
 { #category : #visiting }
@@ -34,15 +38,27 @@ MOTypescriptDecoratorLoader >> visitDecoratorExpression: aDecoratorExpression [
 
 { #category : #visiting }
 MOTypescriptDecoratorLoader >> visitLiteral: aLiteral [
-	self halt. 
-	self assert: currentProperty value = aLiteral.
-	currentProperty value: aLiteral value value 
+
+	^ writer literalForValue: aLiteral value value
+]
+
+{ #category : #visiting }
+MOTypescriptDecoratorLoader >> visitObjectLiteral: anObjectLiteral [
+
+	^ writer dictionaryLiteralWithLiterals:
+		  (anObjectLiteral definitions collect: [ :a | 
+			   a name name value -> (a value acceptVisitor: self) ])
+			  asDictionary
 ]
 
 { #category : #visiting }
 MOTypescriptDecoratorLoader >> visitPropertyAssignment: aPropertyDefinition [
 
-	writer
-		property: aPropertyDefinition name name value
-		value: aPropertyDefinition value source
+	^ writer writeUnregisteredExpression: [ :ue | 
+		  ue
+			  argumentNamed: aPropertyDefinition name source
+			  expression: [ :e | 
+				  self
+					  use: e
+					  during: [ { (aPropertyDefinition value acceptVisitor: self) } ] ] ]
 ]

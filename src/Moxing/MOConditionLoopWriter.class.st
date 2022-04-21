@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOConditionLoopWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitLoopWriter: self 
+
+
+]
+
 { #category : #writing }
 MOConditionLoopWriter >> condition: aCondition [
 

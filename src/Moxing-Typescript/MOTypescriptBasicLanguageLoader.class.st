@@ -70,36 +70,36 @@ MOTypescriptBasicLanguageLoader >> loadPrimitiveTypes [
 { #category : #'as yet unclassified' }
 MOTypescriptBasicLanguageLoader >> loadString [
 
-	|  loadedClass |
-
-	loadedClass := writer writeClass: [ :string | 
-		               string name: #string.
-		               string writeAttribute: [ :length | 
-			               length name: #length.
-			               length typeReference:
-				               (string typeReferenceNamed: #number) ].
-		               self
-			               addMethod: #charAt
-			               type: #string
-			               parameters: { (#index -> #number) }
-			               into: string.
-		               self
-			               addMethod: #charCodeAt
-			               type: #number
-			               parameters: { (#index -> #number) }
-			               into: string.
-		               self
-			               addMethod: #concat
-			               type: #string
-			               parameters: { (#VarArg -> #number) }
-			               into: string.
-		               self
-			               addMethod: #indexOf
-			               type: #string
-			               parameters: { 
-					               (#search -> #string).
-					               (#startingAt -> #number) }
-			               into: string ]
+	| loadedClass |
+	loadedClass := writer writeDeclarationUnit: [ :unit | 
+		               unit writeTypescriptClass: [ :string | 
+			               string name: #string.
+			               string writeAttribute: [ :length | 
+				               length name: #length.
+				               length typeReference:
+					               (string typeReferenceNamed: #number) ].
+			               self
+				               addMethod: #charAt
+				               type: #string
+				               parameters: { (#index -> #number) }
+				               into: string.
+			               self
+				               addMethod: #charCodeAt
+				               type: #number
+				               parameters: { (#index -> #number) }
+				               into: string.
+			               self
+				               addMethod: #concat
+				               type: #string
+				               parameters: { (#VarArg -> #number) }
+				               into: string.
+			               self
+				               addMethod: #indexOf
+				               type: #string
+				               parameters: { 
+						               (#search -> #string).
+						               (#startingAt -> #number) }
+				               into: string ] ]
 ]
 
 { #category : #accessing }

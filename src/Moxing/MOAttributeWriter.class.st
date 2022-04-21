@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOAttributeWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitAttributeWriter: self 
+
+
+]
+
 { #category : #adding }
 MOAttributeWriter >> addModifier: aString [
 

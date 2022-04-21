@@ -16,6 +16,14 @@ MOObject class >> newInstanceFromModel [
 ]
 
 { #category : #accessing }
+MOObject >> at: aName [
+
+	^ state at: aName ifAbsent: [ 
+		  (state associations detect: [ :a | (self sanitize: a key) = aName ])
+			  value ]
+]
+
+{ #category : #accessing }
 MOObject >> at: name put: aValue [ 
 	state at: name put: aValue 
 ]
@@ -41,6 +49,14 @@ MOObject >> initialize [
 MOObject >> isStaticDefinition [
 
 	^ false
+]
+
+{ #category : #accessing }
+MOObject >> sanitize: aString [
+
+	^ { #/. #-. #\. ' ' }
+		  inject: aString
+		  into: [ :acc :each | acc copyReplaceAll: each with: '_' ]
 ]
 
 { #category : #accessing }

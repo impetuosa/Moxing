@@ -6,6 +6,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOInvocableWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitInvocableWriter: self 
+
+
+]
+
 { #category : #adding }
 MOInvocableWriter >> addModifier: aString [ 
 	writeBuilder addModifier: aString 

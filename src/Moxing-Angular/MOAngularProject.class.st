@@ -1,11 +1,9 @@
 Class {
 	#name : #MOAngularProject,
-	#superclass : #MOAngularEntry,
+	#superclass : #MOProject,
 	#instVars : [
-		'projectType',
-		'anchoredToUrlSegment',
-		'modules',
-		'prefix'
+		'#projectType => MOPropertySlot',
+		'#prefix => MOPropertySlot'
 	],
 	#category : #'Moxing-Angular-Model'
 }
@@ -23,13 +21,13 @@ MOAngularProject >> contentFileReference [
 { #category : #'brick-modules' }
 MOAngularProject >> modules [
 
-	^ modules
+	^ self packages
 ]
 
 { #category : #'brick-modules' }
 MOAngularProject >> modules: md [
 
-	modules := md
+	self packages: md
 ]
 
 { #category : #accessing }
