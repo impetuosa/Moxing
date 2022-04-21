@@ -39,6 +39,11 @@ MOModuleWriter >> addEnum: aMOEnum [
 ]
 
 { #category : #adding }
+MOModuleWriter >> addExternalFunction: aMOExternalFunction [ 
+	 writeBuilder addExternalFunction: aMOExternalFunction 
+]
+
+{ #category : #adding }
 MOModuleWriter >> addFunction: aMOFunction [ 
 	writeBuilder addFunction: aMOFunction 
 ]
@@ -104,6 +109,18 @@ MOModuleWriter >> writeAttributeAccessor: aFullBlockClosure [
 MOModuleWriter >> writeConstant: aFullBlockClosure [
 
 	^ self writeGlobalConstant: aFullBlockClosure
+]
+
+{ #category : #writing }
+MOModuleWriter >> writeExternalFunction: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOExternalFunctionWriter
+]
+
+{ #category : #writing }
+MOModuleWriter >> writeExternalProcedure: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOExternalProcedureWriter
 ]
 
 { #category : #writing }

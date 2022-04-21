@@ -41,14 +41,13 @@ MORingChunkImporter >> classDefinition: aString parsed: aRBMessageNode with: aDo
 ]
 
 { #category : #'as yet unclassified' }
-MORingChunkImporter >> createBehaviourForExtension: aString [
-
-	| class |
-
-	class := ClassChunk new.
-	class name: aString.
-	class isPreexisting: true.
-	^ class
+MORingChunkImporter >> createBehaviourForExtension: aString packageName: aPackageName [
+  | class |
+  class := ClassChunk new.
+  class name: aString.
+  class isPreexisting: true.
+  class state at: #packageName put: aPackageName.
+  ^class
 ]
 
 { #category : #'as yet unclassified' }
@@ -123,15 +122,12 @@ MORingChunkImporter >> findPackage: aString [
 
 { #category : #'as yet unclassified' }
 MORingChunkImporter >> findPackage: aPackageName andBehaviourOrCreateForExtension: aBehaviourName [
-
-	| pack |
-	pack := self findPackage: (aPackageName ifNil: [ #Smalltalk ]).
-
-	^ pack elements detect: [ :a | a name = aBehaviourName ] ifNone: [ 
-		  | b |
-		  b := self createBehaviourForExtension: aBehaviourName.
-		  pack elements add: b.
-		  b ]
+  | pack |
+  pack := self findPackage: (aPackageName ifNil: [ #Smalltalk ]).
+  ^pack elements detect: [:a |  a name = aBehaviourName ] ifNone: [ | b |
+        b := self createBehaviourForExtension: aBehaviourName packageName: aPackageName.
+        pack elements add: b.
+        b ]
 ]
 
 { #category : #'as yet unclassified' }

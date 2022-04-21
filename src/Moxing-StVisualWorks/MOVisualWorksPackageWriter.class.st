@@ -103,6 +103,14 @@ MOVisualWorksPackageWriter >> writeStClass: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOVisualWorksPackageWriter >> writeStExensionMethodDeclarationUnit: aFullBlockClosure [ 
+
+	^ self
+		  write: aFullBlockClosure
+		  inSubWriter: MOStExtensionMethodDeclarationUnitWriter 
+]
+
+{ #category : #writing }
 MOVisualWorksPackageWriter >> writeVisualWorksPackage: aFullBlockClosure [
 
 	^ self

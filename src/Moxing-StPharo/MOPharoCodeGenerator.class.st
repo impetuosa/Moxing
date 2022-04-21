@@ -63,8 +63,20 @@ MOPharoCodeGenerator >> visitBlockClosure: aMOStBlockClosure [
 ]
 
 { #category : #visiting }
-MOPharoCodeGenerator >> visitMethod: aMOMethod [
+MOPharoCodeGenerator >> visitCharacterLiteral: aMOCharacterLiteral [
+  aMOCharacterLiteral = Character space ifTrue: [ stream nextPutAll: 'Character space' ] ifFalse: [ stream
+           nextPut: $$;
+           nextPut: aMOCharacterLiteral literal ]
+]
 
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
+	
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitFloatLiteral: aMOFloatLiteral [
+  stream print: aMOFloatLiteral literal
 ]
 
 { #category : #visiting }
@@ -86,13 +98,25 @@ MOPharoCodeGenerator >> visitParameter: aMOParameter [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitPragma: aMOPhPragma [
   stream nextPutAll: '<'.
-  self writeSelectorAndArguments: aMOPhPragma.
+  self writeSelectorAndParameters: aMOPhPragma.
   stream nextPutAll: '>'
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitReturn: aMOReturn [
+
+	stream nextPutAll: '^ '.
+	aMOReturn expression acceptVisitor: self
 ]
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitSelfReference: aMOSelfReference [
   stream nextPutAll: 'self'
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitSharedVariable: aMOSharedVariable [ 
+  stream nextPutAll: aMOSharedVariable name
 ]
 
 { #category : #visiting }
@@ -117,6 +141,8 @@ MOPharoCodeGenerator >> visitStCascade: aMOStCascade [
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStClass: aMOStClass [
+
+	aMOStClass isPreexisting ifTrue: [ self error: 'preexisting classes cannot be exported. They do not actually exist. Export rather the ExtensionMethodUnit'.  ] ifFalse: [
 	stream 
 	nextPutAll: 'Class {'; newLine.
 	self increaseDeepDuring: [
@@ -127,20 +153,38 @@ MOPharoCodeGenerator >> visitStClass: aMOStClass [
 	self printIndentation.
 	stream nextPutAll: '#category: #''' ; nextPutAll: aMOStClass category; nextPutAll: ''''; nextPutAll:' ,' ;newLine.
 	self printIndentation.
+	
 	stream nextPutAll:'#instVars: ['.
-			self stream: aMOStClass attributes splitingWith: [ stream nextPutAll: ', '; nextPutAll: String lf ] enclosingWith: [ stream nextPutAll: '''' ].
+			self stream: aMOStClass instanceVariables splitingWith: [ stream nextPutAll: ', '; nextPutAll: String lf ] enclosingWith: [ stream nextPutAll: '''' ].
+			self printIndentation.
+	stream nextPutAll:'],' ;newLine.
+	self printIndentation.
+	
+	stream nextPutAll:'#sharedVars: ['.
+			self stream: aMOStClass sharedVariables splitingWith: [ stream nextPutAll: ', '; nextPutAll: String lf ] enclosingWith: [ stream nextPutAll: '''' ].
 			self printIndentation.
 	stream nextPutAll:'],' ;newLine.
 self printIndentation.
 	stream nextPutAll:'#classInstVars: [' .
 		self stream: aMOStClass metaclass attributes splitingWith: [ stream nextPutAll: ', ' ] enclosingWith: [ stream nextPutAll: '''' ].
 	stream nextPutAll:']';newLine.].
-	stream newLine; nextPutAll: '}'; newLine.
+	stream newLine; nextPutAll: '}'; newLine.].
 	self visitCollection: aMOStClass metaclass methods .
 	self visitCollection: aMOStClass methods 
 	
 	
  
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitStExensionMethodDeclarationUnit: aMOStExensionMethodDeclarationUnit [
+  stream
+     nextPutAll: 'Extension {#name : #';
+     nextPutAll: aMOStExensionMethodDeclarationUnit classReference name;
+     nextPutAll: '}';
+     newLine.
+  self visitCollection: aMOStExensionMethodDeclarationUnit extensionMethods.
+  self visitCollection: aMOStExensionMethodDeclarationUnit extensionClassMethods
 ]
 
 { #category : #visiting }
@@ -176,20 +220,14 @@ MOPharoCodeGenerator >> visitStatementExpression: aMOStatementExpression [
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStringLiteral: aMOStringLiteral [
-
-	| str |
-
-	str := ((aMOStringLiteral literal beginsWith: '''') and: [ 
-		        aMOStringLiteral literal endsWith: '''' ])
-		       ifTrue: [ 
-			       aMOStringLiteral literal
-				       copyFrom: 2
-				       to: aMOStringLiteral literal size - 1 ]
-		       ifFalse: [ aMOStringLiteral literal ].
+  | str |
+  str := aMOStringLiteral literal.
+  
+	str := str copyReplaceAll: $' asString with:( $' asString , $'asString ).
 	stream
-		nextPutAll: '''';
-		nextPutAll: str;
-		nextPutAll: ''''
+     nextPutAll: '''';
+     nextPutAll: str;
+     nextPutAll: ''''
 ]
 
 { #category : #visiting }
@@ -202,24 +240,6 @@ MOPharoCodeGenerator >> visitSymbolicArrayLiteral: aMOSymbolicArrayLiteral [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitTypeReference: aMOTypeReference [
   stream nextPutAll: aMOTypeReference name
-]
-
-{ #category : #writing }
-MOPharoCodeGenerator >> writeSelector: selector withCollection: aCollection [
-  | keywords |
-  stream nextPutAll: ' '.
-  keywords := ':' split: selector.
-  keywords size = 1 ifTrue: [ stream nextPutAll: selector.
-        ^self ].
-  keywords removeLast.
-
-  keywords with: aCollection do: [:key :arg |  
-			stream
-           nextPutAll: ' ';
-           nextPutAll: key;
-           nextPutAll: ': '.
-        arg acceptVisitor: self 
- ]
 ]
 
 { #category : #writing }
@@ -243,5 +263,19 @@ MOPharoCodeGenerator >> writeSelectorAndArguments: aMOMethodInvocation [
 
 { #category : #writing }
 MOPharoCodeGenerator >> writeSelectorAndParameters: aMOMethod [
-  self writeSelector: aMOMethod selector withCollection: aMOMethod parameters
+   | keywords |
+  stream nextPutAll: ' '.
+  aMOMethod selector numArgs = 0 ifTrue: [ stream nextPutAll: aMOMethod selector.
+        ^self ].
+  aMOMethod selector isKeyword ifTrue: [ keywords := ':' split: aMOMethod selector.
+        keywords removeLast.
+        keywords with: aMOMethod parameters do: [:key :arg |  stream
+                 nextPutAll: ' ';
+                 nextPutAll: key;
+                 nextPutAll: ': '.
+              arg acceptVisitor: self.
+              stream nextPutAll: ' ' ] ] ifFalse: [ self assert: aMOMethod parameters size = 1.
+        stream nextPutAll: aMOMethod selector.
+        stream nextPutAll: ' '.
+        aMOMethod parameters first acceptVisitor: self ]
 ]

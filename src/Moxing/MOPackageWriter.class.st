@@ -44,6 +44,11 @@ MOPackageWriter >> initializeWriteBuilder [
 ]
 
 { #category : #accessing }
+MOPackageWriter >> name [
+  ^writeBuilder name
+]
+
+{ #category : #accessing }
 MOPackageWriter >> name: aString [ 
 	writeBuilder name: aString
 ]
@@ -124,4 +129,12 @@ MOPackageWriter >> writePrimitiveType: aFullBlockClosure [
 MOPackageWriter >> writeStClass: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOStClassWriter
+]
+
+{ #category : #writing }
+MOPackageWriter >> writeStExensionMethodDeclarationUnit: aFullBlockClosure [ 
+
+	^ self
+		  write: aFullBlockClosure
+		  inSubWriter: MOStExtensionMethodDeclarationUnitWriter 
 ]

@@ -85,7 +85,8 @@ MORBImportingTrait >> visitLiteralValueNode: aRBLiteralValueNode [
 
 { #category : #visiting }
 MORBImportingTrait >> visitMessageNode: aRBMessageNode [
-
+	 
+((	aRBMessageNode receiver isKindOf: RBVariableNode )and: [	aRBMessageNode receiver name  = #return]) ifTrue: [ self halt ].
 	^ self writer
 		  invokeMethodNamed: aRBMessageNode selector
 		  receiver: [ :exp | 
@@ -177,5 +178,5 @@ MORBImportingTrait >> visitVariableNode: aRBVariableNode [
   symbol = #Class ifTrue: [ 
 	self assert: (aRBVariableNode name indexOf: $.) = 0.  
 	^self writer writeTypeReferenceNamed:  aRBVariableNode name].
- self halt 
+self error: 'Unexpected symbol'
 ]

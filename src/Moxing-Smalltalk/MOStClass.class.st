@@ -33,6 +33,11 @@ MOStClass >> comment: aComment [
 ]
 
 { #category : #accessing }
+MOStClass >> instanceVariables [
+  ^attributes reject: [:a |  a isSharedVariable ]
+]
+
+{ #category : #accessing }
 MOStClass >> isPreexisting [
 	 ^ isPreexisting ifNil: [ false  ]
 ]
@@ -50,4 +55,9 @@ MOStClass >> metaclass [
 { #category : #accessing }
 MOStClass >> metaclass: aMOMetaClass [ 
 	metaclass := aMOMetaClass
+]
+
+{ #category : #accessing }
+MOStClass >> sharedVariables [
+  ^attributes select:  [:a |  a isSharedVariable ]
 ]

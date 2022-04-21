@@ -59,6 +59,11 @@ MOImport >> packageReference: aMOPackageReference [
 	packageReference := aMOPackageReference
 ]
 
+{ #category : #accessing }
+MOImport >> packageReferenceName [
+	^ packageReference ifNotNil: [ :r | r name  ]
+]
+
 { #category : #'as yet unclassified' }
 MOImport >> printOn: aStream [
 

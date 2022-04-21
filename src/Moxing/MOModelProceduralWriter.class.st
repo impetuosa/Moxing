@@ -95,10 +95,26 @@ MOModelProceduralWriter >> characterLiteral: aCharacter [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> colorLiteral: aString [
+
+	^ builder colorLiteralBuilder
+		  value: aString;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> constantReferenceNamed: aString [
 
 	^ builder constantReferenceBuilder
 		  name: aString;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> dateLiteral: aString [
+
+	^ builder dateLiteralBuilder
+		  value: aString;
 		  build
 ]
 

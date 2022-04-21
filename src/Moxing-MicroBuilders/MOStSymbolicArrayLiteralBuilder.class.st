@@ -1,17 +1,17 @@
 Class {
-	#name : #MOSymbolicArrayLiteralBuilder,
+	#name : #MOStSymbolicArrayLiteralBuilder,
 	#superclass : #MOLiteralBuilder,
 	#category : #'Moxing-MicroBuilders-literals'
 }
 
 { #category : #asserting }
-MOSymbolicArrayLiteralBuilder >> assertValueType [
+MOStSymbolicArrayLiteralBuilder >> assertValueType [
 
 	self assert: value isArray
 ]
 
 { #category : #asserting }
-MOSymbolicArrayLiteralBuilder >> literalClass [
+MOStSymbolicArrayLiteralBuilder >> literalClass [
 
 	^ MOSymbolicArrayLiteral
 ]

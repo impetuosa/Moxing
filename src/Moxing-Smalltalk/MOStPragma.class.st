@@ -23,6 +23,11 @@ MOStPragma >> arguments: aCollection [
 	arguments := aCollection
 ]
 
+{ #category : #generated }
+MOStPragma >> parameters [
+  ^arguments
+]
+
 { #category : #accessing }
 MOStPragma >> printOn: aStream [
 

@@ -123,6 +123,11 @@ MOLanguageObject >> isLabelledAs: aString [
 ]
 
 { #category : #testing }
+MOLanguageObject >> isMethodExtension [
+	 ^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> isRenamable [
 
 	^ true

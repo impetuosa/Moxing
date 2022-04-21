@@ -28,6 +28,11 @@ MOModelClassBuilder >> addConstructor: aMOConstructor [
 	self addMethod: aMOConstructor
 ]
 
+{ #category : #adding }
+MOModelClassBuilder >> addEvent: aMOEvent [ 
+		self addMethod: aMOEvent
+]
+
 { #category : #'as yet unclassified' }
 MOModelClassBuilder >> buildsType [
 <generated>

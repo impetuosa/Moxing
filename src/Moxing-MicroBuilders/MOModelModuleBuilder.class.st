@@ -27,6 +27,12 @@ MOModelModuleBuilder >> addConstant: aMOConstant [
 ]
 
 { #category : #adding }
+MOModelModuleBuilder >> addExternalFunction: aMOExternalFunction [
+
+	self addFunction: aMOExternalFunction
+]
+
+{ #category : #adding }
 MOModelModuleBuilder >> addFunction: aMOFunction [
 
 	self addInvocable: aMOFunction
