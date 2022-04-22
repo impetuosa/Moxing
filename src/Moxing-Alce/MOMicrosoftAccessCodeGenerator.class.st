@@ -1,7 +1,7 @@
 Class {
 	#name : #MOMicrosoftAccessCodeGenerator,
 	#superclass : #MOCodeGenerator,
-	#category : #'Moxing-Typescript-Writting'
+	#category : #'Moxing-Alce'
 }
 
 { #category : #visiting }

@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOCatchWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitCatchWriter: self 
+
+
+]
+
 { #category : #writing }
 MOCatchWriter >> addParameter: aMOParameter [
 

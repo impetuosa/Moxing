@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOSelectWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitSelectWriter: self 
+
+
+]
+
 { #category : #adding }
 MOSelectWriter >> addCase: aMOCase [
 

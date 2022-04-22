@@ -9,6 +9,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOModuleWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitModuleWriter: self 
+
+
+]
+
 { #category : #adding }
 MOModuleWriter >> addAttribute: aMOAttribute [
 

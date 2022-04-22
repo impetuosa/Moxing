@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOLabelWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitLabelWriter: self 
+
+
+]
+
 { #category : #writing }
 MOLabelWriter >> initializeWriteBuilder [
 

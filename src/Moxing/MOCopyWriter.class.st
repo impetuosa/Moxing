@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOCopyWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitCopyWriter: self 
+
+
+]
+
 { #category : #'as yet unclassified' }
 MOCopyWriter >> initializeWriteBuilder [
 

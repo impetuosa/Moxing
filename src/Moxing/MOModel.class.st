@@ -69,7 +69,10 @@ MOModel >> instantiate: aClass [
 	| instance |
 	instance := aClass newInstanceFromModel.
 	instance isStaticDefinition
-		ifTrue: [ entities add: instance ]
+		ifTrue: [ 
+			(instance respondsTo: #language) ifTrue: [ 
+				instance language: language ].
+			entities add: instance ]
 		ifFalse: [ objects add: instance ].
 
 	^ instance

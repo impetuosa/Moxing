@@ -15,70 +15,111 @@ MOTypescriptCodeGenerator >> openComment [
 ]
 
 { #category : #visiting }
-MOTypescriptCodeGenerator >> printClassHeader: name extends: superClassRef implements: types [
+MOTypescriptCodeGenerator >> visitAngularComponent: aMOAngularComponent [
 
-	stream nextPutAll: ' export '.
-	super printClassHeader: name extends: superClassRef implements: types
+	^ aMOAngularComponent behavior acceptVisitor: self
 ]
 
-{ #category : #visiting }
-MOTypescriptCodeGenerator >> printClassHeader: name implements: types [
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitAttribute: aMOTypescriptVariable [
 
-	stream nextPutAll: (' export class {1}  ' format: { name }).
-	types ifNotEmpty: [ 
+	aMOTypescriptVariable visibility ifNotNil: [ 
 		stream
-			nextPutAll: ' implements ';
-			nextPutAll: (',' join: (types collect: #name)) ]
+			nextPutAll: aMOTypescriptVariable visibility;
+			nextPutAll: ' ' ].
+	stream nextPutAll: aMOTypescriptVariable name.
+
+	aMOTypescriptVariable typeReference ifNotNil: [ 
+		aMOTypescriptVariable typeReference acceptVisitor: self ].
+	aMOTypescriptVariable initializer  ifNotNil: [ 
+		stream nextPutAll: '='.
+		aMOTypescriptVariable initializer acceptVisitor: self ]
 ]
 
 { #category : #visiting }
-MOTypescriptCodeGenerator >> visitClass: aJinTypescriptClass [
+MOTypescriptCodeGenerator >> visitBlockClosure: aMOStBlockClosure [ 
+	stream nextPutAll: '('.
+	self streamArguments: aMOStBlockClosure parameters .
+	stream nextPutAll: ') ' .
+	" Should know type maybe here ."
+	stream nextPutAll: ' => '.
+	aMOStBlockClosure block acceptVisitor: self .
+]
 
-	aJinTypescriptClass dependencies do: [ :i | i acceptVisitor: self ].
-	aJinTypescriptClass decorators do: [ :d | d acceptVisitor: self ].
-	self
-		printClassHeader: aJinTypescriptClass name
-		extends: aJinTypescriptClass superclassReference
-		implements: aJinTypescriptClass superTypeReferences.
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitConstructor: aMOConstructor [
 
-
+	self printIndentation.
 	stream
-		nextPutAll: ' {';
-		newLine.
-	aJinTypescriptClass properties do: [ :m | 
-		m acceptVisitor: self.
-		stream
-			nextPutAll: ';';
-			newLine ].
-	aJinTypescriptClass methods do: [ :m | 
-		m acceptVisitor: self.
-		stream newLine ].
-	stream nextPutAll: '}'
+		newLine;
+		nextPutAll: '';
+		nextPutAll: aMOConstructor visibility;
+		nextPutAll: ' ';
+		nextPutAll: #constructor;
+		nextPutAll: '('.
+	self streamArguments: aMOConstructor parameters.
+
+
+	stream nextPutAll: ') '.
+
+	aMOConstructor block acceptVisitor: self.
+	stream
+		nextPutAll: '';
+		newLine
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [
+
+	self visitCollection: aMODeclarationUnit imports.
+	self visitCollection: aMODeclarationUnit types
 ]
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitDecorator: aJinTypescriptDecorator [
 
+	self assert: aJinTypescriptDecorator arguments size = 1.
 	stream
 		cr;
 		nextPutAll: '    ';
 		nextPutAll: '@';
-		nextPutAll: aJinTypescriptDecorator name;
+		nextPutAll: aJinTypescriptDecorator typeReference name;
 		nextPutAll: '(';
-		nextPutAll: (STONJSON toString: aJinTypescriptDecorator attributes);
+		nextPutAll: (STONJSON toString:
+					 (aJinTypescriptDecorator arguments collect: #literal));
 		nextPutAll: ')';
 		cr
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
+	
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitImport: aMOTypescriptImport [
+
+	aMOTypescriptImport packageReference name = #typescript ifTrue: [ 
+		^ self ].
 	stream
 		nextPutAll: 'import {';
-		nextPutAll: (',' join: (aMOTypescriptImport types collect: [ :t | t name ]));
+		nextPutAll: aMOTypescriptImport typeReference name;
 		nextPutAll: '} from "';
-		nextPutAll: aMOTypescriptImport from;
+		nextPutAll: aMOTypescriptImport packageReference name;
 		nextPutAll: '";';
 		newLine
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitLocalVariable: aMOLocalVariable [
+
+	stream nextPutAll: aMOLocalVariable name.
+
+	aMOLocalVariable typeReference ifNotNil: [ 
+		aMOLocalVariable typeReference acceptVisitor: self ].
+	aMOLocalVariable initializer ifNotNil: [ 
+		stream nextPutAll: '='.
+		aMOLocalVariable initializer acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -96,11 +137,23 @@ MOTypescriptCodeGenerator >> visitMethod: aJinTypescriptMethod [
 
 
 	stream nextPutAll: ') '.
-	aJinTypescriptMethod type acceptVisitor: self.
+	aJinTypescriptMethod returnTypeReference ifNotNil: [ :rtr | 
+		rtr acceptVisitor: self ].
 	aJinTypescriptMethod block acceptVisitor: self.
 	stream
 		nextPutAll: '';
 		newLine
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitMethodInvocation: aMOMethodInvocation [
+	aMOMethodInvocation receiverReference acceptVisitor: self.
+	stream
+		nextPutAll: '.';
+		nextPutAll: aMOMethodInvocation selector;
+		nextPutAll: '('.
+	self streamArguments: aMOMethodInvocation arguments.
+	stream nextPutAll: ')'
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,50 +168,31 @@ MOTypescriptCodeGenerator >> visitObjectLiteral: aMOTypescriptObjectLiteral [
 	stream nextPutAll: '}'
 ]
 
-{ #category : #'as yet unclassified' }
-MOTypescriptCodeGenerator >> visitTemplatedConstructor: aMOTypescriptTemplatedConstructor [
-	stream nextPutAll: 'constructor ('.
-	aMOTypescriptTemplatedConstructor parameters allButLast
-		do: [ :p | 
-			p acceptVisitor: self.
-			stream nextPutAll: ', ' ].
-	aMOTypescriptTemplatedConstructor parameters last acceptVisitor: self.
-	stream
-		nextPutAll: '){ ';
-		newLine;
-		nextPutAll: aMOTypescriptTemplatedConstructor body;
-		newLine;
-		nextPutAll: '}'
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitParameter: aMOParameter [
+
+	stream nextPutAll: aMOParameter name.
+
+	aMOParameter typeReference ifNotNil: [ 
+		aMOParameter typeReference acceptVisitor: self ]
 ]
 
-{ #category : #'as yet unclassified' }
-MOTypescriptCodeGenerator >> visitTemplatedMethod: aMOTypescriptTemplatedMethod [
-	stream
-		newLine;
-		nextPutAll: '    ';
-		nextPutAll: aMOTypescriptTemplatedMethod visibility;
-		nextPutAll: ' ';
-		nextPutAll: aMOTypescriptTemplatedMethod selector;
-		nextPutAll: '('.
-	stream
-		nextPutAll:
-			(','
-				join:
-					(aMOTypescriptTemplatedMethod parameters
-						collect: [ :p | p name , ': ' , p type name ])).
-	stream nextPutAll: ')'.
-	aMOTypescriptTemplatedMethod type
-		ifNotNil: [ :t | 
-			stream
-				nextPutAll: ': ';
-				nextPutAll: t asString ].
-	stream
-		nextPutAll: ' {';
-		newLine;
-		nextPutAll: aMOTypescriptTemplatedMethod body;
-		newLine;
-		nextPutAll: '    }';
-		newLine
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
+
+	^ self visitTypeReference: aMOPrimitiveTypeReference
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitSelfReference: aMOSelf [
+
+	stream nextPutAll: 'this'
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitStatementExpression: aMOStatementExpression [
+
+	^ aMOStatementExpression expression acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -167,6 +201,37 @@ MOTypescriptCodeGenerator >> visitTypeReference: aFylgjaMissingType [
 	stream
 		nextPutAll: ': ';
 		nextPutAll: aFylgjaMissingType name
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitTypescriptClass: aMoTypescriptClass [
+
+	aMoTypescriptClass decorators do: [ :d | d acceptVisitor: self ].
+
+
+	aMoTypescriptClass modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
+
+	self
+		printClassHeader: aMoTypescriptClass name
+		extends: aMoTypescriptClass superclassReference
+		implements: aMoTypescriptClass superTypeReferences.
+
+	stream
+		nextPutAll: ' {';
+		newLine.
+	self increaseDeepDuring: [ 
+		aMoTypescriptClass attributes do: [ :m | 
+			m acceptVisitor: self.
+			stream
+				nextPutAll: ';';
+				newLine ].
+		aMoTypescriptClass methods do: [ :m | 
+			m acceptVisitor: self.
+			stream newLine ].
+		stream nextPutAll: '}' ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -178,9 +243,9 @@ MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
 			nextPutAll: ' ' ].
 	stream nextPutAll: aMOTypescriptVariable name.
 
-	aMOTypescriptVariable type ifNotNil: [ 
-		aMOTypescriptVariable type acceptVisitor: self ].
-	aMOTypescriptVariable defaultValue ifNotNil: [ 
+	aMOTypescriptVariable typeReference ifNotNil: [ 
+		aMOTypescriptVariable typeReference acceptVisitor: self ].
+	aMOTypescriptVariable initializer  ifNotNil: [ 
 		stream nextPutAll: '='.
-		aMOTypescriptVariable defaultValue acceptVisitor: self ]
+		aMOTypescriptVariable initializer acceptVisitor: self ]
 ]

@@ -97,6 +97,11 @@ MOModelDerivative >> name [
 	^ model name
 ]
 
+{ #category : #accessing }
+MOModelDerivative >> objects [
+	^ model objects 
+]
+
 { #category : #enumerating }
 MOModelDerivative >> objectsSelect: aFullBlockClosure [ 
 	^ model objects select: aFullBlockClosure 

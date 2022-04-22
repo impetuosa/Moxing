@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOClassSubProcedureWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitProcedureWriter: self 
+
+
+]
+
 { #category : #initialization }
 MOClassSubProcedureWriter >> initializeWriteBuilder [
 

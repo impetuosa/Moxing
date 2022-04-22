@@ -182,18 +182,6 @@ MOTypescriptPrebuiltTypeReferenceFactory >> typeReference: aString [
 		  ifFalse: [ aString ]
 ]
 
-{ #category : #'building methods' }
-MOTypescriptPrebuiltTypeReferenceFactory >> typeReference: aString definedAt: aFileRef [
-
-	^ aString isString
-		  ifTrue: [ 
-			  (MOImportedTypeReference newForTypescriptIn: model)
-				  name: aString;
-				  definedAt: aFileRef;
-				  yourself ]
-		  ifFalse: [ aString ]
-]
-
 { #category : #'native types' }
 MOTypescriptPrebuiltTypeReferenceFactory >> void [
 	^ self typeReference: #void

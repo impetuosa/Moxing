@@ -1,8 +1,8 @@
 Class {
 	#name : #MOAngularService,
-	#superclass : #MOAngularEntry,
+	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'behavior'
+		'#behavior => MOPropertySlot'
 	],
 	#category : #'Moxing-Angular-Model'
 }

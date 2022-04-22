@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-StVisualWorks-writer'
 }
 
+{ #category : #visiting }
+MOVisualWorksPackageWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitPackageWriter: self 
+
+
+]
+
 { #category : #adding }
 MOVisualWorksPackageWriter >> addPackage: aMOVisualWorksPackage [ 
 

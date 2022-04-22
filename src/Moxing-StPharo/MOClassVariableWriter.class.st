@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-StPharo'
 }
 
+{ #category : #visiting }
+MOClassVariableWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitVariableWriter: self 
+
+
+]
+
 { #category : #initialization }
 MOClassVariableWriter >> initializeWriteBuilder [ 
 	writeBuilder := builder classVariableBuilder

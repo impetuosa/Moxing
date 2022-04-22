@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOAnnotationWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitAnnotationWriter: self 
+
+
+]
+
 { #category : #'as yet unclassified' }
 MOAnnotationWriter >> annotationTypeReference: aMOTypeReference [
 

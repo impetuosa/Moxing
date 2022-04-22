@@ -23,6 +23,12 @@ MOModelTypescriptClassBuilder >> decorators [
 ]
 
 { #category : #asserting }
+MOModelTypescriptClassBuilder >> decorators: someDecos [
+
+	decorators := someDecos
+]
+
+{ #category : #asserting }
 MOModelTypescriptClassBuilder >> loadBuilderWithEntity: anEntity [
 
 	super loadBuilderWithEntity: anEntity.

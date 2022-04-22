@@ -31,8 +31,9 @@ MOModelImportBuilder >> importType: aMOClass [
 
 { #category : #accessing }
 MOModelImportBuilder >> importTypeReference: aReference [
-
-	self typeReference: aReference
+	self typeReference: aReference.
+	aReference packageReference ifNotNil: [ :pr | 
+		self packageReference: pr ]
 ]
 
 { #category : #'as yet unclassified' }

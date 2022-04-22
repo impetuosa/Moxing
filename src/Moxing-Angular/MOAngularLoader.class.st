@@ -201,6 +201,7 @@ MOAngularLoader >> visitAngularProject: aProject [
 		           thenCollect: [ :f | 
 			           | name |
 			           name := f basename copyReplaceAll: '.module.ts' with: ''.
+
 			           (model instantiate: MOAngularModule)
 				           fileReference: f asFileReference parent;
 				           anchor: aProject anchor / #modules / name;

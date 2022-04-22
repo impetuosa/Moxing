@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOStructureWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitStructureWriter: self 
+
+
+]
+
 { #category : #adding }
 MOStructureWriter >> addAttribute: aMOAttribute [ 
 	writeBuilder addAttribute: aMOAttribute 

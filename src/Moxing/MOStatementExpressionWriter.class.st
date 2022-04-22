@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOStatementExpressionWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitExpressionWriter: self 
+
+
+]
+
 { #category : #generated }
 MOStatementExpressionWriter >> expression: aMOAssignment [ 
 	writeBuilder expression: aMOAssignment 

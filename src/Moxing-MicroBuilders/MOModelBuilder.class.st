@@ -22,6 +22,22 @@ MOModelBuilder >> aliasTypeBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> angularComponentBuilder [
+
+	^ MOModelAngularComponentBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> angularModuleBuilder [
+
+	^ MOModelAngularModuleBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> annotationInstanceBuilder [
 
 	^ MOModelAnnotationInstanceBuilder new
@@ -303,6 +319,13 @@ MOModelBuilder >> decoratorBuilder [
 	^ MOModelDecoratorBuilder new
 		parentBuilder: self;
 		yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> dictionaryLiteralBuilder [
+	^ MODictionaryLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }

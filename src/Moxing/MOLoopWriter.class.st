@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOLoopWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitLoopWriter: self 
+
+
+]
+
 { #category : #writing }
 MOLoopWriter >> loopingBlock: aBlock [
 

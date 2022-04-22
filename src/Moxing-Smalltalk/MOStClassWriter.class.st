@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-Smalltalk-writer'
 }
 
+{ #category : #visiting }
+MOStClassWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitClassWriter: self 
+
+
+]
+
 { #category : #adding }
 MOStClassWriter >> addClass: aMOMetaClass [
 

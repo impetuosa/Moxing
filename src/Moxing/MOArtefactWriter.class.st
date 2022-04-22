@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOArtefactWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitArtefactWriter: self 
+
+
+]
+
 { #category : #adding }
 MOArtefactWriter >> addAliasType: aMOAlias [
 

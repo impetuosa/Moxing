@@ -1,9 +1,9 @@
 Class {
 	#name : #MOAngularScheme,
-	#superclass : #MOAngularEntry,
+	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'projects',
-		'metadata'
+		'#projects => MOContainmentSlot many',
+		'#metadata => MOPropertySlot'
 	],
 	#category : #'Moxing-Angular-Model'
 }

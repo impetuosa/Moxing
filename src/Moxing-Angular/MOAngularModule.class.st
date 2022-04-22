@@ -35,17 +35,3 @@ MOAngularModule >> printOn: aStream [
 		nextPutAll: 'AngularModule: ';
 		nextPutAll: name
 ]
-
-{ #category : #'as yet unclassified' }
-MOAngularModule >> save [
-	(types noneSatisfy: [ :c | c mustBeSaved ])
-		ifTrue: [ ^ self ].
-	(types select: [ :c | c mustBeSaved ] )do: [ :c | c save ].
-	self typescriptModel 
-]
-
-{ #category : #'as yet unclassified' }
-MOAngularModule >> typescriptModel [
-	^ MOTypescriptClassLoader
-		loadClassFromFile: (self anchor / name , 'module' , 'ts')
-]

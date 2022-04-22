@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOResumeWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitResumeWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOResumeWriter >> destinations [
 	^ writeBuilder destinations 

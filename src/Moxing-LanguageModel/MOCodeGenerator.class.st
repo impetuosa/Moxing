@@ -7,7 +7,7 @@ Class {
 		'indentationString',
 		'isCommenting'
 	],
-	#category : #'Moxing-Typescript-Writting'
+	#category : #'Moxing-LanguageModel-Writting'
 }
 
 { #category : #visiting }

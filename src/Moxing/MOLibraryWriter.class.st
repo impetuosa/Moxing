@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOLibraryWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitLibraryWriter: self 
+
+
+]
+
 { #category : #adding }
 MOLibraryWriter >> addAttribute: aMOAttribute [ 
 	writeBuilder addAttribute: aMOAttribute 

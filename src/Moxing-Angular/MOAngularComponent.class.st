@@ -1,9 +1,9 @@
 Class {
 	#name : #MOAngularComponent,
-	#superclass : #MOAngularEntry,
+	#superclass : #MOLanguageObject,
 	#instVars : [
-		'behavior',
-		'template'
+		'#behavior => MOContainmentSlot one',
+		'#template => MOPropertySlot'
 	],
 	#category : #'Moxing-Angular-Model'
 }

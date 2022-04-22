@@ -30,7 +30,7 @@ MOModelAnnotationInstanceBuilder >> loadBuilderWithEntity: anEntity [
 { #category : #'as yet unclassified' }
 MOModelAnnotationInstanceBuilder >> privateBuild [
 
-	^ (self instantiate: MOAnnotationInstance)
+	^ (self instantiate: self buildsType )
 		  typeReference: self typeReference;
 		  arguments: self arguments;
 		  yourself

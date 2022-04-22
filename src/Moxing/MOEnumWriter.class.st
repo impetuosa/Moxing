@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOEnumWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitEnumWriter: self 
+
+
+]
+
 { #category : #adding }
 MOEnumWriter >> addConstant: aMOConstant [
 	writeBuilder  addEntry: aMOConstant

@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOMetaClassWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitClassWriter: self 
+
+
+]
+
 { #category : #initialization }
 MOMetaClassWriter >> initializeWriteBuilder [
 

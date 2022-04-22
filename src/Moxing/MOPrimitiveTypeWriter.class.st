@@ -6,6 +6,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOPrimitiveTypeWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitTypeWriter: self 
+
+
+]
+
 { #category : #writing }
 MOPrimitiveTypeWriter >> initializeWriteBuilder [
 	writeBuilder := builder primitiveTypeBuilder 

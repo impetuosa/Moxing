@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOReturnWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitReturnWriter: self 
+
+
+]
+
 { #category : #writing }
 MOReturnWriter >> expression: anExpression [
 

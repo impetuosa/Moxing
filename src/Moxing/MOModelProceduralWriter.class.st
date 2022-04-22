@@ -21,6 +21,11 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> acceptWritingVisitor: aVisistor [
+ 	self subclassResponsibility 
+]
+
 { #category : #accessing }
 MOModelProceduralWriter >> anchor: aMOAnchor [
 
@@ -113,6 +118,23 @@ MOModelProceduralWriter >> dateLiteral: aString [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> dictionaryLiteral: aCollection [
+
+	| dict |
+	dict := aCollection associations collect: [ :a | 
+		        a key -> (self literalForValue: a value) ].
+	^ self dictionaryLiteralWithLiterals: dict asDictionary
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> dictionaryLiteralWithLiterals: aCollection [
+
+	^ builder dictionaryLiteralBuilder
+		  value: aCollection;
+		  build
+]
+
 { #category : #accessing }
 MOModelProceduralWriter >> fileReference: anUndefinedObject [ 
 	writeBuilder fileReference: anUndefinedObject 
@@ -191,8 +213,11 @@ MOModelProceduralWriter >> literalForValue: aValue [
 	aValue isNil ifTrue: [ ^ self nullLiteral ].
 	aValue isNumber ifTrue: [ ^ self numericLiteral: aValue ].
 	aValue isArray ifTrue: [ ^ self arrayLiteral: aValue ].
-	(aValue isKindOf: ByteArray) ifTrue: [ ^ self arrayLiteral: aValue asArray ].
+	aValue isDictionary ifTrue: [ ^ self dictionaryLiteral: aValue ].
+	(aValue isKindOf: ByteArray) ifTrue: [ 
+		^ self arrayLiteral: aValue asArray ].
 	(aValue isKindOf: Boolean) ifTrue: [ ^ self booleanLiteral: aValue ].
+
 	self error: 'unexpected'
 ]
 

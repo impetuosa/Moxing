@@ -7,6 +7,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOSubProcedureWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitProcedureWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOSubProcedureWriter >> bindingKind: aString [ 
 	 writeBuilder bindingKind: aString 

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'aTryCatch'
 	],
-	#category : #'Moxing-Typescript-Writting'
+	#category : #'Moxing-Java-Writer'
 }
 
 { #category : #visiting }

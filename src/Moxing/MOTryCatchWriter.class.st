@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOTryCatchWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitCatchWriter: self 
+
+
+]
+
 { #category : #adding }
 MOTryCatchWriter >> addCatch: aMOCatch [
 

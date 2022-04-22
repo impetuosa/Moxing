@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-StVisualWorks-writer'
 }
 
+{ #category : #visiting }
+MOSharedVariableWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitVariableWriter: self 
+
+
+]
+
 { #category : #initialization }
 MOSharedVariableWriter >> initializeWriteBuilder [ 
 	writeBuilder := builder sharedVariableBuilder

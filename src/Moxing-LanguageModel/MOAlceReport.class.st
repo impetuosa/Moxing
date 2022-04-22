@@ -15,3 +15,8 @@ MOAlceReport >> canBeReferredAsVariable [
 
 	^ true
 ]
+
+{ #category : #visiting }
+MOAlceReport >> isWidget [ 
+ 	 ^ true 
+]

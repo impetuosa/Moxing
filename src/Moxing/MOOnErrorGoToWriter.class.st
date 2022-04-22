@@ -4,6 +4,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MOOnErrorGoToWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitToWriter: self 
+
+
+]
+
 { #category : #accessing }
 MOOnErrorGoToWriter >> destination: aMOAlceLabelReference [ 
 	writeBuilder destination: aMOAlceLabelReference 

@@ -9,6 +9,13 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #visiting }
+MODeclarationUnitWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitUnitWriter: self 
+
+
+]
+
 { #category : #adding }
 MODeclarationUnitWriter >> addClass: aMOClass [ 
 	writeBuilder addClass: aMOClass 
