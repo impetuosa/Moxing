@@ -15,8 +15,18 @@ MOPharoCodeGenerator >> blockDelimiterOpen [
 ]
 
 { #category : #visiting }
+MOPharoCodeGenerator >> closeComment [
+  ^self openComment
+]
+
+{ #category : #visiting }
 MOPharoCodeGenerator >> lineDelimiter [
   ^'.'
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> openComment [
+	 stream nextPutAll: '"'
 ]
 
 { #category : #visiting }
@@ -67,6 +77,11 @@ MOPharoCodeGenerator >> visitCharacterLiteral: aMOCharacterLiteral [
   aMOCharacterLiteral = Character space ifTrue: [ stream nextPutAll: 'Character space' ] ifFalse: [ stream
            nextPut: $$;
            nextPut: aMOCharacterLiteral literal ]
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitComment: aMOComment [
+  ^self comment: [ aMOComment statement acceptVisitor: self ]
 ]
 
 { #category : #visiting }

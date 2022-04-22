@@ -234,6 +234,13 @@ MOModelBuilder >> colorLiteralBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> commentBuilder [ 
+	^ MOModelCommentBuilder  new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> comparisonOperatorBuilder [
 
 	^ MOComparisonOperationBuilder new

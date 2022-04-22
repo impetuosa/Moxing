@@ -95,6 +95,13 @@ MOBlockWriter >> writeBlock: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOBlockWriter >> writeComment: aFullBlockClosure [
+  | stmnt |
+  stmnt := self write: aFullBlockClosure inSubWriter: MOCommentWriter.
+  ^stmnt
+]
+
+{ #category : #writing }
 MOBlockWriter >> writeDoUntil: aBlock [
 
 	| stmnt |
