@@ -49,9 +49,9 @@ MOAnchor >> isRoot [
 MOAnchor >> names [
 
 	self containsSource ifTrue: [ 
-		^ (2 to: (path segments indexOf: '@src') by: 2) collect: [ :i | 
+		^ (1 to: (path segments indexOf: '@src') by: 2) collect: [ :i | 
 			  path at: i ] ].
-	^ (2 to: path segments size by: 2) collect: [ :i | path at: i ]
+	^ (1 to: path segments size by: 2) collect: [ :i | path at: i ]
 ]
 
 { #category : #accessing }

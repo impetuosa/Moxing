@@ -861,6 +861,14 @@ MOModelBuilder >> returnBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> rootDeclarationBuilder [
+
+	^ MORootDeclarationBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> selectBuilder [
 
 	^ MOModelSelectBuilder new

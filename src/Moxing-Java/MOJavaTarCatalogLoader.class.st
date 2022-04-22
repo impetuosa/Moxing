@@ -78,13 +78,16 @@ MOJavaTarCatalogLoader >> loadMavenDependencies: pom into: catalog [
 
 { #category : #'as yet unclassified' }
 MOJavaTarCatalogLoader >> processClassDefinition: aString into: aCatalog [
-	| processing |
-	processing := aString trimBoth copyReplaceAll: 'static {};' with:''. 
-	
+
+	| processing loader |
+	processing := aString trimBoth copyReplaceAll: 'static {};' with: ''.
+
 	(processing beginsWith: 'public') ifFalse: [ ^ self ]. " We only process public stuff for the catalog  "
-	(JavaParser parse: processing) acceptVisitor: (MOJavaFileLoader new
-			 writer: aCatalog writer;
-			 yourself)
+
+	loader := MOJavaFileLoader new
+		          writer: aCatalog writer;
+		          yourself.
+	^ loader load: (JavaParser parse: processing)
 ]
 
 { #category : #accessing }

@@ -25,6 +25,12 @@ MOModel >> allReferences [
 	^ entities select: [ :e | e isKindOf: MOReference ]
 ]
 
+{ #category : #traverse }
+MOModel >> allRelations [
+
+	^ { (MODeclarationStructuralRelation nullRelationTo: self root) }
+]
+
 { #category : #accessing }
 MOModel >> anchor: aMOAnchor [
 	anchor := aMOAnchor.
@@ -102,6 +108,7 @@ MOModel >> root [
 		  root := self instantiate: MORootDeclaration.
 		  root name: 'root'.
 		  root anchor: self anchor / 'root' / #RootDeclaration.
+		  root parent: self .
 		  root ]
 ]
 

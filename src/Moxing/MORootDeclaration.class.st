@@ -22,7 +22,19 @@ MORootDeclaration >> addPackage: anEntry [
 ]
 
 { #category : #accessing }
+MORootDeclaration >> language [
+
+	^ parent language
+]
+
+{ #category : #accessing }
 MORootDeclaration >> packages [
 
 	^ packages ifNil: [ packages := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MORootDeclaration >> packages: aCollection [
+
+	self assert: packages == aCollection
 ]

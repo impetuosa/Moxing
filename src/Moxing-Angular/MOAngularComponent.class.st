@@ -33,6 +33,12 @@ MOAngularComponent >> css: aMOAngularDocument [
 ]
 
 { #category : #generated }
+MOAngularComponent >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #generated }
 MOAngularComponent >> printOn: aStream [
 
 	aStream

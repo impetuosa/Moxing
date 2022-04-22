@@ -31,6 +31,16 @@ MOJavaFileLoader >> isFullName: aString [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> load: anAst [
+
+	| ret |
+	writer autoPopulate: false.
+	ret := anAst acceptVisitor: self.
+	writer populateAnchorOn: writer model root.
+	^ ret
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> registerJavaDefaultImports [
 	self imports add:
 		(writer writeImport: [ :import | 
@@ -379,7 +389,7 @@ MOJavaFileLoader >> visitProgramFile: aJavaProgramFileNode [
 		            self
 			            use: unit
 			            during: [ self visitProgram: aJavaProgramFileNode ] ].
-	writer populateAnchor
+
 ]
 
 { #category : #visiting }
@@ -628,5 +638,6 @@ MOJavaFileLoader >> writeParametrizableMethodWith: aJavaMethodDeclarationNode [
 
 { #category : #accessing }
 MOJavaFileLoader >> writer: aMOModelWriter [ 
-	writer := aMOModelWriter
+	writer := aMOModelWriter.
+
 ]
