@@ -22,3 +22,14 @@ MOTypescriptClass >> decorators [
 MOTypescriptClass >> decorators: aCollection [ 
 	decorators := aCollection
 ]
+
+{ #category : #accessing }
+MOTypescriptClass >> dependencies [
+
+	| deps |
+	deps := OrderedCollection streamContents: [ :str | 
+		        str nextPutAll: super dependencies.
+		        str nextPutAll:
+			        (decorators flatCollect: [ :a | a dependencies ]) ].
+	^ (deps reject: #isNil) removeDuplicates
+]

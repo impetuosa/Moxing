@@ -17,7 +17,7 @@ Class {
 { #category : #adding }
 MOModelWriter >> addAngularModule: aMOAngularModule [
 
-	^ aMOAngularModule
+	^ self addPackage: aMOAngularModule
 ]
 
 { #category : #adding }
@@ -103,6 +103,7 @@ MOModelWriter >> addModule: aMOModule [
 MOModelWriter >> addPackage: aMOPackage [
 
 	self assert: (model entities includes: aMOPackage).
+	aMOPackage parent ifNil: [ model root addPackage: aMOPackage ].
 	entity := aMOPackage
 ]
 
@@ -214,7 +215,7 @@ MOModelWriter >> model [
 { #category : #accessing }
 MOModelWriter >> model: aMOModel [ 
 	model := aMOModel.
-	anchoringOn ifNil: [ anchoringOn := model anchor ]
+	anchoringOn ifNil: [ anchoringOn := model root anchor ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -246,7 +247,7 @@ MOModelWriter >> parametrizedTypeReferenceNamed: aString arguments: aCollection 
 { #category : #writing }
 MOModelWriter >> populateAnchor [
 
-	| all |
+	| all anchoringEntity |
 	entity ifNil: [ ^ self ].
 
 	all := entity isCollection
@@ -254,8 +255,13 @@ MOModelWriter >> populateAnchor [
 		       ifFalse: [ { entity } ].
 
 	all do: [ :e | 
-		e anchor ifNil: [ e anchor: anchoringOn ].
-		self populateAnchorOn: e ]
+		anchoringEntity := e anchor
+			                   ifNil: [ 
+			                   e parent
+				                   ifNil: [ e anchor: anchoringOn ]
+				                   ifNotNil: [ e parent ] ]
+			                   ifNotNil: [ e ].
+		self populateAnchorOn: anchoringEntity ]
 ]
 
 { #category : #writing }
@@ -605,6 +611,7 @@ MOModelWriter >> write: aBlock withWriter: writer writerParent: aWriterParent [
 	writer surface: self.
 	writer initializeWriteBuilder.
 	writer write: aBlock.
+
 	self populateAnchor.
 	^ entity
 ]

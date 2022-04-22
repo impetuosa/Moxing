@@ -25,6 +25,12 @@ MOJavaCodeGenerator >> openComment [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> printSelf [
+
+	stream nextPutAll: 'this'
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitAccessor: aMOAccessor [
 
 	self visitMethod: aMOAccessor
@@ -465,12 +471,6 @@ MOJavaCodeGenerator >> visitSelect: aMOSelect [
 	self visitCollection: aMOSelect cases.
 	self printIndentation.
 	stream nextPutAll: '}'
-]
-
-{ #category : #visiting }
-MOJavaCodeGenerator >> visitSelfReference: aMOSelf [
-
-	stream nextPutAll: 'this'
 ]
 
 { #category : #visiting }

@@ -23,6 +23,12 @@ MOMicrosoftAccessCodeGenerator >> lineDelimiter [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> printSelf [
+
+	stream nextPutAll: 'Me'
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitClass: aJinTypescriptClass [
 
 	stream nextPutAll: 'Option Compare Database

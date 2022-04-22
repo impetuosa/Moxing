@@ -55,12 +55,28 @@ MOAngularLoader >> loadNamed: aName [
 	metadata := STONJSON fromStream:
 		            (workingDirectory / 'angular.json') readStream.
 	schema := model instantiate: MOAngularScheme.
-	schema parent: model.
-	schema anchor: model anchor / #scheme / #angular.
+	model root addPackage: schema.
+	self populateAnchorOn: model root.  
+
 	schema fileReference: workingDirectory.
 	schema metadata: metadata.
 	schema acceptVisitor: self.
 	^ model
+]
+
+{ #category : #load }
+MOAngularLoader >> populateAnchorOn: anEntity [
+
+	| subentity |
+	anEntity allContainmentRelations , anEntity allReferenceRelations
+	, anEntity allExpressionRelations do: [ :relation | 
+		subentity := relation to.
+		subentity parent: anEntity.
+		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
+				 ifTrue: [ relation name ]
+				 ifFalse: [ subentity name ])
+			/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
+		self populateAnchorOn: subentity ]
 ]
 
 { #category : #convenience }
@@ -137,6 +153,7 @@ MOAngularLoader >> visitAngularClass: aComponentBehavior [
 { #category : #visiting }
 MOAngularLoader >> visitAngularComponent: aComponent [
 
+	| templateDocument cssDocument |
 	aComponent behavior: ((model instantiate: MOAngularClass)
 			 anchor: aComponent anchor / #behavior / aComponent name;
 			 fileReference:
@@ -145,13 +162,33 @@ MOAngularLoader >> visitAngularComponent: aComponent [
 			 yourself).
 	aComponent behavior parent: aComponent.
 	aComponent behavior acceptVisitor: self.
-	aComponent template:
-		((model instantiate: MOAngularComponentTemplate)
+
+	templateDocument := (aComponent fileReference
+	                     / (aComponent name , '.component.html'))
+		                    readStream upToEnd.
+
+	aComponent template: ((model instantiate: MOAngularTemplateDocument)
 			 anchor: aComponent anchor / #template / aComponent name;
 			 fileReference:
 				 aComponent fileReference / (aComponent name , '.component.html');
+			 document: templateDocument;
 			 name: aComponent name;
 			 yourself).
+
+	(aComponent fileReference / (aComponent name , '.component.css'))
+		exists ifTrue: [ 
+		cssDocument := templateDocument := (aComponent fileReference
+		                                    /
+		                                    (aComponent name
+		                                     , '.component.css')) readStream
+			                                   upToEnd.
+		aComponent css: ((model instantiate: MOAngularCssDocument)
+				 anchor: aComponent anchor / #css / aComponent name;
+				 fileReference:
+					 aComponent fileReference / (aComponent name , '.component.css');
+				 document: cssDocument;
+				 name: aComponent name;
+				 yourself) ].
 	aComponent template acceptVisitor: self.
 	aComponent template parent: aComponent
 ]
@@ -251,6 +288,11 @@ MOAngularLoader >> visitAngularService: aMOAngularService [
 			 yourself).
 	aMOAngularService behavior parent: aMOAngularService.
 	aMOAngularService behavior acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOAngularLoader >> visitAngularTemplateDocument: aMOAngularTemplateDocument [ 
+
 ]
 
 { #category : #visiting }

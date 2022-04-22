@@ -80,6 +80,12 @@ MOCodeGenerator >> printIndentation [
 		stream nextPutAll: self indentationString ]
 ]
 
+{ #category : #visiting }
+MOCodeGenerator >> printSelf [
+
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> produceCodeFor: aMOPackage [
 
@@ -138,6 +144,17 @@ MOCodeGenerator >> visitAssignment: aMOAssignment [
 		nextPutAll: #=;
 		nextPutAll: ' '.
 	aMOAssignment read acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
+
+	aMOBinaryArithmeticOperation left acceptVisitor: self.
+	stream
+		nextPutAll: ' ';
+		nextPutAll: aMOBinaryArithmeticOperation operator;
+		nextPutAll: ' '.
+	aMOBinaryArithmeticOperation right acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -256,6 +273,12 @@ MOCodeGenerator >> visitReturn: aMOReturn [
 ]
 
 { #category : #visiting }
+MOCodeGenerator >> visitSelfReference: aMOSelf [
+
+	self printSelf
+]
+
+{ #category : #visiting }
 MOCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 
 	| str |
@@ -280,6 +303,7 @@ MOCodeGenerator >> visitTransientClass: aMOTransientClass [
 
 { #category : #visiting }
 MOCodeGenerator >> visitVariableReference: aMOVariableRererence [
+
 	(aMOVariableRererence candidate isKindOf: MOSelfReference)
 		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
 		ifFalse: [ stream nextPutAll: aMOVariableRererence name ]

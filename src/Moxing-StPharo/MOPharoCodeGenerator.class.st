@@ -30,6 +30,12 @@ MOPharoCodeGenerator >> openComment [
 ]
 
 { #category : #visiting }
+MOPharoCodeGenerator >> printSelf [
+
+	stream nextPutAll: 'self'
+]
+
+{ #category : #visiting }
 MOPharoCodeGenerator >> visitAssignment: aMOAssignment [
   aMOAssignment write acceptVisitor: self.
   stream
@@ -122,11 +128,6 @@ MOPharoCodeGenerator >> visitReturn: aMOReturn [
 
 	stream nextPutAll: '^ '.
 	aMOReturn expression acceptVisitor: self
-]
-
-{ #category : #visiting }
-MOPharoCodeGenerator >> visitSelfReference: aMOSelfReference [
-  stream nextPutAll: 'self'
 ]
 
 { #category : #visiting }

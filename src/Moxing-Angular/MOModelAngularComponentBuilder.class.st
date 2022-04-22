@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'template',
-		'behavior'
+		'behavior',
+		'css'
 	],
 	#category : #'Moxing-Angular-Building'
 }
@@ -26,10 +27,21 @@ MOModelAngularComponentBuilder >> buildsType [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelAngularComponentBuilder >> css [
+	 ^ css
+]
+
+{ #category : #generated }
+MOModelAngularComponentBuilder >> css: aCssDocument [ 
+	 css := aCssDocument 
+]
+
+{ #category : #'as yet unclassified' }
 MOModelAngularComponentBuilder >> loadBuilderWithEntity: anEntity [
 
 	self behavior: anEntity behavior.
-	self template: anEntity template
+	self template: anEntity template.
+	self css: anEntity css
 ]
 
 { #category : #'as yet unclassified' }
@@ -38,6 +50,7 @@ MOModelAngularComponentBuilder >> privateBuild [
 	^ (self instantiate: self buildsType)
 		  behavior: self behavior;
 		  template: self template;
+		  css: self css;
 		  yourself
 ]
 

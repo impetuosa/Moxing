@@ -36,6 +36,14 @@ MOImportWriter >> importingPackageReference: aMOPackageReference [
 	writeBuilder packageReference: aMOPackageReference 
 ]
 
+{ #category : #'as yet unclassified' }
+MOImportWriter >> importingTypeOrTypeReference: type [
+
+	^ type isReference
+		  ifTrue: [ self importingTypeReference: type ]
+		  ifFalse: [ self importType: type ]
+]
+
 { #category : #accessing }
 MOImportWriter >> importingTypeReference: aTypeReference [
 

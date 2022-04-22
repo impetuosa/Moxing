@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'catalog',
 		'unknownType',
-		'objects'
+		'objects',
+		'root'
 	],
 	#category : #'Moxing-Core'
 }
@@ -92,6 +93,16 @@ MOModel >> objects [
 MOModel >> objectsSelect: aFullBlockClosure [
 
 	^ objects select: aFullBlockClosure
+]
+
+{ #category : #initialization }
+MOModel >> root [
+
+	^ root ifNil: [ 
+		  root := self instantiate: MORootDeclaration.
+		  root name: 'root'.
+		  root anchor: self anchor / 'root' / #RootDeclaration.
+		  root ]
 ]
 
 { #category : #'as yet unclassified' }
