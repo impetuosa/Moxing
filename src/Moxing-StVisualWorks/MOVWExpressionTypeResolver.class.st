@@ -1,7 +1,7 @@
 Class {
 	#name : #MOVWExpressionTypeResolver,
 	#superclass : #MOStExpressionTypeResolver,
-	#category : #'Moxing-Linking'
+	#category : #'Moxing-StVisualWorks-Linking'
 }
 
 { #category : #visiting }

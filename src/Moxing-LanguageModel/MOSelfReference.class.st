@@ -15,7 +15,7 @@ MOSelfReference >> callingClass [
 
 	| p |
 	p := parent.
-	[ p isNil or: [ p isType ] ] whileFalse: [ p := p parent ].
+	[ p isNil or: [ p isType or: [ p isMethodExtension  ] ] ] whileFalse: [ p := p parent ].
 	^ p
 ]
 

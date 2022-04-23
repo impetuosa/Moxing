@@ -7,7 +7,7 @@ Class {
 		'candidateAnchor',
 		'parent'
 	],
-	#category : #'Moxing-StPharo'
+	#category : #'Moxing-StPharo-Model'
 }
 
 { #category : #'as yet unclassified' }

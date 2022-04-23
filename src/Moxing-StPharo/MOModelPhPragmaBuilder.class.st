@@ -5,7 +5,7 @@ Class {
 		'selector',
 		'arguments'
 	],
-	#category : #'Moxing-StPharo'
+	#category : #'Moxing-StPharo-Model'
 }
 
 { #category : #accessing }

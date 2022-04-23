@@ -31,7 +31,11 @@ MOModelExpressionTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 
-	^ aMOSelfReference callingClass
+	| classOrExtension |
+	classOrExtension := aMOSelfReference callingClass.
+	^ classOrExtension isMethodExtension
+		  ifTrue: [ classOrExtension classReference candidate ]
+		  ifFalse: [ classOrExtension ]
 ]
 
 { #category : #visiting }

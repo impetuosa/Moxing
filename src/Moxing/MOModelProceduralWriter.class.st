@@ -26,6 +26,11 @@ MOModelProceduralWriter >> acceptWritingVisitor: aVisistor [
  	self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+MOModelProceduralWriter >> anchor: aMOAnchor [ 
+	anchor := aMOAnchor
+]
+
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> anchoringOn: aMOAnchor [ 
 	self shouldBeImplemented.

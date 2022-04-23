@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPhSharedPoolReference,
 	#superclass : #MOReference,
-	#category : #'Moxing-StPharo'
+	#category : #'Moxing-StPharo-Model'
 }
 
 { #category : #accessing }

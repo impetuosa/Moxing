@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPhExpressionTypeResolver,
 	#superclass : #MOStExpressionTypeResolver,
-	#category : #'Moxing-Linking'
+	#category : #'Moxing-StPharo-Linking'
 }
 
 { #category : #visiting }
