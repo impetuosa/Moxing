@@ -13,6 +13,16 @@ Class {
 	#category : #'Moxing-Core'
 }
 
+{ #category : #private }
+MOModel class >> loadFrom: aString [
+
+	| instance |
+	instance := STON fromStream: aString asFileReference readStream.
+	self assert: (instance isKindOf: self).
+
+	^ instance
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> allInvocations [
 
@@ -117,6 +127,19 @@ MOModel >> rootPackages [
 
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent = self ] ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> saveAs: aString [
+
+	| stream |
+	aString asFileReference ensureDelete.
+	stream := aString asFileReference writeStream.
+
+	STON put: self onStream: stream.
+	stream
+		flush;
+		close
 ]
 
 { #category : #']as yet unclassified' }
