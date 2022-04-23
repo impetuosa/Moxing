@@ -28,7 +28,10 @@ BaselineOfMoxing >> base: spec [
 		with: [ spec requires: #( SmaCC XMLParserHTML ) ].
 	spec
 		package: 'Moxing-LanguageModel'
-		with: [ spec requires: #( Moxing ) ]
+		with: [ spec requires: #( Moxing 'Moxing-MicroBuilders' ) ].
+	spec
+		package: 'Moxing-MicroBuilders'
+		with: [ spec requires: #( Moxing ) ].
 ]
 
 { #category : #baselines }
