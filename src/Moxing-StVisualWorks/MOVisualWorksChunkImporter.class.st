@@ -55,11 +55,8 @@ MOVisualWorksChunkImporter >> classBindings: aRGClassDefinition [
 MOVisualWorksChunkImporter >> importFromChunkImporter: aRingChunkImporter [
 
 	ringImporter := aRingChunkImporter.
-
-
-
-
-	aRingChunkImporter elements do: [ :c | c accept: self ]
+	aRingChunkImporter elements do: [ :c | c accept: self ].
+	writer populateAnchorOn: writer model root
 ]
 
 { #category : #visiting }
