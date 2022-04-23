@@ -234,6 +234,12 @@ MODeclaration >> parent: aParent [
 ]
 
 { #category : #'as yet unclassified' }
+MODeclaration >> parentForContext [
+
+	^ self parent
+]
+
+{ #category : #'as yet unclassified' }
 MODeclaration >> relationNamed: aString [
 
 	^ (self relationsNamed: aString) first

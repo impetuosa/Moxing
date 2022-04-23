@@ -9,29 +9,39 @@ Class {
 		'extending',
 		'bindings'
 	],
-	#category : #'Moxing-StPharo'
+	#classInstVars : [
+		'siren'
+	],
+	#category : #'Moxing-StPharo-importing'
 }
 
 { #category : #accessing }
 MORBPharoImporter class >> importPharoSiren [
-  | phary |
-  siren := MOModel newPharo.
-  phary := MORBPharoImporter new.
-  phary writer: siren writer.
-  phary importPackages: ({'Kernel-Objects' . 
-        'Kernel-Numbers' . 
-        'Kernel-Chronology' . 
-        'Kernel-Exceptions' . 
-        'Collections-Sequenceable' . 
-        'Collections-Unordered' . 
-        'Collections-Strings' . 
-        'FFI-Kernel' . 
-        'UnifiedFFI'} collect: #asPackageOrTag)
+
+	| phary |
+	siren := MOModel newPharo.
+	siren name: #phiren. 
+	phary := MORBPharoImporter new.
+	phary writer: siren writer.
+	phary importPackages:
+		({ 'Kernel-Objects'. 'Kernel-Numbers'. 'Kernel-Chronology'.
+		 'Kernel-Exceptions'. #'Collections-Abstract'.
+		 'Collections-Sequenceable'. 'Collections-Unordered'.
+		 'Collections-Strings'. 'FFI-Kernel'. 'UnifiedFFI'. #'FileSystem-Core'. #'Colors-Base'. 
+		 #Siren } collect: #asPackageOrTag)
+]
+
+{ #category : #accessing }
+MORBPharoImporter class >> loadExtraPackageIntoSiren: aPackageName [
+
+	| phary |
+	phary := MORBPharoImporter new.
+	phary writer: siren writer.
+	phary importPackages: ({ aPackageName } collect: #asPackageOrTag)
 ]
 
 { #category : #accessing }
 MORBPharoImporter class >> siren [
-
 	^ siren ifNil: [ self importPharoSiren ]
 ]
 

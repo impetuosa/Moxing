@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPharoCodeGenerator,
 	#superclass : #MOCodeGenerator,
-	#category : #'Moxing-StPharo'
+	#category : #'Moxing-StPharo-writer'
 }
 
 { #category : #visiting }

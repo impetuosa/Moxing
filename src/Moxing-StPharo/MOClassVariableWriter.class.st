@@ -1,7 +1,7 @@
 Class {
 	#name : #MOClassVariableWriter,
 	#superclass : #MOGlobalVariableWriter,
-	#category : #'Moxing-StPharo'
+	#category : #'Moxing-StPharo-Model'
 }
 
 { #category : #visiting }

@@ -19,39 +19,8 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOLanguage class >> javaFor: aMOModel [
-  ^(aMOModel instantiate: self)
-     name: #java;
-     yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguage class >> microsoftAccessFor: aMOModel [
-
-	^ (aMOModel instantiate: self)
-		  name: #MicrosoftAccess;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguage class >> microsoftAccessForAlceModel: anAlcixModel [
-
-	^ self newInstanceFromModel
-		  name: #MicrosoftAccess;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOLanguage class >> newFor: aModel [ 	
 	^ aModel instantiate: self 
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguage class >> pharoFor: aMOModel [
-  ^(aMOModel instantiate: self)
-     name: #pharo;
-     expressionTypeResolvingStrategy: MOPhExpressionTypeResolver;
-     yourself
 ]
 
 { #category : #accessing }
@@ -60,22 +29,6 @@ MOLanguage class >> resetLangs [
 	visualBasicApplication := nil.
 	typescript := nil.
 	java := nil
-]
-
-{ #category : #accessing }
-MOLanguage class >> typescriptFor: aMOModel [
-
-	^ (aMOModel instantiate: self)
-		  name: #typescript;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguage class >> visualWorksFor: aMOModel [
-  ^(aMOModel instantiate: self)
-     name: #visualworks;
-     expressionTypeResolvingStrategy: MOVWExpressionTypeResolver;
-     yourself
 ]
 
 { #category : #'as yet unclassified' }

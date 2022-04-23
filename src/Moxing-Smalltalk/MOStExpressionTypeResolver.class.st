@@ -1,7 +1,7 @@
 Class {
 	#name : #MOStExpressionTypeResolver,
 	#superclass : #MOModelExpressionTypeResolver,
-	#category : #'Moxing-Linking'
+	#category : #'Moxing-Smalltalk-Linking'
 }
 
 { #category : #visiting }

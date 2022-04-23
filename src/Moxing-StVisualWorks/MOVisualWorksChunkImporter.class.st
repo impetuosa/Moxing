@@ -30,6 +30,7 @@ MOVisualWorksChunkImporter class >> loadVisualWorksFileOut: aFile [
 		          aFile asFileReference readStream.
 
 	model := MOModel newVisualWorks.
+	model name: #siren.
 	importer := MOVisualWorksChunkImporter new.
 	importer writer: model writer.
 	importer importFromChunkImporter: chunky.
