@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #baselines }
+BaselineOfMoxing >> access: spec [
+
+	spec
+		package: 'Moxing-Alce'
+		with: [ spec requires: #( Moxing 'JinDao' ) ]
+]
+
+{ #category : #baselines }
 BaselineOfMoxing >> angular: spec [
 
 	spec
@@ -27,6 +35,7 @@ BaselineOfMoxing >> baseline: spec [
 	self dependencies: spec.
 
 	self base: spec.
+	self access: spec. 
 	self java: spec.
 	self typescript: spec.
 	self angular: spec.
@@ -55,7 +64,10 @@ BaselineOfMoxing >> dependencies: spec [
 		with: [ spec repository: 'github://impetuosa/SmaCC' ].
 	spec baseline: 'XMLParserHTML' with: [ 
 		spec repository:
-			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ]
+			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ].
+	spec
+		baseline: 'JinDao'
+		with: [ spec repository: 'github://impetuosa/Jindao' ]
 ]
 
 { #category : #baselines }
