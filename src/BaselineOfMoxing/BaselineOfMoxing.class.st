@@ -5,28 +5,93 @@ Class {
 }
 
 { #category : #baselines }
+BaselineOfMoxing >> angular: spec [
+
+	spec
+		package: 'Moxing-Angular'
+		with: [ spec requires: #( Moxing 'Moxing-Typescript' ) ]
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> base: spec [
+
+	spec
+		package: 'Moxing'
+		with: [ spec requires: #( SmaCC XMLParserHTML ) ]
+]
+
+{ #category : #baselines }
 BaselineOfMoxing >> baseline: spec [
 
 	<baseline>
+	self dependencies: spec.
+
+	self base: spec.
+	self java: spec.
+	self typescript: spec.
+	self angular: spec.
+	
+	self smalltalk: spec. 
+	self pharo: spec.
+	self visualWorks: spec.
+	
+	self default: spec
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> default: spec [
+
+	spec
+		group: 'default'
+		with: #( Moxing 'Moxing-Java' 'Moxing-Typescript'
+		   'Moxing-Angular' )
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> dependencies: spec [
+
 	spec
 		baseline: 'SmaCC'
 		with: [ spec repository: 'github://impetuosa/SmaCC' ].
 	spec baseline: 'XMLParserHTML' with: [ 
 		spec repository:
-			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ].
+			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ]
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> java: spec [
+	spec package: 'Moxing-Java' with: [ spec requires: #( 'Moxing-LanguageModel' ) ].
+	
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> pharo: spec [
 
 	spec
-		package: 'Moxing'
-		with: [ spec requires: #( SmaCC XMLParserHTML ) ].
-	spec package: 'Moxing-Java' with: [ spec requires: #( Moxing ) ].
+		package: 'Moxing-StPharo'
+		with: [ spec requires: #( Moxing-Smalltalk ) ]
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> smalltalk: spec [
+
+	spec
+		package: 'Moxing-Smalltalk'
+		with: [ spec requires: #( Moxing ) ]
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> typescript: spec [
+
 	spec
 		package: 'Moxing-Typescript'
-		with: [ spec requires: #( Moxing ) ].
+		with: [ spec requires: #( Moxing ) ]
+]
+
+{ #category : #baselines }
+BaselineOfMoxing >> visualWorks: spec [
+
 	spec
-		package: 'Moxing-Angular'
-		with: [ spec requires: #( Moxing 'Moxing-Typescript' ) ].
-	spec
-		group: 'default'
-		with: #( Moxing 'Moxing-Java' 'Moxing-Typescript'
-		   'Moxing-Angular' )
+		package: 'Moxing-StVisualWorks'
+		with: [ spec requires: #( Moxing-Smalltalk ) ]
 ]
