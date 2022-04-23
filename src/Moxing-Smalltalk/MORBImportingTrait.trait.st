@@ -1,6 +1,6 @@
 Trait {
 	#name : #MORBImportingTrait,
-	#category : #'Moxing-StVisualWorks'
+	#category : #'Moxing-Smalltalk'
 }
 
 { #category : #evaluating }
