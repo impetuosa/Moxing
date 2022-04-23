@@ -23,5 +23,6 @@ MOContainmentSlot >> acceptRule: aRule forRelation: aRelationObject readingValue
 MOContainmentSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
 	aValue == anObject ifTrue: [ ^ false ].
+	aValue isStonReference ifTrue: [ ^ true ].
 	^ aValue isNil or: [ aValue isReference not ]
 ]

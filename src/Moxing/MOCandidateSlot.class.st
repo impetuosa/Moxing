@@ -37,8 +37,7 @@ MOCandidateSlot >> readAllRelations: anObject selecting: aBlock [
 
 { #category : #visiting }
 MOCandidateSlot >> shouldAccept: aValue into: anObject [
-
 	^ aValue
 		  ifNil: [ true ]
-		  ifNotNil: [ anObject refersToObjectsLike: aValue ]
+		  ifNotNil: [ anObject refersToObjectsLikeOrStonRef: aValue ]
 ]

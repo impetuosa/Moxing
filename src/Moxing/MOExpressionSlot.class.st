@@ -23,6 +23,6 @@ MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues
 
 { #category : #asserting }
 MOExpressionSlot >> shouldAcceptSingleValue: aValue into: anObject [
-
+	aValue isStonReference ifTrue: [ ^ true ].
 	^ aValue isNil or: [ aValue isKindOf: MODeclaration ]
 ]
