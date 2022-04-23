@@ -84,7 +84,7 @@ BaselineOfMoxing >> pharo: spec [
 
 	spec
 		package: 'Moxing-StPharo'
-		with: [ spec requires: #( Moxing-Smalltalk ) ]
+		with: [ spec requires: #( 'Moxing-Smalltalk' ) ]
 ]
 
 { #category : #baselines }
@@ -108,5 +108,5 @@ BaselineOfMoxing >> visualWorks: spec [
 
 	spec
 		package: 'Moxing-StVisualWorks'
-		with: [ spec requires: #( Moxing-Smalltalk ) ]
+		with: [ spec requires: #( 'Moxing-Smalltalk' ) ]
 ]
