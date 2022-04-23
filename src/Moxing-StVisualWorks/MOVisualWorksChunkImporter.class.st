@@ -293,5 +293,6 @@ MOVisualWorksChunkImporter >> writer [
 
 { #category : #accessing }
 MOVisualWorksChunkImporter >> writer: aMOModelWriter [ 
-	writer := aMOModelWriter
+	writer := aMOModelWriter.
+	writer autoPopulate: false. 
 ]
