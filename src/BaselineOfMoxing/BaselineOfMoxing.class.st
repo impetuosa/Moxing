@@ -25,7 +25,10 @@ BaselineOfMoxing >> base: spec [
 
 	spec
 		package: 'Moxing'
-		with: [ spec requires: #( SmaCC XMLParserHTML ) ]
+		with: [ spec requires: #( SmaCC XMLParserHTML ) ].
+	spec
+		package: 'Moxing-LanguageModel'
+		with: [ spec requires: #( Moxing ) ]
 ]
 
 { #category : #baselines }
@@ -72,7 +75,7 @@ BaselineOfMoxing >> dependencies: spec [
 
 { #category : #baselines }
 BaselineOfMoxing >> java: spec [
-	spec package: 'Moxing-Java' with: [ spec requires: #( 'Moxing-LanguageModel' ) ].
+	spec package: 'Moxing-Java' with: [ spec requires: #( Moxing 'Moxing-LanguageModel' ) ].
 	
 ]
 
@@ -89,7 +92,7 @@ BaselineOfMoxing >> smalltalk: spec [
 
 	spec
 		package: 'Moxing-Smalltalk'
-		with: [ spec requires: #( Moxing ) ]
+		with: [ spec requires: #( Moxing 'Moxing-LanguageModel' ) ]
 ]
 
 { #category : #baselines }
@@ -97,7 +100,7 @@ BaselineOfMoxing >> typescript: spec [
 
 	spec
 		package: 'Moxing-Typescript'
-		with: [ spec requires: #( Moxing ) ]
+		with: [ spec requires: #( Moxing 'Moxing-LanguageModel'  ) ]
 ]
 
 { #category : #baselines }
