@@ -1,7 +1,7 @@
 Class {
 	#name : #MOChunkFileFormatParser,
 	#superclass : #ChunkFileFormatParser,
-	#category : #'Moxing-StVisualWorks-chunk importer'
+	#category : #'Moxing-StVisualWorks-CodeImport'
 }
 
 { #category : #parsing }

@@ -5,7 +5,7 @@ Class {
 		'writer',
 		'elements'
 	],
-	#category : #'Moxing-StVisualWorks-chunk importer'
+	#category : #'Moxing-StVisualWorks-CodeImport'
 }
 
 { #category : #accessing }
