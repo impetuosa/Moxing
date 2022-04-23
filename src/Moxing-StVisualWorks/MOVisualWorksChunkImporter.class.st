@@ -16,8 +16,33 @@ Class {
 }
 
 { #category : #accessing }
+MOVisualWorksChunkImporter class >> loadSiren [
+
+	^ self loadVisualWorksFileOut:
+		  'C:\Users\Santiago.BRAGAGNOLO\visualworks\Siren91.st'
+]
+
+{ #category : #accessing }
+MOVisualWorksChunkImporter class >> loadVisualWorksFileOut: aFile [
+
+	| chunky model importer |
+	chunky := MORingChunkImporter new fileInFrom:
+		          aFile asFileReference readStream.
+
+	model := MOModel newVisualWorks.
+	importer := MOVisualWorksChunkImporter new.
+	importer writer: model writer.
+	importer importFromChunkImporter: chunky.
+
+	MOModelLinker new link: model.
+	
+	^ model
+]
+
+{ #category : #accessing }
 MOVisualWorksChunkImporter class >> siren [
-	^ siren
+
+	^ siren ifNil: [ siren := self loadSiren ]
 ]
 
 { #category : #'as yet unclassified' }
