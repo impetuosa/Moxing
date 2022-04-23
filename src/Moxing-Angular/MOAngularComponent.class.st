@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOLanguageObject,
 	#instVars : [
 		'#behavior => MOContainmentSlot one',
-		'#template => MOPropertySlot'
+		'#template => MOContainmentSlot one',
+		'#css => MOContainmentSlot one'
 	],
 	#category : #'Moxing-Angular-Model'
 }
@@ -24,6 +25,17 @@ MOAngularComponent >> behavior [
 MOAngularComponent >> behavior: ab [
 
 	^ behavior := ab
+]
+
+{ #category : #accessing }
+MOAngularComponent >> css: aMOAngularDocument [ 
+	css := aMOAngularDocument
+]
+
+{ #category : #generated }
+MOAngularComponent >> isDeclaration [
+
+	^ true
 ]
 
 { #category : #generated }

@@ -14,7 +14,8 @@ MONewInvocation >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 { #category : #'as yet unclassified' }
 MONewInvocation >> dependencies [
-	^ typeReference dependencies 
+
+	^ { typeReference } , typeReference dependencies
 ]
 
 { #category : #initialization }

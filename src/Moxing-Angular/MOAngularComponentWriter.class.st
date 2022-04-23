@@ -19,6 +19,11 @@ MOAngularComponentWriter >> addDeclarationUnit: aMODeclarationUnit [
 	writeBuilder behavior: aMODeclarationUnit
 ]
 
+{ #category : #generated }
+MOAngularComponentWriter >> css: anAngularDocument [ 
+	writeBuilder css: anAngularDocument
+]
+
 { #category : #writing }
 MOAngularComponentWriter >> initializeWriteBuilder [
 
@@ -32,8 +37,8 @@ MOAngularComponentWriter >> privateWriteToSurface: anEntity [
 ]
 
 { #category : #generated }
-MOAngularComponentWriter >> template: anXmlDocument [ 
-	writeBuilder template: anXmlDocument 
+MOAngularComponentWriter >> template: anAngularDocument [ 
+	writeBuilder template: anAngularDocument 
 ]
 
 { #category : #writing }
@@ -43,7 +48,19 @@ MOAngularComponentWriter >> writeClass: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOAngularComponentWriter >> writeCssDocument: aBlock [
+
+	^ self write: aBlock inSubWriter: MOAngularCssDocumentWriter
+]
+
+{ #category : #writing }
 MOAngularComponentWriter >> writeDeclarationUnit: aBlock [
 
 	^ self write: aBlock inSubWriter: MODeclarationUnitWriter
+]
+
+{ #category : #writing }
+MOAngularComponentWriter >> writeTemplateDocument: aBlock [
+
+	^ self write: aBlock inSubWriter: MOAngularTemplateDocumentWriter
 ]

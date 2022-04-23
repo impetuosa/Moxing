@@ -9,7 +9,8 @@ Class {
 		'model',
 		'builder',
 		'entity',
-		'anchoringOn'
+		'anchoringOn',
+		'autoPopulate'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -17,7 +18,7 @@ Class {
 { #category : #adding }
 MOModelWriter >> addAngularModule: aMOAngularModule [
 
-	^ aMOAngularModule
+	^ self addPackage: aMOAngularModule
 ]
 
 { #category : #adding }
@@ -103,6 +104,7 @@ MOModelWriter >> addModule: aMOModule [
 MOModelWriter >> addPackage: aMOPackage [
 
 	self assert: (model entities includes: aMOPackage).
+	aMOPackage parent ifNil: [ model root addPackage: aMOPackage ].
 	entity := aMOPackage
 ]
 
@@ -152,6 +154,17 @@ MOModelWriter >> arrayTypeReferenceOf: aMOTypeReference [
 	^ builder arrayedTypeReferenceBuilder
 		  baseType: aMOTypeReference;
 		  build
+]
+
+{ #category : #writing }
+MOModelWriter >> autoPopulate [
+
+	^ autoPopulate ifNil: [ true ]
+]
+
+{ #category : #accessing }
+MOModelWriter >> autoPopulate: aBoolean [ 
+	autoPopulate := aBoolean
 ]
 
 { #category : #generated }
@@ -214,7 +227,7 @@ MOModelWriter >> model [
 { #category : #accessing }
 MOModelWriter >> model: aMOModel [ 
 	model := aMOModel.
-	anchoringOn ifNil: [ anchoringOn := model anchor ]
+	anchoringOn ifNil: [ anchoringOn := model root anchor ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -246,7 +259,7 @@ MOModelWriter >> parametrizedTypeReferenceNamed: aString arguments: aCollection 
 { #category : #writing }
 MOModelWriter >> populateAnchor [
 
-	| all |
+	| all anchoringEntity |
 	entity ifNil: [ ^ self ].
 
 	all := entity isCollection
@@ -254,8 +267,13 @@ MOModelWriter >> populateAnchor [
 		       ifFalse: [ { entity } ].
 
 	all do: [ :e | 
-		e anchor ifNil: [ e anchor: anchoringOn ].
-		self populateAnchorOn: e ]
+		anchoringEntity := e anchor
+			                   ifNil: [ 
+			                   e parent
+				                   ifNil: [ e anchor: anchoringOn ]
+				                   ifNotNil: [ e parent ] ]
+			                   ifNotNil: [ e ].
+		self populateAnchorOn: anchoringEntity ]
 ]
 
 { #category : #writing }
@@ -319,12 +337,12 @@ MOModelWriter >> stringLiteral: aString [
 
 { #category : #'as yet unclassified' }
 MOModelWriter >> typeReferenceFullNamed: aString [ 
-	 self halt .
+	self error: ' Types are not managed by model writer. '
 ]
 
-{ #category : #writing }
+{ #category : #'as yet unclassified' }
 MOModelWriter >> typeReferenceNamed: aString [ 
-	 self halt .
+	self error: ' Types are not managed by model writer. '
 ]
 
 { #category : #'as yet unclassified' }
@@ -491,6 +509,15 @@ MOModelWriter >> updateProcedure: aMOMethod with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateRootDeclaration: aMOClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOClass
+		  withWriter: MORootDeclarationWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateSelect: aMOClass with: aFullBlockClosure [
 
 	^ self
@@ -598,14 +625,14 @@ MOModelWriter >> write: aBlock withWriter: writer [
 ]
 
 { #category : #writing }
-MOModelWriter >> write: aBlock withWriter: writer writerParent: aWriterParent [ 
+MOModelWriter >> write: aBlock withWriter: writer writerParent: aWriterParent [
 
-	writer parentWriter: aWriterParent .
+	writer parentWriter: aWriterParent.
 	writer builder: self builder.
 	writer surface: self.
 	writer initializeWriteBuilder.
 	writer write: aBlock.
-	self populateAnchor.
+	self autoPopulate ifTrue: [ self populateAnchor ].
 	^ entity
 ]
 

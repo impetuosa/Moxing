@@ -256,6 +256,20 @@ MOModelUpdateResolver >> visitResumeLabel: aMOAlceResumeLabel [
 	^ self genericUpdate: aMOAlceResumeLabel
 ]
 
+{ #category : #visiting }
+MOModelUpdateResolver >> visitRootDeclaration: aMORootDeclaration [
+
+	| addedElement |
+	writer
+		updateRootDeclaration: aMORootDeclaration
+		with: [ :classWriter | 
+			addedElement := writingBlock
+				                cull: writingEntityRelation
+				                cull: classWriter ].
+
+	^ addedElement
+]
+
 { #category : #enumerating }
 MOModelUpdateResolver >> visitSelect: aMOSelect [
 

@@ -75,6 +75,12 @@ MOType >> packageReferenceName [
 	^ packageReference ifNotNil: [ :r | r name  ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOType >> parentForContext [
+
+	^ parent ifNotNil: [ :p | p isPackage ifFalse: [ p parent ] ]
+]
+
 { #category : #accessing }
 MOType >> visibility [
 	^ visibility

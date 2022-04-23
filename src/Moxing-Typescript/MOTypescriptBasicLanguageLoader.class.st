@@ -45,10 +45,8 @@ MOTypescriptBasicLanguageLoader >> fileBase: aFileReference [
 
 { #category : #accessing }
 MOTypescriptBasicLanguageLoader >> load [
-
 	typescript := model writer writePackage: [ :package | 
 		              package name: #typescript.
-		              package anchor: model anchor / #sdk / #typescript.
 		              self use: package during: [ 
 			              self loadPrimitiveTypes.
 			              self loadPrimitiveObjects ] ]

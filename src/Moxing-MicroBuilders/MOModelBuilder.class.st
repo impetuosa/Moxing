@@ -297,6 +297,14 @@ MOModelBuilder >> contextReferenceBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> cssDocumentBuilder [
+
+	^ MOModelAngularCssDocumentBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> dateLiteralBuilder [
 
 	^ MODateLiteralBuilder new
@@ -853,6 +861,14 @@ MOModelBuilder >> returnBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> rootDeclarationBuilder [
+
+	^ MORootDeclarationBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> selectBuilder [
 
 	^ MOModelSelectBuilder new
@@ -998,6 +1014,14 @@ MOModelBuilder >> symbolicArrayLiteralBuilder [
 MOModelBuilder >> tableBuilder [
 
 	^ MOModelTableBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> templateDocumentBuilder [
+
+	^ MOModelAngularTemplateDocumentBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

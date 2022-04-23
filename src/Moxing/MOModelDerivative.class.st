@@ -129,6 +129,12 @@ MOModelDerivative >> removeEntity: aFylgjaCandidateStub [
 	entities remove: aFylgjaCandidateStub
 ]
 
+{ #category : #accessing }
+MOModelDerivative >> root [
+
+	^ model root
+]
+
 { #category : #'as yet unclassified' }
 MOModelDerivative >> shallowCopy: anEntity [
 

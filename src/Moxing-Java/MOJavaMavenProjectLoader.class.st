@@ -51,6 +51,7 @@ MOJavaMavenProjectLoader >> link: aMOModel [
 { #category : #load }
 MOJavaMavenProjectLoader >> loadNamed: aString [
 
+	| loader |
 	model := MOModel newJava
 		         name: aString;
 		         anchor: (MOAnchor on: #/);
@@ -62,9 +63,11 @@ MOJavaMavenProjectLoader >> loadNamed: aString [
 	self javaFiles
 		collect: [ :j | JavaParser parse: j readStream upToEnd ]
 		thenDo: [ :ast | 
-			ast acceptVisitor: (MOJavaFileLoader new
-					 writer: writer;
-					 yourself) ].
+			loader := MOJavaFileLoader new
+				          writer: writer;
+				          yourself.
+
+			loader load: ast ].
 	self link: model.
 	^ model
 ]

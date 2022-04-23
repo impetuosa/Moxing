@@ -15,6 +15,12 @@ MOTypescriptCodeGenerator >> openComment [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> printSelf [
+
+	stream nextPutAll: 'this'
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitAngularComponent: aMOAngularComponent [
 
 	^ aMOAngularComponent behavior acceptVisitor: self
@@ -178,6 +184,18 @@ MOTypescriptCodeGenerator >> visitParameter: aMOParameter [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
+
+	self visitTypeReference: aMOParametrizedTypeReference.
+	stream
+		nextPutAll: #<;
+		nextPutAll: (',' join:
+					 (aMOParametrizedTypeReference argumentTypeReferences collect:
+							  #name));
+		nextPutAll: #>
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
 
 	^ self visitTypeReference: aMOPrimitiveTypeReference
@@ -248,4 +266,13 @@ MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
 	aMOTypescriptVariable initializer  ifNotNil: [ 
 		stream nextPutAll: '='.
 		aMOTypescriptVariable initializer acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitVariableReference: aMOVariableRererence [
+
+	(aMOVariableRererence candidate isKindOf: MOAttribute) ifTrue: [ 
+		self printSelf.
+		stream nextPutAll: '.' ].
+	^ super visitVariableReference: aMOVariableRererence
 ]

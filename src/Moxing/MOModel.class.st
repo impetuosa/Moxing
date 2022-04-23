@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'catalog',
 		'unknownType',
-		'objects'
+		'objects',
+		'root'
 	],
 	#category : #'Moxing-Core'
 }
@@ -22,6 +23,12 @@ MOModel >> allInvocations [
 MOModel >> allReferences [
 
 	^ entities select: [ :e | e isKindOf: MOReference ]
+]
+
+{ #category : #traverse }
+MOModel >> allRelations [
+
+	^ { (MODeclarationStructuralRelation nullRelationTo: self root) }
 ]
 
 { #category : #accessing }
@@ -92,6 +99,17 @@ MOModel >> objects [
 MOModel >> objectsSelect: aFullBlockClosure [
 
 	^ objects select: aFullBlockClosure
+]
+
+{ #category : #initialization }
+MOModel >> root [
+
+	^ root ifNil: [ 
+		  root := self instantiate: MORootDeclaration.
+		  root name: 'root'.
+		  root anchor: self anchor / 'root' / #RootDeclaration.
+		  root parent: self .
+		  root ]
 ]
 
 { #category : #'as yet unclassified' }
