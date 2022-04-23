@@ -22,12 +22,12 @@ MOProjectTree class >> newFor: aProject [
 ]
 
 { #category : #accessing }
-MOProjectTree >> accept: anEntity [
+MOProjectTree >> canFollowEntity: anEntity [
 
 	^ { 
-		  MOJavaProject.
-		  MOJavaPackage.
-		  MOJavaType } anySatisfy: [ :c | anEntity isKindOf: c ]
+		  MOProject.
+		  MOPackage.
+		  MORootDeclaration } anySatisfy: [ :c | anEntity isKindOf: c ]
 ]
 
 { #category : #initialization }

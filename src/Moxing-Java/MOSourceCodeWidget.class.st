@@ -41,10 +41,9 @@ MOSourceCodeWidget class >> title [
 ]
 
 { #category : #visiting }
-MOSourceCodeWidget >> accept: aModel [
+MOSourceCodeWidget >> canFollowEntity: aModel [
 
-	^ (aModel isKindOf: MOJavaType) or: [ 
-		  aModel isKindOf: MOJavaTransientClass ]
+	^ aModel isKindOf: MOType
 ]
 
 { #category : #initialization }
