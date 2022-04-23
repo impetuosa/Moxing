@@ -43,6 +43,6 @@ MOAttributeAccess >> refersToObjectsLike: aMOPrimitiveType [
 
 	^ aMOPrimitiveType isCollection
 		  ifTrue: [ 
-		  aMOPrimitiveType anySatisfy: [ :a | self refersToObjectsLike: a ] ]
+		  aMOPrimitiveType anySatisfy: [ :a | (self refersToObjectsLikeOrStonRef: a) ] ]
 		  ifFalse: [ aMOPrimitiveType canBeReferredAsAttribute ]
 ]

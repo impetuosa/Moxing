@@ -8,6 +8,16 @@ Class {
 }
 
 { #category : #'instance creation' }
+MODeclaration class >> fromSton: stonReader [
+	"Create a new instance and delegate decoding to instance side.
+	Override only when new instance should be created directly (see implementors). "
+	
+	^ self newInstanceFromModel
+		fromSton: stonReader;
+		yourself
+]
+
+{ #category : #'instance creation' }
 MODeclaration class >> new [
 	^ self error: 'must give model'
 ]

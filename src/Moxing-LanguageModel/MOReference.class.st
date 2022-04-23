@@ -44,3 +44,10 @@ MOReference >> refersToObjectsLike: aDeclarationObject [
 
 	self subclassResponsibility
 ]
+
+{ #category : #'as yet unclassified' }
+MOReference >> refersToObjectsLikeOrStonRef: aDeclarationObject [
+
+	^ aDeclarationObject isStonReference or: [ 
+		  self refersToObjectsLike: aDeclarationObject ]
+]
