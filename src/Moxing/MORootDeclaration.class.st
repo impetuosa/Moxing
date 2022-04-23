@@ -28,6 +28,11 @@ MORootDeclaration >> language [
 ]
 
 { #category : #accessing }
+MORootDeclaration >> language: aMOLanguage [ 
+	" nothing to do here "
+]
+
+{ #category : #accessing }
 MORootDeclaration >> packages [
 
 	^ packages ifNil: [ packages := OrderedCollection new ]
