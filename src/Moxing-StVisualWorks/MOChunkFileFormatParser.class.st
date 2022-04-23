@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #parsing }
+MOChunkFileFormatParser >> methodChunkClass [
+	^ MOMethodChunk
+]
+
+{ #category : #parsing }
 MOChunkFileFormatParser >> parseClassOrganization: classOrganizationPreamble [
 	"The comment preable is an array with the following structure:
 	If instance side method:
