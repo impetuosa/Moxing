@@ -47,6 +47,11 @@ MOModelProceduralWriter >> arrayTypeReferenceOf: aMOTypeReference [
 		  build
 ]
 
+{ #category : #accessing }
+MOModelProceduralWriter >> autoPopulate: aBoolean [ 
+	parentWriter autoPopulate: aBoolean 
+]
+
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> booleanLiteral: aBoolean [ 
 	^ builder booleanLiteralBuilder
