@@ -24,7 +24,8 @@ MOModelWriter >> addAngularModule: aMOAngularModule [
 { #category : #adding }
 MOModelWriter >> addArtefact: aMOProject [
 
-	entity := aMOProject
+	entity := aMOProject.
+	self addPackage: aMOProject
 ]
 
 { #category : #adding }
