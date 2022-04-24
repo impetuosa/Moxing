@@ -58,6 +58,11 @@ MODeclarationUnit >> printOn: aStream [
 ]
 
 { #category : #accessing }
+MODeclarationUnit >> producesParseableCode [
+	 ^ true
+]
+
+{ #category : #accessing }
 MODeclarationUnit >> types [
 	^ types
 ]

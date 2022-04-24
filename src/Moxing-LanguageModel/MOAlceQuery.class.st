@@ -19,3 +19,8 @@ MOAlceQuery >> hasIdColumns [
 MOAlceQuery >> isDatasource [ 
 	 ^ true
 ]
+
+{ #category : #testing }
+MOAlceQuery >> producesParseableCode [
+	 ^ false
+]

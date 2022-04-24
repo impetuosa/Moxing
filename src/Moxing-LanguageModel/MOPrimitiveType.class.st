@@ -35,3 +35,9 @@ MOPrimitiveType >> printOn: aStream [
 		nextPutAll: 'primitive: ';
 		nextPutAll: name
 ]
+
+{ #category : #printing }
+MOPrimitiveType >> producesParseableCode [
+
+	^ false
+]

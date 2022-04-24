@@ -19,6 +19,11 @@ MOVariableAccessor >> canBeReferredAsFunction [
 ]
 
 { #category : #accessing }
+MOVariableAccessor >> kind [
+	^ kind
+]
+
+{ #category : #accessing }
 MOVariableAccessor >> kind: aString [
 
 	kind := aString 

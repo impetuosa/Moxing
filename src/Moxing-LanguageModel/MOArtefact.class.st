@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #accessing }
+MOArtefact >> declarationUnits [
+	^ declarationUnits
+]
+
+{ #category : #accessing }
 MOArtefact >> declarationUnits: aCollection [
 
 	declarationUnits := aCollection

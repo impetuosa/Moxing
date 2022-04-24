@@ -31,6 +31,15 @@ MOLanguage class >> resetLangs [
 	java := nil
 ]
 
+{ #category : #testing }
+MOLanguage >> astComposer [
+ 	
+	self isMicrosoftAccess ifTrue: [ ^ MoxingMicrosoftAccessAstComposer ].
+	self isTypescript ifTrue: [  ^ MoxingTypescriptAstComposer  ].
+	self isJava ifTrue: [  ^ MoxingJavaAstComposer  ].
+	self error: 'which composer?'
+]
+
 { #category : #'as yet unclassified' }
 MOLanguage >> expressionTypeResolvingStrategy [
   ^expressionTypeResolvingStrategy ifNil: [ MOModelExpressionTypeResolver ]
@@ -104,12 +113,28 @@ MOLanguage >> newCodeTextWriter [
 	self error: ' non writer available '
 ]
 
+{ #category : #testing }
+MOLanguage >> parser [
+
+	self isMicrosoftAccess ifTrue: [ ^ VBParser ].
+	self isTypescript ifTrue: [ ^ TypeScriptParser ].
+	self isJava ifTrue: [ ^ JavaParser ].
+	self error: 'which parser?'
+]
+
 { #category : #printing }
 MOLanguage >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'lang: ';
 		nextPutAll: name
+]
+
+{ #category : #accessing }
+MOLanguage >> style [
+
+	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
+	self error: ' check'
 ]
 
 { #category : #accessing }

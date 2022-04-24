@@ -46,6 +46,11 @@ MOStatementExpression >> isRenamable [
 ]
 
 { #category : #accessing }
+MOStatementExpression >> isStatementExpression [
+	 ^ true 
+]
+
+{ #category : #accessing }
 MOStatementExpression >> name [ 
 	 ^ 'Expression Statement'
 ]

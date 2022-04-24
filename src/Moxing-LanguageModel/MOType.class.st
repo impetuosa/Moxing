@@ -81,6 +81,11 @@ MOType >> parentForContext [
 	^ parent ifNotNil: [ :p | p isPackage ifFalse: [ p parent ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOType >> producesParseableCode [
+	 ^ true
+]
+
 { #category : #accessing }
 MOType >> visibility [
 	^ visibility

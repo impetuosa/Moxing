@@ -14,3 +14,9 @@ MOStatement >> acceptVisitor: aVisitor [
 MOStatement >> isLabelledAs: aLabel [
  	 ^ false 
 ]
+
+{ #category : #visiting }
+MOStatement >> isStatement [
+
+	^ true
+]

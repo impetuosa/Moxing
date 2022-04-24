@@ -65,6 +65,12 @@ MOModule >> packageReference: aMOPackageReference [
 ]
 
 { #category : #accessing }
+MOModule >> producesParseableCode [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOModule >> types [
 	^ types
 ]

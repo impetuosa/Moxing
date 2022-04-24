@@ -255,9 +255,13 @@ MODeclaration >> relationsNamed: aString [
 { #category : #'as yet unclassified' }
 MODeclaration >> sanitize: aString [
 
-	^ { #/. #-. #\. ' ' }
-		  inject: aString
-		  into: [ :acc :each | acc copyReplaceAll: each with: '_' ]
+	| sn |
+	sn := { #/. #-. #\. ' ' }
+		      inject: aString
+		      into: [ :acc :each | acc copyReplaceAll: each with: '_' ].
+	^ sn first isDigit
+		  ifTrue: [ '_' , sn ]
+		  ifFalse: [ sn ]
 ]
 
 { #category : #'as yet unclassified' }

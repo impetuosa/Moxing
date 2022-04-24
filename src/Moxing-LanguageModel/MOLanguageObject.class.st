@@ -134,6 +134,18 @@ MOLanguageObject >> isRenamable [
 ]
 
 { #category : #testing }
+MOLanguageObject >> isStatement [
+
+	^ false
+]
+
+{ #category : #testing }
+MOLanguageObject >> isStatementExpression [
+
+	^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> isVariable [
 
 	^ false
@@ -153,6 +165,11 @@ MOLanguageObject >> language: aMOLanguage [
 MOLanguageObject >> produceCode [
 
 	^ self language newCodeTextWriter produceCodeFor: self
+]
+
+{ #category : #generated }
+MOLanguageObject >> producesParseableCode [
+	 ^ false
 ]
 
 { #category : #generated }

@@ -14,3 +14,8 @@ MOAlceTable >> acceptVisitor: aJinTypescriptCodeGenerator [
 MOAlceTable >> isDatasource [ 
 	 ^ true
 ]
+
+{ #category : #visiting }
+MOAlceTable >> producesParseableCode [
+	 ^ false
+]
