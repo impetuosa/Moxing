@@ -10,10 +10,7 @@ Class {
 		'expressionTypeResolvingStrategy'
 	],
 	#classInstVars : [
-		'typescript',
-		'java',
-		'visualBasicApplication',
-		'microsoftAccess'
+		'html'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -23,20 +20,13 @@ MOLanguage class >> newFor: aModel [
 	^ aModel instantiate: self 
 ]
 
-{ #category : #accessing }
-MOLanguage class >> resetLangs [
-
-	visualBasicApplication := nil.
-	typescript := nil.
-	java := nil
-]
-
 { #category : #testing }
 MOLanguage >> astComposer [
  	
 	self isMicrosoftAccess ifTrue: [ ^ MoxingMicrosoftAccessAstComposer ].
 	self isTypescript ifTrue: [  ^ MoxingTypescriptAstComposer  ].
 	self isJava ifTrue: [  ^ MoxingJavaAstComposer  ].
+	self isHtml ifTrue: [  ^ MoxingHtmlAstComposer  ].
 	self error: 'which composer?'
 ]
 
@@ -70,6 +60,11 @@ MOLanguage >> invocationResolutionStrategy [
 MOLanguage >> invocationResolutionStrategy: anObject [
 
 	invocationResolutionStrategy := anObject
+]
+
+{ #category : #testing }
+MOLanguage >> isHtml [
+  ^name = #Html
 ]
 
 { #category : #testing }
@@ -119,6 +114,7 @@ MOLanguage >> parser [
 	self isMicrosoftAccess ifTrue: [ ^ VBParser ].
 	self isTypescript ifTrue: [ ^ TypeScriptParser ].
 	self isJava ifTrue: [ ^ JavaParser ].
+	self isHtml ifTrue: [ ^ XMLHTMLParser ].
 	self error: 'which parser?'
 ]
 
@@ -133,8 +129,9 @@ MOLanguage >> printOn: aStream [
 { #category : #accessing }
 MOLanguage >> style [
 
-	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
-	self error: ' check'
+	^ MOVBAStyle new
+	"	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
+	self error: ' check'"
 ]
 
 { #category : #accessing }

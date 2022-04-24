@@ -239,6 +239,11 @@ MODeclaration >> parentForContext [
 	^ self parent
 ]
 
+{ #category : #accessing }
+MODeclaration >> producesParseableCode [
+	^ false
+]
+
 { #category : #'as yet unclassified' }
 MODeclaration >> relationNamed: aString [
 

@@ -26,3 +26,14 @@ MOAngularDocument >> document: aFileReference [
 MOAngularDocument >> isRenamable [
 	^ false
 ]
+
+{ #category : #accessing }
+MOAngularDocument >> produceCode [
+	^ document
+]
+
+{ #category : #accessing }
+MOAngularDocument >> producesParseableCode [
+
+	^ true
+]

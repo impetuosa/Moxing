@@ -92,7 +92,7 @@ MOTypescriptCodeGenerator >> visitDecorator: aJinTypescriptDecorator [
 		nextPutAll: aJinTypescriptDecorator typeReference name;
 		nextPutAll: '(';
 		nextPutAll: (STONJSON toString:
-					 (aJinTypescriptDecorator arguments collect: #literal));
+					 (aJinTypescriptDecorator arguments collect: #literal) asArray);
 		nextPutAll: ')';
 		cr
 ]
@@ -100,6 +100,14 @@ MOTypescriptCodeGenerator >> visitDecorator: aJinTypescriptDecorator [
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
 	
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitFileImport: aMOFileImport [
+
+	stream
+		nextPutAll: aMOFileImport printString;
+		newLine
 ]
 
 { #category : #visiting }

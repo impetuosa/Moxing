@@ -45,6 +45,11 @@ MOAngularScheme >> metadata: aDict [
 ]
 
 { #category : #accessing }
+MOAngularScheme >> name [ 
+	^ #scheme
+]
+
+{ #category : #accessing }
 MOAngularScheme >> projects [
 
 	^ projects

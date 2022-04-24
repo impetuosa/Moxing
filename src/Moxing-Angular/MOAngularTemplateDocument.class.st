@@ -15,6 +15,12 @@ MOAngularTemplateDocument >> ast [
 	^ XMLHTMLParser parse: document
 ]
 
+{ #category : #accessing }
+MOAngularTemplateDocument >> language [
+
+	^ MOLanguage html
+]
+
 { #category : #printing }
 MOAngularTemplateDocument >> name [
 

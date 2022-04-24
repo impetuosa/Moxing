@@ -40,13 +40,19 @@ MOAngularClass >> isRenamable [
 ]
 
 { #category : #accessing }
+MOAngularClass >> language [
+
+	^ classRepresentation language
+]
+
+{ #category : #accessing }
 MOAngularClass >> methods [
 	^ self classRepresentation methods 
 ]
 
 { #category : #accessing }
 MOAngularClass >> name [
-	^ 'Behavior'
+	^ classRepresentation name
 ]
 
 { #category : #accessing }
@@ -59,6 +65,16 @@ MOAngularClass >> parents [
 MOAngularClass >> printOn: aStream [
 
 	aStream nextPutAll: 'AngularClass(' , name , ')'
+]
+
+{ #category : #accessing }
+MOAngularClass >> produceCode [ 
+	^ classRepresentation produceCode 
+]
+
+{ #category : #accessing }
+MOAngularClass >> producesParseableCode [  
+	^ classRepresentation producesParseableCode 
 ]
 
 { #category : #accessing }
