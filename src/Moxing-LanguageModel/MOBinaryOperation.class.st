@@ -54,7 +54,6 @@ MOBinaryOperation >> operator: aString [
 MOBinaryOperation >> printOn: aStream [
 
 	aStream
-		nextPutAll: self kindOfOp;
 		nextPutAll: '(';
 		print: left;
 		nextPutAll: ' ';

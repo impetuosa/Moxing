@@ -58,6 +58,20 @@ MOUnaryOperation >> order: aSymbol [
 ]
 
 { #category : #accessing }
+MOUnaryOperation >> printOn: aStream [
+
+	self isPrefix ifTrue: [ 
+		aStream
+			nextPutAll: operator;
+			nextPutAll: ' ' ].
+	aStream print: operand.
+	self isPostfix ifTrue: [ 
+		aStream
+			nextPutAll: operator;
+			nextPutAll: ' ' ]
+]
+
+{ #category : #accessing }
 MOUnaryOperation >> setAsPostfix [
 	" the operator is on the right of the operand: 1! (factorial) "
 	 order := #postfix

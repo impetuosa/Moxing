@@ -25,11 +25,6 @@ MOAssignment >> isRenamable [
 ]
 
 { #category : #accessing }
-MOAssignment >> name [
-	 ^ 'Assignment'
-]
-
-{ #category : #accessing }
 MOAssignment >> printOn: aStream [
 
 	aStream

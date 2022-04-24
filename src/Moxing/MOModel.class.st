@@ -23,6 +23,12 @@ MOModel class >> loadFrom: aString [
 	^ instance
 ]
 
+{ #category : #visiting }
+MOModel >> acceptVisitor: aMoxingPackageTree [
+
+	^ aMoxingPackageTree visitModel: self
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> allInvocations [
 
@@ -45,6 +51,14 @@ MOModel >> allRelations [
 MOModel >> anchor: aMOAnchor [
 	anchor := aMOAnchor.
 	catalog anchor: anchor
+]
+
+{ #category : #converting }
+MOModel >> asMooseModel [
+
+	^ MOModelWrapper new
+		  model: self;
+		  yourself
 ]
 
 { #category : #accessing }
