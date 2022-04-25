@@ -36,6 +36,14 @@ MOModelDerivative >> entities [
 	^ entities
 ]
 
+{ #category : #accessing }
+MOModelDerivative >> entityFor: aMOEntity [
+
+	^ entities
+		  detect: [ :e | e anchor = aMOEntity ]
+		  ifNone: [ model entityFor: aMOEntity ]
+]
+
 { #category : #'as yet unclassified' }
 MOModelDerivative >> exclusivelyincludes: anEntity [
 
@@ -68,6 +76,18 @@ MOModelDerivative >> instantiate: aClass [
 	instance := aClass newInstanceFromModel .
 	entities add: instance.
 	^ instance
+]
+
+{ #category : #testing }
+MOModelDerivative >> isDerivedFrom: aMOModel [
+
+	^ model isDerivedFrom: aMOModel
+]
+
+{ #category : #testing }
+MOModelDerivative >> isModelOrDerivative [
+
+	^ true
 ]
 
 { #category : #accessing }

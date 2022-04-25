@@ -2,7 +2,8 @@ Class {
 	#name : #MONamedArgument,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#argumentExpressions => MOExpressionSlot many'
+		'#argumentExpressions => MOExpressionSlot many',
+		'#isArray => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }
@@ -22,6 +23,12 @@ MONamedArgument >> argumentExpressions [
 { #category : #accessing }
 MONamedArgument >> argumentExpressions: aCollection [ 
 	argumentExpressions := aCollection
+]
+
+{ #category : #accessing }
+MONamedArgument >> isArrayArgument [
+
+	^ isArray ifNil: [ isArray := true ]
 ]
 
 { #category : #accessing }

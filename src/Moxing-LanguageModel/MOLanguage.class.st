@@ -129,9 +129,11 @@ MOLanguage >> printOn: aStream [
 { #category : #accessing }
 MOLanguage >> style [
 
-	^ MOVBAStyle new
-	"	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
-	self error: ' check'"
+	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
+	self isJava ifTrue: [ ^ MOJavaStyle new ].
+	self isTypescript ifTrue: [ ^ MOTypescriptStyle new ].
+	self warning: ' check'.
+	^ MOAstStyle new
 ]
 
 { #category : #accessing }

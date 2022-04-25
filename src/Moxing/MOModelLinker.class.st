@@ -42,7 +42,6 @@ MOModelLinker >> ensureAllInvocableBindings: aMOModel [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllPackages: aMOModel [
-
 	(aMOModel entities select: [ :e | e isKindOf: MOPackageReference ]) 
 		do: [ :ref | 
 			aMOModel packages
@@ -77,6 +76,17 @@ MOModelLinker >> ensureAllTypeReferences: aMOModel [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelLinker >> ensureAllTypesInTheirPackages: aMOModel [
+
+	aMOModel types
+		select: [ :a | a packageReference isNotNil ]
+		thenDo: [ :type | 
+			(type packageReference candidate allTypes includes: type) ifFalse: [ 
+				self assert: (type parent isKindOf: MODeclarationUnit) not.
+				type packageReference candidate types add: type ] ]
+]
+
+{ #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllVariableReferences: aMOModel [
 
 	aMOModel variableReferences
@@ -96,6 +106,7 @@ MOModelLinker >> findTypeNamed: aString withIn: aMOPackage [
 MOModelLinker >> getCatalogType: aMOTypeReference from: aMOModel [
 
 	| chain typeName catalogType |
+	self halt .
 	chain := aMOTypeReference accessChain.
 	typeName := chain removeLast.
 	catalogType := (aMOModel catalog typesNamed: typeName) select: [ :t | 
@@ -103,18 +114,6 @@ MOModelLinker >> getCatalogType: aMOTypeReference from: aMOModel [
 
 
 	^ catalogType
-]
-
-{ #category : #'as yet unclassified' }
-MOModelLinker >> install: aMOTypeReference fromCatalogInto: aMOModel [
-
-	| typeOrEmpty installedTYpe |
-	typeOrEmpty := self getCatalogType: aMOTypeReference from: aMOModel.
-	typeOrEmpty ifNotEmpty: [ 
-		installedTYpe := MOCatalogTypeInstaller new
-			                 install: typeOrEmpty first
-			                 into: aMOModel.
-		aMOTypeReference candidate: installedTYpe ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -133,18 +132,25 @@ MOModelLinker >> isReference: aMOModelBuilder [
 
 { #category : #accessing }
 MOModelLinker >> link: aMOModel [
-	model := aMOModel. 
+
+	model := aMOModel.
 	aMOModel entities do: [ :e | 
 		self linkAllChildOrphanReferencesToParent: e ].
-
-	self ensureAllPackages: aMOModel .
-	self ensureAllImports: aMOModel. 
-	self ensureAllPackages: aMOModel .
-	self ensureAllTypeReferences: aMOModel. 
-	self ensureAllPackages: aMOModel .
-	self ensureAllVariableReferences: aMOModel. 
+	"Ensures that all the existing package references points to an existing package. It creates the package if Needed "
+	self ensureAllPackages: aMOModel.
+	"Processes all the imports, installing the required types  "
+	self ensureAllImports: aMOModel.
+	"Ensures that all the existing package references points to an existing package. It creates the package if Needed 2. The installation of new types producess new package references "
+	self ensureAllPackages: aMOModel.
+	"Ensures that all the installed types are in their expected package properly installed "
+	self ensureAllTypesInTheirPackages: aMOModel.
+	"Ensures that all the type references are solved "	
+	self ensureAllTypeReferences: aMOModel.
+	"Ensures that all the existing package references points to an existing package. It creates the package if Needed 2. The installation of new types producess new package references "
+	self ensureAllPackages: aMOModel.
+	"Ensures that all the variabels and invocables are properly bound.  "
+	self ensureAllVariableReferences: aMOModel.
 	self ensureAllInvocableBindings: aMOModel.
-	
 ]
 
 { #category : #'as yet unclassified' }

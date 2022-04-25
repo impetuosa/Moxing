@@ -74,7 +74,9 @@ MOModelImportLinker >> install: aMOTypeReference from: aPackageReference [
 		               getCatalogType: aMOTypeReference
 		               from: aPackageReference.
 
+
 	typeOrEmpty ifNotEmpty: [ 
+
 		self ensureAllDependentTypesExists: typeOrEmpty first.
 		installedType := MOCatalogTypeInstaller new
 			                 install: typeOrEmpty first
@@ -92,7 +94,11 @@ MOModelImportLinker >> installAll: aMOPackageReference [
 		                  MOCatalogTypeInstaller new
 			                  install: type
 			                  into: model ].
-	aMOPackageReference candidate allTypes addAll: installedTypes
+
+	aMOPackageReference candidate types addAll:
+		(installedTypes select: [ :a | a isType ]).
+	aMOPackageReference candidate declarationUnits addAll:
+		(installedTypes reject: [ :a | a isType ])
 ]
 
 { #category : #visiting }

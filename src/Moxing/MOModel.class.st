@@ -79,6 +79,12 @@ MOModel >> derivative [
 		  yourself
 ]
 
+{ #category : #accessing }
+MOModel >> entityFor: aMOEntity [
+
+	^ aMOEntity
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> exclusivelyincludes: aMOPrimitiveType [
 
@@ -107,6 +113,24 @@ MOModel >> instantiate: aClass [
 		ifFalse: [ objects add: instance ].
 
 	^ instance
+]
+
+{ #category : #traverse }
+MOModel >> isCatalog [
+
+	^ false
+]
+
+{ #category : #testing }
+MOModel >> isDerivedFrom: aMOModel [
+
+	^ self = aMOModel
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> isModelOrDerivative [
+
+	^ true
 ]
 
 { #category : #accessing }

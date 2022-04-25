@@ -179,6 +179,12 @@ MODeclaration >> isMethodExtension [
 ^ false 
 ]
 
+{ #category : #accessing }
+MODeclaration >> isModelOrDerivative [
+
+	^ false
+]
+
 { #category : #testing }
 MODeclaration >> isPackage [
 	^ false

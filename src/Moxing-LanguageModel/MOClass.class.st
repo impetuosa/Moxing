@@ -124,7 +124,7 @@ MOClass >> methods: aCollection [
 MOClass >> parent: aParent [
 
 	aParent ifNil: [ ^ self ].
-	parent ifNotNil: [ parent = aParent ifFalse: [ self halt ] ].
+	parent ifNotNil: [ parent = aParent ifFalse: [ "self halt "] ].
 	parent := aParent
 ]
 

@@ -25,6 +25,33 @@ MOJavaCodeGenerator >> openComment [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> printClassHeader: name types: parameterTypes extends: superClassRef implements: types [
+
+	stream nextPutAll: (' class {1} <' format: { name }).
+	self streamArguments: parameterTypes.
+	stream nextPutAll: '>'.
+	superClassRef ifNotNil: [ 
+		stream
+			nextPutAll: ' extends ';
+			nextPutAll: superClassRef name ].
+	types ifNotEmpty: [ 
+		stream
+			nextPutAll: ' implements ';
+			nextPutAll: (',' join: (types collect: #name)) ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> printInterfaceHeader: name implements: types [
+
+	stream nextPutAll: (' interface {1} ' format: { name }).
+
+	types ifNotEmpty: [ 
+		stream
+			nextPutAll: ' extends ';
+			nextPutAll: (',' join: (types collect: #name)) ]
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> printSelf [
 
 	stream nextPutAll: 'this'
@@ -38,6 +65,7 @@ MOJavaCodeGenerator >> visitAccessor: aMOAccessor [
 
 { #category : #visiting }
 MOJavaCodeGenerator >> visitAnnotation: aMOAnnotationInstance [
+
 	self printIndentation.
 	stream
 		nextPutAll: '@';
@@ -54,6 +82,15 @@ MOJavaCodeGenerator >> visitArrayAccess: aMOArrayAccess [
 	stream nextPutAll: '['.
 	self streamArguments: aMOArrayAccess arguments. 
 	stream nextPutAll: ']'.
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitArrayTypeReference: aMOArrayTypeReference [
+
+	self assert: aMOArrayTypeReference argumentTypeReferences size = 1.
+	aMOArrayTypeReference argumentTypeReferences first acceptVisitor:
+		self.
+	stream nextPutAll: '[]'
 ]
 
 { #category : #visiting }
@@ -138,11 +175,14 @@ MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 	aJinTypescriptClass annotationInstances do: [ :m | 
 		m acceptVisitor: self.
 		stream newLine ].
-	aJinTypescriptClass modifiers do: [ :m | 
+
+	(aJinTypescriptClass modifiers reject: [ :a | a = #default ]) do: [ 
+		:m | 
 		stream
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-	stream nextPutAll: aJinTypescriptClass visibility asLowercase.
+	aJinTypescriptClass visibility asLowercase = #default ifFalse: [ 
+		stream nextPutAll: aJinTypescriptClass visibility asLowercase ].
 	self
 		printClassHeader: aJinTypescriptClass name
 		extends: aJinTypescriptClass superclassReference
@@ -158,6 +198,34 @@ MOJavaCodeGenerator >> visitClass: aJinTypescriptClass [
 				nextPutAll: ';';
 				newLine ].
 		aJinTypescriptClass methods do: [ :m | 
+			m acceptVisitor: self.
+			stream newLine ].
+		stream nextPutAll: '}' ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitClassType: aMOClassType [
+
+
+	aMOClassType modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
+	stream nextPutAll: aMOClassType visibility asLowercase.
+	self
+		printInterfaceHeader: aMOClassType name
+		implements: aMOClassType superTypeReferences.
+
+	stream
+		nextPutAll: ' {';
+		newLine.
+	self increaseDeepDuring: [ 
+		aMOClassType attributes do: [ :m | 
+			m acceptVisitor: self.
+			stream
+				nextPutAll: ';';
+				newLine ].
+		aMOClassType methods do: [ :m | 
 			m acceptVisitor: self.
 			stream newLine ].
 		stream nextPutAll: '}' ]
@@ -181,6 +249,34 @@ MOJavaCodeGenerator >> visitConstantAttribute: aMOConstantAttribute [
 MOJavaCodeGenerator >> visitConstantReference: aMOConstantReference [
 
 	^ self visitVariableReference: aMOConstantReference
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitConstructor: aMOConstructor [
+
+	self printIndentation.
+	stream
+		nextPutAll: aMOConstructor visibility;
+		nextPutAll: ' '.
+	aMOConstructor modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
+
+
+	stream
+		nextPutAll: ' ';
+		nextPutAll: aMOConstructor parent name;
+		nextPutAll: '('.
+	self streamArguments: aMOConstructor parameters.
+
+
+	stream nextPutAll: ') '.
+
+	aMOConstructor block acceptVisitor: self.
+	stream
+		nextPutAll: '';
+		newLine
 ]
 
 { #category : #visiting }
@@ -356,7 +452,14 @@ MOJavaCodeGenerator >> visitNamedArgument: aMONamedArgument [
 	stream
 		nextPutAll: aMONamedArgument name;
 		nextPutAll: ' = '.
-	self visitCollection: aMONamedArgument argumentExpressions
+	aMONamedArgument isArrayArgument ifTrue: [ stream nextPutAll: '{' ].
+	self
+		stream: aMONamedArgument argumentExpressions
+		splitingWith: [ 
+			stream
+				nextPutAll: ', ';
+				newLine ].
+	aMONamedArgument isArrayArgument ifTrue: [ stream nextPutAll: '}' ]
 ]
 
 { #category : #visiting }
@@ -387,6 +490,76 @@ MOJavaCodeGenerator >> visitParameter: aMOParameter [
 	stream
 		nextPutAll: ' ';
 		nextPutAll: aMOParameter name
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitParametrizableClass: aMOParametrizableClass [
+
+	aMOParametrizableClass annotationInstances do: [ :m | 
+		m acceptVisitor: self.
+		stream newLine ].
+	aMOParametrizableClass modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
+	stream nextPutAll: aMOParametrizableClass visibility asLowercase.
+	self
+		printClassHeader: aMOParametrizableClass name
+		types: aMOParametrizableClass typeParameters
+		extends: aMOParametrizableClass superclassReference
+		implements: aMOParametrizableClass superTypeReferences.
+
+	stream
+		nextPutAll: ' {';
+		newLine.
+	self increaseDeepDuring: [ 
+		aMOParametrizableClass attributes do: [ :m | 
+			m acceptVisitor: self.
+			stream
+				nextPutAll: ';';
+				newLine ].
+		aMOParametrizableClass methods do: [ :m | 
+			m acceptVisitor: self.
+			stream newLine ].
+		stream nextPutAll: '}' ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitParametrizableMethod: aMOParametrizableMethod [
+
+	aMOParametrizableMethod annotationInstances do: [ :m | 
+		m acceptVisitor: self.
+		stream newLine ].
+	self printIndentation.
+	stream
+		nextPutAll: aMOParametrizableMethod visibility;
+		nextPutAll: ' '.
+	aMOParametrizableMethod modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
+	aMOParametrizableMethod isStaticBinding ifTrue: [ 
+		stream nextPutAll: ' static ' ].
+
+	stream nextPutAll: '<'.
+	self streamArguments: aMOParametrizableMethod typeParameters.
+	stream nextPutAll: '>'.
+	aMOParametrizableMethod returnTypeReference
+		ifNil: [ stream nextPutAll: 'UNKNOWN' ]
+		ifNotNil: [ :rt | rt acceptVisitor: self ].
+	stream
+		nextPutAll: ' ';
+		nextPutAll: aMOParametrizableMethod selector;
+		nextPutAll: '('.
+	self streamArguments: aMOParametrizableMethod parameters.
+
+
+	stream nextPutAll: ') '.
+
+	aMOParametrizableMethod block acceptVisitor: self.
+	stream
+		nextPutAll: '';
+		newLine
 ]
 
 { #category : #visiting }
@@ -546,6 +719,12 @@ MOJavaCodeGenerator >> visitTryCatch: aMOTryCatch [
 	aMOTryCatch try acceptVisitor: self.
 	
 	self visitCollection: aMOTryCatch catches 
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitTypeParameter: aMOTypeParameter [
+
+	stream nextPutAll: aMOTypeParameter name
 ]
 
 { #category : #visiting }

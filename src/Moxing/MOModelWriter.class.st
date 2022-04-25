@@ -226,7 +226,8 @@ MOModelWriter >> model [
 ]
 
 { #category : #accessing }
-MOModelWriter >> model: aMOModel [ 
+MOModelWriter >> model: aMOModel [
+
 	model := aMOModel.
 	anchoringOn ifNil: [ anchoringOn := model root anchor ]
 ]

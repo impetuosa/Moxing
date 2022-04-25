@@ -21,12 +21,17 @@ MOCatalogTypeInstaller >> getType: aMOClassType from: aMOModel [
 { #category : #'as yet unclassified' }
 MOCatalogTypeInstaller >> install: aMOInterface into: aMOModel [
 
+
 	model := aMOModel.
 	^ (self getType: aMOInterface from: aMOModel)
 		  ifEmpty: [ 
 			  writer := aMOModel writer.
-			  aMOInterface parent acceptVisitor: self.
-			  writer entity types detect: [ :a | a name = aMOInterface name ] ]
+			  (aMOInterface parent ifNil: [ aMOInterface ] ifNotNil: [ :a | 
+				   self halt.
+				   a ]) acceptVisitor: self.
+			  self assert: writer entity name = aMOInterface name.
+			  writer entity
+			  "  writer entity types detect: [ :a | a name = aMOInterface name ] " ]
 		  ifNotEmpty: [ :t | t anyOne ]
 ]
 
@@ -125,7 +130,7 @@ MOCatalogTypeInstaller >> visitConstructor: aMOConstructor [
 
 { #category : #visiting }
 MOCatalogTypeInstaller >> visitDeclarationUnit: aMODeclarationUnit [
-
+	self halt.
 	^ writer writeDeclarationUnit: [ :unit | 
 		  self use: unit during: [ 
 			  self visitCollection: aMODeclarationUnit imports.
@@ -203,7 +208,7 @@ MOCatalogTypeInstaller >> visitParametrizableClass: aMOParametrizableClass [
 ]
 
 { #category : #visiting }
-MOCatalogTypeInstaller >> visitParametrizableClassType: aMOParametrizableClassType [ 
+MOCatalogTypeInstaller >> visitParametrizableClassType: aMOParametrizableClassType [
 
 	^ writer writeParametrizableClassType: [ :class | 
 		  class name: aMOParametrizableClassType name.
@@ -213,7 +218,8 @@ MOCatalogTypeInstaller >> visitParametrizableClassType: aMOParametrizableClassTy
 				  (aMOParametrizableClassType packageReference acceptVisitor: self).
 
 			  class superTypeReferences:
-				  (self visitCollection: aMOParametrizableClassType superTypeReferences).
+				  (self visitCollection:
+					   aMOParametrizableClassType superTypeReferences).
 			  self visitCollection: aMOParametrizableClassType allContainments ] ]
 ]
 

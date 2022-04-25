@@ -8,7 +8,8 @@ Class {
 		'entities',
 		'anchor',
 		'name',
-		'language'
+		'language',
+		'broot'
 	],
 	#category : #'Moxing-Core'
 }
@@ -129,6 +130,12 @@ MOCatalog >> instantiate: aClass [
 	^ instance
 ]
 
+{ #category : #testing }
+MOCatalog >> isCatalog [
+
+	^ true
+]
+
 { #category : #accessing }
 MOCatalog >> language [
 	^ language
@@ -168,6 +175,17 @@ MOCatalog >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
 { #category : #accessing }
 MOCatalog >> references [
 	^ entities select: [ : e | e isKindOf: MOReference ]
+]
+
+{ #category : #generated }
+MOCatalog >> root [
+
+	^ broot ifNil: [ 
+		  broot := self instantiate: MORootDeclaration.
+		  broot name: 'root'.
+		  broot anchor: self anchor / 'root' / #RootDeclaration.
+		  broot parent: self.
+		  broot ]
 ]
 
 { #category : #accessing }
