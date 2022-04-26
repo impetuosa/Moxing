@@ -57,6 +57,15 @@ MOAnchoredDeclaration >> installCalculatedAnchorIfMissing [
 	anchor ifNil: [ anchor := self calculateAnchorIfMissing ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOAnchoredDeclaration >> isSameEntity: anOtherDeclaration [
+
+	^ self anchor isNotNil and: [ 
+		  anOtherDeclaration anchor isNotNil and: [ 
+			  self species = anOtherDeclaration species and: [ 
+				  self anchor = anOtherDeclaration anchor ] ] ]
+]
+
 { #category : #accessing }
 MOAnchoredDeclaration >> mapSpaceAnchor [
 	^ anchor
@@ -65,4 +74,17 @@ MOAnchoredDeclaration >> mapSpaceAnchor [
 { #category : #accessing }
 MOAnchoredDeclaration >> mustBeSaved [
 	^ false
+]
+
+{ #category : #accessing }
+MOAnchoredDeclaration >> parents [
+
+	| current parents |
+	parents := OrderedCollection new.
+	current := self.
+	parents add: current.
+	[ current isModelOrDerivative ] whileFalse: [ 
+		current := current parent.
+		parents add: current ].
+	^ parents
 ]

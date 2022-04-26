@@ -26,6 +26,12 @@ MOAngularScheme >> defaultProject [
 ]
 
 { #category : #accessing }
+MOAngularScheme >> language [
+
+	^ projects anyOne language
+]
+
+{ #category : #accessing }
 MOAngularScheme >> metadata [
 
 	metadata ifNotNil: [ ^ metadata ].

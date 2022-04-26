@@ -109,7 +109,10 @@ MODeclarationStructuralRelation >> to [
 ]
 
 { #category : #accessing }
-MODeclarationStructuralRelation >> to: aMOClass [ 
+MODeclarationStructuralRelation >> to: aMOClass [
+
+	(aMOClass = nil and: [ (slot = MOPropertySlot) not ]) ifTrue: [ 
+		self halt ].
 	to := aMOClass
 ]
 

@@ -72,9 +72,10 @@ MOAnchor >> pathIsNotSet [
 { #category : #arithmetic }
 MOAnchor >> printOn: aStream [
 
-	aStream nextPutAll: 'anchor('.
-	path printOn: aStream.
-	aStream nextPutAll: ')'
+	aStream
+		nextPutAll: 'anchor(/';
+		nextPutAll: ('/' join: path segments);
+		nextPutAll: ')'
 ]
 
 { #category : #arithmetic }

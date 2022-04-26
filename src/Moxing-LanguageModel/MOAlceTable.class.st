@@ -10,6 +10,11 @@ MOAlceTable >> acceptVisitor: aJinTypescriptCodeGenerator [
 	^ aJinTypescriptCodeGenerator visitTable: self
 ]
 
+{ #category : #testing }
+MOAlceTable >> hasIdColumns [
+	^ false
+]
+
 { #category : #visiting }
 MOAlceTable >> isDatasource [ 
 	 ^ true

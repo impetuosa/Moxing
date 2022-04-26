@@ -22,6 +22,12 @@ MORootDeclaration >> addPackage: anEntry [
 ]
 
 { #category : #accessing }
+MORootDeclaration >> isSameEntity: anOtherDeclaration [
+
+	^ self = anOtherDeclaration
+]
+
+{ #category : #accessing }
 MORootDeclaration >> language [
 
 	^ parent language
@@ -42,4 +48,12 @@ MORootDeclaration >> packages [
 MORootDeclaration >> packages: aCollection [
 
 	self assert: packages == aCollection
+]
+
+{ #category : #accessing }
+MORootDeclaration >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'root: ';
+		nextPutAll: parent name
 ]

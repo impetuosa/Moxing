@@ -149,6 +149,16 @@ MOModel >> objectsSelect: aFullBlockClosure [
 	^ objects select: aFullBlockClosure
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'Model: ';
+		nextPutAll: name;
+		nextPutAll: ' Language:';
+		nextPutAll: language name
+]
+
 { #category : #initialization }
 MOModel >> root [
 

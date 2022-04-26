@@ -40,7 +40,7 @@ MOModelDerivative >> entities [
 MOModelDerivative >> entityFor: aMOEntity [
 
 	^ entities
-		  detect: [ :e | e anchor = aMOEntity ]
+		  detect: [ :e | e anchor = aMOEntity anchor]
 		  ifNone: [ model entityFor: aMOEntity ]
 ]
 
@@ -52,7 +52,7 @@ MOModelDerivative >> exclusivelyincludes: anEntity [
 
 { #category : #'as yet unclassified' }
 MOModelDerivative >> getModifiableVersionOf: aMOVariable [
-
+self halt.
 	^ (entities includes: aMOVariable)
 		  ifTrue: [ aMOVariable ]
 		  ifFalse: [ self shallowCopy: aMOVariable ]
@@ -149,6 +149,14 @@ MOModelDerivative >> removeEntity: aFylgjaCandidateStub [
 	entities remove: aFylgjaCandidateStub
 ]
 
+{ #category : #removing }
+MOModelDerivative >> removeStub: aFylgjaCandidateStub [
+
+	self assert: (entities includes: aFylgjaCandidateStub).
+	self assert: aFylgjaCandidateStub isFylgjaStub.
+	entities remove: aFylgjaCandidateStub
+]
+
 { #category : #accessing }
 MOModelDerivative >> root [
 
@@ -160,7 +168,6 @@ MOModelDerivative >> shallowCopy: anEntity [
 
 	| e |
 	e := anEntity copy.
-	
 	self register: e.
 	e class allSlots do: [ :slot | 
 		(slot read: e) isCollection ifTrue: [ 
@@ -187,7 +194,8 @@ MOModelDerivative >> swap: aFylgjaCandidateStub with: aMOVariableReference [
 
 	aFylgjaCandidateStub = aMOVariableReference ifFalse: [ 
 		entities remove: aFylgjaCandidateStub.
-		self assert: (entities includes: aMOVariableReference) ]
+		self assert: (entities includes: aMOVariableReference).
+		aFylgjaCandidateStub becomeForward: aMOVariableReference ]
 ]
 
 { #category : #'as yet unclassified' }

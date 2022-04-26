@@ -132,7 +132,7 @@ MOLanguage >> style [
 	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
 	self isJava ifTrue: [ ^ MOJavaStyle new ].
 	self isTypescript ifTrue: [ ^ MOTypescriptStyle new ].
-	self warning: ' check'.
+
 	^ MOAstStyle new
 ]
 

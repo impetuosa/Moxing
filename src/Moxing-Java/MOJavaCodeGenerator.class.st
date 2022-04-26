@@ -107,6 +107,7 @@ MOJavaCodeGenerator >> visitAttribute: aMOAttribute [
 		m acceptVisitor: self.
 		stream newLine ].
 	self printIndentation.
+	aMOAttribute isStaticBinding ifTrue: [ stream nextPutAll: 'static '  ]. 
 	aMOAttribute visibility ifNotNil: [ :v | 
 		stream
 			nextPutAll: v;
@@ -293,7 +294,7 @@ MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [
 
 { #category : #visiting }
 MOJavaCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
-	stream nextPutAll: '{}'
+	stream nextPutAll: ';'
 ]
 
 { #category : #visiting }

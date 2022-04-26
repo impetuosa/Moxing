@@ -65,6 +65,14 @@ MOModule >> packageReference: aMOPackageReference [
 ]
 
 { #category : #accessing }
+MOModule >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'module: ';
+		nextPutAll: name
+]
+
+{ #category : #accessing }
 MOModule >> producesParseableCode [
 
 	^ true

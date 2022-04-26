@@ -24,6 +24,11 @@ MOAngularService >> behavior: aMOAngularClass [
 ]
 
 { #category : #accessing }
+MOAngularService >> language [
+	^ behavior language
+]
+
+{ #category : #accessing }
 MOAngularService >> printOn: aStream [
 
 	aStream

@@ -86,11 +86,6 @@ MOObjectBasedClass >> parent: aParent [
 	parent := aParent
 ]
 
-{ #category : #accessing }
-MOObjectBasedClass >> parents [
-	self shouldBeImplemented.
-]
-
 { #category : #generated }
 MOObjectBasedClass >> printOn: aStream [
 

@@ -53,8 +53,9 @@ MOAbstractVariable >> bindingKind: aString [
 ]
 
 { #category : #accessing }
-MOAbstractVariable >> canBeReferredAsVariable [ 
-	 ^ true 
+MOAbstractVariable >> canBeReferredAsVariable [
+
+	^ true
 ]
 
 { #category : #accessing }

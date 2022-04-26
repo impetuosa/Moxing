@@ -20,6 +20,6 @@ MONamedDeclaration >> name [
 
 { #category : #accessing }
 MONamedDeclaration >> name: aString [ 
-	aString ifNil: [ self halt ].
+
 	name := aString
 ]

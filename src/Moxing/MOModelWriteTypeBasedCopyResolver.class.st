@@ -149,6 +149,11 @@ MOModelWriteTypeBasedCopyResolver >> visitConstantReference: aMOConstantReferenc
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitDeclarationUnit: aMODeclarationUnit [ 
+	^ writer writeDeclarationUnit: [ : unit | writingBlock value: unit ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitEmptyBlock: aMOEmptyBlock [ 
 	^ self visitBlock: aMOEmptyBlock 
 ]

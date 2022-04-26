@@ -389,6 +389,14 @@ MOModelProceduralWriter >> typeReferenceNamed: aString [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> typeReferenceNamedForRebinding: aString [
+
+	^ self builder typeReferenceBuilder
+		  name: aString;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> updaterFor: aDestinationContext with: aProvenanceEntity do: aFullBlockClosure [
 
 	^ parentWriter

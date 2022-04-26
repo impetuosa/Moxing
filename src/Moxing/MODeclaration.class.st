@@ -41,6 +41,14 @@ MODeclaration >> allCandidateRelations [
 ]
 
 { #category : #traverse }
+MODeclaration >> allCandidates [
+
+	^ (self class allSlots select: [ :slot | 
+		   slot class = MOCandidateSlot ]) flatCollect: [ :slot | 
+		  slot readAll: self ]
+]
+
+{ #category : #traverse }
 MODeclaration >> allContainmentRelations [
 
 	^ (self class allSlots select: [ :slot | 
@@ -51,10 +59,9 @@ MODeclaration >> allContainmentRelations [
 { #category : #traverse }
 MODeclaration >> allContainments [
 
-	^ ((self class allSlots select: [ :slot | 
-		    slot class = MOContainmentSlot ]) flatCollect: [ :slot | 
-		   slot readAll: self ])
-	  , (self allExpressions select: [ :expr | expr isReference not ])
+	^ (self class allSlots select: [ :slot | 
+		   slot class = MOContainmentSlot ]) flatCollect: [ :slot | 
+		  slot readAll: self ]
 ]
 
 { #category : #traverse }
@@ -113,11 +120,9 @@ MODeclaration >> allReferenceRelations [
 { #category : #traverse }
 MODeclaration >> allReferences [
 
-	^ ((self class allSlots select: [ :slot | 
-		    slot class = MOReferenceSlot ]) flatCollect: [ :slot | 
-		   slot readAll: self ])
-	  , (self allExpressions asOrderedCollection select: [ :expr | 
-			   expr isReference ])
+	^ (self class allSlots select: [ :slot | 
+		   slot class = MOReferenceSlot ]) flatCollect: [ :slot | 
+		  slot readAll: self ]
 ]
 
 { #category : #traverse }
@@ -208,6 +213,12 @@ MODeclaration >> isReference [
 ]
 
 { #category : #traverse }
+MODeclaration >> isSameEntity: anOtherDeclaration [
+
+	^ self = anOtherDeclaration
+]
+
+{ #category : #traverse }
 MODeclaration >> isStaticDefinition [
 	 ^ true 
 ]
@@ -267,6 +278,7 @@ MODeclaration >> relationsNamed: aString [
 MODeclaration >> sanitize: aString [
 
 	| sn |
+	aString ifNil: [ ^ nil ].
 	sn := { #/. #-. #\. ' ' }
 		      inject: aString
 		      into: [ :acc :each | acc copyReplaceAll: each with: '_' ].

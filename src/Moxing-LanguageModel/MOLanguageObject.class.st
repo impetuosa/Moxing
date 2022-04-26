@@ -134,6 +134,16 @@ MOLanguageObject >> isRenamable [
 ]
 
 { #category : #testing }
+MOLanguageObject >> isSameEntity: anOtherDeclaration [
+
+	^ self species = anOtherDeclaration species and: [ 
+		  self anchor isNotNil and: [ 
+			  anOtherDeclaration anchor isNotNil and: [ 
+				  self anchor = anOtherDeclaration anchor and: [ 
+					  self language = anOtherDeclaration language ] ] ] ]
+]
+
+{ #category : #testing }
 MOLanguageObject >> isStatement [
 
 	^ false

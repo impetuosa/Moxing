@@ -128,11 +128,6 @@ MOClass >> parent: aParent [
 	parent := aParent
 ]
 
-{ #category : #accessing }
-MOClass >> parents [
-	self shouldBeImplemented.
-]
-
 { #category : #generated }
 MOClass >> printOn: aStream [
 

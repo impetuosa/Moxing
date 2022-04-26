@@ -26,6 +26,12 @@ MOAttribute >> canBeReferredAsPrimitiveType [
 ]
 
 { #category : #'as yet unclassified' }
+MOAttribute >> canBeReferredAsVariable [
+
+	^ self isDynamicBinding
+]
+
+{ #category : #'as yet unclassified' }
 MOAttribute >> kindString [
 
 	^ 'ATTR'

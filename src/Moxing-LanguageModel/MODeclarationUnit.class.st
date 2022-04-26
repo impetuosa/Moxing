@@ -59,7 +59,9 @@ MODeclarationUnit >> printOn: aStream [
 
 { #category : #accessing }
 MODeclarationUnit >> producesParseableCode [
-	 ^ true
+
+	^ types isNotEmpty and: [ 
+		  types allSatisfy: [ :t | t producesParseableCode ] ]
 ]
 
 { #category : #accessing }
