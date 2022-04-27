@@ -38,9 +38,8 @@ MOModelDerivative >> entities [
 
 { #category : #accessing }
 MOModelDerivative >> entityFor: aMOEntity [
-
 	^ entities
-		  detect: [ :e | e anchor = aMOEntity anchor]
+		  detect: [ :e | e isSameEntity: aMOEntity  ]
 		  ifNone: [ model entityFor: aMOEntity ]
 ]
 
