@@ -31,6 +31,14 @@ MOModelDerivative >> catalogEntitiesSelect: aFullBlockClosure [
 	^ model catalog entities select: aFullBlockClosure
 ]
 
+{ #category : #initialization }
+MOModelDerivative >> derivative [
+
+	^ MOModelDerivative new
+		  model: self;
+		  yourself
+]
+
 { #category : #accessing }
 MOModelDerivative >> entities [
 	^ entities
