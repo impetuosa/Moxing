@@ -48,7 +48,9 @@ MOType >> isDeclaration [
 { #category : #accessing }
 MOType >> isDefinedInLibrary [
 
-	^ modifiers includes: #DefinedInLibrary
+	^ modifiers
+		  ifNil: [ false ]
+		  ifNotNil: [ :a | a includes: #DefinedInLibrary ]
 ]
 
 { #category : #accessing }
@@ -64,7 +66,9 @@ MOType >> isWidget [
 { #category : #accessing }
 MOType >> modifiers [
 
-	^ modifiers reject: [ :a | a = #DefinedInLibrary ]
+	^ modifiers
+		  ifNil: [ nil ]
+		  ifNotNil: [ :m | m reject: [ :a | a = #DefinedInLibrary ] ]
 ]
 
 { #category : #accessing }

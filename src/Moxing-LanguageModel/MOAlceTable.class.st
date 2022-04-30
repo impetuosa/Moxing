@@ -1,6 +1,9 @@
 Class {
 	#name : #MOAlceTable,
 	#superclass : #MOClass,
+	#instVars : [
+		'#indexes => MOPropertySlot'
+	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
@@ -13,6 +16,18 @@ MOAlceTable >> acceptVisitor: aJinTypescriptCodeGenerator [
 { #category : #testing }
 MOAlceTable >> hasIdColumns [
 	^ false
+]
+
+{ #category : #visiting }
+MOAlceTable >> indexes [
+
+	^ indexes
+]
+
+{ #category : #visiting }
+MOAlceTable >> indexes: si [
+
+	indexes := si
 ]
 
 { #category : #visiting }

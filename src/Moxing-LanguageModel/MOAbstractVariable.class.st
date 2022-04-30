@@ -95,6 +95,12 @@ MOAbstractVariable >> isDeclaration [
 	^ true
 ]
 
+{ #category : #testing }
+MOAbstractVariable >> isDefinedInLibrary [
+
+	^ self modifiers includes: #DefinedInLibrary
+]
+
 { #category : #accessing }
 MOAbstractVariable >> isDynamicBinding [
 	^ self bindingKind = #dynamic.

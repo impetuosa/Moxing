@@ -61,7 +61,8 @@ MOModule >> isDeclaration [
 
 { #category : #testing }
 MOModule >> isDefinedInLibrary [
-	^ parent isDefinedInLibrary 
+
+	^ self isInTheContextOfA: MOLibrary
 ]
 
 { #category : #accessing }

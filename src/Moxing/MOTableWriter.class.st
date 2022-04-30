@@ -11,6 +11,16 @@ MOTableWriter >> acceptWritingVisitor: aVisitor [
 
 ]
 
+{ #category : #accessing }
+MOTableWriter >> attributes [
+	^ writeBuilder attributes 
+]
+
+{ #category : #initialization }
+MOTableWriter >> indexes: someIndexSet [
+	writeBuilder indexes: someIndexSet 
+]
+
 { #category : #initialization }
 MOTableWriter >> initializeWriteBuilder [
 	writeBuilder := builder tableBuilder

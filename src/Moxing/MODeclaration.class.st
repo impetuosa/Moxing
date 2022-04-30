@@ -192,6 +192,29 @@ MODeclaration >> isDeclarationUnit [
 ]
 
 { #category : #testing }
+MODeclaration >> isDefinedInLibrary [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isInTheContextOfA: aClass [
+
+	| current |
+	current := self.
+	[ 
+	current species = aClass or: [ 
+		current species = MOModel or: [ current isNil ] ] ] whileFalse: [ 
+		current := current parent ].
+	^ current species = aClass
+]
+
+{ #category : #testing }
+MODeclaration >> isInvocable [
+	 ^ false 
+]
+
+{ #category : #testing }
 MODeclaration >> isInvocation [
 
 	^ false

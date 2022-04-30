@@ -659,7 +659,10 @@ MOJinDAMModelReader >> visitTable: aJinDAMTable [
 								   (self typeReferenceFor: sc using: class) ].
 
 						   self visitCollection: aJinDAMTable attributes.
-						   self visitCollection: aJinDAMTable invocables ] ] ])
+						   self visitCollection: aJinDAMTable invocables.
+						   class indexes: (aJinDAMTable indexes collect: [ :asoc | 
+								    asoc key -> (asoc value collect: [ :iname | 
+									    class attributes detect: [ :attr | attr name = iname name ] ]) ]) ] ] ])
 ]
 
 { #category : #visiting }
