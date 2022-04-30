@@ -47,8 +47,7 @@ MOBlockWriter >> addVariable: aMOVariable [
 
 { #category : #writing }
 MOBlockWriter >> initializeWriteBuilder [
-
-	writeBuilder := builder blockBuilder
+	writeBuilder := builder blockBuilder 
 ]
 
 { #category : #writing }

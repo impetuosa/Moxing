@@ -22,12 +22,6 @@ MOAngularTemplateDocument >> language [
 ]
 
 { #category : #printing }
-MOAngularTemplateDocument >> name [
-
-	^( name ifNil: [ 'template' ] ), '.HTML'
-]
-
-{ #category : #printing }
 MOAngularTemplateDocument >> printOn: aStream [
 
 	aStream

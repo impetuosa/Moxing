@@ -22,7 +22,7 @@ MOTypeReference >> dependencies [
 { #category : #accessing }
 MOTypeReference >> fullName [
 
-	^ (packageReference  ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) , name
+	^ (packageReference  ifNotNil: [ :p | p name , '.' ] ifNil: [ '' ]) ,self  name
 ]
 
 { #category : #printing }
@@ -33,7 +33,7 @@ MOTypeReference >> isDecorator [
 { #category : #testing }
 MOTypeReference >> isSolvable [
 
-	^ (name = '?') not
+	^ (self name = '?') not
 ]
 
 { #category : #accessing }
@@ -61,7 +61,7 @@ MOTypeReference >> printOn: aStream [
 
 	aStream
 		nextPutAll: '->';
-		nextPutAll: name
+		nextPutAll: self name
 ]
 
 { #category : #'as yet unclassified' }

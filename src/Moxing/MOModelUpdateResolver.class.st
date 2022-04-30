@@ -303,6 +303,19 @@ MOModelUpdateResolver >> visitStructure: aMOStructure [
 ]
 
 { #category : #visiting }
+MOModelUpdateResolver >> visitTypescriptClass: aMOTypescriptClass [
+
+	| addedElement |
+	writer
+		updateTypescriptClass: aMOTypescriptClass
+		with: [ :classWriter | 
+			addedElement := writingBlock
+				                cull: writingEntityRelation
+				                cull: classWriter ].
+	^ addedElement
+]
+
+{ #category : #visiting }
 MOModelUpdateResolver >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [ 
 ^ self genericUpdate: aMOUnaryArithmeticOperation
 ]

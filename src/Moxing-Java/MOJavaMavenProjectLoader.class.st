@@ -51,23 +51,25 @@ MOJavaMavenProjectLoader >> link: aMOModel [
 { #category : #load }
 MOJavaMavenProjectLoader >> loadNamed: aString [
 
-	| loader |
+	| loader entry ast |
 	model := MOModel newJava
 		         name: aString;
+		         fileReference: workingDirectory asFileReference;
 		         anchor: (MOAnchor on: #/);
 		         catalog: self catalog;
 		         yourself.
 
 	writer := model writer.
 
-	self javaFiles
-		collect: [ :j | JavaParser parse: j readStream upToEnd ]
-		thenDo: [ :ast | 
-			loader := MOJavaFileLoader new
-				          writer: writer;
-				          yourself.
-
-			loader load: ast ].
+	self javaFiles do: [ :file | 
+		ast := JavaParser parse: file readStream upToEnd.
+		loader := MOJavaFileLoader new
+			          writer: writer;
+			          yourself.
+		entry := loader load: ast.
+		entry fileReference: (file relativeTo: workingDirectory).
+		entry types do: [ :t | t fileReference: entry fileReference ].
+		entry ].
 	self link: model.
 	^ model
 ]

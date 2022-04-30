@@ -155,6 +155,13 @@ MOModelCopyExpression >> visitMethodInvocation: aMOMethodInvocation [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitNamedArgument: aMONamedArgument [
+
+	^ writer argumentNamed: aMONamedArgument name expression: [ :exp | 
+		  self copyAll: aMONamedArgument relation: #argumentExpressions ]
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitNewExpression: aMONewInvocation [
 
 	self assert: aMONewInvocation arguments isEmptyOrNil.
@@ -175,6 +182,22 @@ MOModelCopyExpression >> visitNullLiteral: aMONullLiteral [
 { #category : #visiting }
 MOModelCopyExpression >> visitPackageReference: aMOPackageReference [
   ^writer packageReferenceNamed: aMOPackageReference name
+]
+
+{ #category : #visiting }
+MOModelCopyExpression >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
+
+	| arguments |
+	arguments := self
+		             copyAll: aMOParametrizedTypeReference
+		             relation: #argumentTypeReferences.
+
+	^ self
+		  applyBindTo: (writer
+				   parametrizedTypeReferenceNamed:
+				   aMOParametrizedTypeReference name
+				   arguments: arguments)
+		  withCandidateFrom: aMOParametrizedTypeReference
 ]
 
 { #category : #visiting }

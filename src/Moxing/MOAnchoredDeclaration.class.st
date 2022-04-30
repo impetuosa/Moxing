@@ -25,19 +25,12 @@ MOAnchoredDeclaration >> anchor: aMOAnchor [
 { #category : #'as yet unclassified' }
 MOAnchoredDeclaration >> anchorFrom: from to: to [
 
-	(anchor ifNil: [ anchor := MOAnchor new ]) from: from to: to
+	(self anchor ifNil: [ self anchor: MOAnchor new ]) from: from to: to
 ]
 
 { #category : #accessing }
 MOAnchoredDeclaration >> anchorSelectorName [
 	^( self class name copyReplaceAll: 'MO' with: '') asLowercase 
-]
-
-{ #category : #accessing }
-MOAnchoredDeclaration >> calculateAnchorIfMissing [
-
-	^ anchor ifNil: [ 
-		  parent calculateAnchorIfMissing / self anchorSelectorName / self name ]
 ]
 
 { #category : #accessing }
@@ -51,29 +44,18 @@ MOAnchoredDeclaration >> fileReference: aFileReference [
 	fileReference := aFileReference
 ]
 
-{ #category : #accessing }
-MOAnchoredDeclaration >> installCalculatedAnchorIfMissing [
-
-	anchor ifNil: [ anchor := self calculateAnchorIfMissing ]
-]
-
 { #category : #'as yet unclassified' }
 MOAnchoredDeclaration >> isSameEntity: anOtherDeclaration [
 
-	^ self anchor isNotNil and: [ 
-		  anOtherDeclaration anchor isNotNil and: [ 
-			  self species = anOtherDeclaration species and: [ 
+	^ self species = anOtherDeclaration species and: [ 
+		  self anchor isNotNil and: [ 
+			  anOtherDeclaration anchor isNotNil and: [ 
 				  self anchor = anOtherDeclaration anchor ] ] ]
 ]
 
 { #category : #accessing }
 MOAnchoredDeclaration >> mapSpaceAnchor [
-	^ anchor
-]
-
-{ #category : #accessing }
-MOAnchoredDeclaration >> mustBeSaved [
-	^ false
+	^ self anchor
 ]
 
 { #category : #accessing }

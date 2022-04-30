@@ -139,6 +139,12 @@ MODeclaration >> compareName: aString [
 	^ self name = aString or: [ self name = (self sanitize: aString) ]
 ]
 
+{ #category : #traverse }
+MODeclaration >> containsSourceCodeEntities [
+
+	^ false
+]
+
 { #category : #'as yet unclassified' }
 MODeclaration >> doForceNameToBeSanitized [
 
@@ -154,6 +160,17 @@ MODeclaration >> initialize [
 ]
 
 { #category : #testing }
+MODeclaration >> isAngularComponent [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isClassLike [
+	^ false .
+]
+
+{ #category : #testing }
 MODeclaration >> isClassType [
 	^ false .
 ]
@@ -166,6 +183,12 @@ MODeclaration >> isDatasource [
 { #category : #testing }
 MODeclaration >> isDeclaration [
   ^false
+]
+
+{ #category : #traverse }
+MODeclaration >> isDeclarationUnit [
+
+	^ false
 ]
 
 { #category : #testing }
@@ -213,6 +236,11 @@ MODeclaration >> isReference [
 ]
 
 { #category : #traverse }
+MODeclaration >> isRootDeclaration [ 
+	 ^ false
+]
+
+{ #category : #traverse }
 MODeclaration >> isSameEntity: anOtherDeclaration [
 
 	^ self = anOtherDeclaration
@@ -253,7 +281,10 @@ MODeclaration >> parent: aParent [
 { #category : #'as yet unclassified' }
 MODeclaration >> parentForContext [
 
-	^ self parent
+	^ (self parent isNil or: [ 
+		   self parent isDeclaration or: [ self parent isRootDeclaration ] ])
+		  ifTrue: [ self parent ]
+		  ifFalse: [ self parent parentForContext ]
 ]
 
 { #category : #accessing }

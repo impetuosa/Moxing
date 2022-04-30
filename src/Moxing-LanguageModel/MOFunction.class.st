@@ -74,5 +74,5 @@ MOFunction >> selector [
 MOFunction >> selector: aString [
 
 	selector := aString.
-	name := aString 
+	self name: aString 
 ]

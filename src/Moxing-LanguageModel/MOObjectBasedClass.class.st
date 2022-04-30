@@ -82,7 +82,7 @@ MOObjectBasedClass >> initialize [
 MOObjectBasedClass >> parent: aParent [
 
 	aParent ifNil: [ ^ self ].
-	parent ifNotNil: [ parent = aParent ifFalse: [ self halt ] ].
+	self parent ifNotNil: [ self parent = aParent ifFalse: [ self halt ] ].
 	parent := aParent
 ]
 
@@ -91,7 +91,7 @@ MOObjectBasedClass >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'class: ';
-		nextPutAll: name
+		nextPutAll: self  name
 ]
 
 { #category : #'as yet unclassified' }

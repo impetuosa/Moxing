@@ -77,13 +77,13 @@ MOStExensionMethodDeclarationUnit >> packageReference: aMOPackageReference [
 
 { #category : #accessing }
 MOStExensionMethodDeclarationUnit >> packageReferenceName [
-  self assert: parent isPackage.
-  ^parent name
+  self assert: self parent isPackage.
+  ^ self parent name
 ]
 
 { #category : #accessing }
 MOStExensionMethodDeclarationUnit >> printOn: aStream [
   aStream
      nextPutAll: 'extension for class: ';
-     nextPutAll: name
+     nextPutAll:self  name
 ]

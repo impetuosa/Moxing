@@ -139,7 +139,7 @@ MOAbstractVariable >> printOn: aStream [
 	aStream
 		nextPutAll: self kindString;
 		nextPutAll: ':';
-		nextPutAll: name;
+		nextPutAll: self name;
 		nextPutAll: '('.
 	typeReference
 		ifNil: [ aStream nextPutAll: ' unknown' ]

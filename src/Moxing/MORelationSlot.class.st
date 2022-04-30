@@ -33,6 +33,12 @@ MORelationSlot >> emitStore: aMethodBuilder [
 ]
 
 { #category : #printing }
+MORelationSlot >> isMOSlot [
+
+	^ true
+]
+
+{ #category : #printing }
 MORelationSlot >> readAll: anObject [
 
 	| val |

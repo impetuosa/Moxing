@@ -59,6 +59,11 @@ MOModule >> isDeclaration [
 	^ true
 ]
 
+{ #category : #testing }
+MOModule >> isDefinedInLibrary [
+	^ parent isDefinedInLibrary 
+]
+
 { #category : #accessing }
 MOModule >> packageReference: aMOPackageReference [ 
 
@@ -69,7 +74,7 @@ MOModule >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'module: ';
-		nextPutAll: name
+		nextPutAll:self name
 ]
 
 { #category : #accessing }

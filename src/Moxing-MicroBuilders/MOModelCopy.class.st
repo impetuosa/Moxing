@@ -11,7 +11,8 @@ Class {
 MOModelCopy >> applyOnCandidate: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
 
 	| destination |
-	self halt
+	(aMOObjectObjectRelation from isKindOf: MOAnnotationInstance) 
+		ifFalse: [ self halt ]
 	"destination := aChildDelegateLoadingBlock
 		               cull: aDestinationWriter
 		               cull: aMOObjectObjectRelation.

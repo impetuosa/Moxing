@@ -19,6 +19,12 @@ MOPropertySlot >> acceptRule: aRule forRelation: aRelationObject readingValues: 
 ]
 
 { #category : #testing }
+MOPropertySlot >> isMOSlot [
+
+	^ true
+]
+
+{ #category : #testing }
 MOPropertySlot >> isToMany [
 	^ false 
 ]

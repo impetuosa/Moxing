@@ -15,7 +15,7 @@ MOAngularProject >> acceptVisitor: aJinInspectorBuilder [
 
 { #category : #'as yet unclassified' }
 MOAngularProject >> contentFileReference [
-	^ fileReference / prefix 
+	^ self fileReference / prefix 
 ]
 
 { #category : #'brick-modules' }
@@ -28,6 +28,17 @@ MOAngularProject >> modules [
 MOAngularProject >> modules: md [
 
 	self packages: md
+]
+
+{ #category : #accessing }
+MOAngularProject >> packages [
+
+	^ packages
+]
+
+{ #category : #accessing }
+MOAngularProject >> prefix [
+	^ prefix
 ]
 
 { #category : #accessing }

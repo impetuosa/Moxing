@@ -14,8 +14,9 @@ MOSelfReference >> acceptVisitor: aMOJavaCodeGenerator [
 MOSelfReference >> callingClass [
 
 	| p |
-	p := parent.
-	[ p isNil or: [ p isType or: [ p isMethodExtension  ] ] ] whileFalse: [ p := p parent ].
+	p := self parent.
+	[ p isNil or: [ p isType or: [ p isMethodExtension ] ] ] whileFalse: [ 
+		p := p parent ].
 	^ p
 ]
 

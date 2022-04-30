@@ -33,10 +33,22 @@ MOType >> initialize [
 	modifiers := OrderedCollection new
 ]
 
+{ #category : #generated }
+MOType >> isAbstract [
+
+	^ self language isAbstractType: self
+]
+
 { #category : #accessing }
 MOType >> isDeclaration [
 
 	^ true
+]
+
+{ #category : #accessing }
+MOType >> isDefinedInLibrary [
+
+	^ modifiers includes: #DefinedInLibrary
 ]
 
 { #category : #accessing }
@@ -51,7 +63,8 @@ MOType >> isWidget [
 
 { #category : #accessing }
 MOType >> modifiers [
-	^ modifiers
+
+	^ modifiers reject: [ :a | a = #DefinedInLibrary ]
 ]
 
 { #category : #accessing }
@@ -78,7 +91,7 @@ MOType >> packageReferenceName [
 { #category : #'as yet unclassified' }
 MOType >> parentForContext [
 
-	^ parent ifNotNil: [ :p | p isPackage ifFalse: [ p parent ] ]
+	^ self parent ifNotNil: [ :p | p isPackage ifFalse: [ p parent ] ]
 ]
 
 { #category : #'as yet unclassified' }

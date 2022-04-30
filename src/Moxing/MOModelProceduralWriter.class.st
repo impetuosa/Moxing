@@ -396,6 +396,12 @@ MOModelProceduralWriter >> typeReferenceNamedForRebinding: aString [
 		  build
 ]
 
+{ #category : #writing }
+MOModelProceduralWriter >> updateDeclarationUnitDependencies: aDestinationRelation [ 
+
+	parentWriter updateDeclarationUnitDependencies: aDestinationRelation 
+]
+
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> updaterFor: aDestinationContext with: aProvenanceEntity do: aFullBlockClosure [
 

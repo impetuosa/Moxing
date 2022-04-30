@@ -38,6 +38,18 @@ MODeclarationUnit >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+MODeclarationUnit >> isDeclarationUnit [
+
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
+MODeclarationUnit >> isDefinedInLibrary [
+
+	^ types allSatisfy: #isDefinedInLibrary
+]
+
+{ #category : #'as yet unclassified' }
 MODeclarationUnit >> isRenamable [
 
 	^ false

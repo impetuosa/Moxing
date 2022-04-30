@@ -26,9 +26,20 @@ MOAngularScheme >> defaultProject [
 ]
 
 { #category : #accessing }
+MOAngularScheme >> fileContents [
+
+	^ self fileReference / 'angular.json' readStream upToEnd
+]
+
+{ #category : #accessing }
 MOAngularScheme >> language [
 
 	^ projects anyOne language
+]
+
+{ #category : #accessing }
+MOAngularScheme >> language: aMOLanguage [ 
+
 ]
 
 { #category : #accessing }

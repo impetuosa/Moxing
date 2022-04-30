@@ -1,9 +1,6 @@
 Class {
 	#name : #MOJavaCodeGenerator,
 	#superclass : #MOCodeGenerator,
-	#instVars : [
-		'aTryCatch'
-	],
 	#category : #'Moxing-Java-Writer'
 }
 
@@ -45,6 +42,18 @@ MOJavaCodeGenerator >> printInterfaceHeader: name implements: types [
 
 	stream nextPutAll: (' interface {1} ' format: { name }).
 
+	types ifNotEmpty: [ 
+		stream
+			nextPutAll: ' extends ';
+			nextPutAll: (',' join: (types collect: #name)) ]
+]
+
+{ #category : #printing }
+MOJavaCodeGenerator >> printInterfaceHeader: name types: parameterTypes implements: types [
+
+	stream nextPutAll: (' interface {1} <' format: { name }).
+	self streamArguments: parameterTypes.
+	stream nextPutAll: '> '.
 	types ifNotEmpty: [ 
 		stream
 			nextPutAll: ' extends ';
@@ -294,7 +303,7 @@ MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [
 
 { #category : #visiting }
 MOJavaCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
-	stream nextPutAll: ';'
+	stream nextPutAll: '{}'
 ]
 
 { #category : #visiting }
@@ -394,34 +403,38 @@ MOJavaCodeGenerator >> visitLocalVariable: aMOLocalVariable [
 ]
 
 { #category : #visiting }
-MOJavaCodeGenerator >> visitMethod: aJinTypescriptMethod [
+MOJavaCodeGenerator >> visitMethod: aMOMethod [
 
-	aJinTypescriptMethod annotationInstances do: [ :m | 
+	aMOMethod annotationInstances do: [ :m | 
 		m acceptVisitor: self.
 		stream newLine ].
 	self printIndentation.
 	stream
-		nextPutAll: aJinTypescriptMethod visibility;
+		nextPutAll: aMOMethod visibility;
 		nextPutAll: ' '.
-	aJinTypescriptMethod modifiers do: [ :m | 
+
+	(aMOMethod modifiers reject: [ :a | a = aMOMethod visibility ]) do: [ 
+		:m | 
 		stream
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-	aJinTypescriptMethod isStaticBinding ifTrue: [ 
-		stream nextPutAll: ' static ' ].
-	aJinTypescriptMethod returnTypeReference
+	aMOMethod isStaticBinding ifTrue: [ stream nextPutAll: ' static ' ].
+	aMOMethod returnTypeReference
 		ifNil: [ stream nextPutAll: 'UNKNOWN' ]
 		ifNotNil: [ :rt | rt acceptVisitor: self ].
 	stream
 		nextPutAll: ' ';
-		nextPutAll: aJinTypescriptMethod selector;
+		nextPutAll: aMOMethod selector;
 		nextPutAll: '('.
-	self streamArguments: aJinTypescriptMethod parameters.
+	self streamArguments: aMOMethod parameters.
 
 
 	stream nextPutAll: ') '.
 
-	aJinTypescriptMethod block acceptVisitor: self.
+	aMOMethod isOnlySignature
+		ifTrue: [ stream nextPutAll: ';' ]
+		ifFalse: [ aMOMethod block acceptVisitor: self ].
+
 	stream
 		nextPutAll: '';
 		newLine
@@ -526,6 +539,34 @@ MOJavaCodeGenerator >> visitParametrizableClass: aMOParametrizableClass [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> visitParametrizableClassType: aMOClassType [ 
+
+	aMOClassType modifiers do: [ :m | 
+		stream
+			nextPutAll: m;
+			nextPutAll: ' ' ].
+	stream nextPutAll: aMOClassType visibility asLowercase.
+	self
+		printInterfaceHeader: aMOClassType name
+		types: aMOClassType typeParameters 
+		implements: aMOClassType superTypeReferences.
+
+	stream
+		nextPutAll: ' {';
+		newLine.
+	self increaseDeepDuring: [ 
+		aMOClassType attributes do: [ :m | 
+			m acceptVisitor: self.
+			stream
+				nextPutAll: ';';
+				newLine ].
+		aMOClassType methods do: [ :m | 
+			m acceptVisitor: self.
+			stream newLine ].
+		stream nextPutAll: '}' ]
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitParametrizableMethod: aMOParametrizableMethod [
 
 	aMOParametrizableMethod annotationInstances do: [ :m | 
@@ -556,8 +597,10 @@ MOJavaCodeGenerator >> visitParametrizableMethod: aMOParametrizableMethod [
 
 
 	stream nextPutAll: ') '.
+	aMOParametrizableMethod isOnlySignature
+		ifTrue: [ stream nextPutAll: ';' ]
+		ifFalse: [ aMOParametrizableMethod block acceptVisitor: self ].
 
-	aMOParametrizableMethod block acceptVisitor: self.
 	stream
 		nextPutAll: '';
 		newLine

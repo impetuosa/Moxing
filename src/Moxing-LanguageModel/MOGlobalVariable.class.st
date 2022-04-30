@@ -2,7 +2,7 @@ Class {
 	#name : #MOGlobalVariable,
 	#superclass : #MOAbstractVariable,
 	#instVars : [
-		'visibility'
+		'#visibility => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

@@ -55,14 +55,22 @@ MOModelWriteTypeBasedCopyResolver >> visitAccessor: aMOAccessor [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitAnnotation: aMOAnnotationInstance [
+
+	^ writer writeAnnotation: [ :annotation | 
+		  writingBlock value: annotation ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitArrayAccess: aMOArrayAccess [
 
 	^ self copyExpression
 ]
 
 { #category : #visiting }
-MOModelWriteTypeBasedCopyResolver >> visitArrayLiteral: aMOArrayLiteral [ 
-^ self visitLiteral: aMOArrayLiteral
+MOModelWriteTypeBasedCopyResolver >> visitArrayLiteral: aMOArrayLiteral [
+
+	^ self visitLiteral: aMOArrayLiteral
 ]
 
 { #category : #visiting }
@@ -268,6 +276,12 @@ MOModelWriteTypeBasedCopyResolver >> visitModule: aMOModule [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitNamedArgument: aMONamedArgument [
+
+	^ self copyExpression
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitNewExpression: aMONewInvocation [ 
 
 	^ self copyExpression  
@@ -302,6 +316,11 @@ MOModelWriteTypeBasedCopyResolver >> visitParameter: aMOParameter [
 
 	^ writer writeParameter: [ :parameter | 
 		  writingBlock value: parameter ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitParametrizedTypeReference: aMOParametrizedTypeReference [ 
+	^ self copyExpression 
 ]
 
 { #category : #visiting }

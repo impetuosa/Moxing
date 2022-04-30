@@ -27,9 +27,26 @@ MOAngularComponent >> behavior: ab [
 	^ behavior := ab
 ]
 
+{ #category : #generated }
+MOAngularComponent >> containsSourceCodeEntities [
+
+	^ true
+]
+
+{ #category : #accessing }
+MOAngularComponent >> css [
+	^ css
+]
+
 { #category : #accessing }
 MOAngularComponent >> css: aMOAngularDocument [ 
 	css := aMOAngularDocument
+]
+
+{ #category : #testing }
+MOAngularComponent >> isAngularComponent [
+
+	^ true
 ]
 
 { #category : #generated }
@@ -38,12 +55,18 @@ MOAngularComponent >> isDeclaration [
 	^ true
 ]
 
+{ #category : #testing }
+MOAngularComponent >> isDefinedInLibrary [
+
+	^ behavior isDefinedInLibrary
+]
+
 { #category : #generated }
 MOAngularComponent >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'AngularComponent: ';
-		nextPutAll: name
+		print:self  name
 ]
 
 { #category : #generated }

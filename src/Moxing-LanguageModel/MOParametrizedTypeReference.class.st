@@ -30,7 +30,7 @@ MOParametrizedTypeReference >> fullName [
 	| conf |
 	conf := argumentTypeReferences collect: [ :t | t fullName ].
 	conf := ',' join: conf.
-	^ parent name , '.' , name , '<' , conf , '>'
+	^ self parent name , '.' , self name , '<' , conf , '>'
 ]
 
 { #category : #'as yet unclassified' }

@@ -55,12 +55,12 @@ MOModelBlockBuilder >> buildsType [
 MOModelBlockBuilder >> instantiate: aClass [
 
 	self isUpdating ifTrue: [ 
-		(updatingEntity isKindOf: MOEmptyBlock) ifTrue: [ 
+		updatingEntity species = MOEmptyBlock ifTrue: [ 
 			^ self statements
 				  ifEmpty: [ updatingEntity ]
 				  ifNotEmpty: [ parentBuilder instantiate: aClass ] ].
 
-		self assert: updatingEntity class = self buildsType.
+		self assert: updatingEntity species = self buildsType.
 		^ updatingEntity ].
 	^ parentBuilder instantiate: aClass
 ]

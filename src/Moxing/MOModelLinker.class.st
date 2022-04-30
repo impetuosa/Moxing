@@ -42,15 +42,17 @@ MOModelLinker >> ensureAllInvocableBindings: aMOModel [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllPackages: aMOModel [
-	(aMOModel entities select: [ :e | e isKindOf: MOPackageReference ]) 
-		do: [ :ref | 
-			aMOModel packages
-				detect: [ :p | p fullName = ref name ]
-				ifFound: [ :p | ref candidate: p ]
-				ifNone: [ 
-					ref candidate:
-						(aMOModel writer writePackage: [ :package | 
-							 package name: ref name ]) ] ].
+
+	(aMOModel entities select: [ :e | 
+		 (e isKindOf: MOPackageReference) and: [ e candidate isNil ] ]) do: [ 
+		:ref | 
+		aMOModel packages
+			detect: [ :p | p fullName = ref name ]
+			ifFound: [ :p | ref candidate: p ]
+			ifNone: [ 
+				ref candidate:
+					(aMOModel writer writePackage: [ :package | 
+						 package name: ref name ]) ] ].
 
 
 	(aMOModel types select: [ :a | 

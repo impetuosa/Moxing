@@ -110,6 +110,12 @@ MOClass >> initialize [
 	visibility := #default
 ]
 
+{ #category : #navigation }
+MOClass >> isClassLike [
+
+	^ true
+]
+
 { #category : #accessing }
 MOClass >> methods [
 	^ methods
@@ -124,7 +130,8 @@ MOClass >> methods: aCollection [
 MOClass >> parent: aParent [
 
 	aParent ifNil: [ ^ self ].
-	parent ifNotNil: [ parent = aParent ifFalse: [ "self halt "] ].
+	self parent ifNotNil: [ 
+		self parent = aParent ifFalse: [ "self halt " ] ].
 	parent := aParent
 ]
 
@@ -133,7 +140,7 @@ MOClass >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'class: ';
-		nextPutAll: name
+		nextPutAll:self  name
 ]
 
 { #category : #'as yet unclassified' }

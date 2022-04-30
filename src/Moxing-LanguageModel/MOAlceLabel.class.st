@@ -15,7 +15,7 @@ MOAlceLabel >> acceptVisitor: aVisitor [
 
 { #category : #accessing }
 MOAlceLabel >> isLabelledAs: aLabel [
- 	 ^ name = aLabel
+ 	 ^ self name = aLabel
 ]
 
 { #category : #accessing }

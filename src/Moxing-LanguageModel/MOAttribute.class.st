@@ -2,7 +2,7 @@ Class {
 	#name : #MOAttribute,
 	#superclass : #MOAbstractVariable,
 	#instVars : [
-		'visibility'
+		'#visibility => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -22,7 +22,7 @@ MOAttribute >> canBeReferredAsAttribute [
 { #category : #'as yet unclassified' }
 MOAttribute >> canBeReferredAsPrimitiveType [
 
-	^ name == #Null
+	^self  name == #Null
 ]
 
 { #category : #'as yet unclassified' }

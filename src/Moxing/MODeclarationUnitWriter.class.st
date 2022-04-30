@@ -6,6 +6,9 @@ Class {
 	#superclass : #MOModelProceduralWriter,
 	#traits : 'MOHoldsTypeReferences',
 	#classTraits : 'MOHoldsTypeReferences classTrait',
+	#instVars : [
+		'mustUpdateDependencies'
+	],
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -56,6 +59,23 @@ MODeclarationUnitWriter >> addStructureType: aMOStructure [
 	writeBuilder addStructureType: aMOStructure 
 ]
 
+{ #category : #adding }
+MODeclarationUnitWriter >> build [
+
+	self mustUpdateDependencies ifTrue: [ self updateDependencies ].
+	^ super build
+]
+
+{ #category : #adding }
+MODeclarationUnitWriter >> importableDependencies: aMOClass [
+
+	^ (aMOClass dependencies reject: [ :a | a isFylgjaStub ]) select: [ 
+		  :a | 
+		  a packageReference isNotNil and: [ 
+			  a packageReference name ~= 'java.lang' and: [ 
+				  a packageReference name ~= 'typescript' ] ] ]
+]
+
 { #category : #generated }
 MODeclarationUnitWriter >> imports: aCollection [
 
@@ -69,6 +89,18 @@ MODeclarationUnitWriter >> initializeWriteBuilder [
 ]
 
 { #category : #accessing }
+MODeclarationUnitWriter >> mustUpdateDependencies [
+
+	^ mustUpdateDependencies ifNil: [ mustUpdateDependencies := false ]
+]
+
+{ #category : #'as yet unclassified' }
+MODeclarationUnitWriter >> mustUpdateDependencies: aBoolean for: aMOPrimitiveTypeReference [
+
+	mustUpdateDependencies := true
+]
+
+{ #category : #accessing }
 MODeclarationUnitWriter >> package: aMOPackage [
 
 	writeBuilder package: aMOPackage
@@ -78,6 +110,21 @@ MODeclarationUnitWriter >> package: aMOPackage [
 MODeclarationUnitWriter >> privateWriteToSurface: anEntity [
 
 	surface addDeclarationUnit: anEntity
+]
+
+{ #category : #adding }
+MODeclarationUnitWriter >> updateDeclarationUnitDependencies: aDestinationRelation [
+
+	self mustUpdateDependencies: true for: aDestinationRelation
+]
+
+{ #category : #adding }
+MODeclarationUnitWriter >> updateDependencies [
+
+	writeBuilder types do: [ :t | 
+		(self importableDependencies: t) do: [ :type | 
+			self writeImport: [ :import | 
+				import importingTypeOrTypeReference: type ] ] ]
 ]
 
 { #category : #writing }

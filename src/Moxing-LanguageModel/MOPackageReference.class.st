@@ -35,7 +35,7 @@ MOPackageReference >> parent: aParent [
 { #category : #accessing }
 MOPackageReference >> path [
 
-	^ '.' split: name
+	^ '.' split: self name
 ]
 
 { #category : #adding }

@@ -14,7 +14,7 @@ MOSetToReturn >> acceptVisitor: aVisitor [
 MOSetToReturn >> invocableSelector [
 
 	| invocable |
-	invocable := parent.
+	invocable := self parent.
 	[ invocable isKindOf: MOInvocable ] whileFalse: [ 
 		invocable := invocable parent ].
 	^ invocable selector

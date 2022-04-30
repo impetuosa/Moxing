@@ -46,6 +46,13 @@ MOAnchor >> isRoot [
 ]
 
 { #category : #arithmetic }
+MOAnchor >> isSameAnchorAs: anOtherAnchor [
+
+	^ self species = anOtherAnchor species and: [ 
+		  path = anOtherAnchor privateGetPath ]
+]
+
+{ #category : #arithmetic }
 MOAnchor >> names [
 
 	self containsSource ifTrue: [ 
@@ -76,6 +83,12 @@ MOAnchor >> printOn: aStream [
 		nextPutAll: 'anchor(/';
 		nextPutAll: ('/' join: path segments);
 		nextPutAll: ')'
+]
+
+{ #category : #arithmetic }
+MOAnchor >> privateGetPath [
+
+	^ path
 ]
 
 { #category : #arithmetic }

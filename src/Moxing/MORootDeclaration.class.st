@@ -22,15 +22,15 @@ MORootDeclaration >> addPackage: anEntry [
 ]
 
 { #category : #accessing }
-MORootDeclaration >> isSameEntity: anOtherDeclaration [
+MORootDeclaration >> isRootDeclaration [
 
-	^ self = anOtherDeclaration
+	^ true
 ]
 
 { #category : #accessing }
 MORootDeclaration >> language [
 
-	^ parent language
+	^ self  parent language
 ]
 
 { #category : #accessing }
@@ -55,5 +55,5 @@ MORootDeclaration >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'root: ';
-		nextPutAll: parent name
+		nextPutAll: self parent name
 ]

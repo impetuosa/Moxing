@@ -27,6 +27,12 @@ MOPackage >> allTypes [
 	^ types , (declarationUnits flatCollect: [ :u | u types ])
 ]
 
+{ #category : #adding }
+MOPackage >> containsSourceCodeEntities [
+
+	^ true
+]
+
 { #category : #accessing }
 MOPackage >> declarationUnits [
 	^ declarationUnits
@@ -41,8 +47,8 @@ MOPackage >> declarationUnits: asetOfDeclarationUnits [
 { #category : #adding }
 MOPackage >> fullName [
 
-	^ ((parent isKindOf: MOPackage)
-		   ifTrue: [ parent fullName , '.' ]
+	^ ((self parent isKindOf: MOPackage)
+		   ifTrue: [ self parent fullName , '.' ]
 		   ifFalse: [ '' ]) , self name
 ]
 
@@ -58,6 +64,13 @@ MOPackage >> initialize [
 MOPackage >> isDeclaration [
 
 	^ true
+]
+
+{ #category : #adding }
+MOPackage >> isDefinedInLibrary [
+
+	^ (types allSatisfy: #isDefinedInLibrary) and: [ 
+		  declarationUnits allSatisfy: #isDefinedInLibrary ]
 ]
 
 { #category : #testing }

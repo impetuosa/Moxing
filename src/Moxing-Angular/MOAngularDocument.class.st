@@ -7,11 +7,6 @@ Class {
 	#category : #'Moxing-Angular-Model'
 }
 
-{ #category : #visiting }
-MOAngularDocument >> acceptVisitor: aJinInspectorBuilder [ 
-	^ aJinInspectorBuilder visitAngularComponentTemplate: self 
-]
-
 { #category : #accessing }
 MOAngularDocument >> document [ 
 	 ^ document 
@@ -29,7 +24,8 @@ MOAngularDocument >> isRenamable [
 
 { #category : #accessing }
 MOAngularDocument >> produceCode [
-	^ document
+
+	^ document printString
 ]
 
 { #category : #accessing }

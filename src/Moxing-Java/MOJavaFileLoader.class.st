@@ -384,12 +384,11 @@ MOJavaFileLoader >> visitProgram: aProgram [
 MOJavaFileLoader >> visitProgramFile: aJavaProgramFileNode [
 
 	| produced |
-	produced := writer writeDeclarationUnit: [ :unit | 
-		            self registerJavaDefaultImports.
-		            self
-			            use: unit
-			            during: [ self visitProgram: aJavaProgramFileNode ] ].
-
+	^ produced := writer writeDeclarationUnit: [ :unit | 
+		              self registerJavaDefaultImports.
+		              self
+			              use: unit
+			              during: [ self visitProgram: aJavaProgramFileNode ] ]
 ]
 
 { #category : #visiting }

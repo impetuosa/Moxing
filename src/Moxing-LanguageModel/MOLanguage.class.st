@@ -2,15 +2,15 @@ Class {
 	#name : #MOLanguage,
 	#superclass : #MONamedDeclaration,
 	#instVars : [
-		'methodLookupStrategy',
-		'typeResolutionStrategy',
-		'variableResolutionStrategy',
-		'invocationResolutionStrategy',
-		'importLinkingStrategy',
-		'expressionTypeResolvingStrategy'
+		'#methodLookupStrategy => MOPropertySlot',
+		'#typeResolutionStrategy => MOPropertySlot',
+		'#variableResolutionStrategy => MOPropertySlot',
+		'#invocationResolutionStrategy => MOPropertySlot',
+		'#importLinkingStrategy => MOPropertySlot',
+		'#expressionTypeResolvingStrategy => MOPropertySlot'
 	],
 	#classInstVars : [
-		'html'
+		'#html'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -31,6 +31,42 @@ MOLanguage >> astComposer [
 ]
 
 { #category : #'as yet unclassified' }
+MOLanguage >> createFileReferenceWithin: aMOPackage for: aMODeclarationUnit relativeTo: aFileReference [
+
+	| directory |
+	self isJava ifTrue: [ 
+		self assert: aMOPackage isPackage.
+		self assert: aMOPackage fileReference isNil.
+
+		directory := ('.' split: aMOPackage name)
+			             inject: aFileReference / #src / #main / #java
+			             into: [ :acc :dir | (acc / dir) ensureCreateDirectory ].
+		^ directory / (self sourceCodeFileNameFor: aMODeclarationUnit) ].
+	self isTypescript ifTrue: [ 
+		aMOPackage fileReference ifNil: [ 
+			self assert: aMOPackage parent fileReference isNotNil.
+			aMOPackage fileReference: (('.' split: aMOPackage name)
+					 inject: aMOPackage parent fileReference
+					 into: [ :acc :dir | (acc / dir) ensureCreateDirectory ]) ] ].
+	^ aMOPackage fileReference
+	  / (self sourceCodeFileNameFor: aMODeclarationUnit)
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguage >> export: aModel asDraftIntoDirectory: aFileReference [
+
+	self isJava ifTrue: [ 
+		^ MOModelJavaExporter new
+			  destinationDirectory: aFileReference;
+			  export: aModel ].
+	self isTypescript ifTrue: [ 
+		^ MOModelAngularExporter new
+			  destinationDirectory: aFileReference;
+			  export: aModel ].
+	self error: 'Not implemented exporter '
+]
+
+{ #category : #'as yet unclassified' }
 MOLanguage >> expressionTypeResolvingStrategy [
   ^expressionTypeResolvingStrategy ifNil: [ MOModelExpressionTypeResolver ]
 ]
@@ -38,6 +74,14 @@ MOLanguage >> expressionTypeResolvingStrategy [
 { #category : #accessing }
 MOLanguage >> expressionTypeResolvingStrategy: anObject [
 	expressionTypeResolvingStrategy := anObject
+]
+
+{ #category : #accessing }
+MOLanguage >> extension [
+
+	self isJava ifTrue: [ ^ 'java' ].
+	self isTypescript ifTrue: [ ^ 'ts' ].
+	self error: ' Extension '
 ]
 
 { #category : #accessing }
@@ -62,9 +106,29 @@ MOLanguage >> invocationResolutionStrategy: anObject [
 	invocationResolutionStrategy := anObject
 ]
 
+{ #category : #accessing }
+MOLanguage >> isAbstract: aTypeOrMethod [
+
+	^ self usesAbstractKeyword and: [ 
+		  aTypeOrMethod modifiers anySatisfy: [ :a | 
+			  a asLowercase = #abstract ] ]
+]
+
+{ #category : #accessing }
+MOLanguage >> isAbstractInvocable: aType [
+
+	^ self isAbstract: aType
+]
+
+{ #category : #accessing }
+MOLanguage >> isAbstractType: aType [
+
+	^ self isAbstract: aType
+]
+
 { #category : #testing }
 MOLanguage >> isHtml [
-  ^name = #Html
+  ^ self name = #Html
 ]
 
 { #category : #testing }
@@ -74,22 +138,31 @@ MOLanguage >> isJava [
 
 { #category : #testing }
 MOLanguage >> isMicrosoftAccess [
-	^ name = #MicrosoftAccess
+	^self  name = #MicrosoftAccess
+]
+
+{ #category : #accessing }
+MOLanguage >> isOnlySignature: aMethod [
+
+	^ aMethod isDefinedInLibrary or: [ 
+		  aMethod isAbstract or: [ 
+			  self isJava and: [ aMethod parent isClassType ] ] ]
 ]
 
 { #category : #testing }
 MOLanguage >> isPharo [
-  ^name = #pharo
+
+	^ self name = #pharo
 ]
 
 { #category : #testing }
 MOLanguage >> isTypescript [
-	^ name = #typescript
+	^ self name = #typescript
 ]
 
 { #category : #'instance creation' }
 MOLanguage >> methodLookupStrategy [
-  ^methodLookupStrategy ifNil: [ MOModelMethodLookup ]
+  ^ methodLookupStrategy ifNil: [ MOModelMethodLookup ]
 ]
 
 { #category : #accessing }
@@ -108,6 +181,14 @@ MOLanguage >> newCodeTextWriter [
 	self error: ' non writer available '
 ]
 
+{ #category : #'instance creation' }
+MOLanguage >> newVersionedCodeTextWriter: aMOModelDerivative [
+
+	^ self newCodeTextWriter
+		  useModel: aMOModelDerivative;
+		  yourself
+]
+
 { #category : #testing }
 MOLanguage >> parser [
 
@@ -123,7 +204,25 @@ MOLanguage >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'lang: ';
-		nextPutAll: name
+		nextPutAll:self  name
+]
+
+{ #category : #'as yet unclassified' }
+MOLanguage >> sourceCodeFileNameFor: aMODeclarationUnit [
+
+	self isJava ifTrue: [ 
+		^ aMODeclarationUnit name capitalized , '.java' ].
+	self isTypescript ifTrue: [ 
+		aMODeclarationUnit parent isAngularComponent ifTrue: [ 
+			(aMODeclarationUnit isKindOf: MOAngularCssDocument) ifTrue: [ 
+				^ aMODeclarationUnit name asLowercase , '.component.css' ].
+			(aMODeclarationUnit isKindOf: MOAngularTemplateDocument) ifTrue: [ 
+				^ aMODeclarationUnit name asLowercase , '.component.html' ].
+			^ aMODeclarationUnit name asLowercase , '.component.ts' ].
+
+
+		^ aMODeclarationUnit name asLowercase , '.ts' ].
+	self error: 'not implemented '
 ]
 
 { #category : #accessing }
@@ -145,6 +244,12 @@ MOLanguage >> typeResolutionStrategy [
 MOLanguage >> typeResolutionStrategy: anObject [
 
 	typeResolutionStrategy := anObject
+]
+
+{ #category : #accessing }
+MOLanguage >> usesAbstractKeyword [
+
+	^ self isJava or: [ self isTypescript ]
 ]
 
 { #category : #accessing }

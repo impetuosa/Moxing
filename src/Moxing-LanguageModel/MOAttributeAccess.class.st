@@ -19,7 +19,7 @@ MOAttributeAccess >> printOn: aStream [
 	aStream
 		print: receiverReference;
 		nextPutAll: '.';
-		nextPutAll: name
+		nextPutAll: self name
 ]
 
 { #category : #accessing }

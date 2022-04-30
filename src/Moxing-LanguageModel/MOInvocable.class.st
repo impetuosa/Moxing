@@ -41,6 +41,12 @@ MOInvocable >> dependencies [
 ]
 
 { #category : #accessing }
+MOInvocable >> hasBody [
+
+	^ self language hasBody: self
+]
+
+{ #category : #accessing }
 MOInvocable >> initialize [
 
 	super initialize.
@@ -49,9 +55,21 @@ MOInvocable >> initialize [
 ]
 
 { #category : #accessing }
+MOInvocable >> isAbstract [
+
+	^ self language isAbstractInvocable: self 
+]
+
+{ #category : #accessing }
 MOInvocable >> isDeclaration [
 
 	^ true
+]
+
+{ #category : #accessing }
+MOInvocable >> isDefinedInLibrary [
+
+	^ self modifiers includes: #DefinedInLibrary
 ]
 
 { #category : #accessing }
@@ -63,6 +81,12 @@ MOInvocable >> isDynamicBinding [
 MOInvocable >> isInvocable [
 
 	^ true
+]
+
+{ #category : #accessing }
+MOInvocable >> isOnlySignature [ 
+
+	^ self language isOnlySignature:self 
 ]
 
 { #category : #accessing }
@@ -78,7 +102,8 @@ MOInvocable >> localVariables [
 
 { #category : #accessing }
 MOInvocable >> modifiers [
-	^ modifiers
+
+	^ modifiers reject: [ :a | a = #DefinedInLibrary ]
 ]
 
 { #category : #accessing }

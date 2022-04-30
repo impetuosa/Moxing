@@ -10,7 +10,9 @@ Class {
 		'builder',
 		'entity',
 		'anchoringOn',
-		'autoPopulate'
+		'autoPopulate',
+		'mustUpdateDependencies',
+		'updatingElements'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -80,6 +82,12 @@ MOModelWriter >> addEnum: aMOEnum [
 MOModelWriter >> addFunction: aMOFunction [ 
 	entity :=  aMOFunction. 
 	
+]
+
+{ #category : #adding }
+MOModelWriter >> addFylgjaStub: aFylgjaMissingCandidateStub [
+
+	entity := aFylgjaMissingCandidateStub
 ]
 
 { #category : #adding }
@@ -230,6 +238,21 @@ MOModelWriter >> model: aMOModel [
 
 	model := aMOModel.
 	anchoringOn ifNil: [ anchoringOn := model root anchor ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> mustUpdateDependencies [
+
+	^ mustUpdateDependencies ifNil: [ mustUpdateDependencies := false ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> mustUpdateDependencies: aBoolean for: aMOMethodInvocation [
+
+	self assert: aMOMethodInvocation isNotNil.
+
+	mustUpdateDependencies := aBoolean.
+	self updatingElements add: aMOMethodInvocation
 ]
 
 { #category : #'as yet unclassified' }
@@ -417,6 +440,23 @@ MOModelWriter >> updateDeclarationUnit: aMODeclarationUnit with: aFullBlockClosu
 		  withWriter: MODeclarationUnitWriter new
 ]
 
+{ #category : #writing }
+MOModelWriter >> updateDeclarationUnitDependencies: aDestinationRelation [
+
+	self mustUpdateDependencies: true for: aDestinationRelation
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateDependencies: aMOAttributeAccess [
+
+	| declarationUnit |
+	declarationUnit := aMOAttributeAccess.
+	[ 
+	declarationUnit isDeclarationUnit or: [ 
+		declarationUnit isModelOrDerivative ] ] whileFalse: [ 
+		declarationUnit := declarationUnit parent ]
+]
+
 { #category : #'as yet unclassified' }
 MOModelWriter >> updateEnum: aMOMethod with: aFullBlockClosure [
 
@@ -538,6 +578,15 @@ MOModelWriter >> updateStructure: aMOStructure with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateTypescriptClass: aMOTypescriptClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOTypescriptClass
+		  withWriter: MOTypescriptClassWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateVariable: aMOVariable with: aFullBlockClosure [
 
 	^ self
@@ -583,6 +632,13 @@ MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntity
 	^ result
 ]
 
+{ #category : #accessing }
+MOModelWriter >> updatingElements [
+
+	^ updatingElements ifNil: [ 
+		  updatingElements := OrderedCollection new ]
+]
+
 { #category : #statements }
 MOModelWriter >> variable: aString typeReference: aMOPrimitiveTypeReference [
 
@@ -623,7 +679,11 @@ MOModelWriter >> write: aFullBlockClosure forUpdating: anEntityToBeModified with
 { #category : #writing }
 MOModelWriter >> write: aBlock withWriter: writer [
 
-	^ self write: aBlock withWriter: writer writerParent: self
+	| writen |
+	writen := self write: aBlock withWriter: writer writerParent: self.
+	self mustUpdateDependencies ifTrue: [ 
+		self updateDependencies: writen ].
+	^ writen
 ]
 
 { #category : #writing }
@@ -723,6 +783,15 @@ MOModelWriter >> writeFunction: aFullBlockClosure [
 	| writer |
 	writer := MOFunctionWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeFylgjaCandidateStub: aFullBlockClosure [
+
+	| writer stmt |
+	writer := FylgjaCandidateStubWriter new.
+	stmt := self write: aFullBlockClosure withWriter: writer.
+	^ stmt
 ]
 
 { #category : #writing }

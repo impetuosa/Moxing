@@ -14,17 +14,22 @@ MOModelAnnotationInstanceBuilder >> annotationTypeReference: aMOTypeReference [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelAnnotationInstanceBuilder >> arguments [
+
+	^ arguments ifNil: [ arguments := OrderedCollection new ]
+]
+
+{ #category : #'as yet unclassified' }
 MOModelAnnotationInstanceBuilder >> buildsType [
 <generated>
 	^MOAnnotationInstance
 ]
 
 { #category : #'as yet unclassified' }
-MOModelAnnotationInstanceBuilder >> loadBuilderWithEntity: anEntity [ 
-	self typeReference: anEntity typeReference. 
- self arguments: anEntity arguments. 
- 
-	
+MOModelAnnotationInstanceBuilder >> loadBuilderWithEntity: anEntity [
+
+	self typeReference: anEntity typeReference.
+	self arguments: anEntity arguments
 ]
 
 { #category : #'as yet unclassified' }

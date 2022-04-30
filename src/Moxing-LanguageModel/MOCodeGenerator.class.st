@@ -5,7 +5,8 @@ Class {
 		'stream',
 		'indentation',
 		'indentationString',
-		'isCommenting'
+		'isCommenting',
+		'versionedAccessorHandler'
 	],
 	#category : #'Moxing-LanguageModel-Writting'
 }
@@ -89,7 +90,10 @@ MOCodeGenerator >> printSelf [
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> produceCodeFor: aMOPackage [
 
-	aMOPackage acceptVisitor: self.
+	(versionedAccessorHandler ifNil: [ aMOPackage ] ifNotNil: [ 
+		 AvDelegationProxy
+			 target: aMOPackage
+			 handler: versionedAccessorHandler ]) acceptVisitor: self.
 	^ self sourceCode
 ]
 
@@ -133,6 +137,23 @@ MOCodeGenerator >> stream: aCollection splitingWith: aBlock enclosingWith: anEnc
 MOCodeGenerator >> streamArguments: aCollection [
 
 	self stream: aCollection splitingWith: [ stream nextPutAll: ', ' ]
+]
+
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> useModel: aMOModelDerivative [
+
+	self
+		assert: stream isEmpty
+		description:
+		'A code generator with model behaves really different. should not be mixing visiting with and without model '.
+	self
+		assert: aMOModelDerivative isDerivativeModel
+		description:
+		'The versioned model usage makes sense only for derivative models '.
+
+	versionedAccessorHandler := MOVersionedAccessHandler new
+		                           model: aMOModelDerivative;
+		                           yourself
 ]
 
 { #category : #visiting }

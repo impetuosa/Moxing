@@ -33,6 +33,12 @@ MOParentSlot >> emitStore: aMethodBuilder [
 ]
 
 { #category : #asserting }
+MOParentSlot >> isMOSlot [
+
+	^ true
+]
+
+{ #category : #asserting }
 MOParentSlot >> shouldAccept: aValue [
 
 	^ aValue isNil or: [ aValue isReference not ]

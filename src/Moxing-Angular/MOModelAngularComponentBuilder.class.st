@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'template',
 		'behavior',
-		'css'
+		'css',
+		'name'
 	],
 	#category : #'Moxing-Angular-Building'
 }
@@ -41,13 +42,27 @@ MOModelAngularComponentBuilder >> loadBuilderWithEntity: anEntity [
 
 	self behavior: anEntity behavior.
 	self template: anEntity template.
-	self css: anEntity css
+	self css: anEntity css.
+	self name: anEntity name
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAngularComponentBuilder >> name [
+
+	^ name
+]
+
+{ #category : #'as yet unclassified' }
+MOModelAngularComponentBuilder >> name: aName [
+
+	name := aName
 ]
 
 { #category : #'as yet unclassified' }
 MOModelAngularComponentBuilder >> privateBuild [
 
 	^ (self instantiate: self buildsType)
+		  name: self name;
 		  behavior: self behavior;
 		  template: self template;
 		  css: self css;

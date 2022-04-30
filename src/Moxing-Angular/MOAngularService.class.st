@@ -29,9 +29,14 @@ MOAngularService >> language [
 ]
 
 { #category : #accessing }
+MOAngularService >> language: aMOLanguage [ 
+
+]
+
+{ #category : #accessing }
 MOAngularService >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'AngularService: ';
-		nextPutAll: name
+		nextPutAll:self  name
 ]

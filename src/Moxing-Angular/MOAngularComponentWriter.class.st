@@ -30,6 +30,18 @@ MOAngularComponentWriter >> initializeWriteBuilder [
 	writeBuilder := builder angularComponentBuilder
 ]
 
+{ #category : #generated }
+MOAngularComponentWriter >> name [
+
+	^ writeBuilder name
+]
+
+{ #category : #generated }
+MOAngularComponentWriter >> name: aName [
+
+	writeBuilder name: aName
+]
+
 { #category : #writing }
 MOAngularComponentWriter >> privateWriteToSurface: anEntity [
 

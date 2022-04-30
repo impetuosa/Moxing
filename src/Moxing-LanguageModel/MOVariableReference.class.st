@@ -24,7 +24,7 @@ MOVariableReference >> printOn: aStream [
 
 	aStream
 		nextPutAll: '->';
-		nextPutAll: name
+		nextPutAll:self  name
 ]
 
 { #category : #'as yet unclassified' }

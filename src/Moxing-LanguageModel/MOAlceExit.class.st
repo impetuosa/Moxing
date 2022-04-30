@@ -14,7 +14,7 @@ MOAlceExit >> acceptVisitor: aMOTransformationApplier [
 MOAlceExit >> invocableKind [
 
 	| invocable |
-	invocable := parent.
+	invocable := self parent.
 	[ invocable isKindOf: MOInvocable ] whileFalse: [ 
 		invocable := invocable parent ].
 	^ invocable class

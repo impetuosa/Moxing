@@ -2,7 +2,7 @@ Class {
 	#name : #MOEnumEntry,
 	#superclass : #MOAbstractVariable,
 	#instVars : [
-		'value'
+		'#value => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

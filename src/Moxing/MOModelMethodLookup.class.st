@@ -21,7 +21,10 @@ MOModelMethodLookup >> lookMethodFor: aMOMethodInvocation in: aTypeWithMethods [
 
 
 	methods size = 1 ifTrue: [ ^ methods ].
-	methods size > 1 ifTrue: [ self error: 'Many method respond to the same signature!' ].
+	methods size > 1 ifTrue: [ 
+		self halt .
+		^ {  }. 
+	].
 
 	^ (aTypeWithMethods superclassReference
 		   ifNotNil: [ :c | c candidate isNotNil ]

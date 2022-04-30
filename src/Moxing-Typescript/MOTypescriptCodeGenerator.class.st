@@ -21,9 +21,24 @@ MOTypescriptCodeGenerator >> printSelf [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitAngularClass: aMOAngularClass [ 
+	aMOAngularClass classRepresentation acceptVisitor: self 
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitAngularComponent: aMOAngularComponent [
 
 	^ aMOAngularComponent behavior acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitAngularCssDocument: aMOAngularCssDocument [ 
+	stream nextPutAll: aMOAngularCssDocument document 
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitAngularTemplateDocument: aMOAngularTemplateDocument [ 
+	stream nextPutAll: aMOAngularTemplateDocument document printString .
 ]
 
 { #category : #'as yet unclassified' }
@@ -36,10 +51,20 @@ MOTypescriptCodeGenerator >> visitAttribute: aMOTypescriptVariable [
 	stream nextPutAll: aMOTypescriptVariable name.
 
 	aMOTypescriptVariable typeReference ifNotNil: [ 
+		stream nextPutAll: ':'.
 		aMOTypescriptVariable typeReference acceptVisitor: self ].
 	aMOTypescriptVariable initializer  ifNotNil: [ 
 		stream nextPutAll: '='.
 		aMOTypescriptVariable initializer acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitAttributeAccess: aMOAttributeAccess [
+
+	aMOAttributeAccess receiverReference acceptVisitor: self.
+	stream
+		nextPutAll: '.';
+		nextPutAll: aMOAttributeAccess name
 ]
 
 { #category : #visiting }
@@ -50,6 +75,32 @@ MOTypescriptCodeGenerator >> visitBlockClosure: aMOStBlockClosure [
 	" Should know type maybe here ."
 	stream nextPutAll: ' => '.
 	aMOStBlockClosure block acceptVisitor: self .
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitCatch: aMOCatch [ 
+	self printIndentation.
+	stream nextPutAll: 'catch ('.
+	self streamArguments: aMOCatch parameters. 
+	stream nextPutAll: ')'.
+	aMOCatch block acceptVisitor: self.
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitClass: aMOClass [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitClassFunction: aMOClassFunction [
+
+	^ self visitMethod: aMOClassFunction
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitConstantReference: aMOConstantReference [
+
+	^ self visitVariableReference: aMOConstantReference
 ]
 
 { #category : #visiting }
@@ -125,11 +176,21 @@ MOTypescriptCodeGenerator >> visitImport: aMOTypescriptImport [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitLabelReference: aMOAlceLabelReference [
+
+	^ self comment: [ 
+		  stream
+			  nextPutAll: ' Label Usage:   ';
+			  nextPutAll: aMOAlceLabelReference name ]
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitLocalVariable: aMOLocalVariable [
 
 	stream nextPutAll: aMOLocalVariable name.
 
 	aMOLocalVariable typeReference ifNotNil: [ 
+		stream nextPutAll: ' : '.
 		aMOLocalVariable typeReference acceptVisitor: self ].
 	aMOLocalVariable initializer ifNotNil: [ 
 		stream nextPutAll: '='.
@@ -152,6 +213,7 @@ MOTypescriptCodeGenerator >> visitMethod: aJinTypescriptMethod [
 
 	stream nextPutAll: ') '.
 	aJinTypescriptMethod returnTypeReference ifNotNil: [ :rtr | 
+		stream nextPutAll: ':'.
 		rtr acceptVisitor: self ].
 	aJinTypescriptMethod block acceptVisitor: self.
 	stream
@@ -188,7 +250,9 @@ MOTypescriptCodeGenerator >> visitParameter: aMOParameter [
 	stream nextPutAll: aMOParameter name.
 
 	aMOParameter typeReference ifNotNil: [ 
-		aMOParameter typeReference acceptVisitor: self ]
+		stream
+			nextPutAll: ' : '. aMOParameter typeReference
+			acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -210,9 +274,29 @@ MOTypescriptCodeGenerator >> visitPrimitiveTypeReference: aMOPrimitiveTypeRefere
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitResumeLabel: aMOAlceResumeLabel [
+
+	self comment: [ 
+		stream nextPutAll: ' Resume '.
+		aMOAlceResumeLabel destinations do: [ :a | 
+			stream
+				nextPutAll: ' Label ';
+				nextPutAll: a name ] ]
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitSelfReference: aMOSelf [
 
 	stream nextPutAll: 'this'
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitSetToReturn: aMOSetToReturn [
+
+	stream
+		nextPutAll: aMOSetToReturn invocableSelector;
+		nextPutAll: ' = '.
+	aMOSetToReturn expression acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -222,11 +306,18 @@ MOTypescriptCodeGenerator >> visitStatementExpression: aMOStatementExpression [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitTryCatch: aMOTryCatch [
+
+	stream nextPutAll: 'try'.
+	aMOTryCatch try acceptVisitor: self.
+	
+	self visitCollection: aMOTryCatch catches 
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitTypeReference: aFylgjaMissingType [
 
-	stream
-		nextPutAll: ': ';
-		nextPutAll: aFylgjaMissingType name
+	stream nextPutAll: aFylgjaMissingType name
 ]
 
 { #category : #visiting }
@@ -260,6 +351,13 @@ MOTypescriptCodeGenerator >> visitTypescriptClass: aMoTypescriptClass [
 		stream nextPutAll: '}' ]
 ]
 
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsParameter [
+
+	stream nextPutAll: '...'.
+	self visitParameter: aMOVariableArgumentsParameter
+]
+
 { #category : #'as yet unclassified' }
 MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
 
@@ -270,8 +368,9 @@ MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
 	stream nextPutAll: aMOTypescriptVariable name.
 
 	aMOTypescriptVariable typeReference ifNotNil: [ 
+		stream nextPutAll: ':'.
 		aMOTypescriptVariable typeReference acceptVisitor: self ].
-	aMOTypescriptVariable initializer  ifNotNil: [ 
+	aMOTypescriptVariable initializer ifNotNil: [ 
 		stream nextPutAll: '='.
 		aMOTypescriptVariable initializer acceptVisitor: self ]
 ]

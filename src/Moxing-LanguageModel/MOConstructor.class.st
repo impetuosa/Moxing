@@ -28,12 +28,12 @@ MOConstructor >> canBeReferredAsConstructor [
 { #category : #'as yet unclassified' }
 MOConstructor >> constructingTypeName [
 
-	^ parent name
+	^ self parent name
 ]
 
 { #category : #accessing }
 MOConstructor >> selector [ 
-	^ parent name 
+	^ self parent name 
 ]
 
 { #category : #accessing }

@@ -11,6 +11,15 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MODeclarationStructuralRelation class >> nullCandidateRelationTo: anUndefinedObject [
+
+	^ MONullDeclarationRelation new
+		  slot: #candidate => MOCandidateSlot;
+		  to: anUndefinedObject;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MODeclarationStructuralRelation class >> nullRelationTo: aMOPackage [
 
 	^ MONullDeclarationRelation new to: aMOPackage
@@ -111,8 +120,11 @@ MODeclarationStructuralRelation >> to [
 { #category : #accessing }
 MODeclarationStructuralRelation >> to: aMOClass [
 
-	(aMOClass = nil and: [ (slot = MOPropertySlot) not ]) ifTrue: [ 
-		self halt ].
+	(aMOClass = nil and: [ 
+		 ({ 
+			  MOPropertySlot.
+			  MOCandidateSlot } anySatisfy: [ :c | slot species = c ]) not ]) 
+		ifTrue: [ self halt ].
 	to := aMOClass
 ]
 

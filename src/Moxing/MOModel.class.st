@@ -8,7 +8,8 @@ Class {
 		'catalog',
 		'unknownType',
 		'objects',
-		'root'
+		'root',
+		'fileReference'
 	],
 	#category : #'Moxing-Core'
 }
@@ -27,6 +28,12 @@ MOModel class >> loadFrom: aString [
 MOModel >> acceptVisitor: aMoxingPackageTree [
 
 	^ aMoxingPackageTree visitModel: self
+]
+
+{ #category : #enumerating }
+MOModel >> allEntitiesSelect: aFullBlockClosure [
+
+	^ entities select: aFullBlockClosure
 ]
 
 { #category : #'as yet unclassified' }
@@ -53,14 +60,6 @@ MOModel >> anchor: aMOAnchor [
 	catalog anchor: anchor
 ]
 
-{ #category : #converting }
-MOModel >> asMooseModel [
-
-	^ MOModelWrapper new
-		  model: self;
-		  yourself
-]
-
 { #category : #accessing }
 MOModel >> catalog [
 	^ catalog
@@ -69,6 +68,12 @@ MOModel >> catalog [
 { #category : #accessing }
 MOModel >> catalog: aCatalog [ 
 	catalog := aCatalog
+]
+
+{ #category : #enumerating }
+MOModel >> catalogEntitiesSelect: aFullBlockClosure [
+
+	^ catalog entities select: aFullBlockClosure
 ]
 
 { #category : #'as yet unclassified' }
@@ -89,6 +94,16 @@ MOModel >> entityFor: aMOEntity [
 MOModel >> exclusivelyincludes: aMOPrimitiveType [
 
 	^ self includes: aMOPrimitiveType
+]
+
+{ #category : #accessing }
+MOModel >> fileReference [
+	^ fileReference
+]
+
+{ #category : #accessing }
+MOModel >> fileReference: aFileReference [ 
+	fileReference := aFileReference
 ]
 
 { #category : #initialization }
@@ -159,6 +174,12 @@ MOModel >> printOn: aStream [
 		nextPutAll: language name
 ]
 
+{ #category : #accessing }
+MOModel >> producesParseableCode [
+
+	^ false
+]
+
 { #category : #initialization }
 MOModel >> root [
 
@@ -188,6 +209,12 @@ MOModel >> saveAs: aString [
 	stream
 		flush;
 		close
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> sourceCodeIsAvailable [
+
+	^ fileReference exists
 ]
 
 { #category : #']as yet unclassified' }

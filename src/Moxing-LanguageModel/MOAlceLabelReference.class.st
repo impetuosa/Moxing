@@ -12,13 +12,13 @@ MOAlceLabelReference >> acceptVisitor: aVisitor [
 
 { #category : #visiting }
 MOAlceLabelReference >> isLabelledAs: aLabel [
- 	 ^ name = aLabel
+ 	 ^ self name = aLabel
 ]
 
 { #category : #visiting }
 MOAlceLabelReference >> printOn: aStream [
 
-	aStream nextPutAll: 'Label: ' , name
+	aStream nextPutAll: 'Label: ' , self name
 ]
 
 { #category : #'as yet unclassified' }

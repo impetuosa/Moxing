@@ -12,7 +12,7 @@ MOAngularCssDocument >> acceptVisitor: aJinInspectorBuilder [
 
 { #category : #accessing }
 MOAngularCssDocument >> name [ 
-	^ name, '.CSS'
+	^super  name, '.CSS'
 ]
 
 { #category : #accessing }
@@ -20,5 +20,5 @@ MOAngularCssDocument >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'AngularCss';
-		nextPutAll: '(' , name , ')'
+		nextPutAll: '(' ,self  name , ')'
 ]

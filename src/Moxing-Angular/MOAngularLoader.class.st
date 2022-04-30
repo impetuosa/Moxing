@@ -122,16 +122,6 @@ MOAngularLoader >> processServicesFrom: aCollectionOfFiles into: aDestination an
 ]
 
 { #category : #convenience }
-MOAngularLoader >> selectAllFiles: aString [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #convenience }
-MOAngularLoader >> selectFrom: aCollection allFiles: aString [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #convenience }
 MOAngularLoader >> selectFrom: aCollection allFiles: aString andNot: aString3 [
 
 	^ (aCollection select: [ :e | 
@@ -143,10 +133,19 @@ MOAngularLoader >> selectFrom: aCollection allFiles: aString andNot: aString3 [
 { #category : #visiting }
 MOAngularLoader >> visitAngularClass: aComponentBehavior [
 
-	aComponentBehavior classRepresentation: (MOTypescriptClassLoader
-			 loadClassFromFile: aComponentBehavior fileReference
-			 for: aComponentBehavior
-			 into: model).
+	aComponentBehavior
+		classRepresentation: (MOTypescriptClassLoader
+				 loadClassFromFile: aComponentBehavior fileReference
+				 for: aComponentBehavior
+				 into: model);
+		fileReference:
+			(aComponentBehavior fileReference relativeTo: workingDirectory).
+
+	aComponentBehavior classRepresentation fileReference:
+		aComponentBehavior fileReference.
+
+	aComponentBehavior classRepresentation types do: [ :t | 
+		t fileReference: aComponentBehavior fileReference ].
 	aComponentBehavior classRepresentation parent: aComponentBehavior
 ]
 
@@ -175,6 +174,10 @@ MOAngularLoader >> visitAngularComponent: aComponent [
 			 name: aComponent name;
 			 yourself).
 
+	aComponent template acceptVisitor: self.
+	aComponent template parent: aComponent.
+
+
 	(aComponent fileReference / (aComponent name , '.component.css'))
 		exists ifTrue: [ 
 		cssDocument := templateDocument := (aComponent fileReference
@@ -189,13 +192,26 @@ MOAngularLoader >> visitAngularComponent: aComponent [
 				 document: cssDocument;
 				 name: aComponent name;
 				 yourself) ].
-	aComponent template acceptVisitor: self.
-	aComponent template parent: aComponent
+	aComponent css acceptVisitor: self.
+	aComponent css parent: aComponent.
+	
+
+
+
+
+
+
+
+
+
 ]
 
 { #category : #visiting }
-MOAngularLoader >> visitAngularComponentTemplate: aMOAngularComponentTemplate [ 
-	
+MOAngularLoader >> visitAngularCssDocument: aMOAngularTemplateDocument [
+
+	aMOAngularTemplateDocument fileReference:
+		(aMOAngularTemplateDocument fileReference relativeTo:
+			 workingDirectory)
 ]
 
 { #category : #visiting }
@@ -291,8 +307,11 @@ MOAngularLoader >> visitAngularService: aMOAngularService [
 ]
 
 { #category : #visiting }
-MOAngularLoader >> visitAngularTemplateDocument: aMOAngularTemplateDocument [ 
+MOAngularLoader >> visitAngularTemplateDocument: aMOAngularTemplateDocument [
 
+	aMOAngularTemplateDocument fileReference:
+		(aMOAngularTemplateDocument fileReference relativeTo:
+			 workingDirectory)
 ]
 
 { #category : #visiting }

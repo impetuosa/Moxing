@@ -443,12 +443,6 @@ MOModelBuilder >> functionBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> getModifiableVersionOf: aMOVariable [
-
-	^ model getModifiableVersionOf: aMOVariable
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> globalConstantBuilder [
 
 	^ MOModelGlobalConstantBuilder new

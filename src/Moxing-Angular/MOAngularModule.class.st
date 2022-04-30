@@ -1,6 +1,9 @@
 Class {
 	#name : #MOAngularModule,
 	#superclass : #MOPackage,
+	#instVars : [
+		'#moduleClass => MOContainmentSlot one'
+	],
 	#category : #'Moxing-Angular-Model'
 }
 
@@ -25,7 +28,19 @@ MOAngularModule >> artefacts: cs [
 { #category : #testing }
 MOAngularModule >> isRootingModule [
 
-	^ name endsWith: '-routing'
+	^self  name endsWith: '-routing'
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularModule >> moduleClass [
+
+	^ moduleClass
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularModule >> moduleClass: aClass [
+
+	moduleClass := aClass
 ]
 
 { #category : #'as yet unclassified' }
@@ -33,5 +48,5 @@ MOAngularModule >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'AngularModule: ';
-		nextPutAll: name
+		nextPutAll:self  name
 ]

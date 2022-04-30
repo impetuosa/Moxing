@@ -49,5 +49,5 @@ MOProcedure >> selector [
 MOProcedure >> selector: aString [
 
 	selector := aString.
-	name := aString 
+	self name: aString 
 ]

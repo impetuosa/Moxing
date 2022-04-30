@@ -2,7 +2,7 @@ Class {
 	#name : #MOAngularClass,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'classRepresentation'
+		'#classRepresentation => MOContainmentSlot one'
 	],
 	#category : #'Moxing-Angular-Model'
 }
@@ -26,12 +26,18 @@ MOAngularClass >> classRepresentation: aMOClass [
 
 { #category : #accessing }
 MOAngularClass >> contentReference [ 
-	^ fileReference / name , 'ts'
+	^ self fileReference /self  name , 'ts'
 ]
 
 { #category : #generated }
 MOAngularClass >> interfaces [
 	^ self classRepresentation types 
+]
+
+{ #category : #testing }
+MOAngularClass >> isDefinedInLibrary [
+
+	^ classRepresentation isDefinedInLibrary
 ]
 
 { #category : #accessing }
@@ -46,13 +52,21 @@ MOAngularClass >> language [
 ]
 
 { #category : #accessing }
+MOAngularClass >> language: aMOLanguage [ 
+
+]
+
+{ #category : #accessing }
 MOAngularClass >> methods [
 	^ self classRepresentation methods 
 ]
 
 { #category : #accessing }
 MOAngularClass >> name [
-	^ classRepresentation name
+
+	^ classRepresentation
+		  ifNil: [ 'Error loading' ]
+		  ifNotNil: [ :a | a name ]
 ]
 
 { #category : #accessing }
@@ -64,7 +78,7 @@ MOAngularClass >> parents [
 { #category : #accessing }
 MOAngularClass >> printOn: aStream [
 
-	aStream nextPutAll: 'AngularClass(' , name , ')'
+	aStream nextPutAll: 'AngularClass(' , self name , ')'
 ]
 
 { #category : #accessing }
@@ -84,7 +98,8 @@ MOAngularClass >> properties [
 
 { #category : #accessing }
 MOAngularClass >> sourceCode [
-	^ anchor readStream upToEnd 
+
+	^ self anchor readStream upToEnd
 ]
 
 { #category : #accessing }

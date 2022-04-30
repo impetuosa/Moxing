@@ -32,6 +32,11 @@ MOMethodWriter >> addTypeParameter: aMOTypeParameter [
 	writeBuilder addTypeParameter: aMOTypeParameter
 ]
 
+{ #category : #accessing }
+MOMethodWriter >> annotationInstances [
+	^ writeBuilder annotationInstances 
+]
+
 { #category : #writing }
 MOMethodWriter >> initializeWriteBuilder [
 

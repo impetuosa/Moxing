@@ -20,10 +20,21 @@ MOAnnotationWriter >> annotationTypeReference: aMOTypeReference [
 	writeBuilder annotationTypeReference: aMOTypeReference
 ]
 
+{ #category : #accessing }
+MOAnnotationWriter >> arguments [
+	^ writeBuilder arguments
+]
+
 { #category : #generated }
 MOAnnotationWriter >> arguments: aCollection [
 
 	writeBuilder arguments: aCollection
+]
+
+{ #category : #accessing }
+MOAnnotationWriter >> candidateAnchor: anUndefinedObject [
+
+	
 ]
 
 { #category : #writing }
@@ -42,4 +53,15 @@ MOAnnotationWriter >> privateSetAnchor: anEntity [
 MOAnnotationWriter >> privateWriteToSurface: anEntity [
 	surface  addAnnotationInstance: anEntity.
 
+]
+
+{ #category : #accessing }
+MOAnnotationWriter >> selector: anUndefinedObject [ 
+	 " nothing to do here "
+]
+
+{ #category : #accessing }
+MOAnnotationWriter >> typeReference: aMOTypeReference [
+
+	^ self annotationTypeReference: aMOTypeReference
 ]

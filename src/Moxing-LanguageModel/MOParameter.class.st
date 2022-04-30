@@ -2,7 +2,7 @@ Class {
 	#name : #MOParameter,
 	#superclass : #MOAbstractVariable,
 	#instVars : [
-		'isOptional'
+		'#isOptional => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

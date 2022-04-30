@@ -71,6 +71,7 @@ MOTypescriptBasicLanguageLoader >> loadString [
 	| loadedClass |
 	loadedClass := writer writeDeclarationUnit: [ :unit | 
 		               unit writeTypescriptClass: [ :string | 
+			               string addModifier: #DefinedInLibrary.
 			               string name: #string.
 			               string writeAttribute: [ :length | 
 				               length name: #length.

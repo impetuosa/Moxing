@@ -8,7 +8,7 @@ Class {
 
 { #category : #visiting }
 MOAngularModuleWriter >> acceptWritingVisitor: aVisitor [
-	^ aVisitor visitModuleWriter: self 
+	^ aVisitor visitAngularModuleWriter: self 
 
 
 ]

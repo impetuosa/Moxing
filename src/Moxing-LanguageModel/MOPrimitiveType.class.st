@@ -19,7 +19,13 @@ MOPrimitiveType >> canBeReferredAsPrimitiveType [
 { #category : #printing }
 MOPrimitiveType >> fullName [
 
-	^ name
+	^ self name
+]
+
+{ #category : #printing }
+MOPrimitiveType >> isDefinedInLibrary [
+
+	^ true
 ]
 
 { #category : #printing }
@@ -33,7 +39,7 @@ MOPrimitiveType >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'primitive: ';
-		nextPutAll: name
+		nextPutAll:self  name
 ]
 
 { #category : #printing }

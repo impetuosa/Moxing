@@ -89,6 +89,12 @@ MOModelTypeResolver >> visitBlockClosure: aMOStBlockClosure [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitCatch: aMOCatch [
+
+	^ aMOCatch parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitClass: aMOClass [
 	
 	aMOClass packageReference acceptVisitor: self.
@@ -267,6 +273,12 @@ self visitMethod: aMOStMethod
 { #category : #visiting }
 MOModelTypeResolver >> visitStatementExpression: aMOStatementExpression [ 
 	aMOStatementExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitTryCatch: aMOTryCatch [
+
+	aMOTryCatch parent acceptVisitor: self
 ]
 
 { #category : #visiting }

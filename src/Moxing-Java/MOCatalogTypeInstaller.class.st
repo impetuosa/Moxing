@@ -21,14 +21,12 @@ MOCatalogTypeInstaller >> getType: aMOClassType from: aMOModel [
 { #category : #'as yet unclassified' }
 MOCatalogTypeInstaller >> install: aMOInterface into: aMOModel [
 
-
 	model := aMOModel.
 	^ (self getType: aMOInterface from: aMOModel)
 		  ifEmpty: [ 
 			  writer := aMOModel writer.
-			  (aMOInterface parent ifNil: [ aMOInterface ] ifNotNil: [ :a | 
-				   self halt.
-				   a ]) acceptVisitor: self.
+			  (aMOInterface parent ifNil: [ aMOInterface ] ifNotNil: [ :a | a ]) 
+				  acceptVisitor: self.
 			  self assert: writer entity name = aMOInterface name.
 			  writer entity
 			  "  writer entity types detect: [ :a | a name = aMOInterface name ] " ]
@@ -81,6 +79,7 @@ MOCatalogTypeInstaller >> visitClass: aMOClass [
 
 	^ writer writeClass: [ :class | 
 		  class name: aMOClass name.
+		  class addModifier: #DefinedInLibrary.
 		  self use: class during: [ 
 			  class packageReference:
 				  (aMOClass packageReference acceptVisitor: self).
@@ -97,7 +96,7 @@ MOCatalogTypeInstaller >> visitClassType: aMOClassType [
 
 	^ writer writeClassType: [ :class | 
 		  class name: aMOClassType name.
-
+		  class addModifier: #DefinedInLibrary.
 		  self use: class during: [ 
 			  class packageReference:
 				  (aMOClassType packageReference acceptVisitor: self).
@@ -157,6 +156,7 @@ MOCatalogTypeInstaller >> visitMethod: aMOMethod [
 
 	^ writer writeMethod: [ :method | 
 		  method selector: aMOMethod selector.
+		  method addModifier: #DefinedInLibrary.
 		  method returnTypeReference:
 			  (aMOMethod returnTypeReference acceptVisitor: self).
 		  method modifiers: aMOMethod modifiers copy.
@@ -195,6 +195,7 @@ MOCatalogTypeInstaller >> visitParametrizableClass: aMOParametrizableClass [
 
 	^ writer writeParametrizableClass: [ :class | 
 		  class name: aMOParametrizableClass name.
+		  class addModifier: #DefinedInLibrary.
 		  self use: class during: [ 
 			  class packageReference:
 				  (aMOParametrizableClass packageReference acceptVisitor: self).
@@ -212,7 +213,7 @@ MOCatalogTypeInstaller >> visitParametrizableClassType: aMOParametrizableClassTy
 
 	^ writer writeParametrizableClassType: [ :class | 
 		  class name: aMOParametrizableClassType name.
-
+		  class addModifier: #DefinedInLibrary.
 		  self use: class during: [ 
 			  class packageReference:
 				  (aMOParametrizableClassType packageReference acceptVisitor: self).
@@ -224,20 +225,23 @@ MOCatalogTypeInstaller >> visitParametrizableClassType: aMOParametrizableClassTy
 ]
 
 { #category : #visiting }
-MOCatalogTypeInstaller >> visitParametrizableMethod: aMOParametrizableMethod [ 
+MOCatalogTypeInstaller >> visitParametrizableMethod: aMOParametrizableMethod [
 
-	^ writer writeParametrizableMethod:  [ :method | 
+	^ writer writeParametrizableMethod: [ :method | 
 		  method selector: aMOParametrizableMethod selector.
+		  method addModifier: #DefinedInLibrary.
 		  method returnTypeReference:
 			  (aMOParametrizableMethod returnTypeReference acceptVisitor: self).
 		  method modifiers: aMOParametrizableMethod modifiers copy.
 		  method visibility: aMOParametrizableMethod visibility copy.
 		  method thrownTypeReferences:
-			  (self visitCollection: aMOParametrizableMethod thrownTypeReferences).
+			  (self visitCollection:
+				   aMOParametrizableMethod thrownTypeReferences).
 
 		  self
 			  use: method
-			  during: [ self visitCollection: aMOParametrizableMethod allContainments ] ]
+			  during: [ 
+			  self visitCollection: aMOParametrizableMethod allContainments ] ]
 ]
 
 { #category : #visiting }

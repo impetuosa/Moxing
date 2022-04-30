@@ -29,6 +29,13 @@ MOMicrosoftAccessCodeGenerator >> printSelf [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> produceCodeFor: anTree [
+	^ super produceCodeFor: anTree."
+	anTree acceptVisitor: self.
+	^ self sourceCode"
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitAccessor: aMOAttributeAccessor [
 
 	stream

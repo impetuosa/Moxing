@@ -86,12 +86,6 @@ MOModelBuilderDelegate >> forUpdate: anEntity [
 	self loadBuilderWithEntity: updatingEntity
 ]
 
-{ #category : #'as yet unclassified' }
-MOModelBuilderDelegate >> getModifiableVersionOf: aMOVariable [
-
-	^ parentBuilder getModifiableVersionOf: aMOVariable
-]
-
 { #category : #'instance creation' }
 MOModelBuilderDelegate >> instantiate: aClass [
 

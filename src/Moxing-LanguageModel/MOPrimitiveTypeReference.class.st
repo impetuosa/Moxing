@@ -13,7 +13,7 @@ MOPrimitiveTypeReference >> acceptVisitor: aMOCatalogTypeInstaller [
 { #category : #accessing }
 MOPrimitiveTypeReference >> fullName [
 
-	^ name
+	^self  name
 ]
 
 { #category : #generated }

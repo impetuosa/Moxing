@@ -97,7 +97,7 @@ MOClassType >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'interface: ';
-		nextPutAll: name
+		nextPutAll: self name
 ]
 
 { #category : #accessing }

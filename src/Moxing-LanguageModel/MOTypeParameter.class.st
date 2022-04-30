@@ -18,7 +18,7 @@ MOTypeParameter >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'type parameter: ';
-		nextPutAll: name
+		nextPutAll:self  name
 ]
 
 { #category : #accessing }

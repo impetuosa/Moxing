@@ -15,7 +15,7 @@ MOPhSharedPoolReference >> printOn: aStream [
 
 	aStream
 		nextPutAll: '-(Pool)>';
-		nextPutAll: name
+		nextPutAll: self name
 ]
 
 { #category : #accessing }
