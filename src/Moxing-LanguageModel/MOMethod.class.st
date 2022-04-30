@@ -44,6 +44,13 @@ MOMethod >> dependencies [
 		   ifNil: [ {  } ]) , block dependencies
 ]
 
+{ #category : #accessing }
+MOMethod >> isSameEntity: anOther [
+
+	^ (super isSameEntity: anOther) and: [ 
+		  self returnTypeReference name = anOther returnTypeReference name ]
+]
+
 { #category : #'as yet unclassified' }
 MOMethod >> name [
 	 ^ selector

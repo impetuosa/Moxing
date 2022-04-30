@@ -160,6 +160,12 @@ MOLanguage >> isTypescript [
 	^ self name = #typescript
 ]
 
+{ #category : #accessing }
+MOLanguage >> link: aMOModelDerivative [
+
+	^ self isJava ifTrue: [ MOModelLinker new link: aMOModelDerivative ]
+]
+
 { #category : #'instance creation' }
 MOLanguage >> methodLookupStrategy [
   ^ methodLookupStrategy ifNil: [ MOModelMethodLookup ]

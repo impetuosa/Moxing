@@ -4,6 +4,9 @@ I do write variables .
 Class {
 	#name : #MOVariableWriter,
 	#superclass : #MOModelProceduralWriter,
+	#instVars : [
+		'onTop'
+	],
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -28,7 +31,7 @@ MOVariableWriter >> bindingKind: aString [
 
 { #category : #writing }
 MOVariableWriter >> initializeWriteBuilder [
-
+	onTop := false.
 	writeBuilder := builder localVariableBuilder
 ]
 
@@ -61,7 +64,10 @@ MOVariableWriter >> privateSetAnchor: anEntity [
 
 { #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
-	surface addLocalVariable: anEntity
+
+	onTop
+		ifTrue: [ surface addLocalVariableOnTop: anEntity ]
+		ifFalse: [ surface addLocalVariable: anEntity ]
 ]
 
 { #category : #initialization }
@@ -89,4 +95,9 @@ MOVariableWriter >> writeExpression: aBlock [
 { #category : #generated }
 MOVariableWriter >> writeInitializer: aBlock [ 
 	writeBuilder initializer: (self writeExpression: aBlock) 
+]
+
+{ #category : #writing }
+MOVariableWriter >> writeOnTop [
+	 onTop := true.
 ]

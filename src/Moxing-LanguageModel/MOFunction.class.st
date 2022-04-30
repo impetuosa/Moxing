@@ -28,6 +28,13 @@ MOFunction >> dependencies [
 ]
 
 { #category : #generated }
+MOFunction >> isSameEntity: anOther [
+
+	^ (super isSameEntity: anOther) and: [ 
+		  self returnTypeReference name = anOther returnTypeReference name ]
+]
+
+{ #category : #generated }
 MOFunction >> name [
 
 	^ selector

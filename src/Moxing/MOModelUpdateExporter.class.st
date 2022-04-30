@@ -90,7 +90,7 @@ MOModelUpdateExporter >> undoExport: aCollection [
 			           produces parent fileReference = a fileReference ] ] 
 			           whileTrue: [ produces := produces parent ].
 		           produces ].
-self halt.
+
 	self undoExportEntities
 ]
 

@@ -36,7 +36,8 @@ MOModelDerivative >> anchor [
 MOModelDerivative >> candidatelessEntities [
 
 	^ entities select: [ :e | 
-		  (e respondsTo: #candidate) and: [ e candidate isNil ] ]
+		  e isFylgjaStub not and: [ 
+			  (e respondsTo: #candidate) and: [ e candidate isNil ] ] ]
 ]
 
 { #category : #enumerating }
@@ -141,7 +142,7 @@ MOModelDerivative >> language [
 
 { #category : #accessing }
 MOModelDerivative >> link [
-	MOModelLinker new link: self 
+	self language link: self 
 ]
 
 { #category : #accessing }

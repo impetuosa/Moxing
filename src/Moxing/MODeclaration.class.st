@@ -235,6 +235,12 @@ MODeclaration >> isReference [
 	^ false
 ]
 
+{ #category : #testing }
+MODeclaration >> isReturn [
+
+	^ false
+]
+
 { #category : #traverse }
 MODeclaration >> isRootDeclaration [ 
 	 ^ false

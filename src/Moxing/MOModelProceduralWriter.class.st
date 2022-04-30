@@ -26,6 +26,11 @@ MOModelProceduralWriter >> acceptWritingVisitor: aVisistor [
  	self subclassResponsibility 
 ]
 
+{ #category : #adding }
+MOModelProceduralWriter >> addFylgjaStub: aFylgjaCandidateStub [ 
+
+]
+
 { #category : #accessing }
 MOModelProceduralWriter >> anchor: aMOAnchor [ 
 	anchor := aMOAnchor
@@ -394,6 +399,12 @@ MOModelProceduralWriter >> typeReferenceNamedForRebinding: aString [
 	^ self builder typeReferenceBuilder
 		  name: aString;
 		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> updateBlock: aMOBlock with: aFullBlockClosure [
+
+	^ self model writer updateBlock: aMOBlock with: aFullBlockClosure
 ]
 
 { #category : #writing }

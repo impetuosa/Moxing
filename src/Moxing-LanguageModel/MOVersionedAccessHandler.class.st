@@ -9,9 +9,12 @@ Class {
 
 { #category : #handling }
 MOVersionedAccessHandler >> handleMessage: aMessage toTarget: anObject [
+
 	aMessage selector = #isProxy ifTrue: [ ^ true ].
 	model ifNil: [ ^ nil ].
-	^ self proxify: (aMessage sendTo: (model entityFor: anObject))
+	^ [ self proxify: (aMessage sendTo: (model entityFor: anObject)) ]
+		  on: Error
+		  do: [ :e | e ]
 ]
 
 { #category : #accessing }

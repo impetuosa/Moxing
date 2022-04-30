@@ -90,6 +90,17 @@ MOInvocable >> isOnlySignature [
 ]
 
 { #category : #accessing }
+MOInvocable >> isSameEntity: anOther [
+
+	^ (super isSameEntity: anOther) and: [ 
+		  (self parameters
+			   with: anOther parameters
+			   collect: [ :p1 :p2 | 
+			   p1 typeReference name = p2 typeReference name ]) allSatisfy:
+			  #yourself ]
+]
+
+{ #category : #accessing }
 MOInvocable >> isStaticBinding [
 	^ self bindingKind = #static.
 ]

@@ -84,8 +84,10 @@ MOModelLinker >> ensureAllTypesInTheirPackages: aMOModel [
 		select: [ :a | a packageReference isNotNil ]
 		thenDo: [ :type | 
 			(type packageReference candidate allTypes includes: type) ifFalse: [ 
-				self assert: (type parent isKindOf: MODeclarationUnit) not.
-				type packageReference candidate types add: type ] ]
+				(type parent isKindOf: MODeclarationUnit)
+					ifTrue: [ 
+					type packageReference candidate declarationUnits add: type parent  ]
+					ifFalse: [ type packageReference candidate types add: type ] ] ]
 ]
 
 { #category : #'as yet unclassified' }

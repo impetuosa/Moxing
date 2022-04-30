@@ -41,6 +41,7 @@ MOAngularLoader >> loadNamed: aName [
 
 	| schema |
 	model := MOModel newTypescript.
+	model fileReference: workingDirectory.
 	model name: aName.
 	model anchor: (MOAnchor on: #/) / aName.
 
@@ -56,7 +57,7 @@ MOAngularLoader >> loadNamed: aName [
 		            (workingDirectory / 'angular.json') readStream.
 	schema := model instantiate: MOAngularScheme.
 	model root addPackage: schema.
-	self populateAnchorOn: model root.  
+	self populateAnchorOn: model root.
 
 	schema fileReference: workingDirectory.
 	schema metadata: metadata.
