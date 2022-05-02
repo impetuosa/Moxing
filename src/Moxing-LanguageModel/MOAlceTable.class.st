@@ -16,7 +16,9 @@ MOAlceTable >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 { #category : #testing }
 MOAlceTable >> hasIdColumns [
-	^ false
+
+	^ indexes isNotNil and: [ 
+		  indexes anySatisfy:  [ :a | a key = #PrimaryKey ] ]
 ]
 
 { #category : #visiting }
