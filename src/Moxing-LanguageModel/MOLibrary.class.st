@@ -15,11 +15,6 @@ MOLibrary >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
-MOLibrary >> allTypes [
-	 ^ types , (declarationUnits flatCollect: #types )
-]
-
-{ #category : #accessing }
 MOLibrary >> attributes: aCollection [ 
 	attributes := aCollection
 ]

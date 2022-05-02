@@ -53,6 +53,17 @@ MOType >> isDefinedInLibrary [
 		  ifNotNil: [ :a | a includes: #DefinedInLibrary ]
 ]
 
+{ #category : #testing }
+MOType >> isQuery [
+	^ false 
+]
+
+{ #category : #testing }
+MOType >> isTable [
+
+	^ false
+]
+
 { #category : #accessing }
 MOType >> isType [ 
 	 ^ true 

@@ -2,7 +2,8 @@ Class {
 	#name : #MOAlceTable,
 	#superclass : #MOClass,
 	#instVars : [
-		'#indexes => MOPropertySlot'
+		'#indexes => MOPropertySlot',
+		'#relations => MOExpressionSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -35,7 +36,24 @@ MOAlceTable >> isDatasource [
 	 ^ true
 ]
 
+{ #category : #testing }
+MOAlceTable >> isTable [
+	^ true 
+]
+
 { #category : #visiting }
 MOAlceTable >> producesParseableCode [
 	 ^ false
+]
+
+{ #category : #visiting }
+MOAlceTable >> relations [
+
+	^ relations
+]
+
+{ #category : #visiting }
+MOAlceTable >> relations: si [
+
+	relations := si
 ]

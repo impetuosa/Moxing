@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #accessing }
+MOArtefact >> allTypes [
+	 ^ types , (declarationUnits flatCollect: #types )
+]
+
+{ #category : #accessing }
 MOArtefact >> declarationUnits [
 	^ declarationUnits
 ]

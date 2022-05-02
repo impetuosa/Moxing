@@ -2,10 +2,17 @@ Class {
 	#name : #MOModelTableBuilder,
 	#superclass : #MOModelClassBuilder,
 	#instVars : [
-		'indexes'
+		'indexes',
+		'relations'
 	],
 	#category : #'Moxing-MicroBuilders-types'
 }
+
+{ #category : #generated }
+MOModelTableBuilder >> addExpression: anExpression [
+
+	self relations add: anExpression
+]
 
 { #category : #accessing }
 MOModelTableBuilder >> buildsType [
@@ -29,7 +36,8 @@ MOModelTableBuilder >> indexes: aCollection [
 MOModelTableBuilder >> loadBuilderWithEntity: anEntity [
 
 	super loadBuilderWithEntity: anEntity.
-	self superclassReference: anEntity indexes
+	self relations: anEntity relations.
+	self indexes: anEntity indexes
 ]
 
 { #category : #accessing }
@@ -37,5 +45,18 @@ MOModelTableBuilder >> privateBuild [
 
 	^ super privateBuild
 		  indexes: self indexes;
+		  relations: self relations;
 		  yourself
+]
+
+{ #category : #generated }
+MOModelTableBuilder >> relations [
+
+	^ relations ifNil: [ relations := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelTableBuilder >> relations: si [
+
+	relations := si
 ]

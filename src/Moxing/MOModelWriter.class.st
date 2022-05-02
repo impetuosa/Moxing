@@ -551,6 +551,15 @@ MOModelWriter >> updateProcedure: aMOMethod with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateQuery: aMOQuery with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOQuery 
+		  withWriter: MOQueryWriter  new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateRootDeclaration: aMOClass with: aFullBlockClosure [
 
 	^ self
@@ -575,6 +584,15 @@ MOModelWriter >> updateStructure: aMOStructure with: aFullBlockClosure [
 		  write: aFullBlockClosure
 		  forUpdating: aMOStructure
 		  withWriter: MOStructureWriter new
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateTable: aMOTable with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOTable 
+		  withWriter: MOTableWriter  new
 ]
 
 { #category : #'as yet unclassified' }

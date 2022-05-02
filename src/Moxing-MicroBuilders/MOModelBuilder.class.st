@@ -427,6 +427,22 @@ MOModelBuilder >> forStatementBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> foreignRelationBuilder [
+
+	^ MOModelForeingRelationBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> foreignRelationMatchBuilder [
+
+	^ MOModelForeingRelationMatchBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> formBuilder [
 
 	^ MOModelFormBuilder new
@@ -793,6 +809,14 @@ MOModelBuilder >> procedureBuilder [
 MOModelBuilder >> projectBuilder [
 
 	^ MOProjectBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> queryAttributeBuilder [
+
+	^ MOModelQueryAttributeBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

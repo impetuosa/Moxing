@@ -65,6 +65,17 @@ MOModule >> isDefinedInLibrary [
 	^ self isInTheContextOfA: MOLibrary
 ]
 
+{ #category : #testing }
+MOModule >> isQuery [
+
+	^ false
+]
+
+{ #category : #testing }
+MOModule >> isTable [
+	^ false
+]
+
 { #category : #accessing }
 MOModule >> packageReference: aMOPackageReference [ 
 

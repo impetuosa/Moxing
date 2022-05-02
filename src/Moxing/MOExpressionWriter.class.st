@@ -88,6 +88,16 @@ MOExpressionWriter >> forUpdate: aMOVariableReference [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> foreignRelation: aFromTableAccessBlock to: aToTableAccessBlock matches: aMatchesBlock [
+
+	^ builder foreignRelationBuilder
+		  tableFrom: (self writeExpression: aFromTableAccessBlock);
+		  tableTo: (self writeExpression: aFromTableAccessBlock);
+		  matches: (self writeExpression: aMatchesBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> initialize [
 
 	super initialize.
@@ -164,6 +174,15 @@ MOExpressionWriter >> let: aVariableReferenceOrBlock beAssignedWith: aValueExpre
 	^ builder assignmentBuilder
 		  write: (self writeExpression: aVariableReferenceOrBlock);
 		  read: (self writeExpression: aValueExpressionOrBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> matchPrimaryKey: aMOPk foreignKey: aMOFk [
+
+	^ builder foreignRelationMatchBuilder
+		  primaryKey: aMOPk;
+		  foreignKey: aMOFk;
 		  build
 ]
 
@@ -328,11 +347,6 @@ MOExpressionWriter >> writeReferenceToThisContext [
 MOExpressionWriter >> writeTypeReferenceNamed: aString [
 
 	^ self typeReferenceNamed: aString
-]
-
-{ #category : #writing }
-MOExpressionWriter >> writeVariableAccess: aFullBlockClosure [ 
-	self shouldBeImplemented.
 ]
 
 { #category : #writing }

@@ -52,10 +52,19 @@ MOJinDAMModelReader >> typeReferenceFor: aJinDAMTypeReference using: aWriter [
 
 { #category : #visiting }
 MOJinDAMModelReader >> visitAccessModule: aJinDAMAccessModule [
-	self trace: aJinDAMAccessModule with: (writer writeProject: [ :p | 
-			 self use: p during: [ 
-				 self visitCollection: aJinDAMAccessModule globals.
-				 self visitCollection: aJinDAMAccessModule types ] ])
+
+	| module |
+	module := self
+		          trace: aJinDAMAccessModule
+		          with: (writer writeProject: [ :p | 
+				           p name: aJinDAMAccessModule name.
+				           self use: p during: [ 
+					           self visitCollection: aJinDAMAccessModule globals.
+					           self visitCollection: aJinDAMAccessModule types ] ]).
+	MOJinDAMQueryLinkSolver new
+		relations: jindamModel tableRelations;
+		applyOn: module.
+	^ module
 ]
 
 { #category : #visiting }
@@ -129,6 +138,22 @@ MOJinDAMModelReader >> visitAttribute: aJinDAMAttribute [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitAttribute: aJinDAMAttribute forQuery: aJinDAMQuery [.
+	^ self
+		  trace: aJinDAMAttribute
+		  with: (writer writeQueryAttribute: [ :attr | 
+				   attr writeInitializer: [ :expr | 
+					   self use: expr during: [ 
+						   aJinDAMAttribute initializer ifNotNil: [ :i | 
+							   i acceptVisitor: self ] ] ].
+				   attr name: aJinDAMAttribute name.
+				   attr typeReference:
+					   (self
+						    typeReferenceFor: aJinDAMAttribute typeReference
+						    using: attr) ])
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitAttributeAccessor: aJinDAMAttributeAccessor [
 	^ self
 		  trace: aJinDAMAttributeAccessor
@@ -143,6 +168,25 @@ MOJinDAMModelReader >> visitAttributeAccessor: aJinDAMAttributeAccessor [
 						   p acceptVisitor: self ].
 					   aJinDAMAttributeAccessor block ifNotNil: [ :b | 
 						   b acceptVisitor: self ] ] ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitAttributeForQuery: aJinDAMAttribute [
+
+	aJinDAMAttribute name asLowercase = #me ifTrue: [ ^ self ].
+
+	^ self
+		  trace: aJinDAMAttribute
+		  with: (writer writeAttribute: [ :attr | 
+				   attr writeInitializer: [ :expr | 
+					   self use: expr during: [ 
+						   aJinDAMAttribute initializer ifNotNil: [ :i | 
+							   i acceptVisitor: self ] ] ].
+				   attr name: aJinDAMAttribute name.
+				   attr typeReference:
+					   (self
+						    typeReferenceFor: aJinDAMAttribute typeReference
+						    using: attr) ])
 ]
 
 { #category : #visiting }
@@ -370,6 +414,7 @@ MOJinDAMModelReader >> visitLabel: aJinDAMLabel [
 MOJinDAMModelReader >> visitLibrary: aJinDAMLibrary [
 
 	^ self trace: aJinDAMLibrary with: (writer writeLibrary: [ :p | 
+			   p name: aJinDAMLibrary name.
 			   self use: p during: [ 
 				   self visitCollection: aJinDAMLibrary globals.
 				   self visitCollection: aJinDAMLibrary types.
@@ -449,11 +494,13 @@ MOJinDAMModelReader >> visitMemberReference: aJinDAMMemberReference [
 { #category : #visiting }
 MOJinDAMModelReader >> visitModel: aJinDAMModel [
 
-	| inst |
-	^ aJinDAMModel accessModulesAndLibraries collect: [ :a | 
-		  inst := a acceptVisitor: self.
-
-		  inst ]
+	| instances |
+	instances := OrderedCollection new.
+	aJinDAMModel accessModulesAndLibraries do: [ :a | 
+		instances add: (a acceptVisitor: self) ].
+	aJinDAMModel tableRelations do: [ :a | 
+		instances add: (a acceptVisitor: self) ].
+	^ instances 
 ]
 
 { #category : #visiting }
@@ -543,12 +590,14 @@ MOJinDAMModelReader >> visitQuery: aJinDAMQuery [
 			  during: [ self visitCollection: aJinDAMQuery types ].
 		  self trace: aJinDAMQuery with: (unit writeQuery: [ :class | 
 				   class name: aJinDAMQuery name.
+				   class sql: aJinDAMQuery src.
 				   self use: class during: [ 
 					   aJinDAMQuery superClassReference ifNotNil: [ :sc | 
 						   class superclassReference:
 							   (self typeReferenceFor: sc using: class) ].
 
-					   self visitCollection: aJinDAMQuery attributes.
+					   aJinDAMQuery attributes do: [ :a | 
+						   self visitAttribute: a forQuery: aJinDAMQuery ].
 					   self visitCollection: aJinDAMQuery invocables ] ]) ]
 ]
 
@@ -676,6 +725,11 @@ MOJinDAMModelReader >> visitTableField: aJinDAMTableField [
 					   (self
 						    typeReferenceFor: aJinDAMTableField typeReference
 						    using: attr) ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitTableRelation:as [
+
 ]
 
 { #category : #visiting }

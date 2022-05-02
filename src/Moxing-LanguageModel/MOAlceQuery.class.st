@@ -1,6 +1,10 @@
 Class {
 	#name : #MOAlceQuery,
 	#superclass : #MOClass,
+	#instVars : [
+		'#sql => MOPropertySlot',
+		'#expressions => MOExpressionSlot many'
+	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
@@ -8,6 +12,16 @@ Class {
 MOAlceQuery >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitQuery: self
+]
+
+{ #category : #accessing }
+MOAlceQuery >> expressions [
+	^ expressions
+]
+
+{ #category : #accessing }
+MOAlceQuery >> expressions: aCollection [ 
+	expressions := aCollection
 ]
 
 { #category : #testing }
@@ -21,6 +35,23 @@ MOAlceQuery >> isDatasource [
 ]
 
 { #category : #testing }
+MOAlceQuery >> isQuery [
+
+	^ true
+]
+
+{ #category : #testing }
 MOAlceQuery >> producesParseableCode [
 	 ^ false
+]
+
+{ #category : #testing }
+MOAlceQuery >> sql [
+
+	^ sql
+]
+
+{ #category : #testing }
+MOAlceQuery >> sql: aString [ 	
+	sql := aString 
 ]
