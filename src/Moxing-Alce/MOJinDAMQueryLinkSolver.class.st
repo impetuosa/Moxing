@@ -63,7 +63,7 @@ MOJinDAMQueryLinkSolver >> visitCollection: aCollection [
 { #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitPSQLASTAggregateFunctionCall: aPSQLASTAggregateFunctionCall [
 
-	self visitCollection: aPSQLASTAggregateFunctionCall expressions
+	^ {  }
 ]
 
 { #category : #visiting }

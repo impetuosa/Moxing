@@ -92,7 +92,7 @@ MOExpressionWriter >> foreignRelation: aFromTableAccessBlock to: aToTableAccessB
 
 	^ builder foreignRelationBuilder
 		  tableFrom: (self writeExpression: aFromTableAccessBlock);
-		  tableTo: (self writeExpression: aFromTableAccessBlock);
+		  tableTo: (self writeExpression: aToTableAccessBlock);
 		  matches: (self writeExpression: aMatchesBlock);
 		  build
 ]

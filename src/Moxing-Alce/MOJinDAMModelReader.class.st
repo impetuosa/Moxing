@@ -63,6 +63,7 @@ MOJinDAMModelReader >> visitAccessModule: aJinDAMAccessModule [
 					           self visitCollection: aJinDAMAccessModule types ] ]).
 	MOJinDAMQueryLinkSolver new
 		relations: jindamModel tableRelations;
+		writer: writer;
 		applyOn: module.
 	^ module
 ]
