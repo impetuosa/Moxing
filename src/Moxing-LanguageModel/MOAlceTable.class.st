@@ -14,6 +14,12 @@ MOAlceTable >> acceptVisitor: aJinTypescriptCodeGenerator [
 	^ aJinTypescriptCodeGenerator visitTable: self
 ]
 
+{ #category : #visiting }
+MOAlceTable >> childrenForTree [
+
+	^ super childrenForTree , relations
+]
+
 { #category : #testing }
 MOAlceTable >> hasIdColumns [
 

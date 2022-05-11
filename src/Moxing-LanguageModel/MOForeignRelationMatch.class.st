@@ -9,6 +9,25 @@ Class {
 }
 
 { #category : #accessing }
+MOForeignRelationMatch >> acceptVisitor: aMOElementToUIString [
+
+	^ aMOElementToUIString visitForeignRelationMatch: self
+]
+
+{ #category : #accessing }
+MOForeignRelationMatch >> childrenForTree [
+
+	^ { 
+		  primaryKey.
+		  foreignKey }
+]
+
+{ #category : #accessing }
+MOForeignRelationMatch >> foreignKey [
+	^ foreignKey
+]
+
+{ #category : #accessing }
 MOForeignRelationMatch >> foreignKey: aMOAttributeAccess [ 
 	foreignKey := aMOAttributeAccess
 ]
@@ -17,6 +36,11 @@ MOForeignRelationMatch >> foreignKey: aMOAttributeAccess [
 MOForeignRelationMatch >> isReference [
 
 	^ true
+]
+
+{ #category : #accessing }
+MOForeignRelationMatch >> primaryKey [
+	^ primaryKey
 ]
 
 { #category : #accessing }

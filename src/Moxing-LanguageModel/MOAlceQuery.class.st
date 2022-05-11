@@ -14,6 +14,12 @@ MOAlceQuery >> acceptVisitor: aJinTypescriptCodeGenerator [
 	^ aJinTypescriptCodeGenerator visitQuery: self
 ]
 
+{ #category : #visiting }
+MOAlceQuery >> childrenForTree [
+
+	^ super childrenForTree , expressions
+]
+
 { #category : #accessing }
 MOAlceQuery >> expressions [
 	^ expressions
@@ -41,8 +47,15 @@ MOAlceQuery >> isQuery [
 ]
 
 { #category : #testing }
+MOAlceQuery >> produceCode [
+
+	^ sql
+]
+
+{ #category : #testing }
 MOAlceQuery >> producesParseableCode [
-	 ^ false
+
+	^ sql isNotEmpty
 ]
 
 { #category : #testing }
