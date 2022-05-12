@@ -632,6 +632,19 @@ MOModelWriter >> updateWhile: aMOClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntityRelation [
+
+	^ MOModelUpdateResolver new
+		  resolveWriterFor: aProvenanceEntityRelation
+		  forUpdating: aDestinationContextRelation
+		  writingContext: self
+		  do: [ :element :writer | 
+			  writer
+				  beUseless;
+				  yourself ]
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntityRelation do: anUpdatingBlock [
 
 	| result |
