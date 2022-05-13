@@ -133,6 +133,12 @@ MODeclaration >> allRelations [
 	  , self allCandidateRelations
 ]
 
+{ #category : #traverse }
+MODeclaration >> childrenForTree [
+
+	^ self allContainments
+]
+
 { #category : #'as yet unclassified' }
 MODeclaration >> compareName: aString [
 
@@ -249,6 +255,12 @@ MODeclaration >> isParametrizable [
 
 { #category : #testing }
 MODeclaration >> isPrimitiveType [ 
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isQuery [
 
 	^ false
 ]

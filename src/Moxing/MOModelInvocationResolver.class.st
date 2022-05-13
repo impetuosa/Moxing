@@ -59,6 +59,11 @@ MOModelInvocationResolver >> visitAnnotation: aMOAnnotationInstance [
 ]
 
 { #category : #visiting }
+MOModelInvocationResolver >> visitInvocation: aMOInvocation [ 
+
+]
+
+{ #category : #visiting }
 MOModelInvocationResolver >> visitMethodInvocation: aMOMethodInvocation [
 
 	| possible |

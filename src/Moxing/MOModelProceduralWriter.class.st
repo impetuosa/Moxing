@@ -16,7 +16,8 @@ Class {
 		'anchor',
 		'writeResult',
 		'parentWriter',
-		'copyHelper'
+		'copyHelper',
+		'useless'
 	],
 	#category : #'Moxing-MicroWriters'
 }
@@ -60,6 +61,11 @@ MOModelProceduralWriter >> arrayTypeReferenceOf: aMOTypeReference [
 { #category : #accessing }
 MOModelProceduralWriter >> autoPopulate: aBoolean [ 
 	parentWriter autoPopulate: aBoolean 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> beUseless [
+	useless := true .
 ]
 
 { #category : #'as yet unclassified' }
@@ -174,6 +180,14 @@ MOModelProceduralWriter >> immediatelyWrite: aFullBlockClosure withWriter: aClas
 		  write: aFullBlockClosure
 		  withWriter: writingInstance
 		  writerParent: self
+]
+
+{ #category : #accessing }
+MOModelProceduralWriter >> initialize [
+
+	super initialize.
+	useless := false.
+	
 ]
 
 { #category : #initialization }
@@ -414,6 +428,14 @@ MOModelProceduralWriter >> updateDeclarationUnitDependencies: aDestinationRelati
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> updaterFor: aDestinationContext with: aProvenanceEntity [
+
+	^ parentWriter
+		  updaterFor: aDestinationContext
+		  with: aProvenanceEntity
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> updaterFor: aDestinationContext with: aProvenanceEntity do: aFullBlockClosure [
 
 	^ parentWriter
@@ -432,7 +454,7 @@ MOModelProceduralWriter >> variableReferenceNamed: aString [
 
 { #category : #writing }
 MOModelProceduralWriter >> write: aBlock [
-
+	self assert: useless not.
 	writeResult := aBlock cull: self.
 	^ self writeToSurface: self build
 ]

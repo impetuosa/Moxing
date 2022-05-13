@@ -204,6 +204,7 @@ MOModelDerivative >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
 { #category : #'as yet unclassified' }
 MOModelDerivative >> produceCode: aMODeclarationUnit [
 
+	aMODeclarationUnit isQuery ifTrue: [ ^ aMODeclarationUnit sql ].
 	^ (self language newVersionedCodeTextWriter: self) produceCodeFor:
 		  aMODeclarationUnit
 ]
