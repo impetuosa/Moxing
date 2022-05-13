@@ -12,6 +12,11 @@ Class {
 }
 
 { #category : #accessing }
+MOJinDAMImporter class >> egrc [
+	^ egrc
+]
+
+{ #category : #accessing }
 MOJinDAMImporter class >> egrc: aMOModel [
 
 	egrc := aMOModel
