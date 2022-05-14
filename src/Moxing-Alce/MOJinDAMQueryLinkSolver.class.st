@@ -35,10 +35,10 @@ MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject inTableNamed: aString [
 
 	aString ifNil: [ ^ self detectColumnFor: anObject ].
-	^ (from detect: [ :t | t name asLowercase = aString ]) attributes 
-		  select: [ :a | 
-			  anObject isWildCard or: [ 
-				  a name asLowercase = (self readIdentifier: anObject) ] ]
+
+	^ (from at: aString) attributes select: [ :a | 
+		  anObject isWildCard or: [ 
+			  a name asLowercase = (self readIdentifier: anObject) ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -58,6 +58,12 @@ MOJinDAMQueryLinkSolver >> relations: aCollection [
 MOJinDAMQueryLinkSolver >> visitCollection: aCollection [
 
 	^ aCollection collect: [ :a | a acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQASTNull: aPSQLASTNull [
+
+	^ {  }
 ]
 
 { #category : #visiting }
@@ -111,14 +117,19 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTFromClause: aPSQLASTFromClause [
 { #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseItemType1 [
 
-	from add: (tables
-			 detect: [ :t | 
-				 t name asLowercase
-				 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ]
-			 ifNone: [ 
-				 queries detect: [ :t | 
+
+	from
+		at: (self readIdentifier:(aPSQLASTFromClauseItemType1 hasAlias
+				 ifTrue: [ aPSQLASTFromClauseItemType1 alias ]
+				 ifFalse: [ aPSQLASTFromClauseItemType1 tableName ]))
+		put: (tables
+				 detect: [ :t | 
 					 t name asLowercase
-					 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ] ])
+					 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ]
+				 ifNone: [ 
+					 queries detect: [ :t | 
+						 t name asLowercase
+						 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ] ])
 ]
 
 { #category : #visiting }
@@ -126,6 +137,24 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTFromClauseItemType6: aPSQLASTFromClauseIt
 
 	aPSQLASTFromClauseItemType6 rightFromItem acceptVisitor: self.
 	aPSQLASTFromClauseItemType6 leftFromItem acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTFunctionCall: aPSQLASTFunctionCall [
+
+	^ {  }
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTNumericConstant: aPSQLASTNumericConstant [
+
+	^ {  }
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTPrefixOperator: aPSQLASTPrefixOperator [
+
+	^ {  }
 ]
 
 { #category : #visiting }
@@ -144,9 +173,8 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
 
 { #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitQuery: aMOAlceQuery [
-
 	query := aMOAlceQuery.
-	from := OrderedCollection new.
+	from := Dictionary new.
 	selectedCols := Dictionary new.
 	[ 
 	(PostgreSQLParser parseSelectQuery: aMOAlceQuery sql toPG) 
@@ -163,7 +191,7 @@ MOJinDAMQueryLinkSolver >> visitQuery: aMOAlceQuery [
 						candidate: value;
 						yourself ] ] ] ] ]
 		on: PSQLParseError
-		do: [ : e | self halt  "nothing " ]
+		do: [ : e | "self halt"  "nothing " ]
 ]
 
 { #category : #visiting }

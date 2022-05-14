@@ -7,10 +7,22 @@ Class {
 		'workingDirectory'
 	],
 	#classInstVars : [
-		'northwind'
+		'northwind',
+		'egrc'
 	],
 	#category : #'Moxing-Angular-Loader'
 }
+
+{ #category : #'as yet unclassified' }
+MOAngularLoader class >> egrc [
+
+	^ egrc ifNil: [ 
+		  egrc := self new
+			               workingDirectory:
+				               '/Users/sbragagn/git/tegrc'
+					               asFileReference;
+			               loadNamed: #angular ]
+]
 
 { #category : #'as yet unclassified' }
 MOAngularLoader class >> northwind [
@@ -27,7 +39,8 @@ MOAngularLoader class >> northwind [
 MOAngularLoader class >> reset [
 
 	<script>
-	northwind := nil
+	northwind := nil.
+	egrc := nil
 ]
 
 { #category : #convenience }

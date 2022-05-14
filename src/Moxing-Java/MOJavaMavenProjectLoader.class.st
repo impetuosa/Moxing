@@ -8,10 +8,21 @@ Class {
 		'pom'
 	],
 	#classInstVars : [
-		'northwind'
+		'northwind',
+		'egrc'
 	],
 	#category : #'Moxing-Java-Loader'
 }
+
+{ #category : #'as yet unclassified' }
+MOJavaMavenProjectLoader class >> egrc [
+
+	^ egrc ifNil: [ 
+		  egrc := self new
+			               workingDirectory:
+				               '/Users/sbragagn/git/jegrc';
+			               loadNamed: #java ]
+]
 
 { #category : #'as yet unclassified' }
 MOJavaMavenProjectLoader class >> northwind [
@@ -27,7 +38,8 @@ MOJavaMavenProjectLoader class >> northwind [
 MOJavaMavenProjectLoader class >> reset [
 
 	<script>
-	northwind := nil
+	northwind := nil.
+	egrc := nil
 ]
 
 { #category : #load }
