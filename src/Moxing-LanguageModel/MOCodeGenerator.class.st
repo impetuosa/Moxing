@@ -90,10 +90,14 @@ MOCodeGenerator >> printSelf [
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> produceCodeFor: aMOPackage [
 
-	(versionedAccessorHandler ifNil: [ aMOPackage ] ifNotNil: [ 
-		 AvDelegationProxy
-			 target: aMOPackage
-			 handler: versionedAccessorHandler ]) acceptVisitor: self.
+	| element |
+	element := versionedAccessorHandler
+		           ifNil: [ aMOPackage ]
+		           ifNotNil: [ 
+			           AvDelegationProxy
+				           target: aMOPackage
+				           handler: versionedAccessorHandler ].
+	element acceptVisitor: self.
 	^ self sourceCode
 ]
 

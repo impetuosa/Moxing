@@ -17,7 +17,7 @@ MODeclarationUnit class >> isRenamable [
 { #category : #accessing }
 MODeclarationUnit >> acceptVisitor: aMOModelTypeLinker [
 
-	aMOModelTypeLinker visitDeclarationUnit: self
+	^ aMOModelTypeLinker visitDeclarationUnit: self
 ]
 
 { #category : #accessing }

@@ -199,11 +199,10 @@ MOModelTypeResolver >> visitParametrizableClass: aMOParametrizableClass [
 	self registerPossibles:
 		(aMOParametrizableClass typeParameters select: [ :t | 
 			 t name = resolving name ]).
-	self typeHasBeenResolved
-		ifFalse: [ 
-			aMOParametrizableClass packageReference acceptVisitor: self.
-			aMOParametrizableClass parent acceptVisitor: self ]
-		
+	self typeHasBeenResolved ifFalse: [ 
+		aMOParametrizableClass packageReference acceptVisitor: self.
+		aMOParametrizableClass parent ifNotNil: [ :a | 
+			a acceptVisitor: self ] ]
 ]
 
 { #category : #visiting }

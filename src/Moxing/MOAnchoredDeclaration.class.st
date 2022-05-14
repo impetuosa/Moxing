@@ -25,7 +25,8 @@ MOAnchoredDeclaration >> anchor: aMOAnchor [
 { #category : #'as yet unclassified' }
 MOAnchoredDeclaration >> anchorFrom: from to: to [
 
-	(self anchor ifNil: [ self anchor: MOAnchor new ]) from: from to: to
+	self anchor ifNil: [ self anchor: MOAnchor new ].
+	self anchor from: from to: to
 ]
 
 { #category : #accessing }

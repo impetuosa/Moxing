@@ -4,3 +4,8 @@ Extension { #name : #Object }
 Object >> isMOObject [
 	^ false 
 ]
+
+{ #category : #'*Moxing' }
+Object >> isProxy [ 
+	 ^ false
+]

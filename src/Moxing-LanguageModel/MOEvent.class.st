@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #accessing }
+MOEvent >> acceptVisitor: aMOElementToUIString [
+
+	^ aMOElementToUIString visitEvent: self
+]
+
+{ #category : #accessing }
 MOEvent >> isInvocable [
 	 ^ true 
 ]

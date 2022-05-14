@@ -86,8 +86,10 @@ MOModelLinker >> ensureAllTypesInTheirPackages: aMOModel [
 			(type packageReference candidate allTypes includes: type) ifFalse: [ 
 				(type parent isKindOf: MODeclarationUnit)
 					ifTrue: [ 
-					type packageReference candidate declarationUnits add: type parent  ]
-					ifFalse: [ type packageReference candidate types add: type ] ] ]
+					type packageReference candidate declarationUnits add: type parent ]
+					ifFalse: [ 
+						type packageReference candidate types add: type.
+						type parent: type packageReference candidate ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
