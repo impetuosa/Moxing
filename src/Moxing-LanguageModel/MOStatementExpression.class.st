@@ -7,6 +7,11 @@ Class {
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
+{ #category : #accessing }
+MOStatementExpression class >> isRenamable [
+	^ false
+]
+
 { #category : #visiting }
 MOStatementExpression >> acceptVisitor: aVisitor [
 
@@ -38,11 +43,6 @@ MOStatementExpression >> expression: aMOInvocation [
 MOStatementExpression >> isLabelledAs: aLabel [
 
 	^ expression isLabelledAs: aLabel
-]
-
-{ #category : #accessing }
-MOStatementExpression >> isRenamable [
-	^ false
 ]
 
 { #category : #accessing }

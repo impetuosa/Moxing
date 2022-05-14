@@ -18,6 +18,12 @@ MOProcedure >> canBeReferredAsFunction [
 ]
 
 { #category : #accessing }
+MOProcedure >> isProcedure [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOProcedure >> name [
 
 	^ selector

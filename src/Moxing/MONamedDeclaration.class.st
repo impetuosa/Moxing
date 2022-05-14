@@ -8,8 +8,14 @@ Class {
 }
 
 { #category : #testing }
-MONamedDeclaration >> isRenamable [
+MONamedDeclaration class >> isRenamable [
 	^ false 
+]
+
+{ #category : #accessing }
+MONamedDeclaration >> isRenamable [
+
+	^ self class isRenamable
 ]
 
 { #category : #accessing }

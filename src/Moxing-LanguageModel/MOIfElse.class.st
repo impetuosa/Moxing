@@ -9,6 +9,11 @@ Class {
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
+{ #category : #generated }
+MOIfElse class >> isRenamable [
+	^ false
+]
+
 { #category : #visiting }
 MOIfElse >> acceptVisitor: aMOTypescriptCodeGenerator [
 
@@ -52,11 +57,6 @@ MOIfElse >> ifTrue [
 { #category : #accessing }
 MOIfElse >> ifTrue: aMOBlock [ 
 	ifTrue := aMOBlock
-]
-
-{ #category : #generated }
-MOIfElse >> isRenamable [
-	^ false
 ]
 
 { #category : #generated }

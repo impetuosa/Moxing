@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+MOAngularDocument class >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOAngularDocument >> document [ 
 	 ^ document 
 ]
@@ -15,11 +20,6 @@ MOAngularDocument >> document [
 { #category : #accessing }
 MOAngularDocument >> document: aFileReference [ 
 	document := aFileReference
-]
-
-{ #category : #accessing }
-MOAngularDocument >> isRenamable [
-	^ false
 ]
 
 { #category : #accessing }

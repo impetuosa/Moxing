@@ -23,6 +23,12 @@ MOStPragma >> arguments: aCollection [
 	arguments := aCollection
 ]
 
+{ #category : #accessing }
+MOStPragma >> isPragma [
+
+	^ true
+]
+
 { #category : #generated }
 MOStPragma >> parameters [
   ^arguments

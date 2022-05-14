@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
+{ #category : #'as yet unclassified' }
+MODeclarationUnit class >> isRenamable [
+
+	^ false
+]
+
 { #category : #accessing }
 MODeclarationUnit >> acceptVisitor: aMOModelTypeLinker [
 
@@ -47,12 +53,6 @@ MODeclarationUnit >> isDeclarationUnit [
 MODeclarationUnit >> isDefinedInLibrary [
 
 	^ types allSatisfy: #isDefinedInLibrary
-]
-
-{ #category : #'as yet unclassified' }
-MODeclarationUnit >> isRenamable [
-
-	^ false
 ]
 
 { #category : #accessing }

@@ -8,21 +8,27 @@ Class {
 }
 
 { #category : #accessing }
+MOLiteral class >> isRenamable [
+
+	^ false
+]
+
+{ #category : #accessing }
 MOLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitLiteral: self
 ]
 
 { #category : #accessing }
-MOLiteral >> isReference [
+MOLiteral >> isMOLiteral [
 
 	^ true
 ]
 
 { #category : #accessing }
-MOLiteral >> isRenamable [
+MOLiteral >> isReference [
 
-	^ false
+	^ true
 ]
 
 { #category : #accessing }

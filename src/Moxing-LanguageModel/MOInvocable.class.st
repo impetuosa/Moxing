@@ -78,6 +78,12 @@ MOInvocable >> isDynamicBinding [
 ]
 
 { #category : #accessing }
+MOInvocable >> isFunction [
+
+	^ false
+]
+
+{ #category : #accessing }
 MOInvocable >> isInvocable [
 
 	^ true
@@ -87,6 +93,12 @@ MOInvocable >> isInvocable [
 MOInvocable >> isOnlySignature [ 
 
 	^ self language isOnlySignature:self 
+]
+
+{ #category : #accessing }
+MOInvocable >> isProcedure [
+
+	^ false
 ]
 
 { #category : #accessing }

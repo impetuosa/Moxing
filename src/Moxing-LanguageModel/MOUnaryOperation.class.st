@@ -25,6 +25,12 @@ MOUnaryOperation >> isPrefix [
 	^ order = #prefix
 ]
 
+{ #category : #accessing }
+MOUnaryOperation >> isUnaryOperation [
+
+	^ true
+]
+
 { #category : #generated }
 MOUnaryOperation >> operand [
 

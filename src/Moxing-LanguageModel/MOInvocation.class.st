@@ -31,6 +31,12 @@ MOInvocation >> initialize [
 ]
 
 { #category : #accessing }
+MOInvocation >> isFunctionInvocation [
+
+	^ self class == MOInvocation
+]
+
+{ #category : #accessing }
 MOInvocation >> isInvocation [
 	^ true 
 ]

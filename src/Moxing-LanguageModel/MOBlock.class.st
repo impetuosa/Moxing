@@ -32,6 +32,12 @@ MOBlock >> isEmptyOrNil [
 	^ statements isEmptyOrNil
 ]
 
+{ #category : #testing }
+MOBlock >> isMOBlock [
+
+	^ true
+]
+
 { #category : #accessing }
 MOBlock >> printOn: aStream [
 

@@ -65,10 +65,10 @@ MOModule >> isDefinedInLibrary [
 	^ self isInTheContextOfA: MOLibrary
 ]
 
-{ #category : #testing }
-MOModule >> isQuery [
+{ #category : #accessing }
+MOModule >> isModule [
 
-	^ false
+	^ true
 ]
 
 { #category : #testing }

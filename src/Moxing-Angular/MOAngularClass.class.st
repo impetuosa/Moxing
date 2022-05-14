@@ -7,6 +7,11 @@ Class {
 	#category : #'Moxing-Angular-Model'
 }
 
+{ #category : #accessing }
+MOAngularClass class >> isRenamable [
+	^ false
+]
+
 { #category : #visiting }
 MOAngularClass >> acceptVisitor: aJinInspectorBuilder [
 
@@ -38,11 +43,6 @@ MOAngularClass >> interfaces [
 MOAngularClass >> isDefinedInLibrary [
 
 	^ classRepresentation isDefinedInLibrary
-]
-
-{ #category : #accessing }
-MOAngularClass >> isRenamable [
-	^ false
 ]
 
 { #category : #accessing }

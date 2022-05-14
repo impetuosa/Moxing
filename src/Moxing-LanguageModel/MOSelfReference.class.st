@@ -4,6 +4,11 @@ Class {
 	#category : #'Moxing-LanguageModel-References'
 }
 
+{ #category : #'as yet unclassified' }
+MOSelfReference class >> isRenamable [
+	^ false
+]
+
 { #category : #accessing }
 MOSelfReference >> acceptVisitor: aMOJavaCodeGenerator [
 
@@ -18,11 +23,6 @@ MOSelfReference >> callingClass [
 	[ p isNil or: [ p isType or: [ p isMethodExtension ] ] ] whileFalse: [ 
 		p := p parent ].
 	^ p
-]
-
-{ #category : #'as yet unclassified' }
-MOSelfReference >> isRenamable [
-	^ false
 ]
 
 { #category : #'as yet unclassified' }

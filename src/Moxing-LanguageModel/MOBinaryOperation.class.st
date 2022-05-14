@@ -10,13 +10,19 @@ Class {
 }
 
 { #category : #accessing }
+MOBinaryOperation class >> isRenamable [
+	^ false
+]
+
+{ #category : #accessing }
 MOBinaryOperation >> candidate: aMOVariable [ 
 
 ]
 
 { #category : #accessing }
-MOBinaryOperation >> isRenamable [
-	^ false
+MOBinaryOperation >> isBinaryOperation [
+
+	^ true
 ]
 
 { #category : #accessing }

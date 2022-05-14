@@ -28,6 +28,12 @@ MOFunction >> dependencies [
 ]
 
 { #category : #generated }
+MOFunction >> isFunction [
+
+	^ true
+]
+
+{ #category : #generated }
 MOFunction >> isSameEntity: anOther [
 
 	^ (super isSameEntity: anOther) and: [ 

@@ -172,6 +172,18 @@ MODeclaration >> isAngularComponent [
 ]
 
 { #category : #testing }
+MODeclaration >> isAssignment [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isBinaryOperation [
+
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isClassLike [
 	^ false .
 ]
@@ -226,6 +238,17 @@ MODeclaration >> isInvocation [
 	^ false
 ]
 
+{ #category : #testing }
+MODeclaration >> isMOBlock [
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isMOLiteral [
+
+	^ false
+]
+
 { #category : #traverse }
 MODeclaration >> isMOObject [
 	^ true  
@@ -243,6 +266,12 @@ MODeclaration >> isModelOrDerivative [
 ]
 
 { #category : #testing }
+MODeclaration >> isModule [
+
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isPackage [
 	^ false
 ]
@@ -251,6 +280,11 @@ MODeclaration >> isPackage [
 MODeclaration >> isParametrizable [
 
 	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isPragma [
+	 ^ false 
 ]
 
 { #category : #testing }
@@ -299,6 +333,18 @@ MODeclaration >> isType [
 
 { #category : #testing }
 MODeclaration >> isTypeReference [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isUnaryOperation [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isWidget [
 
 	^ false
 ]

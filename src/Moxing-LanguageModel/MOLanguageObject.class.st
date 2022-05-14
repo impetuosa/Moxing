@@ -7,6 +7,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
+{ #category : #testing }
+MOLanguageObject class >> isRenamable [
+
+	^ true
+]
+
 { #category : #'instance creation' }
 MOLanguageObject class >> newForJavaIn: aModel [
 
@@ -125,12 +131,6 @@ MOLanguageObject >> isLabelledAs: aString [
 { #category : #testing }
 MOLanguageObject >> isMethodExtension [
 	 ^ false
-]
-
-{ #category : #testing }
-MOLanguageObject >> isRenamable [
-
-	^ true
 ]
 
 { #category : #testing }

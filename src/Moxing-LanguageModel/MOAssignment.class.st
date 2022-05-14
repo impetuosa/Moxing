@@ -8,20 +8,26 @@ Class {
 	#category : #'Moxing-LanguageModel-Expressions'
 }
 
+{ #category : #accessing }
+MOAssignment class >> isRenamable [
+	^ false
+]
+
 { #category : #visiting }
 MOAssignment >> acceptVisitor: aMOTypescriptCodeGenerator [
 	^ aMOTypescriptCodeGenerator visitAssignment: self
 ]
 
 { #category : #accessing }
-MOAssignment >> isReference [
+MOAssignment >> isAssignment [
 
 	^ true
 ]
 
 { #category : #accessing }
-MOAssignment >> isRenamable [
-	^ false
+MOAssignment >> isReference [
+
+	^ true
 ]
 
 { #category : #accessing }
