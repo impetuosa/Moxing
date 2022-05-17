@@ -14,6 +14,13 @@ MOCandidateSlot >> acceptRule: aRule forRelation: aRelationObject readingValues:
 		  into: aWriter
 ]
 
+{ #category : #visiting }
+MOCandidateSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+
+	^ aSPOntologyExtractor visitCandidateRelation:
+		  aMODeclarationStructuralRelation
+]
+
 { #category : #testing }
 MOCandidateSlot >> isToMany [
 

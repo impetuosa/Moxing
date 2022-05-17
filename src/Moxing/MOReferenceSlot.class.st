@@ -20,6 +20,13 @@ MOReferenceSlot >> acceptRule: aRule forRelation: aRelationObject readingValues:
 		  into: aWriter
 ]
 
+{ #category : #visiting }
+MOReferenceSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+
+	^ aSPOntologyExtractor visitReferenceRelation:
+		  aMODeclarationStructuralRelation
+]
+
 { #category : #asserting }
 MOReferenceSlot >> shouldAcceptSingleValue: aValue into: anObject [
 

@@ -18,6 +18,13 @@ MOPropertySlot >> acceptRule: aRule forRelation: aRelationObject readingValues: 
 		  into: aWriter
 ]
 
+{ #category : #visiting }
+MOPropertySlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+
+	^ aSPOntologyExtractor visitPropertyRelation:
+		  aMODeclarationStructuralRelation
+]
+
 { #category : #testing }
 MOPropertySlot >> isMOSlot [
 

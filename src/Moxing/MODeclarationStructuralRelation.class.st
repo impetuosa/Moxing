@@ -36,6 +36,12 @@ MODeclarationStructuralRelation >> acceptRule: aMOModelCopy readingValues: aFull
 		  into: aMOMethodWriter
 ]
 
+{ #category : #visiting }
+MODeclarationStructuralRelation >> acceptVisitor: aVisitor [
+
+	^ slot acceptVisitor: aVisitor forRelation: self
+]
+
 { #category : #accessing }
 MODeclarationStructuralRelation >> from [
 	^ from
@@ -65,6 +71,12 @@ MODeclarationStructuralRelation >> isExpression [
 MODeclarationStructuralRelation >> isReference [
 
 	^ to isReference
+]
+
+{ #category : #testing }
+MODeclarationStructuralRelation >> isToMany [
+
+	^ slot isToMany
 ]
 
 { #category : #accessing }

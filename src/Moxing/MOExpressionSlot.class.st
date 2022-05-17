@@ -21,6 +21,13 @@ MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues
 		  into: aWriter
 ]
 
+{ #category : #visiting }
+MOExpressionSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+
+	^ aSPOntologyExtractor visitExpressionRelation:
+		  aMODeclarationStructuralRelation
+]
+
 { #category : #asserting }
 MOExpressionSlot >> shouldAcceptSingleValue: aValue into: anObject [
 	aValue isStonReference ifTrue: [ ^ true ].

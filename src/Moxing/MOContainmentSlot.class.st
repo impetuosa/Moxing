@@ -19,6 +19,12 @@ MOContainmentSlot >> acceptRule: aRule forRelation: aRelationObject readingValue
 		  into: aWriter
 ]
 
+{ #category : #visiting }
+MOContainmentSlot >> acceptVisitor: aVisitor forRelation: aRelationInstance [
+
+	^ aVisitor visitContainmentRelation: aRelationInstance
+]
+
 { #category : #asserting }
 MOContainmentSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
