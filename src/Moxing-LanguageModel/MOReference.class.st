@@ -42,7 +42,7 @@ MOReference >> name: aName [
 { #category : #'as yet unclassified' }
 MOReference >> refersToObjectsLike: aDeclarationObject [
 
-	self subclassResponsibility
+	^ self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

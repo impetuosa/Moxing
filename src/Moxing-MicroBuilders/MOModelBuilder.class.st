@@ -99,6 +99,14 @@ MOModelBuilder >> arrayedTypeReferenceBuilder [
 		  yourself
 ]
 
+{ #category : #accessing }
+MOModelBuilder >> artefactReferenceBuilder [
+
+	^ MOModelArtefactReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
 { #category : #'as yet unclassified' }
 MOModelBuilder >> assignmentBuilder [
 
@@ -403,6 +411,38 @@ MOModelBuilder >> fileImportBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> fileLineInputBuilder [
+
+	^ MOModelFileLineInputBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> fileOpenBuilder [
+
+	^ MOModelFileOpenBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> filePrintIntoBuilder [
+
+	^ MOModelFilePrintIntoBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> fileRenameBuilder [
+
+	^ MOModelFileRenameBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> findInModel: aDetectionBlock ifNone: anIfNoneBlock [
 
 	^ model entities
@@ -414,6 +454,14 @@ MOModelBuilder >> findInModel: aDetectionBlock ifNone: anIfNoneBlock [
 MOModelBuilder >> forEachStatementBuilder [
 
 	^ MOModelForEachBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> forNextStatementBuilder [
+
+	^ MOModelForNextBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -470,6 +518,14 @@ MOModelBuilder >> globalConstantBuilder [
 MOModelBuilder >> globalVariableBuilder [
 
 	^ MOModelGlobalVariableBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> goSubBuilder [
+
+	^ MOModelGoSubBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -641,6 +697,14 @@ MOModelBuilder >> namedArgumentBuilder [
 MOModelBuilder >> newExpressionBuilder [
 
 	^ MOModelNewExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> noOpBuilder [
+
+	^ MOModelNoOpBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -871,6 +935,15 @@ MOModelBuilder >> resumeBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> resumeNextBuilder [
+
+	^ MOModelResumeNextBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> returnBuilder [
 
 	^ MOModelReturnBuilder  new
@@ -1048,6 +1121,14 @@ MOModelBuilder >> templateDocumentBuilder [
 MOModelBuilder >> tryCatchBuilder [
 
 	^ MOModelTryCatchBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> typeAccessBuilder [
+
+	^ MOModelArtefactTypeReferenceBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

@@ -17,6 +17,8 @@ MOJinDAMVariableReferenceVisitor >> arguments: aCollection [
 { #category : #'as yet unclassified' }
 MOJinDAMVariableReferenceVisitor >> infereTarget: aJinDAMMemberReference [
 
+	aJinDAMMemberReference candidate ifNotNil: [ :candi | self halt ].
+
 	aJinDAMMemberReference kindAccess = #dictionary
 		ifTrue: [ 
 			^ writer
@@ -37,15 +39,20 @@ MOJinDAMVariableReferenceVisitor >> infereTarget: aJinDAMMemberReference [
 								  accessAttribute: aJinDAMMemberReference name
 								  receiver: [ :exp | producedSegments removeLast ] ] ]
 				ifNotEmpty: [ 
-					self assert:
-						aJinDAMMemberReference context readReference
-						= aJinDAMMemberReference.
-					({ #Join. #Replace } includes: aJinDAMMemberReference name) 
-						ifFalse: [ self halt ].
-					aJinDAMMemberReference candidate ifNotNil: [  : candi | self halt  ].
-					^ writer
-						  invocation: aJinDAMMemberReference name
-						  arguments: [ arguments ] ] ]
+					(({ #Join. #Replace. #fgRubIdentite. #fgRubNom. #fgestnullouvide } 
+						  includes: aJinDAMMemberReference name) or: [ 
+						 aJinDAMMemberReference name beginsWith: 'fg' ]) ifFalse: [  ].
+
+					^ producedSegments
+						  ifEmpty: [ 
+							  writer
+								  invocation: aJinDAMMemberReference name
+								  arguments: [ arguments ] ]
+						  ifNotEmpty: [ 
+							  writer
+								  invokeMethodNamed: aJinDAMMemberReference name
+								  receiver: [ :exp | producedSegments removeLast ]
+								  arguments: [ arguments ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -86,14 +93,31 @@ MOJinDAMVariableReferenceVisitor >> variableReferenceFor: aJinDAMMemberReference
 				producedSegments add:
 					(writer arrayAccess: [ :e | ps ] arguments: [ :e | arguments ]) ]
 			ifFalse: [ 
-				(producedSegments first isKindOf: MOVariableReference)
-					ifTrue: [ "						self halt."
-						self assert: arguments size = 1.
-						producedSegments removeLast.
-						producedSegments add: arguments first ]
+				({ 
+					 MOConstantReference.
+					 MOVariableReference } anySatisfy: [ :a | 
+					 producedSegments first isKindOf: a ])
+					ifTrue: [ 
+						| ps |
+						ps := producedSegments removeLast.
+						producedSegments add:
+							(writer arrayAccess: [ :e | ps ] arguments: [ :e | arguments ]) ]
 					ifFalse: [ 
 					self assert: arguments = producedSegments first arguments ] ] ].
 	^ writer writenExpression: producedSegments first
+
+	"						arguments size = 1
+							ifTrue: [ 
+								self halt.
+								producedSegments removeLast.
+								producedSegments add: arguments first ]
+							ifFalse: [ 
+								| ps |
+								ps := producedSegments removeLast.
+								producedSegments add:
+									(writer
+										 arrayAccess: [ :e | ps ]
+										 arguments: [ :e | arguments ]) ]"
 ]
 
 { #category : #visiting }
@@ -143,14 +167,61 @@ MOJinDAMVariableReferenceVisitor >> visitAttributeAccessor: aJinDAMAttributeAcce
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitConstant: aJinDAMConstant [
 
-	^ writer constantReferenceNamed: aJinDAMConstant name
+	self assert: producedSegments size <= 1.
+
+
+	^ producedSegments
+		  ifEmpty: [ writer constantReferenceNamed: aJinDAMConstant name ]
+		  ifNotEmpty: [ 
+			  | receiver |
+			  receiver := producedSegments removeLast.
+			  writer
+				  accessAttribute: aJinDAMConstant name
+				  receiver: [ :e | receiver ] ]
 ]
 
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitEnumValue: aJinDAMEnumValue [
 
-	self assert: producedSegments isEmpty.
-	^ writer constantReferenceNamed: aJinDAMEnumValue name
+	self assert: producedSegments size <= 1.
+
+
+	^ producedSegments
+		  ifEmpty: [ writer constantReferenceNamed: aJinDAMEnumValue name ]
+		  ifNotEmpty: [ 
+			  | receiver |
+			  receiver := producedSegments removeLast.
+			  writer
+				  accessAttribute: aJinDAMEnumValue name
+				  receiver: [ :e | receiver ] ]
+]
+
+{ #category : #visiting }
+MOJinDAMVariableReferenceVisitor >> visitEvent: aJinDAMEvent [ 
+
+	| parent |
+	self assert: producedSegments size <= 1.
+	parent := reader parentOfInvocable: aJinDAMEvent.
+	^ (parent isKindOf: JinDAMClass)
+		  ifTrue: [ 
+			  writer
+				  invokeMethodNamed: aJinDAMEvent selector
+				  receiver: [ :e | 
+					  producedSegments
+						  ifEmpty: [ e referenceToSelf ]
+						  ifNotEmpty: [ producedSegments removeLast ] ]
+				  arguments: [ :e | arguments ] ]
+		  ifFalse: [ 
+			  producedSegments ifNotEmpty: [ producedSegments removeLast ].
+			  writer
+				  invocation: aJinDAMEvent selector
+				  arguments: [ :exp | arguments ] ]
+]
+
+{ #category : #visiting }
+MOJinDAMVariableReferenceVisitor >> visitExternalFunction: aJinDAMExternalFunction [
+
+	^ self visitFunction: aJinDAMExternalFunction
 ]
 
 { #category : #visiting }
@@ -162,6 +233,12 @@ MOJinDAMVariableReferenceVisitor >> visitForm: aJinDAMForm [
 MOJinDAMVariableReferenceVisitor >> visitFunction: aJinDAMFunction [
 
 	^ self visitSubProcedure: aJinDAMFunction
+]
+
+{ #category : #visiting }
+MOJinDAMVariableReferenceVisitor >> visitLibraryReference: aJinDAMLibraryReference [ 
+	self assert: producedSegments isEmpty.
+	^ reader libraryReferenceFor: aJinDAMLibraryReference using: writer
 ]
 
 { #category : #visiting }
@@ -178,15 +255,24 @@ MOJinDAMVariableReferenceVisitor >> visitMemberReference: aJinDAMMemberReference
 		  ifFalse: [ 
 			  aJinDAMMemberReference candidate
 				  ifNil: [ self infereTarget: aJinDAMMemberReference ]
-				  ifNotNil: [ :c | c acceptVisitor: self ] ]
+				  ifNotNil: [ :c | 
+					  aJinDAMMemberReference name = #Me
+						  ifTrue: [ writer referenceToSelf ]
+						  ifFalse: [ c acceptVisitor: self ] ] ]
 		  ifTrue: [ 
-			  (aJinDAMMemberReference candidate detect: [ :a | 
-				   a isKindOf: JinDAMAttribute ]) acceptVisitor: self ]
+			  (aJinDAMMemberReference candidate
+				   detect: [ :a | a isKindOf: JinDAMAttribute ]
+				   ifNone: [ aJinDAMMemberReference candidate anyOne ]) 
+				  acceptVisitor: self ]
 ]
 
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitParameter: aJinDAMParameter [
 
+	producedSegments ifNotEmpty: [ 
+		Warning signal:
+			'this does not make sense. Something before a parameter. like function.parameter? is that possible to write? '.
+		producedSegments removeLast ].
 	self assert: producedSegments isEmpty.
 	^ writer variableReferenceNamed: aJinDAMParameter name
 ]
@@ -216,6 +302,16 @@ MOJinDAMVariableReferenceVisitor >> visitSubProcedure: aJinDAMSubProcedure [
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitTypeReference: aJinDAMTypeReference [
 
-	self assert: producedSegments isEmpty.
-	^ reader typeReferenceFor: aJinDAMTypeReference using: writer
+	self assert: aJinDAMTypeReference dimensions = 0.
+
+	^ producedSegments
+		  ifEmpty: [ 
+		  reader typeReferenceFor: aJinDAMTypeReference using: writer ]
+		  ifNotEmpty: [ 
+			  | receiver |
+			  self assert: producedSegments size = 1.
+			  receiver := producedSegments removeLast.
+			  writer
+				  accessType: aJinDAMTypeReference name
+				  receiver: [ :r | receiver ] ]
 ]

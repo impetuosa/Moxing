@@ -26,6 +26,12 @@ MOBinaryOperation >> isBinaryOperation [
 ]
 
 { #category : #accessing }
+MOBinaryOperation >> isReference [
+	" It can be assigned "
+	^ true
+]
+
+{ #category : #accessing }
 MOBinaryOperation >> kindOfOp [
 	^ 'binary'
 ]

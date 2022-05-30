@@ -163,6 +163,22 @@ MOBlockWriter >> writeForEach: aBlock [
 ]
 
 { #category : #writing }
+MOBlockWriter >> writeForNext: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOForNextWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeGoSub: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOGoSubWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
 MOBlockWriter >> writeGoTo: aBlock [
 
 	| stmnt |

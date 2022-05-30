@@ -16,7 +16,8 @@ MOEvent >> acceptVisitor: aMOElementToUIString [
 
 { #category : #accessing }
 MOEvent >> isInvocable [
-	 ^ true 
+
+	^ true
 ]
 
 { #category : #accessing }

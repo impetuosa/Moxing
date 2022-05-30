@@ -58,6 +58,12 @@ MOModelProceduralWriter >> arrayTypeReferenceOf: aMOTypeReference [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> artefactReferenceNamed: aString [
+
+	^ parentWriter artefactReferenceNamed: aString
+]
+
 { #category : #accessing }
 MOModelProceduralWriter >> autoPopulate: aBoolean [ 
 	parentWriter autoPopulate: aBoolean 

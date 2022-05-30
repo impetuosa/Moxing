@@ -15,8 +15,9 @@ MOModelArrayTypeReferenceBuilder >> baseType: aMOTypeReference [
 
 { #category : #'as yet unclassified' }
 MOModelArrayTypeReferenceBuilder >> buildsType [
-<generated>
-	^MOArrayTypeReference
+
+	<generated>
+	^ MOArrayTypeReference
 ]
 
 { #category : #accessing }

@@ -17,9 +17,24 @@ MOStatementWriter >> acceptWritingVisitor: aVisitor [
 ]
 
 { #category : #adding }
+MOStatementWriter >> addLocalConstant: aMOLocalConstant [
+
+	^ self addStatement: aMOLocalConstant
+]
+
+{ #category : #adding }
 MOStatementWriter >> addStatement: aMOIfElse [
 
 	^ self registerStatement: aMOIfElse
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumentsBlock [
+
+	^ self writeExpression: [ :exp | 
+		  exp
+			  arrayAccess: anExpressionBuildingBlock
+			  arguments: anArgumentsBlock ]
 ]
 
 { #category : #writing }
@@ -47,11 +62,10 @@ MOStatementWriter >> compare: aMOIntegerLiteral is: aString than: aFullBlockClos
 { #category : #statements }
 MOStatementWriter >> do: aLoopingBlock until: aConditionBlock [
 
-	^ self registerStatement: (builder loopStatementBuilder
-			   forDoUntil;
-			   condition: (self writeExpression: aConditionBlock);
-			   loopingBlock: (self writeBlock: aLoopingBlock);
-			   build)
+	^ self writeDoUntil: [ :while | 
+		  while
+			  writeCondition: aConditionBlock;
+			  writeBlock: aLoopingBlock ]
 ]
 
 { #category : #statements }
@@ -71,6 +85,37 @@ MOStatementWriter >> for: anInitBlock condition: aConditionBlock update: anUpdat
 			  writeCondition: aConditionBlock;
 			  writeUpdateOperation: anUpdateBlock;
 			  writeBlock: aLoopingBlock ]
+]
+
+{ #category : #statements }
+MOStatementWriter >> for: anCounterBlock from: anInitValueBlock to: aLimitValueBlock do: aLoopingBlock [
+
+	" for i= 1 to N  "
+	^ self
+		  for: anCounterBlock
+		  from: anInitValueBlock
+		  to: aLimitValueBlock
+		  step: [ :exp | exp numericLiteral: 1 ]
+		  do: aLoopingBlock
+]
+
+{ #category : #statements }
+MOStatementWriter >> for: anCounterBlock from: anInitValueBlock to: aLimitValueBlock step: aStepBlock do: aLoopingBlock [
+
+	" for i= 1 to N step 1 "
+
+	^ self writeForNext: [ :for | 
+		  for
+			  writeCounter: anCounterBlock;
+			  writeInitValue: anInitValueBlock;
+			  writeLimitValue: aLimitValueBlock;
+			  writeStep: aStepBlock;
+			  writeLoopingBlock: aLoopingBlock ]
+		
+	
+
+
+
 ]
 
 { #category : #statements }
@@ -170,6 +215,18 @@ MOStatementWriter >> let: anExpressionBuildingBlock beAssignedWith: anOtherExpre
 			   exp
 				   let: anExpressionBuildingBlock
 				   beAssignedWith: anOtherExpressionBuildingBlock ])
+]
+
+{ #category : #expressions }
+MOStatementWriter >> noOp: aDescription [
+
+	^ self registerStatement:
+		  (self writeExpression: [ :exp | exp noOp: aDescription ])
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> noOpBuilder [
+	self shouldBeImplemented.
 ]
 
 { #category : #statements }
@@ -319,10 +376,58 @@ MOStatementWriter >> writeBlockClosure: aFullBlockClosure [
 		  (self write: aFullBlockClosure inSubWriter: MOBlockClosureWriter)
 ]
 
+{ #category : #writing }
+MOStatementWriter >> writeConstant: aFullBlockClosure [
+
+	^ self writeLocalConstant: aFullBlockClosure
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeDoUntil: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
+	^ stmnt
+]
+
 { #category : #'as yet unclassified' }
 MOStatementWriter >> writeExpression: anExpressionBlock [
 
 	^ self writeUnregisteredExpression: anExpressionBlock
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeFileLineInput: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOAlceFileLineInputWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeFileOpen: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOAlceFileOpenWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeFilePrintIntoInput: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOAlceFilePrintIntoWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeFileRename: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOAlceFileRenameWriter.
+	^ stmnt
 ]
 
 { #category : #statements }
@@ -341,6 +446,30 @@ MOStatementWriter >> writeForEach: aBlock [
 	^ stmnt
 ]
 
+{ #category : #statements }
+MOStatementWriter >> writeForNext: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOForNextWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeGoSub: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOGoSubWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeGoTo: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOGoToWriter.
+	^ stmnt
+]
+
 { #category : #writing }
 MOStatementWriter >> writeIfElse: aBlock [
 
@@ -353,6 +482,14 @@ MOStatementWriter >> writeIfElse: aBlock [
 MOStatementWriter >> writeLiteralForValue: aValue [
 
 	^ self writenExpression: (self literalForValue: aValue)
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeLocalConstant: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOLocalConstantWriter.
+	^ stmnt
 ]
 
 { #category : #statements }

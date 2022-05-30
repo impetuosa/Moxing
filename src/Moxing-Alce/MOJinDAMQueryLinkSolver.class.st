@@ -26,9 +26,11 @@ MOJinDAMQueryLinkSolver >> applyOn: aMOProject [
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 
 	^ from flatCollect: [ :f | 
-		  f attributes select: [ :a | 
-			  anObject isWildCard or: [ 
-				  a name asLowercase = (self readIdentifier: anObject) ] ] ]
+		  f attributes
+			  select: [ :a | 
+				  anObject isWildCard or: [ 
+					  a name asLowercase = (self readIdentifier: anObject) ] ]
+			  thenCollect: [ :a | f -> a ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -36,9 +38,11 @@ MOJinDAMQueryLinkSolver >> detectColumnFor: anObject inTableNamed: aString [
 
 	aString ifNil: [ ^ self detectColumnFor: anObject ].
 
-	^ (from at: aString) attributes select: [ :a | 
-		  anObject isWildCard or: [ 
-			  a name asLowercase = (self readIdentifier: anObject) ] ]
+	^ (from at: aString) attributes
+		  select: [ :a | 
+			  anObject isWildCard or: [ 
+				  a name asLowercase = (self readIdentifier: anObject) ] ]
+		  thenCollect: [ :a | (from at: aString) -> a ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -81,7 +85,7 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition 
 	self assert: cols size < 2.
 
 	cols ifNotEmpty: [ 
-		selectedCols removeKey: cols first name.
+		selectedCols removeKey: cols first value name.
 		selectedCols at: name put: cols first ]
 ]
 
@@ -99,7 +103,7 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTAttributeAccess: aPSQLASTAttributeAccess 
 				        inTableNamed:
 					        (aPSQLASTAttributeAccess accessed ifNotNil: [ :a | 
 						         self readIdentifier: a ]) ].
-	cols do: [ :a | selectedCols at: a name put: a ].
+	cols do: [ :a | selectedCols at: a value name put: a ].
 	^ cols
 ]
 
@@ -173,6 +177,7 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
 
 { #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitQuery: aMOAlceQuery [
+
 	query := aMOAlceQuery.
 	from := Dictionary new.
 	selectedCols := Dictionary new.
@@ -185,13 +190,13 @@ MOJinDAMQueryLinkSolver >> visitQuery: aMOAlceQuery [
 			selectedCols keysAndValuesDo: [ :key :value | 
 				modQuery writeExpression: [ :exp | 
 					(exp accessAttribute: key receiver: [ :er | 
-							 (er typeReferenceNamed: value parent name)
-								 candidate: value parent;
+							 (er typeReferenceNamed: value key name)
+								 candidate: value key;
 								 yourself ])
-						candidate: value;
+						candidate: value value;
 						yourself ] ] ] ] ]
 		on: PSQLParseError
-		do: [ : e | "self halt"  "nothing " ]
+		do: [ :e | "self halt""nothing " ]
 ]
 
 { #category : #visiting }

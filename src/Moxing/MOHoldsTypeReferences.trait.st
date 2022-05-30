@@ -7,6 +7,21 @@ Trait {
 }
 
 { #category : #initialization }
+MOHoldsTypeReferences >> artefactReferenceNamed: aString [
+
+	| ref |
+	ref := self parentWriter handlesTypeReferences
+		       ifTrue: [ self parentWriter artefactReferenceNamed: aString ]
+		       ifFalse: [ 
+			       self typeReferences at: aString ifAbsentPut: [ 
+				       self builder artefactReferenceBuilder
+					       name: aString;
+					       build ] ].
+	self assert: ref isReference.
+	^ ref
+]
+
+{ #category : #initialization }
 MOHoldsTypeReferences >> handlesTypeReferences [
 	^ true 
 ]

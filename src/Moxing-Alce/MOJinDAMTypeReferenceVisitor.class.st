@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #visiting }
+MOJinDAMTypeReferenceVisitor >> visitAccessModule: aJinDAMAccessModule [
+
+	^ writer artefactReferenceNamed: aJinDAMAccessModule name
+]
+
+{ #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitAlias: aJinDAMAlias [ 
 	^ writer typeReferenceNamed: aJinDAMAlias name
 ]
@@ -37,6 +43,19 @@ MOJinDAMTypeReferenceVisitor >> visitEnum: aJinDAMEnum [
 MOJinDAMTypeReferenceVisitor >> visitForm: aJinDAMForm [
 
 	^ writer typeReferenceNamed: aJinDAMForm name
+]
+
+{ #category : #visiting }
+MOJinDAMTypeReferenceVisitor >> visitLibrary: aJinDAMLibrary [
+
+	^ writer artefactReferenceNamed: aJinDAMLibrary name
+]
+
+{ #category : #visiting }
+MOJinDAMTypeReferenceVisitor >> visitLibraryReference: aJinDAMLibraryReference [
+
+	self assert: aJinDAMLibraryReference candidate isNotNil.
+	^ aJinDAMLibraryReference candidate acceptVisitor: self
 ]
 
 { #category : #visiting }

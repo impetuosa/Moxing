@@ -25,6 +25,16 @@ MOExpressionWriter >> accessAttribute: aString receiver: anExpressionBuildingBlo
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> accessType: aString receiver: anExpressionBuildingBlock [
+
+	^ builder typeAccessBuilder
+		  name: aString;
+		  artefactReference:
+			  (self writeExpression: anExpressionBuildingBlock);
+		  build
+]
+
 { #category : #adding }
 MOExpressionWriter >> addAnnotationInstance: aMOAnnotationInstance [
 
@@ -191,6 +201,14 @@ MOExpressionWriter >> new: aMOTypeReference [
 
 	^ builder newExpressionBuilder
 		  typeReference: aMOTypeReference;
+		  build
+]
+
+{ #category : #expressions }
+MOExpressionWriter >> noOp: aString [
+
+	^ builder noOpBuilder
+		  description: aString;
 		  build
 ]
 

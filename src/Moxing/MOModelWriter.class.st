@@ -165,6 +165,11 @@ MOModelWriter >> arrayTypeReferenceOf: aMOTypeReference [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelWriter >> artefactReferenceNamed: aString [ 
+	self error: ' Artefactrefs are not managed by model writer. '
+]
+
 { #category : #writing }
 MOModelWriter >> autoPopulate [
 
