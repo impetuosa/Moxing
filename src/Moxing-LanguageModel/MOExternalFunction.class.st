@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
+{ #category : #asserting }
+MOExternalFunction >> canBeReferredAsMethod [
+
+	^ parent isKindOf: MOClass
+]
+
 { #category : #accessing }
 MOExternalFunction >> libraryName: aString [ 
 	libraryName := aString

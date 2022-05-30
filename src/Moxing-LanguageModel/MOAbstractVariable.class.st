@@ -52,6 +52,12 @@ MOAbstractVariable >> bindingKind: aString [
 	bindingKind := aString
 ]
 
+{ #category : #adding }
+MOAbstractVariable >> canBeReferredAsArrayAccess [
+
+	^ true
+]
+
 { #category : #accessing }
 MOAbstractVariable >> canBeReferredAsVariable [
 

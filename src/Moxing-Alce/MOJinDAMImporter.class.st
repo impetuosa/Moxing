@@ -56,7 +56,8 @@ MOJinDAMImporter >> anchorFromToInstall [
 		origin anchor ifNotNil: [ 
 			origin anchor containsSource ifTrue: [ 
 				moco do: [ :mo | 
-					mo anchor from: origin anchor srcFrom to: origin anchor srcTo ] ] ] ]
+					mo anchor ifNotNil: [ 
+						mo anchor from: origin anchor srcFrom to: origin anchor srcTo ] ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -84,9 +85,13 @@ MOJinDAMImporter >> createObject: aJinDAMObject [
 
 
 	aJinDAMObject state keysAndValuesDo: [ :k :v | 
-		(v isKindOf: JinDAMObject)
-			ifTrue: [ obj at: k put: (self createObject: v) ]
-			ifFalse: [ obj state at: k put: v ] ].
+		({ 
+			 JinCachedCollection.
+			 COMDispatchInstance } anySatisfy: [ :c | v isKindOf: c ]) 
+			ifFalse: [ 
+				(v isKindOf: JinDAMObject)
+					ifTrue: [ obj at: k put: (self createObject: v) ]
+					ifFalse: [ obj state at: k put: v ] ] ].
 	^ obj
 ]
 
@@ -95,14 +100,18 @@ MOJinDAMImporter >> createObject: aJinDAMObject type: aJinDAMReport [
 
 	| obj |
 	obj := model instantiate: MOObject.
-	obj holder: (traces at: aJinDAMReport) first .
+	obj holder: (traces at: aJinDAMReport) first.
 	obj type: (traces at: aJinDAMReport).
 
 
 	aJinDAMObject state keysAndValuesDo: [ :k :v | 
-		(v isKindOf: JinDAMObject)
-			ifTrue: [ obj at: k put: (self createObject: v) ]
-			ifFalse: [ obj state at: k put: v ] ]
+		({ 
+			 JinCachedCollection.
+			 COMDispatchInstance } anySatisfy: [ :c | v isKindOf: c ]) 
+			ifFalse: [ 
+				(v isKindOf: JinDAMObject)
+					ifTrue: [ obj at: k put: (self createObject: v) ]
+					ifFalse: [ obj state at: k put: v ] ] ]
 ]
 
 { #category : #visiting }
@@ -125,7 +134,6 @@ MOJinDAMImporter >> import: aJinDamModel [
 MOJinDAMImporter >> linkWith: aJinDAMModel [
 
 	| candidate |
-
 	aJinDAMModel references
 		select: [ :ref | traces includesKey: ref ]
 		thenDo: [ :ref | 
@@ -134,12 +142,16 @@ MOJinDAMImporter >> linkWith: aJinDAMModel [
 					candidate := ref candidate isCollection
 						             ifTrue: [ 
 						             ref candidate collect: [ :r | traces at: r ] ]
-						             ifFalse: [ traces at: ref candidate ].
+						             ifFalse: [ 
+						             traces at: ref candidate ifAbsent: [ { nil } ] ].
 					self assert: candidate size > 0.
 					candidate := candidate size = 1
 						             ifTrue: [ candidate first ]
 						             ifFalse: [ candidate ].
-					(traces at: ref) do: [ :destRef | destRef candidate: candidate ] ] ] ]
+					(traces at: ref) do: [ :destRef | 
+						destRef candidate: (candidate isCollection
+								 ifTrue: [ candidate anyOne anyOne ]
+								 ifFalse: [ candidate ]) ] ] ] ]
 ]
 
 { #category : #visiting }

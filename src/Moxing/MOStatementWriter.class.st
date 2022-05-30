@@ -269,6 +269,17 @@ MOStatementWriter >> pragma: aString arguments: aFullBlockClosure [
 			   exp pragma: aString arguments: aFullBlockClosure ])
 ]
 
+{ #category : #statements }
+MOStatementWriter >> redimVariable: aString typeReference: aMOTypeReference redimText: aRedimText reference: aReference [
+
+	^ self registerStatement: (builder redimVariableBuilder
+			   name: aString;
+			   typeReference: aMOTypeReference value;
+			   redimText: aRedimText;
+			   reference: aReference;
+			   build)
+]
+
 { #category : #writing }
 MOStatementWriter >> registerStatement: aStatement [
 

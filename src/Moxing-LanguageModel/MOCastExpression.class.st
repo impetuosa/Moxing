@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-LanguageModel-References'
 }
 
+{ #category : #accessing }
+MOCastExpression >> canBeReferredAsArrayAccess [
+
+	^ true
+]
+
 { #category : #generated }
 MOCastExpression >> candidate [
  	^ expression candidate 

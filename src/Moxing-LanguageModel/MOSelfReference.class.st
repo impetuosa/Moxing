@@ -26,6 +26,12 @@ MOSelfReference >> callingClass [
 ]
 
 { #category : #'as yet unclassified' }
+MOSelfReference >> canBeReferredAsArrayAccess [
+
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 MOSelfReference >> name [
 
 	^ name ifNil: [ name := #self ]

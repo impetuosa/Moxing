@@ -67,6 +67,12 @@ MOClass >> attributes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
+MOClass >> canbeReferredAsSelf [
+
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 MOClass >> constructors [
 
 	^ self methods select: [ :m | m isKindOf: MOConstructor ]

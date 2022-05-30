@@ -270,8 +270,8 @@ MOJinDAMVariableReferenceVisitor >> visitMemberReference: aJinDAMMemberReference
 MOJinDAMVariableReferenceVisitor >> visitParameter: aJinDAMParameter [
 
 	producedSegments ifNotEmpty: [ 
-		Warning signal:
-			'this does not make sense. Something before a parameter. like function.parameter? is that possible to write? '.
+		"Warning signal:
+			'this does not make sense. Something before a parameter. like function.parameter? is that possible to write? '."
 		producedSegments removeLast ].
 	self assert: producedSegments isEmpty.
 	^ writer variableReferenceNamed: aJinDAMParameter name

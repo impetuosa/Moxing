@@ -15,6 +15,16 @@ MOEvent >> acceptVisitor: aMOElementToUIString [
 ]
 
 { #category : #accessing }
+MOEvent >> canBeReferredAsFunction [
+	 ^ true 
+]
+
+{ #category : #accessing }
+MOEvent >> canBeReferredAsMethod [
+	 ^ true 
+]
+
+{ #category : #accessing }
 MOEvent >> isInvocable [
 
 	^ true

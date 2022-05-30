@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'types',
 		'packages',
-		'declarationUnits'
+		'declarationUnits',
+		'name'
 	],
 	#category : #'Moxing-MicroBuilders-project'
 }
@@ -62,6 +63,17 @@ MOArtefactBuilder >> declarationUnits [
 MOArtefactBuilder >> declarationUnits: anObject [
 
 	declarationUnits := anObject
+]
+
+{ #category : #adding }
+MOArtefactBuilder >> name [
+
+	^ name
+]
+
+{ #category : #adding }
+MOArtefactBuilder >> name: aName [
+  name := aName 
 ]
 
 { #category : #accessing }

@@ -894,6 +894,14 @@ MOModelBuilder >> queryBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> redimVariableBuilder [
+
+	^ MOModelRedimVariableBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> referenceToSelf [
 
 	^ self contextReferenceBuilder

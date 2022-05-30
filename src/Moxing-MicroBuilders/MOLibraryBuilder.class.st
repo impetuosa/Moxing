@@ -51,13 +51,15 @@ MOLibraryBuilder >> loadBuilderWithEntity: anEntity [
 		types: anEntity types;
 		packages: anEntity package;
 		declarationUnits: anEntity declarationUnits;
-		invocables: anEntity invocables
+		invocables: anEntity invocables;
+		name: anEntity name
 ]
 
 { #category : #accessing }
 MOLibraryBuilder >> privateBuild [
 
 	^ (self instantiate: MOLibrary)
+		  name: self name;
 		  types: self types;
 		  packages: self packages;
 		  declarationUnits: self declarationUnits;

@@ -226,6 +226,14 @@ MOBlockWriter >> writeOnErrorResumeNext: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOBlockWriter >> writeRedimVariable: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MORedimVariableWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
 MOBlockWriter >> writeResume: aBlock [
 
 	| stmnt |

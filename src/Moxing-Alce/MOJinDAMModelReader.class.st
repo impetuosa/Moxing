@@ -38,7 +38,9 @@ MOJinDAMModelReader >> makeAssignmentWith: aJinDAMArgument [
 						  use: expr
 						  during: [ 
 						  aJinDAMArgument expression right acceptVisitor: self ] ] ]
-		  ifFalse: [ aJinDAMArgument expression acceptVisitor: self ]
+		  ifFalse: [ 
+			  writer noOp:
+				  'Error interpreting an assignment. It was interpreted as a property named Set / Let... Cannot accept it in Moxing. Is incorrect. ' ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -657,28 +659,40 @@ MOJinDAMModelReader >> visitLiteralReference: aJinDAMLiteralReference [
 MOJinDAMModelReader >> visitLocalVariable: aJinDAMLocalVariable [
 
 	self assert: aJinDAMLocalVariable isConstant isNil.
-	aJinDAMLocalVariable redimText ifNotNil: [ Warning signal: 'redim!' ].
 	self assert: aJinDAMLocalVariable initializer isNil.
+	aJinDAMLocalVariable redimText
+		ifNotNil: [ 
+			self assert:
+				aJinDAMLocalVariable instantiatesObjectOnDefinition not.
 
-	^ self
-		  trace: aJinDAMLocalVariable
-		  with: (aJinDAMLocalVariable instantiatesObjectOnDefinition
-				   ifTrue: [ 
-					   writer
-						   variable: aJinDAMLocalVariable name
-						   typeReference: (self
-								    typeReferenceFor: aJinDAMLocalVariable typeReference
-								    using: writer)
-						   initializer: [ :a | 
-							   a new: (self
-									    typeReferenceFor: aJinDAMLocalVariable typeReference
-									    using: writer) ] ]
-				   ifFalse: [ 
-					   writer
-						   variable: aJinDAMLocalVariable name
-						   typeReference: (self
-								    typeReferenceFor: aJinDAMLocalVariable typeReference
-								    using: writer) ])
+			^ self trace: aJinDAMLocalVariable with: (writer
+					   redimVariable: aJinDAMLocalVariable name
+					   typeReference: (self
+							    typeReferenceFor: aJinDAMLocalVariable typeReference
+							    using: writer)
+					   redimText: aJinDAMLocalVariable redimText
+					   reference:
+					   (writer variableReferenceNamed: aJinDAMLocalVariable name)) ]
+		ifNil: [ 
+			^ self
+				  trace: aJinDAMLocalVariable
+				  with: (aJinDAMLocalVariable instantiatesObjectOnDefinition
+						   ifTrue: [ 
+							   writer
+								   variable: aJinDAMLocalVariable name
+								   typeReference: (self
+										    typeReferenceFor: aJinDAMLocalVariable typeReference
+										    using: writer)
+								   initializer: [ :a | 
+									   a new: (self
+											    typeReferenceFor: aJinDAMLocalVariable typeReference
+											    using: writer) ] ]
+						   ifFalse: [ 
+							   writer
+								   variable: aJinDAMLocalVariable name
+								   typeReference: (self
+										    typeReferenceFor: aJinDAMLocalVariable typeReference
+										    using: writer) ]) ]
 ]
 
 { #category : #visiting }
