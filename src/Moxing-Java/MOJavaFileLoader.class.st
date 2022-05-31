@@ -392,6 +392,11 @@ MOJavaFileLoader >> visitProgramFile: aJavaProgramFileNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitQualifiedName: aJavaQualifiedNameNode [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitReturnStatement: aJavaReturnStatementNode [
 
 	^ writer writeStatement: [ :stmt | 
@@ -425,6 +430,14 @@ MOJavaFileLoader >> visitTypeArgument: aJavaTypeArgumentNode [
 
 	^ writer writeTypeParameter: [ :typeParameter | 
 		  typeParameter name: aJavaTypeArgumentNode type name source ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitTypeImportOnDemandDeclaration: aJavaTypeImportOnDemandDeclarationNode [
+
+	^ self imports add: (writer writeImport: [ :import | 
+			   import packageName:
+				   aJavaTypeImportOnDemandDeclarationNode name source ])
 ]
 
 { #category : #visiting }
