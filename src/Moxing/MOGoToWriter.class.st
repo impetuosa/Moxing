@@ -1,15 +1,12 @@
 Class {
 	#name : #MOGoToWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#instVars : [
-		'caseExpression'
-	],
 	#category : #'Moxing-MicroWriters'
 }
 
 { #category : #visiting }
 MOGoToWriter >> acceptWritingVisitor: aVisitor [
-	^ aVisitor visitToWriter: self 
+	^ aVisitor visitGoToWriter: self 
 
 
 ]
@@ -23,5 +20,6 @@ MOGoToWriter >> initializeWriteBuilder [
 { #category : #initialization }
 MOGoToWriter >> writeLabelReference: aBlock [
 
-	writeBuilder labelReference: (self writeExpression: aBlock)
+	writeBuilder labelReference:
+		(self writeUnregisteredExpression: aBlock)
 ]

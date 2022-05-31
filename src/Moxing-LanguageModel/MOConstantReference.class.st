@@ -13,6 +13,12 @@ MOConstantReference >> acceptVisitor: aMOTypescriptCodeGenerator [
 	^ aMOTypescriptCodeGenerator visitConstantReference: self
 ]
 
+{ #category : #generated }
+MOConstantReference >> canBeReferredAsArrayAccess [
+
+	^ true
+]
+
 { #category : #accessing }
 MOConstantReference >> kind: aString [
 

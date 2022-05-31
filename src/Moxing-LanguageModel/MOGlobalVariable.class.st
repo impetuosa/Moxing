@@ -14,6 +14,11 @@ MOGlobalVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #visiting }
+MOGlobalVariable >> canBeReferredAsAttribute [
+	 ^ true 
+]
+
+{ #category : #visiting }
 MOGlobalVariable >> kindString [
 
 	^ 'GLOBAL VAR'

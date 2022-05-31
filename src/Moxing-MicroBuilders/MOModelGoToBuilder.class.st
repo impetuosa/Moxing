@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+MOModelGoToBuilder >> buildsType [
+
+	^ MOAlceGoToLabel
+]
+
+{ #category : #accessing }
 MOModelGoToBuilder >> labelReference [
 	^ labelReference ifNil: [  self error:' Go To requires a reference ' ]
 ]
@@ -21,7 +27,7 @@ MOModelGoToBuilder >> labelReference: aMOLabelReference [
 { #category : #accessing }
 MOModelGoToBuilder >> privateBuild [
 
-	^ (self instantiate: MOAlceGoToLabel)
+	^ (self instantiate: self buildsType)
 		  destination: self labelReference;
 		  yourself
 ]

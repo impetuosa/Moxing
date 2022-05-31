@@ -40,7 +40,6 @@ MORootDeclaration >> language: aMOLanguage [
 
 { #category : #accessing }
 MORootDeclaration >> packages [
-
 	^ packages ifNil: [ packages := OrderedCollection new ]
 ]
 

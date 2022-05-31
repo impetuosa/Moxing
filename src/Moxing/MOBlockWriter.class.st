@@ -163,6 +163,22 @@ MOBlockWriter >> writeForEach: aBlock [
 ]
 
 { #category : #writing }
+MOBlockWriter >> writeForNext: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOForNextWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeGoSub: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOGoSubWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
 MOBlockWriter >> writeGoTo: aBlock [
 
 	| stmnt |
@@ -207,6 +223,14 @@ MOBlockWriter >> writeOnErrorResumeNext: aFullBlockClosure [
 	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorResumeNextWriter.
 	^ stmnt
 
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeRedimVariable: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MORedimVariableWriter.
+	^ stmnt
 ]
 
 { #category : #writing }

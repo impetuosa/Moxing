@@ -24,6 +24,12 @@ MOInvocation >> arguments: aCollection [
 	arguments := aCollection
 ]
 
+{ #category : #accessing }
+MOInvocation >> canBeReferredAsArrayAccess [
+
+	^ true
+]
+
 { #category : #initialization }
 MOInvocation >> initialize [
 

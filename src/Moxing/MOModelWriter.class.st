@@ -165,6 +165,11 @@ MOModelWriter >> arrayTypeReferenceOf: aMOTypeReference [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelWriter >> artefactReferenceNamed: aString [ 
+	self error: ' Artefactrefs are not managed by model writer. '
+]
+
 { #category : #writing }
 MOModelWriter >> autoPopulate [
 
@@ -326,6 +331,13 @@ MOModelWriter >> primitiveTypeReferenceNamed: aString [
 MOModelWriter >> questionMarkTypeReference [
 
 	^ self typeReferenceNamed: #?
+]
+
+{ #category : #statements }
+MOModelWriter >> redimVariable: aString typeReference: aMOTypeReference redimText: aRedimText reference: aReference [
+
+	^ self writeStatement: [ :a | 
+		  a redimVariable: aString typeReference: aMOTypeReference redimText: aRedimText reference: aReference ]
 ]
 
 { #category : #initialization }
@@ -557,6 +569,17 @@ MOModelWriter >> updateQuery: aMOQuery with: aFullBlockClosure [
 		  write: aFullBlockClosure
 		  forUpdating: aMOQuery 
 		  withWriter: MOQueryWriter  new
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateRedimVariable: aMOVariable with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOVariable
+		  withWriter: MORedimVariableWriter new
+		
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -895,6 +918,14 @@ MOModelWriter >> writeProject: aBlock [
 MOModelWriter >> writeQuery: aFullBlockClosure [ 
 | writer |
 	writer := MOQueryWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeRedimVariable: aFullBlockClosure [
+
+	| writer |
+	writer := MORedimVariableWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
 ]
 

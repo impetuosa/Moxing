@@ -14,6 +14,11 @@ MOEnumEntry >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #visiting }
+MOEnumEntry >> canBeReferredAsAttribute [
+	 ^ true 
+]
+
+{ #category : #visiting }
 MOEnumEntry >> canBeReferredAsConstant [
 	 ^ true 
 ]

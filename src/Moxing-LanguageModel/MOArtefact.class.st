@@ -14,6 +14,12 @@ MOArtefact >> allTypes [
 	 ^ types , (declarationUnits flatCollect: #types )
 ]
 
+{ #category : #testing }
+MOArtefact >> canBeReferredAsArtefact [
+
+	^ true
+]
+
 { #category : #accessing }
 MOArtefact >> declarationUnits [
 	^ declarationUnits

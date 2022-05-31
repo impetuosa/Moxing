@@ -9,6 +9,41 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+MOJinDAMModelReader >> libraryReferenceFor: aJinDAMLibraryReference using: aWriter [
+
+	^ aJinDAMLibraryReference
+		  ifNil: [ aWriter primitiveTypeReferenceNamed: #Variant ]
+		  ifNotNil: [ 
+			  self
+				  trace: aJinDAMLibraryReference
+				  with: (MOJinDAMTypeReferenceVisitor new
+						   writer: aWriter;
+						   typeReferenceFor: aJinDAMLibraryReference) ]
+]
+
+{ #category : #'as yet unclassified' }
+MOJinDAMModelReader >> makeAssignmentWith: aJinDAMArgument [
+
+	(aJinDAMArgument expression isKindOf: JinDAMAccessWrite) ifTrue: [ 
+		^ aJinDAMArgument expression acceptVisitor: self ].
+	^ aJinDAMArgument expression operator = #=
+		  ifTrue: [ 
+			  writer
+				  let: [ :expr | 
+					  self
+						  use: expr
+						  during: [ aJinDAMArgument expression left acceptVisitor: self ] ]
+				  beAssignedWith: [ :expr | 
+					  self
+						  use: expr
+						  during: [ 
+						  aJinDAMArgument expression right acceptVisitor: self ] ] ]
+		  ifFalse: [ 
+			  writer noOp:
+				  'Error interpreting an assignment. It was interpreted as a property named Set / Let... Cannot accept it in Moxing. Is incorrect. ' ]
+]
+
+{ #category : #'as yet unclassified' }
 MOJinDAMModelReader >> parentOfInvocable: aJinDAMSubProcedure [
 
 	^ jindamModel entities detect: [ :a | 
@@ -114,9 +149,13 @@ MOJinDAMModelReader >> visitArgument: aJinDAMArgument [
 	^ self
 		  trace: aJinDAMArgument
 		  with: (writer writeExpression: [ :exp | 
-				   self
-					   use: exp
-					   during: [ aJinDAMArgument expression acceptVisitor: self ] ])
+				   self use: exp during: [ 
+					   aJinDAMArgument expression
+						   ifNil: [ 
+							   exp noOp:
+								   'Error during the loading of argument '
+								   , aJinDAMArgument text ]
+						   ifNotNil: [ aJinDAMArgument expression acceptVisitor: self ] ] ])
 ]
 
 { #category : #visiting }
@@ -206,8 +245,15 @@ MOJinDAMModelReader >> visitBinaryOperation: aJinDAMBinaryOperation [
 { #category : #visiting }
 MOJinDAMModelReader >> visitBlock: aJinDAMBlock [
 
+	"
+		JinDAM when importing bunch of variables or constants it puts them in a collection. 
+		int a,b,c,d. 
+	"
 	^ self trace: aJinDAMBlock with: (writer writeBlock: [ :block | 
-			   aJinDAMBlock statements collect: [ :s | 
+			   (aJinDAMBlock statements flatCollect: [ :a | 
+				    a isCollection
+					    ifTrue: [ a ]
+					    ifFalse: [ { a } ] ]) collect: [ :s | 
 				   block writeStatement: [ :stmt | 
 					   self use: stmt during: [ s acceptVisitor: self ] ] ] ])
 ]
@@ -255,6 +301,34 @@ MOJinDAMModelReader >> visitConstant: aJinDAMConstant [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitDoUntil: aJinDAMDoUntil [
+
+	^ self trace: aJinDAMDoUntil with: (writer
+			   do: [ :block | 
+				   self
+					   use: block
+					   during: [ aJinDAMDoUntil block acceptVisitor: self ] ]
+			   until: [ :exp | 
+				   self
+					   use: exp
+					   during: [ aJinDAMDoUntil condition acceptVisitor: self ] ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitDoWhile: aJinDAMDoWhile [
+
+	^ self trace: aJinDAMDoWhile with: (writer
+			   while: [ :exp | 
+				   self
+					   use: exp
+					   during: [ aJinDAMDoWhile condition acceptVisitor: self ] ]
+			   do: [ :block | 
+				   self
+					   use: block
+					   during: [ aJinDAMDoWhile block acceptVisitor: self ] ])
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitEnum: aJinDAMEnum [
 
 	^ self trace: aJinDAMEnum with: (writer writeEnum: [ :enum | 
@@ -292,6 +366,28 @@ MOJinDAMModelReader >> visitExit: aJinDAMExit [
 	^ self
 		  trace: aJinDAMExit
 		  with: (writer writeStatement: [ :stmt | stmt exit ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitExpressionReference: aJinDAMExpressionReference [
+
+	| ref |
+	self assert:
+		(aJinDAMExpressionReference candidate isKindOf: JinDAMAccessRead).
+	self assert: aJinDAMExpressionReference arguments isNotEmpty.
+
+
+	^ self trace: aJinDAMExpressionReference with: (writer
+			   arrayAccess: [ :exp | 
+				   self
+					   use: exp
+					   during: [ 
+					   aJinDAMExpressionReference candidate acceptVisitor: self ] ]
+			   arguments: [ :expr | 
+				   self
+					   use: expr
+					   during: [ 
+					   aJinDAMExpressionReference arguments acceptVisitor: self ] ])
 ]
 
 { #category : #visiting }
@@ -340,6 +436,86 @@ MOJinDAMModelReader >> visitExternalSubProcedure: aJinDAMExternalSubProcedure [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitFileLineInput: aJinDAMFileLineInput [
+
+	^ self
+		  trace: aJinDAMFileLineInput
+		  with: (writer writeFileLineInput: [ :fo | 
+				   fo
+					   inputReference: (fo writeUnregisteredExpression: [ :e | 
+								    self
+									    use: e
+									    during: [ 
+										    aJinDAMFileLineInput inputReference acceptVisitor: self ] ]);
+					   fileDescriptorReference:
+						   (fo writeUnregisteredExpression: [ :e | 
+								    self
+									    use: e
+									    during: [ 
+										    aJinDAMFileLineInput fileDescriptorReference 
+											    acceptVisitor: self ] ]) ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitFilePrintInto: aJinDAMFilePrintIntoClause [
+
+	^ self
+		  trace: aJinDAMFilePrintIntoClause
+		  with: (writer writeFilePrintIntoInput: [ :file | 
+				   file
+					   fileDescriptorReference:
+						   (file writeUnregisteredExpression: [ :e | 
+								    self use: e during: [ 
+										    aJinDAMFilePrintIntoClause fileDescriptorReference 
+											    acceptVisitor: self ] ]);
+					   printingReferences:
+						   (file writeUnregisteredExpression: [ :e | 
+								    self
+									    use: e
+									    during: [ 
+										    aJinDAMFilePrintIntoClause printingReferences 
+											    acceptVisitor: self ] ]) ])
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitForEach: aJinDAMForEach [
+
+	^ writer
+		  for: [ :exp | 
+			  self use: exp during: [ aJinDAMForEach each acceptVisitor: self ] ]
+		  in: [ :exp | 
+			  self
+				  use: exp
+				  during: [ aJinDAMForEach collection acceptVisitor: self ] ]
+		  do: [ :block | 
+			  self
+				  use: block
+				  during: [ aJinDAMForEach block acceptVisitor: self ] ]
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitForNext: aJinDAMForNext [
+
+	^ self trace: aJinDAMForNext with: (writer
+			   for: [ :exp | 
+				   self
+					   use: exp
+					   during: [ aJinDAMForNext counter acceptVisitor: self ] ]
+			   from: [ :exp | 
+				   self
+					   use: exp
+					   during: [ aJinDAMForNext initialValue acceptVisitor: self ] ]
+			   to: [ :exp | 
+				   self
+					   use: exp
+					   during: [ aJinDAMForNext limit acceptVisitor: self ] ]
+			   do: [ :block | 
+				   self
+					   use: block
+					   during: [ aJinDAMForNext block acceptVisitor: self ] ])
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitForm: aJinDAMForm [
 
 	^ writer writeDeclarationUnit: [ :unit | 
@@ -372,6 +548,28 @@ MOJinDAMModelReader >> visitFunction: aJinDAMFunction [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitGoSub: aJinDAMGoSub [
+
+	self assert: aJinDAMGoSub label size = 1.
+
+
+	^ writer writeGoSub: [ :goSub | 
+		  goSub writeLabelReference: [ :exp | 
+			  exp labelReference: aJinDAMGoSub label first name ] ]
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitGoTo: aJinDAMGoTo [
+
+	self assert: aJinDAMGoTo labels size = 1.
+
+
+	^ writer writeGoTo: [ :goSub | 
+		  goSub writeLabelReference: [ :exp | 
+			  exp labelReference: aJinDAMGoTo labels first name ] ]
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitIf: aJinDAMIf [
 
 	^ self trace: aJinDAMIf with: (writer
@@ -401,6 +599,15 @@ MOJinDAMModelReader >> visitInitializeProcess: aJinDAMInitializeProcess [
 			  aJinDAMInitializeProcess accesses do: [ :a | 
 				  block writeStatement: [ :stmt | 
 					  self use: stmt during: [ a acceptVisitor: self ] ] ] ] ]r"
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitJinDAMFullASTCodeImporter: aJinDAMFullASTCodeImporter [
+
+"	Warning signal:
+		'This is an error during the JinDAM importing! We will writeit down as a comment staetment '."
+	^ writer noOp:
+		  'This is an error during the JinDAM importing! We will writeit down as a comment staetment. We got a aJinDAMFullASTCodeImporter instead of a real JinDAM Object'
 ]
 
 { #category : #visiting }
@@ -452,36 +659,54 @@ MOJinDAMModelReader >> visitLiteralReference: aJinDAMLiteralReference [
 MOJinDAMModelReader >> visitLocalVariable: aJinDAMLocalVariable [
 
 	self assert: aJinDAMLocalVariable isConstant isNil.
-	self assert: aJinDAMLocalVariable redimText isNil.
 	self assert: aJinDAMLocalVariable initializer isNil.
-	^ self
-		  trace: aJinDAMLocalVariable
-		  with: (aJinDAMLocalVariable instantiatesObjectOnDefinition
-				   ifTrue: [ 
-					   writer
-						   variable: aJinDAMLocalVariable name
-						   typeReference:
-						   (self
-							    typeReferenceFor: aJinDAMLocalVariable typeReference 
-							    using: writer)
-						   initializer: [ :a | 
-							   a new:
-								   (self
-									    typeReferenceFor: aJinDAMLocalVariable typeReference
-									    using: writer) ] ]
-				   ifFalse: [ 
-					   writer
-						   variable: aJinDAMLocalVariable name
-						   typeReference:
-						   (self
+	aJinDAMLocalVariable redimText
+		ifNotNil: [ 
+			self assert:
+				aJinDAMLocalVariable instantiatesObjectOnDefinition not.
+
+			^ self trace: aJinDAMLocalVariable with: (writer
+					   redimVariable: aJinDAMLocalVariable name
+					   typeReference: (self
 							    typeReferenceFor: aJinDAMLocalVariable typeReference
-							    using: writer) ])
+							    using: writer)
+					   redimText: aJinDAMLocalVariable redimText
+					   reference:
+					   (writer variableReferenceNamed: aJinDAMLocalVariable name)) ]
+		ifNil: [ 
+			^ self
+				  trace: aJinDAMLocalVariable
+				  with: (aJinDAMLocalVariable instantiatesObjectOnDefinition
+						   ifTrue: [ 
+							   writer
+								   variable: aJinDAMLocalVariable name
+								   typeReference: (self
+										    typeReferenceFor: aJinDAMLocalVariable typeReference
+										    using: writer)
+								   initializer: [ :a | 
+									   a new: (self
+											    typeReferenceFor: aJinDAMLocalVariable typeReference
+											    using: writer) ] ]
+						   ifFalse: [ 
+							   writer
+								   variable: aJinDAMLocalVariable name
+								   typeReference: (self
+										    typeReferenceFor: aJinDAMLocalVariable typeReference
+										    using: writer) ]) ]
 ]
 
 { #category : #visiting }
 MOJinDAMModelReader >> visitMemberReference: aJinDAMMemberReference [
 
 	| arguments |
+	(({ #set. #let } includes: aJinDAMMemberReference name asLowercase) 
+		 and: [ aJinDAMMemberReference arguments size = 1 ]) ifTrue: [ 
+		^ self
+			  trace: aJinDAMMemberReference
+			  with:
+			  (self makeAssignmentWith: aJinDAMMemberReference arguments first) ].
+
+
 	arguments := self visitCollection: aJinDAMMemberReference arguments.
 	^ self
 		  trace: aJinDAMMemberReference
@@ -548,6 +773,29 @@ MOJinDAMModelReader >> visitOnErrorResumeNext: aJinDAMOnErrorResumeNext [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitOpenClause: aJinDAMFileOpenClause [
+
+	^ self
+		  trace: aJinDAMFileOpenClause
+		  with: (writer writeFileOpen: [ :fo | 
+				   fo
+					   kind: aJinDAMFileOpenClause kind;
+					   filePathReference: (fo writeUnregisteredExpression: [ :e | 
+								    self
+									    use: e
+									    during: [ 
+										    aJinDAMFileOpenClause filePathReference acceptVisitor:
+												    self ] ]);
+					   fileDescriptorReference:
+						   (fo writeUnregisteredExpression: [ :e | 
+								    self
+									    use: e
+									    during: [ 
+										    aJinDAMFileOpenClause fileDescriptorReference 
+											    acceptVisitor: self ] ]) ])
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitParameter: aJinDAMParameter [
 
 	self assert: aJinDAMParameter isConstant isNil.
@@ -603,6 +851,26 @@ MOJinDAMModelReader >> visitQuery: aJinDAMQuery [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitRenameFile: aJinDAMRenameFile [
+
+	^ self
+		  trace: aJinDAMRenameFile
+		  with: (writer writeFileRename: [ :rename | 
+				   rename oldNameReference:
+					   (rename writeUnregisteredExpression: [ :exp | 
+						    self
+							    use: exp
+							    during: [ 
+							    aJinDAMRenameFile oldNameReference acceptVisitor: self ] ]).
+				   rename newNameReference:
+					   (rename writeUnregisteredExpression: [ :exp | 
+						    self
+							    use: exp
+							    during: [ 
+							    aJinDAMRenameFile newNameReference acceptVisitor: self ] ]) ])
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitReport: aJinDAMReport [
 
 	^ writer writeDeclarationUnit: [ :unit | 
@@ -634,6 +902,20 @@ MOJinDAMModelReader >> visitResume: aJinDAMResume [
 MOJinDAMModelReader >> visitResumeEmpty: aJinDAMResume [
 
 	^ self trace: aJinDAMResume with: writer resume
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitResumeNext: aJinDAMResumeNext [
+
+	^ self
+		  trace: aJinDAMResumeNext
+		  with: writer builder resumeNextBuilder build
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitReturnEmpty: aJinDAMReturnEmpty [
+
+	^ writer writeReturn: [ :ret |  ]
 ]
 
 { #category : #enumerating }
@@ -731,6 +1013,18 @@ MOJinDAMModelReader >> visitTableField: aJinDAMTableField [
 { #category : #visiting }
 MOJinDAMModelReader >> visitTableRelation:as [
 
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitTypeReference: aJinDAMTypeReference [
+
+	^ self
+		  trace: aJinDAMTypeReference
+		  with: (MOJinDAMVariableReferenceVisitor new
+				   reader: self;
+				   writer: writer;
+				   arguments: {  };
+				   variableReferenceFor: aJinDAMTypeReference)
 ]
 
 { #category : #visiting }

@@ -32,3 +32,12 @@ MOArrayAccess >> printOn: aStream [
 		print: arguments;
 		nextPutAll: ']'
 ]
+
+{ #category : #accessing }
+MOArrayAccess >> refersToObjectsLike: aMOPrimitiveType [
+
+	^ aMOPrimitiveType isCollection
+		  ifTrue: [ 
+		  aMOPrimitiveType anySatisfy: [ :a | (self refersToObjectsLikeOrStonRef: a) ] ]
+		  ifFalse: [ aMOPrimitiveType canBeReferredAsArrayAccess ]
+]

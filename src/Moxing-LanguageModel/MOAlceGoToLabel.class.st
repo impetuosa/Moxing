@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+MOAlceGoToLabel >> acceptVisitor: aVisitor [
+
+	^ aVisitor visitGoTo: self
+]
+
+{ #category : #accessing }
 MOAlceGoToLabel >> destination [
 	^ destination
 ]

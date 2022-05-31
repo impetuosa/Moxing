@@ -19,6 +19,11 @@ MOAssignment >> acceptVisitor: aMOTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOAssignment >> candidate: aMOEnumEntry [ 
+	"Warning signal: 'This should not be happening '"
+]
+
+{ #category : #accessing }
 MOAssignment >> isAssignment [
 
 	^ true

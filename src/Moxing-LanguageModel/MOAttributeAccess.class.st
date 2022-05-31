@@ -13,6 +13,12 @@ MOAttributeAccess >> acceptVisitor: aMOModelWriteTypeBasedCopyResolver [
 	^ aMOModelWriteTypeBasedCopyResolver visitAttributeAccess: self
 ]
 
+{ #category : #accessing }
+MOAttributeAccess >> canBeReferredAsArrayAccess [
+
+	^ true
+]
+
 { #category : #private }
 MOAttributeAccess >> printOn: aStream [
 

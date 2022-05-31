@@ -55,6 +55,12 @@ MOLanguageObject >> acceptVisitor: ads [
 ]
 
 { #category : #testing }
+MOLanguageObject >> canBeReferredAsArrayAccess [
+
+	^ false
+]
+
+{ #category : #testing }
 MOLanguageObject >> canBeReferredAsAttribute [
 
 	^ false

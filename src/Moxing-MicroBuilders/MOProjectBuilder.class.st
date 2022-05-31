@@ -26,7 +26,8 @@ MOProjectBuilder >> loadBuilderWithEntity: anEntity [
 		types: anEntity types;
 		packages: anEntity package;
 		declarationUnits: anEntity declarationUnits;
-		dependencies: anEntity dependencies
+		dependencies: anEntity dependencies;
+		name: anEntity name
 ]
 
 { #category : #accessing }
@@ -37,5 +38,6 @@ MOProjectBuilder >> privateBuild [
 		  packages: self packages;
 		  declarationUnits: self declarationUnits;
 		  dependencies: self dependencies;
+		  name: self name;
 		  yourself
 ]
