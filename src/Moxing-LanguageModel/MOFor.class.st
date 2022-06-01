@@ -2,8 +2,8 @@ Class {
 	#name : #MOFor,
 	#superclass : #MOLoop,
 	#instVars : [
-		'#initializeOperation => MOExpressionSlot many',
-		'#updateOperation => MOExpressionSlot many'
+		'#initializeOperation => MOExpressionSlot one',
+		'#updateOperation => MOExpressionSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }
