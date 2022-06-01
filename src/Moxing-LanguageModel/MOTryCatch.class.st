@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOStatement,
 	#instVars : [
 		'#try => MOContainmentSlot one',
-		'#catches => MOContainmentSlot many'
+		'#catches => MOContainmentSlot many',
+		'#finally => MOContainmentSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }
@@ -29,6 +30,18 @@ MOTryCatch >> catches: aCollection [
 MOTryCatch >> dependencies [
 
 	^ try dependencies , (catches flatCollect: [ :a | a dependencies ])
+]
+
+{ #category : #accessing }
+MOTryCatch >> finally [
+
+	^ finally
+]
+
+{ #category : #accessing }
+MOTryCatch >> finally: anObject [
+
+	finally := anObject
 ]
 
 { #category : #'private parsing' }

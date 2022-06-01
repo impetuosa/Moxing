@@ -328,6 +328,11 @@ MOModelWriter >> primitiveTypeReferenceNamed: aString [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> qualifiedTypeReferenceNamed: aString receiver: aReceiverReference [
+	self error: ' Types are not managed by model writer. '
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> questionMarkTypeReference [
 
 	^ self typeReferenceNamed: #?

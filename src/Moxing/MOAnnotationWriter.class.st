@@ -15,6 +15,16 @@ MOAnnotationWriter >> acceptWritingVisitor: aVisitor [
 ]
 
 { #category : #'as yet unclassified' }
+MOAnnotationWriter >> accessAttribute: aString receiver: anExpressionBuildingBlock [
+
+	^ builder attributeAccessBuilder
+		  name: aString;
+		  receiverReference:
+			  (self writeUnregisteredExpression: anExpressionBuildingBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOAnnotationWriter >> annotationTypeReference: aMOTypeReference [
 
 	writeBuilder annotationTypeReference: aMOTypeReference

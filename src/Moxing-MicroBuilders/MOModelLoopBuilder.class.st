@@ -29,6 +29,11 @@ MOModelLoopBuilder >> forDoUntil [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelLoopBuilder >> forDoWhile [
+	elementClass := MODoWhile
+]
+
+{ #category : #'as yet unclassified' }
 MOModelLoopBuilder >> forWhile [
 	elementClass := MOWhile
 ]

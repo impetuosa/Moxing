@@ -56,6 +56,16 @@ MOBlockWriter >> initializeWriteBuilder [
 	writeBuilder := builder blockBuilder 
 ]
 
+{ #category : #expressions }
+MOBlockWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBlock arguments: anOtherExpressionBuildingBlock [
+
+	^ self writeStatement: [ :stmt | 
+		  stmt
+			  invokeMethodNamed: aString
+			  receiver: anExpressionBuildingBlock
+			  arguments: anOtherExpressionBuildingBlock ]
+]
+
 { #category : #writing }
 MOBlockWriter >> messageToRegisterBlock: aSymbol [
 
@@ -118,6 +128,14 @@ MOBlockWriter >> writeDoUntil: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOBlockWriter >> writeDoWhile: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MODoWhileWriter.
 	^ stmnt
 ]
 

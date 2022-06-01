@@ -157,7 +157,7 @@ MOModelCopyExpression >> visitMethodInvocation: aMOMethodInvocation [
 { #category : #visiting }
 MOModelCopyExpression >> visitNamedArgument: aMONamedArgument [
 
-	^ writer argumentNamed: aMONamedArgument name expression: [ :exp | 
+	^ writer singleArgumentNamed: aMONamedArgument name expression: [ :exp | 
 		  self copyAll: aMONamedArgument relation: #argumentExpressions ]
 ]
 

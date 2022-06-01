@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'tryBlock',
-		'catches'
+		'catches',
+		'finallyBlock'
 	],
 	#category : #'Moxing-MicroBuilders-statements'
 }
@@ -26,11 +27,29 @@ MOModelTryCatchBuilder >> catches [
 	^ catches ifNil: [ catches := OrderedCollection new ]
 ]
 
+{ #category : #generated }
+MOModelTryCatchBuilder >> catches: aCollection [
+
+	catches := aCollection
+]
+
+{ #category : #accessing }
+MOModelTryCatchBuilder >> finallyBlock [
+
+	^ finallyBlock
+]
+
+{ #category : #accessing }
+MOModelTryCatchBuilder >> finallyBlock: aBlock [
+	^ finallyBlock := aBlock 
+]
+
 { #category : #accessing }
 MOModelTryCatchBuilder >> loadBuilderWithEntity: anEntity [
 
-	self tryBlock: anEntity tryBlock.
-	self catchStructures: anEntity catches
+	self tryBlock: anEntity try.
+	self catches: anEntity catches.
+	self finallyBlock: anEntity finally
 ]
 
 { #category : #accessing }

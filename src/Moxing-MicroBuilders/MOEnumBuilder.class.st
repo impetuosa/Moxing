@@ -47,7 +47,7 @@ MOEnumBuilder >> loadBuilderWithEntity: aMOEnum [
 	self name: aMOEnum name.
 	self entries: aMOEnum entries.
 	self visibility: aMOEnum visibility.
-	self modifiers: aMOEnum modifiers. 
+	self modifiers: aMOEnum modifiers.
 ]
 
 { #category : #generated }

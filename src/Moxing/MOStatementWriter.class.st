@@ -23,6 +23,12 @@ MOStatementWriter >> addLocalConstant: aMOLocalConstant [
 ]
 
 { #category : #adding }
+MOStatementWriter >> addLocalVariable: aMOLocalConstant [
+
+	^ self addStatement: aMOLocalConstant
+]
+
+{ #category : #adding }
 MOStatementWriter >> addStatement: aMOIfElse [
 
 	^ self registerStatement: aMOIfElse
@@ -35,6 +41,14 @@ MOStatementWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumen
 		  exp
 			  arrayAccess: anExpressionBuildingBlock
 			  arguments: anArgumentsBlock ]
+]
+
+{ #category : #statements }
+MOStatementWriter >> break [
+
+	| stmnt |
+	stmnt := self write: [ :a |  ] inSubWriter: MOBreakWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
@@ -52,6 +66,13 @@ MOStatementWriter >> caseExpressions: anExpressionBlock do: aBlockwriginBlock [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> cast: anExpressionBuildingBlock to: aTypeBuildingBlock [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp cast: anExpressionBuildingBlock to: aTypeBuildingBlock ])
+]
+
 { #category : #expressions }
 MOStatementWriter >> compare: aMOIntegerLiteral is: aString than: aFullBlockClosure [
 
@@ -60,9 +81,26 @@ MOStatementWriter >> compare: aMOIntegerLiteral is: aString than: aFullBlockClos
 ]
 
 { #category : #statements }
+MOStatementWriter >> continue [
+
+	| stmnt |
+	stmnt := self write: [ :a |  ] inSubWriter: MOContinueWriter.
+	^ stmnt
+]
+
+{ #category : #statements }
 MOStatementWriter >> do: aLoopingBlock until: aConditionBlock [
 
 	^ self writeDoUntil: [ :while | 
+		  while
+			  writeCondition: aConditionBlock;
+			  writeBlock: aLoopingBlock ]
+]
+
+{ #category : #statements }
+MOStatementWriter >> do: aLoopingBlock while: aConditionBlock [ 
+
+	^ self writeDoWhile: [ :while | 
 		  while
 			  writeCondition: aConditionBlock;
 			  writeBlock: aLoopingBlock ]
@@ -175,6 +213,13 @@ MOStatementWriter >> invocation: aString arguments: anExpressionBuildingBlock [
 			   exp invocation: aString arguments: anExpressionBuildingBlock ])
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> invokeConstructorArguments: aFullBlockClosure [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp invokeConstructorArguments: aFullBlockClosure ])
+]
+
 { #category : #expressions }
 MOStatementWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBlock [
 
@@ -192,6 +237,22 @@ MOStatementWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBl
 				   invokeMethodNamed: aString
 				   receiver: anExpressionBuildingBlock
 				   arguments: anOtherExpressionBuildingBlock ])
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> invokeNewExpressionOnType: aTypeReference withArguments: aCollection [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp
+				   invokeNewExpressionOnType: aTypeReference
+				   withArguments: aCollection ])
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> invokeSuperConstructorArguments: aFullBlockClosure [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp invokeSuperConstructorArguments: aFullBlockClosure ])
 ]
 
 { #category : #'as yet unclassified' }
@@ -260,6 +321,13 @@ MOStatementWriter >> operateBoolean: anExpressionBuildingBlock operator: aString
 				   operateBoolean: anExpressionBuildingBlock
 				   operator: aString
 				   with: anOtherExpressionBuildingBlock ])
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> postfixOperate: aFullBlockClosure operator: aString [
+
+	^ self registerStatement: (self writeExpression: [ :expr | 
+			   expr postfixOperate: aFullBlockClosure operator: aString ])
 ]
 
 { #category : #'as yet unclassified' }
@@ -343,6 +411,21 @@ MOStatementWriter >> stCascadeWith: aFullBlockClosure [
 		  (self writeExpression: [ :a | a stCascadeWith: aFullBlockClosure ])
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> switch: aBlock block: anOtherBlock [
+
+	^ self writeSwitch: [ :switch | 
+		  switch expression: (switch writeExpression: aBlock).
+		  switch writeBlock: anOtherBlock ]
+]
+
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> throw: aFullBlockClosure [
+
+	^ self registerStatement:
+		  (self writeExpression: [ :exp | exp throw: aFullBlockClosure ])
+]
+
 { #category : #statements }
 MOStatementWriter >> variable: aString typeReference: aMOTypeReference [
 
@@ -398,6 +481,14 @@ MOStatementWriter >> writeDoUntil: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeDoWhile: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MODoWhileWriter.
 	^ stmnt
 ]
 
@@ -490,6 +581,13 @@ MOStatementWriter >> writeIfElse: aBlock [
 ]
 
 { #category : #writing }
+MOStatementWriter >> writeLambda: aFullBlockClosure [
+
+	^ self registerStatement:
+		  (self write: aFullBlockClosure inSubWriter: MOLambdaWriter)
+]
+
+{ #category : #writing }
 MOStatementWriter >> writeLiteralForValue: aValue [
 
 	^ self writenExpression: (self literalForValue: aValue)
@@ -567,9 +665,34 @@ MOStatementWriter >> writeStatement: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOStatementWriter >> writeSynchronized: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOSynchronizedWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeTryCatch: aFullBlockClosure [ 
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOTryCatchWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
 MOStatementWriter >> writeTypeReferenceNamed: aString [
 
 	^ self writenExpression: (self typeReferenceNamed: aString)
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeVariable: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOVariableWriter.
+	^ stmnt
 ]
 
 { #category : #writing }

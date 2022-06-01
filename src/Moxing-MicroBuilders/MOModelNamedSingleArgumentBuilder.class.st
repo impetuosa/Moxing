@@ -1,5 +1,5 @@
 Class {
-	#name : #MOModelNamedArgumentBuilder,
+	#name : #MOModelNamedSingleArgumentBuilder,
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'name',
@@ -9,38 +9,38 @@ Class {
 }
 
 { #category : #asserting }
-MOModelNamedArgumentBuilder >> argumentExpression [
+MOModelNamedSingleArgumentBuilder >> argumentExpression [
 	 ^ argumentExpression ifNil: [ self error: ' Cannot be nil ' ]
 ]
 
 { #category : #asserting }
-MOModelNamedArgumentBuilder >> argumentExpressions: anExpression [ 
+MOModelNamedSingleArgumentBuilder >> argumentExpression: anExpression [ 
 
 	argumentExpression := anExpression 
 ]
 
 { #category : #asserting }
-MOModelNamedArgumentBuilder >> buildsType [
+MOModelNamedSingleArgumentBuilder >> buildsType [
 
-	^ MONamedArgument
+	^ MONamedSingleArgument
 ]
 
 { #category : #asserting }
-MOModelNamedArgumentBuilder >> name [
+MOModelNamedSingleArgumentBuilder >> name [
 	^ name ifNil: [ self error: ' name cannot be nil ' ]
 ]
 
 { #category : #asserting }
-MOModelNamedArgumentBuilder >> name: aName [
+MOModelNamedSingleArgumentBuilder >> name: aName [
 
 	name := aName
 ]
 
 { #category : #asserting }
-MOModelNamedArgumentBuilder >> privateBuild [
+MOModelNamedSingleArgumentBuilder >> privateBuild [
 
-	^ (self instantiate: MONamedArgument)
+	^ (self instantiate: self buildsType)
 		  name: self name;
-		  argumentExpressions: self argumentExpression;
+		  argumentExpression: self argumentExpression;
 		  yourself
 ]

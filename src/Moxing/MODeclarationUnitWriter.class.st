@@ -49,6 +49,11 @@ MODeclarationUnitWriter >> addImport: aMOImport [
 ]
 
 { #category : #adding }
+MODeclarationUnitWriter >> addJavaEnum: aMOJavaEnum [ 
+	^ writeBuilder addJavaEnum: aMOJavaEnum 
+]
+
+{ #category : #adding }
 MODeclarationUnitWriter >> addModule: aMOModule [
 
 	writeBuilder addModule: aMOModule
@@ -161,6 +166,18 @@ MODeclarationUnitWriter >> writeForm: aFullBlockClosure [
 MODeclarationUnitWriter >> writeImport: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOImportWriter
+]
+
+{ #category : #writing }
+MODeclarationUnitWriter >> writeJavaClass: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassWriter
+]
+
+{ #category : #writing }
+MODeclarationUnitWriter >> writeJavaEnum: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOJavaEnumWriter
 ]
 
 { #category : #writing }

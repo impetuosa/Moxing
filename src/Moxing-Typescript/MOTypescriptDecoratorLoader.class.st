@@ -56,7 +56,7 @@ MOTypescriptDecoratorLoader >> visitPropertyAssignment: aPropertyDefinition [
 
 	^ writer writeUnregisteredExpression: [ :ue | 
 		  ue
-			  argumentNamed: aPropertyDefinition name source
+			  singleArgumentNamed: aPropertyDefinition name source
 			  expression: [ :e | 
 				  self
 					  use: e

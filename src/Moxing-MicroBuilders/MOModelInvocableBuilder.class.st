@@ -49,8 +49,8 @@ MOModelInvocableBuilder >> body: aMOBlock [
 
 { #category : #'as yet unclassified' }
 MOModelInvocableBuilder >> buildsType [
-<generated>
-	^MOConstructor
+
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

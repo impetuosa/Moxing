@@ -29,3 +29,11 @@ MOStatementExpressionWriter >> writeBlockClosure: aFullBlockClosure [
 	self expression: ret.
 	^ret
 ]
+
+{ #category : #writing }
+MOStatementExpressionWriter >> writeLambda: aFullBlockClosure [ 	
+	| ret |
+	ret := ((self write: aFullBlockClosure inSubWriter: MOLambdaWriter)).
+	self expression: ret.
+	^ret
+]

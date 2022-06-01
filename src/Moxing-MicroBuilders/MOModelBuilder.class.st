@@ -172,6 +172,13 @@ MOModelBuilder >> booleanLiteralBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> breakBuilder [
+	^ MOModelBreakBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> buildExit [
 "	self halt ."
 	^ self instantiate: MOAlceExit 
@@ -273,6 +280,14 @@ MOModelBuilder >> comparisonOperatorBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> conditionalExpressionBuilder [
+
+	^ MOModelConditionalExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> constantAttributeBuilder [
 
 	^ MOModelConstantAttributeBuilder new
@@ -297,9 +312,25 @@ MOModelBuilder >> constructorBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> constructorInvocationBuilder [
+
+	^ MOConstructorInvocationBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> contextReferenceBuilder [
 
 	^ MOModelContextReferenceBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> continueBuilder [
+
+	^ MOModelContinueBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -576,6 +607,15 @@ MOModelBuilder >> invocationBuilder [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> javaClassBuilder [
+
+	^ MOModelJavaClassBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
 { #category : #initialization }
 MOModelBuilder >> labelBuilder [
 
@@ -590,6 +630,14 @@ MOModelBuilder >> labelReferenceBuilder [
 	^ MOModelLabelReferenceBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> lambdaBuilder [
+
+	^ MOLambdaBuilder new
+		  parentBuilder: self;
 		  yourself
 ]
 
@@ -645,6 +693,14 @@ MOModelBuilder >> metaclassBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> methodAccessBuilder [
+
+	^ MOModelMethodAccessBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> methodBuilder [
 
 	^ MOModelMethodBuilder new
@@ -686,9 +742,17 @@ MOModelBuilder >> moduleBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> namedArgumentBuilder [
+MOModelBuilder >> namedArgumentsBuilder [
 
-	^ MOModelNamedArgumentBuilder new
+	^ MOModelNamedArgumentsBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> namedSingleArgumentBuilder [
+
+	^ MOModelNamedSingleArgumentBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -829,6 +893,14 @@ MOModelBuilder >> primitiveEnumBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> primitiveJavaEnumBuilder [
+
+	^ MOModelJavaEnumBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> primitiveTypeBuilder [
 
 	^ MOPrimitiveTypeBuilder new
@@ -873,6 +945,14 @@ MOModelBuilder >> procedureBuilder [
 MOModelBuilder >> projectBuilder [
 
 	^ MOProjectBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #accessing }
+MOModelBuilder >> qualifiedTypeReferenceBuilder [
+
+	^ MOModelQualifiedTypeReferenceBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -935,7 +1015,6 @@ MOModelBuilder >> reportBuilder [
 
 { #category : #'as yet unclassified' }
 MOModelBuilder >> resumeBuilder [
-
 	^ MOModelResumeBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
@@ -969,7 +1048,6 @@ MOModelBuilder >> rootDeclarationBuilder [
 
 { #category : #'as yet unclassified' }
 MOModelBuilder >> selectBuilder [
-
 	^ MOModelSelectBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -1074,6 +1152,14 @@ MOModelBuilder >> statementExpressionBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> staticInitializerBuilder [
+
+	^ MOModelStaticInitializerBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> stringLiteralBuilder [
 
 	^ MOStringLiteralBuilder new
@@ -1103,8 +1189,29 @@ MOModelBuilder >> surface: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> switchBlockBuilder [
+	 ^ MOModelSwitchBlockBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> switchBuilder [
+	 ^ MOModelSwitchBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> symbolicArrayLiteralBuilder [
 	^ MOStSymbolicArrayLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> synchronizedStatementBuilder [
+	 ^ MOModelSynchronizedBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -1121,6 +1228,14 @@ MOModelBuilder >> tableBuilder [
 MOModelBuilder >> templateDocumentBuilder [
 
 	^ MOModelAngularTemplateDocumentBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> throwBuilder [
+
+	^ MOModelThrowBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

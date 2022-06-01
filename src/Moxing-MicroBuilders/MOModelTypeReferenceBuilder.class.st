@@ -40,13 +40,19 @@ MOModelTypeReferenceBuilder >> buildSubtypeReference [
 { #category : #'as yet unclassified' }
 MOModelTypeReferenceBuilder >> buildTypeReference [
 
-	^ (self instantiate: MOTypeReference)
+	^ (self instantiate: self buildsType)
 		  candidateAnchor: self candidateAnchor;
 		  candidate: self candidate;
 		  name: self name;
 		  packageReference: self packageReference;
 		  parent: self parent;
 		  yourself
+]
+
+{ #category : #asserting }
+MOModelTypeReferenceBuilder >> buildsType [
+
+	^ MOTypeReference
 ]
 
 { #category : #accessing }

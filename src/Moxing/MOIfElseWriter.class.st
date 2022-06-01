@@ -9,7 +9,7 @@ Class {
 
 { #category : #visiting }
 MOIfElseWriter >> acceptWritingVisitor: aVisitor [
-	^ aVisitor visitElseWriter: self 
+	^ aVisitor visitIfElseWriter: self 
 
 
 ]

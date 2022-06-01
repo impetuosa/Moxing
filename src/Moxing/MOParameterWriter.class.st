@@ -14,6 +14,12 @@ MOParameterWriter >> acceptWritingVisitor: aVisitor [
 
 ]
 
+{ #category : #adding }
+MOParameterWriter >> addModifier: aString [
+
+	writeBuilder addModifier: aString
+]
+
 { #category : #writing }
 MOParameterWriter >> initializeWriteBuilder [
 	writeBuilder := builder parameterBuilder 

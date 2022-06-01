@@ -17,6 +17,12 @@ MOTryCatchWriter >> addCatch: aMOCatch [
 	writeBuilder addCatch: aMOCatch
 ]
 
+{ #category : #generated }
+MOTryCatchWriter >> finallyBlock: aMOBlock [
+
+	writeBuilder finallyBlock: aMOBlock
+]
+
 { #category : #writing }
 MOTryCatchWriter >> initializeWriteBuilder [
 
@@ -39,6 +45,15 @@ MOTryCatchWriter >> winitializeWriteBuilder [
 MOTryCatchWriter >> writeCatch: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOCatchWriter
+]
+
+{ #category : #writing }
+MOTryCatchWriter >> writeFinally: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  inSubWriter: MOBlockWriter
+		  initializeWith: [ :b | b messageToRegisterBlock: #finallyBlock: ]
 ]
 
 { #category : #writing }

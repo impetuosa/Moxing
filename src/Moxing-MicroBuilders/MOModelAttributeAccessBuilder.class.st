@@ -37,7 +37,7 @@ MOModelAttributeAccessBuilder >> name: aString [
 { #category : #'as yet unclassified' }
 MOModelAttributeAccessBuilder >> privateBuild [
 
-	^ (self instantiate: MOAttributeAccess)
+	^ (self instantiate: self buildsType)
 		  receiverReference: self receiverReference;
 		  name: self name;
 		  yourself

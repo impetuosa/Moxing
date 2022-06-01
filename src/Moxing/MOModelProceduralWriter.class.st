@@ -23,7 +23,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOModelProceduralWriter >> acceptWritingVisitor: aVisistor [
+MOModelProceduralWriter >> acceptWritingVisitor: aVisitor [
  	self subclassResponsibility 
 ]
 
@@ -333,6 +333,14 @@ MOModelProceduralWriter >> privateWriteToSurface: anEntity [
 
 	self subclassResponsibility
 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> qualifiedTypeReferenceNamed: aString receiver: aReceiverReference [
+
+	^ parentWriter
+		  qualifiedTypeReferenceNamed: aString
+		  receiver: aReceiverReference
 ]
 
 { #category : #'as yet unclassified' }

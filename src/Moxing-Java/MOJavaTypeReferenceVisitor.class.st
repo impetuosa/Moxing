@@ -72,6 +72,15 @@ MOJavaTypeReferenceVisitor >> visitPrimitiveType: aJavaLongTypeNode [
 ]
 
 { #category : #visiting }
+MOJavaTypeReferenceVisitor >> visitQualifiedName: aJavaQualifiedNameNode [
+
+	^ writer
+		  qualifiedTypeReferenceNamed: aJavaQualifiedNameNode name value
+		  receiver: (writer writeUnregisteredExpression: [ :expr | 
+				   aJavaQualifiedNameNode nspace acceptVisitor: self ])
+]
+
+{ #category : #visiting }
 MOJavaTypeReferenceVisitor >> visitQualifiedTypeName: aJavaQualifiedTypeNameNode [
 
 	| fullName |

@@ -1,6 +1,6 @@
 Class {
 	#name : #MOParametrizableClass,
-	#superclass : #MOClass,
+	#superclass : #MOJavaClass,
 	#instVars : [
 		'#typeParameters => MOContainmentSlot many'
 	],

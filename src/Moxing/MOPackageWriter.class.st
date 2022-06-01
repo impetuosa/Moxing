@@ -96,6 +96,12 @@ MOPackageWriter >> writeForm: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOPackageWriter >> writeJavaClass: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassWriter
+]
+
+{ #category : #writing }
 MOPackageWriter >> writeModule: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOModuleWriter

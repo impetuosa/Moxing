@@ -27,6 +27,27 @@ MOHoldsTypeReferences >> handlesTypeReferences [
 ]
 
 { #category : #initialization }
+MOHoldsTypeReferences >> qualifiedTypeReferenceNamed: aString receiver: aReceiverReference [
+
+	| ref |
+	ref := self parentWriter handlesTypeReferences
+		       ifTrue: [ 
+			       self parentWriter
+				       qualifiedTypeReferenceNamed: aString
+				       receiver: aReceiverReference ]
+		       ifFalse: [ 
+			       self typeReferences
+				       at: aReceiverReference name , '$' , aString
+				       ifAbsentPut: [ 
+					       self builder qualifiedTypeReferenceBuilder
+						       name: aString;
+						       receiver: aReceiverReference;
+						       build ] ].
+	self assert: ref isReference.
+	^ ref
+]
+
+{ #category : #initialization }
 MOHoldsTypeReferences >> typeReferenceFullNamed: aString [
 
 	| ref |

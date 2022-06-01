@@ -39,6 +39,11 @@ MOModelBlockBuilder >> addLocalVariable: aMOLocalVariable [
 
 { #category : #generated }
 MOModelBlockBuilder >> addStatement: aStatement [
+
+	aStatement isCollection ifTrue: [ 
+		aStatement do: [ :a | self addStatement: a ].
+		^ self ].
+	(aStatement isKindOf: MOJavaFileLoader) ifTrue: [ self halt ].
 	aStatement ifNil: [ self halt ].
 	self isAddingStatemntsAtFirst
 		ifTrue: [ self addFirstStatement: aStatement ]
@@ -49,6 +54,15 @@ MOModelBlockBuilder >> addStatement: aStatement [
 MOModelBlockBuilder >> buildsType [
 <generated>
 	^MOBlock
+]
+
+{ #category : #generated }
+MOModelBlockBuilder >> flattenedStatements [
+
+	^ statements flatCollect: [ :a | 
+		  a isCollection
+			  ifTrue: [ a ]
+			  ifFalse: [ { a } ] ]
 ]
 
 { #category : #accessing }
@@ -86,10 +100,10 @@ MOModelBlockBuilder >> privateBuild [
 		         ifEmpty: [ self instantiate: MOEmptyBlock ]
 		         ifNotEmpty: [ 
 			         (self instantiate: MOBlock)
-				         statements: self statements;
+				         statements: self flattenedStatements;
 				         yourself ].
 
-	self statements do: [ :s | s parent: block ].
+	self flattenedStatements do: [ :s | s parent: block ].
 	^ block
 ]
 
@@ -101,11 +115,7 @@ MOModelBlockBuilder >> setAddingStatemntsAtFirst [
 { #category : #generated }
 MOModelBlockBuilder >> statements [
 
-	^ (statements ifNil: [ statements := OrderedCollection new ]) 
-		  flatCollect: [ :a | 
-			  a isCollection
-				  ifTrue: [ a ]
-				  ifFalse: [ { a } ] ]
+	^ statements ifNil: [ statements := OrderedCollection new ]
 ]
 
 { #category : #accessing }

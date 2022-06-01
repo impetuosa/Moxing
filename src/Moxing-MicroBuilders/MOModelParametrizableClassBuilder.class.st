@@ -1,6 +1,6 @@
 Class {
 	#name : #MOModelParametrizableClassBuilder,
-	#superclass : #MOModelClassBuilder,
+	#superclass : #MOModelJavaClassBuilder,
 	#instVars : [
 		'typeParameters'
 	],

@@ -26,6 +26,16 @@ MOExpressionWriter >> accessAttribute: aString receiver: anExpressionBuildingBlo
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> accessMethod: aString receiver: anExpressionBuildingBlock [
+
+	^ builder methodAccessBuilder
+		  name: aString;
+		  receiverReference:
+			  (self writeExpression: anExpressionBuildingBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> accessType: aString receiver: anExpressionBuildingBlock [
 
 	^ builder typeAccessBuilder
@@ -41,10 +51,16 @@ MOExpressionWriter >> addAnnotationInstance: aMOAnnotationInstance [
 	^ aMOAnnotationInstance
 ]
 
-{ #category : #'as yet unclassified' }
-MOExpressionWriter >> argumentNamed: anArgumentName expression: aFullBlockClosure [
+{ #category : #adding }
+MOExpressionWriter >> addLocalVariable: aMOLocalVariable [
 
-	^ builder namedArgumentBuilder
+	^ aMOLocalVariable
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> argumentNamed: anArgumentName expressions: aFullBlockClosure [
+
+	^ builder namedArgumentsBuilder
 		  name: anArgumentName;
 		  argumentExpressions: (self writeExpression: aFullBlockClosure);
 		  build
@@ -71,6 +87,15 @@ MOExpressionWriter >> build [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> cast: anExpressionBuildingBlock to: aTypeBuildingBlock [
+
+	^ builder castExpressionBuilder
+		  expression: (self writeExpression: anExpressionBuildingBlock);
+		  typeReference: (self writeExpression: aTypeBuildingBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> classExpression: aMOTypeReference [
 
 	^ builder classExpressionBuilder
@@ -83,6 +108,16 @@ MOExpressionWriter >> compare: aLeft is: anOperatorString than: aRight [
 		  operator: anOperatorString asSymbol;
 		  left: aLeft;
 		  right: aRight;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> conditionalExpression: aConditionBlock ifTrue: aTrueBlock ifFalse: aFalseBlock [
+
+	^ builder conditionalExpressionBuilder
+		  condition: (self writeExpression: aConditionBlock);
+		  ifTrueExpression: (self writeExpression: aTrueBlock);
+		  ifFalseExpression: (self writeExpression: aFalseBlock);
 		  build
 ]
 
@@ -137,6 +172,15 @@ MOExpressionWriter >> invocation: aString arguments: anExpressionBuildingBlock [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> invokeConstructorArguments: anOtherExpressionBuildingBlock [
+
+	^ builder constructorInvocationBuilder
+		  selector: #this;
+		  arguments: (self writeExpression: anOtherExpressionBuildingBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> invokeMethodNamed: aString receiver: aFullBlockClosure [
 
 	^ builder methodInvocationBuilder
@@ -162,6 +206,15 @@ MOExpressionWriter >> invokeNewExpressionOnType: aTypeReference withArguments: a
 	^ builder newExpressionBuilder
 		  typeReference: aTypeReference;
 		  arguments: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> invokeSuperConstructorArguments: anOtherExpressionBuildingBlock [
+
+	^ builder constructorInvocationBuilder
+		  selector: #super;
+		  arguments: (self writeExpression: anOtherExpressionBuildingBlock);
 		  build
 ]
 
@@ -201,6 +254,15 @@ MOExpressionWriter >> new: aMOTypeReference [
 
 	^ builder newExpressionBuilder
 		  typeReference: aMOTypeReference;
+		  build
+]
+
+{ #category : #'instance creation' }
+MOExpressionWriter >> new: aMOTypeReference arguments: anArgumentsBlock [
+
+	^ builder newExpressionBuilder
+		  typeReference: aMOTypeReference;
+		  arguments: (self writeExpression: anArgumentsBlock);
 		  build
 ]
 
@@ -254,6 +316,16 @@ MOExpressionWriter >> operator: aString [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> postfixOperate: aFullBlockClosure operator: anOperator [ 
+
+	^ builder arithmeticUnaryOperationBuilder
+		  operand: (self writeExpression: aFullBlockClosure);
+		  operator: anOperator;
+		  setAsPostfixOperator;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> pragma: aString arguments: aFullBlockClosure [
 
 	| arguments |
@@ -265,10 +337,28 @@ MOExpressionWriter >> pragma: aString arguments: aFullBlockClosure [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> prefixOperate: aFullBlockClosure operator: anOperator [ 
+
+	^ builder arithmeticUnaryOperationBuilder
+		  operand: (self writeExpression: aFullBlockClosure);
+		  operator: anOperator;
+		  setAsPrefixOperator;
+		  build
+]
+
 { #category : #writing }
 MOExpressionWriter >> privateWriteToSurface: anEntity [
 
 	shouldRegisterResult ifTrue: [ surface expression: anEntity ]
+]
+
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> qualifiedTypeReferenceNamed: aString receiver: aTypeReference [
+
+	^ parentWriter
+		  qualifiedTypeReferenceNamed: aString
+		  receiver: aTypeReference
 ]
 
 { #category : #accessing }
@@ -295,6 +385,15 @@ MOExpressionWriter >> setWriteVariable: aMOVariableReference [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> singleArgumentNamed: anArgumentName expression: aFullBlockClosure [
+
+	^ builder namedSingleArgumentBuilder
+		  name: anArgumentName;
+		  argumentExpression: (self writeExpression: aFullBlockClosure);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> stArrayExpression: aFullBlockClosure [
 
 	| elements |
@@ -314,6 +413,33 @@ MOExpressionWriter >> stCascadeWith: aFullBlockClosure [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOExpressionWriter >> throw: aFullBlockClosure [
+
+	^ builder throwBuilder
+		  argument: (self writeExpression: aFullBlockClosure);
+		  build
+]
+
+{ #category : #statements }
+MOExpressionWriter >> variable: aString typeReference: aMOTypeReference [
+
+	^ builder localVariableBuilder
+		  name: aString;
+		  typeReference: aMOTypeReference value;
+		  build
+]
+
+{ #category : #statements }
+MOExpressionWriter >> variable: aName typeReference: aTypeReference initializer: anExpressionBlock [
+
+	^ builder localVariableBuilder
+		  name: aName;
+		  typeReference: aTypeReference value;
+		  initializer: (self writeExpression: anExpressionBlock);
+		  build
+]
+
 { #category : #writing }
 MOExpressionWriter >> writeAnnotation: aFullBlockClosure [ 
 	
@@ -330,6 +456,12 @@ MOExpressionWriter >> writeBlockClosure: aFullBlockClosure [
 MOExpressionWriter >> writeExpression: aFullBlockClosure [ 
 
 	^ self writeUnregisteredExpression: aFullBlockClosure
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeLambda: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOLambdaWriter
 ]
 
 { #category : #writing }
@@ -365,6 +497,14 @@ MOExpressionWriter >> writeReferenceToThisContext [
 MOExpressionWriter >> writeTypeReferenceNamed: aString [
 
 	^ self typeReferenceNamed: aString
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeVariable: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOVariableWriter.
+	^ stmnt
 ]
 
 { #category : #writing }

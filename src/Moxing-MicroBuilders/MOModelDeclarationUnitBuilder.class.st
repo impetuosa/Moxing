@@ -43,6 +43,12 @@ MOModelDeclarationUnitBuilder >> addImport: aMOImport [
 ]
 
 { #category : #adding }
+MOModelDeclarationUnitBuilder >> addJavaEnum: aMOJavaEnum [
+
+	self addEnum: aMOJavaEnum
+]
+
+{ #category : #adding }
 MOModelDeclarationUnitBuilder >> addModule: aMOModule [
 
 	self addType: aMOModule
