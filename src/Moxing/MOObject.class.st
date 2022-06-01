@@ -46,7 +46,8 @@ MOObject >> finalize [
 	objs := state values select: [ :a | a isMOObject ].
 	state removeAll.
 	self class allSlots do: [ :slot | slot write: nil to: self ].
-	objs do: #finalize
+	objs do: #finalize.
+	self becomeForward:{}
 ]
 
 { #category : #accessing }

@@ -110,11 +110,13 @@ MOModel >> fileReference: aFileReference [
 MOModel >> finalize [
 
 	self root finalize.
-	objects do: #finalize.
-	objects removeAll.
+	objects ifNotNil: [ 
+		objects do: #finalize.
+		objects removeAll ].
 	objects := nil.
 	catalog := nil.
-	root := nil
+	root := nil.
+	self becomeForward: {  }
 ]
 
 { #category : #initialization }

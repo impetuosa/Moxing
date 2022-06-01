@@ -164,7 +164,8 @@ MODeclaration >> finalize [
 	| relations |
 	relations := self allRelations.
 	self class allSlots do: [ :slot | slot write: nil to: self ].
-	relations do: [ :r | r to finalize ]
+	relations do: [ :r | r to finalize ].
+	self becomeForward: {}
 ]
 
 { #category : #traverse }
