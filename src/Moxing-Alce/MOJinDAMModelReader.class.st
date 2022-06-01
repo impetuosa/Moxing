@@ -96,6 +96,7 @@ MOJinDAMModelReader >> visitAccessModule: aJinDAMAccessModule [
 				           self use: p during: [ 
 					           self visitCollection: aJinDAMAccessModule globals.
 					           self visitCollection: aJinDAMAccessModule types ] ]).
+	module name: aJinDAMAccessModule name.
 	MOJinDAMQueryLinkSolver new
 		relations: jindamModel tableRelations;
 		writer: writer;
@@ -621,12 +622,17 @@ MOJinDAMModelReader >> visitLabel: aJinDAMLabel [
 { #category : #visiting }
 MOJinDAMModelReader >> visitLibrary: aJinDAMLibrary [
 
-	^ self trace: aJinDAMLibrary with: (writer writeLibrary: [ :p | 
-			   p name: aJinDAMLibrary name.
-			   self use: p during: [ 
-				   self visitCollection: aJinDAMLibrary globals.
-				   self visitCollection: aJinDAMLibrary types.
-				   self visitCollection: aJinDAMLibrary invocables ] ])
+	| library |
+	library := self
+		           trace: aJinDAMLibrary
+		           with: (writer writeLibrary: [ :p | 
+				            p name: aJinDAMLibrary name.
+				            self use: p during: [ 
+					            self visitCollection: aJinDAMLibrary globals.
+					            self visitCollection: aJinDAMLibrary types.
+					            self visitCollection: aJinDAMLibrary invocables ] ]).
+	library name: aJinDAMLibrary name.
+	^ library
 ]
 
 { #category : #visiting }
@@ -651,7 +657,8 @@ MOJinDAMModelReader >> visitLiteralReference: aJinDAMLiteralReference [
 	
 	aJinDAMLiteralReference literalKind = 'Date' ifTrue: [ 
 		^ writer dateLiteral: aJinDAMLiteralReference candidate ].
-	
+	aJinDAMLiteralReference literalKind = 'FileDescriptor' ifTrue: [ 
+		^ writer fileDescriptorLiteral: aJinDAMLiteralReference candidate ].
 	self error: 'Unexpected literal '
 ]
 
@@ -1013,6 +1020,13 @@ MOJinDAMModelReader >> visitTableField: aJinDAMTableField [
 { #category : #visiting }
 MOJinDAMModelReader >> visitTableRelation:as [
 
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitTypeMemberReference: aJinDAMTypeMemberReference [
+
+	^ writer noOp: ' Error loading TypeReference Member '
+		  , aJinDAMTypeMemberReference name
 ]
 
 { #category : #visiting }

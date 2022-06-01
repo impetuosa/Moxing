@@ -156,6 +156,14 @@ MOModelProceduralWriter >> dictionaryLiteralWithLiterals: aCollection [
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelProceduralWriter >> fileDescriptorLiteral: aString [ 
+
+	^ builder fileDescriptorLiteralBuilder
+		  value: aString ;
+		  build
+]
+
 { #category : #accessing }
 MOModelProceduralWriter >> fileReference: anUndefinedObject [ 
 	writeBuilder fileReference: anUndefinedObject 

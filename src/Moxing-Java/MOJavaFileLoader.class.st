@@ -597,7 +597,7 @@ MOJavaFileLoader >> visitMethodDeclaration: aJavaMethodDeclarationNode [
 
 { #category : #visiting }
 MOJavaFileLoader >> visitMethodDeclarator: aJavaMethodDeclaratorNode [
-
+	aJavaMethodDeclaratorNode name value = #sessionFactory ifTrue: [ self halt ].
 	writer selector: aJavaMethodDeclaratorNode name value.
 	self visitCollection: aJavaMethodDeclaratorNode parameters
 ]

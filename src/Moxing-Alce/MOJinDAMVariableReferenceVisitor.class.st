@@ -103,7 +103,7 @@ MOJinDAMVariableReferenceVisitor >> variableReferenceFor: aJinDAMMemberReference
 						producedSegments add:
 							(writer arrayAccess: [ :e | ps ] arguments: [ :e | arguments ]) ]
 					ifFalse: [ 
-					self assert: arguments = producedSegments first arguments ] ] ].
+					"self assert: arguments = producedSegments first arguments" ] ] ].
 	^ writer writenExpression: producedSegments first
 
 	"						arguments size = 1
@@ -225,6 +225,12 @@ MOJinDAMVariableReferenceVisitor >> visitExternalFunction: aJinDAMExternalFuncti
 ]
 
 { #category : #visiting }
+MOJinDAMVariableReferenceVisitor >> visitExternalSubProcedure: aJinDAMExternalSubProcedure [
+
+	^ self visitSubProcedure:  aJinDAMExternalSubProcedure
+]
+
+{ #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitForm: aJinDAMForm [ 
 	^ writer variableReferenceNamed: aJinDAMForm name
 ]
@@ -244,8 +250,18 @@ MOJinDAMVariableReferenceVisitor >> visitLibraryReference: aJinDAMLibraryReferen
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitLocalVariable: aJinDAMLocalVariable [
 
-	self assert: producedSegments isEmpty.
-	^ writer variableReferenceNamed: aJinDAMLocalVariable name
+	self assert: producedSegments size <= 1.
+
+
+	^ producedSegments
+		  ifEmpty: [ 
+		  writer variableReferenceNamed: aJinDAMLocalVariable name ]
+		  ifNotEmpty: [ 
+			  | receiver |
+			  receiver := producedSegments removeLast.
+			  writer
+				  accessAttribute: aJinDAMLocalVariable name
+				  receiver: [ :e | receiver ] ]
 ]
 
 { #category : #visiting }

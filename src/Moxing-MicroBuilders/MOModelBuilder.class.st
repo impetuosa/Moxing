@@ -434,6 +434,14 @@ MOModelBuilder >> externalProcedureBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> fileDescriptorLiteralBuilder [
+
+	^ MOFileDescriptorLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> fileImportBuilder [
 
 	^ MOModelFileImportBuilder new
