@@ -11,7 +11,7 @@ Class {
 { #category : #asserting }
 MOExternalFunction >> canBeReferredAsMethod [
 
-	^ parent isKindOf: MOClass
+	^ parent isStonReference or: [ parent isKindOf: MOClass ].
 ]
 
 { #category : #accessing }
