@@ -101,11 +101,7 @@ MOModelBlockBuilder >> setAddingStatemntsAtFirst [
 { #category : #generated }
 MOModelBlockBuilder >> statements [
 
-	^ (statements ifNil: [ statements := OrderedCollection new ]) 
-		  flatCollect: [ :a | 
-			  a isCollection
-				  ifTrue: [ a ]
-				  ifFalse: [ { a } ] ]
+	^ statements ifNil: [ statements := OrderedCollection new ]
 ]
 
 { #category : #accessing }

@@ -159,6 +159,15 @@ MODeclaration >> doForceNameToBeSanitized [
 ]
 
 { #category : #traverse }
+MODeclaration >> finalize [
+
+	| relations |
+	relations := self allRelations.
+	self class allSlots do: [ :slot | slot write: nil to: self ].
+	relations do: [ :r | r to finalize ]
+]
+
+{ #category : #traverse }
 MODeclaration >> initialize [
 
 	super initialize.

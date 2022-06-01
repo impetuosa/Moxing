@@ -16,6 +16,14 @@ MOObject class >> newInstanceFromModel [
 ]
 
 { #category : #accessing }
+MOObject >> allProperties [
+
+	^ (self class allSlots
+		  select: [ :slot | slot class = MOPropertySlot ]
+		  thenCollect: [ :slot | slot read: self ])  
+]
+
+{ #category : #accessing }
 MOObject >> at: aName [
 
 	^ state at: aName ifAbsent: [ 
@@ -26,6 +34,19 @@ MOObject >> at: aName [
 { #category : #accessing }
 MOObject >> at: name put: aValue [ 
 	state at: name put: aValue 
+]
+
+{ #category : #accessing }
+MOObject >> finalize [
+
+	| objs |
+	state ifNil: [ 
+		self class allSlots do: [ :slot | slot write: nil to: self ].
+		^ self ].
+	objs := state values select: [ :a | a isMOObject ].
+	state removeAll.
+	self class allSlots do: [ :slot | slot write: nil to: self ].
+	objs do: #finalize
 ]
 
 { #category : #accessing }
