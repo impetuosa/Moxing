@@ -106,6 +106,17 @@ MOModel >> fileReference: aFileReference [
 	fileReference := aFileReference
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> finalize [
+
+	self root finalize.
+	objects do: #finalize.
+	objects removeAll.
+	objects := nil.
+	catalog := nil.
+	root := nil
+]
+
 { #category : #initialization }
 MOModel >> initialize [
 
