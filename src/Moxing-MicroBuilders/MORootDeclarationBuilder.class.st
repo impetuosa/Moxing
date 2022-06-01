@@ -23,6 +23,7 @@ MORootDeclarationBuilder >> loadBuilderWithEntity: anEntity [
 { #category : #'as yet unclassified' }
 MORootDeclarationBuilder >> packages [
 	^ packages
+	
 ]
 
 { #category : #'as yet unclassified' }
