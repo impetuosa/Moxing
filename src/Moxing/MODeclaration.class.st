@@ -226,6 +226,12 @@ MODeclaration >> isDefinedInLibrary [
 ]
 
 { #category : #testing }
+MODeclaration >> isFunction [
+
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isInTheContextOfA: aClass [
 
 	| current |
@@ -301,6 +307,11 @@ MODeclaration >> isPragma [
 MODeclaration >> isPrimitiveType [ 
 
 	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isProcedure [
+^ false.
 ]
 
 { #category : #testing }

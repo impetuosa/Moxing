@@ -20,6 +20,11 @@ MONoOp >> candidate: aMOEnumEntry [
 ]
 
 { #category : #accessing }
+MONoOp >> description [
+	^ description
+]
+
+{ #category : #accessing }
 MONoOp >> description: aString [ 
 	description := aString
 ]
