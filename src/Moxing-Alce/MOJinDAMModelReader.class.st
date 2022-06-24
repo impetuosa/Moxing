@@ -1026,7 +1026,7 @@ MOJinDAMModelReader >> visitTableRelation:as [
 MOJinDAMModelReader >> visitTypeMemberReference: aJinDAMTypeMemberReference [
 
 	^ writer noOp: ' Error loading TypeReference Member '
-		  , aJinDAMTypeMemberReference name
+		  , (aJinDAMTypeMemberReference name ifNil: [ 'Nil' ])
 ]
 
 { #category : #visiting }
