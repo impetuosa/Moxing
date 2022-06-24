@@ -73,7 +73,9 @@ MOArtefactBuilder >> name [
 
 { #category : #adding }
 MOArtefactBuilder >> name: aName [
-  name := aName 
+
+	aName ifNil: [ self halt ].
+	name := aName
 ]
 
 { #category : #accessing }

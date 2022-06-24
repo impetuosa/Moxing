@@ -1,6 +1,9 @@
 Class {
 	#name : #MOArtefactWriter,
 	#superclass : #MOModelProceduralWriter,
+	#instVars : [
+		'name'
+	],
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -37,6 +40,12 @@ MOArtefactWriter >> addPrimitiveType: aMOPrimitiveType [
 MOArtefactWriter >> addStructureType: aMOStructure [
 
 	writeBuilder addStructureType: aMOStructure
+]
+
+{ #category : #writing }
+MOArtefactWriter >> name: aName [
+
+	writeBuilder name: aName
 ]
 
 { #category : #writing }
