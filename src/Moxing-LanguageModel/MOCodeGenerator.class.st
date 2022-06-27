@@ -217,6 +217,12 @@ MOCodeGenerator >> visitCollection: aCollection [
 ]
 
 { #category : #visiting }
+MOCodeGenerator >> visitFloatLiteral: aMOIntegerLiteral [
+
+	stream print: aMOIntegerLiteral literal
+]
+
+{ #category : #visiting }
 MOCodeGenerator >> visitIfElse: aMOIfElse [
 
 
@@ -232,8 +238,9 @@ MOCodeGenerator >> visitIfElse: aMOIfElse [
 ]
 
 { #category : #visiting }
-MOCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [ 
-	stream print: aMOIntegerLiteral literal 
+MOCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [
+
+	stream print: aMOIntegerLiteral literal
 ]
 
 { #category : #visiting }

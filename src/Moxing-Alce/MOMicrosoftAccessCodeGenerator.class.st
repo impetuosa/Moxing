@@ -173,13 +173,21 @@ MOMicrosoftAccessCodeGenerator >> visitEnumEntry: aMOEnumEntry [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitExit: aMOAlceExit [
 
+
 	stream nextPutAll: #'Exit '.
 	({ 
 		 MOFunction.
 		 MOClassFunction } includes: aMOAlceExit invocableKind) ifTrue: [ 
 		stream nextPutAll: 'Function'.
 		^ self ].
-	self error: #implement
+
+	({ 
+		 MOProcedure.
+		 MOClassProcedure } includes: aMOAlceExit invocableKind) ifTrue: [ 
+		stream nextPutAll: 'Sub'.
+		^ self ].
+
+	self halt
 ]
 
 { #category : #visiting }
@@ -199,10 +207,10 @@ MOMicrosoftAccessCodeGenerator >> visitFunction: aMOFunction [
 	stream
 		nextPutAll: ' Function ';
 		nextPutAll: aMOFunction selector;
-		nextPutAll: ' ('.
+		nextPutAll: '('.
 
 	self streamArguments: aMOFunction parameters.
-	stream nextPutAll: ') '.
+	stream nextPutAll: ')'.
 
 	aMOFunction returnTypeReference ifNotNil: [ :rtr | 
 		stream
@@ -267,9 +275,9 @@ MOMicrosoftAccessCodeGenerator >> visitInvocation: aMOInvocation [
 		ifFalse: [  ].
 	stream
 		nextPutAll: aMOInvocation selector;
-		nextPutAll: ' ( '.
+		nextPutAll: '('.
 	self streamArguments: aMOInvocation arguments.
-	stream nextPutAll: ' ) '.
+	stream nextPutAll: ')'.
 	aMOInvocation parent isStatement ifFalse: [ ]
 ]
 
@@ -290,6 +298,7 @@ MOMicrosoftAccessCodeGenerator >> visitLocalVariable: aMOLocalVariable [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitMethodInvocation: aMOMethodInvocation [
 
+
 	aMOMethodInvocation parent isStatementExpression
 		ifTrue: [ stream nextPutAll: 'Call ' ]
 		ifFalse: [  ].
@@ -298,11 +307,10 @@ MOMicrosoftAccessCodeGenerator >> visitMethodInvocation: aMOMethodInvocation [
 	stream
 		nextPutAll: '.';
 		nextPutAll: aMOMethodInvocation selector;
-		nextPutAll: ' ( '.
+		nextPutAll: '('.
 	self streamArguments: aMOMethodInvocation arguments.
-	stream nextPutAll: ' ) '.
-	aMOMethodInvocation parent isStatement ifFalse: [ 
-	 ]
+	stream nextPutAll: ')'.
+	aMOMethodInvocation parent isStatement ifFalse: [  ]
 ]
 
 { #category : #visiting }
@@ -363,7 +371,7 @@ MOMicrosoftAccessCodeGenerator >> visitProcedure: aMOProcedure [
 	stream
 		nextPutAll: ' Sub ';
 		nextPutAll: aMOProcedure selector;
-		nextPutAll: ' ('.
+		nextPutAll: '('.
 	self streamArguments: aMOProcedure parameters.
 	stream nextPutAll: ')'.
 	aMOProcedure block acceptVisitor: self.
@@ -458,9 +466,7 @@ MOMicrosoftAccessCodeGenerator >> visitUnaryArithmeticExpression: aMOUnaryArithm
 MOMicrosoftAccessCodeGenerator >> visitUnaryExpression: aMOUnaryArithmeticOperation [
 
 	aMOUnaryArithmeticOperation isPrefix ifTrue: [ 
-		stream
-			nextPutAll: aMOUnaryArithmeticOperation operator;
-			nextPutAll: ' ' ].
+		stream nextPutAll: aMOUnaryArithmeticOperation operator ].
 	aMOUnaryArithmeticOperation operand acceptVisitor: self.
 	aMOUnaryArithmeticOperation isPostfix ifTrue: [ 
 		stream
