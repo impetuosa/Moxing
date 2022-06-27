@@ -36,6 +36,39 @@ MOMicrosoftAccessCodeGenerator >> produceCodeFor: anTree [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> variableBody: aMOLocalConstant [
+
+	(aMOLocalConstant initializer isNotNil and: [ 
+		 aMOLocalConstant initializer isKindOf: MONewInvocation ])
+		ifTrue: [ 
+			aMOLocalConstant typeReference isUnknown ifFalse: [ 
+				stream nextPutAll: ' As New '.
+				stream nextPutAll: (aMOLocalConstant typeReference
+						 ifNil: [ 'Variant' ]
+						 ifNotNil: [ :t | t name ]) ] ]
+		ifFalse: [ 
+			aMOLocalConstant typeReference isUnknown ifFalse: [ 
+				stream nextPutAll: ' As '.
+				stream nextPutAll: (aMOLocalConstant typeReference
+						 ifNil: [ 'Variant' ]
+						 ifNotNil: [ :t | t name ]) ].
+			aMOLocalConstant initializer ifNotNil: [ :init | 
+				stream nextPutAll: ' = '.
+				aMOLocalConstant initializer acceptVisitor: self ] ]
+]
+
+{ #category : #accessing }
+MOMicrosoftAccessCodeGenerator >> variableName: aMOVariable [
+
+	^ aMOVariable sanitizedName = aMOVariable name
+		  ifTrue: [ aMOVariable name ]
+		  ifFalse: [ 
+			  '[' , (aMOVariable name first isDigit
+				   ifTrue: [ '_' ]
+				   ifFalse: [ '' ]) , aMOVariable name , ']' ]
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitAccessor: aMOAttributeAccessor [
 
 	stream
@@ -64,6 +97,17 @@ MOMicrosoftAccessCodeGenerator >> visitArrayAccess: aMOArrayAccess [
 	stream nextPutAll: '('.
 	self streamArguments: aMOArrayAccess arguments.
 	stream nextPutAll: ')'
+]
+
+{ #category : #accessing }
+MOMicrosoftAccessCodeGenerator >> visitAssignment: aMOAssignment [
+
+	aMOAssignment write acceptVisitor: self.
+	stream
+		nextPutAll: ' ';
+		nextPutAll: #=;
+		nextPutAll: ' '.
+	aMOAssignment read acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -122,8 +166,26 @@ MOMicrosoftAccessCodeGenerator >> visitClassProcedure: aMOClassFunction [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitColorLiteral: aMOAlceColorLiteral [
+
+	stream nextPutAll: aMOAlceColorLiteral literal
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitConstantAttribute: aMOConstantAttribute [
+
+	^ self visitLocalConstant: aMOConstantAttribute
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitConstantReference: aMOConstantReference [ 
 	stream nextPutAll: aMOConstantReference name
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitDateLiteral: aMOAlceDateLiteral [
+
+	stream nextPutAll: aMOAlceDateLiteral literal
 ]
 
 { #category : #visiting }
@@ -191,6 +253,39 @@ MOMicrosoftAccessCodeGenerator >> visitExit: aMOAlceExit [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitFloatLiteral: aMOFloatLiteral [
+
+	stream nextPutAll: aMOFloatLiteral literal asString
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitForEach: aMOForEach [
+
+	stream nextPutAll: 'For Each '.
+	aMOForEach each acceptVisitor: self.
+	stream nextPutAll: ' In '.
+	aMOForEach collection acceptVisitor: self.
+	aMOForEach loopingBlock acceptVisitor: self.
+	stream nextPutAll: 'Next'
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitForNext: aMOForNext [
+
+	stream nextPutAll: 'For '.
+	aMOForNext counter acceptVisitor: self.
+	stream nextPutAll: ' = '.
+	aMOForNext initialValue acceptVisitor: self.
+	stream nextPutAll: ' To '.
+	aMOForNext limitValue acceptVisitor: self.
+	aMOForNext step ifNotNil: [ 
+		stream nextPutAll: ' Step '.
+		aMOForNext step acceptVisitor: self ].
+	aMOForNext loopingBlock acceptVisitor: self.
+	stream nextPutAll: 'Next'
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitForm: aMOAlceForm [
 
 	self visitClass: aMOAlceForm
@@ -224,16 +319,8 @@ MOMicrosoftAccessCodeGenerator >> visitFunction: aMOFunction [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitGlobalConstant: aMOGlobalConstant [
 
-	stream
-		nextPutAll: 'Global Const ';
-		nextPutAll: aMOGlobalConstant name;
-		nextPutAll: ' '.
-	aMOGlobalConstant typeReference ifNotNil: [ :tr | 
-		stream
-			nextPutAll: 'As ';
-			nextPutAll: tr name ].
-	stream nextPutAll: ' = '.
-	aMOGlobalConstant initializer acceptVisitor: self
+	stream nextPutAll: 'Global '.
+	self visitLocalConstant: aMOGlobalConstant
 ]
 
 { #category : #visiting }
@@ -241,14 +328,22 @@ MOMicrosoftAccessCodeGenerator >> visitGlobalVariable: aMOGlobalVariable [
 
 	stream
 		nextPutAll: 'Global ';
-		nextPutAll: aMOGlobalVariable name.
-	aMOGlobalVariable typeReference ifNotNil: [ :tr | 
-		stream
-			nextPutAll: ' As ';
-			nextPutAll: tr name ].
-	aMOGlobalVariable initializer ifNotNil: [ 
-		stream nextPutAll: ' = '.
-		aMOGlobalVariable initializer acceptVisitor: self ]
+		nextPutAll: (self variableName: aMOGlobalVariable).
+	self variableBody: aMOGlobalVariable
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitGoSub: aMOAlceGoSubLabel [ 
+
+	stream nextPutAll: 'GoSub '.
+	stream nextPutAll: aMOAlceGoSubLabel destination name 
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitGoTo: aMOAlceGoToLabel [
+
+	stream nextPutAll: 'GoTo '.
+	stream nextPutAll: aMOAlceGoToLabel destination name
 ]
 
 { #category : #visiting }
@@ -287,6 +382,17 @@ MOMicrosoftAccessCodeGenerator >> visitLabelReference: aMOAlceLabelReference [
 	stream
 		nextPutAll: aMOAlceLabelReference name;
 		nextPutAll: #':'
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitLocalConstant: aMOLocalConstant [
+
+	| name |
+	name := self variableName: aMOLocalConstant.
+	stream
+		nextPutAll: 'Const ';
+		nextPutAll: name.
+	self variableBody: aMOLocalConstant
 ]
 
 { #category : #visiting }
@@ -339,7 +445,7 @@ MOMicrosoftAccessCodeGenerator >> visitNullLiteral: aMONullLiteral [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitOnErrorGoToLabel: aMOAlceOnErrorGoToLabel [
 
-	stream nextPutAll: 'ON ERROR GOTO '.
+	stream nextPutAll: 'On Error GoTo '.
 	stream nextPutAll: aMOAlceOnErrorGoToLabel destination name 
 ]
 
@@ -380,6 +486,21 @@ MOMicrosoftAccessCodeGenerator >> visitProcedure: aMOProcedure [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitRedimVariable: aMOAlceRedimVariable [
+
+	stream
+		nextPutAll: 'ReDim ';
+		nextPutAll: (self variableName: aMOAlceRedimVariable);
+		nextPutAll: aMOAlceRedimVariable redimText.
+
+
+	(aMOAlceRedimVariable typeReference isNil or: [ 
+		 aMOAlceRedimVariable typeReference isUnknown ]) ifFalse: [ 
+		stream nextPutAll: ' As '.
+		stream nextPutAll: aMOAlceRedimVariable typeReference name ]
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitReport: aMOAlceReport [
 
 	self visitClass: aMOAlceReport
@@ -397,6 +518,12 @@ MOMicrosoftAccessCodeGenerator >> visitResumeLabel: aMOAlceResumeLabel [
 	stream
 		nextPutAll: 'Resume ';
 		nextPutAll: aMOAlceResumeLabel destinations first name
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitReturnEmpty: aMOReturnEmpty [
+
+	stream nextPutAll: 'return'
 ]
 
 { #category : #enumerating }
@@ -485,19 +612,11 @@ MOMicrosoftAccessCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsPara
 MOMicrosoftAccessCodeGenerator >> visitVariable: aMOVariable [
 
 	| name |
-	name := aMOVariable sanitizedName = aMOVariable name
-		        ifTrue: [ aMOVariable name ]
-		        ifFalse: [ 
-			        '[' , (aMOVariable name first isDigit
-				         ifTrue: [ '_' ]
-				         ifFalse: [ '' ]) , aMOVariable name , ']' ].
+	name := self variableName: aMOVariable.
 	stream
 		nextPutAll: 'Dim ';
-		nextPutAll: name;
-		nextPutAll: ' As '.
-	stream nextPutAll: (aMOVariable typeReference
-			 ifNil: [ 'Variant' ]
-			 ifNotNil: [ :t | t name ])
+		nextPutAll: name.
+	self variableBody: aMOVariable
 ]
 
 { #category : #visiting }
