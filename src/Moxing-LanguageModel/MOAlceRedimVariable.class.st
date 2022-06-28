@@ -9,6 +9,17 @@ Class {
 }
 
 { #category : #accessing }
+MOAlceRedimVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
+
+	^ aJinTypescriptCodeGenerator visitRedimVariable: self
+]
+
+{ #category : #accessing }
+MOAlceRedimVariable >> redimText [
+	^ redimText
+]
+
+{ #category : #accessing }
 MOAlceRedimVariable >> redimText: aString [ 
 	redimText := aString
 ]

@@ -18,8 +18,18 @@ MOForNext >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
+MOForNext >> counter [
+	^ counter
+]
+
+{ #category : #accessing }
 MOForNext >> counter: aMOVariableReference [ 
 	counter := aMOVariableReference
+]
+
+{ #category : #accessing }
+MOForNext >> initialValue [
+	^ initialValue
 ]
 
 { #category : #accessing }
@@ -28,13 +38,28 @@ MOForNext >> initialValue: aMOIntegerLiteral [
 ]
 
 { #category : #accessing }
+MOForNext >> limitValue [
+	^ limitValue
+]
+
+{ #category : #accessing }
 MOForNext >> limitValue: aMOVariableReference [ 
 	limitValue := aMOVariableReference
 ]
 
 { #category : #accessing }
+MOForNext >> loopingBlock [
+	^ loopingBlock
+]
+
+{ #category : #accessing }
 MOForNext >> loopingBlock: aMOBlock [ 
 	loopingBlock := aMOBlock
+]
+
+{ #category : #accessing }
+MOForNext >> step [
+	^ step
 ]
 
 { #category : #accessing }

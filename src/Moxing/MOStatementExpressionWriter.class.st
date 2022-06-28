@@ -22,6 +22,12 @@ MOStatementExpressionWriter >> initializeWriteBuilder [
 	writeBuilder := builder statementBuilder
 ]
 
+{ #category : #expressions }
+MOStatementExpressionWriter >> noOp: aString [
+
+	^ self writeExpression: [ :expr | expr noOp: aString ]
+]
+
 { #category : #writing }
 MOStatementExpressionWriter >> writeBlockClosure: aFullBlockClosure [ 	
 	| ret |

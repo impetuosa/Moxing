@@ -9,6 +9,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
+{ #category : #visiting }
+MOForEach >> acceptVisitor: aMOMicrosoftAccessCodeGenerator [
+
+	^ aMOMicrosoftAccessCodeGenerator visitForEach: self
+]
+
 { #category : #accessing }
 MOForEach >> collection [
 	^ collection

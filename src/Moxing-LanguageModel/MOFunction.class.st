@@ -37,7 +37,11 @@ MOFunction >> isFunction [
 MOFunction >> isSameEntity: anOther [
 
 	^ (super isSameEntity: anOther) and: [ 
-		  self returnTypeReference name = anOther returnTypeReference name ]
+		  (self returnTypeReference isNil and: [ 
+			   anOther returnTypeReference isNil ]) or: [ 
+			  (self returnTypeReference isNil and: [ 
+				   anOther returnTypeReference isNil ]) and: [ 
+				  self returnTypeReference name = anOther returnTypeReference name ] ] ]
 ]
 
 { #category : #generated }

@@ -105,11 +105,12 @@ MOInvocable >> isProcedure [
 MOInvocable >> isSameEntity: anOther [
 
 	^ (super isSameEntity: anOther) and: [ 
-		  (self parameters
-			   with: anOther parameters
-			   collect: [ :p1 :p2 | 
-			   p1 typeReference name = p2 typeReference name ]) allSatisfy:
-			  #yourself ]
+		  self parameters size = anOther parameters size and: [ 
+			  (self parameters
+				   with: anOther parameters
+				   collect: [ :p1 :p2 | 
+				   p1 typeReference name = p2 typeReference name ]) allSatisfy:
+				  #yourself ] ]
 ]
 
 { #category : #accessing }

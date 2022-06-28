@@ -179,6 +179,12 @@ MOModelWriteTypeBasedCopyResolver >> visitEnumEntry: aMOEnumEntry [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitEvent: aMOEvent [
+
+	^ writer writeEvent: [ :evnt | writingBlock value: evnt ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitExit: aMOAlceExit [
 
 	^ writer writeExit: [ :exit | writingBlock cull: exit ] 
@@ -285,6 +291,12 @@ MOModelWriteTypeBasedCopyResolver >> visitNamedArgument: aMONamedArgument [
 MOModelWriteTypeBasedCopyResolver >> visitNewExpression: aMONewInvocation [ 
 
 	^ self copyExpression  
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitNoOp: aMONoOp [
+
+	^ writer noOp: aMONoOp description
 ]
 
 { #category : #visiting }

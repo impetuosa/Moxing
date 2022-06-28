@@ -41,6 +41,12 @@ MOTypeReference >> isTypeReference [
 	^ true 
 ]
 
+{ #category : #testing }
+MOTypeReference >> isUnknown [
+
+	^ name == #UNKNOWN
+]
+
 { #category : #accessing }
 MOTypeReference >> packageReference [
 	^ packageReference

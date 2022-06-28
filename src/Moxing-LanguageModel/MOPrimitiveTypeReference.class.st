@@ -21,6 +21,11 @@ MOPrimitiveTypeReference >> isTypeReference [
 	^ true 
 ]
 
+{ #category : #testing }
+MOPrimitiveTypeReference >> isUnknown [
+	^ false 
+]
+
 { #category : #generated }
 MOPrimitiveTypeReference >> parent: aParent [
 	" dont care about parents "
