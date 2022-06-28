@@ -39,11 +39,10 @@ MOModelLoopBuilder >> forWhile [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelLoopBuilder >> loadBuilderWithEntity: anEntity [ 
-	self condition: anEntity condition. 
- self loopingBlock: anEntity loopingBlock. 
- 
-	
+MOModelLoopBuilder >> loadBuilderWithEntity: anEntity [
+
+	self condition: anEntity condition.
+	self loopingBlock: anEntity loopingBlock
 ]
 
 { #category : #accessing }

@@ -194,6 +194,12 @@ MOStatementWriter >> if: aConditionBlock ifTrue: ifTrueBlock ifFalse: ifFalseBlo
 			  writeIfFalseBlock: ifFalseBlock ]
 ]
 
+{ #category : #statements }
+MOStatementWriter >> infinityLoopDo: aLoopingBlock [
+
+	^ self writeInfinityLoop: [ :while | while writeBlock: aLoopingBlock ]
+]
+
 { #category : #initialization }
 MOStatementWriter >> initializeWriteBuilder [
 
@@ -577,6 +583,14 @@ MOStatementWriter >> writeIfElse: aBlock [
 
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOIfElseWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeInfinityLoop: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOInfinityLoopWriter.
 	^ stmnt
 ]
 
