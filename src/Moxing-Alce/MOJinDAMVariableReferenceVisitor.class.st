@@ -70,12 +70,9 @@ MOJinDAMVariableReferenceVisitor >> trace: aJindamObject with: aMOObject [
 MOJinDAMVariableReferenceVisitor >> variableReferenceFor: aJinDAMMemberReference [
 
 	| segments read |
-	segments := OrderedCollection new.
-	read := aJinDAMMemberReference.
-	[ read isKindOf: JinDAMReference ] whileTrue: [ 
-		segments add: read.
-		read := read context ].
-	segments := segments reverse.
+	segments := MOSegmentResolver new resolveSegmentsFor:
+		            aJinDAMMemberReference.
+
 	producedSegments := OrderedCollection new.
 
 	segments do: [ :s | 
@@ -102,8 +99,8 @@ MOJinDAMVariableReferenceVisitor >> variableReferenceFor: aJinDAMMemberReference
 						ps := producedSegments removeLast.
 						producedSegments add:
 							(writer arrayAccess: [ :e | ps ] arguments: [ :e | arguments ]) ]
-					ifFalse: [ 
-					"self assert: arguments = producedSegments first arguments" ] ] ].
+					ifFalse: [ "self assert: arguments = producedSegments first arguments"
+					 ] ] ].
 	^ writer writenExpression: producedSegments first
 
 	"						arguments size = 1

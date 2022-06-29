@@ -37,7 +37,7 @@ MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject inTableNamed: aString [
 
 	aString ifNil: [ ^ self detectColumnFor: anObject ].
-
+	(from at: aString) ifNil: [ ^ {  } ].
 	^ (from at: aString) attributes
 		  select: [ :a | 
 			  anObject isWildCard or: [ 
@@ -121,19 +121,20 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTFromClause: aPSQLASTFromClause [
 { #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseItemType1 [
 
-
 	from
-		at: (self readIdentifier:(aPSQLASTFromClauseItemType1 hasAlias
-				 ifTrue: [ aPSQLASTFromClauseItemType1 alias ]
-				 ifFalse: [ aPSQLASTFromClauseItemType1 tableName ]))
+		at: (self readIdentifier: (aPSQLASTFromClauseItemType1 hasAlias
+					  ifTrue: [ aPSQLASTFromClauseItemType1 alias ]
+					  ifFalse: [ aPSQLASTFromClauseItemType1 tableName ]))
 		put: (tables
 				 detect: [ :t | 
 					 t name asLowercase
 					 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ]
 				 ifNone: [ 
-					 queries detect: [ :t | 
-						 t name asLowercase
-						 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ] ])
+					 queries
+						 detect: [ :t | 
+							 t name asLowercase
+							 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ]
+						 ifNone: [ nil ] ])
 ]
 
 { #category : #visiting }
