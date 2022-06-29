@@ -25,7 +25,7 @@ MOJinDAMQueryLinkSolver >> applyOn: aMOProject [
 { #category : #'as yet unclassified' }
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 
-	^ from flatCollect: [ :f | 
+	^ (from reject: #isNil) flatCollect: [ :f | 
 		  f attributes
 			  select: [ :a | 
 				  anObject isWildCard or: [ 
@@ -82,7 +82,7 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition 
 	| cols name |
 	name := aPSQLASTAliasDefinition alias identifier.
 	cols := aPSQLASTAliasDefinition definition acceptVisitor: self.
-	self assert: cols size < 2.
+	cols size < 2 ifFalse: [ ^ {  } ].
 
 	cols ifNotEmpty: [ 
 		selectedCols removeKey: cols first value name.

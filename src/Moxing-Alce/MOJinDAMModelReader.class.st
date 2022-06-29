@@ -647,8 +647,15 @@ MOJinDAMModelReader >> visitLibrary: aJinDAMLibrary [
 ]
 
 { #category : #visiting }
-MOJinDAMModelReader >> visitLibraryReference: aJinDAMLibraryReference [ 
-	self shouldBeImplemented.
+MOJinDAMModelReader >> visitLibraryReference: aJinDAMLibraryReference [
+
+	^ self
+		  trace: aJinDAMLibraryReference
+		  with: (MOJinDAMVariableReferenceVisitor new
+				   reader: self;
+				   writer: writer;
+				   arguments: {  };
+				   variableReferenceFor: aJinDAMLibraryReference)
 ]
 
 { #category : #visiting }
