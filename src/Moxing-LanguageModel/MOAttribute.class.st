@@ -25,6 +25,12 @@ MOAttribute >> canBeReferredAsPrimitiveType [
 	^self  name == #Null
 ]
 
+{ #category : #testing }
+MOAttribute >> canBeReferredAsType [
+
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 MOAttribute >> canBeReferredAsVariable [
 

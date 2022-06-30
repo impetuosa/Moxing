@@ -1,9 +1,8 @@
 Class {
 	#name : #MOArtefactWriter,
 	#superclass : #MOModelProceduralWriter,
-	#instVars : [
-		'name'
-	],
+	#traits : 'MOHoldsTypeReferences',
+	#classTraits : 'MOHoldsTypeReferences classTrait',
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -42,10 +41,9 @@ MOArtefactWriter >> addStructureType: aMOStructure [
 	writeBuilder addStructureType: aMOStructure
 ]
 
-{ #category : #writing }
-MOArtefactWriter >> name: aName [
-
-	writeBuilder name: aName
+{ #category : #visiting }
+MOArtefactWriter >> name: aName [ 
+	 writeBuilder name: aName 
 ]
 
 { #category : #writing }

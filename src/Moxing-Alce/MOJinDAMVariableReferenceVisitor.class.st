@@ -313,6 +313,22 @@ MOJinDAMVariableReferenceVisitor >> visitSubProcedure: aJinDAMSubProcedure [
 ]
 
 { #category : #visiting }
+MOJinDAMVariableReferenceVisitor >> visitTypeMemberReference: aJinDAMTypeMemberReference [
+
+	" This is an array / dictionary access,
+	Me!Name or Me('Name') "
+
+	self assert: aJinDAMTypeMemberReference name isNil.
+	self assert: aJinDAMTypeMemberReference arguments size = 1.
+	self assert:
+		arguments size = aJinDAMTypeMemberReference arguments size.
+
+	^ writer
+		  arrayAccess: [ :expr | producedSegments removeFirst ]
+		  arguments: [ :expr | arguments ]
+]
+
+{ #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitTypeReference: aJinDAMTypeReference [
 
 	self assert: aJinDAMTypeReference dimensions = 0.
