@@ -51,6 +51,15 @@ MOSegmentResolver >> visitMemberReference: aJinDAMMemberReference [
 ]
 
 { #category : #visiting }
+MOSegmentResolver >> visitTypeMemberReference: aJinDAMTypeMemberReference [
+
+	(traversed includes: aJinDAMTypeMemberReference) ifTrue: [ ^ self ].
+	traversed add: aJinDAMTypeMemberReference.
+	segments add: aJinDAMTypeMemberReference.
+	aJinDAMTypeMemberReference context acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOSegmentResolver >> visitTypeReference: aJinDAMTypeReference [
 
 	^ self visitMemberReference: aJinDAMTypeReference
