@@ -1051,7 +1051,6 @@ MOJinDAMModelReader >> visitTypeMemberReference: aJinDAMTypeMemberReference [
 	| arguments |
 	" Me!ControlName "
 	self assert: aJinDAMTypeMemberReference name isNil.
-	self assert: aJinDAMTypeMemberReference arguments size = 1.
 
 	arguments := self visitCollection:
 		             aJinDAMTypeMemberReference arguments.

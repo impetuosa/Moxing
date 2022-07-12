@@ -51,6 +51,15 @@ MOSegmentResolver >> visitMemberReference: aJinDAMMemberReference [
 ]
 
 { #category : #visiting }
+MOSegmentResolver >> visitNewExpression: aJinDAMNewExpression [
+
+	(traversed includes: aJinDAMNewExpression) ifTrue: [ ^ self ].
+	traversed add: aJinDAMNewExpression.
+	segments add: aJinDAMNewExpression.
+
+]
+
+{ #category : #visiting }
 MOSegmentResolver >> visitTypeMemberReference: aJinDAMTypeMemberReference [
 
 	(traversed includes: aJinDAMTypeMemberReference) ifTrue: [ ^ self ].

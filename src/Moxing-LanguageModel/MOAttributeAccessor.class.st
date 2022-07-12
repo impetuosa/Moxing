@@ -17,6 +17,12 @@ MOAttributeAccessor >> canBeReferredAsMethod [
 	 ^ true
 ]
 
+{ #category : #testing }
+MOAttributeAccessor >> canBeReferredAsType [
+
+	^ true
+]
+
 { #category : #accessing }
 MOAttributeAccessor >> kind [
 	^ kind

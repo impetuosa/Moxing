@@ -264,6 +264,14 @@ MOJinDAMVariableReferenceVisitor >> visitLocalVariable: aJinDAMLocalVariable [
 { #category : #visiting }
 MOJinDAMVariableReferenceVisitor >> visitMemberReference: aJinDAMMemberReference [
 
+	producedSegments ifNotEmpty: [ 
+		self assert: producedSegments size = 1.
+		producedSegments first species = MONewInvocation ifTrue: [ " New Lib.Type "
+			producedSegments first typeReference: (writer
+					 accessType: aJinDAMMemberReference name
+					 receiver: [ :e | producedSegments first typeReference ]).
+			^ producedSegments removeFirst ] ].
+
 	^ aJinDAMMemberReference candidate isCollection
 		  ifFalse: [ 
 			  aJinDAMMemberReference candidate
@@ -277,6 +285,14 @@ MOJinDAMVariableReferenceVisitor >> visitMemberReference: aJinDAMMemberReference
 				   detect: [ :a | a isKindOf: JinDAMAttribute ]
 				   ifNone: [ aJinDAMMemberReference candidate anyOne ]) 
 				  acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOJinDAMVariableReferenceVisitor >> visitNewExpression: aJinDAMNewExpression [
+
+	^ writer writeExpression: [ :expression | 
+		  expression new: (expression typeReferenceNamed:
+				   aJinDAMNewExpression typeReference name) ]
 ]
 
 { #category : #visiting }
@@ -319,7 +335,7 @@ MOJinDAMVariableReferenceVisitor >> visitTypeMemberReference: aJinDAMTypeMemberR
 	Me!Name or Me('Name') "
 
 	self assert: aJinDAMTypeMemberReference name isNil.
-	self assert: aJinDAMTypeMemberReference arguments size = 1.
+
 	self assert:
 		arguments size = aJinDAMTypeMemberReference arguments size.
 
