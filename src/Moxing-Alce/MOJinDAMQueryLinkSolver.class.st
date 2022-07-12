@@ -25,7 +25,7 @@ MOJinDAMQueryLinkSolver >> applyOn: aMOProject [
 { #category : #'as yet unclassified' }
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 
-	^ from flatCollect: [ :f | 
+	^ (from reject: #isNil) flatCollect: [ :f | 
 		  f attributes
 			  select: [ :a | 
 				  anObject isWildCard or: [ 
@@ -37,7 +37,7 @@ MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject inTableNamed: aString [
 
 	aString ifNil: [ ^ self detectColumnFor: anObject ].
-
+	(from at: aString) ifNil: [ ^ {  } ].
 	^ (from at: aString) attributes
 		  select: [ :a | 
 			  anObject isWildCard or: [ 
@@ -82,7 +82,7 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTAliasDefinition: aPSQLASTAliasDefinition 
 	| cols name |
 	name := aPSQLASTAliasDefinition alias identifier.
 	cols := aPSQLASTAliasDefinition definition acceptVisitor: self.
-	self assert: cols size < 2.
+	cols size < 2 ifFalse: [ ^ {  } ].
 
 	cols ifNotEmpty: [ 
 		selectedCols removeKey: cols first value name.
@@ -121,19 +121,26 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTFromClause: aPSQLASTFromClause [
 { #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitPSQLASTFromClauseItemType1: aPSQLASTFromClauseItemType1 [
 
-
 	from
-		at: (self readIdentifier:(aPSQLASTFromClauseItemType1 hasAlias
-				 ifTrue: [ aPSQLASTFromClauseItemType1 alias ]
-				 ifFalse: [ aPSQLASTFromClauseItemType1 tableName ]))
+		at: (self readIdentifier: (aPSQLASTFromClauseItemType1 hasAlias
+					  ifTrue: [ aPSQLASTFromClauseItemType1 alias ]
+					  ifFalse: [ aPSQLASTFromClauseItemType1 tableName ]))
 		put: (tables
 				 detect: [ :t | 
 					 t name asLowercase
 					 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ]
 				 ifNone: [ 
-					 queries detect: [ :t | 
-						 t name asLowercase
-						 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ] ])
+					 queries
+						 detect: [ :t | 
+							 t name asLowercase
+							 = (self readIdentifier: aPSQLASTFromClauseItemType1 tableName) ]
+						 ifNone: [ nil ] ])
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTFromClauseItemType2: aPSQLASTFromClauseItemType2 [
+
+	^ {  }
 ]
 
 { #category : #visiting }
@@ -156,14 +163,35 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTNumericConstant: aPSQLASTNumericConstant 
 ]
 
 { #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTParenthesedExpression: aPSQLASTParenthesedExpression [ 
+	 ^ aPSQLASTParenthesedExpression expression acceptVisitor: self 
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTPostfixOperator: aPSQLASTPostfixOperator [
+
+	^ aPSQLASTPostfixOperator expression acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitPSQLASTPrefixOperator: aPSQLASTPrefixOperator [
 
 	^ {  }
 ]
 
 { #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTSelectIntoQuery: aPSQLASTSelectIntoQuery [
+
+	aPSQLASTSelectIntoQuery fromClause acceptVisitor: self.
+	self visitCollection:
+		aPSQLASTSelectIntoQuery columnsAndAliasesSelected.
+	^ selectedCols
+]
+
+{ #category : #visiting }
 MOJinDAMQueryLinkSolver >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 
+	aPSQLASTSelectQuery fromClause ifNil: [ ^ {  } ].
 	aPSQLASTSelectQuery fromClause acceptVisitor: self.
 	self visitCollection: aPSQLASTSelectQuery columnsAndAliasesSelected.
 	^ selectedCols
@@ -173,6 +201,16 @@ MOJinDAMQueryLinkSolver >> visitPSQLASTSelectQuery: aPSQLASTSelectQuery [
 MOJinDAMQueryLinkSolver >> visitPSQLASTStringConstant: aPSQLASTStringConstant [
 
 	^ {  }
+]
+
+{ #category : #visiting }
+MOJinDAMQueryLinkSolver >> visitPSQLASTWildCard: aPSQLASTWildCard [
+
+	| cols |
+	self assert: from size = 1.
+	cols := self detectColumnFor: aPSQLASTWildCard.
+	cols do: [ :a | selectedCols at: a value name put: a ].
+	^ cols
 ]
 
 { #category : #visiting }

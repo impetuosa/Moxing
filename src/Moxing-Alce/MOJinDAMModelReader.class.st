@@ -591,6 +591,17 @@ MOJinDAMModelReader >> visitIf: aJinDAMIf [
 ]
 
 { #category : #visiting }
+MOJinDAMModelReader >> visitInfinityLoop: aJinDAMInfinityLoop [
+
+	^ self
+		  trace: aJinDAMInfinityLoop
+		  with: (writer infinityLoopDo: [ :block | 
+				   self
+					   use: block
+					   during: [ aJinDAMInfinityLoop block acceptVisitor: self ] ])
+]
+
+{ #category : #visiting }
 MOJinDAMModelReader >> visitInitializeProcess: aJinDAMInitializeProcess [
 
 "
@@ -633,6 +644,18 @@ MOJinDAMModelReader >> visitLibrary: aJinDAMLibrary [
 					            self visitCollection: aJinDAMLibrary invocables ] ]).
 	library name: aJinDAMLibrary name.
 	^ library
+]
+
+{ #category : #visiting }
+MOJinDAMModelReader >> visitLibraryReference: aJinDAMLibraryReference [
+
+	^ self
+		  trace: aJinDAMLibraryReference
+		  with: (MOJinDAMVariableReferenceVisitor new
+				   reader: self;
+				   writer: writer;
+				   arguments: {  };
+				   variableReferenceFor: aJinDAMLibraryReference)
 ]
 
 { #category : #visiting }
@@ -1025,8 +1048,20 @@ MOJinDAMModelReader >> visitTableRelation:as [
 { #category : #visiting }
 MOJinDAMModelReader >> visitTypeMemberReference: aJinDAMTypeMemberReference [
 
-	^ writer noOp: ' Error loading TypeReference Member '
-		  , (aJinDAMTypeMemberReference name ifNil: [ 'Nil' ])
+	| arguments |
+	" Me!ControlName "
+	self assert: aJinDAMTypeMemberReference name isNil.
+	self assert: aJinDAMTypeMemberReference arguments size = 1.
+
+	arguments := self visitCollection:
+		             aJinDAMTypeMemberReference arguments.
+	^ self
+		  trace: aJinDAMTypeMemberReference
+		  with: (MOJinDAMVariableReferenceVisitor new
+				   reader: self;
+				   writer: writer;
+				   arguments: arguments;
+				   variableReferenceFor: aJinDAMTypeMemberReference)
 ]
 
 { #category : #visiting }

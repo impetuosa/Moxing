@@ -54,8 +54,10 @@ MOJinDAMTypeReferenceVisitor >> visitLibrary: aJinDAMLibrary [
 { #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitLibraryReference: aJinDAMLibraryReference [
 
-	self assert: aJinDAMLibraryReference candidate isNotNil.
-	^ aJinDAMLibraryReference candidate acceptVisitor: self
+	^ aJinDAMLibraryReference candidate
+		  ifNil: [ 
+		  writer artefactReferenceNamed: aJinDAMLibraryReference name ]
+		  ifNotNil: [ aJinDAMLibraryReference candidate acceptVisitor: self ]
 ]
 
 { #category : #visiting }

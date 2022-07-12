@@ -1,11 +1,11 @@
 Class {
-	#name : #MODoUntil,
+	#name : #MOInfinityLoop,
 	#superclass : #MOLoop,
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #visiting }
-MODoUntil >> acceptVisitor: aVisitor [
+MOInfinityLoop >> acceptVisitor: aVisitor [
 
-	^ aVisitor visitDoUntilTrue:  self
+	^ aVisitor visitInfinityLoop: self
 ]

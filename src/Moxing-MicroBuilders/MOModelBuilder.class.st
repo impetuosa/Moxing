@@ -592,6 +592,14 @@ MOModelBuilder >> importBuilder [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> infinityLoopBuilder [
+
+	^ MOModelInfinityLoopBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
 { #category : #'instance creation' }
 MOModelBuilder >> initialize [
 
