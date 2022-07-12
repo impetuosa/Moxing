@@ -70,6 +70,8 @@ MOMethod >> name: aSelector [
 MOMethod >> printOn: aStream [
 
 	aStream
+		nextPutAll: parent name;
+		nextPutAll: '>>';
 		nextPutAll: 'Method: ';
 		nextPutAll: selector;
 		nextPutAll: '/';

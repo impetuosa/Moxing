@@ -20,6 +20,6 @@ MOGoToWriter >> initializeWriteBuilder [
 { #category : #initialization }
 MOGoToWriter >> writeLabelReference: aBlock [
 
-	writeBuilder labelReference:
+	writeBuilder destination:
 		(self writeUnregisteredExpression: aBlock)
 ]

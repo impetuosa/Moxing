@@ -108,6 +108,14 @@ MOLanguageObject >> dependenciesOrEmpty: aDeclaration [
 		  ifNotNil: [ aDeclaration dependencies ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOLanguageObject >> enclosingTypeOrModule [
+
+	^ (parent isType or: [ parent isModule ])
+		  ifTrue: [ parent ]
+		  ifFalse: [ parent enclosingTypeOrModule ]
+]
+
 { #category : #testing }
 MOLanguageObject >> isDeclaration [
 
@@ -175,6 +183,12 @@ MOLanguageObject >> language [
 { #category : #accessing }
 MOLanguageObject >> language: aMOLanguage [ 
 	language := aMOLanguage
+]
+
+{ #category : #testing }
+MOLanguageObject >> model [
+
+	^ parent model
 ]
 
 { #category : #generated }

@@ -37,6 +37,21 @@ MOAttribute >> kindString [
 	^ 'ATTR'
 ]
 
+{ #category : #accessing }
+MOAttribute >> object [
+
+	^ self parent object state at: name
+]
+
+{ #category : #accessing }
+MOAttribute >> printOn: aStream [
+
+	aStream
+		nextPutAll: parent name;
+		nextPutAll: '>>'.
+	super printOn: aStream
+]
+
 { #category : #'as yet unclassified' }
 MOAttribute >> visibility [
 	^ visibility

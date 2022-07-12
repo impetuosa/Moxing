@@ -19,3 +19,16 @@ MOAlceForm >> canBeReferredAsVariable [
 MOAlceForm >> isWidget [ 
  	 ^ true 
 ]
+
+{ #category : #visiting }
+MOAlceForm >> object [
+
+	^ (self model objectsSelect: [ :a | 
+		   a type class = MOAlceForm and: [ a type name = name ] ]) first
+]
+
+{ #category : #visiting }
+MOAlceForm >> symbolicName [
+
+	^ self name copyFrom: 'Form_' size +1  to: name size
+]

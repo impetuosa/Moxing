@@ -11,6 +11,11 @@ MOLocalVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #visiting }
+MOLocalVariable >> existsOnlyInParentContext [
+	 ^ true 
+]
+
+{ #category : #visiting }
 MOLocalVariable >> kindString [
 
 	^ 'LOCAL VAR'

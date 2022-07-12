@@ -21,6 +21,12 @@ MORootDeclaration >> addPackage: anEntry [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+MORootDeclaration >> enclosingTypeOrModule [
+
+	^ nil
+]
+
 { #category : #accessing }
 MORootDeclaration >> isRootDeclaration [
 
@@ -36,6 +42,12 @@ MORootDeclaration >> language [
 { #category : #accessing }
 MORootDeclaration >> language: aMOLanguage [ 
 	" nothing to do here "
+]
+
+{ #category : #accessing }
+MORootDeclaration >> model [
+
+	^ parent
 ]
 
 { #category : #accessing }

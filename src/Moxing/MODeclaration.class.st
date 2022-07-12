@@ -159,6 +159,12 @@ MODeclaration >> doForceNameToBeSanitized [
 ]
 
 { #category : #traverse }
+MODeclaration >> existsOnlyInParentContext [
+
+	^ false
+]
+
+{ #category : #traverse }
 MODeclaration >> finalize [
 
 	| relations |

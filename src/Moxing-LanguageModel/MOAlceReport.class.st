@@ -20,3 +20,16 @@ MOAlceReport >> canBeReferredAsVariable [
 MOAlceReport >> isWidget [ 
  	 ^ true 
 ]
+
+{ #category : #visiting }
+MOAlceReport >> object [
+
+	^ self model objectsSelect: [ :a | 
+		  a type class = MOAlceReport and: [ a type name = name ] ]
+]
+
+{ #category : #visiting }
+MOAlceReport >> symbolicName [
+
+	^ self name copyFrom: 'Report_' size + 1 to: name size
+]

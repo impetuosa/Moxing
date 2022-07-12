@@ -145,6 +145,14 @@ MOInvocable >> parameters: aCollection [
 	parameters := aCollection
 ]
 
+{ #category : #private }
+MOInvocable >> senders [
+
+	^ self model references
+		  select: [ :r | r candidate = self ]
+		  thenCollect: [ :e | e callingInvocable ]
+]
+
 { #category : #accessing }
 MOInvocable >> setStaticBinding [
 	bindingKind := #static.

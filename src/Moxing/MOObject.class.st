@@ -68,9 +68,20 @@ MOObject >> initialize [
 ]
 
 { #category : #accessing }
+MOObject >> isMOObject [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOObject >> isStaticDefinition [
 
 	^ false
+]
+
+{ #category : #accessing }
+MOObject >> name [
+	^ holder name 
 ]
 
 { #category : #accessing }
