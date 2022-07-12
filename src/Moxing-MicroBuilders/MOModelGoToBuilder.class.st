@@ -14,12 +14,12 @@ MOModelGoToBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelGoToBuilder >> labelReference [
+MOModelGoToBuilder >> destination [
 	^ labelReference ifNil: [  self error:' Go To requires a reference ' ]
 ]
 
 { #category : #'as yet unclassified' }
-MOModelGoToBuilder >> labelReference: aMOLabelReference [
+MOModelGoToBuilder >> destination: aMOLabelReference [
 
 	labelReference := aMOLabelReference
 ]
@@ -28,6 +28,6 @@ MOModelGoToBuilder >> labelReference: aMOLabelReference [
 MOModelGoToBuilder >> privateBuild [
 
 	^ (self instantiate: self buildsType)
-		  destination: self labelReference;
+		  destination: self destination;
 		  yourself
 ]

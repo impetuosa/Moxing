@@ -159,6 +159,14 @@ MOAbstractVariable >> printOn: aStream [
 	aStream nextPutAll: ')'
 ]
 
+{ #category : #accessing }
+MOAbstractVariable >> senders [
+
+	^ self model references
+		  select: [ :r | r candidate = self ]
+		  thenCollect: [ :e | e callingInvocable ]
+]
+
 { #category : #generated }
 MOAbstractVariable >> type [
 

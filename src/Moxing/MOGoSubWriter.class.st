@@ -10,6 +10,12 @@ MOGoSubWriter >> acceptWritingVisitor: aVisitor [
 	^ aVisitor visitGoSubWriter: self
 ]
 
+{ #category : #accessing }
+MOGoSubWriter >> destination: aMOAlceLabelReference [
+
+	^ writeBuilder destination: aMOAlceLabelReference
+]
+
 { #category : #initialization }
 MOGoSubWriter >> initializeWriteBuilder [
 

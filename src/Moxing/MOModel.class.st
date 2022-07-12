@@ -161,6 +161,12 @@ MOModel >> isModelOrDerivative [
 	^ true
 ]
 
+{ #category : #'functions - subs - events' }
+MOModel >> literals [
+
+	^ entities select: #isMOLiteral
+]
+
 { #category : #accessing }
 MOModel >> mapSpaceAnchor [
 	^ anchor 
@@ -222,6 +228,26 @@ MOModel >> saveAs: aString [
 	stream
 		flush;
 		close
+]
+
+{ #category : #accessing }
+MOModel >> solveApplicationReferenceProblem [
+
+	entities
+		select: [ :a | 
+			(a isKindOf: MOMethodInvocation) and: [ 
+				a receiverReference name = #self and: [ 
+					a candidate isNotNil and: [ 
+						a candidate parent name = #_Application ] ] ] ]
+		thenDo: [ :each | 
+			each receiverReference becomeForward:
+				(MOTypeReference newInstanceFromModel
+					 name: #Application;
+					 parent: each;
+					 candidate:
+						 (each candidate parent parent parent types detect: [ :a | 
+								  a name = #Application ]);
+					 language: each language) ]
 ]
 
 { #category : #'as yet unclassified' }

@@ -65,3 +65,26 @@ MOAlceTable >> relations: si [
 
 	relations := si
 ]
+
+{ #category : #visiting }
+MOAlceTable >> users [
+
+	| candidates referrals |
+	candidates := self model references
+		              select: [ :r | r candidate = self ]
+		              thenCollect: [ :r | 
+			              | i |
+			              i := r callingInvocable ].
+	referrals := self symbolicName.
+	^ ((self model literals
+		    select: [ :l | 
+			    l literal isString and: [ 
+				    l literal includesSubstring: referrals caseSensitive: false ] ]
+		    thenCollect: [ :r | 
+			    | i |
+			    i := r callingInvocable ]) , (self model objects
+		    select: [ :o | 
+			    o holder ~= self and: [ 
+				    o state values anySatisfy: [ :v | v = referrals ] ] ]
+		    thenCollect: [ :o | o holder ]) , candidates) removeDuplicates
+]

@@ -219,6 +219,12 @@ MOModelWriteTypeBasedCopyResolver >> visitGlobalVariable: aMOGlobalVariable [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitGoSub: aMOAlceGoSubLabel [
+
+	^ writer writeGoSub: [ :goto | writingBlock cull: goto ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitIfElse: aMOIfElse [
 
 	"
@@ -368,6 +374,12 @@ MOModelWriteTypeBasedCopyResolver >> visitResumeLabel: aMOAlceResumeLabel [
 { #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitReturn: aMOReturn [
   ^writer writeReturn: [:return |  writingBlock cull: return ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitReturnEmpty: aMOReturnEmpty [
+
+	^ writer writeReturn: [ :r |  ]
 ]
 
 { #category : #enumerating }

@@ -16,6 +16,20 @@ MOMicrosoftAccessCodeGenerator >> blockDelimiterOpen [
 	^ ''
 ]
 
+{ #category : #accessing }
+MOMicrosoftAccessCodeGenerator >> comment: aFullBlockClosure [
+
+	isCommenting
+		ifFalse: [ 
+			self
+				nextPut: $';
+				nextPutAll: ' TODO '.
+			isCommenting := true.
+			aFullBlockClosure value.
+			isCommenting := false ]
+		ifTrue: [ aFullBlockClosure value ]
+]
+
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> lineDelimiter [
 
@@ -23,9 +37,25 @@ MOMicrosoftAccessCodeGenerator >> lineDelimiter [
 ]
 
 { #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> newLine [
+
+	stream newLine.
+	isCommenting ifTrue: [ 
+		self
+			nextPut: $';
+			nextPutAll: ' ' ]
+]
+
+{ #category : #accessing }
+MOMicrosoftAccessCodeGenerator >> nextPutAll: aText [
+
+	^ stream nextPutAll: aText
+]
+
+{ #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> printSelf [
 
-	stream nextPutAll: 'Me'
+	self nextPutAll: 'Me'
 ]
 
 { #category : #visiting }
@@ -42,18 +72,18 @@ MOMicrosoftAccessCodeGenerator >> variableBody: aMOLocalConstant [
 		 aMOLocalConstant initializer isKindOf: MONewInvocation ])
 		ifTrue: [ 
 			aMOLocalConstant typeReference isUnknown ifFalse: [ 
-				stream nextPutAll: ' As New '.
-				stream nextPutAll: (aMOLocalConstant typeReference
+				self nextPutAll: ' As New '.
+				self nextPutAll: (aMOLocalConstant typeReference
 						 ifNil: [ 'Variant' ]
 						 ifNotNil: [ :t | t name ]) ] ]
 		ifFalse: [ 
 			aMOLocalConstant typeReference isUnknown ifFalse: [ 
-				stream nextPutAll: ' As '.
-				stream nextPutAll: (aMOLocalConstant typeReference
+				self nextPutAll: ' As '.
+				self nextPutAll: (aMOLocalConstant typeReference
 						 ifNil: [ 'Variant' ]
 						 ifNotNil: [ :t | t name ]) ].
 			aMOLocalConstant initializer ifNotNil: [ :init | 
-				stream nextPutAll: ' = '.
+				self nextPutAll: ' = '.
 				aMOLocalConstant initializer acceptVisitor: self ] ]
 ]
 
@@ -71,43 +101,53 @@ MOMicrosoftAccessCodeGenerator >> variableName: aMOVariable [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitAccessor: aMOAttributeAccessor [
 
-	stream
+	self
 		nextPutAll: 'Property ';
 		nextPutAll: aMOAttributeAccessor kind;
 		nextPutAll: ' ';
-		nextPutAll: aMOAttributeAccessor selector ; nextPutAll: ' ('.
+		nextPutAll: aMOAttributeAccessor selector ; nextPutAll: '('.
 	
 	self streamArguments: aMOAttributeAccessor parameters.
-	stream  nextPutAll: ')'.
+	self  nextPutAll: ')'.
 	(aMOAttributeAccessor kind = #Get and: [ 
 		 aMOAttributeAccessor returnTypeReference isNotNil ]) ifTrue: [ 
-		stream
+		self
 			nextPutAll: ' As ';
 			nextPutAll: aMOAttributeAccessor returnTypeReference name ].
 	
 	aMOAttributeAccessor block acceptVisitor: self.
-	stream nextPutAll: 'End Property'.
-	stream newLine.
+	self nextPutAll: 'End Property'.
+	self newLine.
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitArrayAccess: aMOArrayAccess [
 
 	aMOArrayAccess receiverReference acceptVisitor: self.
-	stream nextPutAll: '('.
+	self nextPutAll: '('.
 	self streamArguments: aMOArrayAccess arguments.
-	stream nextPutAll: ')'
+	self nextPutAll: ')'
 ]
 
 { #category : #accessing }
 MOMicrosoftAccessCodeGenerator >> visitAssignment: aMOAssignment [
 
-	aMOAssignment write acceptVisitor: self.
-	stream
-		nextPutAll: ' ';
-		nextPutAll: #=;
-		nextPutAll: ' '.
-	aMOAssignment read acceptVisitor: self
+	(aMOAssignment read isKindOf: MONoOp)
+		ifTrue: [ 
+			self comment: [ 
+				aMOAssignment write acceptVisitor: self.
+				self
+					nextPutAll: ' ';
+					nextPutAll: #=;
+					nextPutAll: ' '.
+				aMOAssignment read acceptVisitor: self ] ]
+		ifFalse: [ 
+			aMOAssignment write acceptVisitor: self.
+			self
+				nextPutAll: ' ';
+				nextPutAll: #=;
+				nextPutAll: ' '.
+			aMOAssignment read acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -119,7 +159,7 @@ MOMicrosoftAccessCodeGenerator >> visitAttribute: aMOAttribute [
 MOMicrosoftAccessCodeGenerator >> visitAttributeAccess: aMOAttributeAccess [
 
 	aMOAttributeAccess receiverReference acceptVisitor: self.
-	stream
+	self
 		nextPutAll: '.';
 		nextPutAll: aMOAttributeAccess name
 ]
@@ -127,7 +167,7 @@ MOMicrosoftAccessCodeGenerator >> visitAttributeAccess: aMOAttributeAccess [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitBooleanLiteral: aMOBooleanLiteral [
 
-	stream nextPutAll:
+	self nextPutAll:
 		aMOBooleanLiteral literal asString capitalized
 ]
 
@@ -135,10 +175,10 @@ MOMicrosoftAccessCodeGenerator >> visitBooleanLiteral: aMOBooleanLiteral [
 MOMicrosoftAccessCodeGenerator >> visitCase: aMOCase [
 
 
-	stream nextPutAll: 'Case '.
+	self nextPutAll: 'Case '.
 
 	aMOCase expressions
-		ifEmpty: [ stream nextPutAll: 'Else ' ]
+		ifEmpty: [ self nextPutAll: 'Else ' ]
 		ifNotEmpty: [ self streamArguments: aMOCase expressions ].
 	aMOCase block acceptVisitor: self
 ]
@@ -149,10 +189,10 @@ MOMicrosoftAccessCodeGenerator >> visitClass: aJinTypescriptClass [
 	
 	aJinTypescriptClass attributes do: [ :m | 
 		m acceptVisitor: self.
-		stream newLine ].
+		self newLine ].
 	aJinTypescriptClass methods do: [ :m | 
 		m acceptVisitor: self.
-		stream newLine ]
+		self newLine ]
 ]
 
 { #category : #visiting }
@@ -168,7 +208,7 @@ MOMicrosoftAccessCodeGenerator >> visitClassProcedure: aMOClassFunction [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitColorLiteral: aMOAlceColorLiteral [
 
-	stream nextPutAll: aMOAlceColorLiteral literal
+	self nextPutAll: aMOAlceColorLiteral literal
 ]
 
 { #category : #visiting }
@@ -179,18 +219,18 @@ MOMicrosoftAccessCodeGenerator >> visitConstantAttribute: aMOConstantAttribute [
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitConstantReference: aMOConstantReference [ 
-	stream nextPutAll: aMOConstantReference name
+	self nextPutAll: aMOConstantReference name
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitDateLiteral: aMOAlceDateLiteral [
 
-	stream nextPutAll: aMOAlceDateLiteral literal
+	self nextPutAll: aMOAlceDateLiteral literal
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [ 
-stream nextPutAll: 'Option Compare Database
+self nextPutAll: 'Option Compare Database
 Option Explicit
 
 '.
@@ -200,13 +240,13 @@ Option Explicit
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [
 
-	stream newLine
+	self newLine
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitEnum: aMOEnum [
 
-	stream
+	self
 		nextPutAll: 'Enum ';
 		nextPutAll: aMOEnum name;
 		newLine.
@@ -214,8 +254,8 @@ MOMicrosoftAccessCodeGenerator >> visitEnum: aMOEnum [
 		self printIndentation.
 		aMOEnum entries do: [ :e | 
 			e acceptVisitor: self.
-			stream newLine ] ].
-	stream
+			self newLine ] ].
+	self
 		nextPutAll: 'End Enum';
 		newLine;
 		newLine
@@ -224,29 +264,29 @@ MOMicrosoftAccessCodeGenerator >> visitEnum: aMOEnum [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitEnumEntry: aMOEnumEntry [
 
-	stream
+	self
 		nextPutAll: aMOEnumEntry name;
 		nextPutAll: ' '.
 	aMOEnumEntry value ifNotNil: [ :e | 
-		stream nextPutAll: '= '.
+		self nextPutAll: '= '.
 		e acceptVisitor: self ]
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitExit: aMOAlceExit [
 
-
-	stream nextPutAll: #'Exit '.
+	self nextPutAll: #'Exit '.
 	({ 
+		 MOAttributeAccessor.
 		 MOFunction.
 		 MOClassFunction } includes: aMOAlceExit invocableKind) ifTrue: [ 
-		stream nextPutAll: 'Function'.
+		self nextPutAll: 'Function'.
 		^ self ].
 
 	({ 
 		 MOProcedure.
 		 MOClassProcedure } includes: aMOAlceExit invocableKind) ifTrue: [ 
-		stream nextPutAll: 'Sub'.
+		self nextPutAll: 'Sub'.
 		^ self ].
 
 	self halt
@@ -255,34 +295,34 @@ MOMicrosoftAccessCodeGenerator >> visitExit: aMOAlceExit [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitFloatLiteral: aMOFloatLiteral [
 
-	stream nextPutAll: aMOFloatLiteral literal asString
+	self nextPutAll: aMOFloatLiteral literal asString
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitForEach: aMOForEach [
 
-	stream nextPutAll: 'For Each '.
+	self nextPutAll: 'For Each '.
 	aMOForEach each acceptVisitor: self.
-	stream nextPutAll: ' In '.
+	self nextPutAll: ' In '.
 	aMOForEach collection acceptVisitor: self.
 	aMOForEach loopingBlock acceptVisitor: self.
-	stream nextPutAll: 'Next'
+	self nextPutAll: 'Next'
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitForNext: aMOForNext [
 
-	stream nextPutAll: 'For '.
+	self nextPutAll: 'For '.
 	aMOForNext counter acceptVisitor: self.
-	stream nextPutAll: ' = '.
+	self nextPutAll: ' = '.
 	aMOForNext initialValue acceptVisitor: self.
-	stream nextPutAll: ' To '.
+	self nextPutAll: ' To '.
 	aMOForNext limitValue acceptVisitor: self.
 	aMOForNext step ifNotNil: [ 
-		stream nextPutAll: ' Step '.
+		self nextPutAll: ' Step '.
 		aMOForNext step acceptVisitor: self ].
 	aMOForNext loopingBlock acceptVisitor: self.
-	stream nextPutAll: 'Next'
+	self nextPutAll: 'Next'
 ]
 
 { #category : #visiting }
@@ -294,39 +334,39 @@ MOMicrosoftAccessCodeGenerator >> visitForm: aMOAlceForm [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitFunction: aMOFunction [
 
-	stream nextPutAll: aMOFunction visibility capitalized.
+	self nextPutAll: aMOFunction visibility capitalized.
 	aMOFunction modifiers do: [ :m | 
-		stream
+		self
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-	stream
+	self
 		nextPutAll: ' Function ';
 		nextPutAll: aMOFunction selector;
 		nextPutAll: '('.
 
 	self streamArguments: aMOFunction parameters.
-	stream nextPutAll: ')'.
+	self nextPutAll: ')'.
 
 	aMOFunction returnTypeReference ifNotNil: [ :rtr | 
-		stream
+		self
 			nextPutAll: ' As ';
 			nextPutAll: rtr name ].
 	aMOFunction block acceptVisitor: self.
-	stream nextPutAll: 'End Function'.
-	stream newLine
+	self nextPutAll: 'End Function'.
+	self newLine
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitGlobalConstant: aMOGlobalConstant [
 
-	stream nextPutAll: 'Global '.
+	self nextPutAll: 'Global '.
 	self visitLocalConstant: aMOGlobalConstant
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitGlobalVariable: aMOGlobalVariable [
 
-	stream
+	self
 		nextPutAll: 'Global ';
 		nextPutAll: (self variableName: aMOGlobalVariable).
 	self variableBody: aMOGlobalVariable
@@ -335,51 +375,54 @@ MOMicrosoftAccessCodeGenerator >> visitGlobalVariable: aMOGlobalVariable [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitGoSub: aMOAlceGoSubLabel [ 
 
-	stream nextPutAll: 'GoSub '.
-	stream nextPutAll: aMOAlceGoSubLabel destination name 
+	self nextPutAll: 'GoSub '.
+	self nextPutAll: aMOAlceGoSubLabel destination name 
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitGoTo: aMOAlceGoToLabel [
 
-	stream nextPutAll: 'GoTo '.
-	stream nextPutAll: aMOAlceGoToLabel destination name
+	self nextPutAll: 'GoTo '.
+	self nextPutAll: aMOAlceGoToLabel destination name
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitIfElse: aMOIfElse [
 
-	stream nextPutAll: 'If '.
+	self nextPutAll: 'If '.
 	aMOIfElse condition acceptVisitor: self.
-	stream nextPutAll: ' Then '.
+	self nextPutAll: ' Then '.
 	aMOIfElse ifTrue acceptVisitor: self.
 	aMOIfElse ifFalse statements isEmpty ifFalse: [ 
 		self printIndentation.
-		stream nextPutAll: 'Else '.
+		self nextPutAll: 'Else '.
 		aMOIfElse ifFalse acceptVisitor: self ].
 	self printIndentation.
-	stream nextPutAll: 'End If'.
-	stream newLine.
+	self nextPutAll: 'End If'.
+	self newLine.
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitInvocation: aMOInvocation [
 
+	aMOInvocation selector asLowercase = #beep ifTrue: [ 
+		self nextPutAll: #Beep.
+		^ self ].
 	aMOInvocation parent isStatementExpression
-		ifTrue: [ stream nextPutAll: 'Call ' ]
+		ifTrue: [ self nextPutAll: 'Call ' ]
 		ifFalse: [  ].
-	stream
+	self
 		nextPutAll: aMOInvocation selector;
 		nextPutAll: '('.
 	self streamArguments: aMOInvocation arguments.
-	stream nextPutAll: ')'.
-	aMOInvocation parent isStatement ifFalse: [ ]
+	self nextPutAll: ')'.
+	aMOInvocation parent isStatement ifFalse: [  ]
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitLabelReference: aMOAlceLabelReference [
 
-	stream
+	self
 		nextPutAll: aMOAlceLabelReference name;
 		nextPutAll: #':'
 ]
@@ -389,7 +432,7 @@ MOMicrosoftAccessCodeGenerator >> visitLocalConstant: aMOLocalConstant [
 
 	| name |
 	name := self variableName: aMOLocalConstant.
-	stream
+	self
 		nextPutAll: 'Const ';
 		nextPutAll: name.
 	self variableBody: aMOLocalConstant
@@ -404,18 +447,20 @@ MOMicrosoftAccessCodeGenerator >> visitLocalVariable: aMOLocalVariable [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitMethodInvocation: aMOMethodInvocation [
 
-
+	aMOMethodInvocation selector asLowercase = #beep ifTrue: [ 
+		self nextPutAll: #Beep.
+		^ self ].
 	aMOMethodInvocation parent isStatementExpression
-		ifTrue: [ stream nextPutAll: 'Call ' ]
+		ifTrue: [ self nextPutAll: 'Call ' ]
 		ifFalse: [  ].
 
 	aMOMethodInvocation receiverReference acceptVisitor: self.
-	stream
+	self
 		nextPutAll: '.';
 		nextPutAll: aMOMethodInvocation selector;
 		nextPutAll: '('.
 	self streamArguments: aMOMethodInvocation arguments.
-	stream nextPutAll: ')'.
+	self nextPutAll: ')'.
 	aMOMethodInvocation parent isStatement ifFalse: [  ]
 ]
 
@@ -424,43 +469,54 @@ MOMicrosoftAccessCodeGenerator >> visitModule: aMOModule [
 
 	aMOModule types do: [ :m | 
 		m acceptVisitor: self.
-		stream newLine ].
+		self newLine ].
 	aMOModule constants do: [ :m | 
 		m acceptVisitor: self.
-		stream newLine ].
+		self newLine ].
 	aMOModule variables do: [ :m | 
 		m acceptVisitor: self.
-		stream newLine ].
+		self newLine ].
 	aMOModule invocables do: [ :m | 
 		m acceptVisitor: self.
-		stream newLine ]
+		self newLine ]
+]
+
+{ #category : #visiting }
+MOMicrosoftAccessCodeGenerator >> visitNoOp: aMONoOp [
+
+	" used to replace nodes with nothing "
+
+	isCommenting ifFalse: [ self nextPut: $' ].
+	^ self
+		  nextPutAll: 'NoOP: ';
+		  nextPutAll: aMONoOp description
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitNullLiteral: aMONullLiteral [
 
-	stream nextPutAll: #None
+	self nextPutAll: #None
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitOnErrorGoToLabel: aMOAlceOnErrorGoToLabel [
 
-	stream nextPutAll: 'On Error GoTo '.
-	stream nextPutAll: aMOAlceOnErrorGoToLabel destination name 
+	self nextPutAll: 'On Error GoTo '.
+	self nextPutAll: aMOAlceOnErrorGoToLabel destination name 
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitOnErrorResumeNext: aMOAlceOnErrorResumeNext [ 
-	stream nextPutAll: 'On Error Resume Next'
+	self nextPutAll: 'On Error Resume Next'
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitParameter: aMOParameter [
 
-	stream
+	self
 		nextPutAll: aMOParameter name;
 		nextPutAll: ' As '.
-	stream nextPutAll: ((aMOParameter typeReference isNil or: [ 
+	self nextPutAll: ((aMOParameter typeReference isNil or: [ 
 			  aMOParameter typeReference name = '#_TypeUndefined' ])
 			 ifTrue: [ 'Variant' ]
 			 ifFalse: [ aMOParameter typeReference name ])
@@ -469,26 +525,26 @@ MOMicrosoftAccessCodeGenerator >> visitParameter: aMOParameter [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitProcedure: aMOProcedure [
 
-	stream nextPutAll: aMOProcedure visibility.
+	self nextPutAll: aMOProcedure visibility.
 	aMOProcedure modifiers do: [ :m | 
-		stream
+		self
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-	stream
+	self
 		nextPutAll: ' Sub ';
 		nextPutAll: aMOProcedure selector;
 		nextPutAll: '('.
 	self streamArguments: aMOProcedure parameters.
-	stream nextPutAll: ')'.
+	self nextPutAll: ')'.
 	aMOProcedure block acceptVisitor: self.
-	stream nextPutAll: 'End Sub'.
-	stream newLine.
+	self nextPutAll: 'End Sub'.
+	self newLine.
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitRedimVariable: aMOAlceRedimVariable [
 
-	stream
+	self
 		nextPutAll: 'ReDim ';
 		nextPutAll: (self variableName: aMOAlceRedimVariable);
 		nextPutAll: aMOAlceRedimVariable redimText.
@@ -496,8 +552,8 @@ MOMicrosoftAccessCodeGenerator >> visitRedimVariable: aMOAlceRedimVariable [
 
 	(aMOAlceRedimVariable typeReference isNil or: [ 
 		 aMOAlceRedimVariable typeReference isUnknown ]) ifFalse: [ 
-		stream nextPutAll: ' As '.
-		stream nextPutAll: aMOAlceRedimVariable typeReference name ]
+		self nextPutAll: ' As '.
+		self nextPutAll: aMOAlceRedimVariable typeReference name ]
 ]
 
 { #category : #visiting }
@@ -508,14 +564,14 @@ MOMicrosoftAccessCodeGenerator >> visitReport: aMOAlceReport [
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitResume: aMOAlceResume [ 
-	stream nextPutAll: #Resume 
+	self nextPutAll: #Resume 
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitResumeLabel: aMOAlceResumeLabel [
 
 	self assert: aMOAlceResumeLabel destinations size = 1.
-	stream
+	self
 		nextPutAll: 'Resume ';
 		nextPutAll: aMOAlceResumeLabel destinations first name
 ]
@@ -523,27 +579,27 @@ MOMicrosoftAccessCodeGenerator >> visitResumeLabel: aMOAlceResumeLabel [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitReturnEmpty: aMOReturnEmpty [
 
-	stream nextPutAll: 'return'
+	self nextPutAll: 'return'
 ]
 
 { #category : #enumerating }
 MOMicrosoftAccessCodeGenerator >> visitSelect: aMOSelect [
 
-	stream nextPutAll: 'Select Case '.
+	self nextPutAll: 'Select Case '.
 	aMOSelect expression acceptVisitor: self.
-	stream newLine.
+	self newLine.
 	self increaseDeepDuring: [ 
 		aMOSelect cases do: [ :case | 
 			self printIndentation.
 			case acceptVisitor: self ] ].
-	stream
+	self
 		nextPutAll: 'End Select ';
 		newLine
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitSetToReturn: aMOSetToReturn [ 
-	stream nextPutAll: aMOSetToReturn invocableSelector; nextPutAll: ' = '. 
+	self nextPutAll: aMOSetToReturn invocableSelector; nextPutAll: ' = '. 
 	aMOSetToReturn expression acceptVisitor: self 
 ]
 
@@ -556,22 +612,22 @@ MOMicrosoftAccessCodeGenerator >> visitStatementExpression: aMOStatementExpressi
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitStructure: aMOStructure [
 
-	stream
+	self
 		nextPutAll: 'Type ';
 		nextPutAll: aMOStructure name;
 		newLine.
 	self increaseDeepDuring: [ 
 		aMOStructure attributes do: [ :a | 
 			self printIndentation.
-			stream
+			self
 				nextPutAll: a name;
 				nextPutAll: ' As '.
-			stream nextPutAll:
+			self nextPutAll:
 				(a typeReference
 					 ifNil: [ 'Variant' ]
 					 ifNotNil: [ :t | t type name ]).
-			stream newLine ] ].
-	stream
+			self newLine ] ].
+	self
 		nextPutAll: 'End Type';
 		newLine;
 		newLine
@@ -580,7 +636,7 @@ MOMicrosoftAccessCodeGenerator >> visitStructure: aMOStructure [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitTypeReference: aMOTypeReference [
 
-	stream nextPutAll: aMOTypeReference name
+	self nextPutAll: aMOTypeReference name
 ]
 
 { #category : #visiting }
@@ -593,18 +649,26 @@ MOMicrosoftAccessCodeGenerator >> visitUnaryArithmeticExpression: aMOUnaryArithm
 MOMicrosoftAccessCodeGenerator >> visitUnaryExpression: aMOUnaryArithmeticOperation [
 
 	aMOUnaryArithmeticOperation isPrefix ifTrue: [ 
-		stream nextPutAll: aMOUnaryArithmeticOperation operator ].
+		self
+			nextPutAll: aMOUnaryArithmeticOperation operator;
+			nextPutAll:
+				(aMOUnaryArithmeticOperation operator isAllAlphaNumerics
+					 ifTrue: [ ' ' ]
+					 ifFalse: [ '' ]) ].
 	aMOUnaryArithmeticOperation operand acceptVisitor: self.
 	aMOUnaryArithmeticOperation isPostfix ifTrue: [ 
-		stream
+		self
 			nextPutAll: aMOUnaryArithmeticOperation operator;
-			nextPutAll: ' ' ]
+			nextPutAll:
+				(aMOUnaryArithmeticOperation operator isAllAlphaNumerics
+					 ifTrue: [ ' ' ]
+					 ifFalse: [ '' ]) ]
 ]
 
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsParameter [
 
-	stream nextPutAll: 'ParamArray '.
+	self nextPutAll: 'ParamArray '.
 	self visitParameter: aMOVariableArgumentsParameter
 ]
 
@@ -613,7 +677,7 @@ MOMicrosoftAccessCodeGenerator >> visitVariable: aMOVariable [
 
 	| name |
 	name := self variableName: aMOVariable.
-	stream
+	self
 		nextPutAll: 'Dim ';
 		nextPutAll: name.
 	self variableBody: aMOVariable
@@ -628,10 +692,10 @@ MOMicrosoftAccessCodeGenerator >> visitVariableAccessor: aMOVariableAccessor [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitWhile: aMOWhile [
 
-	stream nextPutAll: 'Do While '.
+	self nextPutAll: 'Do While '.
 	aMOWhile condition acceptVisitor: self.
 	aMOWhile loopingBlock  acceptVisitor: self.
-	stream
+	self
 		nextPutAll: 'Loop';
 		newLine
 ]
@@ -639,11 +703,11 @@ MOMicrosoftAccessCodeGenerator >> visitWhile: aMOWhile [
 { #category : #visiting }
 MOMicrosoftAccessCodeGenerator >> visitWith: aMOAlceWith [
 
-	stream nextPutAll: 'With '.
+	self nextPutAll: 'With '.
 	aMOAlceWith expression acceptVisitor: self.
-	stream newLine.
+	self newLine.
 	aMOAlceWith block acceptVisitor: self.
-	stream
+	self
 		nextPutAll: 'End With ';
 		newLine
 ]

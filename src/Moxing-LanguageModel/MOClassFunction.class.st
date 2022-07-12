@@ -24,6 +24,8 @@ MOClassFunction >> canBeReferredAsMethod [
 MOClassFunction >> printOn: aStream [
 
 	aStream
+		nextPutAll: parent name;
+		nextPutAll: '>>';
 		nextPutAll: 'Class Function: ';
 		nextPutAll: selector;
 		nextPutAll: '/';

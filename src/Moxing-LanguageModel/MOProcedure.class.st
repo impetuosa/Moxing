@@ -39,10 +39,12 @@ MOProcedure >> name: aSelector [
 MOProcedure >> printOn: aStream [
 
 	aStream
+		nextPutAll: parent name;
+		nextPutAll: '>>';
 		nextPutAll: 'Procedure: ';
 		nextPutAll: selector;
 		nextPutAll: '/';
-		nextPutAll: parameters size asString.
+		nextPutAll: parameters size asString
 ]
 
 { #category : #accessing }

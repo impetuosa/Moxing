@@ -115,6 +115,32 @@ MOType >> producesParseableCode [
 ]
 
 { #category : #accessing }
+MOType >> symbolicName [
+	 ^ self name 
+]
+
+{ #category : #accessing }
+MOType >> users [
+
+	| candidates referrals |
+	candidates := self model references
+		              select: [ :r | r candidate = self ]
+		              thenCollect: [ :r | 
+			              | i |
+			              i := r callingInvocable ].
+	referrals := self symbolicName.
+	^ ((self model literals
+		    select: [ :l | l literal = referrals ]
+		    thenCollect: [ :r | 
+			    | i |
+			    i := r callingInvocable ]) , (self model objects
+		    select: [ :o | 
+			    o holder ~= self and: [ 
+				    o state values anySatisfy: [ :v | v = referrals ] ] ]
+		    thenCollect: [ :o | o holder ]) , candidates) removeDuplicates
+]
+
+{ #category : #accessing }
 MOType >> visibility [
 	^ visibility
 ]

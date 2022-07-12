@@ -94,10 +94,13 @@ MOModelLinker >> ensureAllTypesInTheirPackages: aMOModel [
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllVariableReferences: aMOModel [
-
+	
 	aMOModel variableReferences
 		select: [ :a | a candidate isNil ]
-		thenDo: [ :a | self processVariableReference: a ]
+		thenDo: [ :a | 
+		
+
+			self processVariableReference: a ]
 ]
 
 { #category : #'as yet unclassified' }

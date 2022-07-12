@@ -61,15 +61,39 @@ MOCodeGenerator >> lineDelimiter [
 ]
 
 { #category : #'as yet unclassified' }
+MOCodeGenerator >> newLine [
+
+	^ stream newLine
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> nextPut: aChar [
+
+	^ stream nextPut: aChar
+]
+
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> nextPutAll: aString [
+
+	^ stream nextPutAll: aString
+]
+
+{ #category : #visiting }
+MOCodeGenerator >> print: aPrintalbe [
+
+	^ stream print: aPrintalbe
+]
+
+{ #category : #'as yet unclassified' }
 MOCodeGenerator >> printClassHeader: name extends: superClassRef implements: types [
 
-	stream nextPutAll: (' class {1} ' format: { name }).
+	self nextPutAll: (' class {1} ' format: { name }).
 	superClassRef ifNotNil: [ 
-		stream
+		self
 			nextPutAll: ' extends ';
 			nextPutAll: superClassRef name ].
 	types ifNotEmpty: [ 
-		stream
+		self
 			nextPutAll: ' implements ';
 			nextPutAll: (',' join: (types collect: #name)) ]
 ]
@@ -78,7 +102,7 @@ MOCodeGenerator >> printClassHeader: name extends: superClassRef implements: typ
 MOCodeGenerator >> printIndentation [
 
 	indentation timesRepeat: [ 
-		stream nextPutAll: self indentationString ]
+		self nextPutAll: self indentationString ]
 ]
 
 { #category : #visiting }
@@ -164,7 +188,7 @@ MOCodeGenerator >> useModel: aMOModelDerivative [
 MOCodeGenerator >> visitAssignment: aMOAssignment [
 
 	aMOAssignment write acceptVisitor: self.
-	stream
+	self
 		nextPutAll: ' ';
 		nextPutAll: #=;
 		nextPutAll: ' '.
@@ -175,7 +199,7 @@ MOCodeGenerator >> visitAssignment: aMOAssignment [
 MOCodeGenerator >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
 
 	aMOBinaryArithmeticOperation left acceptVisitor: self.
-	stream
+	self
 		nextPutAll: ' ';
 		nextPutAll: aMOBinaryArithmeticOperation operator;
 		nextPutAll: ' '.
@@ -185,54 +209,54 @@ MOCodeGenerator >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation 
 { #category : #visiting }
 MOCodeGenerator >> visitBlock: aMOBlock [
 
-	stream
-		nextPutAll: self blockDelimiterOpen ;
+	self
+		nextPutAll: self blockDelimiterOpen;
 		newLine.
 	self increaseDeepDuring: [ 
 		aMOBlock statements do: [ :s | 
 			self printIndentation.
 			s acceptVisitor: self.
 
-			(self requiresTerminator: s) ifTrue: [ stream nextPutAll: self lineDelimiter].
-			stream newLine ] ].
+			(self requiresTerminator: s) ifTrue: [ 
+				self nextPutAll: self lineDelimiter ].
+			self newLine ] ].
 	self printIndentation.
-	stream
-		nextPutAll: self blockDelimiterClose ;
+	self
+		nextPutAll: self blockDelimiterClose;
 		newLine
-
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitBooleanLiteral: aMOBooleanLiteral [
 
-	stream nextPutAll: aMOBooleanLiteral literal asString asLowercase
+	self nextPutAll: aMOBooleanLiteral literal asString asLowercase
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitCollection: aCollection [
 
 	aCollection isString
-		ifTrue: [ stream nextPutAll: aCollection ]
+		ifTrue: [ self nextPutAll: aCollection ]
 		ifFalse: [ aCollection do: [ :a | a acceptVisitor: self ] ]
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitFloatLiteral: aMOIntegerLiteral [
 
-	stream print: aMOIntegerLiteral literal
+	self print: aMOIntegerLiteral literal
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitIfElse: aMOIfElse [
 
 
-	stream nextPutAll: 'if ('.
+	self nextPutAll: 'if ('.
 	aMOIfElse condition acceptVisitor: self.
-	stream nextPutAll: ')'.
+	self nextPutAll: ')'.
 	aMOIfElse ifTrue acceptVisitor: self.
 	aMOIfElse ifFalse statements isEmpty ifFalse: [ 
 		self printIndentation.
-		stream nextPutAll:' else '.
+		self nextPutAll:' else '.
 		aMOIfElse ifFalse acceptVisitor: self.
 	 ]
 ]
@@ -240,28 +264,28 @@ MOCodeGenerator >> visitIfElse: aMOIfElse [
 { #category : #visiting }
 MOCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [
 
-	stream print: aMOIntegerLiteral literal
+	self print: aMOIntegerLiteral literal
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitInvocableInvocation: aFylgjaMissingInvocableInvocation [
 
-	stream
+	self
 		nextPutAll: aFylgjaMissingInvocableInvocation fullSelector;
 		nextPutAll: '('.
 	self streamArguments: aFylgjaMissingInvocableInvocation arguments.
-	stream nextPutAll: ')'
+	self nextPutAll: ')'
 ]
 
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> visitLiteral: aMOTypescriptLiteral [
-	stream nextPutAll: aMOTypescriptLiteral literal asString
+	self nextPutAll: aMOTypescriptLiteral literal asString
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitMissingVariable: aFylgjaMissingVariable [
 
-	stream nextPutAll: aFylgjaMissingVariable variableName
+	self nextPutAll: aFylgjaMissingVariable variableName
 ]
 
 { #category : #'as yet unclassified' }
@@ -277,15 +301,20 @@ MOCodeGenerator >> visitNewExpression: aMOTypescriptNewExpression [
 ]
 
 { #category : #visiting }
-MOCodeGenerator >> visitNoOp: aMONoOp [ 
+MOCodeGenerator >> visitNoOp: aMONoOp [
+
 	" used to replace nodes with nothing "
+
+	^ self
+		  nextPutAll: 'NoOP: ';
+		  nextPutAll: aMONoOp description
 ]
 
 { #category : #visiting }
 MOCodeGenerator >> visitOperator: aFylgjaMissingOperator [
 
 	aFylgjaMissingOperator left acceptVisitor: self.
-	stream
+	self
 		nextPutAll: ' ';
 		nextPutAll: aFylgjaMissingOperator operator;
 		nextPutAll: ' '.
@@ -293,14 +322,9 @@ MOCodeGenerator >> visitOperator: aFylgjaMissingOperator [
 ]
 
 { #category : #visiting }
-MOCodeGenerator >> visitPackage: aMOPackage [ 
-	self halt .
-]
-
-{ #category : #visiting }
 MOCodeGenerator >> visitReturn: aMOReturn [
 
-	stream nextPutAll: 'return '.
+	self nextPutAll: 'return '.
 	aMOReturn expression acceptVisitor: self
 ]
 
@@ -321,7 +345,7 @@ MOCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 				       copyFrom: 2
 				       to: aMOStringLiteral literal size - 1 ]
 		       ifFalse: [ aMOStringLiteral literal ].
-	stream
+	self
 		nextPutAll: '"';
 		nextPutAll: str;
 		nextPutAll: '"'
@@ -338,5 +362,5 @@ MOCodeGenerator >> visitVariableReference: aMOVariableRererence [
 
 	(aMOVariableRererence candidate isKindOf: MOSelfReference)
 		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
-		ifFalse: [ stream nextPutAll: aMOVariableRererence name ]
+		ifFalse: [ self nextPutAll: aMOVariableRererence name ]
 ]

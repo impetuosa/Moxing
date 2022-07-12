@@ -21,6 +21,12 @@ MOArtefact >> canBeReferredAsArtefact [
 ]
 
 { #category : #accessing }
+MOArtefact >> childrenForTree [
+
+	^ self allContainments sort: #name ascending 
+]
+
+{ #category : #accessing }
 MOArtefact >> declarationUnits [
 	^ declarationUnits
 ]
@@ -40,6 +46,11 @@ MOArtefact >> isDeclaration [
 { #category : #accessing }
 MOArtefact >> packages: aCollection [ 
 	packages := aCollection
+]
+
+{ #category : #accessing }
+MOArtefact >> types [
+	^ types
 ]
 
 { #category : #accessing }

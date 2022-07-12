@@ -64,7 +64,7 @@ MODeclarationUnit >> packageReference: aMOPackageReference [
 { #category : #accessing }
 MODeclarationUnit >> printOn: aStream [
 	aStream nextPutAll: 'DUnit '.
-	types do: [ :t | 
+	self types do: [ :t | 
 		t printOn: aStream.
 		aStream nextPutAll: ',' ]
 ]
@@ -78,10 +78,16 @@ MODeclarationUnit >> producesParseableCode [
 
 { #category : #accessing }
 MODeclarationUnit >> types [
-	^ types
+	^ types reverse
 ]
 
 { #category : #accessing }
 MODeclarationUnit >> types: aCollection [ 
 	types := aCollection
+]
+
+{ #category : #accessing }
+MODeclarationUnit >> users [
+
+	^ (types flatCollect: #users) removeDuplicates
 ]

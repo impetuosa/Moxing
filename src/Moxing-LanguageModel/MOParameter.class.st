@@ -14,6 +14,11 @@ MOParameter >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOParameter >> existsOnlyInParentContext [
+	 ^ true 
+]
+
+{ #category : #accessing }
 MOParameter >> isOptional: aBoolean [ 
 	isOptional := aBoolean
 ]
