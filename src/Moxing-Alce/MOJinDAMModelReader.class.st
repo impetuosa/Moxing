@@ -556,7 +556,7 @@ MOJinDAMModelReader >> visitGoSub: aJinDAMGoSub [
 
 	^ writer writeGoSub: [ :goSub | 
 		  goSub writeLabelReference: [ :exp | 
-			  exp destination: aJinDAMGoSub label first name ] ]
+			  exp labelReference:  aJinDAMGoSub label first name ] ]
 ]
 
 { #category : #visiting }
@@ -567,7 +567,7 @@ MOJinDAMModelReader >> visitGoTo: aJinDAMGoTo [
 
 	^ writer writeGoTo: [ :goSub | 
 		  goSub writeLabelReference: [ :exp | 
-			  exp destination: aJinDAMGoTo labels first name ] ]
+			  exp labelReference: aJinDAMGoTo labels first name ] ]
 ]
 
 { #category : #visiting }
@@ -793,7 +793,7 @@ MOJinDAMModelReader >> visitOnError: aJinDAMOnError [
 	^ self
 		  trace: aJinDAMOnError
 		  with:
-		  (writer onErrorGoTo: [ :expr | expr destination: label name ])
+		  (writer onErrorGoTo: [ :expr |  expr labelReference: label name ])
 ]
 
 { #category : #visiting }
@@ -925,7 +925,7 @@ MOJinDAMModelReader >> visitResume: aJinDAMResume [
 	^ self trace: aJinDAMResume with: (writer writeStatement: [ :stmt | 
 			   stmt resume: [ :expr | 
 				   aJinDAMResume destination collect: [ :r | 
-					   expr destination: r name ] ] ])
+					   expr labelReference: r name ] ] ])
 ]
 
 { #category : #visiting }

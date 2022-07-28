@@ -143,6 +143,11 @@ MOModel >> instantiate: aClass [
 	^ instance
 ]
 
+{ #category : #accessing }
+MOModel >> invocations [
+	^ entities select:[:a | a isInvocation ]
+]
+
 { #category : #traverse }
 MOModel >> isCatalog [
 

@@ -43,7 +43,6 @@ MOModelArtefactReferenceBuilder >> name: aName [
 
 { #category : #'as yet unclassified' }
 MOModelArtefactReferenceBuilder >> privateBuild [
-
 	^ (self instantiate: MOArtefactReference)
 		  name: self name;
 		  candidate: self candidate;
