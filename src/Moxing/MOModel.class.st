@@ -172,10 +172,9 @@ MOModel >> invocables [
 	^ entities select:#isInvocable
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MOModel >> invocations [
-
-	^ entities select: [ :e | e isKindOf: MOInvocation ]
+	^ entities select:[:a | a isInvocation ]
 ]
 
 { #category : #'as yet unclassified' }

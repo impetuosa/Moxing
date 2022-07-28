@@ -75,6 +75,7 @@ MOInvocation >> selector [
 ]
 
 { #category : #accessing }
-MOInvocation >> selector: aString [ 
-	selector := aString
+MOInvocation >> selector: aString [
+
+	selector := aString copyReplaceAll: '$' with: ''
 ]

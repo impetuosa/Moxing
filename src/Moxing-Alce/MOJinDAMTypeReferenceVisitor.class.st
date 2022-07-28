@@ -54,6 +54,7 @@ MOJinDAMTypeReferenceVisitor >> visitLibrary: aJinDAMLibrary [
 { #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitLibraryReference: aJinDAMLibraryReference [
 
+	self assert: aJinDAMLibraryReference candidate isArtefact.
 	^ aJinDAMLibraryReference candidate
 		  ifNil: [ 
 		  writer artefactReferenceNamed: aJinDAMLibraryReference name ]
