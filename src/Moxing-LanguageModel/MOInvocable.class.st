@@ -158,6 +158,12 @@ MOInvocable >> setStaticBinding [
 	bindingKind := #static.
 ]
 
+{ #category : #private }
+MOInvocable >> usersOrSenders [
+
+	^ self senders
+]
+
 { #category : #accessing }
 MOInvocable >> variables [
 	^ block variables

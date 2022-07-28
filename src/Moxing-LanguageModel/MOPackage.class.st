@@ -28,6 +28,13 @@ MOPackage >> allTypes [
 ]
 
 { #category : #adding }
+MOPackage >> childrenForTree [
+
+	^ super childrenForTree sort:
+		  #isDefinedInLibrary ascending , #name ascending
+]
+
+{ #category : #adding }
 MOPackage >> containsSourceCodeEntities [
 
 	^ true

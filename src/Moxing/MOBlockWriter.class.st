@@ -86,6 +86,12 @@ MOBlockWriter >> privateWriteToSurface: anEntity [
 		withArguments: { anEntity }
 ]
 
+{ #category : #removing }
+MOBlockWriter >> remove: aMOAlceExit [
+
+	writeBuilder remove: aMOAlceExit
+]
+
 { #category : #initialization }
 MOBlockWriter >> setAddingStatemntsAtFirst [
 	writeBuilder  setAddingStatemntsAtFirst

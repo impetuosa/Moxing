@@ -66,6 +66,12 @@ MOCatalog >> allInvocations [
 ]
 
 { #category : #accessing }
+MOCatalog >> allTypes [
+
+	^ self types
+]
+
+{ #category : #accessing }
 MOCatalog >> anchor [
 	^ anchor
 ]

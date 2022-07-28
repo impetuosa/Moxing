@@ -188,6 +188,11 @@ MODeclaration >> isAngularComponent [
 ]
 
 { #category : #testing }
+MODeclaration >> isArtefact [
+^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isAssignment [
 
 	^ false
@@ -217,6 +222,12 @@ MODeclaration >> isDatasource [
 { #category : #testing }
 MODeclaration >> isDeclaration [
   ^false
+]
+
+{ #category : #testing }
+MODeclaration >> isDeclarationOrDeclarationUnit [
+
+	^ self isDeclaration or: [ self isDeclarationUnit ]
 ]
 
 { #category : #traverse }
@@ -279,6 +290,12 @@ MODeclaration >> isMOObject [
 { #category : #testing }
 MODeclaration >> isMethodExtension [
 ^ false 
+]
+
+{ #category : #testing }
+MODeclaration >> isMethodInvocation [
+
+	^ false
 ]
 
 { #category : #accessing }
@@ -348,6 +365,18 @@ MODeclaration >> isSameEntity: anOtherDeclaration [
 	^ self = anOtherDeclaration
 ]
 
+{ #category : #testing }
+MODeclaration >> isStatement [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isStatementExpression [
+
+	^ false
+]
+
 { #category : #traverse }
 MODeclaration >> isStaticDefinition [
 	 ^ true 
@@ -365,7 +394,18 @@ MODeclaration >> isTypeReference [
 ]
 
 { #category : #testing }
+MODeclaration >> isTypedReference [
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isUnaryOperation [
+
+	^ false
+]
+
+{ #category : #testing }
+MODeclaration >> isVariable [
 
 	^ false
 ]
@@ -451,4 +491,10 @@ MODeclaration >> setterNameFor: aMOBlock [
 		         (a read: self) = aMOBlock ].
 	self assert: slots size = 1.
 	^ slots first name , ':'
+]
+
+{ #category : #traverse }
+MODeclaration >> shouldPopulateRelations [
+
+	^ true
 ]

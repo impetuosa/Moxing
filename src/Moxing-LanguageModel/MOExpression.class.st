@@ -24,3 +24,15 @@ MOExpression >> isExpression [
 MOExpression >> isLabelledAs: aLabel [
  	 ^ false 
 ]
+
+{ #category : #'as yet unclassified' }
+MOExpression >> usingDeclaration [
+
+	| current |
+	current := self.
+	[ 
+	current isNil or: [ 
+		current isInvocable or: [ current isModule or: [ current isType ] ] ] ] 
+		whileFalse: [ current := current parent ].
+	^ current
+]

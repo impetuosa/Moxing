@@ -125,6 +125,19 @@ MOModelUpdateResolver >> visitConstant: aMOConstant [
 ]
 
 { #category : #visiting }
+MOModelUpdateResolver >> visitConstantAttribute: aMOConstantAttribute [
+
+	| addedElement |
+	writer
+		updateConstantAttribute: aMOConstantAttribute
+		with: [ :block | 
+			addedElement := writingBlock
+				                cull: writingEntityRelation
+				                cull: block ].
+	^ addedElement
+]
+
+{ #category : #visiting }
 MOModelUpdateResolver >> visitDeclarationUnit: aMODeclarationUnit [
 
 	| addedElement |
@@ -176,6 +189,17 @@ MOModelUpdateResolver >> visitIfElse: aMOIfElse [
 { #category : #visiting }
 MOModelUpdateResolver >> visitInvocation: aMOInvocation [ 
 	^ self genericUpdate: aMOInvocation
+]
+
+{ #category : #visiting }
+MOModelUpdateResolver >> visitJavaClass: aMOJavaClass [
+
+	| addedElement |
+	writer updateJavaClass: aMOJavaClass with: [ :classWriter | 
+		addedElement := writingBlock
+			                cull: writingEntityRelation
+			                cull: classWriter ].
+	^ addedElement
 ]
 
 { #category : #visiting }

@@ -107,6 +107,18 @@ MOModelBlockBuilder >> privateBuild [
 	^ block
 ]
 
+{ #category : #removing }
+MOModelBlockBuilder >> remove: aMOAlceExit [
+
+	| st |
+	self assert: self isUpdating.
+	st := self instantiateSubClass: MORemovedStatement.
+	st parent: updatingEntity.
+	st statement: aMOAlceExit.
+	self statements replaceAll: aMOAlceExit with: st.
+	^ st
+]
+
 { #category : #initialization }
 MOModelBlockBuilder >> setAddingStatemntsAtFirst [
 	isAddingStatemntsAtFirst := true 

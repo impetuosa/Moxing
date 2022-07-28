@@ -310,15 +310,14 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
-	anEntity allContainmentRelations , anEntity allReferenceRelations
-	, anEntity allExpressionRelations do: [ :relation | 
-		subentity := relation to.
-		subentity parent: anEntity.
-		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
-				 ifTrue: [ relation name ]
-				 ifFalse: [ subentity name ])
-			/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
-		self populateAnchorOn: subentity ]
+	anEntity shouldPopulateRelations ifTrue: [ 
+		anEntity allContainmentRelations , anEntity allReferenceRelations
+		, anEntity allExpressionRelations do: [ :relation | 
+			subentity := relation to.
+			subentity parent ifNil: [ subentity parent: anEntity ].
+			subentity anchor: anEntity anchor / relation name
+				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
+			self populateAnchorOn: subentity ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -449,6 +448,15 @@ MOModelWriter >> updateClass: aMOClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateConstantAttribute: aMOConstantAttribute with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOConstantAttribute
+		  withWriter: MOConstantAttributeWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateDeclarationUnit: aMODeclarationUnit with: aFullBlockClosure [
 
 	^ self
@@ -502,6 +510,15 @@ MOModelWriter >> updateIfElse: aMOIfElse with: aFullBlockClosure [
 		forUpdating: aMOIfElse
 		withWriter: writer.
 	^ writer writeResult
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateJavaClass: aMOClass with: aFullBlockClosure [ 
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOClass
+		  withWriter: MOJavaClassWriter new
 ]
 
 { #category : #'as yet unclassified' }

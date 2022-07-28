@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #generated }
+MOTypedReference >> isTypedReference [
+
+	^ true
+]
+
+{ #category : #generated }
 MOTypedReference >> type [
 
 	^ candidate constructingTypeName

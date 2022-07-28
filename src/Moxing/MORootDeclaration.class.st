@@ -21,10 +21,23 @@ MORootDeclaration >> addPackage: anEntry [
 	
 ]
 
+{ #category : #accessing }
+MORootDeclaration >> childrenForTree [
+
+	^ super childrenForTree sort:
+		  #isDefinedInLibrary ascending , #name ascending
+]
+
 { #category : #'as yet unclassified' }
 MORootDeclaration >> enclosingTypeOrModule [
 
 	^ nil
+]
+
+{ #category : #testing }
+MORootDeclaration >> isExpression [
+
+	^ false
 ]
 
 { #category : #accessing }

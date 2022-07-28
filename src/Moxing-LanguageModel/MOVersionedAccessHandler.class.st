@@ -11,6 +11,7 @@ Class {
 MOVersionedAccessHandler >> handleMessage: aMessage toTarget: anObject [
 
 	aMessage selector = #isProxy ifTrue: [ ^ true ].
+	aMessage selector = #getProxifiedObject ifTrue: [ ^ anObject  ].
 	model ifNil: [ ^ nil ].
 	^ [ self proxify: (aMessage sendTo: (model entityFor: anObject)) ]
 		  on: Error

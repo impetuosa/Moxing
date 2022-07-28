@@ -13,6 +13,20 @@ Class {
 	#category : #'Moxing-Core'
 }
 
+{ #category : #traverse }
+MOModelDerivative >> allDeclarations [
+
+	| refs |
+	refs := self declarations.
+	^ model allDeclarations collect: [ :deriveeModelRef | 
+		  refs
+			  detect: [ :r | r isSameEntity: deriveeModelRef ]
+			  ifFound: [ :thisModelRef | 
+				  refs remove: thisModelRef.
+				  thisModelRef ]
+			  ifNone: [ deriveeModelRef ] ]
+]
+
 { #category : #enumerating }
 MOModelDerivative >> allEntitiesSelect: aFullBlockClosure [
 
@@ -20,10 +34,51 @@ MOModelDerivative >> allEntitiesSelect: aFullBlockClosure [
 	  , (model allEntitiesSelect: aFullBlockClosure)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOModelDerivative >> allInvocations [
 
-	^ entities select: [ :e | e isKindOf: MOInvocation ]
+	| refs |
+	refs := self invocations.
+	^ (model allInvocations collect: [ :deriveeModelRef | 
+		   refs
+			   detect: [ :r | r isSameEntity: deriveeModelRef ]
+			   ifFound: [ :thisModelRef | 
+				   refs remove: thisModelRef.
+				   thisModelRef ]
+			   ifNone: [ deriveeModelRef ] ]) , refs
+]
+
+{ #category : #literals }
+MOModelDerivative >> allLiterals [
+
+	^ (entities select: #isMOLiteral) , model allLiterals
+]
+
+{ #category : #traverse }
+MOModelDerivative >> allReferences [
+
+	| refs |
+	refs := self references copy.
+	^ (model allReferences collect: [ :deriveeModelRef | 
+		   refs
+			   detect: [ :r | r isSameEntity: deriveeModelRef ]
+			   ifFound: [ :thisModelRef | 
+				   refs remove: thisModelRef.
+				   thisModelRef ]
+			   ifNone: [ deriveeModelRef ] ]) , refs
+]
+
+{ #category : #accessing }
+MOModelDerivative >> allTypes [
+
+	^ self types , model allTypes
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> allVersionsOf: aMOFunction [
+
+	^ (entities select: [ :a | a isSameEntity: aMOFunction ])
+	  , (model allVersionsOf: aMOFunction)
 ]
 
 { #category : #accessing }
@@ -46,6 +101,12 @@ MOModelDerivative >> catalogEntitiesSelect: aFullBlockClosure [
 	^ model catalogEntitiesSelect: aFullBlockClosure
 ]
 
+{ #category : #traverse }
+MOModelDerivative >> declarations [
+
+	^ entities select: [ :e | e isDeclaration ]
+]
+
 { #category : #initialization }
 MOModelDerivative >> derivative [
 
@@ -61,9 +122,11 @@ MOModelDerivative >> entities [
 
 { #category : #accessing }
 MOModelDerivative >> entityFor: aMOEntity [
-	^ self entities
-		  detect: [ :e | e isSameEntity: aMOEntity  ]
-		  ifNone: [ model entityFor: aMOEntity ]
+
+	^ self entities detect: [ :e | e = aMOEntity ] ifNone: [ 
+		  self entities
+			  detect: [ :e | e isSameEntity: aMOEntity ]
+			  ifNone: [ model entityFor: aMOEntity ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -114,6 +177,12 @@ MOModelDerivative >> instantiate: aClass [
 	instance := aClass newInstanceFromModel .
 	entities add: instance.
 	^ instance
+]
+
+{ #category : #traverse }
+MOModelDerivative >> invocations [
+
+	^ entities select: [ :e | e isKindOf: MOInvocation ]
 ]
 
 { #category : #testing }
@@ -209,6 +278,11 @@ MOModelDerivative >> produceCode: aMODeclarationUnit [
 		  aMODeclarationUnit
 ]
 
+{ #category : #accessing }
+MOModelDerivative >> references [
+	^ entities select: [ : e | e isKindOf: MOReference ]
+]
+
 { #category : #registry }
 MOModelDerivative >> register: aMOBlock [
 
@@ -244,7 +318,7 @@ MOModelDerivative >> resolveFileReferenceFor: aMODeclarationUnit [
 { #category : #accessing }
 MOModelDerivative >> root [
 
-	^ model root
+	^ self entityFor: model root
 ]
 
 { #category : #'as yet unclassified' }

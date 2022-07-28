@@ -36,6 +36,12 @@ MOModelParameterBuilder >> buildVariableArgumentsParameter [
 		  yourself
 ]
 
+{ #category : #testing }
+MOModelParameterBuilder >> buildsType [
+
+	^ MOParameter
+]
+
 { #category : #accessing }
 MOModelParameterBuilder >> isOptional [
 	^ isOptional

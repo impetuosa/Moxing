@@ -14,6 +14,12 @@ MOMethodInvocation >> acceptVisitor: aMOTransformationApplier [
 ]
 
 { #category : #accessing }
+MOMethodInvocation >> isMethodInvocation [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOMethodInvocation >> printOn: aStream [
 
 	aStream

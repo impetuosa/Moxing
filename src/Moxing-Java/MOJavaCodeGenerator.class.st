@@ -846,12 +846,12 @@ MOJavaCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsParameter [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitVariable: aMOTypescriptVariable [
 
-	
+
 	aMOTypescriptVariable modifiers do: [ :m | 
 		self
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-
+	
 	aMOTypescriptVariable typeReference ifNotNil: [ 
 		aMOTypescriptVariable typeReference acceptVisitor: self.
 		self nextPutAll: ' ' ].

@@ -234,7 +234,7 @@ MOModelProceduralWriter >> installFromTo: entity [
 { #category : #accessing }
 MOModelProceduralWriter >> isUpdating [
 
-	^ writeBuilder isUpdating
+	^ writeBuilder ifNil: [ false ] ifNotNil: [ :wb | wb isUpdating ]
 ]
 
 { #category : #writing }
@@ -426,7 +426,12 @@ MOModelProceduralWriter >> typeReferenceFullNamed: aString [
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> typeReferenceNamed: aString [
 
-	^ parentWriter typeReferenceNamed: aString
+	^ self isUpdating
+		  ifTrue: [ 
+			  self builder typeReferenceBuilder
+				  name: aString;
+				  build ]
+		  ifFalse: [ parentWriter typeReferenceNamed: aString ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -541,8 +546,8 @@ MOModelProceduralWriter >> writeResult [
 { #category : #writing }
 MOModelProceduralWriter >> writeToSurface: anEntity [
 
-	self privateWriteToSurface: anEntity.
-	^ anEntity 
+	self isUpdating ifFalse: [ self privateWriteToSurface: anEntity ].
+	^ anEntity
 ]
 
 { #category : #writing }

@@ -109,6 +109,14 @@ MOLanguageObject >> dependenciesOrEmpty: aDeclaration [
 ]
 
 { #category : #'as yet unclassified' }
+MOLanguageObject >> enclosingArtefact [
+
+	^ (parent isArtefact or: [ parent isPackage ])
+		  ifTrue: [ parent ]
+		  ifFalse: [ parent enclosingArtefact ]
+]
+
+{ #category : #'as yet unclassified' }
 MOLanguageObject >> enclosingTypeOrModule [
 
 	^ (parent isType or: [ parent isModule ])

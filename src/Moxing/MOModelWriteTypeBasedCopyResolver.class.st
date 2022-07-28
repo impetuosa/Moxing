@@ -162,6 +162,12 @@ MOModelWriteTypeBasedCopyResolver >> visitDeclarationUnit: aMODeclarationUnit [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitDoUntilTrue: aMODoUntil [
+
+	^ writer writeDoUntil: [ :while | writingBlock value: while ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitEmptyBlock: aMOEmptyBlock [ 
 	^ self visitBlock: aMOEmptyBlock 
 ]
@@ -196,6 +202,12 @@ MOModelWriteTypeBasedCopyResolver >> visitFloatLiteral: aMOFloatLiteral [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitForNext: aMOForNext [
+
+	^ writer writeForNext: [ :while | writingBlock value: while ]
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitForm: aMOAlceForm [ 
 	
 	^ writer writeForm: [ :class | writingBlock value: class ]
@@ -222,6 +234,12 @@ MOModelWriteTypeBasedCopyResolver >> visitGlobalVariable: aMOGlobalVariable [
 MOModelWriteTypeBasedCopyResolver >> visitGoSub: aMOAlceGoSubLabel [
 
 	^ writer writeGoSub: [ :goto | writingBlock cull: goto ]
+]
+
+{ #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitGoTo: aMOAlceGoToLabel [
+
+	^ writer writeGoTo: [ :goto | writingBlock cull: goto ]
 ]
 
 { #category : #visiting }

@@ -13,6 +13,12 @@ MOComment >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
+MOComment >> shouldPopulateRelations [
+
+	^ false
+]
+
+{ #category : #accessing }
 MOComment >> statement [
 	^ statement
 ]

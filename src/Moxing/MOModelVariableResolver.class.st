@@ -140,7 +140,7 @@ MOModelVariableResolver >> visitStatementExpression: aMOStatementExpression [
 { #category : #visiting }
 MOModelVariableResolver >> visitVariableReference: aMOVariableReference [
 
-	^ aMOVariableReference parent acceptVisitor: self
+	^ aMOVariableReference parent ifNotNil: [ :p | p acceptVisitor: self ]
 ]
 
 { #category : #visiting }

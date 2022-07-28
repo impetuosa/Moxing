@@ -30,6 +30,12 @@ MOModel >> acceptVisitor: aMoxingPackageTree [
 	^ aMoxingPackageTree visitModel: self
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> allDeclarations [
+
+	^ entities select: [ :e | e isDeclaration ]
+]
+
 { #category : #enumerating }
 MOModel >> allEntitiesSelect: aFullBlockClosure [
 
@@ -42,6 +48,12 @@ MOModel >> allInvocations [
 	^ entities select: [ :e | e isKindOf: MOInvocation ]
 ]
 
+{ #category : #accessing }
+MOModel >> allLiterals [
+
+	^ entities select: #isMOLiteral
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> allReferences [
 
@@ -52,6 +64,12 @@ MOModel >> allReferences [
 MOModel >> allRelations [
 
 	^ { (MODeclarationStructuralRelation nullRelationTo: self root) }
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> allVersionsOf: aMOFunction [
+
+	^ entities select: [ :a | a isSameEntity: aMOFunction ]
 ]
 
 { #category : #accessing }
@@ -74,6 +92,12 @@ MOModel >> catalog: aCatalog [
 MOModel >> catalogEntitiesSelect: aFullBlockClosure [
 
 	^ catalog entities select: aFullBlockClosure
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> declarations [
+
+	^ entities select: [ :e | e isDeclaration ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -143,7 +167,18 @@ MOModel >> instantiate: aClass [
 	^ instance
 ]
 
-{ #category : #traverse }
+{ #category : #accessing }
+MOModel >> invocables [
+	^ entities select:#isInvocable
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> invocations [
+
+	^ entities select: [ :e | e isKindOf: MOInvocation ]
+]
+
+{ #category : #'as yet unclassified' }
 MOModel >> isCatalog [
 
 	^ false
@@ -153,6 +188,12 @@ MOModel >> isCatalog [
 MOModel >> isDerivedFrom: aMOModel [
 
 	^ self = aMOModel
+]
+
+{ #category : #testing }
+MOModel >> isInvocable [
+
+	^ false
 ]
 
 { #category : #'as yet unclassified' }
@@ -173,6 +214,12 @@ MOModel >> mapSpaceAnchor [
 ]
 
 { #category : #accessing }
+MOModel >> methodInvocations [
+
+	^ entities select: [ :a | a isMethodInvocation ]
+]
+
+{ #category : #accessing }
 MOModel >> objects [
 	^ objects
 ]
@@ -181,6 +228,12 @@ MOModel >> objects [
 MOModel >> objectsSelect: aFullBlockClosure [
 
 	^ objects select: aFullBlockClosure
+]
+
+{ #category : #accessing }
+MOModel >> parent [
+
+	^ nil
 ]
 
 { #category : #'as yet unclassified' }

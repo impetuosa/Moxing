@@ -23,3 +23,9 @@ MOLibrary >> attributes: aCollection [
 MOLibrary >> invocables: aCollection [ 
 	invocables := aCollection
 ]
+
+{ #category : #accessing }
+MOLibrary >> isDefinedInLibrary [
+
+	^ true
+]

@@ -31,6 +31,12 @@ MOModule >> constants: aCollection [
 	constants := aCollection
 ]
 
+{ #category : #adding }
+MOModule >> enclosingTypeOrModule [
+
+	^ self
+]
+
 { #category : #generated }
 MOModule >> imports [
 	^ {  }
@@ -131,6 +137,12 @@ MOModule >> users [
 			    o holder ~= self and: [ 
 				    o state values anySatisfy: [ :v | v = referrals ] ] ]
 		    thenCollect: [ :o | o holder ]) , candidates) removeDuplicates
+]
+
+{ #category : #accessing }
+MOModule >> usersOrSenders [
+
+	^ self users
 ]
 
 { #category : #accessing }

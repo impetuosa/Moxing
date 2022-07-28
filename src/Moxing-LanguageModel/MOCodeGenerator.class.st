@@ -267,16 +267,6 @@ MOCodeGenerator >> visitIntegerLiteral: aMOIntegerLiteral [
 	self print: aMOIntegerLiteral literal
 ]
 
-{ #category : #visiting }
-MOCodeGenerator >> visitInvocableInvocation: aFylgjaMissingInvocableInvocation [
-
-	self
-		nextPutAll: aFylgjaMissingInvocableInvocation fullSelector;
-		nextPutAll: '('.
-	self streamArguments: aFylgjaMissingInvocableInvocation arguments.
-	self nextPutAll: ')'
-]
-
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> visitLiteral: aMOTypescriptLiteral [
 	self nextPutAll: aMOTypescriptLiteral literal asString
@@ -321,6 +311,18 @@ MOCodeGenerator >> visitOperator: aFylgjaMissingOperator [
 	aFylgjaMissingOperator right acceptVisitor: self
 ]
 
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> visitRemovedStatement: aStatement [
+
+	
+]
+
+{ #category : #'as yet unclassified' }
+MOCodeGenerator >> visitReplacedStatement: aStatement [
+
+	aStatement newStatement acceptVisitor: aStatement
+]
+
 { #category : #visiting }
 MOCodeGenerator >> visitReturn: aMOReturn [
 
@@ -349,12 +351,6 @@ MOCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 		nextPutAll: '"';
 		nextPutAll: str;
 		nextPutAll: '"'
-]
-
-{ #category : #visiting }
-MOCodeGenerator >> visitTransientClass: aMOTransientClass [
-
-	^ self visitClass: aMOTransientClass
 ]
 
 { #category : #visiting }

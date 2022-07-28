@@ -149,6 +149,10 @@ MOAbstractVariable >> modifiers: aSet [
 MOAbstractVariable >> printOn: aStream [
 
 	aStream
+		nextPutAll: (self enclosingTypeOrModule
+				 ifNil: [ self parent name ]
+				 ifNotNil: [ :em | em name ]);
+		nextPutAll: '>>';
 		nextPutAll: self kindString;
 		nextPutAll: ':';
 		nextPutAll: self name;
@@ -163,7 +167,7 @@ MOAbstractVariable >> printOn: aStream [
 MOAbstractVariable >> senders [
 
 	^ self model references
-		  select: [ :r | r candidate = self ]
+		  select: [ :r | r candidate isNotNil and: [ self isSameEntity: r candidate ]  ]
 		  thenCollect: [ :e | e callingInvocable ]
 ]
 
@@ -181,4 +185,10 @@ MOAbstractVariable >> typeReference [
 { #category : #accessing }
 MOAbstractVariable >> typeReference: aJinTypescriptTypeReference [
 	typeReference := aJinTypescriptTypeReference
+]
+
+{ #category : #accessing }
+MOAbstractVariable >> usersOrSenders [
+
+	^ self senders
 ]

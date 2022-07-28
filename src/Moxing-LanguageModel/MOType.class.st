@@ -21,6 +21,12 @@ MOType >> canBeReferredAsType [
 ]
 
 { #category : #accessing }
+MOType >> enclosingTypeOrModule [
+
+	^ self
+]
+
+{ #category : #accessing }
 MOType >> fullName [
 
 	^ (packageReference ifNotNil: [ : p  |  p name , '.'  ] ifNil: [ '' ]), self name
@@ -127,17 +133,23 @@ MOType >> users [
 		              select: [ :r | r candidate = self ]
 		              thenCollect: [ :r | 
 			              | i |
-			              i := r callingInvocable ].
+			              i := r usingDeclaration ].
 	referrals := self symbolicName.
 	^ ((self model literals
 		    select: [ :l | l literal = referrals ]
 		    thenCollect: [ :r | 
 			    | i |
-			    i := r callingInvocable ]) , (self model objects
+			    i := r usingDeclaration ]) , (self model objects
 		    select: [ :o | 
 			    o holder ~= self and: [ 
 				    o state values anySatisfy: [ :v | v = referrals ] ] ]
 		    thenCollect: [ :o | o holder ]) , candidates) removeDuplicates
+]
+
+{ #category : #accessing }
+MOType >> usersOrSenders [
+
+	^ self users
 ]
 
 { #category : #accessing }

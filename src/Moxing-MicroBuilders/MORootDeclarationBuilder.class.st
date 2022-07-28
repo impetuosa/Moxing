@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-MicroBuilders-project'
 }
 
+{ #category : #adding }
+MORootDeclarationBuilder >> addPackage: aMOPackage [
+
+	self packages add: aMOPackage
+]
+
 { #category : #'as yet unclassified' }
 MORootDeclarationBuilder >> buildsType [
 

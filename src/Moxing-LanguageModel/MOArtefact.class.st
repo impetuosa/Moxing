@@ -38,6 +38,12 @@ MOArtefact >> declarationUnits: aCollection [
 ]
 
 { #category : #accessing }
+MOArtefact >> isArtefact [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOArtefact >> isDeclaration [
 
 	^ true

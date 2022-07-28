@@ -50,8 +50,8 @@ MOMethod >> isSameEntity: anOther [
 	^ (super isSameEntity: anOther) and: [ 
 		  (self returnTypeReference isNil and: [ 
 			   anOther returnTypeReference isNil ]) or: [ 
-			  (self returnTypeReference isNil and: [ 
-				   anOther returnTypeReference isNil ]) and: [ 
+			  (self returnTypeReference isNotNil and: [ 
+				   anOther returnTypeReference isNotNil ]) and: [ 
 				  self returnTypeReference name = anOther returnTypeReference name ] ] ]
 ]
 

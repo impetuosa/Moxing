@@ -91,3 +91,9 @@ MODeclarationUnit >> users [
 
 	^ (types flatCollect: #users) removeDuplicates
 ]
+
+{ #category : #accessing }
+MODeclarationUnit >> usersOrSenders [
+
+	^ self users
+]

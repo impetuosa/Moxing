@@ -90,6 +90,13 @@ MOPackageWriter >> writeDeclarationUnit: aBlock [
 ]
 
 { #category : #writing }
+MOPackageWriter >> writeEnum: aFullBlockClosure [
+
+	^ self writeDeclarationUnit: [ :unit | 
+		  unit writeEnum: aFullBlockClosure ]
+]
+
+{ #category : #writing }
 MOPackageWriter >> writeForm: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOFormWriter

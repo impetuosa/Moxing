@@ -14,6 +14,12 @@ MOBlock >> acceptVisitor: aMOTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOBlock >> childrenForTree [
+
+	^ self allContainments
+]
+
+{ #category : #accessing }
 MOBlock >> dependencies [
 
 	^ self statements flatCollect: [ :a | a dependencies ]
