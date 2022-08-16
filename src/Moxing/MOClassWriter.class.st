@@ -58,6 +58,12 @@ MOClassWriter >> initializeWriteBuilder [
 	writeBuilder := builder classBuilder
 ]
 
+{ #category : #accessing }
+MOClassWriter >> methods [
+
+	^ writeBuilder methods
+]
+
 { #category : #writing }
 MOClassWriter >> privateSetAnchor: anEntity [ 
 	anEntity anchor: surface anchor / #class / anEntity name

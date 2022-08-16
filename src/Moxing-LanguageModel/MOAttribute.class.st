@@ -37,6 +37,12 @@ MOAttribute >> canBeReferredAsVariable [
 	^ self isDynamicBinding
 ]
 
+{ #category : #accessing }
+MOAttribute >> isPrimaryKey [
+
+	^ parent isTable and: [ parent isPrimaryKey: self ]
+]
+
 { #category : #'as yet unclassified' }
 MOAttribute >> kindString [
 
@@ -53,7 +59,7 @@ MOAttribute >> object [
 MOAttribute >> printOn: aStream [
 
 	aStream
-		nextPutAll: parent name;
+		nextPutAll: (parent ifNotNil: [ :p | p name ] ifNil: [ 'None' ]);
 		nextPutAll: '>>'.
 	super printOn: aStream
 ]

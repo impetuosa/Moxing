@@ -280,6 +280,7 @@ MOCodeGenerator >> visitMissingVariable: aFylgjaMissingVariable [
 
 { #category : #'as yet unclassified' }
 MOCodeGenerator >> visitNewExpression: aMOTypescriptNewExpression [
+
 	stream
 		nextPutAll: 'new ';
 		nextPutAll: aMOTypescriptNewExpression typeReference name;

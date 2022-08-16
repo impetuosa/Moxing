@@ -21,6 +21,32 @@ MOTypescriptCodeGenerator >> printSelf [
 ]
 
 { #category : #visiting }
+MOTypescriptCodeGenerator >> visitAccessor: aJinTypescriptMethod [
+
+	self printIndentation.
+	self
+		newLine;
+		nextPutAll: '';
+		nextPutAll: aJinTypescriptMethod visibility;
+		nextPutAll: ' ';
+		nextPutAll: aJinTypescriptMethod kind asLowercase;
+		nextPutAll: ' ';
+		nextPutAll: aJinTypescriptMethod selector;
+		nextPutAll: '('.
+	self streamArguments: aJinTypescriptMethod parameters.
+
+
+	self nextPutAll: ') '.
+	aJinTypescriptMethod returnTypeReference ifNotNil: [ :rtr | 
+		stream nextPutAll: ':'.
+		rtr acceptVisitor: self ].
+	aJinTypescriptMethod block acceptVisitor: self.
+	self
+		nextPutAll: '';
+		newLine
+]
+
+{ #category : #visiting }
 MOTypescriptCodeGenerator >> visitAngularClass: aMOAngularClass [ 
 	aMOAngularClass classRepresentation acceptVisitor: self 
 ]
@@ -39,6 +65,15 @@ MOTypescriptCodeGenerator >> visitAngularCssDocument: aMOAngularCssDocument [
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitAngularTemplateDocument: aMOAngularTemplateDocument [ 
 	stream nextPutAll: aMOAngularTemplateDocument document printString .
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitArrayTypeReference: aMOArrayTypeReference [
+
+	self assert: aMOArrayTypeReference argumentTypeReferences size = 1.
+	aMOArrayTypeReference argumentTypeReferences first acceptVisitor:
+		self.
+	self nextPutAll: '[]'
 ]
 
 { #category : #'as yet unclassified' }
@@ -78,12 +113,14 @@ MOTypescriptCodeGenerator >> visitBlockClosure: aMOStBlockClosure [
 ]
 
 { #category : #visiting }
-MOTypescriptCodeGenerator >> visitCatch: aMOCatch [ 
+MOTypescriptCodeGenerator >> visitCatch: aMOCatch [
+
 	self printIndentation.
-	stream nextPutAll: 'catch ('.
-	self streamArguments: aMOCatch parameters. 
-	stream nextPutAll: ')'.
-	aMOCatch block acceptVisitor: self.
+	self
+		nextPutAll: 'catch (';
+		nextPutAll: (',' join: (aMOCatch parameters collect: #name)).
+	self nextPutAll: ')'.
+	aMOCatch block acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -143,9 +180,21 @@ MOTypescriptCodeGenerator >> visitDecorator: aJinTypescriptDecorator [
 		nextPutAll: aJinTypescriptDecorator typeReference name;
 		nextPutAll: '(';
 		nextPutAll: (STONJSON toString:
-					 (aJinTypescriptDecorator arguments collect: #literal) asArray);
+					 (aJinTypescriptDecorator arguments collect: #literal) first);
 		nextPutAll: ')';
 		cr
+]
+
+{ #category : #'as yet unclassified' }
+MOTypescriptCodeGenerator >> visitDictionaryLiteral: aMOTypescriptObjectLiteral [
+	stream nextPutAll: '{'.
+	aMOTypescriptObjectLiteral literal
+		do: [ :l | 
+			l key acceptVisitor: self.
+			stream nextPutAll: ':'.
+			l value acceptVisitor: self.
+			stream newLine  ].
+	stream nextPutAll: '}'
 ]
 
 { #category : #visiting }
@@ -159,6 +208,20 @@ MOTypescriptCodeGenerator >> visitFileImport: aMOFileImport [
 	stream
 		nextPutAll: aMOFileImport printString;
 		newLine
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitIfElse: aMOIfElse [
+
+	self nextPutAll: 'if ('.
+	aMOIfElse condition acceptVisitor: self.
+	self nextPutAll: ')'.
+	aMOIfElse ifTrue acceptVisitor: self.
+	aMOIfElse ifFalse statements isEmpty ifFalse: [ 
+		self printIndentation.
+		self nextPutAll:' else '.
+		aMOIfElse ifFalse acceptVisitor: self.
+	 ]
 ]
 
 { #category : #visiting }
@@ -186,14 +249,14 @@ MOTypescriptCodeGenerator >> visitLabelReference: aMOAlceLabelReference [
 
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitLocalVariable: aMOLocalVariable [
-
-	stream nextPutAll: aMOLocalVariable name.
+	self nextPutAll: 'var '.
+	self nextPutAll: aMOLocalVariable name.
 
 	aMOLocalVariable typeReference ifNotNil: [ 
-		stream nextPutAll: ' : '.
+		self nextPutAll: ' : '.
 		aMOLocalVariable typeReference acceptVisitor: self ].
 	aMOLocalVariable initializer ifNotNil: [ 
-		stream nextPutAll: '='.
+		self nextPutAll: '='.
 		aMOLocalVariable initializer acceptVisitor: self ]
 ]
 
@@ -201,7 +264,7 @@ MOTypescriptCodeGenerator >> visitLocalVariable: aMOLocalVariable [
 MOTypescriptCodeGenerator >> visitMethod: aJinTypescriptMethod [
 
 	self printIndentation.
-	stream
+	self
 		newLine;
 		nextPutAll: '';
 		nextPutAll: aJinTypescriptMethod visibility;
@@ -211,12 +274,12 @@ MOTypescriptCodeGenerator >> visitMethod: aJinTypescriptMethod [
 	self streamArguments: aJinTypescriptMethod parameters.
 
 
-	stream nextPutAll: ') '.
+	self nextPutAll: ') '.
 	aJinTypescriptMethod returnTypeReference ifNotNil: [ :rtr | 
 		stream nextPutAll: ':'.
 		rtr acceptVisitor: self ].
 	aJinTypescriptMethod block acceptVisitor: self.
-	stream
+	self
 		nextPutAll: '';
 		newLine
 ]
@@ -259,12 +322,10 @@ MOTypescriptCodeGenerator >> visitParameter: aMOParameter [
 MOTypescriptCodeGenerator >> visitParametrizedTypeReference: aMOParametrizedTypeReference [
 
 	self visitTypeReference: aMOParametrizedTypeReference.
-	stream
-		nextPutAll: #<;
-		nextPutAll: (',' join:
-					 (aMOParametrizedTypeReference argumentTypeReferences collect:
-							  #name));
-		nextPutAll: #>
+	self nextPutAll: #<.
+	self streamArguments:
+		aMOParametrizedTypeReference argumentTypeReferences.
+	self nextPutAll: #>
 ]
 
 { #category : #visiting }
@@ -303,6 +364,20 @@ MOTypescriptCodeGenerator >> visitSetToReturn: aMOSetToReturn [
 MOTypescriptCodeGenerator >> visitStatementExpression: aMOStatementExpression [
 
 	^ aMOStatementExpression expression acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitTemplateLiteral: aTemplateLiteral [
+
+	self nextPutAll: '`'.
+
+	aTemplateLiteral expressions do: [ :e | 
+		e isMOLiteral
+			ifTrue: [ self nextPutAll: e literal ]
+			ifFalse: [ 
+				self nextPutAll: '$'.
+				e acceptVisitor: self ] ].
+	self nextPutAll: '`'
 ]
 
 { #category : #visiting }
@@ -349,6 +424,25 @@ MOTypescriptCodeGenerator >> visitTypescriptClass: aMoTypescriptClass [
 			m acceptVisitor: self.
 			stream newLine ].
 		stream nextPutAll: '}' ]
+]
+
+{ #category : #visiting }
+MOTypescriptCodeGenerator >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
+
+	aMOUnaryArithmeticOperation isPrefix
+		ifTrue: [ 
+			self
+				nextPutAll: aMOUnaryArithmeticOperation operator;
+				nextPutAll: '('.
+			aMOUnaryArithmeticOperation operand acceptVisitor: self.
+			self nextPutAll: ')' ]
+		ifFalse: [ 
+			self nextPutAll: '('.
+			aMOUnaryArithmeticOperation operand acceptVisitor: self.
+			self
+				nextPutAll: ')';
+				nextPutAll: aMOUnaryArithmeticOperation operator;
+				nextPutAll: ' ' ]
 ]
 
 { #category : #visiting }

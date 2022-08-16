@@ -15,6 +15,14 @@ MOObject class >> newInstanceFromModel [
 	^ self new
 ]
 
+{ #category : #enumerating }
+MOObject >> allEndingWith: aString ifPresentDo: aFullBlockClosure [
+
+	^ state keys
+		  select: [ :a | a endsWith: aString ]
+		  thenCollect: [ :e | aFullBlockClosure value: (state at: e) ]
+]
+
 { #category : #accessing }
 MOObject >> allProperties [
 
@@ -84,6 +92,12 @@ MOObject >> name [
 	^ holder name 
 ]
 
+{ #category : #'as yet unclassified' }
+MOObject >> objectEntries [
+
+	^ state values select: [ :e | e isMOObject ]
+]
+
 { #category : #accessing }
 MOObject >> sanitize: aString [
 
@@ -107,4 +121,16 @@ MOObject >> type [
 { #category : #accessing }
 MOObject >> type: aType [ 
 	 type := aType 
+]
+
+{ #category : #accessing }
+MOObject >> with: aName ifPresentDo: aBlock [
+
+	| val |
+	val := state at: aName ifAbsent: [ 
+		       (state associations
+			        detect: [ :a | (self sanitize: a key) = aName ]
+			        ifNone: [ ^ self ]) value ].
+
+	^ aBlock value: val
 ]

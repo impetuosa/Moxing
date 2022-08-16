@@ -119,6 +119,7 @@ MOLanguageObject >> enclosingArtefact [
 { #category : #'as yet unclassified' }
 MOLanguageObject >> enclosingTypeOrModule [
 
+	parent ifNil: [ ^ nil ].
 	^ (parent isType or: [ parent isModule ])
 		  ifTrue: [ parent ]
 		  ifFalse: [ parent enclosingTypeOrModule ]

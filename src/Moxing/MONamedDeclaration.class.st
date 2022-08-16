@@ -27,6 +27,7 @@ MONamedDeclaration >> name [
 { #category : #accessing }
 MONamedDeclaration >> name: aString [
 
+	name = aString ifTrue: [ ^ self ].
 	self assert: aString isString.
 	name := aString
 ]

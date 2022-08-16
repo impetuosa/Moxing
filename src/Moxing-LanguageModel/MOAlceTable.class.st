@@ -27,6 +27,12 @@ MOAlceTable >> hasIdColumns [
 		  indexes anySatisfy:  [ :a | a key = #PrimaryKey ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOAlceTable >> hasPrimaryKeyIndexAssociation [
+
+	^ indexes contains: [ :i | i name asLowercase = #primarykey ]
+]
+
 { #category : #visiting }
 MOAlceTable >> indexes [
 
@@ -45,8 +51,22 @@ MOAlceTable >> isDatasource [
 ]
 
 { #category : #testing }
+MOAlceTable >> isPrimaryKey: anAttribute [
+
+	self hasPrimaryKeyIndexAssociation ifFalse: [ ^ false ].
+
+	^ self primaryKeyIndexAssociation value includes: anAttribute
+]
+
+{ #category : #testing }
 MOAlceTable >> isTable [
 	^ true 
+]
+
+{ #category : #'as yet unclassified' }
+MOAlceTable >> primaryKeyIndexAssociation [
+
+	^ indexes detect: [ :i | i name asLowercase = #primarykey ]
 ]
 
 { #category : #visiting }

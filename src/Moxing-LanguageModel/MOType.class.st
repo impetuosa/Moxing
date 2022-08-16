@@ -94,6 +94,12 @@ MOType >> modifiers: aSet [
 ]
 
 { #category : #accessing }
+MOType >> packageName [
+
+	^ packageReference name
+]
+
+{ #category : #accessing }
 MOType >> packageReference [
 
 	^ packageReference 

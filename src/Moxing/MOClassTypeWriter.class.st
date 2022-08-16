@@ -47,6 +47,12 @@ MOClassTypeWriter >> addModifier: aString [
 ]
 
 { #category : #accessing }
+MOClassTypeWriter >> attributes [
+
+	^ writeBuilder attributes
+]
+
+{ #category : #accessing }
 MOClassTypeWriter >> fullName: aString [
 
 	writeBuilder fullName: aString

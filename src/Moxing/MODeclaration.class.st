@@ -27,6 +27,20 @@ MODeclaration class >> newInstanceFromModel [
 	^ super new
 ]
 
+{ #category : #'instance creation' }
+MODeclaration class >> sanitize: aString [
+
+	| sn |
+	aString ifNil: [ ^ nil ].
+	aString ifEmpty: [ ^ aString ].
+	sn := { #/. #-. #\. ' ' }
+		      inject: aString
+		      into: [ :acc :each | acc copyReplaceAll: each with: '_' ].
+	^ sn first isDigit
+		  ifTrue: [ '_' , sn ]
+		  ifFalse: [ sn ]
+]
+
 { #category : #accessing }
 MODeclaration >> acceptVisitor: aVisitor [
 	self subclassResponsibility 
@@ -136,7 +150,7 @@ MODeclaration >> allRelations [
 { #category : #traverse }
 MODeclaration >> childrenForTree [
 
-	^ self allContainments
+	^ self allContainments removeDuplicates.
 ]
 
 { #category : #'as yet unclassified' }
@@ -462,14 +476,7 @@ MODeclaration >> relationsNamed: aString [
 { #category : #'as yet unclassified' }
 MODeclaration >> sanitize: aString [
 
-	| sn |
-	aString ifNil: [ ^ nil ].
-	sn := { #/. #-. #\. ' ' }
-		      inject: aString
-		      into: [ :acc :each | acc copyReplaceAll: each with: '_' ].
-	^ sn first isDigit
-		  ifTrue: [ '_' , sn ]
-		  ifFalse: [ sn ]
+	^ self class sanitize: aString
 ]
 
 { #category : #'as yet unclassified' }

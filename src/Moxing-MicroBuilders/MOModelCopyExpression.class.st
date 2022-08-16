@@ -162,6 +162,17 @@ MOModelCopyExpression >> visitNamedArgument: aMONamedArgument [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitNamedSingleArgument: aMONamedSingleArgument [
+
+	^ writer
+		  singleArgumentNamed: aMONamedSingleArgument name
+		  expression: [ :exp | 
+			  self
+				  copyAll: aMONamedSingleArgument
+				  relation: #argumentExpression ]
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitNewExpression: aMONewInvocation [
 
 	self assert: aMONewInvocation arguments isEmptyOrNil.

@@ -40,6 +40,21 @@ MOAngularAttributesExtractor >> result [
 ]
 
 { #category : #visiting }
+MOAngularAttributesExtractor >> visitCGDataBinding: aCGDataBinding [ 
+	" Nothing to do here "
+]
+
+{ #category : #visiting }
+MOAngularAttributesExtractor >> visitCGEvent: aCGEvent [
+
+	| key |
+	aCGEvent eventName = #AfterUpdate ifTrue: [ key := '(change)' ].
+	aCGEvent eventName = #Click ifTrue: [ key := '(click)' ].
+	self assert: key isNotNil.
+	attributes at: key put: aCGEvent method selector , '()'
+]
+
+{ #category : #visiting }
 MOAngularAttributesExtractor >> visitCSNAttribute: aCSNUITop [ 
 	self registerNameValueElement: aCSNUITop 
 ]
@@ -58,16 +73,4 @@ MOAngularAttributesExtractor >> visitCSNUIAbsoluteWidth: aCSNUIAbsoluteWidth [
 { #category : #visiting }
 MOAngularAttributesExtractor >> visitCSNUILabel: aCSNUILabel [ 
 	" Label is not mapped to an attribute, but to a body. "
-]
-
-{ #category : #'as yet unclassified' }
-MOAngularAttributesExtractor >> visitDataBinding: aMODataBindingAttribute [
-	| accessLine |
-	brush writesBindingInAttribute ifTrue:[
-	accessLine := '{1}.{2}'
-		format:
-			{aMODataBindingAttribute binding entity parent compilableIdentifier.
-			aMODataBindingAttribute binding entity compilableIdentifier}.
-	attributes at: brush bindingAttribute put: '{{', accessLine, '}}'.
-]
 ]

@@ -410,6 +410,14 @@ MOModelProceduralWriter >> symbolicArrayLiteral: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> templateLiteral: aCollection [
+
+	^ writeBuilder templateLiteralBuilder
+		  expressions: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> thrownTypeReferences: aCollection [
 
 	writeBuilder thrownTypeReferences: aCollection

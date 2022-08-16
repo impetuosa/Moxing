@@ -189,6 +189,14 @@ MOModelBuilderDelegate >> shallowRelationCopy: aMOBlock [
 	^ parentBuilder shallowRelationCopy: aMOBlock
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilderDelegate >> templateLiteralBuilder [
+
+	^ MOTemplateLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
 { #category : #accessing }
 MOModelBuilderDelegate >> typeReferenceBuilder [
 	^ parentBuilder typeReferenceBuilder

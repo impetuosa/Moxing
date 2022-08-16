@@ -67,6 +67,12 @@ MOJavaCodeGenerator >> printSelf [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> streamArguments: args [
+
+	^ super streamArguments: args
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> visitAccessor: aMOAccessor [
 
 	self visitMethod: aMOAccessor
@@ -505,6 +511,15 @@ MOJavaCodeGenerator >> visitNamedArgument: aMONamedArgument [
 			nextPutAll: ', ';
 			newLine ].
 	aMONamedArgument isArrayArgument ifTrue: [ self nextPutAll: '}' ]
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitNamedSingleArgument: anArgument [
+
+	stream
+		nextPutAll: anArgument name;
+		nextPutAll: ' = '.
+	anArgument argumentExpression acceptVisitor: self
 ]
 
 { #category : #visiting }

@@ -36,6 +36,18 @@ MOModel >> allDeclarations [
 	^ entities select: [ :e | e isDeclaration ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> allDerivariveEntities [
+
+	^ {  }
+]
+
+{ #category : #enumerating }
+MOModel >> allEntitiesDetect: aFullBlockClosure [
+
+	^ entities detect: aFullBlockClosure
+]
+
 { #category : #enumerating }
 MOModel >> allEntitiesSelect: aFullBlockClosure [
 
@@ -141,6 +153,11 @@ MOModel >> finalize [
 	catalog := nil.
 	root := nil.
 	self becomeForward: {  }
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> finalizeMoxing [
+	
 ]
 
 { #category : #initialization }

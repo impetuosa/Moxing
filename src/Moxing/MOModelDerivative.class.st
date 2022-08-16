@@ -27,6 +27,20 @@ MOModelDerivative >> allDeclarations [
 			  ifNone: [ deriveeModelRef ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> allDerivariveEntities [
+
+	^ entities , model allDerivariveEntities
+]
+
+{ #category : #enumerating }
+MOModelDerivative >> allEntitiesDetect: aFullBlockClosure [
+
+	^ self entities
+		  detect: aFullBlockClosure
+		  ifNone: [ model allEntitiesDetect: aFullBlockClosure ]
+]
+
 { #category : #enumerating }
 MOModelDerivative >> allEntitiesSelect: aFullBlockClosure [
 
@@ -144,6 +158,16 @@ MOModelDerivative >> exportAsDraftIntoDirectory: aFileReference [
 { #category : #accessing }
 MOModelDerivative >> fileReference [
 	^ model fileReference
+]
+
+{ #category : #'as yet unclassified' }
+MOModelDerivative >> finalizeMoxing [
+
+	entities removeAll.
+	[ model finalizeMoxing ]
+		on: Error
+		do: [  ].
+	model := nil
 ]
 
 { #category : #testing }
@@ -279,6 +303,12 @@ MOModelDerivative >> produceCode: aMODeclarationUnit [
 ]
 
 { #category : #accessing }
+MOModelDerivative >> producesParseableCode [
+
+	^ false
+]
+
+{ #category : #accessing }
 MOModelDerivative >> references [
 	^ entities select: [ : e | e isKindOf: MOReference ]
 ]
@@ -298,9 +328,9 @@ MOModelDerivative >> removeEntity: aFylgjaCandidateStub [
 { #category : #removing }
 MOModelDerivative >> removeStub: aFylgjaCandidateStub [
 
-	self assert: (self entities includes: aFylgjaCandidateStub).
-	self assert: aFylgjaCandidateStub isFylgjaStub.
-	self entities remove: aFylgjaCandidateStub
+	"self assert: (self entities includes: aFylgjaCandidateStub).
+	self assert: aFylgjaCandidateStub isFylgjaStub."
+	self entities remove: aFylgjaCandidateStub ifAbsent: [  ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -358,8 +388,6 @@ MOModelDerivative >> sourceCodeIsAvailable [
 MOModelDerivative >> swap: aFylgjaCandidateStub with: aMOVariableReference [
 
 	aFylgjaCandidateStub = aMOVariableReference ifFalse: [ 
-		self entities remove: aFylgjaCandidateStub.
-		self assert: (self entities includes: aMOVariableReference).
 		aFylgjaCandidateStub becomeForward: aMOVariableReference ]
 ]
 
@@ -403,7 +431,7 @@ MOModelDerivative >> undoUpdateDestinationSourceProjects [
 MOModelDerivative >> updateDestinationSourceProjects [
 
 	| writing |
-	writing := self entities reject: [ :e | 
+	writing := self allDerivariveEntities reject: [ :e | 
 		           (self exclusivelyincludes: e parent) or: [ 
 			           e parent isNil or: [ e parent = self ] ] ].
 

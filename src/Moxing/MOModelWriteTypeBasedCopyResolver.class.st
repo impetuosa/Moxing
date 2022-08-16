@@ -312,6 +312,11 @@ MOModelWriteTypeBasedCopyResolver >> visitNamedArgument: aMONamedArgument [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitNamedSingleArgument: aMONamedSingleArgument [ 
+	^ self copyExpression
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitNewExpression: aMONewInvocation [ 
 
 	^ self copyExpression  

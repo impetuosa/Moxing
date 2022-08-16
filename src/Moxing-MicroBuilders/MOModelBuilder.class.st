@@ -1249,6 +1249,14 @@ MOModelBuilder >> templateDocumentBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> templateLiteralBuilder [ 
+
+	^ MOTemplateLiteralBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> throwBuilder [
 
 	^ MOModelThrowBuilder new

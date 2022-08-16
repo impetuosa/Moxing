@@ -27,11 +27,13 @@ MOJavaMavenProjectLoader class >> egrc [
 { #category : #'as yet unclassified' }
 MOJavaMavenProjectLoader class >> northwind [
 
+	^ self egrc
+	"
 	^ northwind ifNil: [ 
 		  northwind := self new
 			               workingDirectory:
 				               '/Users/sbragagn/git/jnorthwind/jnorthwind';
-			               loadNamed: #java ]
+			               loadNamed: #java ]"
 ]
 
 { #category : #'as yet unclassified' }
