@@ -218,7 +218,7 @@ MOModelDerivative >> isDerivativeModel [
 { #category : #testing }
 MOModelDerivative >> isDerivedFrom: aMOModel [
 
-	^ model isDerivedFrom: aMOModel
+	^ model isNotNil and: [ model isDerivedFrom: aMOModel]
 ]
 
 { #category : #testing }

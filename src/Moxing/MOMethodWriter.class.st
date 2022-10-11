@@ -43,6 +43,11 @@ MOMethodWriter >> initializeWriteBuilder [
 	writeBuilder := builder methodBuilder
 ]
 
+{ #category : #accessing }
+MOMethodWriter >> kind: aString [ 
+	
+]
+
 { #category : #writing }
 MOMethodWriter >> privateSetAnchor: anEntity [ 
 	anEntity anchor: surface anchor / #method / anEntity selector

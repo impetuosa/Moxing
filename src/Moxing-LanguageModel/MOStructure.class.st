@@ -22,3 +22,9 @@ MOStructure >> attributes [
 MOStructure >> attributes: aCollection [ 
 	attributes := aCollection
 ]
+
+{ #category : #accessing }
+MOStructure >> isStructure [
+
+	^ true
+]

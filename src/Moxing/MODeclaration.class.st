@@ -397,6 +397,12 @@ MODeclaration >> isStaticDefinition [
 ]
 
 { #category : #testing }
+MODeclaration >> isStructure [
+
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isType [
 	^ false
 ]
