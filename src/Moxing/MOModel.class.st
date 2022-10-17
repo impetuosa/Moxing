@@ -31,6 +31,15 @@ MOModel >> acceptVisitor: aMoxingPackageTree [
 ]
 
 { #category : #'as yet unclassified' }
+MOModel >> aliasNamed: aString [
+
+	| t |
+	t := (self typesNamed: aString) select: [ :a | a isKindOf: MOAlias ].
+	self assert: t size = 1.
+	^ t first
+]
+
+{ #category : #'as yet unclassified' }
 MOModel >> allDeclarations [
 
 	^ entities select: [ :e | e isDeclaration ]
@@ -325,10 +334,41 @@ MOModel >> sourceCodeIsAvailable [
 	^ fileReference exists
 ]
 
+{ #category : #visiting }
+MOModel >> typeNamed: aString [
+
+	| t |
+	t := self typesNamed: aString.
+	self assert: t size = 1.
+	^ t first
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> typeNamed: aString library: aLibraryName [
+
+	| t |
+	t := (self typesNamed: aString)
+		     collect: [ :a | 
+			     (a isKindOf: MOAlias)
+				     ifFalse: [ a ]
+				     ifTrue: [ a typeReference candidate ] ]
+		     thenSelect: [ :a | a parent parent name = aLibraryName ].
+	self assert: t size = 1.
+	^ t first
+]
+
 { #category : #']as yet unclassified' }
 MOModel >> typeReferences [
 
 	^ entities select: [ :e | e isKindOf: MOTypeReference ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> typesNamed: aString [
+
+	^ entities select: [ :e | 
+		  ((e isKindOf: MOType) or: [ e isKindOf: MOModule ]) and: [ 
+			  e name = aString and: [ e anchor isNotNil ] ] ]
 ]
 
 { #category : #'as yet unclassified' }

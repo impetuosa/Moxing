@@ -81,6 +81,15 @@ MOClassType >> isClassType [
 	^ true .
 ]
 
+{ #category : #'as yet unclassified' }
+MOClassType >> methodNamed: aString parameters: aCollection [
+
+	^ (methods detect: [ :a | 
+		  a selector = aString and: [ 
+			  (a parameters collect: [ :p | p typeReference name ]) asArray
+			  = aCollection ] ])
+]
+
 { #category : #adding }
 MOClassType >> methods [
 

@@ -9,7 +9,8 @@ Class {
 	],
 	#classInstVars : [
 		'northwind',
-		'egrc'
+		'egrc',
+		'paperJava'
 	],
 	#category : #'Moxing-Java-Loader'
 }
@@ -34,6 +35,15 @@ MOJavaMavenProjectLoader class >> northwind [
 			               workingDirectory:
 				               '/Users/sbragagn/git/jnorthwind/jnorthwind';
 			               loadNamed: #java ]"
+]
+
+{ #category : #'as yet unclassified' }
+MOJavaMavenProjectLoader class >> paperJava [
+	^ paperJava ifNil: [  
+		  paperJava := self new
+			               workingDirectory:
+				               '/Users/sbragagn/workspace/paperJava';
+			               loadNamed: #PaperJava ]
 ]
 
 { #category : #'as yet unclassified' }

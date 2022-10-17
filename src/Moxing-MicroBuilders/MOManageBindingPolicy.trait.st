@@ -15,7 +15,9 @@ MOManageBindingPolicy >> bindingKind [
 
 { #category : #accessing }
 MOManageBindingPolicy >> bindingKind: aString [ 
+
 	bindingKind := aString
+	
 ]
 
 { #category : #accessing }
@@ -26,10 +28,12 @@ MOManageBindingPolicy >> setDefaultBinding [
 
 { #category : #accessing }
 MOManageBindingPolicy >> setDynamicBinding [
-	 bindingKind := #dynamic.
+
+	self bindingKind: #dynamic
 ]
 
 { #category : #accessing }
 MOManageBindingPolicy >> setStaticBinding [
-	 bindingKind := #static.
+
+	self bindingKind: #static
 ]

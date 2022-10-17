@@ -19,6 +19,13 @@ MOModelExpressionTypeResolver >> typeOfExpression: aMOObject [
 ]
 
 { #category : #visiting }
+MOModelExpressionTypeResolver >> visitAttributeAccess: aMOAttributeAccess [
+
+	^ aMOAttributeAccess candidate ifNotNil: [ :c | 
+		  c typeReference ifNotNil: [ :e | e candidate ] ]
+]
+
+{ #category : #visiting }
 MOModelExpressionTypeResolver >> visitIntegerLiteral: aMOIntegerLiteral [ 
 	self subclassResponsibility 
 ]
@@ -39,8 +46,9 @@ MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 ]
 
 { #category : #visiting }
-MOModelExpressionTypeResolver >> visitStringLiteral: aMOStringLiteral [ 
-	^ self subclassResponsibility  
+MOModelExpressionTypeResolver >> visitStringLiteral: aMOStringLiteral [
+
+	^ model typeNamed: #String
 ]
 
 { #category : #visiting }

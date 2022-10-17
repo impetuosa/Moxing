@@ -34,6 +34,18 @@ aMOAssignment  parent acceptVisitor: self
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitAttributeAccess: aMOAttributeAccess [
+
+	^ aMOAttributeAccess parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
+
+	^ aMOBinaryArithmeticOperation parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitBlock: aMOBlock [
   aMOBlock statements detect: [:v |  (v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ] ifFound: [:c |  resolving candidate: c ] ifNone: [ aMOBlock parent ifNotNil: [:a |  a acceptVisitor: self ] ]
 ]
@@ -59,9 +71,33 @@ MOModelVariableResolver >> visitClass: aMOClass [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitConstructor: aMOConstructor [
+
+	^ aMOConstructor parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitConstructorInvocation:  aMOConstructorInvocation [
+
+	^ aMOConstructorInvocation parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitDeclarationUnit: aMODeclarationUnit [
 
 	^ aMODeclarationUnit parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitInvocation: aMOConstructorInvocation [
+
+	^ aMOConstructorInvocation parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitJavaClass: aMOJavaClass [
+
+	^ self visitClass: aMOJavaClass
 ]
 
 { #category : #visiting }

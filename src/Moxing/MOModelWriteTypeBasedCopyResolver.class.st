@@ -157,6 +157,11 @@ MOModelWriteTypeBasedCopyResolver >> visitConstantReference: aMOConstantReferenc
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitDateLiteral: aMOAlceDateLiteral [ 
+	^ self visitLiteral: aMOAlceDateLiteral
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitDeclarationUnit: aMODeclarationUnit [ 
 	^ writer writeDeclarationUnit: [ : unit | writingBlock value: unit ]
 ]

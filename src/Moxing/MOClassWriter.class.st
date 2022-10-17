@@ -74,6 +74,12 @@ MOClassWriter >> privateWriteToSurface: anEntity [
 	surface addClass: anEntity
 ]
 
+{ #category : #accessing }
+MOClassWriter >> superclassReference [
+
+	^ writeBuilder superclassReference
+]
+
 { #category : #writing }
 MOClassWriter >> superclassReference: superClassReference [
 

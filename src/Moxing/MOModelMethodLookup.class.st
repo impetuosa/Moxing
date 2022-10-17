@@ -22,7 +22,7 @@ MOModelMethodLookup >> lookMethodFor: aMOMethodInvocation in: aTypeWithMethods [
 
 	methods size = 1 ifTrue: [ ^ methods ].
 	methods size > 1 ifTrue: [ 
-		self halt .
+
 		^ {  }. 
 	].
 

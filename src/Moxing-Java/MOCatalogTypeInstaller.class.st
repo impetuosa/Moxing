@@ -152,6 +152,23 @@ MOCatalogTypeInstaller >> visitImport: aMOImportPackage [
 ]
 
 { #category : #visiting }
+MOCatalogTypeInstaller >> visitJavaClass: aMOClass [ 
+
+	^ writer writeJavaClass: [ :class | 
+		  class name: aMOClass name.
+		  class addModifier: #DefinedInLibrary.
+		  self use: class during: [ 
+			  class packageReference:
+				  (aMOClass packageReference acceptVisitor: self).
+			  class superclassReference:
+				  (aMOClass superclassReference ifNotNil: [ :i | 
+					   i acceptVisitor: self ]).
+			  class superTypeReferences:
+				  (self visitCollection: aMOClass superTypeReferences).
+			  self visitCollection: aMOClass allContainments ] ]
+]
+
+{ #category : #visiting }
 MOCatalogTypeInstaller >> visitMethod: aMOMethod [
 
 	^ writer writeMethod: [ :method | 

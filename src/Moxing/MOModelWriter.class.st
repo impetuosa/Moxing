@@ -879,6 +879,14 @@ MOModelWriter >> writeImport: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOModelWriter >> writeJavaClass: aFullBlockClosure [
+
+	| writer |
+	writer := MOJavaClassWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeLibrary: aBlock [
 
 	| writer stmt |

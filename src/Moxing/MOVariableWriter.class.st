@@ -36,6 +36,11 @@ MOVariableWriter >> initializeWriteBuilder [
 ]
 
 { #category : #generated }
+MOVariableWriter >> initializer [
+	^ writeBuilder initializer 
+]
+
+{ #category : #generated }
 MOVariableWriter >> initializer: anInit [  
 	writeBuilder initializer: anInit 
 ]

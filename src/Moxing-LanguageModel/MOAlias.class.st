@@ -36,6 +36,11 @@ MOAlias >> printOn: aStream [
 ]
 
 { #category : #accessing }
+MOAlias >> typeReference [
+	^ typeReference
+]
+
+{ #category : #accessing }
 MOAlias >> typeReference: aMOPrimitiveTypeReference [ 
 	typeReference := aMOPrimitiveTypeReference
 ]

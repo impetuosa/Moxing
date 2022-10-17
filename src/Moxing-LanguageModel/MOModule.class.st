@@ -49,6 +49,24 @@ MOModule >> initialize [
 	invocables := OrderedCollection new
 ]
 
+{ #category : #'as yet unclassified' }
+MOModule >> invocableNamed: aString [
+
+	| i |
+	i := invocables select: [ :a | a selector = aString ].
+	self assert: i size = 1.
+	^ i first
+]
+
+{ #category : #'as yet unclassified' }
+MOModule >> invocableNamed: aString parameters: aCollection [
+
+	^ invocables detect: [ :a | 
+		  a selector = aString and: [
+			  (a parameters collect: [ :p | p typeReference name ]) asArray
+			  = aCollection ] ]
+]
+
 { #category : #accessing }
 MOModule >> invocables [
 	^ invocables
@@ -57,6 +75,16 @@ MOModule >> invocables [
 { #category : #accessing }
 MOModule >> invocables: aCollection [ 
 	invocables := aCollection
+]
+
+{ #category : #'as yet unclassified' }
+MOModule >> invocablesNamed: aString [
+
+	| i |
+	i := invocables select: [ :a | a selector = aString ].
+	self assert:
+		(i allSatisfy: [ :a | a parameters size = i first parameters size ]).
+	^ i
 ]
 
 { #category : #accessing }

@@ -400,6 +400,11 @@ MOModelDerivative >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
 	aMOBlock statements replaceAll: aMOExit with: aMOReturnEmpty
 ]
 
+{ #category : #visiting }
+MOModelDerivative >> typeNamed: aString [ 
+	^ model typeNamed: aString 
+]
+
 { #category : #initialization }
 MOModelDerivative >> typeReferences [
 

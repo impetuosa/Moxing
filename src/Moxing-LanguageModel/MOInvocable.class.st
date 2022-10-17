@@ -19,6 +19,7 @@ MOInvocable >> bindingKind [
 
 { #category : #accessing }
 MOInvocable >> bindingKind: aString [ 
+
 	bindingKind := aString
 ]
 
@@ -155,7 +156,8 @@ MOInvocable >> senders [
 
 { #category : #accessing }
 MOInvocable >> setStaticBinding [
-	bindingKind := #static.
+
+	self bindingKind: #static
 ]
 
 { #category : #private }

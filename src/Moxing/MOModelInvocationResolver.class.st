@@ -22,10 +22,15 @@ MOModelInvocationResolver >> expressionTypeResolvingStrategy [
 
 { #category : #'as yet unclassified' }
 MOModelInvocationResolver >> lookupMethodFor: aMOMethodInvocation [
-  | receiver |
-  receiver := self expressionTypeResolvingStrategy typeOfExpression: aMOMethodInvocation receiverReference.
-  receiver ifNil: [ ^{} ].
-  ^self methodLookupStrategy lookMethodFor: aMOMethodInvocation in: receiver
+
+	| receiver |
+	receiver := self expressionTypeResolvingStrategy typeOfExpression:
+		            aMOMethodInvocation receiverReference.
+	receiver ifNil: [ ^ {  } ].
+	receiver isPrimitiveType ifTrue: [ ^ {  } ].
+	^ self methodLookupStrategy
+		  lookMethodFor: aMOMethodInvocation
+		  in: receiver
 ]
 
 { #category : #'instance creation' }
@@ -56,6 +61,11 @@ MOModelInvocationResolver >> visitAnnotation: aMOAnnotationInstance [
 			detect: [ :c | 
 			c parameters size = aMOAnnotationInstance arguments size ]
 			ifFound: [ :c | resolving candidate: c ] ]
+]
+
+{ #category : #visiting }
+MOModelInvocationResolver >> visitConstructorInvocation: aMOConstructorInvocation [ 
+
 ]
 
 { #category : #visiting }

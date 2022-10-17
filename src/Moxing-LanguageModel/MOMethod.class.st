@@ -45,6 +45,12 @@ MOMethod >> dependencies [
 ]
 
 { #category : #accessing }
+MOMethod >> isMethod [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOMethod >> isSameEntity: anOther [
 
 	^ (super isSameEntity: anOther) and: [ 
@@ -53,6 +59,12 @@ MOMethod >> isSameEntity: anOther [
 			  (self returnTypeReference isNotNil and: [ 
 				   anOther returnTypeReference isNotNil ]) and: [ 
 				  self returnTypeReference name = anOther returnTypeReference name ] ] ]
+]
+
+{ #category : #accessing }
+MOMethod >> isStaticBinding [
+
+	^ super isStaticBinding or: [ modifiers includes: #static ]
 ]
 
 { #category : #'as yet unclassified' }

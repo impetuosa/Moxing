@@ -17,6 +17,30 @@ MOJavaCodeGenerator >> initialize [
 ]
 
 { #category : #visiting }
+MOJavaCodeGenerator >> nextPutDefaultValueFor: aTypeReference [
+
+	aTypeReference name asLowercase = #float ifTrue: [ 
+		^ self nextPutAll: '0.0f' ].
+	aTypeReference name asLowercase = #double ifTrue: [ 
+		^ self nextPutAll: '0.0d' ].
+	aTypeReference name asLowercase = #integer ifTrue: [ 
+		^ self nextPutAll: '0' ].
+	aTypeReference name asLowercase = #int ifTrue: [ 
+		^ self nextPutAll: '0' ].
+	aTypeReference name asLowercase = #long ifTrue: [ 
+		^ self nextPutAll: '0l' ].
+	aTypeReference name asLowercase = #string ifTrue: [ 
+		^ self nextPutAll: '""' ].
+	aTypeReference name asLowercase = #byte ifTrue: [ 
+		^ self nextPutAll: '0' ].
+	aTypeReference name asLowercase = #bool ifTrue: [ 
+		^ self nextPutAll: 'false' ].
+	aTypeReference name asLowercase = #boolean ifTrue: [ 
+		^ self nextPutAll: 'false' ].
+	^ self nextPutAll: 'null'
+]
+
+{ #category : #visiting }
 MOJavaCodeGenerator >> openComment [
   self nextPutAll: '/*'
 ]
@@ -291,6 +315,35 @@ MOJavaCodeGenerator >> visitConstructor: aMOConstructor [
 	self
 		nextPutAll: '';
 		newLine
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitConstructorInvocation: aMOInvocation [
+
+	"self assert: (aMOInvocation candidate modifiers includes: #static)."
+
+	self
+		nextPutAll: aMOInvocation selector;
+		nextPutAll: '('.
+	self streamArguments: aMOInvocation arguments.
+	self nextPutAll: ')'
+]
+
+{ #category : #visiting }
+MOJavaCodeGenerator >> visitDateLiteral: aMODateLiteral [
+
+	| str |
+	str := ((aMODateLiteral literal beginsWith: '"') and: [ 
+		        aMODateLiteral literal endsWith: '"' ])
+		       ifTrue: [ 
+			       aMODateLiteral literal
+				       copyFrom: 2
+				       to: aMODateLiteral literal size - 1 ]
+		       ifFalse: [ aMODateLiteral literal ].
+	self
+		nextPutAll: '"SHOULD BE A DATE LITERAL!';
+		nextPutAll: str;
+		nextPutAll: '"'
 ]
 
 { #category : #visiting }
@@ -861,23 +914,23 @@ MOJavaCodeGenerator >> visitVarArgParameter: aMOVariableArgumentsParameter [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitVariable: aMOTypescriptVariable [
 
-
 	aMOTypescriptVariable modifiers do: [ :m | 
 		self
 			nextPutAll: m;
 			nextPutAll: ' ' ].
-	
+
 	aMOTypescriptVariable typeReference ifNotNil: [ 
 		aMOTypescriptVariable typeReference acceptVisitor: self.
 		self nextPutAll: ' ' ].
 
 
 	self nextPutAll: aMOTypescriptVariable name.
+	self nextPutAll: ' = '.
 
-
-	aMOTypescriptVariable initializer ifNotNil: [ 
-		self nextPutAll: '='.
-		aMOTypescriptVariable initializer acceptVisitor: self ]
+	aMOTypescriptVariable initializer
+		ifNotNil: [ aMOTypescriptVariable initializer acceptVisitor: self ]
+		ifNil: [ 
+		self nextPutDefaultValueFor: aMOTypescriptVariable typeReference ]
 ]
 
 { #category : #visiting }

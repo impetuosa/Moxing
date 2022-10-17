@@ -111,6 +111,12 @@ MOModelCopyExpression >> visitConstantReference: aMOConstantReference [
 ]
 
 { #category : #visiting }
+MOModelCopyExpression >> visitDateLiteral: aMOAlceDateLiteral [
+
+	^ writer dateLiteral: aMOAlceDateLiteral literal
+]
+
+{ #category : #visiting }
 MOModelCopyExpression >> visitFloatLiteral: aMOFloatLiteral [ 
 
 	^ writer numericLiteral: aMOFloatLiteral literal
@@ -221,7 +227,7 @@ MOModelCopyExpression >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference 
 
 	^ self
 		  applyBindTo:
-		  (writer primitiveTypeReferenceNamed:
+		  (writer typeReferenceNamed:
 			   aMOPrimitiveTypeReference name)
 		  withCandidateFrom: aMOPrimitiveTypeReference
 ]

@@ -41,6 +41,11 @@ MOFunctionWriter >> returnType: aReference [
 	writeBuilder returnType: aReference
 ]
 
+{ #category : #accessing }
+MOFunctionWriter >> returnTypeReference [
+	^ writeBuilder returnTypeReference
+]
+
 { #category : #writing }
 MOFunctionWriter >> returnTypeReference: aReference [
 	writeBuilder returnTypeReference: aReference

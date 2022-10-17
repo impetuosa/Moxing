@@ -6,7 +6,8 @@ Class {
 	],
 	#classInstVars : [
 		'northwind',
-		'egrc'
+		'egrc',
+		'paperSourceModel'
 	],
 	#category : #'Moxing-Alce'
 }
@@ -34,6 +35,17 @@ MOJinDAMImporter class >> loadNorthwind [
 ]
 
 { #category : #accessing }
+MOJinDAMImporter class >> loadPaperSourceModel [
+
+	| reader morwind |
+	reader := self new.
+	morwind := MOModel newMicrosoftAccess.
+	reader model: morwind.
+	reader import: JinDAMModel paperSourceModel.
+	^ morwind
+]
+
+{ #category : #accessing }
 MOJinDAMImporter class >> northwind [ 
 	^ northwind ifNil: [ northwind := self loadNorthwind  ]
 ]
@@ -41,6 +53,16 @@ MOJinDAMImporter class >> northwind [
 { #category : #accessing }
 MOJinDAMImporter class >> northwind: aVal [ 
 	^ northwind := aVal
+]
+
+{ #category : #accessing }
+MOJinDAMImporter class >> paperSourceModel [ 
+	^ paperSourceModel ifNil: [ paperSourceModel := self loadPaperSourceModel  ]
+]
+
+{ #category : #accessing }
+MOJinDAMImporter class >> paperSourceModel: aModel [  
+	^ paperSourceModel := aModel
 ]
 
 { #category : #accessing }

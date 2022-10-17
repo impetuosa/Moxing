@@ -302,6 +302,12 @@ MODeclaration >> isMOObject [
 ]
 
 { #category : #testing }
+MODeclaration >> isMethod [
+
+	^ false
+]
+
+{ #category : #testing }
 MODeclaration >> isMethodExtension [
 ^ false 
 ]

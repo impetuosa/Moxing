@@ -141,6 +141,12 @@ MOModelTypeResolver >> visitImport: aMOImport [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitJavaClass: aMOJavaClass [
+
+	^ self visitClass: aMOJavaClass
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitLocalVariable: aMOLocalVariable [ 
 	self visitVariable: aMOLocalVariable 
 ]
