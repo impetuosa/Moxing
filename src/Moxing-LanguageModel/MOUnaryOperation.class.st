@@ -26,6 +26,12 @@ MOUnaryOperation >> isPrefix [
 ]
 
 { #category : #accessing }
+MOUnaryOperation >> isReference [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOUnaryOperation >> isUnaryOperation [
 
 	^ true

@@ -56,8 +56,9 @@ MOJinDAMImporter class >> northwind: aVal [
 ]
 
 { #category : #accessing }
-MOJinDAMImporter class >> paperSourceModel [ 
-	^ paperSourceModel ifNil: [ paperSourceModel := self loadPaperSourceModel  ]
+MOJinDAMImporter class >> paperSourceModel [
+
+	^ paperSourceModel ifNil: [ paperSourceModel := northwind ]
 ]
 
 { #category : #accessing }

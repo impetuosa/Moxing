@@ -21,3 +21,9 @@ MOStMethod >> category [
 MOStMethod >> category: anUndefinedObject [ 
 	category := anUndefinedObject
 ]
+
+{ #category : #accessing }
+MOStMethod >> isStaticBinding [
+
+	^ super isStaticBinding or: [ self parent isStMetaclass ]
+]

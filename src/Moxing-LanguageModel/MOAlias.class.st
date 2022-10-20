@@ -20,6 +20,12 @@ MOAlias >> allMethods [
 ]
 
 { #category : #accessing }
+MOAlias >> allRelations [
+
+	^ self typeReference type allRelations
+]
+
+{ #category : #accessing }
 MOAlias >> isPrimitiveType [
 
 	^ typeReference candidate isPrimitiveType

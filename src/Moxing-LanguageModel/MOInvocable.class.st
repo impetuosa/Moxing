@@ -70,7 +70,8 @@ MOInvocable >> isDeclaration [
 { #category : #accessing }
 MOInvocable >> isDefinedInLibrary [
 
-	^ self modifiers includes: #DefinedInLibrary
+	^ (self modifiers includes: #DefinedInLibrary) or: [ 
+		  self parent isDefinedInLibrary ]
 ]
 
 { #category : #accessing }
@@ -107,11 +108,11 @@ MOInvocable >> isSameEntity: anOther [
 
 	^ (super isSameEntity: anOther) and: [ 
 		  self parameters size = anOther parameters size and: [ 
-			  (self parameters
-				   with: anOther parameters
-				   collect: [ :p1 :p2 | 
-				   p1 typeReference name = p2 typeReference name ]) allSatisfy:
-				  #yourself ] ]
+			  (self parameters with: anOther parameters collect: [ :p1 :p2 | 
+				   p1 typeReference
+					   ifNil: [ true ]
+					   ifNotNil: [ p1 typeReference name = p2 typeReference name ] ]) 
+				  allSatisfy: #yourself ] ]
 ]
 
 { #category : #accessing }

@@ -55,6 +55,12 @@ MOModelWriteTypeBasedCopyResolver >> visitAccessor: aMOAccessor [
 ]
 
 { #category : #visiting }
+MOModelWriteTypeBasedCopyResolver >> visitAlias: aMOAlias [
+
+	^ aMOAlias typeReference type acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelWriteTypeBasedCopyResolver >> visitAnnotation: aMOAnnotationInstance [
 
 	^ writer writeAnnotation: [ :annotation | 

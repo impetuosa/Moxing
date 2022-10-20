@@ -19,6 +19,11 @@ MOParameter >> existsOnlyInParentContext [
 ]
 
 { #category : #accessing }
+MOParameter >> isOptional [
+	^ isOptional
+]
+
+{ #category : #accessing }
 MOParameter >> isOptional: aBoolean [ 
 	isOptional := aBoolean
 ]

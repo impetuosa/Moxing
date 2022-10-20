@@ -82,6 +82,15 @@ MOClassType >> isClassType [
 ]
 
 { #category : #'as yet unclassified' }
+MOClassType >> methodNamed: aString [
+
+	| m |
+	m := methods select: [ :a | a selector = aString ].
+	self assert: m size = 1.
+	^ m first
+]
+
+{ #category : #'as yet unclassified' }
 MOClassType >> methodNamed: aString parameters: aCollection [
 
 	^ (methods detect: [ :a | 

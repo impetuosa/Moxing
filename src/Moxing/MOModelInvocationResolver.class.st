@@ -28,6 +28,7 @@ MOModelInvocationResolver >> lookupMethodFor: aMOMethodInvocation [
 		            aMOMethodInvocation receiverReference.
 	receiver ifNil: [ ^ {  } ].
 	receiver isPrimitiveType ifTrue: [ ^ {  } ].
+	receiver isFylgjaStub ifTrue: [ ^ {  } ].
 	^ self methodLookupStrategy
 		  lookMethodFor: aMOMethodInvocation
 		  in: receiver

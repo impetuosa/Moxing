@@ -27,6 +27,11 @@ MOStClass >> category: aString [
 ]
 
 { #category : #accessing }
+MOStClass >> comment [
+	^ comment
+]
+
+{ #category : #accessing }
 MOStClass >> comment: aComment [
 
 	comment := aComment

@@ -112,9 +112,63 @@ MOPharoCodeGenerator >> visitFloatLiteral: aMOFloatLiteral [
 ]
 
 { #category : #visiting }
+MOPharoCodeGenerator >> visitInvocation: aMOInvocation [
+
+	"self assert: (aMOInvocation candidate modifiers includes: #static)."
+
+	self
+		nextPutAll:
+			' " TODO Function Invocation Is not valid in Java. Must be transformed to Method Invocation ';
+		newLine;
+		nextPutAll: aMOInvocation selector;
+		nextPutAll: '('.
+	self streamArguments: aMOInvocation arguments.
+	self
+		nextPutAll: ')';
+		newLine;
+		nextPutAll: '"'
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitMethod: aMOStMethod [
+
+	self
+		newLine;
+		nextPutAll: '{';
+		nextPutAll: '#category:';
+		nextPutAll: '''';
+		nextPutAll: 'as yet to class';
+		nextPutAll: '''';
+		nextPutAll: '}';
+		newLine.
+	self
+		newLine;
+		nextPutAll: aMOStMethod parent name;
+		nextPutAll: '>>'.
+	self writeSelectorAndParameters: aMOStMethod.
+	self
+		nextPutAll: self blockDelimiterOpen;
+		newLine.
+	aMOStMethod block acceptVisitor: self.
+	self printIndentation.
+	self
+		nextPutAll: self blockDelimiterClose;
+		newLine
+]
+
+{ #category : #visiting }
 MOPharoCodeGenerator >> visitMethodInvocation: aMOMethodInvocation [
+
   aMOMethodInvocation receiverReference acceptVisitor: self.
   self writeSelectorAndArguments: aMOMethodInvocation
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitNewExpression: anExpression [
+
+	stream
+		nextPutAll: anExpression typeReference name;
+		nextPutAll: ' new '
 ]
 
 { #category : #visiting }
@@ -312,7 +366,21 @@ MOPharoCodeGenerator >> visitSymbolicArrayLiteral: aMOSymbolicArrayLiteral [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitTypeReference: aMOTypeReference [
 
-	self nextPutAll: aMOTypeReference name
+	((aMOTypeReference candidate isNotNil and: [ 
+		  aMOTypeReference candidate isStMetaclass ]) ifTrue: [ 
+		 self nextPutAll: aMOTypeReference candidate parent name ]) 
+		ifFalse: [ self nextPutAll: aMOTypeReference name ]
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitVariableReference: aMOVariableRererence [
+
+	(aMOVariableRererence candidate isKindOf: MOSelfReference)
+		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
+		ifFalse: [ 
+			(#( Null Nothing ) includes: aMOVariableRererence name)
+				ifTrue: [ self nextPutAll: 'nil' ]
+				ifFalse: [ self nextPutAll: aMOVariableRererence name ] ]
 ]
 
 { #category : #writing }
@@ -323,7 +391,7 @@ MOPharoCodeGenerator >> writeSelectorAndArguments: aMOMethodInvocation [
 	aMOMethodInvocation selector numArgs = 0 ifTrue: [ 
 		self nextPutAll: aMOMethodInvocation selector.
 		^ self ].
-	aMOMethodInvocation selector isKeyword
+	aMOMethodInvocation selector asSymbol isKeyword
 		ifTrue: [ 
 			keywords := ':' split: aMOMethodInvocation selector.
 			keywords removeLast.

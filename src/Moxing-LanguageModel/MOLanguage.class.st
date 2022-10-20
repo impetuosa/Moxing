@@ -202,6 +202,7 @@ MOLanguage >> parser [
 	self isTypescript ifTrue: [ ^ TypeScriptParser ].
 	self isJava ifTrue: [ ^ JavaParser ].
 	self isHtml ifTrue: [ ^ XMLHTMLParser ].
+	self isPharo ifTrue: [ ^ StParser ].
 	self error: 'which parser?'
 ]
 

@@ -8,3 +8,9 @@ Class {
 MOMetaClass >> acceptVisitor: aVisitor [
   ^aVisitor visitMetaClass: self
 ]
+
+{ #category : #visiting }
+MOMetaClass >> isStMetaclass [
+
+	^ true
+]

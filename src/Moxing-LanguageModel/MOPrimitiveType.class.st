@@ -29,7 +29,7 @@ MOPrimitiveType >> isDefinedInLibrary [
 ]
 
 { #category : #printing }
-MOPrimitiveType >> isPrimitiveType [
+MOPrimitiveType >> isPrimitiveType [ 
 
 	^ true
 ]

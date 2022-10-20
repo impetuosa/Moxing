@@ -62,6 +62,11 @@ MODeclarationStructuralRelation >> hasValue [
 ]
 
 { #category : #testing }
+MODeclarationStructuralRelation >> isContainment [ 
+	 ^ slot class = MOContainmentSlot
+]
+
+{ #category : #testing }
 MODeclarationStructuralRelation >> isExpression [
 
 	^ to isExpression

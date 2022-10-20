@@ -67,6 +67,17 @@ MOModule >> invocableNamed: aString parameters: aCollection [
 			  = aCollection ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+MOModule >> invocableNamed: aString returns: aTypeName [
+
+	| i |
+	i := invocables select: [ :a | 
+		     a selector = aString and: [ 
+			     a returnTypeReference name = aTypeName ] ].
+	self assert: i size = 1.
+	^ i first
+]
+
 { #category : #accessing }
 MOModule >> invocables [
 	^ invocables
@@ -108,6 +119,12 @@ MOModule >> isModule [
 { #category : #testing }
 MOModule >> isTable [
 	^ false
+]
+
+{ #category : #'archive operations' }
+MOModule >> memberNamed: aString [
+
+	^ variables detect: [ :a | a name = aString ]
 ]
 
 { #category : #accessing }

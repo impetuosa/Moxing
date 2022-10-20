@@ -54,6 +54,13 @@ MOInvocation >> name [
 ]
 
 { #category : #accessing }
+MOInvocation >> name: aName [
+
+	super name: aName.
+	selector := aName
+]
+
+{ #category : #accessing }
 MOInvocation >> printOn: aStream [
 
 	aStream

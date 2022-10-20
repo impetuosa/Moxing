@@ -311,6 +311,17 @@ MOModelUpdateResolver >> visitSetToReturn: aMOSetToReturn [
 ]
 
 { #category : #visiting }
+MOModelUpdateResolver >> visitStClass: aMOStClass [
+
+	| addedElement |
+	writer updateStClass: aMOStClass with: [ :classWriter | 
+		addedElement := writingBlock
+			                cull: writingEntityRelation
+			                cull: classWriter ].
+	^ addedElement
+]
+
+{ #category : #visiting }
 MOModelUpdateResolver >> visitStatementExpression: aMOStatementExpression [
 
 	^ self genericUpdate: aMOStatementExpression

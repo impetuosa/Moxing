@@ -122,6 +122,21 @@ MOClass >> isClassLike [
 	^ true
 ]
 
+{ #category : #accessing }
+MOClass >> isStMetaclass [
+
+	^ false
+]
+
+{ #category : #'accessing - methods' }
+MOClass >> methodNamed: aString [
+
+	| m |
+	m := methods select: [ :a | a selector = aString ].
+	self assert: m size = 1.
+	^ m first
+]
+
 { #category : #'as yet unclassified' }
 MOClass >> methodNamed: aString parameters: aCollection [
 

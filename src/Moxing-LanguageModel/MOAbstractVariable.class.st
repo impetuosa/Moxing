@@ -104,7 +104,7 @@ MOAbstractVariable >> isDeclaration [
 { #category : #testing }
 MOAbstractVariable >> isDefinedInLibrary [
 
-	^ self modifiers includes: #DefinedInLibrary
+	^ self parent isDefinedInLibrary
 ]
 
 { #category : #accessing }

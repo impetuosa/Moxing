@@ -355,9 +355,31 @@ MOCodeGenerator >> visitStringLiteral: aMOStringLiteral [
 ]
 
 { #category : #visiting }
+MOCodeGenerator >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
+
+	aMOUnaryArithmeticOperation isPrefix
+		ifTrue: [ 
+			self
+				nextPutAll: aMOUnaryArithmeticOperation operator;
+				nextPutAll: '('.
+			aMOUnaryArithmeticOperation operand acceptVisitor: self.
+			self nextPutAll: ')' ]
+		ifFalse: [ 
+			self nextPutAll: '('.
+			aMOUnaryArithmeticOperation operand acceptVisitor: self.
+			self
+				nextPutAll: ')';
+				nextPutAll: aMOUnaryArithmeticOperation operator;
+				nextPutAll: ' ' ]
+]
+
+{ #category : #visiting }
 MOCodeGenerator >> visitVariableReference: aMOVariableRererence [
 
 	(aMOVariableRererence candidate isKindOf: MOSelfReference)
 		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
-		ifFalse: [ self nextPutAll: aMOVariableRererence name ]
+		ifFalse: [ 
+			(#( Null Nothing ) includes: aMOVariableRererence name)
+				ifTrue: [ self nextPutAll: 'null' ]
+				ifFalse: [ self nextPutAll: aMOVariableRererence name ] ]
 ]

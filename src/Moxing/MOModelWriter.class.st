@@ -623,6 +623,15 @@ MOModelWriter >> updateSelect: aMOClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateStClass: aMOTypescriptClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOTypescriptClass
+		  withWriter: MOStClassWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateStructure: aMOStructure with: aFullBlockClosure [
 
 	^ self

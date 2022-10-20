@@ -126,8 +126,8 @@ MORBPharoImporter >> visitRBClass: aRBClass [
 		  class writeMetaclass: [ :meta | 
 			  meta name: metaclass realClass name.
 			  metaclass instanceVariableNames do: [ :iv | 
-				  class writeAttribute: [ :a | a name: iv ] ].
-			  self use: class during: [ 
+				  meta writeAttribute: [ :a | a name: iv ] ].
+			  self use: meta during: [ 
 				  self visitCollection:
 					  (metaclass realClass methods collect: [ :m | 
 						   RBMethod for: metaclass fromMethod: m andSelector: m selector ]) ] ] ]

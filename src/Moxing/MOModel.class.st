@@ -221,6 +221,12 @@ MOModel >> isInvocable [
 	^ false
 ]
 
+{ #category : #testing }
+MOModel >> isMOModel [
+
+	^ true
+]
+
 { #category : #'as yet unclassified' }
 MOModel >> isModelOrDerivative [
 
@@ -353,6 +359,16 @@ MOModel >> typeNamed: aString library: aLibraryName [
 				     ifFalse: [ a ]
 				     ifTrue: [ a typeReference candidate ] ]
 		     thenSelect: [ :a | a parent parent name = aLibraryName ].
+	self assert: t size = 1.
+	^ t first
+]
+
+{ #category : #'as yet unclassified' }
+MOModel >> typeOrAliasNamed: aString library: aLibraryName [
+
+	| t |
+	t := (self typesNamed: aString) select: [ :a | 
+		     a parent isMOModel or: [ a parent parent name = aLibraryName ] ].
 	self assert: t size = 1.
 	^ t first
 ]
