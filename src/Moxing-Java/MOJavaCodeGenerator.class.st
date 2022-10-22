@@ -359,8 +359,14 @@ MOJavaCodeGenerator >> visitDeclarationUnit: aMODeclarationUnit [
 ]
 
 { #category : #visiting }
-MOJavaCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
-	self nextPutAll: '{}'
+MOJavaCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [
+
+	" In the case of an interface, this could be case . The body is nothing "
+
+	(aMOEmptyBlock parent parent isKindOf: MOClass) ifTrue: [ 
+		self nextPutAll: '{
+		throw new RuntimeException ("Should be implemented");
+	}' ]
 ]
 
 { #category : #visiting }
@@ -879,7 +885,9 @@ MOJavaCodeGenerator >> visitTypeParameter: aMOTypeParameter [
 { #category : #visiting }
 MOJavaCodeGenerator >> visitTypeReference: aFylgjaMissingType [
 
-	self nextPutAll: aFylgjaMissingType name
+	aFylgjaMissingType isUndefined
+		ifTrue: [ self nextPutAll: 'UNDEFINED_TYPE' ]
+		ifFalse: [ self nextPutAll: aFylgjaMissingType name ]
 ]
 
 { #category : #visiting }

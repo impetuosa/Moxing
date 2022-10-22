@@ -22,7 +22,10 @@ MOAlias >> allMethods [
 { #category : #accessing }
 MOAlias >> allRelations [
 
-	^ self typeReference type allRelations
+	^ self typeReference type allRelations collect: [ :a | 
+		  a
+			  from: self;
+			  yourself ]
 ]
 
 { #category : #accessing }

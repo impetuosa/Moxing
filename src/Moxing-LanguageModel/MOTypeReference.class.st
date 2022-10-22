@@ -41,6 +41,11 @@ MOTypeReference >> isTypeReference [
 	^ true 
 ]
 
+{ #category : #accessing }
+MOTypeReference >> isUndefined [
+	^ name = '#_TypeUndefined'
+]
+
 { #category : #testing }
 MOTypeReference >> isUnknown [
 

@@ -233,6 +233,12 @@ MOModel >> isModelOrDerivative [
 	^ true
 ]
 
+{ #category : #enumerating }
+MOModel >> libraries [
+
+	^ entities select: [ :a | a isKindOf: MOLibrary ]
+]
+
 { #category : #'functions - subs - events' }
 MOModel >> literals [
 

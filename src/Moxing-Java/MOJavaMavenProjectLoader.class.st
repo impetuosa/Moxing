@@ -84,6 +84,11 @@ MOJavaMavenProjectLoader >> loadNamed: aString [
 		         yourself.
 
 	writer := model writer.
+	writer writePackage: [ :p | 
+		p name: 'RuntimePrimitiveTypes'.
+		#( void byte short int long float double boolean char ) do: [ :tname | 
+			p writePrimitiveType: [ :type | type name: tname ] ] ].
+	
 
 	self javaFiles do: [ :file | 
 		ast := JavaParser parse: file readStream upToEnd.

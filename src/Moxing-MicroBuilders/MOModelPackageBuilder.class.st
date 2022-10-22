@@ -52,6 +52,12 @@ MOModelPackageBuilder >> addType: aMOPrimitiveType [
 	self types add: aMOPrimitiveType
 ]
 
+{ #category : #adding }
+MOModelPackageBuilder >> assert: bool [
+
+	bool ifFalse: [ self halt ]
+]
+
 { #category : #'as yet unclassified' }
 MOModelPackageBuilder >> buildsType [
 <generated>
@@ -142,6 +148,7 @@ MOModelPackageBuilder >> privateBuild [
 	packRef := self packageReferenceBuilder
 		           package: pack;
 		           build.
+
 	self types , self declarationUnits do: [ :t | 
 		(t respondsTo: #packageReference:) ifTrue: [ 
 			t packageReference: packRef ] ].

@@ -18,6 +18,12 @@ MOStClassWriter >> addClass: aMOMetaClass [
 	writeBuilder metaclass: aMOMetaClass
 ]
 
+{ #category : #writing }
+MOStClassWriter >> addMethod: aMOProcedure [
+	self halt .
+	writeBuilder addMethod: aMOProcedure
+]
+
 { #category : #adding }
 MOStClassWriter >> addSharedVariable: aMOSharedVariable [
 

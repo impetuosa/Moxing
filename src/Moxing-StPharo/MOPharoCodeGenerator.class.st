@@ -102,8 +102,9 @@ MOPharoCodeGenerator >> visitComment: aMOComment [
 ]
 
 { #category : #visiting }
-MOPharoCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [ 
-	
+MOPharoCodeGenerator >> visitEmptyBlock: aMOEmptyBlock [
+
+	self nextPutAll: '	self shouldBeImplemented'
 ]
 
 { #category : #visiting }

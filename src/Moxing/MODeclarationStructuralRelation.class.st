@@ -48,6 +48,11 @@ MODeclarationStructuralRelation >> from [
 ]
 
 { #category : #accessing }
+MODeclarationStructuralRelation >> from: aMOAlias [ 
+	from := aMOAlias
+]
+
+{ #category : #accessing }
 MODeclarationStructuralRelation >> from: aFrom to: aTo [ 
 	from := aFrom. 
 	to := aTo
