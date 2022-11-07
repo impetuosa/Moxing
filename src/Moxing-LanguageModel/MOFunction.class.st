@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOInvocable,
 	#instVars : [
 		'#selector => MOPropertySlot',
-		'#returnTypeReference => MOReferesSlot one'
+		'#returnTypeReference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

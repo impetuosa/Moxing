@@ -33,5 +33,5 @@ MOConstantReference >> refersToObjectsLike: aMOEnumEntry [
 
 { #category : #generated }
 MOConstantReference >> type [
-	^ candidate type 
+	^ referee type 
 ]

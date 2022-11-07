@@ -13,18 +13,18 @@ MOPackageReference >> acceptVisitor: aMOModelLinker [
 { #category : #adding }
 MOPackageReference >> addClass: aMOClass [
 
-	candidate addType: aMOClass
+	referee addType: aMOClass
 ]
 
 { #category : #adding }
 MOPackageReference >> addPackage: aMOPackage [
 
-	candidate addPackage: aMOPackage
+	referee addPackage: aMOPackage
 ]
 
 { #category : #accessing }
 MOPackageReference >> mapSpaceAnchor [
-	^ candidate mapSpaceAnchor
+	^ referee mapSpaceAnchor
 ]
 
 { #category : #accessing }
@@ -63,5 +63,5 @@ MOPackageReference >> refersToObjectsLike: aDeclaration [
 { #category : #accessing }
 MOPackageReference >> types [
 
-	^ candidate types
+	^ referee types
 ]

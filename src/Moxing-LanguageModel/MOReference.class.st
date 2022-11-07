@@ -2,20 +2,21 @@ Class {
 	#name : #MOReference,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#candidate => MORefereeSlot',
-		'#candidateAnchor => MOPropertySlot'
+		'#candidateAnchor => MOPropertySlot',
+		'#referee => MORefereeSlot'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }
 MOReference >> candidate [
-	^ candidate
+	^ referee
 ]
 
 { #category : #accessing }
 MOReference >> candidate: aMOPackage [
-	candidate := aMOPackage
+
+	referee := aMOPackage
 ]
 
 { #category : #accessing }

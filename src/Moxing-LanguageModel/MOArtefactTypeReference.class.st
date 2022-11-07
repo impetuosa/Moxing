@@ -2,7 +2,7 @@ Class {
 	#name : #MOArtefactTypeReference,
 	#superclass : #MOTypeReference,
 	#instVars : [
-		'#artefactReference => MOReferesSlot one'
+		'#artefactReference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

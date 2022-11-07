@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#types => MODeclaresSlot many',
 		'#declarationUnits => MODeclaresSlot many',
-		'#packageReference => MOReferesSlot one'
+		'#packageReference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

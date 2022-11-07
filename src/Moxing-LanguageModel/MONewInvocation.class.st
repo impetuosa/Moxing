@@ -2,7 +2,7 @@ Class {
 	#name : #MONewInvocation,
 	#superclass : #MOInvocation,
 	#instVars : [
-		'#typeReference => MOReferesSlot one'
+		'#typeReference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

@@ -2,7 +2,7 @@ Class {
 	#name : #MOAlceResumeLabel,
 	#superclass : #MOAlceResume,
 	#instVars : [
-		'#destinations => MOReferesSlot many'
+		'#destinations => MORefersSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

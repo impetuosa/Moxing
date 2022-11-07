@@ -35,5 +35,5 @@ MOVariableReference >> refersToObjectsLike: aMOAttribute [
 
 { #category : #generated }
 MOVariableReference >> type [
-	^ candidate type 
+	^ referee type 
 ]

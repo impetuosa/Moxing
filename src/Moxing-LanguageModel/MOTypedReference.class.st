@@ -13,5 +13,5 @@ MOTypedReference >> isTypedReference [
 { #category : #generated }
 MOTypedReference >> type [
 
-	^ candidate constructingTypeName
+	^ referee constructingTypeName
 ]

@@ -16,7 +16,7 @@ MOTypeReference >> acceptVisitor: aMOJavaModelReader [
 { #category : #accessing }
 MOTypeReference >> dependencies [
 
-	^ { candidate }
+	^ { referee }
 ]
 
 { #category : #accessing }
@@ -83,5 +83,5 @@ MOTypeReference >> refersToObjectsLike: aMOClass [
 
 { #category : #printing }
 MOTypeReference >> type [ 
-	^ candidate
+	^ referee
 ]

@@ -2,7 +2,7 @@ Class {
 	#name : #MOTypeParameter,
 	#superclass : #MOType,
 	#instVars : [
-		'#superTypeReferences => MOReferesSlot many'
+		'#superTypeReferences => MORefersSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

@@ -3,9 +3,9 @@ Class {
 	#superclass : #MOInvocable,
 	#instVars : [
 		'#selector => MOPropertySlot',
-		'#returnTypeReference => MOReferesSlot one',
-		'#thrownTypeReferences => MOReferesSlot many',
-		'#annotationInstances => MOReferesSlot many'
+		'#returnTypeReference => MORefersSlot one',
+		'#thrownTypeReferences => MORefersSlot many',
+		'#annotationInstances => MORefersSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

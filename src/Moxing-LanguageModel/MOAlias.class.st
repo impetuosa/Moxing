@@ -2,7 +2,7 @@ Class {
 	#name : #MOAlias,
 	#superclass : #MOPrimitiveType,
 	#instVars : [
-		'#typeReference => MOReferesSlot one'
+		'#typeReference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

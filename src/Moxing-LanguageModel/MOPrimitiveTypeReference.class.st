@@ -47,5 +47,5 @@ MOPrimitiveTypeReference >> refersToObjectsLike: aMOPrimitiveType [
 
 { #category : #generated }
 MOPrimitiveTypeReference >> type [ 
-	^ candidate
+	^ referee
 ]

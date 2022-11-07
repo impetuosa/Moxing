@@ -2,7 +2,7 @@ Class {
 	#name : #MOAlceGoToLabel,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#destination => MOReferesSlot one'
+		'#destination => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

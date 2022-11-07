@@ -2,7 +2,7 @@ Class {
 	#name : #MOMethodInvocation,
 	#superclass : #MOInvocation,
 	#instVars : [
-		'#receiverReference => MOReferesSlot one'
+		'#receiverReference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }
@@ -50,5 +50,5 @@ MOMethodInvocation >> refersToObjectsLike: aMOClassProcedure [
 
 { #category : #generated }
 MOMethodInvocation >> type [
-	^ candidate anyOne type 
+	^ referee anyOne type 
 ]

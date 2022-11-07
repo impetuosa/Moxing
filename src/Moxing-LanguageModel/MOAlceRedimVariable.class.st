@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOAbstractVariable,
 	#instVars : [
 		'#redimText => MOPropertySlot',
-		'#reference => MOReferesSlot one'
+		'#reference => MORefersSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
