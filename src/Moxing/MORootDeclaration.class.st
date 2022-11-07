@@ -2,7 +2,7 @@ Class {
 	#name : #MORootDeclaration,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'#packages => MOContainmentSlot many'
+		'#packages => MODeclaresSlot many'
 	],
 	#category : #'Moxing-Core'
 }

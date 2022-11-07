@@ -1,33 +1,16 @@
 Class {
 	#name : #MOLanguage,
 	#superclass : #MONamedDeclaration,
-	#instVars : [
-		'#methodLookupStrategy => MOPropertySlot',
-		'#typeResolutionStrategy => MOPropertySlot',
-		'#variableResolutionStrategy => MOPropertySlot',
-		'#invocationResolutionStrategy => MOPropertySlot',
-		'#importLinkingStrategy => MOPropertySlot',
-		'#expressionTypeResolvingStrategy => MOPropertySlot'
-	],
 	#classInstVars : [
-		'#html'
+		'html'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
 
-{ #category : #'as yet unclassified' }
-MOLanguage class >> newFor: aModel [ 	
-	^ aModel instantiate: self 
-]
-
 { #category : #testing }
 MOLanguage >> astComposer [
- 	
-	self isMicrosoftAccess ifTrue: [ ^ MoxingMicrosoftAccessAstComposer ].
-	self isTypescript ifTrue: [  ^ MoxingTypescriptAstComposer  ].
-	self isJava ifTrue: [  ^ MoxingJavaAstComposer  ].
-	self isHtml ifTrue: [  ^ MoxingHtmlAstComposer  ].
-	self error: 'which composer?'
+
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }
@@ -66,79 +49,37 @@ MOLanguage >> export: aModel asDraftIntoDirectory: aFileReference [
 	self error: 'Not implemented exporter '
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'resolution strategies' }
 MOLanguage >> expressionTypeResolvingStrategy [
-  ^expressionTypeResolvingStrategy ifNil: [ MOModelExpressionTypeResolver ]
+
+	^ MOModelExpressionTypeResolver
 ]
 
-{ #category : #accessing }
-MOLanguage >> expressionTypeResolvingStrategy: anObject [
-	expressionTypeResolvingStrategy := anObject
-]
-
-{ #category : #accessing }
-MOLanguage >> extension [
-
-	self isJava ifTrue: [ ^ 'java' ].
-	self isTypescript ifTrue: [ ^ 'ts' ].
-	self error: ' Extension '
-]
-
-{ #category : #accessing }
+{ #category : #'resolution strategies' }
 MOLanguage >> importLinkingStrategy [
-  ^importLinkingStrategy ifNil: [ MOModelImportLinker ]
+
+	^ MOModelImportLinker
 ]
 
-{ #category : #accessing }
-MOLanguage >> importLinkingStrategy: anObject [
-
-	importLinkingStrategy := anObject
-]
-
-{ #category : #accessing }
+{ #category : #'resolution strategies' }
 MOLanguage >> invocationResolutionStrategy [
-  ^invocationResolutionStrategy ifNil: [ MOModelInvocationResolver ]
-]
 
-{ #category : #accessing }
-MOLanguage >> invocationResolutionStrategy: anObject [
-
-	invocationResolutionStrategy := anObject
-]
-
-{ #category : #accessing }
-MOLanguage >> isAbstract: aTypeOrMethod [
-
-	^ self usesAbstractKeyword and: [ 
-		  aTypeOrMethod modifiers anySatisfy: [ :a | 
-			  a asLowercase = #abstract ] ]
-]
-
-{ #category : #accessing }
-MOLanguage >> isAbstractInvocable: aType [
-
-	^ self isAbstract: aType
-]
-
-{ #category : #accessing }
-MOLanguage >> isAbstractType: aType [
-
-	^ self isAbstract: aType
+	^ MOModelInvocationResolver
 ]
 
 { #category : #testing }
 MOLanguage >> isHtml [
-  ^ self name = #Html
+  ^ false
 ]
 
 { #category : #testing }
 MOLanguage >> isJava [
-	^ self name = #java
+	^ false
 ]
 
 { #category : #testing }
 MOLanguage >> isMicrosoftAccess [
-	^self  name = #MicrosoftAccess
+	^ false
 ]
 
 { #category : #accessing }
@@ -152,39 +93,31 @@ MOLanguage >> isOnlySignature: aMethod [
 { #category : #testing }
 MOLanguage >> isPharo [
 
-	^ self name = #pharo
+	^ false
 ]
 
 { #category : #testing }
 MOLanguage >> isTypescript [
-	^ self name = #typescript
+
+	^ false
 ]
 
 { #category : #accessing }
 MOLanguage >> link: aMOModelDerivative [
 
-	^ self isJava ifTrue: [ MOModelLinker new link: aMOModelDerivative ]
+	^ self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }
 MOLanguage >> methodLookupStrategy [
-  ^ methodLookupStrategy ifNil: [ MOModelMethodLookup ]
-]
 
-{ #category : #accessing }
-MOLanguage >> methodLookupStrategy: anObject [
-
-	methodLookupStrategy := anObject
+	^ MOModelMethodLookup
 ]
 
 { #category : #'instance creation' }
 MOLanguage >> newCodeTextWriter [
 
-	self isJava ifTrue: [ ^ MOJavaCodeGenerator new ].
-	self isTypescript ifTrue: [ ^ MOTypescriptCodeGenerator new ].
-	self isMicrosoftAccess ifTrue: [ ^ MOMicrosoftAccessCodeGenerator  new ].
-	self isPharo ifTrue: [ ^ MOPharoCodeGenerator  new ].
-	self error: ' non writer available '
+	self subclassResponsibility
 ]
 
 { #category : #'instance creation' }
@@ -198,12 +131,7 @@ MOLanguage >> newVersionedCodeTextWriter: aMOModelDerivative [
 { #category : #testing }
 MOLanguage >> parser [
 
-	self isMicrosoftAccess ifTrue: [ ^ VBParser ].
-	self isTypescript ifTrue: [ ^ TypeScriptParser ].
-	self isJava ifTrue: [ ^ JavaParser ].
-	self isHtml ifTrue: [ ^ XMLHTMLParser ].
-	self isPharo ifTrue: [ ^ StParser ].
-	self error: 'which parser?'
+	self subclassResponsibility 
 ]
 
 { #category : #printing }
@@ -235,37 +163,17 @@ MOLanguage >> sourceCodeFileNameFor: aMODeclarationUnit [
 { #category : #accessing }
 MOLanguage >> style [
 
-	self isMicrosoftAccess ifTrue: [ ^ MOVBAStyle new ].
-	self isJava ifTrue: [ ^ MOJavaStyle new ].
-	self isTypescript ifTrue: [ ^ MOTypescriptStyle new ].
-
 	^ MOAstStyle new
 ]
 
-{ #category : #accessing }
+{ #category : #'resolution strategies' }
 MOLanguage >> typeResolutionStrategy [
-  ^typeResolutionStrategy ifNil: [ MOModelTypeResolver ]
+
+	^ MOModelTypeResolver
 ]
 
-{ #category : #accessing }
-MOLanguage >> typeResolutionStrategy: anObject [
-
-	typeResolutionStrategy := anObject
-]
-
-{ #category : #accessing }
-MOLanguage >> usesAbstractKeyword [
-
-	^ self isJava or: [ self isTypescript ]
-]
-
-{ #category : #accessing }
+{ #category : #'resolution strategies' }
 MOLanguage >> variableResolutionStrategy [
-  ^variableResolutionStrategy ifNil: [ MOModelVariableResolver ]
-]
 
-{ #category : #accessing }
-MOLanguage >> variableResolutionStrategy: anObject [
-
-	variableResolutionStrategy := anObject
+	^ MOModelVariableResolver
 ]

@@ -35,6 +35,18 @@ MOPharoCodeGenerator >> printSelf [
 	self nextPutAll: 'self'
 ]
 
+{ #category : #writing }
+MOPharoCodeGenerator >> selector: selector for: size [
+
+	| fixed |
+	selector numArgs = size ifTrue: [ ^ selector ].
+	self assert: selector numArgs = 0.
+	size = 1 ifTrue: [ ^ selector , ':' ].
+	fixed := selector , ':'.
+	size - 1 timesRepeat: [ fixed := fixed , 'and:' ].
+	^ fixed
+]
+
 { #category : #visiting }
 MOPharoCodeGenerator >> visitAssignment: aMOAssignment [
   aMOAssignment write acceptVisitor: self.
@@ -48,6 +60,28 @@ MOPharoCodeGenerator >> visitAssignment: aMOAssignment [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitAttribute: aMOAttribute [
   self nextPutAll: aMOAttribute name
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitAttributeAccess: aMOAttributeAccess [
+
+	aMOAttributeAccess receiverReference acceptVisitor: self.
+	self
+		nextPutAll: ' ';
+		nextPutAll: aMOAttributeAccess name
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
+
+	self nextPutAll: '('.
+	aMOBinaryArithmeticOperation left acceptVisitor: self.
+	self
+		nextPutAll: ')';
+		nextPutAll: aMOBinaryArithmeticOperation operator;
+		nextPutAll: '('.
+	aMOBinaryArithmeticOperation right acceptVisitor: self.
+	self nextPutAll: ')'
 ]
 
 { #category : #visiting }
@@ -99,6 +133,29 @@ MOPharoCodeGenerator >> visitCharacterLiteral: aMOCharacterLiteral [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitComment: aMOComment [
   ^self comment: [ aMOComment statement acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitDateLiteral: aMODateLiteral [
+
+	| str |
+	str := ((aMODateLiteral literal beginsWith: '"') and: [ 
+		        aMODateLiteral literal endsWith: '"' ])
+		       ifTrue: [ 
+			       aMODateLiteral literal
+				       copyFrom: 2
+				       to: aMODateLiteral literal size - 1 ]
+		       ifFalse: [ aMODateLiteral literal ].
+	str := str copyReplaceAll: '#' with: ''.
+	self
+		nextPutAll: '''';
+		nextPutAll: str;
+		nextPutAll: ''' asDateAndTime'
+]
+
+{ #category : #visiting }
+MOPharoCodeGenerator >> visitDeclarationUnit: aUnit [
+ 	self visitCollection: aUnit types
 ]
 
 { #category : #visiting }
@@ -224,6 +281,7 @@ MOPharoCodeGenerator >> visitStCascade: aMOStCascade [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitStClass: aMOStClass [
 
+
 	aMOStClass isPreexisting
 		ifTrue: [ 
 			self error:
@@ -243,14 +301,17 @@ MOPharoCodeGenerator >> visitStClass: aMOStClass [
 				self printIndentation.
 				self
 					nextPutAll: '#superclass: #''';
-					nextPutAll: aMOStClass superclassReference name;
+					nextPutAll: (aMOStClass superclassReference
+							 ifNil: [ #Object ]
+							 ifNotNil: [ :s | s name ]);
 					nextPutAll: '''';
 					nextPutAll: ' ,';
 					newLine.
 				self printIndentation.
 				stream
 					nextPutAll: '#category: #''';
-					nextPutAll: aMOStClass category;
+					nextPutAll:
+						(aMOStClass category ifNil: [ aMOStClass packageReference name ]);
 					nextPutAll: '''';
 					nextPutAll: ' ,';
 					newLine.
@@ -295,6 +356,7 @@ MOPharoCodeGenerator >> visitStClass: aMOStClass [
 				newLine;
 				nextPutAll: '}';
 				newLine ].
+
 	self visitCollection: aMOStClass metaclass methods.
 	self visitCollection: aMOStClass methods
 ]
@@ -321,7 +383,7 @@ MOPharoCodeGenerator >> visitStMethod: aMOStMethod [
 		nextPutAll: '{';
 		nextPutAll: '#category:';
 		nextPutAll: '''';
-		nextPutAll: (aMOStMethod category ifNil: 'as yet to class');
+		nextPutAll: 'as yet to class';
 		nextPutAll: '''';
 		nextPutAll: '}';
 		newLine.
@@ -387,14 +449,18 @@ MOPharoCodeGenerator >> visitVariableReference: aMOVariableRererence [
 { #category : #writing }
 MOPharoCodeGenerator >> writeSelectorAndArguments: aMOMethodInvocation [
 
-	| keywords |
+	| keywords selector |
 	self nextPutAll: ' '.
-	aMOMethodInvocation selector numArgs = 0 ifTrue: [ 
-		self nextPutAll: aMOMethodInvocation selector.
+	selector := self
+		            selector: aMOMethodInvocation selector
+		            for: aMOMethodInvocation arguments size.
+
+	selector numArgs = 0 ifTrue: [ 
+		self nextPutAll: selector.
 		^ self ].
-	aMOMethodInvocation selector asSymbol isKeyword
+	selector asSymbol isKeyword
 		ifTrue: [ 
-			keywords := ':' split: aMOMethodInvocation selector.
+			keywords := ':' split: selector.
 			keywords removeLast.
 			keywords with: aMOMethodInvocation arguments do: [ :key :arg | 
 				self
@@ -405,7 +471,7 @@ MOPharoCodeGenerator >> writeSelectorAndArguments: aMOMethodInvocation [
 				self nextPutAll: ')' ] ]
 		ifFalse: [ 
 			self assert: aMOMethodInvocation arguments size = 1.
-			self nextPutAll: aMOMethodInvocation selector.
+			self nextPutAll: selector.
 			self nextPutAll: ' '.
 			aMOMethodInvocation arguments first acceptVisitor: self ]
 ]
@@ -413,14 +479,18 @@ MOPharoCodeGenerator >> writeSelectorAndArguments: aMOMethodInvocation [
 { #category : #writing }
 MOPharoCodeGenerator >> writeSelectorAndParameters: aMOMethod [
 
-	| keywords |
+	| keywords selector |
 	self nextPutAll: ' '.
-	aMOMethod selector numArgs = 0 ifTrue: [ 
-		self nextPutAll: aMOMethod selector.
+	selector := (self
+		            selector: aMOMethod selector
+		            for: aMOMethod parameters size) asSymbol .
+
+	selector numArgs = 0 ifTrue: [ 
+		self nextPutAll: selector.
 		^ self ].
-	aMOMethod selector isKeyword
+	selector isKeyword
 		ifTrue: [ 
-			keywords := ':' split: aMOMethod selector.
+			keywords := ':' split: selector.
 			keywords removeLast.
 			keywords with: aMOMethod parameters do: [ :key :arg | 
 				self
@@ -431,7 +501,7 @@ MOPharoCodeGenerator >> writeSelectorAndParameters: aMOMethod [
 				stream nextPutAll: ' ' ] ]
 		ifFalse: [ 
 			self assert: aMOMethod parameters size = 1.
-			self nextPutAll: aMOMethod selector.
+			self nextPutAll: selector.
 			self nextPutAll: ' '.
 			aMOMethod parameters first acceptVisitor: self ]
 ]

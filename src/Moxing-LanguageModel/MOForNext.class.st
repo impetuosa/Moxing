@@ -2,11 +2,11 @@ Class {
 	#name : #MOForNext,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#counter => MOExpressionSlot one',
-		'#initialValue => MOExpressionSlot one',
-		'#limitValue => MOExpressionSlot one',
-		'#step => MOExpressionSlot one',
-		'#loopingBlock => MOContainmentSlot one'
+		'#counter => MOExpressesSlot one',
+		'#initialValue => MOExpressesSlot one',
+		'#limitValue => MOExpressesSlot one',
+		'#step => MOExpressesSlot one',
+		'#loopingBlock => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOExpression,
 	#instVars : [
 		'#selector => MOPropertySlot',
-		'#arguments => MOExpressionSlot many'
+		'#arguments => MOExpressesSlot many'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }

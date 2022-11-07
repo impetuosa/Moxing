@@ -2,7 +2,7 @@ Class {
 	#name : #MOTemplateLiteral,
 	#superclass : #MOLiteral,
 	#instVars : [
-		'#expressions => MOExpressionSlot many'
+		'#expressions => MOExpressesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

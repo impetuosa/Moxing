@@ -64,7 +64,20 @@ MORBPharoImporter >> bindings: aCollection [
 { #category : #'as yet unclassified' }
 MORBPharoImporter >> importPackages: aCollection [
 
-	self visitCollection: aCollection
+	self visitCollection: aCollection.
+	self linkTypes.
+]
+
+{ #category : #'as yet unclassified' }
+MORBPharoImporter >> linkTypes [
+
+	| model |
+	model := writer model.
+	(model typeReferences select: [ :a | 
+		 a isUnknown not and: [ a candidate isNil ] ]) do: [ :ref | 
+		[ ref candidate: (model typeNamed: ref name) ]
+			on: Error
+			do: [  ] ]
 ]
 
 { #category : #utilities }

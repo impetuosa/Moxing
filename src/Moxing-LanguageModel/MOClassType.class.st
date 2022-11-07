@@ -2,10 +2,10 @@ Class {
 	#name : #MOClassType,
 	#superclass : #MOType,
 	#instVars : [
-		'#superTypeReferences => MOReferenceSlot many',
-		'#attributes => MOContainmentSlot many',
-		'#methods => MOContainmentSlot many',
-		'#annotationInstances => MOReferenceSlot many'
+		'#superTypeReferences => MOReferesSlot many',
+		'#attributes => MODeclaresSlot many',
+		'#methods => MODeclaresSlot many',
+		'#annotationInstances => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

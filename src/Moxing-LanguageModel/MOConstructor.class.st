@@ -2,9 +2,9 @@ Class {
 	#name : #MOConstructor,
 	#superclass : #MOInvocable,
 	#instVars : [
-		'#thrownTypeReferences => MOReferenceSlot many',
-		'#typeParameters => MOContainmentSlot many',
-		'#annotationInstances => MOReferenceSlot many'
+		'#thrownTypeReferences => MOReferesSlot many',
+		'#typeParameters => MODeclaresSlot many',
+		'#annotationInstances => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

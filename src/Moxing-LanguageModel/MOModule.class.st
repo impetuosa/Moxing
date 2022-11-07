@@ -2,10 +2,10 @@ Class {
 	#name : #MOModule,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#invocables => MOContainmentSlot many',
-		'#variables => MOContainmentSlot many',
-		'#constants => MOContainmentSlot many',
-		'#types => MOContainmentSlot many'
+		'#invocables => MODeclaresSlot many',
+		'#variables => MODeclaresSlot many',
+		'#constants => MODeclaresSlot many',
+		'#types => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -107,7 +107,8 @@ MOModule >> isDeclaration [
 { #category : #testing }
 MOModule >> isDefinedInLibrary [
 
-	^ self isInTheContextOfA: MOLibrary
+	^ self parent isDefinedInLibrary "or: [ 
+		  self isInTheContextOfA: MOLibrary ]"
 ]
 
 { #category : #accessing }

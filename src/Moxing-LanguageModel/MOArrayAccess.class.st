@@ -2,7 +2,7 @@ Class {
 	#name : #MOArrayAccess,
 	#superclass : #MOAttributeAccess,
 	#instVars : [
-		'#arguments => MOExpressionSlot many'
+		'#arguments => MOExpressesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

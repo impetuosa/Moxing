@@ -25,5 +25,8 @@ MOStMethod >> category: anUndefinedObject [
 { #category : #accessing }
 MOStMethod >> isStaticBinding [
 
-	^ super isStaticBinding or: [ self parent isStMetaclass ]
+	^ super isStaticBinding ifFalse: [ 
+		  self parent
+			  ifNotNil: [ :pa | pa isKindOf: MOMetaClass ]
+			  ifNil: [ false ] ]
 ]

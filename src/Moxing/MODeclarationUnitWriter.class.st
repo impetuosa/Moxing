@@ -219,6 +219,12 @@ MODeclarationUnitWriter >> writeReport: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MODeclarationUnitWriter >> writeStClass: aBlock [
+
+	^ self write: aBlock inSubWriter: MOStClassWriter
+]
+
+{ #category : #writing }
 MODeclarationUnitWriter >> writeStructure: aBlock [
 
 	^ self write: aBlock inSubWriter: MOStructureWriter

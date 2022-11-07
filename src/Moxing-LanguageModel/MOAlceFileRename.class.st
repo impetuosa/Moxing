@@ -2,8 +2,8 @@ Class {
 	#name : #MOAlceFileRename,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#newNameReference => MOReferenceSlot one',
-		'#oldNameReference => MOReferenceSlot one'
+		'#newNameReference => MOReferesSlot one',
+		'#oldNameReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOLanguageObject,
 	#instVars : [
 		'#selector => MOPropertySlot',
-		'#parameters => MOContainmentSlot many'
+		'#parameters => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

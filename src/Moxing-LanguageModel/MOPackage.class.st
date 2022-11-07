@@ -2,9 +2,9 @@ Class {
 	#name : #MOPackage,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#types => MOContainmentSlot many',
-		'#declarationUnits => MOContainmentSlot many',
-		'#packageReference => MOReferenceSlot one'
+		'#types => MODeclaresSlot many',
+		'#declarationUnits => MODeclaresSlot many',
+		'#packageReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -76,8 +76,9 @@ MOPackage >> isDeclaration [
 { #category : #adding }
 MOPackage >> isDefinedInLibrary [
 
-	^ (types allSatisfy: #isDefinedInLibrary) and: [ 
-		  declarationUnits allSatisfy: #isDefinedInLibrary ]
+	^ self parent isDefinedInLibrary "or: [ 
+		  (types allSatisfy: #isDefinedInLibrary) and: [ 
+			  declarationUnits allSatisfy: #isDefinedInLibrary ] ]"
 ]
 
 { #category : #testing }

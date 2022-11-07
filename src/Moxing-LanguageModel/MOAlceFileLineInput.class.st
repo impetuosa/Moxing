@@ -2,8 +2,8 @@ Class {
 	#name : #MOAlceFileLineInput,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#fileDescriptorReference => MOReferenceSlot one',
-		'#inputReference => MOReferenceSlot one'
+		'#fileDescriptorReference => MOReferesSlot one',
+		'#inputReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

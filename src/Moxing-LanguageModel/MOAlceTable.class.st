@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOClass,
 	#instVars : [
 		'#indexes => MOPropertySlot',
-		'#relations => MOExpressionSlot many'
+		'#relations => MOExpressesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

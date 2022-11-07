@@ -2,7 +2,7 @@ Class {
 	#name : #MOStructure,
 	#superclass : #MOType,
 	#instVars : [
-		'#attributes => MOContainmentSlot many'
+		'#attributes => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

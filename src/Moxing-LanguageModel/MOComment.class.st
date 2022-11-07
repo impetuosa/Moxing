@@ -2,7 +2,7 @@ Class {
 	#name : #MOComment,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#statement => MOContainmentSlot one'
+		'#statement => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

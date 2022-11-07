@@ -2,7 +2,7 @@ Class {
 	#name : #MOBlock,
 	#superclass : #MOEmptyBlock,
 	#instVars : [
-		'#statements => MOContainmentSlot many'
+		'#statements => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

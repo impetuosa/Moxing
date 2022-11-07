@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOTypedReference,
 	#instVars : [
 		'#selector => MOPropertySlot',
-		'#arguments => MOExpressionSlot many'
+		'#arguments => MOExpressesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

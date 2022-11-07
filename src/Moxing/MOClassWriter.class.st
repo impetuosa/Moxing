@@ -149,6 +149,11 @@ MOClassWriter >> writeJavaClass: aBlock [
 ]
 
 { #category : #writing }
+MOClassWriter >> writeStMethod: aFullBlockClosure [ 
+	^ self write: aFullBlockClosure inSubWriter: MOStMethodWriter
+]
+
+{ #category : #writing }
 MOClassWriter >> writeSubprocedure: aBlock [
 
 	^ self

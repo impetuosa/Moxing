@@ -2,9 +2,9 @@ Class {
 	#name : #MOForEach,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#each => MOExpressionSlot one',
-		'#collection => MOExpressionSlot one',
-		'#loopingBlock => MOContainmentSlot one'
+		'#each => MOExpressesSlot one',
+		'#collection => MOExpressesSlot one',
+		'#loopingBlock => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

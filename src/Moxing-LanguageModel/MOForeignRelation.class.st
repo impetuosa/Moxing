@@ -2,9 +2,9 @@ Class {
 	#name : #MOForeignRelation,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#tableFrom => MOReferenceSlot one',
-		'#tableTo => MOReferenceSlot one',
-		'#matches => MOReferenceSlot many'
+		'#tableFrom => MOReferesSlot one',
+		'#tableTo => MOReferesSlot one',
+		'#matches => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

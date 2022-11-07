@@ -2,10 +2,10 @@ Class {
 	#name : #MOInvocable,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#parameters => MOContainmentSlot many',
+		'#parameters => MODeclaresSlot many',
 		'#visibility => MOPropertySlot',
 		'#modifiers => MOPropertySlot',
-		'#block => MOContainmentSlot one',
+		'#block => MODeclaresSlot one',
 		'#bindingKind => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
@@ -70,8 +70,8 @@ MOInvocable >> isDeclaration [
 { #category : #accessing }
 MOInvocable >> isDefinedInLibrary [
 
-	^ (self modifiers includes: #DefinedInLibrary) or: [ 
-		  self parent isDefinedInLibrary ]
+	^ self parent isDefinedInLibrary "or: [ 
+		  self modifiers includes: #DefinedInLibrary ]"
 ]
 
 { #category : #accessing }

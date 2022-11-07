@@ -2,8 +2,8 @@ Class {
 	#name : #MOLoop,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#condition => MOExpressionSlot one',
-		'#loopingBlock => MOContainmentSlot one'
+		'#condition => MOExpressesSlot one',
+		'#loopingBlock => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

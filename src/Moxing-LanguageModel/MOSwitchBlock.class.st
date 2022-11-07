@@ -2,8 +2,8 @@ Class {
 	#name : #MOSwitchBlock,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#label => MOExpressionSlot one',
-		'#block => MOContainmentSlot one'
+		'#label => MOExpressesSlot one',
+		'#block => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

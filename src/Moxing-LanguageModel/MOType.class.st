@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#modifiers => MOPropertySlot',
 		'#visibility => MOPropertySlot',
-		'#packageReference => MOExpressionSlot one'
+		'#packageReference => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -54,9 +54,7 @@ MOType >> isDeclaration [
 { #category : #accessing }
 MOType >> isDefinedInLibrary [
 
-	^ modifiers
-		  ifNil: [ false ]
-		  ifNotNil: [ :a | a includes: #DefinedInLibrary ]
+	^ self parent isDefinedInLibrary 
 ]
 
 { #category : #testing }

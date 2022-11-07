@@ -2,8 +2,8 @@ Class {
 	#name : #MOJavaClass,
 	#superclass : #MOClass,
 	#instVars : [
-		'#types => MOContainmentSlot many',
-		'#staticInitializer => MOContainmentSlot one'
+		'#types => MODeclaresSlot many',
+		'#staticInitializer => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

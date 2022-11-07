@@ -2,7 +2,7 @@ Class {
 	#name : #MOAttributeAccess,
 	#superclass : #MOTypedReference,
 	#instVars : [
-		'#receiverReference => MOReferenceSlot one'
+		'#receiverReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

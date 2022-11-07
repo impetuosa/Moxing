@@ -2,7 +2,7 @@ Class {
 	#name : #MOEnum,
 	#superclass : #MOType,
 	#instVars : [
-		'#entries => MOContainmentSlot many'
+		'#entries => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

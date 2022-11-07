@@ -2,7 +2,7 @@ Class {
 	#name : #MOProject,
 	#superclass : #MOArtefact,
 	#instVars : [
-		'#dependencies => MOReferenceSlot many'
+		'#dependencies => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

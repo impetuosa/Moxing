@@ -2,8 +2,8 @@ Class {
 	#name : #MOStBlockClosure,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#block => MOContainmentSlot one',
-		'#parameters => MOContainmentSlot many'
+		'#block => MODeclaresSlot one',
+		'#parameters => MODeclaresSlot many'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }

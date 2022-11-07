@@ -2,7 +2,7 @@ Class {
 	#name : #MOBlockClosure,
 	#superclass : #MOInvocableStatement,
 	#instVars : [
-		'#returnTypeReference => MOReferenceSlot one'
+		'#returnTypeReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

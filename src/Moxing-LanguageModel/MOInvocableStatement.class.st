@@ -2,8 +2,8 @@ Class {
 	#name : #MOInvocableStatement,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#parameters => MOContainmentSlot many',
-		'#block => MOContainmentSlot one'
+		'#parameters => MODeclaresSlot many',
+		'#block => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOStatement,
 	#instVars : [
 		'#from => MOPropertySlot',
-		'#typeReferences => MOReferenceSlot many'
+		'#typeReferences => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

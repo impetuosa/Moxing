@@ -2,7 +2,7 @@ Class {
 	#name : #MOLocalConstant,
 	#superclass : #MOLocalVariable,
 	#instVars : [
-		'#value => MOExpressionSlot one'
+		'#value => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

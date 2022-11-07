@@ -2,9 +2,9 @@ Class {
 	#name : #MOArtefact,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#types => MOContainmentSlot many',
-		'#declarationUnits => MOContainmentSlot many',
-		'#packages => MOContainmentSlot many'
+		'#types => MODeclaresSlot many',
+		'#declarationUnits => MODeclaresSlot many',
+		'#packages => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

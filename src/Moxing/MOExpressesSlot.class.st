@@ -6,13 +6,13 @@ if (var)
 if (var == 3)
 "
 Class {
-	#name : #MOExpressionSlot,
+	#name : #MOExpressesSlot,
 	#superclass : #MOOneOrManySlot,
 	#category : #'Moxing-Core-Slots'
 }
 
 { #category : #asserting }
-MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
+MOExpressesSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
 		  applyOnExpression: aRelationObject
@@ -22,14 +22,14 @@ MOExpressionSlot >> acceptRule: aRule forRelation: aRelationObject readingValues
 ]
 
 { #category : #visiting }
-MOExpressionSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+MOExpressesSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
 
-	^ aSPOntologyExtractor visitExpressionRelation:
+	^ aSPOntologyExtractor visitExpressesRelation:
 		  aMODeclarationStructuralRelation
 ]
 
 { #category : #asserting }
-MOExpressionSlot >> shouldAcceptSingleValue: aValue into: anObject [
+MOExpressesSlot >> shouldAcceptSingleValue: aValue into: anObject [
 	aValue isStonReference ifTrue: [ ^ true ].
 	^ aValue isNil or: [ aValue isKindOf: MODeclaration ]
 ]

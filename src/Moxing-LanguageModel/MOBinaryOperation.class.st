@@ -2,9 +2,9 @@ Class {
 	#name : #MOBinaryOperation,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#left => MOExpressionSlot one',
+		'#left => MOExpressesSlot one',
 		'#operator => MOPropertySlot',
-		'#right => MOExpressionSlot one'
+		'#right => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

@@ -2,8 +2,8 @@ Class {
 	#name : #MOLibrary,
 	#superclass : #MOArtefact,
 	#instVars : [
-		'#invocables => MOContainmentSlot many',
-		'#attributes => MOContainmentSlot many'
+		'#invocables => MODeclaresSlot many',
+		'#attributes => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

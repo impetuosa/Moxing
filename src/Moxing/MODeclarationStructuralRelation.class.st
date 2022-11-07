@@ -14,7 +14,7 @@ Class {
 MODeclarationStructuralRelation class >> nullCandidateRelationTo: anUndefinedObject [
 
 	^ MONullDeclarationRelation new
-		  slot: #candidate => MOCandidateSlot;
+		  slot: #candidate => MORefereeSlot;
 		  to: anUndefinedObject;
 		  yourself
 ]
@@ -68,7 +68,7 @@ MODeclarationStructuralRelation >> hasValue [
 
 { #category : #testing }
 MODeclarationStructuralRelation >> isContainment [ 
-	 ^ slot class = MOContainmentSlot
+	 ^ slot class = MODeclaresSlot
 ]
 
 { #category : #testing }
@@ -145,7 +145,7 @@ MODeclarationStructuralRelation >> to: aMOClass [
 	(aMOClass = nil and: [ 
 		 ({ 
 			  MOPropertySlot.
-			  MOCandidateSlot } anySatisfy: [ :c | slot species = c ]) not ]) 
+			  MORefereeSlot } anySatisfy: [ :c | slot species = c ]) not ]) 
 		ifTrue: [ self halt ].
 	to := aMOClass
 ]

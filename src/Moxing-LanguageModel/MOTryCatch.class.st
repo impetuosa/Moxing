@@ -2,9 +2,9 @@ Class {
 	#name : #MOTryCatch,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#try => MOContainmentSlot one',
-		'#catches => MOContainmentSlot many',
-		'#finally => MOContainmentSlot one'
+		'#try => MODeclaresSlot one',
+		'#catches => MODeclaresSlot many',
+		'#finally => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

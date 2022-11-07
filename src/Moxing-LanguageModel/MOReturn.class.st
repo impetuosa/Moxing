@@ -2,7 +2,7 @@ Class {
 	#name : #MOReturn,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#expression => MOExpressionSlot one'
+		'#expression => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

@@ -8,19 +8,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-MOModelCopy >> applyOnCandidate: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
-
-	| destination |
-	(aMOObjectObjectRelation from isKindOf: MOAnnotationInstance) 
-		ifFalse: [ self halt ]
-	"destination := aChildDelegateLoadingBlock
-		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation.
-	aMOObjectObjectRelation write: destination to: aDestinationWriter"
-]
-
-{ #category : #'as yet unclassified' }
-MOModelCopy >> applyOnContainment: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
+MOModelCopy >> applyOnDeclaration: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
 
 	| destination |
 	destination := aChildDelegateLoadingBlock
@@ -54,6 +42,18 @@ MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBloc
 ]
 
 { #category : #'as yet unclassified' }
+MOModelCopy >> applyOnReferee: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
+
+	| destination |
+	(aMOObjectObjectRelation from isKindOf: MOAnnotationInstance) 
+		ifFalse: [ self halt ]
+	"destination := aChildDelegateLoadingBlock
+		               cull: aDestinationWriter
+		               cull: aMOObjectObjectRelation.
+	aMOObjectObjectRelation write: destination to: aDestinationWriter"
+]
+
+{ #category : #'as yet unclassified' }
 MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
 
 	| destination |
@@ -61,6 +61,15 @@ MOModelCopy >> applyOnReference: aMOObjectObjectRelation readingValues: aChildDe
 		               cull: aDestinationWriter
 		               cull: aMOObjectObjectRelation.
 	aMOObjectObjectRelation write: destination to: aDestinationWriter
+]
+
+{ #category : #'as yet unclassified' }
+MOModelCopy >> applyOnStatement: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
+
+	| destination |
+	destination := aChildDelegateLoadingBlock
+		               cull: aDestinationWriter
+		               cull: aMOObjectObjectRelation
 ]
 
 { #category : #'as yet unclassified' }

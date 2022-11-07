@@ -6,7 +6,7 @@ Class {
 		'#comment => MOPropertySlot',
 		'#parcelName => MOPropertySlot',
 		'#version => MOPropertySlot',
-		'#sharedVariables => MOContainmentSlot many'
+		'#sharedVariables => MODeclaresSlot many'
 	],
 	#category : #'Moxing-StVisualWorks-model'
 }

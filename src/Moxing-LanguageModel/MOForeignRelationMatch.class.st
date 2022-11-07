@@ -2,8 +2,8 @@ Class {
 	#name : #MOForeignRelationMatch,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#primaryKey => MOReferenceSlot one',
-		'#foreignKey => MOReferenceSlot one'
+		'#primaryKey => MOReferesSlot one',
+		'#foreignKey => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

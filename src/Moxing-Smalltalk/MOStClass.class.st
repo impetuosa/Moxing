@@ -2,7 +2,7 @@ Class {
 	#name : #MOStClass,
 	#superclass : #MOClass,
 	#instVars : [
-		'#metaclass => MOContainmentSlot one',
+		'#metaclass => MODeclaresSlot one',
 		'#category => MOPropertySlot',
 		'#comment => MOPropertySlot',
 		'#isPreexisting => MOPropertySlot'

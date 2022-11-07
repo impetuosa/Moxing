@@ -2,7 +2,7 @@ Class {
 	#name : #MOParametrizedTypeReference,
 	#superclass : #MOTypeReference,
 	#instVars : [
-		'#argumentTypeReferences => MOReferenceSlot many'
+		'#argumentTypeReferences => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

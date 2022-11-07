@@ -2,7 +2,7 @@ Class {
 	#name : #MOMethodInvocation,
 	#superclass : #MOInvocation,
 	#instVars : [
-		'#receiverReference => MOReferenceSlot one'
+		'#receiverReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

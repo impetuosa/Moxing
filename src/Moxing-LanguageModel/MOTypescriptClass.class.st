@@ -2,7 +2,7 @@ Class {
 	#name : #MOTypescriptClass,
 	#superclass : #MOClass,
 	#instVars : [
-		'#decorators => MOReferenceSlot many'
+		'#decorators => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

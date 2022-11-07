@@ -2,7 +2,7 @@ Class {
 	#name : #MOAlias,
 	#superclass : #MOPrimitiveType,
 	#instVars : [
-		'#typeReference => MOReferenceSlot one'
+		'#typeReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -26,6 +26,16 @@ MOAlias >> allRelations [
 		  a
 			  from: self;
 			  yourself ]
+]
+
+{ #category : #accessing }
+MOAlias >> finalize [
+
+	| relations |
+	relations := super allRelations.
+	self class allSlots do: [ :slot | slot write: nil to: self ].
+	relations do: [ :r | r to finalize ].
+	self becomeForward: {}
 ]
 
 { #category : #accessing }

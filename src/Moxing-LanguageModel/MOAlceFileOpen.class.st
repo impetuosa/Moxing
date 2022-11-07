@@ -2,8 +2,8 @@ Class {
 	#name : #MOAlceFileOpen,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#fileDescriptorReference => MOReferenceSlot one',
-		'#filePathReference => MOReferenceSlot one',
+		'#fileDescriptorReference => MOReferesSlot one',
+		'#filePathReference => MOReferesSlot one',
 		'#kind => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Statements'

@@ -32,7 +32,7 @@ TestAllModelEntitiesUseSlots >> testMaximum1CandidateRelation [
 
 	self
 		assert:
-			(testingClass allSlots select: [ :a | a isKindOf: MOCandidateSlot ])
+			(testingClass allSlots select: [ :a | a isKindOf: MORefereeSlot ])
 				size <= 1
 		description: ' So far we do not accept more than one candidate '
 ]

@@ -20,7 +20,7 @@ MOStClassWriter >> addClass: aMOMetaClass [
 
 { #category : #writing }
 MOStClassWriter >> addMethod: aMOProcedure [
-	self halt .
+
 	writeBuilder addMethod: aMOProcedure
 ]
 

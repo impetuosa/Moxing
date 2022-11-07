@@ -2,8 +2,8 @@ Class {
 	#name : #MOSynchronizedBlock,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#lockAccessExpression => MOExpressionSlot one',
-		'#block => MOContainmentSlot one'
+		'#lockAccessExpression => MOExpressesSlot one',
+		'#block => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

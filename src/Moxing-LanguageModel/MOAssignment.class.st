@@ -2,8 +2,8 @@ Class {
 	#name : #MOAssignment,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#read => MOExpressionSlot one',
-		'#write => MOExpressionSlot one'
+		'#read => MOExpressesSlot one',
+		'#write => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

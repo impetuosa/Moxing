@@ -3,16 +3,11 @@ Extension { #name : #MOLanguage }
 { #category : #'*Moxing-StVisualWorks' }
 MOLanguage class >> html [
 
-	^ html ifNil: [ 
-		  html := self newInstanceFromModel
-			          name: #Html;
-			          yourself ]
+	^ html ifNil: [ html := MOHtml newInstanceFromModel yourself ]
 ]
 
 { #category : #'*Moxing-StVisualWorks' }
 MOLanguage class >> visualWorksFor: aMOModel [
-  ^(aMOModel instantiate: self)
-     name: #visualworks;
-     expressionTypeResolvingStrategy: MOVWExpressionTypeResolver;
-     yourself
+
+	^ aMOModel instantiate: MOVisualWorks
 ]

@@ -2,8 +2,8 @@ Class {
 	#name : #MOCastExpression,
 	#superclass : #MOTypedReference,
 	#instVars : [
-		'#typeReference => MOReferenceSlot one',
-		'#expression => MOExpressionSlot one'
+		'#typeReference => MOReferesSlot one',
+		'#expression => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

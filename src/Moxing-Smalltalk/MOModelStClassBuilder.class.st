@@ -6,10 +6,51 @@ Class {
 		'category',
 		'sharedVariables',
 		'comment',
-		'isPreexisting'
+		'isPreexisting',
+		'metaclassAttributes',
+		'metaclassMethods'
 	],
 	#category : #'Moxing-Smalltalk-builer'
 }
+
+{ #category : #asserting }
+MOModelStClassBuilder >> addAttribute: anAttribute [
+
+	anAttribute isStaticBinding
+		ifTrue: [ self addMetaclassAttribute: anAttribute ]
+		ifFalse: [ super addAttribute: anAttribute ]
+]
+
+{ #category : #adding }
+MOModelStClassBuilder >> addMetaclassAttribute: aMOAttribute [
+
+	^ self metaclassAttributes add: aMOAttribute
+]
+
+{ #category : #adding }
+MOModelStClassBuilder >> addMetaclassMethod: aMOMethod [
+
+	^ (aMOMethod selector beginsWith: #test)
+		  ifTrue: [ self methods add: aMOMethod ]
+		  ifFalse: [ self metaclassMethods add: aMOMethod ]
+]
+
+{ #category : #asserting }
+MOModelStClassBuilder >> addMethod: aMethod [
+
+	aMethod isStaticBinding
+		ifTrue: [ self addMetaclassMethod: aMethod ] 
+		ifFalse: [ super addMethod: aMethod ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelStClassBuilder >> buildMetaclass [
+
+	^ self metaclass
+		  attributes: self metaclassAttributes;
+		  methods: self metaclassMethods;
+		  yourself
+]
 
 { #category : #asserting }
 MOModelStClassBuilder >> buildsType [
@@ -56,27 +97,58 @@ MOModelStClassBuilder >> loadBuilderWithEntity: anEntity [
 	super loadBuilderWithEntity: anEntity.
 	self metaclass: anEntity metaclass.
 	self category: anEntity category.
-	self comment: anEntity comment. 
-	self isPreexisting: anEntity isPreexisting. 
+	self comment: anEntity comment.
+	self isPreexisting: anEntity isPreexisting
 ]
 
 { #category : #asserting }
 MOModelStClassBuilder >> metaclass [
 
-	^ metaclass 
+	^ metaclass ifNil: [ 
+		  metaclass := self instantiate: MOMetaClass.
+		  metaclass name: self name , ' class'.
+		  metaclass ]
 ]
 
 { #category : #asserting }
 MOModelStClassBuilder >> metaclass: aMetaClass [
+	self assert: (aMetaClass isKindOf: MOMetaClass).
+	metaclass := aMetaClass.
 
-	metaclass := aMetaClass
+	metaclass ifNotNil: [ 
+		self metaclassAttributes: metaclass attributes.
+		self metaclassMethods: metaclass methods ]
+]
+
+{ #category : #'as yet unclassified' }
+MOModelStClassBuilder >> metaclassAttributes [
+
+	^ metaclassAttributes ifNil: [ 
+		  metaclassAttributes := OrderedCollection new ]
+]
+
+{ #category : #asserting }
+MOModelStClassBuilder >> metaclassAttributes: col [ 
+	 metaclassAttributes := col
+]
+
+{ #category : #'as yet unclassified' }
+MOModelStClassBuilder >> metaclassMethods [
+
+	^ metaclassMethods ifNil: [ 
+		  metaclassMethods := OrderedCollection new ]
+]
+
+{ #category : #asserting }
+MOModelStClassBuilder >> metaclassMethods: col [ 
+	 metaclassMethods := col
 ]
 
 { #category : #asserting }
 MOModelStClassBuilder >> privateBuild [
 
 	^ super privateBuild
-		  metaclass: self metaclass;
+		  metaclass: self buildMetaclass;
 		  category: self category;
 		  comment: self comment;
 		isPreexisting: self isPreexisting

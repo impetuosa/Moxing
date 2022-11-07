@@ -2,7 +2,7 @@ Class {
 	#name : #MOStCascade,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#invocations => MOExpressionSlot many'
+		'#invocations => MOExpressesSlot many'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }

@@ -2,9 +2,9 @@ Class {
 	#name : #MOConditionalExpression,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#condition => MOExpressionSlot one',
-		'#ifTrueExpression => MOExpressionSlot one',
-		'#ifFalseExpression => MOExpressionSlot one'
+		'#condition => MOExpressesSlot one',
+		'#ifTrueExpression => MOExpressesSlot one',
+		'#ifFalseExpression => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

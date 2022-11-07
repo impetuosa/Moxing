@@ -2,8 +2,8 @@ Class {
 	#name : #MODeclarationUnit,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#imports => MOContainmentSlot many',
-		'#types => MOContainmentSlot many'
+		'#imports => MODeclaresSlot many',
+		'#types => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -52,7 +52,7 @@ MODeclarationUnit >> isDeclarationUnit [
 { #category : #'as yet unclassified' }
 MODeclarationUnit >> isDefinedInLibrary [
 
-	^ types allSatisfy: #isDefinedInLibrary
+	^ parent isDefinedInLibrary
 ]
 
 { #category : #accessing }

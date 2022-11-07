@@ -2,10 +2,10 @@ Class {
 	#name : #MOStExensionMethodDeclarationUnit,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#classReference => MOReferenceSlot one',
-		'#extensionMethods => MOContainmentSlot many',
-		'#extensionClassMethods => MOContainmentSlot many',
-		'#packageReference => MOReferenceSlot one'
+		'#classReference => MOReferesSlot one',
+		'#extensionMethods => MODeclaresSlot many',
+		'#extensionClassMethods => MODeclaresSlot many',
+		'#packageReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }

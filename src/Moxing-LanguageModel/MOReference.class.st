@@ -2,7 +2,7 @@ Class {
 	#name : #MOReference,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#candidate => MOCandidateSlot',
+		'#candidate => MORefereeSlot',
 		'#candidateAnchor => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-References'

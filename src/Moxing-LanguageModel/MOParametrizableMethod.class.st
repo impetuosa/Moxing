@@ -2,7 +2,7 @@ Class {
 	#name : #MOParametrizableMethod,
 	#superclass : #MOMethod,
 	#instVars : [
-		'#typeParameters => MOContainmentSlot many'
+		'#typeParameters => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

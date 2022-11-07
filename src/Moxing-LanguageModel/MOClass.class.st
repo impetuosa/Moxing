@@ -2,11 +2,11 @@ Class {
 	#name : #MOClass,
 	#superclass : #MOType,
 	#instVars : [
-		'#superTypeReferences => MOReferenceSlot many',
-		'#superclassReference => MOReferenceSlot one',
-		'#attributes => MOContainmentSlot many',
-		'#methods => MOContainmentSlot many',
-		'#annotationInstances => MOReferenceSlot many'
+		'#superTypeReferences => MOReferesSlot many',
+		'#superclassReference => MOReferesSlot one',
+		'#attributes => MODeclaresSlot many',
+		'#methods => MODeclaresSlot many',
+		'#annotationInstances => MOReferesSlot many'
 	],
 	#classInstVars : [
 		'#object'

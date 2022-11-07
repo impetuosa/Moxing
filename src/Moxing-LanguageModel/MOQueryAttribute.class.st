@@ -2,7 +2,7 @@ Class {
 	#name : #MOQueryAttribute,
 	#superclass : #MOAttribute,
 	#instVars : [
-		'#reference => MOExpressionSlot one'
+		'#reference => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }

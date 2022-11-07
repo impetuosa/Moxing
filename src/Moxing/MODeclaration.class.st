@@ -50,7 +50,7 @@ MODeclaration >> acceptVisitor: aVisitor [
 MODeclaration >> allCandidateRelations [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOCandidateSlot ]) flatCollect: [ :slot | 
+		   slot class = MORefereeSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self ]
 ]
 
@@ -58,7 +58,7 @@ MODeclaration >> allCandidateRelations [
 MODeclaration >> allCandidates [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOCandidateSlot ]) flatCollect: [ :slot | 
+		   slot class = MORefereeSlot ]) flatCollect: [ :slot | 
 		  slot readAll: self ]
 ]
 
@@ -66,7 +66,7 @@ MODeclaration >> allCandidates [
 MODeclaration >> allContainmentRelations [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOContainmentSlot ]) flatCollect: [ :slot | 
+		   slot class = MODeclaresSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self ]
 ]
 
@@ -74,7 +74,7 @@ MODeclaration >> allContainmentRelations [
 MODeclaration >> allContainments [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOContainmentSlot ]) flatCollect: [ :slot | 
+		   slot class = MODeclaresSlot ]) flatCollect: [ :slot | 
 		  slot readAll: self ]
 ]
 
@@ -82,7 +82,7 @@ MODeclaration >> allContainments [
 MODeclaration >> allExpressionRelations [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOExpressionSlot ]) flatCollect: [ :slot | 
+		   slot class = MOExpressesSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self ]
 ]
 
@@ -90,7 +90,7 @@ MODeclaration >> allExpressionRelations [
 MODeclaration >> allExpressionRelationsSelectValue: aBlock [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOExpressionSlot ]) flatCollect: [ :slot | 
+		   slot class = MOExpressesSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self selecting: aBlock ]
 ]
 
@@ -98,7 +98,7 @@ MODeclaration >> allExpressionRelationsSelectValue: aBlock [
 MODeclaration >> allExpressions [
 
 	^ ((self class allSlots select: [ :slot | 
-		    slot class = MOExpressionSlot ]) flatCollect: [ :slot | 
+		    slot class = MOExpressesSlot ]) flatCollect: [ :slot | 
 		   slot readAll: self ]) 
 ]
 
@@ -127,7 +127,7 @@ MODeclaration >> allPropertyRelations [
 MODeclaration >> allReferenceRelations [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOReferenceSlot ]) flatCollect: [ :slot | 
+		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self ]
 ]
 
@@ -135,7 +135,7 @@ MODeclaration >> allReferenceRelations [
 MODeclaration >> allReferences [
 
 	^ (self class allSlots select: [ :slot | 
-		   slot class = MOReferenceSlot ]) flatCollect: [ :slot | 
+		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
 		  slot readAll: self ]
 ]
 

@@ -2,8 +2,8 @@ Class {
 	#name : #MOCase,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#expressions => MOExpressionSlot many',
-		'#block => MOContainmentSlot one'
+		'#expressions => MOExpressesSlot many',
+		'#block => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

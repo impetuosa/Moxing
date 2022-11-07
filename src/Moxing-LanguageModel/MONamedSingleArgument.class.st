@@ -2,7 +2,7 @@ Class {
 	#name : #MONamedSingleArgument,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#argumentExpression => MOExpressionSlot one'
+		'#argumentExpression => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
 }

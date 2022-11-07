@@ -2,8 +2,8 @@ Class {
 	#name : #MOAlceFilePrintInto,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#fileDescriptorReference => MOReferenceSlot one',
-		'#printingReferences => MOReferenceSlot many'
+		'#fileDescriptorReference => MOReferesSlot one',
+		'#printingReferences => MOReferesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

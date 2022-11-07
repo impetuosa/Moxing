@@ -2,7 +2,7 @@ Class {
 	#name : #MOThrow,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#argument => MOExpressionSlot one'
+		'#argument => MOExpressesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }

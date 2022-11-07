@@ -1,34 +1,34 @@
 Class {
-	#name : #MOCandidateSlot,
+	#name : #MORefereeSlot,
 	#superclass : #MORelationSlot,
 	#category : #'Moxing-Core-Slots'
 }
 
 { #category : #visiting }
-MOCandidateSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
+MORefereeSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
-		  applyOnCandidate: aRelationObject
+		  applyOnReferee: aRelationObject
 		  readingValues: aFullBlockClosure
 		  bindingWithCandidates: anOtherBlock
 		  into: aWriter
 ]
 
 { #category : #visiting }
-MOCandidateSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+MORefereeSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
 
-	^ aSPOntologyExtractor visitCandidateRelation:
+	^ aSPOntologyExtractor visitRefereeRelation:
 		  aMODeclarationStructuralRelation
 ]
 
 { #category : #testing }
-MOCandidateSlot >> isToMany [
+MORefereeSlot >> isToMany [
 
 	^ false
 ]
 
 { #category : #visiting }
-MOCandidateSlot >> readAllRelations: anObject selecting: aBlock [
+MORefereeSlot >> readAllRelations: anObject selecting: aBlock [
 
 	| value |
 	value := self read: anObject.
@@ -43,7 +43,7 @@ MOCandidateSlot >> readAllRelations: anObject selecting: aBlock [
 ]
 
 { #category : #visiting }
-MOCandidateSlot >> shouldAccept: aValue into: anObject [
+MORefereeSlot >> shouldAccept: aValue into: anObject [
 	^ aValue
 		  ifNil: [ true ]
 		  ifNotNil: [ anObject refersToObjectsLikeOrStonRef: aValue ]

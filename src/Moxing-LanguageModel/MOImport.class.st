@@ -2,8 +2,8 @@ Class {
 	#name : #MOImport,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#typeReference => MOReferenceSlot one',
-		'#packageReference => MOReferenceSlot one'
+		'#typeReference => MOReferesSlot one',
+		'#packageReference => MOReferesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

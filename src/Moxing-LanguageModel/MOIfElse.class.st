@@ -2,9 +2,9 @@ Class {
 	#name : #MOIfElse,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#condition => MOExpressionSlot one',
-		'#ifTrue => MOContainmentSlot one',
-		'#ifFalse => MOContainmentSlot one'
+		'#condition => MOExpressesSlot one',
+		'#ifTrue => MODeclaresSlot one',
+		'#ifFalse => MODeclaresSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

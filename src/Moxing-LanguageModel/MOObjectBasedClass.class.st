@@ -2,9 +2,9 @@ Class {
 	#name : #MOObjectBasedClass,
 	#superclass : #MOType,
 	#instVars : [
-		'#superTypeReferences => MOReferenceSlot many',
-		'#attributes => MOContainmentSlot many',
-		'#methods => MOContainmentSlot many'
+		'#superTypeReferences => MOReferesSlot many',
+		'#attributes => MODeclaresSlot many',
+		'#methods => MODeclaresSlot many'
 	],
 	#classInstVars : [
 		'#object'

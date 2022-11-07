@@ -3,9 +3,9 @@ Class {
 	#superclass : #MOLanguageObject,
 	#instVars : [
 		'#modifiers => MOPropertySlot',
-		'#typeReference => MOReferenceSlot one',
-		'#initializer => MOExpressionSlot one',
-		'#annotationInstances => MOReferenceSlot many',
+		'#typeReference => MOReferesSlot one',
+		'#initializer => MOExpressesSlot one',
+		'#annotationInstances => MOReferesSlot many',
 		'#bindingKind => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
