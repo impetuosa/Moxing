@@ -210,6 +210,17 @@ MOModelDerivative >> invocations [
 ]
 
 { #category : #testing }
+MOModelDerivative >> isCorrect [
+
+	| incorrect |
+	incorrect := entities reject: [ :slot | slot isCorrect ].
+	"
+	incorrect first isCorrect: self 
+	"
+	^ incorrect size = 0 and: [ model isCorrect ]
+]
+
+{ #category : #testing }
 MOModelDerivative >> isDerivativeModel [
 
 	^ true
