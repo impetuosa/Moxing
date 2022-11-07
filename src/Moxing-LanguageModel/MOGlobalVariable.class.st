@@ -19,6 +19,12 @@ MOGlobalVariable >> canBeReferredAsAttribute [
 ]
 
 { #category : #visiting }
+MOGlobalVariable >> isStatement [
+
+	^ true
+]
+
+{ #category : #visiting }
 MOGlobalVariable >> kindString [
 
 	^ 'GLOBAL VAR'

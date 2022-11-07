@@ -31,5 +31,6 @@ MOExpressesSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarati
 { #category : #asserting }
 MOExpressesSlot >> shouldAcceptSingleValue: aValue into: anObject [
 	aValue isStonReference ifTrue: [ ^ true ].
-	^ aValue isNil or: [ aValue isKindOf: MODeclaration ]
+	^ aValue isNil or: [ anObject canExpress: aValue with: self ]
+	
 ]

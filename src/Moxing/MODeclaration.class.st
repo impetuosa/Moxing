@@ -125,7 +125,6 @@ MODeclaration >> allPropertyRelations [
 
 { #category : #traverse }
 MODeclaration >> allReferenceRelations [
-
 	^ (self class allSlots select: [ :slot | 
 		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self ]
@@ -133,7 +132,6 @@ MODeclaration >> allReferenceRelations [
 
 { #category : #traverse }
 MODeclaration >> allReferences [
-
 	^ (self class allSlots select: [ :slot | 
 		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
 		  slot readAll: self ]
@@ -226,6 +224,18 @@ MODeclaration >> isClassLike [
 { #category : #testing }
 MODeclaration >> isClassType [
 	^ false .
+]
+
+{ #category : #traverse }
+MODeclaration >> isCorrect [
+
+	| incorrect |
+	incorrect := self class allSlots reject: [ :slot | 
+		             slot isCorrect: self ].
+	"
+	incorrect first isCorrect: self 
+	"
+	^ incorrect size = 0
 ]
 
 { #category : #testing }

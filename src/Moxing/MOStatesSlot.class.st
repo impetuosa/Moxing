@@ -20,3 +20,11 @@ MOStatesSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationS
 	^ aSPOntologyExtractor visitStatesRelation:
 		  aMODeclarationStructuralRelation
 ]
+
+{ #category : #visiting }
+MOStatesSlot >> shouldAcceptSingleValue: aValue into: anObject [
+
+	aValue isStonReference ifTrue: [ ^ true ].
+	^ aValue isNil or: [ anObject canState: aValue with: self ]
+	
+]

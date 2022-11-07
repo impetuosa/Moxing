@@ -15,6 +15,12 @@ MOAlceRedimVariable >> acceptVisitor: aJinTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
+MOAlceRedimVariable >> isStatement [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOAlceRedimVariable >> redimText [
 	^ redimText
 ]

@@ -33,6 +33,12 @@ MORelationSlot >> emitStore: aMethodBuilder [
 ]
 
 { #category : #printing }
+MORelationSlot >> isCorrect: anObject [
+
+	^ self shouldAccept: (self read: anObject) into: anObject
+]
+
+{ #category : #printing }
 MORelationSlot >> isMOSlot [
 
 	^ true

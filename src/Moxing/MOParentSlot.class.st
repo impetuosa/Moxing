@@ -33,6 +33,12 @@ MOParentSlot >> emitStore: aMethodBuilder [
 ]
 
 { #category : #asserting }
+MOParentSlot >> isCorrect: anObject [
+
+	^ self shouldAccept: (self read: anObject)
+]
+
+{ #category : #asserting }
 MOParentSlot >> isMOSlot [
 
 	^ true
@@ -41,11 +47,6 @@ MOParentSlot >> isMOSlot [
 { #category : #asserting }
 MOParentSlot >> shouldAccept: aValue [
 
-	^ aValue isNil or: [ aValue isReference not ]
-]
-
-{ #category : #asserting }
-MOParentSlot >> write: aValue to: anObject [
-
-	super write: aValue to: anObject
+	^ aValue isNil or: [ 
+		  (aValue isKindOf: MOModel) or: [ aValue isKindOf: MODeclaration ] ]
 ]

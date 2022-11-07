@@ -2,7 +2,7 @@ Class {
 	#name : #MODeclarationUnit,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#imports => MODeclaresSlot many',
+		'#imports => MOStatesSlot many',
 		'#types => MODeclaresSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'

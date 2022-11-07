@@ -21,6 +21,12 @@ MORootDeclaration >> addPackage: anEntry [
 	
 ]
 
+{ #category : #testing }
+MORootDeclaration >> canDeclare: anOtherObject with: aSlot [
+
+	^ self language can: self declare: anOtherObject with: aSlot
+]
+
 { #category : #accessing }
 MORootDeclaration >> childrenForTree [
 

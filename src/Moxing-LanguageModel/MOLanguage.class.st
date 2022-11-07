@@ -1,8 +1,11 @@
 Class {
 	#name : #MOLanguage,
 	#superclass : #MONamedDeclaration,
+	#instVars : [
+		'#constraints => MOPropertySlot'
+	],
 	#classInstVars : [
-		'html'
+		'#html'
 	],
 	#category : #'Moxing-LanguageModel-Model'
 }
@@ -11,6 +14,42 @@ Class {
 MOLanguage >> astComposer [
 
 	self subclassResponsibility
+]
+
+{ #category : #'resolution strategies' }
+MOLanguage >> can: anObject declare: anOtherObject with: aSlot [
+
+	^ self constraints can: anObject declare: anOtherObject with: aSlot
+]
+
+{ #category : #'resolution strategies' }
+MOLanguage >> can: anObject express: anOtherObject with: aSlot [
+
+	^ self constraints can: anObject express: anOtherObject with: aSlot
+]
+
+{ #category : #'resolution strategies' }
+MOLanguage >> can: anObject refer: anOtherObject with: aSlot [
+
+	^ self constraints can: anObject refer: anOtherObject with: aSlot
+]
+
+{ #category : #'resolution strategies' }
+MOLanguage >> can: anObject state: anOtherObject with: aSlot [
+
+	^ self constraints can: anObject state: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MOLanguage >> can: anObject useAsReferee: anOtherObject with: aSlot [
+
+	^ anObject refersToObjectsLikeOrStonRef: anOtherObject
+]
+
+{ #category : #testing }
+MOLanguage >> constraints [
+
+	^ constraints ifNil: [ constraints := MOLanguageConstraint new ]
 ]
 
 { #category : #'as yet unclassified' }

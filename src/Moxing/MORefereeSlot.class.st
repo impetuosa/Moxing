@@ -44,7 +44,6 @@ MORefereeSlot >> readAllRelations: anObject selecting: aBlock [
 
 { #category : #visiting }
 MORefereeSlot >> shouldAccept: aValue into: anObject [
-	^ aValue
-		  ifNil: [ true ]
-		  ifNotNil: [ anObject refersToObjectsLikeOrStonRef: aValue ]
+
+	^ aValue isNil or: [ anObject canUseAsReferee: aValue with: self ] 
 ]

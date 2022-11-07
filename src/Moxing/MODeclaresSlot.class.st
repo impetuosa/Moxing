@@ -30,5 +30,6 @@ MODeclaresSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
 	aValue == anObject ifTrue: [ ^ false ].
 	aValue isStonReference ifTrue: [ ^ true ].
-	^ aValue isNil or: [ aValue isReference not ]
+	^ aValue isNil or: [ anObject canDeclare: aValue with: self ]
+	
 ]

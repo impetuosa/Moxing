@@ -95,6 +95,36 @@ MOLanguageObject >> canBeReferredAsVariable [
 	^ false
 ]
 
+{ #category : #testing }
+MOLanguageObject >> canDeclare: anOtherObject with: aSlot [
+	language ifNil: [ language := MOJava allInstances first  ].
+	^ language can: self declare: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MOLanguageObject >> canExpress: anOtherObject with: aSlot [
+
+	^ language can: self express: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MOLanguageObject >> canRefer: anOtherObject with: aSlot [
+
+	^ language can: self refer: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MOLanguageObject >> canState: anOtherObject with: aSlot [
+
+	^ language can: self state: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MOLanguageObject >> canUseAsReferee: anOtherObject with: aSlot [
+
+	^ language can: self useAsReferee: anOtherObject with: aSlot
+]
+
 { #category : #'as yet unclassified' }
 MOLanguageObject >> dependencies [
 	^ {}

@@ -210,6 +210,17 @@ MOModel >> isCatalog [
 ]
 
 { #category : #testing }
+MOModel >> isCorrect [
+
+	| incorrect |
+	incorrect := entities reject: [ :slot | slot isCorrect ].
+	"
+	incorrect first isCorrect: self 
+	"
+	^ incorrect size = 0
+]
+
+{ #category : #testing }
 MOModel >> isDerivedFrom: aMOModel [
 
 	^ self = aMOModel

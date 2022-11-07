@@ -31,5 +31,5 @@ MORefersSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationS
 MORefersSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
 	aValue isStonReference ifTrue: [ ^ true ].
-	^ aValue isNil or: [ aValue isReference ]
+	^ aValue isNil or: [ anObject canRefer: aValue with: self ]
 ]

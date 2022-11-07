@@ -11,6 +11,12 @@ MOEmptyBlock >> acceptVisitor: aMOCatalogTypeInstaller [
 ]
 
 { #category : #adding }
+MOEmptyBlock >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #adding }
 MOEmptyBlock >> isEmptyOrNil [
 
 	^ true

@@ -25,6 +25,12 @@ MOPropertySlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclaratio
 		  aMODeclarationStructuralRelation
 ]
 
+{ #category : #visiting }
+MOPropertySlot >> isCorrect: anObject [
+
+	^ true
+]
+
 { #category : #testing }
 MOPropertySlot >> isMOSlot [
 

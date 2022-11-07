@@ -16,6 +16,12 @@ MOLocalVariable >> existsOnlyInParentContext [
 ]
 
 { #category : #visiting }
+MOLocalVariable >> isStatement [
+
+	^ true
+]
+
+{ #category : #visiting }
 MOLocalVariable >> kindString [
 
 	^ 'LOCAL VAR'
