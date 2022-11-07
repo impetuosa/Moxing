@@ -5,13 +5,13 @@ Reference objects understand #candidate message and return the object defining w
 TypeReference object's candidate is a Type object.  
 "
 Class {
-	#name : #MOReferesSlot,
+	#name : #MORefersSlot,
 	#superclass : #MOOneOrManySlot,
 	#category : #'Moxing-Core-Slots'
 }
 
 { #category : #asserting }
-MOReferesSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
+MORefersSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aFullBlockClosure bindingWithCandidates: anOtherBlock into: aWriter [
 
 	^ aRule
 		  applyOnReference: aRelationObject
@@ -21,14 +21,14 @@ MOReferesSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: a
 ]
 
 { #category : #visiting }
-MOReferesSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+MORefersSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
 
 	^ aSPOntologyExtractor visitReferenceRelation:
 		  aMODeclarationStructuralRelation
 ]
 
 { #category : #asserting }
-MOReferesSlot >> shouldAcceptSingleValue: aValue into: anObject [
+MORefersSlot >> shouldAcceptSingleValue: aValue into: anObject [
 
 	aValue isStonReference ifTrue: [ ^ true ].
 	^ aValue isNil or: [ aValue isReference ]
