@@ -1,11 +1,11 @@
 Class {
-	#name : #MOAlceColorLiteral,
+	#name : #MOColorLiteral,
 	#superclass : #MOLiteral,
 	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #visiting }
-MOAlceColorLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
+MOColorLiteral >> acceptVisitor: aJinTypescriptCodeGenerator [
 
 	^ aJinTypescriptCodeGenerator visitColorLiteral: self
 ]

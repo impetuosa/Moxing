@@ -1,7 +1,7 @@
 Class {
 	#name : #MOLambdaWriter,
 	#superclass : #MOModelProceduralWriter,
-	#category : #'Moxing-Java-Writer'
+	#category : #'Moxing-LanguageModel-Writting'
 }
 
 { #category : #visiting }

@@ -1,10 +1,10 @@
 Class {
-	#name : #MOAlceDateLiteral,
+	#name : #MODateLiteral,
 	#superclass : #MOLiteral,
 	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #visiting }
-MOAlceDateLiteral >> acceptVisitor: aVisitor [
+MODateLiteral >> acceptVisitor: aVisitor [
 ^ 	 aVisitor visitDateLiteral: self
 ]

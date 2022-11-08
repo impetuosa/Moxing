@@ -1,17 +1,17 @@
 Class {
-	#name : #MOPhSharedPoolReference,
+	#name : #MOSharedPoolReference,
 	#superclass : #MOReference,
-	#category : #'Moxing-StPharo-Model'
+	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #accessing }
-MOPhSharedPoolReference >> acceptVisitor: aMOTypescriptCodeGenerator [
+MOSharedPoolReference >> acceptVisitor: aMOTypescriptCodeGenerator [
 
 	^ aMOTypescriptCodeGenerator visitSharedPoolReference:  self
 ]
 
 { #category : #accessing }
-MOPhSharedPoolReference >> printOn: aStream [
+MOSharedPoolReference >> printOn: aStream [
 
 	aStream
 		nextPutAll: '-(Pool)>';
@@ -19,7 +19,7 @@ MOPhSharedPoolReference >> printOn: aStream [
 ]
 
 { #category : #accessing }
-MOPhSharedPoolReference >> refersToObjectsLike: aMOAttribute [
+MOSharedPoolReference >> refersToObjectsLike: aMOAttribute [
 
 	^ aMOAttribute canBeReferredAsSharedPool
 ]

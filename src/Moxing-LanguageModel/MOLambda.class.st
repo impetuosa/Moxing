@@ -5,7 +5,7 @@ Class {
 		'#block => MODeclaresSlot one',
 		'#parameters => MODeclaresSlot many'
 	],
-	#category : #'Moxing-Java'
+	#category : #'Moxing-LanguageModel-Expressions'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelClassVariableBuilder,
 	#superclass : #MOModelGlobalVariableBuilder,
-	#category : #'Moxing-StPharo-Model'
+	#category : #'Moxing-MicroBuilders'
 }
 
 { #category : #testing }

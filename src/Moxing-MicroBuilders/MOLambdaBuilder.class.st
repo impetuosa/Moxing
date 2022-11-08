@@ -5,7 +5,7 @@ Class {
 		'block',
 		'parameters'
 	],
-	#category : #'Moxing-Java'
+	#category : #'Moxing-MicroBuilders'
 }
 
 { #category : #adding }

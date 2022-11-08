@@ -1,5 +1,5 @@
 Class {
-	#name : #MOAlceGoToLabel,
+	#name : #MOGoToLabel,
 	#superclass : #MOStatement,
 	#instVars : [
 		'#destination => MORefersSlot one'
@@ -8,17 +8,17 @@ Class {
 }
 
 { #category : #accessing }
-MOAlceGoToLabel >> acceptVisitor: aVisitor [
+MOGoToLabel >> acceptVisitor: aVisitor [
 
 	^ aVisitor visitGoTo: self
 ]
 
 { #category : #accessing }
-MOAlceGoToLabel >> destination [
+MOGoToLabel >> destination [
 	^ destination
 ]
 
 { #category : #accessing }
-MOAlceGoToLabel >> destination: aReference [  
+MOGoToLabel >> destination: aReference [  
 	destination := aReference
 ]

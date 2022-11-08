@@ -1,7 +1,7 @@
 Class {
 	#name : #MOSharedConstantWriter,
 	#superclass : #MOGlobalConstantWriter,
-	#category : #'Moxing-StVisualWorks-writer'
+	#category : #'Moxing-LanguageModel-Writting'
 }
 
 { #category : #visiting }

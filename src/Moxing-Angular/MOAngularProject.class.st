@@ -5,7 +5,7 @@ Class {
 		'#projectType => MOPropertySlot',
 		'#prefix => MOPropertySlot'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Declaration'
 }
 
 { #category : #visiting }

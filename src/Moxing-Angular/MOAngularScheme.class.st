@@ -2,10 +2,10 @@ Class {
 	#name : #MOAngularScheme,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'#projects => MOContainmentSlot many',
+		'#projects => MODeclaresSlot many',
 		'#metadata => MOPropertySlot'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Declaration'
 }
 
 { #category : #'as yet unclassified' }

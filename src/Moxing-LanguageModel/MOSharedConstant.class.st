@@ -1,7 +1,7 @@
 Class {
 	#name : #MOSharedConstant,
 	#superclass : #MOGlobalConstant,
-	#category : #'Moxing-StVisualWorks-model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }
 
 { #category : #visiting }

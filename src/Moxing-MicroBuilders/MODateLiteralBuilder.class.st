@@ -12,5 +12,5 @@ MODateLiteralBuilder >> assertValueType [
 { #category : #accessing }
 MODateLiteralBuilder >> literalClass [
 
-	^ MOAlceDateLiteral 
+	^ MODateLiteral 
 ]

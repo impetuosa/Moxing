@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#behavior => MOPropertySlot'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Declaration'
 }
 
 { #category : #visiting }

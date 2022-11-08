@@ -1,28 +1,28 @@
 Class {
-	#name : #MOAlceLabelReference,
+	#name : #MOLabelReference,
 	#superclass : #MOReference,
 	#category : #'Moxing-LanguageModel-References'
 }
 
 { #category : #visiting }
-MOAlceLabelReference >> acceptVisitor: aVisitor [
+MOLabelReference >> acceptVisitor: aVisitor [
 
 	^ aVisitor visitLabelReference: self
 ]
 
 { #category : #visiting }
-MOAlceLabelReference >> isLabelledAs: aLabel [
+MOLabelReference >> isLabelledAs: aLabel [
  	 ^ self name = aLabel
 ]
 
 { #category : #visiting }
-MOAlceLabelReference >> printOn: aStream [
+MOLabelReference >> printOn: aStream [
 
 	aStream nextPutAll: 'Label: ' , self name
 ]
 
 { #category : #'as yet unclassified' }
-MOAlceLabelReference >> refersToObjectsLike: aFylgjaMissingCandidateStub [
+MOLabelReference >> refersToObjectsLike: aFylgjaMissingCandidateStub [
 
 	^ aFylgjaMissingCandidateStub canBeReferredAsLabel
 ]

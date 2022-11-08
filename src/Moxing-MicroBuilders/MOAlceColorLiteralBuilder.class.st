@@ -13,5 +13,5 @@ MOAlceColorLiteralBuilder >> assertValueType [
 { #category : #asserting }
 MOAlceColorLiteralBuilder >> literalClass [
 
-	^ MOAlceColorLiteral
+	^ MOColorLiteral
 ]

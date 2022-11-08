@@ -2,9 +2,9 @@ Class {
 	#name : #MOAngularModule,
 	#superclass : #MOPackage,
 	#instVars : [
-		'#moduleClass => MOContainmentSlot one'
+		'#moduleClass => MODeclaresSlot one'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Declaration'
 }
 
 { #category : #accessing }

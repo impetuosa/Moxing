@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 MOModelGoToBuilder >> buildsType [
 
-	^ MOAlceGoToLabel
+	^ MOGoToLabel
 ]
 
 { #category : #accessing }

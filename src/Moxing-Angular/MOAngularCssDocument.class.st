@@ -1,7 +1,7 @@
 Class {
 	#name : #MOAngularCssDocument,
 	#superclass : #MOAngularDocument,
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-DomainSpecific'
 }
 
 { #category : #accessing }

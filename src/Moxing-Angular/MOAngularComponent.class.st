@@ -2,11 +2,11 @@ Class {
 	#name : #MOAngularComponent,
 	#superclass : #MOLanguageObject,
 	#instVars : [
-		'#behavior => MOContainmentSlot one',
-		'#template => MOContainmentSlot one',
-		'#css => MOContainmentSlot one'
+		'#behavior => MODeclaresSlot one',
+		'#template => MODeclaresSlot one',
+		'#css => MODeclaresSlot one'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Declaration'
 }
 
 { #category : #visiting }

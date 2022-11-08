@@ -1,5 +1,5 @@
 Class {
 	#name : #MOClassVariable,
 	#superclass : #MOGlobalVariable,
-	#category : #'Moxing-StPharo-Model'
+	#category : #'Moxing-LanguageModel-Declaration'
 }

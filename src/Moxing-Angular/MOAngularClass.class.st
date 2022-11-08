@@ -2,9 +2,9 @@ Class {
 	#name : #MOAngularClass,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'#classRepresentation => MOContainmentSlot one'
+		'#classRepresentation => MODeclaresSlot one'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-Declaration'
 }
 
 { #category : #accessing }

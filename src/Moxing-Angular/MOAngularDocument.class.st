@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#document => MOPropertySlot'
 	],
-	#category : #'Moxing-Angular-Model'
+	#category : #'Moxing-Angular-DomainSpecific'
 }
 
 { #category : #accessing }

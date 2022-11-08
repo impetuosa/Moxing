@@ -21,7 +21,7 @@ MOModelLabelReferenceBuilder >> label: aString [
 { #category : #accessing }
 MOModelLabelReferenceBuilder >> privateBuild [
 
-	^ (self instantiate: MOAlceLabelReference)
+	^ (self instantiate: MOLabelReference)
 		  name: self label;
 		  yourself
 ]

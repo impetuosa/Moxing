@@ -5,7 +5,7 @@ Class {
 		'#lockAccessExpression => MOExpressesSlot one',
 		'#block => MODeclaresSlot one'
 	],
-	#category : #'Moxing-LanguageModel-Statements'
+	#category : #'Moxing-Java-Statement'
 }
 
 { #category : #accessing }

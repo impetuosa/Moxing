@@ -14,7 +14,7 @@ Class {
 MOModelPhSharedPoolReferenceBuilder >> buildsType [
 
 	<generated>
-	^ MOPhSharedPoolReference
+	^ MOSharedPoolReference
 ]
 
 { #category : #accessing }
@@ -87,9 +87,9 @@ MOModelPhSharedPoolReferenceBuilder >> privateBuild [
 
 	^ self
 		  findInModel: [ :a | 
-		  (a isKindOf: MOPhSharedPoolReference) and: [ a name = self name ] ]
+		  (a isKindOf: MOSharedPoolReference) and: [ a name = self name ] ]
 		  ifNone: [ 
-			  (self instantiate: MOPhSharedPoolReference)
+			  (self instantiate: MOSharedPoolReference)
 				  candidateAnchor: self candidateAnchor;
 				  name: self name;
 				  candidate: self candidate ]
