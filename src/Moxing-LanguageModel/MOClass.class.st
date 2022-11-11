@@ -14,13 +14,6 @@ Class {
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 
-{ #category : #accessing }
-MOClass class >> object [
-	^ object
-		ifNil:
-			[ object := MOTypescriptPrebuiltTypeReferenceFactory default object ]
-]
-
 { #category : #visiting }
 MOClass >> acceptVisitor: aJinTypescriptCodeGenerator [
 

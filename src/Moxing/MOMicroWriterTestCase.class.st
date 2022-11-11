@@ -39,7 +39,7 @@ MOMicroWriterTestCase >> setUp [
 	builder model: MOModel new.
 	builder model anchor: (MOAnchor on: #/).
 	builder language:
-		((MOLanguage newFor: builder model) name: 'TestLang') yourself.
+		((MOLanguage javaFor: builder model) name: 'TestLang') yourself.
 	writer := MOModelWriter new. 
 	writer model: builder model .
 	writer builder: builder.

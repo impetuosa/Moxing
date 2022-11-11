@@ -52,42 +52,6 @@ MOLanguage >> constraints [
 	^ constraints ifNil: [ constraints := MOLanguageConstraint new ]
 ]
 
-{ #category : #'as yet unclassified' }
-MOLanguage >> createFileReferenceWithin: aMOPackage for: aMODeclarationUnit relativeTo: aFileReference [
-
-	| directory |
-	self isJava ifTrue: [ 
-		self assert: aMOPackage isPackage.
-		self assert: aMOPackage fileReference isNil.
-
-		directory := ('.' split: aMOPackage name)
-			             inject: aFileReference / #src / #main / #java
-			             into: [ :acc :dir | (acc / dir) ensureCreateDirectory ].
-		^ directory / (self sourceCodeFileNameFor: aMODeclarationUnit) ].
-	self isTypescript ifTrue: [ 
-		aMOPackage fileReference ifNil: [ 
-			self assert: aMOPackage parent fileReference isNotNil.
-			aMOPackage fileReference: (('.' split: aMOPackage name)
-					 inject: aMOPackage parent fileReference
-					 into: [ :acc :dir | (acc / dir) ensureCreateDirectory ]) ] ].
-	^ aMOPackage fileReference
-	  / (self sourceCodeFileNameFor: aMODeclarationUnit)
-]
-
-{ #category : #'as yet unclassified' }
-MOLanguage >> export: aModel asDraftIntoDirectory: aFileReference [
-
-	self isJava ifTrue: [ 
-		^ MOModelJavaExporter new
-			  destinationDirectory: aFileReference;
-			  export: aModel ].
-	self isTypescript ifTrue: [ 
-		^ MOModelAngularExporter new
-			  destinationDirectory: aFileReference;
-			  export: aModel ].
-	self error: 'Not implemented exporter '
-]
-
 { #category : #'resolution strategies' }
 MOLanguage >> expressionTypeResolvingStrategy [
 

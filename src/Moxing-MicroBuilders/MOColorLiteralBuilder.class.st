@@ -1,17 +1,17 @@
 Class {
-	#name : #MOAlceColorLiteralBuilder,
+	#name : #MOColorLiteralBuilder,
 	#superclass : #MOLiteralBuilder,
 	#category : #'Moxing-MicroBuilders-literals'
 }
 
 { #category : #asserting }
-MOAlceColorLiteralBuilder >> assertValueType [
+MOColorLiteralBuilder >> assertValueType [
 
 	^ self assert: (value isKindOf: String)
 ]
 
 { #category : #asserting }
-MOAlceColorLiteralBuilder >> literalClass [
+MOColorLiteralBuilder >> literalClass [
 
 	^ MOColorLiteral
 ]

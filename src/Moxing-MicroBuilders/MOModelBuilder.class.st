@@ -259,7 +259,7 @@ MOModelBuilder >> classVariableBuilder [
 { #category : #'as yet unclassified' }
 MOModelBuilder >> colorLiteralBuilder [
 
-	^ MOAlceColorLiteralBuilder new
+	^ MOColorLiteralBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

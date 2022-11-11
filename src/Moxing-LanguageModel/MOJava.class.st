@@ -12,6 +12,27 @@ MOJava >> astComposer [
 ]
 
 { #category : #accessing }
+MOJava >> createFileReferenceWithin: aMOPackage for: aMODeclarationUnit relativeTo: aFileReference [
+
+	| directory |
+	self assert: aMOPackage isPackage.
+	self assert: aMOPackage fileReference isNil.
+
+	directory := ('.' split: aMOPackage name)
+		             inject: aFileReference / #src / #main / #java
+		             into: [ :acc :dir | (acc / dir) ensureCreateDirectory ].
+	^ directory / (self sourceCodeFileNameFor: aMODeclarationUnit)
+]
+
+{ #category : #accessing }
+MOJava >> export: aModel asDraftIntoDirectory: aFileReference [
+
+	^ MOModelJavaExporter new
+		  destinationDirectory: aFileReference;
+		  export: aModel
+]
+
+{ #category : #accessing }
 MOJava >> extension [
 	 ^ 'java'
 ]
