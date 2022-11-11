@@ -59,7 +59,7 @@ MOCatalog class >> newVisualWorks [
 	^ instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOCatalog >> allInvocations [
 
 	^ entities select: [ :e | e isKindOf: MOInvocation ]
@@ -94,7 +94,7 @@ MOCatalog >> entities [
 	^ entities
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOCatalog >> exclusivelyincludes: aMOPackageReference [
 
 	^ entities includes: aMOPackageReference
@@ -105,7 +105,7 @@ MOCatalog >> imports [
 	^ entities select: [ : e  | e isKindOf: MOImport ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOCatalog >> inPackage: aString [
 
 	^ self types select: [ :t | 
@@ -169,7 +169,7 @@ MOCatalog >> packages [
 	^ entities select: [ :a | a isKindOf: MOPackage ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOCatalog >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
 
 	^ entities
@@ -201,7 +201,7 @@ MOCatalog >> rootPackages [
 		  (a isKindOf: MOPackage) and: [ a parent isNil ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOCatalog >> typeDefinedInPackage: aString [
 
 	^ entities select: [ :e | 
@@ -210,7 +210,7 @@ MOCatalog >> typeDefinedInPackage: aString [
 				  e packageReference name = aString ] ] ]
 ]
 
-{ #category : #']as yet unclassified' }
+{ #category : #initialization }
 MOCatalog >> typeReferences [
 
 	^ entities select: [ :e | e isKindOf: MOTypeReference ]
@@ -222,7 +222,7 @@ MOCatalog >> types [
 	^ entities select: [ :e | e isKindOf: MOType ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #traverse }
 MOCatalog >> typesNamed: aString [
 
 	^ entities select: [ :e | 
