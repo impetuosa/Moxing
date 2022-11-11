@@ -1,6 +1,6 @@
 Class {
 	#name : #MOType,
-	#superclass : #MOLanguageObject,
+	#superclass : #MONamedDeclaration,
 	#instVars : [
 		'#modifiers => MOPropertySlot',
 		'#visibility => MOPropertySlot',
@@ -134,7 +134,7 @@ MOType >> users [
 
 	| candidates referrals |
 	candidates := self model references
-		              select: [ :r | r candidate = self ]
+		              select: [ :r | r referee = self ]
 		              thenCollect: [ :r | 
 			              | i |
 			              i := r usingDeclaration ].

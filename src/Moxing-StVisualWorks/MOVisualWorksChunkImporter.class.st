@@ -306,7 +306,7 @@ MOVisualWorksChunkImporter >> writeAsMethodExtensionDeclaration: aClassChunk [
 				  meta name: name , ' class'.].
 
 	 ] .
-	extension classReference candidate: produced.
+	extension classReference referee: produced.
 ]
 
 { #category : #'as yet unclassified' }

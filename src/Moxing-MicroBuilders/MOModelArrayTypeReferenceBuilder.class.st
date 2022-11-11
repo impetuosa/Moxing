@@ -24,8 +24,8 @@ MOModelArrayTypeReferenceBuilder >> buildsType [
 MOModelArrayTypeReferenceBuilder >> privateBuild [
 
 	^ (self instantiate: MOArrayTypeReference)
-		  candidateAnchor: self candidateAnchor;
-		  candidate: self candidate;
+		  refereeAnchor: self candidateAnchor;
+		  referee: self referee;
 		  argumentTypeReferences: self argumentTypeReferences;
 		  yourself
 ]

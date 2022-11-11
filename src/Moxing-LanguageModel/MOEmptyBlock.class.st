@@ -1,6 +1,6 @@
 Class {
 	#name : #MOEmptyBlock,
-	#superclass : #MOLanguageObject,
+	#superclass : #MODeclaration,
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 

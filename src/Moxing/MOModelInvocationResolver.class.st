@@ -56,12 +56,12 @@ MOModelInvocationResolver >> visitAnnotation: aMOAnnotationInstance [
 
 
 	self assert: resolving = aMOAnnotationInstance.
-	aMOAnnotationInstance typeReference candidate ifNotNil: [ 
+	aMOAnnotationInstance typeReference referee ifNotNil: [ 
 		:annotationType | 
 		annotationType constructors
 			detect: [ :c | 
 			c parameters size = aMOAnnotationInstance arguments size ]
-			ifFound: [ :c | resolving candidate: c ] ]
+			ifFound: [ :c | resolving referee: c ] ]
 ]
 
 { #category : #visiting }
@@ -81,7 +81,7 @@ MOModelInvocationResolver >> visitMethodInvocation: aMOMethodInvocation [
 	self assert: aMOMethodInvocation = resolving.
 	possible := self lookupMethodFor: aMOMethodInvocation.
 	self assert: possible size <= 1.
-	possible ifNotEmpty: [ resolving candidate: possible first ]
+	possible ifNotEmpty: [ resolving referee: possible first ]
 ]
 
 { #category : #visiting }
@@ -89,9 +89,9 @@ MOModelInvocationResolver >> visitNewExpression: aMONewExpression [
 
 	| possible |
 	self assert: aMONewExpression = resolving.
-	aMONewExpression typeReference candidate ifNotNil: [ :type | 
+	aMONewExpression typeReference referee ifNotNil: [ :type | 
 		possible := type constructors select: [ :c | 
 			            c parameters size = aMONewExpression arguments size ].
 		self assert: possible size < 2.
-		possible ifNotEmpty: [ resolving candidate: possible first ] ]
+		possible ifNotEmpty: [ resolving referee: possible first ] ]
 ]

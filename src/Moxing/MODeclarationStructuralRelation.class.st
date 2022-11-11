@@ -14,7 +14,7 @@ Class {
 MODeclarationStructuralRelation class >> nullCandidateRelationTo: anUndefinedObject [
 
 	^ MONullDeclarationRelation new
-		  slot: #candidate => MORefereeSlot;
+		  slot: #referee => MORefereeSlot;
 		  to: anUndefinedObject;
 		  yourself
 ]

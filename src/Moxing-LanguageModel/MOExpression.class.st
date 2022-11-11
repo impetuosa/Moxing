@@ -1,6 +1,6 @@
 Class {
 	#name : #MOExpression,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOLanguageConstruct,
 	#category : #'Moxing-LanguageModel-Expressions'
 }
 

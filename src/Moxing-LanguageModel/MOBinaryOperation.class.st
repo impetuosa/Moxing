@@ -15,11 +15,6 @@ MOBinaryOperation class >> isRenamable [
 ]
 
 { #category : #accessing }
-MOBinaryOperation >> candidate: aMOVariable [ 
-
-]
-
-{ #category : #accessing }
 MOBinaryOperation >> isBinaryOperation [
 
 	^ true
@@ -73,6 +68,11 @@ MOBinaryOperation >> printOn: aStream [
 		nextPutAll: ' ';
 		print: right;
 		nextPutAll: ')'
+]
+
+{ #category : #accessing }
+MOBinaryOperation >> referee: aMOVariable [ 
+
 ]
 
 { #category : #accessing }

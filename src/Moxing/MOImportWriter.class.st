@@ -68,11 +68,6 @@ MOImportWriter >> packageReference: aMOPackageReference [
 ]
 
 { #category : #writing }
-MOImportWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #import / anEntity name
-]
-
-{ #category : #writing }
 MOImportWriter >> privateWriteToSurface: anEntity [
 	surface addImport: anEntity
 ]

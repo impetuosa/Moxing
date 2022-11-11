@@ -2,27 +2,11 @@ Class {
 	#name : #MOReference,
 	#superclass : #MOExpression,
 	#instVars : [
-		'#candidateAnchor => MOPropertySlot',
-		'#referee => MORefereeSlot'
+		'#referee => MORefereeSlot',
+		'#refereeAnchor'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }
-
-{ #category : #accessing }
-MOReference >> candidate [
-	^ referee
-]
-
-{ #category : #accessing }
-MOReference >> candidate: aMOPackage [
-
-	referee := aMOPackage
-]
-
-{ #category : #accessing }
-MOReference >> candidateAnchor: aCandidateAnchor [ 
-	candidateAnchor := aCandidateAnchor
-]
 
 { #category : #testing }
 MOReference >> isReference [
@@ -38,6 +22,22 @@ MOReference >> isTypeReference [
 MOReference >> name: aName [
 
 	super name: aName
+]
+
+{ #category : #accessing }
+MOReference >> referee [
+	^ referee
+]
+
+{ #category : #accessing }
+MOReference >> referee: aMOPackage [
+
+	referee := aMOPackage
+]
+
+{ #category : #accessing }
+MOReference >> refereeAnchor: aCandidateAnchor [ 
+	refereeAnchor := aCandidateAnchor
 ]
 
 { #category : #'as yet unclassified' }

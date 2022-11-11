@@ -79,11 +79,6 @@ MOClassTypeWriter >> packageReference: aMOPackageReference [
 ]
 
 { #category : #writing }
-MOClassTypeWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #type / anEntity name
-]
-
-{ #category : #writing }
 MOClassTypeWriter >> privateWriteToSurface: anEntity [
 	surface addClassType: anEntity
 ]

@@ -85,7 +85,7 @@ MOModelFactoryTestCase >> testCastReferenceGetsCastedType [
 		        build.
 
 	self assert: varRef type equals: class.
-	self assert: varRef candidate equals: cast candidate. 
+	self assert: varRef referee equals: cast referee. 
 	self assert: cast expression equals: varRef.
 	self assert: cast type equals: class2
 ]
@@ -113,7 +113,7 @@ MOModelFactoryTestCase >> testNewClassInPackageGetsYouAClass [
 		         build.
 	self assert: class parent isKindOf: MOPackage.
 	self assert: class packageReference isKindOf: MOPackageReference.
-	self assert: class packageReference candidate equals: parent
+	self assert: class packageReference referee equals: parent
 ]
 
 { #category : #running }
@@ -137,9 +137,9 @@ MOModelFactoryTestCase >> testNewClassWithSuperClassInPackageGetsYouAClass [
 
 	self assert: class parent isKindOf: MOPackage.
 	self assert: class packageReference isKindOf: MOPackageReference.
-	self assert: class packageReference candidate equals: parent.
+	self assert: class packageReference referee equals: parent.
 	self assert: class superclassReference isKindOf: MOTypeReference.
-	self assert: class superclassReference candidate equals: superclass.
+	self assert: class superclassReference referee equals: superclass.
 
 ]
 
@@ -163,10 +163,10 @@ MOModelFactoryTestCase >> testNewClassWithUnknownSuperClassInPackageGetsYouAClas
 
 	self assert: class parent isKindOf: MOPackage.
 	self assert: class packageReference isKindOf: MOPackageReference.
-	self assert: class packageReference candidate equals: parent.
+	self assert: class packageReference referee equals: parent.
 	self assert: class superclassReference isKindOf: MOTypeReference.
 	self assert: class superclassReference equals: superclassReference.
-	self assert: class superclassReference candidate isNil
+	self assert: class superclassReference referee isNil
 ]
 
 { #category : #running }
@@ -589,7 +589,7 @@ MOModelFactoryTestCase >> testVariableReferenceOverAttribute [
 		             variable: param;
 		             build.
 	self assert: reference isKindOf: MOVariableReference. 
-	self assert: reference candidate equals: param. 
+	self assert: reference referee equals: param. 
 ]
 
 { #category : #running }
@@ -606,7 +606,7 @@ MOModelFactoryTestCase >> testVariableReferenceOverParameter [
 		             variable: param;
 		             build.
 	self assert: reference isKindOf: MOVariableReference. 
-	self assert: reference candidate equals: param. 
+	self assert: reference referee equals: param. 
 ]
 
 { #category : #running }
@@ -623,5 +623,5 @@ MOModelFactoryTestCase >> testVariableReferenceOverVariable [
 		             variable: param;
 		             build.
 	self assert: reference isKindOf: MOVariableReference. 
-	self assert: reference candidate equals: param. 
+	self assert: reference referee equals: param. 
 ]

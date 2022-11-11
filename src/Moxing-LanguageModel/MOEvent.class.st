@@ -1,6 +1,6 @@
 Class {
 	#name : #MOEvent,
-	#superclass : #MOLanguageObject,
+	#superclass : #MODeclaration,
 	#instVars : [
 		'#selector => MOPropertySlot',
 		'#parameters => MODeclaresSlot many'

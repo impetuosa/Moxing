@@ -48,5 +48,5 @@ MOParentSlot >> isMOSlot [
 MOParentSlot >> shouldAccept: aValue [
 
 	^ aValue isNil or: [ 
-		  (aValue isKindOf: MOModel) or: [ aValue isKindOf: MODeclaration ] ]
+		  (aValue isKindOf: MOModel) or: [ aValue isKindOf: MOObject ] ]
 ]

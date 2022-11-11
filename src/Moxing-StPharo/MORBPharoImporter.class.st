@@ -74,8 +74,8 @@ MORBPharoImporter >> linkTypes [
 	| model |
 	model := writer model.
 	(model typeReferences select: [ :a | 
-		 a isUnknown not and: [ a candidate isNil ] ]) do: [ :ref | 
-		[ ref candidate: (model typeNamed: ref name) ]
+		 a isUnknown not and: [ a referee isNil ] ]) do: [ :ref | 
+		[ ref referee: (model typeNamed: ref name) ]
 			on: Error
 			do: [  ] ]
 ]

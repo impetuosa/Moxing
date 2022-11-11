@@ -27,13 +27,13 @@ MOModelMethodLookup >> lookMethodFor: aMOMethodInvocation in: aTypeWithMethods [
 	].
 
 	^ (aTypeWithMethods superclassReference
-		   ifNotNil: [ :c | c candidate isNotNil ]
+		   ifNotNil: [ :c | c referee isNotNil ]
 		   ifNil: [ false ])
 		  ifFalse: [ methods ]
 		  ifTrue: [ 
 			  self
 				  lookMethodFor: aMOMethodInvocation
-				  in: aTypeWithMethods superclassReference candidate ]
+				  in: aTypeWithMethods superclassReference referee ]
 ]
 
 { #category : #'as yet unclassified' }

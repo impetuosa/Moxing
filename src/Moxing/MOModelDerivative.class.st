@@ -106,7 +106,7 @@ MOModelDerivative >> candidatelessEntities [
 
 	^ entities select: [ :e | 
 		  e isFylgjaStub not and: [ 
-			  (e respondsTo: #candidate) and: [ e candidate isNil ] ] ]
+			  (e respondsTo: #referee) and: [ e referee isNil ] ] ]
 ]
 
 { #category : #enumerating }

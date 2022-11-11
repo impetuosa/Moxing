@@ -19,11 +19,6 @@ MOStatementExpression >> acceptVisitor: aVisitor [
 ]
 
 { #category : #accessing }
-MOStatementExpression >> candidate: aCandidate [  
-	expression candidate: aCandidate  
-]
-
-{ #category : #accessing }
 MOStatementExpression >> dependencies [
 
 	^ expression dependencies
@@ -62,4 +57,9 @@ MOStatementExpression >> printOn: aStream [
 		nextPutAll: 'Stmt(';
 		print: expression;
 		nextPutAll: ')'
+]
+
+{ #category : #accessing }
+MOStatementExpression >> referee: aCandidate [  
+	expression referee: aCandidate  
 ]

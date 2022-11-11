@@ -73,13 +73,6 @@ MOBlockWriter >> messageToRegisterBlock: aSymbol [
 ]
 
 { #category : #writing }
-MOBlockWriter >> privateSetAnchor: anEntity [
-	anEntity anchor:
-		surface anchor
-		/ (messageToRegisterBlock copyReplaceAll: ':' with: '') / #block
-]
-
-{ #category : #writing }
 MOBlockWriter >> privateWriteToSurface: anEntity [
 	surface
 		perform: (messageToRegisterBlock ifNil: [ #block: ])

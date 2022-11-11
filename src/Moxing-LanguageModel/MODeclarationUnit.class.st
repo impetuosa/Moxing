@@ -1,6 +1,6 @@
 Class {
 	#name : #MODeclarationUnit,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOLanguageConstruct,
 	#instVars : [
 		'#imports => MOStatesSlot many',
 		'#types => MODeclaresSlot many'

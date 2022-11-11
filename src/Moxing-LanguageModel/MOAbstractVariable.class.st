@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAbstractVariable,
-	#superclass : #MOLanguageObject,
+	#superclass : #MONamedDeclaration,
 	#instVars : [
 		'#modifiers => MOPropertySlot',
 		'#typeReference => MORefersSlot one',
@@ -167,7 +167,7 @@ MOAbstractVariable >> printOn: aStream [
 MOAbstractVariable >> senders [
 
 	^ self model references
-		  select: [ :r | r candidate isNotNil and: [ self isSameEntity: r candidate ]  ]
+		  select: [ :r | r referee isNotNil and: [ self isSameEntity: r referee ]  ]
 		  thenCollect: [ :e | e callingInvocable ]
 ]
 

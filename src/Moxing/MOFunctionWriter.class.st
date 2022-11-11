@@ -26,11 +26,6 @@ MOFunctionWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
-MOFunctionWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #function / anEntity selector
-]
-
-{ #category : #writing }
 MOFunctionWriter >> privateWriteToSurface: anEntity [
 	surface addFunction: anEntity
 ]

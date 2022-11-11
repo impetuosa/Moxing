@@ -65,11 +65,6 @@ MOClassWriter >> methods [
 ]
 
 { #category : #writing }
-MOClassWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #class / anEntity name
-]
-
-{ #category : #writing }
 MOClassWriter >> privateWriteToSurface: anEntity [
 	surface addClass: anEntity
 ]

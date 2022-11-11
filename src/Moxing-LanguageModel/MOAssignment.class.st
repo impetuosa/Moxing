@@ -19,11 +19,6 @@ MOAssignment >> acceptVisitor: aMOTypescriptCodeGenerator [
 ]
 
 { #category : #accessing }
-MOAssignment >> candidate: aMOEnumEntry [ 
-	"Warning signal: 'This should not be happening '"
-]
-
-{ #category : #accessing }
 MOAssignment >> isAssignment [
 
 	^ true
@@ -54,6 +49,11 @@ MOAssignment >> read [
 { #category : #accessing }
 MOAssignment >> read: aFylgjaMissingOperator [ 
 	read := aFylgjaMissingOperator
+]
+
+{ #category : #accessing }
+MOAssignment >> referee: aMOEnumEntry [ 
+	"Warning signal: 'This should not be happening '"
 ]
 
 { #category : #accessing }

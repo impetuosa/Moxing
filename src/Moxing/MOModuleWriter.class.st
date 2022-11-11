@@ -84,11 +84,6 @@ MOModuleWriter >> name: aString [
 ]
 
 { #category : #writing }
-MOModuleWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #module / anEntity name
-]
-
-{ #category : #writing }
 MOModuleWriter >> privateWriteToSurface: anEntity [
 	surface addModule: anEntity
 ]

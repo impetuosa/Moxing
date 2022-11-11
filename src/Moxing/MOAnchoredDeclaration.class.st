@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAnchoredDeclaration,
-	#superclass : #MONamedDeclaration,
+	#superclass : #MOObject,
 	#instVars : [
 		'#anchor => MOPropertySlot',
 		'#fileReference => MOPropertySlot'

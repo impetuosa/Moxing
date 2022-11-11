@@ -80,7 +80,7 @@ MOImport >> resolvesType: aTypeReference [
 
 	^ name = #ALL
 		  ifTrue: [ 
-			  packageReference candidate allTypes contains: [ :a | 
+			  packageReference referee allTypes contains: [ :a | 
 				  a name = aTypeReference name ] ]
 		  ifFalse: [ 
 		  self types anySatisfy: [ :tr | tr name = aTypeReference name ] ]
@@ -89,7 +89,7 @@ MOImport >> resolvesType: aTypeReference [
 { #category : #']as yet unclassified' }
 MOImport >> type [
 
-	^ typeReference candidate
+	^ typeReference referee
 ]
 
 { #category : #visiting }
@@ -114,9 +114,9 @@ MOImport >> typeReference: aReference [
 MOImport >> types [
 
 	^ typeReference
-		  ifNil: [ packageReference candidate allTypes ]
+		  ifNil: [ packageReference referee allTypes ]
 		  ifNotNil: [ 
-			  typeReference candidate
+			  typeReference referee
 				  ifNil: [ {  } ]
-				  ifNotNil: [ { typeReference candidate } ] ]
+				  ifNotNil: [ { typeReference referee } ] ]
 ]

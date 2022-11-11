@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularDocument,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOLanguageConstruct,
 	#instVars : [
 		'#document => MOPropertySlot'
 	],

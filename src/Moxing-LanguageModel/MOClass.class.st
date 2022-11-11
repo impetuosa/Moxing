@@ -169,7 +169,7 @@ MOClass >> printOn: aStream [
 { #category : #'as yet unclassified' }
 MOClass >> superClass [
 
-	^ self superclassReference ifNotNil: [ :s | s candidate ]
+	^ self superclassReference ifNotNil: [ :s | s referee ]
 ]
 
 { #category : #navigation }

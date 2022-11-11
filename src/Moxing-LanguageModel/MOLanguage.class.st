@@ -1,6 +1,6 @@
 Class {
 	#name : #MOLanguage,
-	#superclass : #MONamedDeclaration,
+	#superclass : #MOObject,
 	#instVars : [
 		'#constraints => MOPropertySlot'
 	],

@@ -1,6 +1,6 @@
 Class {
 	#name : #MOInvocable,
-	#superclass : #MOLanguageObject,
+	#superclass : #MODeclaration,
 	#instVars : [
 		'#parameters => MODeclaresSlot many',
 		'#visibility => MOPropertySlot',
@@ -151,7 +151,7 @@ MOInvocable >> parameters: aCollection [
 MOInvocable >> senders [
 
 	^ self model references
-		  select: [ :r | r candidate = self ]
+		  select: [ :r | r referee = self ]
 		  thenCollect: [ :e | e callingInvocable ]
 ]
 

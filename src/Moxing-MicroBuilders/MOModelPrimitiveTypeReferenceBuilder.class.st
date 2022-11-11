@@ -14,12 +14,6 @@ MOModelPrimitiveTypeReferenceBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelPrimitiveTypeReferenceBuilder >> candidate [
-
-	^ candidate ifNil: [ self error: 'Primitive type reference cannot be built without type' ]
-]
-
-{ #category : #accessing }
 MOModelPrimitiveTypeReferenceBuilder >> privateBuild [
 
 	^ self
@@ -27,9 +21,15 @@ MOModelPrimitiveTypeReferenceBuilder >> privateBuild [
 			  (a isKindOf: MOPrimitiveTypeReference) and: [ a name = self name ] ]
 		  ifNone: [ 
 			  (self instantiate: MOPrimitiveTypeReference)
-				  candidateAnchor: self candidateAnchor;
-				  candidate: self candidate;
+				  refereeAnchor: self candidateAnchor;
+				  referee: self referee;
 				  name: self name;
 				  parent: self parent;
 				  yourself ]
+]
+
+{ #category : #accessing }
+MOModelPrimitiveTypeReferenceBuilder >> referee [
+
+	^ candidate ifNil: [ self error: 'Primitive type reference cannot be built without type' ]
 ]

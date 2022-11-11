@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #writing }
-MOAbstractStatementWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #statements / anEntity name
-]
-
-{ #category : #writing }
 MOAbstractStatementWriter >> privateWriteToSurface: anEntity [
 
 	^ surface addStatement: anEntity

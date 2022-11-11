@@ -18,32 +18,16 @@ MOModelPhSharedPoolReferenceBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelPhSharedPoolReferenceBuilder >> candidate [
-	^ candidate
-]
-
-{ #category : #accessing }
-MOModelPhSharedPoolReferenceBuilder >> candidate: anObject [
-
-	candidate := anObject
-]
-
-{ #category : #accessing }
 MOModelPhSharedPoolReferenceBuilder >> candidateAnchor [
 	^ candidateAnchor
-]
-
-{ #category : #accessing }
-MOModelPhSharedPoolReferenceBuilder >> candidateAnchor: aMOAnchor [ 
-	candidateAnchor := aMOAnchor
 ]
 
 { #category : #'as yet unclassified' }
 MOModelPhSharedPoolReferenceBuilder >> loadBuilderWithEntity: anEntity [
 
-	self candidateAnchor: anEntity candidateAnchor.
+	self refereeAnchor: anEntity candidateAnchor.
 	self name: anEntity name.
-	self candidate: anEntity candidate
+	self referee: anEntity referee
 ]
 
 { #category : #accessing }
@@ -61,7 +45,7 @@ MOModelPhSharedPoolReferenceBuilder >> name: aString [
 MOModelPhSharedPoolReferenceBuilder >> package: aPackage [
 
 	self packageName: aPackage name.
-	self candidateAnchor: aPackage anchor. 
+	self refereeAnchor: aPackage anchor. 
 	candidate := aPackage
 ]
 
@@ -90,7 +74,23 @@ MOModelPhSharedPoolReferenceBuilder >> privateBuild [
 		  (a isKindOf: MOSharedPoolReference) and: [ a name = self name ] ]
 		  ifNone: [ 
 			  (self instantiate: MOSharedPoolReference)
-				  candidateAnchor: self candidateAnchor;
+				  refereeAnchor: self candidateAnchor;
 				  name: self name;
-				  candidate: self candidate ]
+				  referee: self referee ]
+]
+
+{ #category : #accessing }
+MOModelPhSharedPoolReferenceBuilder >> referee [
+	^ candidate
+]
+
+{ #category : #accessing }
+MOModelPhSharedPoolReferenceBuilder >> referee: anObject [
+
+	candidate := anObject
+]
+
+{ #category : #accessing }
+MOModelPhSharedPoolReferenceBuilder >> refereeAnchor: aMOAnchor [ 
+	candidateAnchor := aMOAnchor
 ]

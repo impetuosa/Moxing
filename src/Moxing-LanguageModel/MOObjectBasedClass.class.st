@@ -97,7 +97,7 @@ MOObjectBasedClass >> printOn: aStream [
 { #category : #'as yet unclassified' }
 MOObjectBasedClass >> superClass [
 
-	^ self superclassReference ifNotNil: [ :s | s candidate ]
+	^ self superclassReference ifNotNil: [ :s | s referee ]
 ]
 
 { #category : #navigation }

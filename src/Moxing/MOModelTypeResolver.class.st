@@ -40,12 +40,12 @@ MOModelTypeResolver >> registerPossibles: aCollection [
 		ifTrue: [ self halt ].
 	aCollection ifNotEmpty: [ 
 		self assert: aCollection isNotNil.
-		resolving candidate: aCollection first ]
+		resolving referee: aCollection first ]
 ]
 
 { #category : #'as yet unclassified' }
 MOModelTypeResolver >> typeHasBeenResolved [
-	^ resolving candidate isNotNil 
+	^ resolving referee isNotNil 
 ]
 
 { #category : #'as yet unclassified' }
@@ -177,7 +177,7 @@ MOModelTypeResolver >> visitNewExpression: aMONewExpression [
 MOModelTypeResolver >> visitPackage: aMOPackage [
 
 	resolving packageReference ifNil: [ ^ self ].
-	resolving packageReference candidate = aMOPackage ifTrue: [ 
+	resolving packageReference referee = aMOPackage ifTrue: [ 
 		self registerPossibles:
 			(aMOPackage allTypes select: [ :i | i name = resolving name ]) ]
 ]
@@ -185,8 +185,8 @@ MOModelTypeResolver >> visitPackage: aMOPackage [
 { #category : #visiting }
 MOModelTypeResolver >> visitPackageReference: aMOPackageReference [
 
-	self assert: aMOPackageReference candidate isNotNil.
-	self lookIntoPackage: aMOPackageReference candidate.
+	self assert: aMOPackageReference referee isNotNil.
+	self lookIntoPackage: aMOPackageReference referee.
 	self typeHasBeenResolved ifTrue: [ ^ self ].
 
 	aMOPackageReference parent ifNotNil: [ :p | p acceptVisitor: self ]
@@ -195,7 +195,7 @@ MOModelTypeResolver >> visitPackageReference: aMOPackageReference [
 { #category : #visiting }
 MOModelTypeResolver >> visitParameter: aMOParameter [
 
-	self assert: aMOParameter typeReference candidate isNil.
+	self assert: aMOParameter typeReference referee isNil.
 	aMOParameter parent acceptVisitor: self
 ]
 
@@ -237,7 +237,7 @@ MOModelTypeResolver >> visitParametrizedTypeReference: aMOParametrizedTypeRefere
 { #category : #visiting }
 MOModelTypeResolver >> visitPrimitiveTypeReference: aMOPrimitiveTypeReference [
 
-	self assert: aMOPrimitiveTypeReference candidate isNotNil
+	self assert: aMOPrimitiveTypeReference referee isNotNil
 ]
 
 { #category : #visiting }
@@ -294,7 +294,7 @@ MOModelTypeResolver >> visitTypeParameter: aMOTypeParameter [
 { #category : #visiting }
 MOModelTypeResolver >> visitTypeReference: aMOTypeReference [
 
-	aMOTypeReference candidate ifNotNil: [ ^ self ].
+	aMOTypeReference referee ifNotNil: [ ^ self ].
 	aMOTypeReference parent ifNil: [ ^ self ].
 	aMOTypeReference parent isTypeReference ifFalse: [ 
 		""
@@ -305,7 +305,7 @@ MOModelTypeResolver >> visitTypeReference: aMOTypeReference [
 MOModelTypeResolver >> visitVarArgParameter: aMOVariableArgumentsParameter [
 
 	self assert:
-		aMOVariableArgumentsParameter typeReference candidate isNil.
+		aMOVariableArgumentsParameter typeReference referee isNil.
 	aMOVariableArgumentsParameter parent acceptVisitor: self
 ]
 
@@ -318,5 +318,5 @@ MOModelTypeResolver >> visitVariable: aMOVariable [
 { #category : #visiting }
 MOModelTypeResolver >> visitVisualWorksPackage: aMOVisualWorksPackage [
   resolving packageReference ifNil: [ ^self ].
-  resolving packageReference candidate = aMOVisualWorksPackage ifTrue: [ self registerPossibles: (aMOVisualWorksPackage allTypes select: [:i |  i name = resolving name ]) ]
+  resolving packageReference referee = aMOVisualWorksPackage ifTrue: [ self registerPossibles: (aMOVisualWorksPackage allTypes select: [:i |  i name = resolving name ]) ]
 ]

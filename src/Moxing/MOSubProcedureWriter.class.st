@@ -26,11 +26,6 @@ MOSubProcedureWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
-MOSubProcedureWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #procedure / anEntity selector
-]
-
-{ #category : #writing }
 MOSubProcedureWriter >> privateWriteToSurface: anEntity [
 	surface addProcedure: anEntity
 ]

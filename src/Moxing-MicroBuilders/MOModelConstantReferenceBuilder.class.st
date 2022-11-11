@@ -16,7 +16,7 @@ MOModelConstantReferenceBuilder >> buildsType [
 { #category : #'as yet unclassified' }
 MOModelConstantReferenceBuilder >> loadBuilderWithEntity: anEntity [ 
 	self name: anEntity name. 
- self candidate: anEntity candidate. 
+ self referee: anEntity referee. 
  self kindOfEntry: anEntity kind. 
  
 	
@@ -27,7 +27,7 @@ MOModelConstantReferenceBuilder >> privateBuild [
 
 	^ (self instantiate: MOConstantReference)
 		  name: name;
-		  candidate: candidate;
+		  referee: candidate;
 		  kind: kindOfEntry;
 		  yourself
 ]

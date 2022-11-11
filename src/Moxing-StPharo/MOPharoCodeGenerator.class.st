@@ -429,17 +429,17 @@ MOPharoCodeGenerator >> visitSymbolicArrayLiteral: aMOSymbolicArrayLiteral [
 { #category : #visiting }
 MOPharoCodeGenerator >> visitTypeReference: aMOTypeReference [
 
-	((aMOTypeReference candidate isNotNil and: [ 
-		  aMOTypeReference candidate isStMetaclass ]) ifTrue: [ 
-		 self nextPutAll: aMOTypeReference candidate parent name ]) 
+	((aMOTypeReference referee isNotNil and: [ 
+		  aMOTypeReference referee isStMetaclass ]) ifTrue: [ 
+		 self nextPutAll: aMOTypeReference referee parent name ]) 
 		ifFalse: [ self nextPutAll: aMOTypeReference name ]
 ]
 
 { #category : #visiting }
 MOPharoCodeGenerator >> visitVariableReference: aMOVariableRererence [
 
-	(aMOVariableRererence candidate isKindOf: MOSelfReference)
-		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
+	(aMOVariableRererence referee isKindOf: MOSelfReference)
+		ifTrue: [ aMOVariableRererence referee acceptVisitor: self ]
 		ifFalse: [ 
 			(#( Null Nothing ) includes: aMOVariableRererence name)
 				ifTrue: [ self nextPutAll: 'nil' ]

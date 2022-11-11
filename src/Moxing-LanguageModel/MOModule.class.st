@@ -1,6 +1,6 @@
 Class {
 	#name : #MOModule,
-	#superclass : #MOLanguageObject,
+	#superclass : #MONamedDeclaration,
 	#instVars : [
 		'#invocables => MODeclaresSlot many',
 		'#variables => MODeclaresSlot many',
@@ -169,7 +169,7 @@ MOModule >> users [
 
 	| candidates referrals |
 	candidates := self model references
-		              select: [ :r | r candidate = self ]
+		              select: [ :r | r referee = self ]
 		              thenCollect: [ :r | 
 			              | i |
 			              i := r callingInvocable ].

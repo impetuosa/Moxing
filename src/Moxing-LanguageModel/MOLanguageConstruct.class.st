@@ -1,5 +1,5 @@
 Class {
-	#name : #MOLanguageObject,
+	#name : #MOLanguageConstruct,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
 		'#language => MOPropertySlot'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #testing }
-MOLanguageObject class >> isRenamable [
+MOLanguageConstruct class >> isRenamable [
 
 	^ true
 ]
 
 { #category : #'instance creation' }
-MOLanguageObject class >> newForJavaIn: aModel [
+MOLanguageConstruct class >> newForJavaIn: aModel [
 
 	^ (aModel instantiate: self)
 		  language: (MOLanguage javaFor: aModel);
@@ -22,7 +22,7 @@ MOLanguageObject class >> newForJavaIn: aModel [
 ]
 
 { #category : #'instance creation' }
-MOLanguageObject class >> newForTypescriptIn: aModel [
+MOLanguageConstruct class >> newForTypescriptIn: aModel [
 
 	^ (aModel instantiate: self)
 		  language: (MOLanguage typescriptFor: aModel);
@@ -30,7 +30,7 @@ MOLanguageObject class >> newForTypescriptIn: aModel [
 ]
 
 { #category : #'instance creation' }
-MOLanguageObject class >> newMicrosoftAccessFor: aModel [
+MOLanguageConstruct class >> newMicrosoftAccessFor: aModel [
 
 	^ (aModel instantiate: self)
 		  language: (MOLanguage microsoftAccessFor: aModel);
@@ -38,7 +38,7 @@ MOLanguageObject class >> newMicrosoftAccessFor: aModel [
 ]
 
 { #category : #accessing }
-MOLanguageObject >> acceptLanguageVisitor: aVisitor [
+MOLanguageConstruct >> acceptLanguageVisitor: aVisitor [
 
 	| selector |
 	selector := ('visit{1}{2}:' format: { 
@@ -49,89 +49,89 @@ MOLanguageObject >> acceptLanguageVisitor: aVisitor [
 ]
 
 { #category : #accessing }
-MOLanguageObject >> acceptVisitor: ads [
+MOLanguageConstruct >> acceptVisitor: ads [
 
 	self subclassResponsibility
 ]
 
 { #category : #testing }
-MOLanguageObject >> canBeReferredAsArrayAccess [
+MOLanguageConstruct >> canBeReferredAsArrayAccess [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> canBeReferredAsAttribute [
+MOLanguageConstruct >> canBeReferredAsAttribute [
 
 	^ false
 ]
 
 { #category : #'as yet unclassified' }
-MOLanguageObject >> canBeReferredAsConstant [
+MOLanguageConstruct >> canBeReferredAsConstant [
 	 ^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> canBeReferredAsFunction [
+MOLanguageConstruct >> canBeReferredAsFunction [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> canBeReferredAsMethod [
+MOLanguageConstruct >> canBeReferredAsMethod [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> canBeReferredAsPrimitiveType [
+MOLanguageConstruct >> canBeReferredAsPrimitiveType [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> canBeReferredAsVariable [
+MOLanguageConstruct >> canBeReferredAsVariable [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> canDeclare: anOtherObject with: aSlot [
+MOLanguageConstruct >> canDeclare: anOtherObject with: aSlot [
 	language ifNil: [ language := MOJava allInstances first  ].
 	^ language can: self declare: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
-MOLanguageObject >> canExpress: anOtherObject with: aSlot [
+MOLanguageConstruct >> canExpress: anOtherObject with: aSlot [
 
 	^ language can: self express: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
-MOLanguageObject >> canRefer: anOtherObject with: aSlot [
+MOLanguageConstruct >> canRefer: anOtherObject with: aSlot [
 
 	^ language can: self refer: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
-MOLanguageObject >> canState: anOtherObject with: aSlot [
+MOLanguageConstruct >> canState: anOtherObject with: aSlot [
 
 	^ language can: self state: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
-MOLanguageObject >> canUseAsReferee: anOtherObject with: aSlot [
+MOLanguageConstruct >> canUseAsReferee: anOtherObject with: aSlot [
 
 	^ language can: self useAsReferee: anOtherObject with: aSlot
 ]
 
 { #category : #'as yet unclassified' }
-MOLanguageObject >> dependencies [
+MOLanguageConstruct >> dependencies [
 	^ {}
 ]
 
 { #category : #testing }
-MOLanguageObject >> dependenciesOrEmpty: aDeclaration [
+MOLanguageConstruct >> dependenciesOrEmpty: aDeclaration [
 
 	^ aDeclaration
 		  ifNil: [ {  } ]
@@ -139,7 +139,7 @@ MOLanguageObject >> dependenciesOrEmpty: aDeclaration [
 ]
 
 { #category : #'as yet unclassified' }
-MOLanguageObject >> enclosingArtefact [
+MOLanguageConstruct >> enclosingArtefact [
 
 	^ (parent isArtefact or: [ parent isPackage ])
 		  ifTrue: [ parent ]
@@ -147,7 +147,7 @@ MOLanguageObject >> enclosingArtefact [
 ]
 
 { #category : #'as yet unclassified' }
-MOLanguageObject >> enclosingTypeOrModule [
+MOLanguageConstruct >> enclosingTypeOrModule [
 
 	parent ifNil: [ ^ nil ].
 	^ (parent isType or: [ parent isModule ])
@@ -156,38 +156,38 @@ MOLanguageObject >> enclosingTypeOrModule [
 ]
 
 { #category : #testing }
-MOLanguageObject >> isDeclaration [
+MOLanguageConstruct >> isDeclaration [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isExpression [
+MOLanguageConstruct >> isExpression [
 	^ false 
 ]
 
 { #category : #testing }
-MOLanguageObject >> isFylgjaMissingCandidateStub [
+MOLanguageConstruct >> isFylgjaMissingCandidateStub [
 	 ^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isInvocable [
+MOLanguageConstruct >> isInvocable [
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isLabelledAs: aString [ 
+MOLanguageConstruct >> isLabelledAs: aString [ 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isMethodExtension [
+MOLanguageConstruct >> isMethodExtension [
 	 ^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isSameEntity: anOtherDeclaration [
+MOLanguageConstruct >> isSameEntity: anOtherDeclaration [
 
 	^ self species = anOtherDeclaration species and: [ 
 		  self anchor isNotNil and: [ 
@@ -197,52 +197,52 @@ MOLanguageObject >> isSameEntity: anOtherDeclaration [
 ]
 
 { #category : #testing }
-MOLanguageObject >> isStatement [
+MOLanguageConstruct >> isStatement [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isStatementExpression [
+MOLanguageConstruct >> isStatementExpression [
 
 	^ false
 ]
 
 { #category : #testing }
-MOLanguageObject >> isVariable [
+MOLanguageConstruct >> isVariable [
 
 	^ false
 ]
 
 { #category : #accessing }
-MOLanguageObject >> language [
+MOLanguageConstruct >> language [
 	^ language
 ]
 
 { #category : #accessing }
-MOLanguageObject >> language: aMOLanguage [ 
+MOLanguageConstruct >> language: aMOLanguage [ 
 	language := aMOLanguage
 ]
 
 { #category : #testing }
-MOLanguageObject >> model [
+MOLanguageConstruct >> model [
 
 	^ parent model
 ]
 
 { #category : #generated }
-MOLanguageObject >> produceCode [
+MOLanguageConstruct >> produceCode [
 
 	^ self language newCodeTextWriter produceCodeFor: self
 ]
 
 { #category : #generated }
-MOLanguageObject >> producesParseableCode [
+MOLanguageConstruct >> producesParseableCode [
 	 ^ false
 ]
 
 { #category : #generated }
-MOLanguageObject >> sourceCode [
+MOLanguageConstruct >> sourceCode [
 
 	^ anchor ifNotNil: [ anchor sourceCode ] ifNil: [ self produceCode ]
 ]

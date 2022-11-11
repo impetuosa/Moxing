@@ -49,11 +49,6 @@ MOMethodWriter >> kind: aString [
 ]
 
 { #category : #writing }
-MOMethodWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #method / anEntity selector
-]
-
-{ #category : #writing }
 MOMethodWriter >> privateWriteToSurface: anEntity [
 	surface addMethod: anEntity
 ]

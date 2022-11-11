@@ -338,15 +338,15 @@ MOModel >> solveApplicationReferenceProblem [
 		select: [ :a | 
 			(a isKindOf: MOMethodInvocation) and: [ 
 				a receiverReference name = #self and: [ 
-					a candidate isNotNil and: [ 
-						a candidate parent name = #_Application ] ] ] ]
+					a referee isNotNil and: [ 
+						a referee parent name = #_Application ] ] ] ]
 		thenDo: [ :each | 
 			each receiverReference becomeForward:
 				(MOTypeReference newInstanceFromModel
 					 name: #Application;
 					 parent: each;
-					 candidate:
-						 (each candidate parent parent parent types detect: [ :a | 
+					 referee:
+						 (each referee parent parent parent types detect: [ :a | 
 								  a name = #Application ]);
 					 language: each language) ]
 ]
@@ -374,7 +374,7 @@ MOModel >> typeNamed: aString library: aLibraryName [
 		     collect: [ :a | 
 			     (a isKindOf: MOAlias)
 				     ifFalse: [ a ]
-				     ifTrue: [ a typeReference candidate ] ]
+				     ifTrue: [ a typeReference referee ] ]
 		     thenSelect: [ :a | a parent parent name = aLibraryName ].
 	self assert: t size = 1.
 	^ t first

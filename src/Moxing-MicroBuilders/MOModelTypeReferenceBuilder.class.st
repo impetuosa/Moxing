@@ -18,11 +18,11 @@ Class {
 MOModelTypeReferenceBuilder >> buildSubtypeReference [
 
 	| parentType typeNames |
-	self assert: self candidate isNil.
+	self assert: self referee isNil.
 	self assert: self candidateAnchor isNil.
 	typeNames := '$' split: self name.
 	parentType := (self instantiate: MOTypeReference)
-		              candidate: self candidate;
+		              referee: self referee;
 		              name: typeNames first;
 		              packageReference: self packageReference;
 		              parent: self parent;
@@ -41,8 +41,8 @@ MOModelTypeReferenceBuilder >> buildSubtypeReference [
 MOModelTypeReferenceBuilder >> buildTypeReference [
 
 	^ (self instantiate: self buildsType)
-		  candidateAnchor: self candidateAnchor;
-		  candidate: self candidate;
+		  refereeAnchor: self candidateAnchor;
+		  referee: self referee;
 		  name: self name;
 		  packageReference: self packageReference;
 		  parent: self parent;
@@ -56,25 +56,8 @@ MOModelTypeReferenceBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelTypeReferenceBuilder >> candidate [
-
-	^ candidate
-]
-
-{ #category : #accessing }
-MOModelTypeReferenceBuilder >> candidate: aMOClass [ 
-	candidate := aMOClass 
-]
-
-{ #category : #accessing }
 MOModelTypeReferenceBuilder >> candidateAnchor [
 	^ candidateAnchor
-]
-
-{ #category : #accessing }
-MOModelTypeReferenceBuilder >> candidateAnchor: aMOAnchor [
-
-	candidateAnchor := aMOAnchor
 ]
 
 { #category : #accessing }
@@ -126,6 +109,23 @@ MOModelTypeReferenceBuilder >> privateBuild [
 		  ifFalse: [ self buildTypeReference ]
 ]
 
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> referee [
+
+	^ candidate
+]
+
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> referee: aMOClass [ 
+	candidate := aMOClass 
+]
+
+{ #category : #accessing }
+MOModelTypeReferenceBuilder >> refereeAnchor: aMOAnchor [
+
+	candidateAnchor := aMOAnchor
+]
+
 { #category : #'as yet unclassified' }
 MOModelTypeReferenceBuilder >> refersToSubtype [
 
@@ -135,8 +135,8 @@ MOModelTypeReferenceBuilder >> refersToSubtype [
 { #category : #generated }
 MOModelTypeReferenceBuilder >> type: aMOClass [
 	self name: aMOClass name .
-	self candidateAnchor: aMOClass anchor .
-	self candidate: aMOClass
+	self refereeAnchor: aMOClass anchor .
+	self referee: aMOClass
 ]
 
 { #category : #'as yet unclassified' }

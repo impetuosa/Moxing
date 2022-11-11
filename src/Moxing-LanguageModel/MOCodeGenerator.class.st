@@ -376,8 +376,8 @@ MOCodeGenerator >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
 { #category : #visiting }
 MOCodeGenerator >> visitVariableReference: aMOVariableRererence [
 
-	(aMOVariableRererence candidate isKindOf: MOSelfReference)
-		ifTrue: [ aMOVariableRererence candidate acceptVisitor: self ]
+	(aMOVariableRererence referee isKindOf: MOSelfReference)
+		ifTrue: [ aMOVariableRererence referee acceptVisitor: self ]
 		ifFalse: [ 
 			(#( Null Nothing ) includes: aMOVariableRererence name)
 				ifTrue: [ self nextPutAll: 'null' ]

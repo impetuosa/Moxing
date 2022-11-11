@@ -66,11 +66,6 @@ MOConstructorWriter >> parameters [
 ]
 
 { #category : #writing }
-MOConstructorWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #constructor / anEntity parameters size asString 
-]
-
-{ #category : #writing }
 MOConstructorWriter >> privateWriteToSurface: anEntity [
 
 	surface addConstructor: anEntity

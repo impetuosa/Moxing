@@ -40,11 +40,6 @@ MOFileImportWriter >> packageReference: aMOPackageReference [
 ]
 
 { #category : #writing }
-MOFileImportWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #import / anEntity name
-]
-
-{ #category : #writing }
 MOFileImportWriter >> privateWriteToSurface: anEntity [
 	surface addImport: anEntity
 ]

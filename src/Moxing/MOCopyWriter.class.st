@@ -24,8 +24,3 @@ MOCopyWriter >> initializeWriteBuilder [
 MOCopyWriter >> installCopyingBuilder [
 	writeBuilder useAnchor: anchor
 ]
-
-{ #category : #writing }
-MOCopyWriter >> privateSetAnchor: aMOVariableReference [ 
-	aMOVariableReference anchor: writeBuilder anchor
-]

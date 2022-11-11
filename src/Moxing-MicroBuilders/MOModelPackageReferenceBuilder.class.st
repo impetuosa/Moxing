@@ -20,32 +20,16 @@ MOModelPackageReferenceBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelPackageReferenceBuilder >> candidate [
-	^ candidate
-]
-
-{ #category : #accessing }
-MOModelPackageReferenceBuilder >> candidate: anObject [
-
-	candidate := anObject
-]
-
-{ #category : #accessing }
 MOModelPackageReferenceBuilder >> candidateAnchor [
 	^ candidateAnchor
-]
-
-{ #category : #accessing }
-MOModelPackageReferenceBuilder >> candidateAnchor: aMOAnchor [ 
-	candidateAnchor := aMOAnchor
 ]
 
 { #category : #'as yet unclassified' }
 MOModelPackageReferenceBuilder >> loadBuilderWithEntity: anEntity [
 
-	self candidateAnchor: anEntity candidateAnchor.
+	self refereeAnchor: anEntity candidateAnchor.
 	self name: anEntity name.
-	self candidate: anEntity candidate
+	self referee: anEntity referee
 ]
 
 { #category : #accessing }
@@ -58,7 +42,7 @@ MOModelPackageReferenceBuilder >> name [
 MOModelPackageReferenceBuilder >> package: aPackage [
 
 	self packageName: aPackage name.
-	self candidateAnchor: aPackage anchor. 
+	self refereeAnchor: aPackage anchor. 
 	candidate := aPackage
 ]
 
@@ -87,7 +71,23 @@ MOModelPackageReferenceBuilder >> privateBuild [
 		  (a isKindOf: MOPackageReference) and: [ a name = self name ] ]
 		  ifNone: [ 
 			  (self instantiate: MOPackageReference)
-				  candidateAnchor: self candidateAnchor;
+				  refereeAnchor: self candidateAnchor;
 				  name: self name;
-				  candidate: self candidate ]
+				  referee: self referee ]
+]
+
+{ #category : #accessing }
+MOModelPackageReferenceBuilder >> referee [
+	^ candidate
+]
+
+{ #category : #accessing }
+MOModelPackageReferenceBuilder >> referee: anObject [
+
+	candidate := anObject
+]
+
+{ #category : #accessing }
+MOModelPackageReferenceBuilder >> refereeAnchor: aMOAnchor [ 
+	candidateAnchor := aMOAnchor
 ]

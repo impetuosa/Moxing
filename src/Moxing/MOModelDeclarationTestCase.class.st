@@ -41,7 +41,7 @@ MOModelDeclarationTestCase >> testDeclareClassInPackage [
 	class := package allTypes first.
 
 	self assert: class parent equals: package.
-	self assert: class packageReference candidate equals: package.
+	self assert: class packageReference referee equals: package.
 	self assert: class name equals: #ClzzName.
 	self assert: class typeParameters size equals: 1.
 	self

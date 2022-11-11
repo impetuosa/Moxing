@@ -15,11 +15,6 @@ MONoOp >> acceptVisitor: aMOJavaCodeGenerator [
 ]
 
 { #category : #accessing }
-MONoOp >> candidate: aMOEnumEntry [ 
-	candidate := aMOEnumEntry 
-]
-
-{ #category : #accessing }
 MONoOp >> description [
 	^ description
 ]
@@ -27,6 +22,11 @@ MONoOp >> description [
 { #category : #accessing }
 MONoOp >> description: aString [ 
 	description := aString
+]
+
+{ #category : #accessing }
+MONoOp >> referee: aMOEnumEntry [ 
+	candidate := aMOEnumEntry 
 ]
 
 { #category : #'as yet unclassified' }

@@ -16,7 +16,7 @@ MOAlias >> acceptVisitor: ads [
 { #category : #accessing }
 MOAlias >> allMethods [
 
-	^ typeReference candidate allMethods
+	^ typeReference referee allMethods
 ]
 
 { #category : #accessing }
@@ -41,7 +41,7 @@ MOAlias >> finalize [
 { #category : #accessing }
 MOAlias >> isPrimitiveType [
 
-	^ typeReference candidate isPrimitiveType
+	^ typeReference referee isPrimitiveType
 ]
 
 { #category : #accessing }

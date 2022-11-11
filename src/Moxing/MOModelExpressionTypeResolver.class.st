@@ -21,8 +21,8 @@ MOModelExpressionTypeResolver >> typeOfExpression: aMOObject [
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitAttributeAccess: aMOAttributeAccess [
 
-	^ aMOAttributeAccess candidate ifNotNil: [ :c | 
-		  c typeReference ifNotNil: [ :e | e candidate ] ]
+	^ aMOAttributeAccess referee ifNotNil: [ :c | 
+		  c typeReference ifNotNil: [ :e | e referee ] ]
 ]
 
 { #category : #visiting }
@@ -32,7 +32,7 @@ MOModelExpressionTypeResolver >> visitIntegerLiteral: aMOIntegerLiteral [
 
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
-  ^aMOMethodInvocation candidate ifNotNil: [:c |  c returnTypeReference ifNotNil: [:rt |  rt candidate ] ]
+  ^aMOMethodInvocation referee ifNotNil: [:c |  c returnTypeReference ifNotNil: [:rt |  rt referee ] ]
 ]
 
 { #category : #visiting }
@@ -41,7 +41,7 @@ MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 	| classOrExtension |
 	classOrExtension := aMOSelfReference callingClass.
 	^ classOrExtension isMethodExtension
-		  ifTrue: [ classOrExtension classReference candidate ]
+		  ifTrue: [ classOrExtension classReference referee ]
 		  ifFalse: [ classOrExtension ]
 ]
 
@@ -53,10 +53,10 @@ MOModelExpressionTypeResolver >> visitStringLiteral: aMOStringLiteral [
 
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitTypeReference: aMOTypeReference [
-  ^aMOTypeReference candidate
+  ^aMOTypeReference referee
 ]
 
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitVariableReference: aMOVariableReference [
-  ^aMOVariableReference candidate ifNotNil: [:c |  c typeReference ifNotNil: [:e |  e candidate ] ]
+  ^aMOVariableReference referee ifNotNil: [:c |  c typeReference ifNotNil: [:e |  e referee ] ]
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAngularComponent,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOLanguageConstruct,
 	#instVars : [
 		'#behavior => MODeclaresSlot one',
 		'#template => MODeclaresSlot one',

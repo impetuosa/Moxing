@@ -36,11 +36,6 @@ MOParameterWriter >> mapsToVariableArguments [
 ]
 
 { #category : #writing }
-MOParameterWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #parameter / anEntity name
-]
-
-{ #category : #writing }
 MOParameterWriter >> privateWriteToSurface: anEntity [
 	surface addParameter: anEntity
 ]

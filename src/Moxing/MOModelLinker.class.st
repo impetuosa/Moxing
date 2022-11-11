@@ -36,7 +36,7 @@ MOModelLinker >> ensureAllImports: aMOModel [
 MOModelLinker >> ensureAllInvocableBindings: aMOModel [
 
 	aMOModel allInvocations
-		select: [ :i | i candidate isNil ]
+		select: [ :i | i referee isNil ]
 		thenDo: [ :i | self processInvocation: i ]
 ]
 
@@ -44,36 +44,36 @@ MOModelLinker >> ensureAllInvocableBindings: aMOModel [
 MOModelLinker >> ensureAllPackages: aMOModel [
 
 	(aMOModel entities select: [ :e | 
-		 (e isKindOf: MOPackageReference) and: [ e candidate isNil ] ]) do: [ 
+		 (e isKindOf: MOPackageReference) and: [ e referee isNil ] ]) do: [ 
 		:ref | 
 		aMOModel packages
 			detect: [ :p | p fullName = ref name ]
-			ifFound: [ :p | ref candidate: p ]
+			ifFound: [ :p | ref referee: p ]
 			ifNone: [ 
-				ref candidate:
+				ref referee:
 					(aMOModel writer writePackage: [ :package | 
 						 package name: ref name ]) ] ].
 
 
 	(aMOModel types select: [ :a | 
 		 a packageReference isNotNil and: [ 
-			 a packageReference candidate isNil ] ]) do: [ :a | 
+			 a packageReference referee isNil ] ]) do: [ :a | 
 		self halt.
 		a packageReference ifNotNil: [ 
-			(a packageReference candidate allTypes includes: a) ifFalse: [ 
+			(a packageReference referee allTypes includes: a) ifFalse: [ 
 				(a parent isKindOf: MODeclarationUnit)
 					ifTrue: [ 
 						self assert: a parent parent isNil.
-						a parent parent: a packageReference candidate.
-						a packageReference candidate addDeclarationUnit: a parent ]
-					ifFalse: [ a packageReference candidate addType: a ] ] ] ]
+						a parent parent: a packageReference referee.
+						a packageReference referee addDeclarationUnit: a parent ]
+					ifFalse: [ a packageReference referee addType: a ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllTypeReferences: aMOModel [
 
 	aMOModel typeReferences
-		select: [ :t | t candidate isNil ]
+		select: [ :t | t referee isNil ]
 		thenDo: [ :t | self processTypeReference: t ]
 ]
 
@@ -83,20 +83,20 @@ MOModelLinker >> ensureAllTypesInTheirPackages: aMOModel [
 	aMOModel types
 		select: [ :a | a packageReference isNotNil ]
 		thenDo: [ :type | 
-			(type packageReference candidate allTypes includes: type) ifFalse: [ 
+			(type packageReference referee allTypes includes: type) ifFalse: [ 
 				(type parent isKindOf: MODeclarationUnit)
 					ifTrue: [ 
-					type packageReference candidate declarationUnits add: type parent ]
+					type packageReference referee declarationUnits add: type parent ]
 					ifFalse: [ 
-						type packageReference candidate types add: type.
-						type parent: type packageReference candidate ] ] ]
+						type packageReference referee types add: type.
+						type parent: type packageReference referee ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
 MOModelLinker >> ensureAllVariableReferences: aMOModel [
 	
 	aMOModel variableReferences
-		select: [ :a | a candidate isNil ]
+		select: [ :a | a referee isNil ]
 		thenDo: [ :a | 
 		
 
@@ -135,7 +135,7 @@ MOModelLinker >> invocationLinker [
 { #category : #testing }
 MOModelLinker >> isReference: aMOModelBuilder [
 
-	^ (aMOModelBuilder isKindOf: MOLanguageObject) and: [ 
+	^ (aMOModelBuilder isKindOf: MOLanguageConstruct) and: [ 
 		  (aMOModelBuilder species = MOPackage) not ]
 ]
 
@@ -167,7 +167,7 @@ MOModelLinker >> linkAllChildOrphanReferencesToParent: aMOLanguage [
 
 	(self allValuesReferredBy: aMOLanguage)
 		select: [ :value | 
-			(value isKindOf: MODeclaration) and: [ 
+			(value isKindOf: MOObject) and: [ 
 				value parent isNil or: [ value parent isKindOf: MOModel ] ] ]
 		thenDo: [ :reference | 
 			(self isReference: reference) ifTrue: [ 

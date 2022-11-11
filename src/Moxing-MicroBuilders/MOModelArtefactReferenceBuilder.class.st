@@ -14,17 +14,11 @@ MOModelArtefactReferenceBuilder >> buildsType [
 	^ MOArtefactReference
 ]
 
-{ #category : #accessing }
-MOModelArtefactReferenceBuilder >> candidate [
-
-	^ candidate
-]
-
 { #category : #'as yet unclassified' }
 MOModelArtefactReferenceBuilder >> loadBuilderWithEntity: anEntity [
 
 	self name: anEntity name.
-	self candidate: anEntity candidate
+	self referee: anEntity referee
 ]
 
 { #category : #'as yet unclassified' }
@@ -45,6 +39,12 @@ MOModelArtefactReferenceBuilder >> name: aName [
 MOModelArtefactReferenceBuilder >> privateBuild [
 	^ (self instantiate: MOArtefactReference)
 		  name: self name;
-		  candidate: self candidate;
+		  referee: self referee;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelArtefactReferenceBuilder >> referee [
+
+	^ candidate
 ]

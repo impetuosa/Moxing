@@ -272,7 +272,7 @@ MOCatalogTypeInstaller >> visitParametrizedTypeReference: aMOParametrizedTypeRef
 		       parametrizedTypeReferenceNamed:
 		       aMOParametrizedTypeReference name
 		       arguments: params.
-	type ifNotEmpty: [ ref candidate: type anyOne ].
+	type ifNotEmpty: [ ref referee: type anyOne ].
 	^ ref
 ]
 
@@ -305,7 +305,7 @@ MOCatalogTypeInstaller >> visitTypeReference: aMOParametrizedTypeReference [
 		             ifFalse: [ 
 		             writer typeReferenceNamed:
 			             aMOParametrizedTypeReference fullName ].
-	type ifNotEmpty: [ reference candidate: type anyOne ].
+	type ifNotEmpty: [ reference referee: type anyOne ].
 	^ reference
 ]
 

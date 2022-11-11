@@ -30,8 +30,8 @@ MOModelArtefactTypeReferenceBuilder >> buildSubtypeReference [
 MOModelArtefactTypeReferenceBuilder >> buildTypeReference [
 
 	^ (self instantiate: self buildsType)
-		  candidateAnchor: self candidateAnchor;
-		  candidate: self candidate;
+		  refereeAnchor: self candidateAnchor;
+		  referee: self referee;
 		  name: self name;
 		  packageReference: self packageReference;
 		  parent: self parent;

@@ -25,7 +25,7 @@ MOModelVariableResolver >> processVariableReference: aMOVariableReference [
 
 { #category : #'as yet unclassified' }
 MOModelVariableResolver >> variableHasBeenResolved [
-	^ resolving candidate isNotNil 
+	^ resolving referee isNotNil 
 ]
 
 { #category : #visiting }
@@ -47,7 +47,7 @@ MOModelVariableResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOp
 
 { #category : #visiting }
 MOModelVariableResolver >> visitBlock: aMOBlock [
-  aMOBlock statements detect: [:v |  (v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ] ifFound: [:c |  resolving candidate: c ] ifNone: [ aMOBlock parent ifNotNil: [:a |  a acceptVisitor: self ] ]
+  aMOBlock statements detect: [:v |  (v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ] ifFound: [:c |  resolving referee: c ] ifNone: [ aMOBlock parent ifNotNil: [:a |  a acceptVisitor: self ] ]
 ]
 
 { #category : #visiting }
@@ -55,7 +55,7 @@ MOModelVariableResolver >> visitBlockClosure: aMOStBlockClosure [
 aMOStBlockClosure  parameters
 		detect: [ :v | 
 	v name = resolving name ] 
-		ifFound: [ :c | resolving candidate: c ]
+		ifFound: [ :c | resolving referee: c ]
 		ifNone: [ aMOStBlockClosure  parent acceptVisitor: self ].
 
 ]
@@ -66,7 +66,7 @@ MOModelVariableResolver >> visitClass: aMOClass [
 	aMOClass attributes
 		detect: [ :v | 
 		(v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ]
-		ifFound: [ :c | resolving candidate: c ]
+		ifFound: [ :c | resolving referee: c ]
 		ifNone: [ aMOClass parent acceptVisitor: self ]
 ]
 
@@ -105,7 +105,7 @@ MOModelVariableResolver >> visitMetaClass: aMOMetaClass [
 aMOMetaClass attributes
 		detect: [ :v | 
 		(v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ]
-		ifFound: [ :c | resolving candidate: c ]
+		ifFound: [ :c | resolving referee: c ]
 		ifNone: [ aMOMetaClass parent parent acceptVisitor: self ]
 ]
 
@@ -114,7 +114,7 @@ MOModelVariableResolver >> visitMethod: aMOMethod [
 aMOMethod  parameters
 		detect: [ :v | 
 v name = resolving name ] 
-		ifFound: [ :c | resolving candidate: c ]
+		ifFound: [ :c | resolving referee: c ]
 		ifNone: [ aMOMethod  parent acceptVisitor: self ].
 
 ]
@@ -185,7 +185,7 @@ MOModelVariableResolver >> visitVisualWorksPackage: aMOVisualWorksPackage [
 		^ aMOVisualWorksPackage sharedVariables 
 			detect: [ :v | 
 				(v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ]
-			ifFound: [ :c | resolving candidate: c ]
+			ifFound: [ :c | resolving referee: c ]
 	
 
 

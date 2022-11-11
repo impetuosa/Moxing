@@ -1,6 +1,6 @@
 Class {
 	#name : #MOArtefact,
-	#superclass : #MOLanguageObject,
+	#superclass : #MONamedDeclaration,
 	#instVars : [
 		'#types => MODeclaresSlot many',
 		'#declarationUnits => MODeclaresSlot many',

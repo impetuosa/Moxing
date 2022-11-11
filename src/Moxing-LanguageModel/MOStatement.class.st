@@ -1,6 +1,6 @@
 Class {
 	#name : #MOStatement,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOLanguageConstruct,
 	#category : #'Moxing-LanguageModel-Statements'
 }
 

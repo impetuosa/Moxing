@@ -472,7 +472,7 @@ MOTypescriptCodeGenerator >> visitVariable: aMOTypescriptVariable [
 { #category : #visiting }
 MOTypescriptCodeGenerator >> visitVariableReference: aMOVariableRererence [
 
-	(aMOVariableRererence candidate isKindOf: MOAttribute) ifTrue: [ 
+	(aMOVariableRererence referee isKindOf: MOAttribute) ifTrue: [ 
 		self printSelf.
 		stream nextPutAll: '.' ].
 	^ super visitVariableReference: aMOVariableRererence

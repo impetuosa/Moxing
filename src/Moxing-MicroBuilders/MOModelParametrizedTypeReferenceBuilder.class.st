@@ -25,11 +25,11 @@ MOModelParametrizedTypeReferenceBuilder >> argumentTypeReferences: aCollection [
 MOModelParametrizedTypeReferenceBuilder >> buildSubtypeReference [
 
 	| parentType typeNames |
-	self assert: self candidate isNil.
+	self assert: self referee isNil.
 	self assert: self candidateAnchor isNil.
 	typeNames := '$' split: self name.
 	parentType := (self instantiate: MOTypeReference)
-		              candidate: self candidate;
+		              referee: self referee;
 		              name: typeNames first;
 		              packageReference: self packageReference;
 		              parent: self parent;
@@ -50,8 +50,8 @@ MOModelParametrizedTypeReferenceBuilder >> buildSubtypeReference [
 MOModelParametrizedTypeReferenceBuilder >> buildTypeReference [
 
 	^ (self instantiate: MOParametrizedTypeReference)
-		  candidateAnchor: self candidateAnchor;
-		  candidate: self candidate;
+		  refereeAnchor: self candidateAnchor;
+		  referee: self referee;
 		  name: self name;
 		  packageReference: self packageReference;
 		  parent: self parent;

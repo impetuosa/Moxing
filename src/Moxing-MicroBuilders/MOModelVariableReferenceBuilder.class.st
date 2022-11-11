@@ -19,16 +19,6 @@ MOModelVariableReferenceBuilder >> buildsType [
 ]
 
 { #category : #accessing }
-MOModelVariableReferenceBuilder >> candidate [
-	^ candidate
-]
-
-{ #category : #accessing }
-MOModelVariableReferenceBuilder >> candidate: aMOAttribute [ 
-	candidate := aMOAttribute 
-]
-
-{ #category : #accessing }
 MOModelVariableReferenceBuilder >> kindOfEntry [
 	^ kindOfEntry
 ]
@@ -42,7 +32,7 @@ MOModelVariableReferenceBuilder >> kindOfEntry: aString [
 { #category : #'as yet unclassified' }
 MOModelVariableReferenceBuilder >> loadBuilderWithEntity: anEntity [ 
 	self name: anEntity name. 
- self candidate: anEntity candidate. 
+ self referee: anEntity referee. 
  self kindOfEntry: anEntity kind. 
  
 	
@@ -63,14 +53,24 @@ MOModelVariableReferenceBuilder >> privateBuild [
 
 	^ (self instantiate: MOVariableReference)
 		  name: name;
-		  candidate: candidate;
+		  referee: candidate;
 		  kind: kindOfEntry;
 		  yourself
+]
+
+{ #category : #accessing }
+MOModelVariableReferenceBuilder >> referee [
+	^ candidate
+]
+
+{ #category : #accessing }
+MOModelVariableReferenceBuilder >> referee: aMOAttribute [ 
+	candidate := aMOAttribute 
 ]
 
 { #category : #generated }
 MOModelVariableReferenceBuilder >> variable: aMOAttribute [ 
 	self name: aMOAttribute name.
-	self candidate: aMOAttribute. 
+	self referee: aMOAttribute. 
 	self kindOfEntry: aMOAttribute className. 
 ]

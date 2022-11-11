@@ -18,7 +18,7 @@ MOModelImportLinker >> ensureAllDependentTypesExists: aMOClass [
 	references do: [ :m | 
 		(self getType: m)
 			ifEmpty: [ self install: m ]
-			ifNotEmpty: [ :a | m candidate: a anyOne ] ]
+			ifNotEmpty: [ :a | m referee: a anyOne ] ]
 ]
 
 { #category : #visiting }
@@ -81,7 +81,7 @@ MOModelImportLinker >> install: aMOTypeReference from: aPackageReference [
 		installedType := MOCatalogTypeInstaller new
 			                 install: typeOrEmpty first
 			                 into: model.
-		aMOTypeReference candidate: installedType ]
+		aMOTypeReference referee: installedType ]
 ]
 
 { #category : #visiting }
@@ -95,9 +95,9 @@ MOModelImportLinker >> installAll: aMOPackageReference [
 			                  install: type
 			                  into: model ].
 
-	aMOPackageReference candidate types addAll:
+	aMOPackageReference referee types addAll:
 		(installedTypes select: [ :a | a isType ]).
-	aMOPackageReference candidate declarationUnits addAll:
+	aMOPackageReference referee declarationUnits addAll:
 		(installedTypes reject: [ :a | a isType ])
 ]
 
@@ -118,13 +118,13 @@ MOModelImportLinker >> visitImport: import [
 
 	import importsAllPackage
 		ifTrue: [ 
-			import packageReference candidate allTypes ifEmpty: [ 
+			import packageReference referee allTypes ifEmpty: [ 
 				self installAll: import packageReference ] ]
 		ifFalse: [ 
-			import typeReference candidate ifNil: [ 
-				import packageReference candidate allTypes
+			import typeReference referee ifNil: [ 
+				import packageReference referee allTypes
 					detect: [ :type | type name = import typeReference name ]
-					ifFound: [ :type | import typeReference candidate: type ]
+					ifFound: [ :type | import typeReference referee: type ]
 					ifNone: [ 
 					self install: import typeReference from: import packageReference ] ] ]
 ]

@@ -63,11 +63,6 @@ MOVariableWriter >> name: aName [
 ]
 
 { #category : #writing }
-MOVariableWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #variable / anEntity name
-]
-
-{ #category : #writing }
 MOVariableWriter >> privateWriteToSurface: anEntity [
 
 	onTop

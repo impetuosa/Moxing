@@ -62,11 +62,6 @@ MOPackageWriter >> path: aCollection [
 ]
 
 { #category : #writing }
-MOPackageWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #package / anEntity name
-]
-
-{ #category : #writing }
 MOPackageWriter >> privateWriteToSurface: anEntity [
 	surface addPackage: anEntity
 ]

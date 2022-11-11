@@ -1,6 +1,6 @@
 Class {
 	#name : #MONamedArguments,
-	#superclass : #MOLanguageObject,
+	#superclass : #MOLanguageConstruct,
 	#instVars : [
 		'#argumentExpressions => MOExpressesSlot many'
 	],

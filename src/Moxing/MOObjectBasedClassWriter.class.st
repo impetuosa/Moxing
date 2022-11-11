@@ -39,11 +39,6 @@ MOObjectBasedClassWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
-MOObjectBasedClassWriter >> privateSetAnchor: anEntity [ 
-	anEntity anchor: surface anchor / #class / anEntity name
-]
-
-{ #category : #writing }
 MOObjectBasedClassWriter >> privateWriteToSurface: anEntity [
 	surface addClass: anEntity
 ]

@@ -15,11 +15,6 @@ MOCastExpression >> canBeReferredAsArrayAccess [
 ]
 
 { #category : #generated }
-MOCastExpression >> candidate [
- 	^ expression candidate 
-]
-
-{ #category : #generated }
 MOCastExpression >> expression [
 
 	^ expression
@@ -28,6 +23,11 @@ MOCastExpression >> expression [
 { #category : #accessing }
 MOCastExpression >> expression: aMOVariableReference [ 
 	expression := aMOVariableReference
+]
+
+{ #category : #generated }
+MOCastExpression >> referee [
+ 	^ expression referee 
 ]
 
 { #category : #generated }

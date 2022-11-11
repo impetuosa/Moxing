@@ -331,12 +331,6 @@ MOModelProceduralWriter >> primitiveTypeReferenceNamed: aString [
 ]
 
 { #category : #writing }
-MOModelProceduralWriter >> privateSetAnchor: anEntity [
-
-	self subclassResponsibility
-]
-
-{ #category : #writing }
 MOModelProceduralWriter >> privateWriteToSurface: anEntity [
 
 	self subclassResponsibility
@@ -372,12 +366,6 @@ MOModelProceduralWriter >> referenceToSuper [
 MOModelProceduralWriter >> referenceToThisContext [
 
 	^ builder referenceToThisContext
-]
-
-{ #category : #writing }
-MOModelProceduralWriter >> setAnchor: anEntity [
-
-	self isUpdating ifFalse: [ self privateSetAnchor: anEntity ]
 ]
 
 { #category : #'as yet unclassified' }
