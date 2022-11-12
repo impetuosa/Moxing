@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOExpression,
 	#instVars : [
 		'#referee => MORefereeSlot',
-		'#refereeAnchor'
+		'#refereeAnchor => MOPropertySlot',
+		'#name => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-References'
 }
@@ -19,9 +20,14 @@ MOReference >> isTypeReference [
 ]
 
 { #category : #accessing }
-MOReference >> name: aName [
+MOReference >> name [
 
-	super name: aName
+	^ name
+]
+
+{ #category : #accessing }
+MOReference >> name: aName [
+	name := aName 
 ]
 
 { #category : #accessing }

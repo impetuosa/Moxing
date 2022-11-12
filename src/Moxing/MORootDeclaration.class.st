@@ -2,7 +2,8 @@ Class {
 	#name : #MORootDeclaration,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
-		'#packages => MODeclaresSlot many'
+		'#packages => MODeclaresSlot many',
+		'#name'
 	],
 	#category : #'Moxing-Core'
 }
@@ -67,6 +68,11 @@ MORootDeclaration >> language: aMOLanguage [
 MORootDeclaration >> model [
 
 	^ parent
+]
+
+{ #category : #accessing }
+MORootDeclaration >> name: aString [ 
+	name := aString
 ]
 
 { #category : #accessing }

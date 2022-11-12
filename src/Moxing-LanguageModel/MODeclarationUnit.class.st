@@ -56,6 +56,11 @@ MODeclarationUnit >> isDefinedInLibrary [
 ]
 
 { #category : #accessing }
+MODeclarationUnit >> name: aName [
+ 	self halt.
+]
+
+{ #category : #accessing }
 MODeclarationUnit >> packageReference: aMOPackageReference [
 
 	types do: [ :t | t packageReference: aMOPackageReference ]
