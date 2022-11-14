@@ -54,11 +54,11 @@ MOJinDAMTypeReferenceVisitor >> visitLibrary: aJinDAMLibrary [
 { #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitLibraryReference: aJinDAMLibraryReference [
 
-	self assert: aJinDAMLibraryReference referee isArtefact.
-	^ aJinDAMLibraryReference referee
+	self assert: aJinDAMLibraryReference candidate isArtefact.
+	^ aJinDAMLibraryReference candidate
 		  ifNil: [ 
 		  writer artefactReferenceNamed: aJinDAMLibraryReference name ]
-		  ifNotNil: [ aJinDAMLibraryReference referee acceptVisitor: self ]
+		  ifNotNil: [ aJinDAMLibraryReference candidate acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -80,7 +80,7 @@ MOJinDAMTypeReferenceVisitor >> visitModule: aJinDAMModule [
 { #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitMultipleTypeReference: aJinDAMMultipleTypeReference [
 
-	self assert: aJinDAMMultipleTypeReference referee isNil.
+	self assert: aJinDAMMultipleTypeReference candidate isNil.
 	^ writer typeReferenceNamed: aJinDAMMultipleTypeReference typeName
 ]
 

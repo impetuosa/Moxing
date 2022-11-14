@@ -375,7 +375,7 @@ MOJinDAMModelReader >> visitExpressionReference: aJinDAMExpressionReference [
 
 	| ref |
 	self assert:
-		(aJinDAMExpressionReference referee isKindOf: JinDAMAccessRead).
+		(aJinDAMExpressionReference candidate isKindOf: JinDAMAccessRead).
 	self assert: aJinDAMExpressionReference arguments isNotEmpty.
 
 
@@ -384,7 +384,7 @@ MOJinDAMModelReader >> visitExpressionReference: aJinDAMExpressionReference [
 				   self
 					   use: exp
 					   during: [ 
-					   aJinDAMExpressionReference referee acceptVisitor: self ] ]
+					   aJinDAMExpressionReference candidate acceptVisitor: self ] ]
 			   arguments: [ :expr | 
 				   self
 					   use: expr

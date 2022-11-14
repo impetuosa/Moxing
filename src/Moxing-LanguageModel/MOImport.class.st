@@ -2,6 +2,7 @@ Class {
 	#name : #MOImport,
 	#superclass : #MOStatement,
 	#instVars : [
+		'#name => MOPropertySlot',
 		'#typeReference => MORefersSlot one',
 		'#packageReference => MORefersSlot one'
 	],

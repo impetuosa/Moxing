@@ -24,6 +24,7 @@ MORootDeclaration >> addPackage: anEntry [
 { #category : #testing }
 MORootDeclaration >> canDeclare: anOtherObject with: aSlot [
 
+	parent isStonReference ifTrue: [ ^ true ].
 	^ self language can: self declare: anOtherObject with: aSlot
 ]
 

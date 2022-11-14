@@ -97,31 +97,36 @@ MOLanguageConstruct >> canBeReferredAsVariable [
 
 { #category : #testing }
 MOLanguageConstruct >> canDeclare: anOtherObject with: aSlot [
-	language ifNil: [ language := MOJava allInstances first  ].
+
+	language ifNil: [ language := MOJava allInstances first ].
+	language isStonReference ifTrue: [ ^ true ].
 	^ language can: self declare: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
 MOLanguageConstruct >> canExpress: anOtherObject with: aSlot [
 
+	language isStonReference ifTrue: [ ^ true ].
 	^ language can: self express: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
 MOLanguageConstruct >> canRefer: anOtherObject with: aSlot [
-
+	language isStonReference ifTrue: [ ^ true. ].
 	^ language can: self refer: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
 MOLanguageConstruct >> canState: anOtherObject with: aSlot [
 
+	language isStonReference ifTrue: [ ^ true ].
 	^ language can: self state: anOtherObject with: aSlot
 ]
 
 { #category : #testing }
 MOLanguageConstruct >> canUseAsReferee: anOtherObject with: aSlot [
 
+	language isStonReference ifTrue: [ ^ true ].
 	^ language can: self useAsReferee: anOtherObject with: aSlot
 ]
 
