@@ -15,6 +15,11 @@ MOAccess >> isMicrosoftAccess [
 	^ true
 ]
 
+{ #category : #accessing }
+MOAccess >> link: aMOModelDerivative [
+
+]
+
 { #category : #testing }
 MOAccess >> name [
 

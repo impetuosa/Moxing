@@ -17,6 +17,11 @@ MOPharo >> isPharo [
 ]
 
 { #category : #accessing }
+MOPharo >> link: aMOModelDerivative [
+""
+]
+
+{ #category : #accessing }
 MOPharo >> name [
 
 	^ #Pharo

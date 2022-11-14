@@ -31,7 +31,7 @@ MOPackage >> allTypes [
 MOPackage >> childrenForTree [
 
 	^ super childrenForTree sort:
-		  #isDefinedInLibrary ascending , #name ascending
+		  #isDefinedInLibrary ascending , #printString ascending
 ]
 
 { #category : #adding }

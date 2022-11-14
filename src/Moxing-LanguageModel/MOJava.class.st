@@ -58,7 +58,7 @@ MOJava >> isAbstractType: aType [
 
 { #category : #accessing }
 MOJava >> isJava [
-	^ false
+	^ true
 ]
 
 { #category : #accessing }

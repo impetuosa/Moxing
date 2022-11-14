@@ -130,6 +130,18 @@ MOModelTypeResolver >> visitDeclarationUnit: aMODeclarationUnit [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitEnum: aMOEnum [
+
+	aMOEnum parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitEnumEntry: aMOEnumEntry [
+
+	^ aMOEnumEntry parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitGlobalVariable: aMOSharedVariable [ 
 	aMOSharedVariable  parent acceptVisitor: self
 ]
