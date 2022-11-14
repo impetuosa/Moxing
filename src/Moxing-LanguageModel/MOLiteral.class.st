@@ -39,7 +39,6 @@ MOLiteral >> literal [
 { #category : #accessing }
 MOLiteral >> literal: aLiteral [
 	literal := aLiteral.
-	self name: #literal, literal asString.
 ]
 
 { #category : #printing }

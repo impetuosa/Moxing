@@ -82,8 +82,9 @@ MOAngularLoader >> loadNamed: aName [
 MOAngularLoader >> populateAnchorOn: anEntity [
 
 	| subentity |
-	anEntity allContainmentRelations , anEntity allReferenceRelations
-	, anEntity allExpressionRelations do: [ :relation | 
+	anEntity allDeclaresRelations , anEntity allStatesRelations
+	, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
+		:relation | 
 		subentity := relation to.
 		subentity parent: anEntity.
 		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil

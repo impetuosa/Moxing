@@ -6,7 +6,7 @@ Class {
 		'#initialValue => MOExpressesSlot one',
 		'#limitValue => MOExpressesSlot one',
 		'#step => MOExpressesSlot one',
-		'#loopingBlock => MODeclaresSlot one'
+		'#loopingBlock => MOStatesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

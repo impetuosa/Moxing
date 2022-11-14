@@ -63,14 +63,6 @@ MOObject >> allCandidates [
 ]
 
 { #category : #traverse }
-MOObject >> allContainmentRelations [
-
-	^ (self class allSlots select: [ :slot | 
-		   slot class = MODeclaresSlot ]) flatCollect: [ :slot | 
-		  slot readAllRelations: self ]
-]
-
-{ #category : #traverse }
 MOObject >> allContainments [
 
 	^ (self class allSlots select: [ :slot | 
@@ -79,7 +71,15 @@ MOObject >> allContainments [
 ]
 
 { #category : #traverse }
-MOObject >> allExpressionRelations [
+MOObject >> allDeclaresRelations [
+
+	^ (self class allSlots select: [ :slot | 
+		   slot class = MODeclaresSlot ]) flatCollect: [ :slot | 
+		  slot readAllRelations: self ]
+]
+
+{ #category : #traverse }
+MOObject >> allExpressesRelations [
 
 	^ (self class allSlots select: [ :slot | 
 		   slot class = MOExpressesSlot ]) flatCollect: [ :slot | 
@@ -124,13 +124,6 @@ MOObject >> allPropertyRelations [
 ]
 
 { #category : #traverse }
-MOObject >> allReferenceRelations [
-	^ (self class allSlots select: [ :slot | 
-		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
-		  slot readAllRelations: self ]
-]
-
-{ #category : #traverse }
 MOObject >> allReferences [
 	^ (self class allSlots select: [ :slot | 
 		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
@@ -138,11 +131,25 @@ MOObject >> allReferences [
 ]
 
 { #category : #traverse }
+MOObject >> allRefersRelations [
+	^ (self class allSlots select: [ :slot | 
+		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
+		  slot readAllRelations: self ]
+]
+
+{ #category : #traverse }
 MOObject >> allRelations [
 
-	^ self allContainmentRelations , self allExpressionRelations
-	  , self allReferenceRelations , self allPropertyRelations
-	  , self allCandidateRelations
+	^ self allDeclaresRelations , self allStatesRelations
+	  , self allExpressesRelations , self allRefersRelations
+	  , self allPropertyRelations , self allCandidateRelations
+]
+
+{ #category : #traverse }
+MOObject >> allStatesRelations [
+
+	^ (self class allSlots select: [ :slot | slot class = MOStatesSlot ]) 
+		  flatCollect: [ :slot | slot readAllRelations: self ]
 ]
 
 { #category : #traverse }

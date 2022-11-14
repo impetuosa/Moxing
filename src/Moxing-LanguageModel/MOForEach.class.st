@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#each => MOExpressesSlot one',
 		'#collection => MOExpressesSlot one',
-		'#loopingBlock => MODeclaresSlot one'
+		'#loopingBlock => MOStatesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

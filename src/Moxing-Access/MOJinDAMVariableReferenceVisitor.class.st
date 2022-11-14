@@ -17,7 +17,7 @@ MOJinDAMVariableReferenceVisitor >> arguments: aCollection [
 { #category : #'as yet unclassified' }
 MOJinDAMVariableReferenceVisitor >> infereTarget: aJinDAMMemberReference [
 
-	aJinDAMMemberReference referee ifNotNil: [ :candi | self halt ].
+	aJinDAMMemberReference candidate ifNotNil: [ :candi | self halt ].
 
 	aJinDAMMemberReference kindAccess = #dictionary
 		ifTrue: [ 
@@ -272,18 +272,18 @@ MOJinDAMVariableReferenceVisitor >> visitMemberReference: aJinDAMMemberReference
 					 receiver: [ :e | producedSegments first typeReference ]).
 			^ producedSegments removeFirst ] ].
 
-	^ aJinDAMMemberReference referee isCollection
+	^ aJinDAMMemberReference candidate isCollection
 		  ifFalse: [ 
-			  aJinDAMMemberReference referee
+			  aJinDAMMemberReference candidate
 				  ifNil: [ self infereTarget: aJinDAMMemberReference ]
 				  ifNotNil: [ :c | 
 					  aJinDAMMemberReference name = #Me
 						  ifTrue: [ writer referenceToSelf ]
 						  ifFalse: [ c acceptVisitor: self ] ] ]
 		  ifTrue: [ 
-			  (aJinDAMMemberReference referee
+			  (aJinDAMMemberReference candidate
 				   detect: [ :a | a isKindOf: JinDAMAttribute ]
-				   ifNone: [ aJinDAMMemberReference referee anyOne ]) 
+				   ifNone: [ aJinDAMMemberReference candidate anyOne ]) 
 				  acceptVisitor: self ]
 ]
 

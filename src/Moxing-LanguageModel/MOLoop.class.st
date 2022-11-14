@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOStatement,
 	#instVars : [
 		'#condition => MOExpressesSlot one',
-		'#loopingBlock => MODeclaresSlot one'
+		'#loopingBlock => MOStatesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

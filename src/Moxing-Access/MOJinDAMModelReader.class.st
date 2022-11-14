@@ -89,6 +89,7 @@ MOJinDAMModelReader >> typeReferenceFor: aJinDAMTypeReference using: aWriter [
 MOJinDAMModelReader >> visitAccessModule: aJinDAMAccessModule [
 
 	| module |
+	self halt. 
 	module := self
 		          trace: aJinDAMAccessModule
 		          with: (writer writeProject: [ :p | 
@@ -662,26 +663,26 @@ MOJinDAMModelReader >> visitLibraryReference: aJinDAMLibraryReference [
 MOJinDAMModelReader >> visitLiteralReference: aJinDAMLiteralReference [
 
 	aJinDAMLiteralReference literalKind = 'String' ifTrue: [ 
-		^ writer stringLiteral: (aJinDAMLiteralReference referee
+		^ writer stringLiteral: (aJinDAMLiteralReference candidate
 				   copyFrom: 2
-				   to: aJinDAMLiteralReference referee size - 1) ].
+				   to: aJinDAMLiteralReference candidate size - 1) ].
 	aJinDAMLiteralReference literalKind = 'Boolean' ifTrue: [ 
 		^ writer booleanLiteral:
-			  aJinDAMLiteralReference referee asLowercase = 'true' ].
+			  aJinDAMLiteralReference candidate asLowercase = 'true' ].
 	aJinDAMLiteralReference literalKind = 'Null' ifTrue: [ 
 		^ writer nullLiteral ].
 	aJinDAMLiteralReference literalKind = 'Float' ifTrue: [ 
-		^ writer numericLiteral: aJinDAMLiteralReference referee asNumber ].
+		^ writer numericLiteral: aJinDAMLiteralReference candidate asNumber ].
 	aJinDAMLiteralReference literalKind = 'Integer' ifTrue: [ 
-		^ writer numericLiteral: aJinDAMLiteralReference referee asInteger ].
+		^ writer numericLiteral: aJinDAMLiteralReference candidate asInteger ].
 	
 	aJinDAMLiteralReference literalKind = 'Color' ifTrue: [ 
-		^ writer colorLiteral: aJinDAMLiteralReference referee ].
+		^ writer colorLiteral: aJinDAMLiteralReference candidate ].
 	
 	aJinDAMLiteralReference literalKind = 'Date' ifTrue: [ 
-		^ writer dateLiteral: aJinDAMLiteralReference referee ].
+		^ writer dateLiteral: aJinDAMLiteralReference candidate ].
 	aJinDAMLiteralReference literalKind = 'FileDescriptor' ifTrue: [ 
-		^ writer fileDescriptorLiteral: aJinDAMLiteralReference referee ].
+		^ writer fileDescriptorLiteral: aJinDAMLiteralReference candidate ].
 	self error: 'Unexpected literal '
 ]
 

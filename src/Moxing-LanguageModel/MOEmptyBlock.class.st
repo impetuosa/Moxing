@@ -1,7 +1,7 @@
 Class {
 	#name : #MOEmptyBlock,
-	#superclass : #MODeclaration,
-	#category : #'Moxing-LanguageModel-Declaration'
+	#superclass : #MOStatement,
+	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #accessing }

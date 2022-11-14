@@ -16,7 +16,6 @@ MORootDeclaration >> acceptVisitor: aVisitor [
 
 { #category : #accessing }
 MORootDeclaration >> addPackage: anEntry [
-
 	self packages add: anEntry.
 	anEntry parent: self.
 	

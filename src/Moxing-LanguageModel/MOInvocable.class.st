@@ -5,7 +5,7 @@ Class {
 		'#parameters => MODeclaresSlot many',
 		'#visibility => MOPropertySlot',
 		'#modifiers => MOPropertySlot',
-		'#block => MODeclaresSlot one',
+		'#block => MOStatesSlot one',
 		'#bindingKind => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'

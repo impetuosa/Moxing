@@ -109,7 +109,6 @@ MOModelDeclarationUnitBuilder >> privateBuild [
 
 	| instance |
 	instance := (self instantiate: MODeclarationUnit)
-		            name: (' ' join: (self types collect: #name));
 		            imports: self imports;
 		            types: self types;
 		            parent: self package;

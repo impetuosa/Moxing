@@ -311,8 +311,9 @@ MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
 	anEntity shouldPopulateRelations ifTrue: [ 
-		anEntity allContainmentRelations , anEntity allReferenceRelations
-		, anEntity allExpressionRelations do: [ :relation | 
+		anEntity allDeclaresRelations , anEntity allStatesRelations
+		, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
+			:relation | 
 			subentity := relation to.
 			subentity parent ifNil: [ subentity parent: anEntity ].
 			subentity anchor: anEntity anchor / relation name

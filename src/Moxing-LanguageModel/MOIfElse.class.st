@@ -3,8 +3,8 @@ Class {
 	#superclass : #MOStatement,
 	#instVars : [
 		'#condition => MOExpressesSlot one',
-		'#ifTrue => MODeclaresSlot one',
-		'#ifFalse => MODeclaresSlot one'
+		'#ifTrue => MOStatesSlot one',
+		'#ifFalse => MOStatesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }

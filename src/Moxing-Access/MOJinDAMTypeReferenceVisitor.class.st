@@ -92,7 +92,7 @@ MOJinDAMTypeReferenceVisitor >> visitPrimitiveType: aJinDAMPrimitiveType [
 { #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitTypeReference: aJinDAMTypeReference [
 
-	^ aJinDAMTypeReference referee
+	^ aJinDAMTypeReference candidate
 		  ifNil: [ 
 			  writer typeReferenceNamed: aJinDAMTypeReference typeName ]
 		  ifNotNil: [ :candidate | candidate acceptVisitor: self ]
