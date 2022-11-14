@@ -356,7 +356,14 @@ MOJavaFileLoader >> visitEmptyDeclaration: aJavaEmptyDeclarationNode [
 
 { #category : #visiting }
 MOJavaFileLoader >> visitEmptyMethodBody: aJavaEmptyMethodBodyNode [ 
-	" nothing to inform here. "
+	self halt.
+	^ writer noOp: 'Empty Method'
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitEmptyStatement: aJavaEmptyStatementNode [
+
+	^ writer noOp: 'Empty Statement '
 ]
 
 { #category : #visiting }

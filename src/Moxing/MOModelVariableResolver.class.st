@@ -29,6 +29,12 @@ MOModelVariableResolver >> variableHasBeenResolved [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitArrayAccess: aMOArrayAccess [
+
+	^ aMOArrayAccess parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitAssignment: aMOAssignment [ 
 aMOAssignment  parent acceptVisitor: self
 ]

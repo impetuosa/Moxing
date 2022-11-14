@@ -20,7 +20,8 @@ MOJavaTarCatalogLoader class >> loadSingleCatalogFor: aPom [
 	self catalogCatalog at: aPom ifPresent: [ :e | ^ e ].
 	loader := self new.
 	
-	catalog := MOCatalog new.
+	catalog := MOCatalog newJava.
+	catalog 
 	catalog anchor: (MOAnchor on: #/) / #catalog.
 	loader loadBuiltInInto: catalog.
 	loader loadMavenDependencies: aPom into: catalog.
