@@ -43,7 +43,7 @@ MOModelBlockBuilder >> addStatement: aStatement [
 	aStatement isCollection ifTrue: [ 
 		aStatement do: [ :a | self addStatement: a ].
 		^ self ].
-	(aStatement isKindOf: MOJavaFileLoader) ifTrue: [ self halt ].
+	(aStatement isKindOf: MOJavaFileLoader) ifTrue: [ ^ self ].
 	aStatement ifNil: [ self halt ].
 	self isAddingStatemntsAtFirst
 		ifTrue: [ self addFirstStatement: aStatement ]

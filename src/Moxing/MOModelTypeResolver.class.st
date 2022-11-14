@@ -271,13 +271,20 @@ MOModelTypeResolver >> visitStExensionMethodDeclarationUnit: aMOStExensionMethod
 ]
 
 { #category : #visiting }
-MOModelTypeResolver >> visitStMethod: aMOStMethod [ 
-self visitMethod: aMOStMethod 
+MOModelTypeResolver >> visitStMethod: aMOStMethod [
+
+	self visitMethod: aMOStMethod
 ]
 
 { #category : #visiting }
 MOModelTypeResolver >> visitStatementExpression: aMOStatementExpression [ 
 	aMOStatementExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitThrow: aMOThrow [
+
+	^ aMOThrow parent acceptVisitor: self
 ]
 
 { #category : #visiting }

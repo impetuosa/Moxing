@@ -65,9 +65,14 @@ MOObject >> allCandidates [
 { #category : #traverse }
 MOObject >> allContainments [
 
-	^ (self class allSlots select: [ :slot | 
-		   slot class = MODeclaresSlot ]) flatCollect: [ :slot | 
-		  slot readAll: self ]
+	^ self allDeclares, self allStates
+]
+
+{ #category : #traverse }
+MOObject >> allDeclares [
+
+	^ (self class allSlots select: [ :slot | slot class = MODeclaresSlot ]) 
+		  flatCollect: [ :slot | slot readAll: self ]
 ]
 
 { #category : #traverse }
@@ -143,6 +148,13 @@ MOObject >> allRelations [
 	^ self allDeclaresRelations , self allStatesRelations
 	  , self allExpressesRelations , self allRefersRelations
 	  , self allPropertyRelations , self allCandidateRelations
+]
+
+{ #category : #traverse }
+MOObject >> allStates [
+
+	^ (self class allSlots select: [ :slot | slot class = MOStatesSlot ]) 
+		  flatCollect: [ :slot | slot readAll: self ]
 ]
 
 { #category : #traverse }

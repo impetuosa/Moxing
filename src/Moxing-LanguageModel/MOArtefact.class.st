@@ -23,7 +23,7 @@ MOArtefact >> canBeReferredAsArtefact [
 { #category : #accessing }
 MOArtefact >> childrenForTree [
 
-	^ self allContainments sort: #name ascending 
+	^ self allContainments sort: #printString ascending
 ]
 
 { #category : #accessing }
