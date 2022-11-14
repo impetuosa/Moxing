@@ -89,7 +89,7 @@ MOJinDAMModelReader >> typeReferenceFor: aJinDAMTypeReference using: aWriter [
 MOJinDAMModelReader >> visitAccessModule: aJinDAMAccessModule [
 
 	| module |
-	self halt. 
+
 	module := self
 		          trace: aJinDAMAccessModule
 		          with: (writer writeProject: [ :p | 
