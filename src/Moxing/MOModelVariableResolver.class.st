@@ -53,7 +53,12 @@ MOModelVariableResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOp
 
 { #category : #visiting }
 MOModelVariableResolver >> visitBlock: aMOBlock [
-  aMOBlock statements detect: [:v |  (v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ] ifFound: [:c |  resolving referee: c ] ifNone: [ aMOBlock parent ifNotNil: [:a |  a acceptVisitor: self ] ]
+
+	aMOBlock statements
+		detect: [ :v | 
+			(v isKindOf: MOAbstractVariable) and: [ v name = resolving name ] ]
+		ifFound: [ :c | resolving referee: c ]
+		ifNone: [ aMOBlock parent ifNotNil: [ :a | a acceptVisitor: self ] ]
 ]
 
 { #category : #visiting }
@@ -64,6 +69,15 @@ aMOStBlockClosure  parameters
 		ifFound: [ :c | resolving referee: c ]
 		ifNone: [ aMOStBlockClosure  parent acceptVisitor: self ].
 
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitCatch: aMOCatch [
+
+	aMOCatch parameters
+		detect: [ :v | v name = resolving name ]
+		ifFound: [ :c | resolving referee: c ]
+		ifNone: [ aMOCatch parent acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -107,6 +121,12 @@ MOModelVariableResolver >> visitJavaClass: aMOJavaClass [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitLocalVariable: aMOLocalVariable [
+
+	^ aMOLocalVariable parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitMetaClass: aMOMetaClass [ 
 aMOMetaClass attributes
 		detect: [ :v | 
@@ -117,12 +137,11 @@ aMOMetaClass attributes
 
 { #category : #visiting }
 MOModelVariableResolver >> visitMethod: aMOMethod [
-aMOMethod  parameters
-		detect: [ :v | 
-v name = resolving name ] 
-		ifFound: [ :c | resolving referee: c ]
-		ifNone: [ aMOMethod  parent acceptVisitor: self ].
 
+	aMOMethod parameters
+		detect: [ :v | v name = resolving name ]
+		ifFound: [ :c | resolving referee: c ]
+		ifNone: [ aMOMethod parent acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -177,6 +196,12 @@ MOModelVariableResolver >> visitStMethod: aMOStMethod [
 MOModelVariableResolver >> visitStatementExpression: aMOStatementExpression [
 
 	^ aMOStatementExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitTryCatch: aMOTryCatch [
+
+	^ aMOTryCatch parent ifNotNil: [ :p | p acceptVisitor: self ]
 ]
 
 { #category : #visiting }

@@ -2,6 +2,7 @@ Class {
 	#name : #MONamedArguments,
 	#superclass : #MOLanguageConstruct,
 	#instVars : [
+		'#name => MOPropertySlot',
 		'#argumentExpressions => MOExpressesSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Expressions'
@@ -23,4 +24,22 @@ MONamedArguments >> argumentExpressions [
 MONamedArguments >> argumentExpressions: anObject [
 
 	argumentExpressions := anObject
+]
+
+{ #category : #accessing }
+MONamedArguments >> isExpression [
+
+	^ true
+]
+
+{ #category : #accessing }
+MONamedArguments >> name [
+
+	^ name
+]
+
+{ #category : #accessing }
+MONamedArguments >> name: anObject [
+
+	name := anObject
 ]

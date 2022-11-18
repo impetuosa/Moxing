@@ -180,6 +180,11 @@ MOModelTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitNamedArguments: aMONamedArguments [ 
+	^ aMONamedArguments parent acceptVisitor: self 
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitNewExpression: aMONewExpression [
 
 	^ aMONewExpression parent acceptVisitor: self

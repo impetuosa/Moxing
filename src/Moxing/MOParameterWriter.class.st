@@ -39,3 +39,9 @@ MOParameterWriter >> mapsToVariableArguments [
 MOParameterWriter >> privateWriteToSurface: anEntity [
 	surface addParameter: anEntity
 ]
+
+{ #category : #writing }
+MOParameterWriter >> writeAnnotation: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
+]
