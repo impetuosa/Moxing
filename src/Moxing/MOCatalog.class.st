@@ -14,6 +14,16 @@ Class {
 	#category : #'Moxing-Core'
 }
 
+{ #category : #private }
+MOCatalog class >> loadFrom: aString [
+
+	| instance |
+	instance := STON fromStream: aString asFileReference readStream.
+	self assert: (instance isKindOf: self).
+
+	^ instance
+]
+
 { #category : #'instance creation' }
 MOCatalog class >> newJava [
 
@@ -199,6 +209,19 @@ MOCatalog >> rootPackages [
 
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent isNil ] ]
+]
+
+{ #category : #saving }
+MOCatalog >> saveAs: aString [
+
+	| stream |
+	aString asFileReference ensureDelete.
+	stream := aString asFileReference writeStream.
+
+	STON put: self onStream: stream.
+	stream
+		flush;
+		close
 ]
 
 { #category : #traverse }

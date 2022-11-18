@@ -14,16 +14,6 @@ Class {
 	#category : #'Moxing-Core'
 }
 
-{ #category : #private }
-MOModel class >> loadFrom: aString [
-
-	| instance |
-	instance := STON fromStream: aString asFileReference readStream.
-	self assert: (instance isKindOf: self).
-
-	^ instance
-]
-
 { #category : #visiting }
 MOModel >> acceptVisitor: aMoxingPackageTree [
 
