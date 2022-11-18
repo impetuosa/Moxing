@@ -336,12 +336,15 @@ MOJinDAMVariableReferenceVisitor >> visitTypeMemberReference: aJinDAMTypeMemberR
 
 	self assert: aJinDAMTypeMemberReference name isNil.
 
-	self assert:
-		arguments size = aJinDAMTypeMemberReference arguments size.
 
 	^ writer
 		  arrayAccess: [ :expr | producedSegments removeFirst ]
-		  arguments: [ :expr | arguments ]
+		  arguments: [ :expr | 
+			  arguments size = aJinDAMTypeMemberReference arguments size
+				  ifTrue: [ arguments ]
+				  ifFalse: [ 
+
+				  reader visitCollection: aJinDAMTypeMemberReference arguments ] ]
 ]
 
 { #category : #visiting }

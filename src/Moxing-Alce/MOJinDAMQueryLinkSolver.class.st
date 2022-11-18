@@ -37,7 +37,7 @@ MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject inTableNamed: aString [
 
 	aString ifNil: [ ^ self detectColumnFor: anObject ].
-	(from at: aString) ifNil: [ ^ {  } ].
+	(from at: aString ifAbsent: nil) ifNil: [ ^ {  } ].
 	^ (from at: aString) attributes
 		  select: [ :a | 
 			  anObject isWildCard or: [ 
@@ -229,9 +229,9 @@ MOJinDAMQueryLinkSolver >> visitQuery: aMOAlceQuery [
 				modQuery writeExpression: [ :exp | 
 					(exp accessAttribute: key receiver: [ :er | 
 							 (er typeReferenceNamed: value key name)
-								 candidate: value key;
+								 referee: value key;
 								 yourself ])
-						candidate: value value;
+						referee: value value;
 						yourself ] ] ] ] ]
 		on: PSQLParseError
 		do: [ :e | "self halt""nothing " ]
@@ -258,11 +258,11 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 			exp
 				foreignRelation: [ :fr | 
 					(fr typeReferenceNamed: relFrom name)
-						candidate: relFrom;
+						referee: relFrom;
 						yourself ]
 				to: [ :tr | 
 					(tr typeReferenceNamed: relTo name)
-						candidate: relTo;
+						referee: relTo;
 						yourself ]
 				matches: [ :m | 
 					pairs collect: [ :assoc | 
@@ -273,15 +273,15 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 							matchPrimaryKey:
 								((m accessAttribute: pk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relFrom name)
-											  candidate: relFrom;
+											  referee: relFrom;
 											  yourself ])
-									 candidate: pk;
+									 referee: pk;
 									 yourself)
 							foreignKey: ((m accessAttribute: fk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relTo name)
-											  candidate: relTo;
+											  referee: relTo;
 											  yourself ])
-									 candidate: fk;
+									 referee: fk;
 									 yourself) ] ] ] ].
 
 
@@ -290,11 +290,11 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 			exp
 				foreignRelation: [ :fr | 
 					(fr typeReferenceNamed: relFrom name)
-						candidate: relFrom;
+						referee: relFrom;
 						yourself ]
 				to: [ :tr | 
 					(tr typeReferenceNamed: relTo name)
-						candidate: relTo;
+						referee: relTo;
 						yourself ]
 				matches: [ :m | 
 					pairs collect: [ :assoc | 
@@ -305,15 +305,15 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 							matchPrimaryKey:
 								((m accessAttribute: pk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relFrom name)
-											  candidate: relFrom;
+											  referee: relFrom;
 											  yourself ])
-									 candidate: pk;
+									 referee: pk;
 									 yourself)
 							foreignKey: ((m accessAttribute: fk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relTo name)
-											  candidate: relTo;
+											  referee: relTo;
 											  yourself ])
-									 candidate: fk;
+									 referee: fk;
 									 yourself) ] ] ] ]
 ]
 
