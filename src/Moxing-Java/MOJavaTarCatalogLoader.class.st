@@ -18,11 +18,19 @@ MOJavaTarCatalogLoader class >> loadSingleCatalogFor: aPom [
 
 	| loader catalog |
 	self catalogCatalog at: aPom ifPresent: [ :e | ^ e ].
+	'/Users/sbragagn/git-repositories/moxingmodels/catalog.java.ston'
+		asFileReference exists ifTrue: [ 
+		catalog := MOCatalog loadFrom:
+			           '/Users/sbragagn/git-repositories/moxingmodels/catalog.java.ston'.
+		self catalogCatalog at: aPom put: catalog.
+		^ catalog ].
+
+
+
 	loader := self new.
-	
+
 	catalog := MOCatalog newJava.
-	catalog 
-	catalog anchor: (MOAnchor on: #/) / #catalog.
+	catalog catalog anchor: (MOAnchor on: #/) / #catalog.
 	loader loadBuiltInInto: catalog.
 	loader loadMavenDependencies: aPom into: catalog.
 
