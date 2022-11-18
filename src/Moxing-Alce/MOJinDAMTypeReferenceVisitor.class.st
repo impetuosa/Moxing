@@ -90,6 +90,12 @@ MOJinDAMTypeReferenceVisitor >> visitPrimitiveType: aJinDAMPrimitiveType [
 ]
 
 { #category : #visiting }
+MOJinDAMTypeReferenceVisitor >> visitReport: aJinDAMReport [
+
+	^ writer typeReferenceNamed: aJinDAMReport name
+]
+
+{ #category : #visiting }
 MOJinDAMTypeReferenceVisitor >> visitTypeReference: aJinDAMTypeReference [
 
 	^ aJinDAMTypeReference candidate

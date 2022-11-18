@@ -19,6 +19,11 @@ MOVariableAccessor >> canBeReferredAsFunction [
 ]
 
 { #category : #accessing }
+MOVariableAccessor >> canBeReferredAsMethod [
+	^ true
+]
+
+{ #category : #accessing }
 MOVariableAccessor >> kind [
 	^ kind
 ]

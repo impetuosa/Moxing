@@ -37,7 +37,7 @@ MOJinDAMQueryLinkSolver >> detectColumnFor: anObject [
 MOJinDAMQueryLinkSolver >> detectColumnFor: anObject inTableNamed: aString [
 
 	aString ifNil: [ ^ self detectColumnFor: anObject ].
-	(from at: aString) ifNil: [ ^ {  } ].
+	(from at: aString ifAbsent: nil) ifNil: [ ^ {  } ].
 	^ (from at: aString) attributes
 		  select: [ :a | 
 			  anObject isWildCard or: [ 
@@ -229,9 +229,9 @@ MOJinDAMQueryLinkSolver >> visitQuery: aMOAlceQuery [
 				modQuery writeExpression: [ :exp | 
 					(exp accessAttribute: key receiver: [ :er | 
 							 (er typeReferenceNamed: value key name)
-								 candidate: value key;
+								 referee: value key;
 								 yourself ])
-						candidate: value value;
+						referee: value value;
 						yourself ] ] ] ] ]
 		on: PSQLParseError
 		do: [ :e | "self halt""nothing " ]

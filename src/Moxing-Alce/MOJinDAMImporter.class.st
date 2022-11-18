@@ -87,7 +87,7 @@ MOJinDAMImporter >> anchorFromToInstall [
 MOJinDAMImporter >> createDefaultObject: aJinDAMObject [ 
 
 	| obj |
-	obj := model instantiate: MOObject.
+	obj := model instantiate: MOObjectInstance .
 	obj holder: (traces at: aJinDAMObject type) first .
 	obj type: (traces at: aJinDAMObject type) first .
 
@@ -102,7 +102,7 @@ MOJinDAMImporter >> createDefaultObject: aJinDAMObject [
 MOJinDAMImporter >> createObject: aJinDAMObject [
 
 	| obj |
-	obj := model instantiate: MOObject.
+	obj := model instantiate: MOObjectInstance.
 	obj holder: (traces at: aJinDAMObject type) first.
 	obj type: (traces at: aJinDAMObject type typeReference) first.
 
@@ -122,7 +122,7 @@ MOJinDAMImporter >> createObject: aJinDAMObject [
 MOJinDAMImporter >> createObject: aJinDAMObject type: aJinDAMReport [
 
 	| obj |
-	obj := model instantiate: MOObject.
+	obj := model instantiate: MOObjectInstance.
 	obj holder: (traces at: aJinDAMReport) first.
 	obj type: (traces at: aJinDAMReport).
 
@@ -140,7 +140,7 @@ MOJinDAMImporter >> createObject: aJinDAMObject type: aJinDAMReport [
 { #category : #visiting }
 MOJinDAMImporter >> createObjects: aJinDAMObject [ 
 	| instance | 
-	instance := model instantiate: MOObject.
+	instance := model instantiate: MOObjectInstance.
 	instance 
 ]
 
@@ -172,7 +172,7 @@ MOJinDAMImporter >> linkWith: aJinDAMModel [
 						             ifTrue: [ candidate first ]
 						             ifFalse: [ candidate ].
 					(traces at: ref) do: [ :destRef | 
-						destRef candidate: (candidate isCollection
+						destRef referee: (candidate isCollection
 								 ifTrue: [ candidate anyOne anyOne ]
 								 ifFalse: [ candidate ]) ] ] ] ]
 ]
