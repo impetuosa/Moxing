@@ -258,11 +258,11 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 			exp
 				foreignRelation: [ :fr | 
 					(fr typeReferenceNamed: relFrom name)
-						candidate: relFrom;
+						referee: relFrom;
 						yourself ]
 				to: [ :tr | 
 					(tr typeReferenceNamed: relTo name)
-						candidate: relTo;
+						referee: relTo;
 						yourself ]
 				matches: [ :m | 
 					pairs collect: [ :assoc | 
@@ -273,15 +273,15 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 							matchPrimaryKey:
 								((m accessAttribute: pk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relFrom name)
-											  candidate: relFrom;
+											  referee: relFrom;
 											  yourself ])
-									 candidate: pk;
+									 referee: pk;
 									 yourself)
 							foreignKey: ((m accessAttribute: fk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relTo name)
-											  candidate: relTo;
+											  referee: relTo;
 											  yourself ])
-									 candidate: fk;
+									 referee: fk;
 									 yourself) ] ] ] ].
 
 
@@ -290,11 +290,11 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 			exp
 				foreignRelation: [ :fr | 
 					(fr typeReferenceNamed: relFrom name)
-						candidate: relFrom;
+						referee: relFrom;
 						yourself ]
 				to: [ :tr | 
 					(tr typeReferenceNamed: relTo name)
-						candidate: relTo;
+						referee: relTo;
 						yourself ]
 				matches: [ :m | 
 					pairs collect: [ :assoc | 
@@ -305,15 +305,15 @@ MOJinDAMQueryLinkSolver >> visitTableRelation: aJinDAMTableRelation [
 							matchPrimaryKey:
 								((m accessAttribute: pk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relFrom name)
-											  candidate: relFrom;
+											  referee: relFrom;
 											  yourself ])
-									 candidate: pk;
+									 referee: pk;
 									 yourself)
 							foreignKey: ((m accessAttribute: fk name receiver: [ :rex | 
 										  (rex typeReferenceNamed: relTo name)
-											  candidate: relTo;
+											  referee: relTo;
 											  yourself ])
-									 candidate: fk;
+									 referee: fk;
 									 yourself) ] ] ] ]
 ]
 
