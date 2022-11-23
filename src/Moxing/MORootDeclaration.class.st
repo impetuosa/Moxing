@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
 		'#packages => MODeclaresSlot many',
-		'#name'
+		'#name => MOPropertySlot'
 	],
 	#category : #'Moxing-Core'
 }

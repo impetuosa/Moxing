@@ -35,8 +35,13 @@ MOOntologicalConstraint >> can: anObject state: anOtherObject with: aSlot [
 MOOntologicalConstraint >> can: anObject use: anOtherObject with: aSlot [
 
 	| type relation |
-	type := ontology typeFor: anObject.
-	relation := type relationFor: aSlot.
+	[ type := ontology typeFor: anObject ]
+		on: Error
+		do: [ :e | ^ false ].
+	[ relation := type relationFor: aSlot ]
+		on: Error
+		do: [ :e | ^ false ].
+
 
 	^ relation acceptInstance: anOtherObject ontology: ontology
 ]
