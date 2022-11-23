@@ -49,7 +49,7 @@ MOLanguage >> can: anObject useAsReferee: anOtherObject with: aSlot [
 { #category : #testing }
 MOLanguage >> constraints [
 
-	^ constraints ifNil: [ constraints := MOLanguageConstraint new ]
+	^ constraints ifNil: [ constraints := MOStructuralRoleConstraint new ]
 ]
 
 { #category : #'resolution strategies' }

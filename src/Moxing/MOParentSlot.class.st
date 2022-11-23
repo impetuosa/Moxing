@@ -35,7 +35,7 @@ MOParentSlot >> emitStore: aMethodBuilder [
 { #category : #asserting }
 MOParentSlot >> isCorrect: anObject [
 
-	^ self shouldAccept: (self read: anObject)
+	^ self should: anObject accept: (self read: anObject)
 ]
 
 { #category : #asserting }
@@ -45,7 +45,7 @@ MOParentSlot >> isMOSlot [
 ]
 
 { #category : #asserting }
-MOParentSlot >> shouldAccept: aValue [
+MOParentSlot >> should: anObject accept: aValue [
 
 	^ aValue isNil or: [ 
 		  (aValue isKindOf: MOModel) or: [ aValue isKindOf: MOObject ] ]

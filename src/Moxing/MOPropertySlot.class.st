@@ -25,10 +25,10 @@ MOPropertySlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclaratio
 		  aMODeclarationStructuralRelation
 ]
 
-{ #category : #visiting }
+{ #category : #testing }
 MOPropertySlot >> isCorrect: anObject [
 
-	^ true
+	^ self should: anObject accept: (self read: anObject)
 ]
 
 { #category : #testing }
@@ -40,4 +40,10 @@ MOPropertySlot >> isMOSlot [
 { #category : #testing }
 MOPropertySlot >> isToMany [
 	^ false 
+]
+
+{ #category : #testing }
+MOPropertySlot >> should: anObject accept: aValue [
+
+	^ true
 ]
