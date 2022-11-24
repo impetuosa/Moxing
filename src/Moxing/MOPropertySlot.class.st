@@ -38,6 +38,14 @@ MOPropertySlot >> isMOSlot [
 ]
 
 { #category : #testing }
+MOPropertySlot >> isNoneValue: aCollection [
+
+	^ aCollection isCollection
+		  ifTrue: [ aCollection isEmptyOrNil ]
+		  ifFalse: [ aCollection isNil ]
+]
+
+{ #category : #testing }
 MOPropertySlot >> isToMany [
 	^ false 
 ]
@@ -45,5 +53,6 @@ MOPropertySlot >> isToMany [
 { #category : #testing }
 MOPropertySlot >> should: anObject accept: aValue [
 
-	^ true
+	aValue isStonReference ifTrue: [ ^ true ].
+	^ aValue isNil or: [ anObject canBeDescribedBy: aValue with: self ]
 ]

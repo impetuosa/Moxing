@@ -61,6 +61,12 @@ MOOneOrManySlot >> initialize: anObject [
 ]
 
 { #category : #printing }
+MOOneOrManySlot >> isNoneValue: aCollection [
+
+	^ aCollection isNil
+]
+
+{ #category : #printing }
 MOOneOrManySlot >> isToMany [
 
 	^ self cardinality = self class constantSymbolMany 

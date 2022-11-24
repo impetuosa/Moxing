@@ -22,6 +22,19 @@ MORootDeclaration >> addPackage: anEntry [
 ]
 
 { #category : #testing }
+MORootDeclaration >> canBeDescribedBy: anOtherObject with: aSlot [
+
+	self language isStonReference ifTrue: [ ^ true ].
+	^ self language can: self beDescribedBy: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MORootDeclaration >> canBeParentedBy: aMOModel with: aMOParentSlot [
+
+	^ aMOModel isMOModel
+]
+
+{ #category : #testing }
 MORootDeclaration >> canDeclare: anOtherObject with: aSlot [
 
 	parent isStonReference ifTrue: [ ^ true ].

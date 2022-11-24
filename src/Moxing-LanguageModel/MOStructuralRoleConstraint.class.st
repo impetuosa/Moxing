@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #testing }
+MOStructuralRoleConstraint >> can: anObject beDescribedBy: anOtherObject with: aSlot [
+
+	^ true
+]
+
+{ #category : #testing }
+MOStructuralRoleConstraint >> can: anObject beParentedBy: anOtherObject with: aSlot [
+
+	^ anOtherObject isNil or: [ 
+		  (anOtherObject isKindOf: MOModel) or: [ 
+			  anOtherObject isKindOf: MOObject ] ]
+]
+
+{ #category : #testing }
 MOStructuralRoleConstraint >> can: anObject declare: anOtherObject with: aSlot [
 
 	^ anOtherObject isDeclaration or: [ anOtherObject isDeclarationUnit ]

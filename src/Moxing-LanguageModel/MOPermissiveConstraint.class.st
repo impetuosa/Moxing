@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #testing }
+MOPermissiveConstraint >> can: anObject beDescribedBy: anOtherObject with: aSlot [
+
+	^ true
+]
+
+{ #category : #testing }
+MOPermissiveConstraint >> can: anObject beParentedBy: anOtherObject with: aSlot [
+
+	^ true
+]
+
+{ #category : #testing }
 MOPermissiveConstraint >> can: anObject declare: anOtherObject with: aSlot [
 
 	^ true

@@ -55,6 +55,20 @@ MOLanguageConstruct >> acceptVisitor: ads [
 ]
 
 { #category : #testing }
+MOLanguageConstruct >> canBeDescribedBy: anOtherObject with: aSlot [
+
+	language isStonReference ifTrue: [ ^ true ].
+	^ language can: self beDescribedBy: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MOLanguageConstruct >> canBeParentedBy: anOtherObject with: aSlot [
+
+	language isStonReference ifTrue: [ ^ true ].
+	^ language can: self beParentedBy: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
 MOLanguageConstruct >> canBeReferredAsArrayAccess [
 
 	^ false

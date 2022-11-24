@@ -16,6 +16,24 @@ MOLanguage >> astComposer [
 	self subclassResponsibility
 ]
 
+{ #category : #testing }
+MOLanguage >> can: aMOObject beDescribedBy: aPropertyObject with: aMOPropertySlot [
+
+	^ constraints
+		  can: aMOObject
+		  beDescribedBy: aPropertyObject
+		  with: aMOPropertySlot
+]
+
+{ #category : #testing }
+MOLanguage >> can: anMOObject beParentedBy: otherObject with: aMOParentSlot [
+
+	^ constraints
+		  can: anMOObject
+		  beParentedBy: otherObject
+		  with: aMOParentSlot
+]
+
 { #category : #'resolution strategies' }
 MOLanguage >> can: anObject declare: anOtherObject with: aSlot [
 
@@ -44,6 +62,12 @@ MOLanguage >> can: anObject state: anOtherObject with: aSlot [
 MOLanguage >> can: anObject useAsReferee: anOtherObject with: aSlot [
 
 	^ anObject refersToObjectsLikeOrStonRef: anOtherObject
+]
+
+{ #category : #testing }
+MOLanguage >> canBeDescribedBy: aMOOntologicalConstraint with: aMOPropertySlot [
+
+	^ true
 ]
 
 { #category : #testing }

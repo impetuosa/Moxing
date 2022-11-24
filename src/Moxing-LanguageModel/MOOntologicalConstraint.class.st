@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #accessing }
+MOOntologicalConstraint >> can: anObject beDescribedBy: anOtherObject with: aSlot [
+
+	^ self can: anObject use: anOtherObject with: aSlot
+]
+
+{ #category : #accessing }
+MOOntologicalConstraint >> can: anObject beParentedBy: anOtherObject with: aSlot [
+
+	^ true " self can: anObject use: anOtherObject with: aSlot"
+]
+
+{ #category : #accessing }
 MOOntologicalConstraint >> can: anObject declare: anOtherObject with: aSlot [
 
 	^ self can: anObject use: anOtherObject with: aSlot
@@ -35,12 +47,18 @@ MOOntologicalConstraint >> can: anObject state: anOtherObject with: aSlot [
 MOOntologicalConstraint >> can: anObject use: anOtherObject with: aSlot [
 
 	| type relation |
+	aSlot name = #anchor ifTrue: [ 
+		^ anOtherObject isNil or: [ anOtherObject class = MOAnchor ] ].
+	aSlot name = #language ifTrue: [ 
+		^ anOtherObject isNil or: [ anOtherObject isKindOf: MOLanguage ] ].
+	aSlot name = #name ifTrue: [ 
+		^ anOtherObject isNil or: [ anOtherObject isKindOf: String ] ].
 	[ type := ontology typeFor: anObject ]
 		on: Error
 		do: [ :e | ^ false ].
 	[ relation := type relationFor: aSlot ]
 		on: Error
-		do: [ :e | ^ false ].
+		do: [ :e | ^ aSlot isNoneValue: anOtherObject ].
 
 
 	^ relation acceptInstance: anOtherObject ontology: ontology

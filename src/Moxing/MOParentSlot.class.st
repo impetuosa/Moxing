@@ -44,9 +44,21 @@ MOParentSlot >> isMOSlot [
 	^ true
 ]
 
+{ #category : #testing }
+MOParentSlot >> isNoneValue: anObject [
+
+	^ anObject isNil
+]
+
+{ #category : #testing }
+MOParentSlot >> isToMany [
+
+	^ false
+]
+
 { #category : #asserting }
 MOParentSlot >> should: anObject accept: aValue [
 
-	^ aValue isNil or: [ 
-		  (aValue isKindOf: MOModel) or: [ aValue isKindOf: MOObject ] ]
+	aValue isStonReference ifTrue: [ ^ true ].
+	^ aValue isNil or: [ anObject canBeParentedBy: aValue with: self ]
 ]
