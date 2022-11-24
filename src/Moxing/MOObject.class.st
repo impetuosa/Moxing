@@ -228,6 +228,12 @@ MOObject >> finalize [
 ]
 
 { #category : #traverse }
+MOObject >> incorrectSlots [
+
+	^ self class allSlots reject: [ :slot | slot isCorrect: self ]
+]
+
+{ #category : #traverse }
 MOObject >> initialize [
 
 	super initialize.
@@ -271,8 +277,7 @@ MOObject >> isClassType [
 MOObject >> isCorrect [
 
 	| incorrect |
-	incorrect := self class allSlots reject: [ :slot | 
-		             slot isCorrect: self ].
+	incorrect := self incorrectSlots.
 	"
 	incorrect first isCorrect: self 
 	"

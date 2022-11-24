@@ -35,7 +35,7 @@ MOParentSlot >> emitStore: aMethodBuilder [
 { #category : #asserting }
 MOParentSlot >> isCorrect: anObject [
 
-	^ self shouldAccept: (self read: anObject)
+	^ self should: anObject accept: (self read: anObject)
 ]
 
 { #category : #asserting }
@@ -44,9 +44,21 @@ MOParentSlot >> isMOSlot [
 	^ true
 ]
 
-{ #category : #asserting }
-MOParentSlot >> shouldAccept: aValue [
+{ #category : #testing }
+MOParentSlot >> isNoneValue: anObject [
 
-	^ aValue isNil or: [ 
-		  (aValue isKindOf: MOModel) or: [ aValue isKindOf: MOObject ] ]
+	^ anObject isNil
+]
+
+{ #category : #testing }
+MOParentSlot >> isToMany [
+
+	^ false
+]
+
+{ #category : #asserting }
+MOParentSlot >> should: anObject accept: aValue [
+
+	aValue isStonReference ifTrue: [ ^ true ].
+	^ aValue isNil or: [ anObject canBeParentedBy: aValue with: self ]
 ]

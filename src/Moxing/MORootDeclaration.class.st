@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
 		'#packages => MODeclaresSlot many',
-		'#name'
+		'#name => MOPropertySlot'
 	],
 	#category : #'Moxing-Core'
 }
@@ -19,6 +19,19 @@ MORootDeclaration >> addPackage: anEntry [
 	self packages add: anEntry.
 	anEntry parent: self.
 	
+]
+
+{ #category : #testing }
+MORootDeclaration >> canBeDescribedBy: anOtherObject with: aSlot [
+
+	self language isStonReference ifTrue: [ ^ true ].
+	^ self language can: self beDescribedBy: anOtherObject with: aSlot
+]
+
+{ #category : #testing }
+MORootDeclaration >> canBeParentedBy: aMOModel with: aMOParentSlot [
+
+	^ aMOModel isMOModel
 ]
 
 { #category : #testing }

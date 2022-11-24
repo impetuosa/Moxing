@@ -159,6 +159,12 @@ MOModel >> finalizeMoxing [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> incorrectEntities [
+
+	^ entities reject: [ :e | e isCorrect ]
+]
+
 { #category : #initialization }
 MOModel >> initialize [
 

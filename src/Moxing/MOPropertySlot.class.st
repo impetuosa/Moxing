@@ -25,10 +25,10 @@ MOPropertySlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclaratio
 		  aMODeclarationStructuralRelation
 ]
 
-{ #category : #visiting }
+{ #category : #testing }
 MOPropertySlot >> isCorrect: anObject [
 
-	^ true
+	^ self should: anObject accept: (self read: anObject)
 ]
 
 { #category : #testing }
@@ -38,6 +38,21 @@ MOPropertySlot >> isMOSlot [
 ]
 
 { #category : #testing }
+MOPropertySlot >> isNoneValue: aCollection [
+
+	^ aCollection isCollection
+		  ifTrue: [ aCollection isEmptyOrNil ]
+		  ifFalse: [ aCollection isNil ]
+]
+
+{ #category : #testing }
 MOPropertySlot >> isToMany [
 	^ false 
+]
+
+{ #category : #testing }
+MOPropertySlot >> should: anObject accept: aValue [
+
+	aValue isStonReference ifTrue: [ ^ true ].
+	^ aValue isNil or: [ anObject canBeDescribedBy: aValue with: self ]
 ]
