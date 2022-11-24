@@ -108,6 +108,28 @@ MOObject >> allExpressions [
 ]
 
 { #category : #traverse }
+MOObject >> allOntologicalRelations [
+
+	^ self allParentRelations , self allDeclaresRelations
+	  , self allStatesRelations , self allExpressesRelations
+	  , self allRefersRelations , self allPropertyRelations
+	  , self allCandidateRelations
+]
+
+{ #category : #traverse }
+MOObject >> allParentRelations [
+
+	^ self class allSlots
+		  select: [ :slot | slot class = MOParentSlot ]
+		  thenCollect: [ :slot | 
+			  MODeclarationStructuralRelation new
+				  from: self to: (slot read: self);
+				  name: slot name;
+				  slot: slot;
+				  yourself ]
+]
+
+{ #category : #traverse }
 MOObject >> allProperties [
 
 	^ (self class allSlots
