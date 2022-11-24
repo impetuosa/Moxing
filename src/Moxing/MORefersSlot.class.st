@@ -23,7 +23,7 @@ MORefersSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aF
 { #category : #visiting }
 MORefersSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
 
-	^ aSPOntologyExtractor visitReferenceRelation:
+	^ aSPOntologyExtractor visitRefersRelation:
 		  aMODeclarationStructuralRelation
 ]
 
