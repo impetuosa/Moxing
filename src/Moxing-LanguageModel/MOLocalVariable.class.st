@@ -16,6 +16,12 @@ MOLocalVariable >> existsOnlyInParentContext [
 ]
 
 { #category : #visiting }
+MOLocalVariable >> isExpression [
+
+	^ true
+]
+
+{ #category : #visiting }
 MOLocalVariable >> isStatement [
 
 	^ true

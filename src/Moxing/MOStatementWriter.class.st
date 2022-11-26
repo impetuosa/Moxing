@@ -343,6 +343,13 @@ MOStatementWriter >> pragma: aString arguments: aFullBlockClosure [
 			   exp pragma: aString arguments: aFullBlockClosure ])
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementWriter >> prefixOperate: aFullBlockClosure operator: aString [
+
+	^ self registerStatement: (self writeExpression: [ :expr | 
+			   expr prefixOperate: aFullBlockClosure operator: aString ])
+]
+
 { #category : #statements }
 MOStatementWriter >> redimVariable: aString typeReference: aMOTypeReference redimText: aRedimText reference: aReference [
 
@@ -676,6 +683,14 @@ MOStatementWriter >> writeSetToReturn: aFullBlockClosure [
 { #category : #writing }
 MOStatementWriter >> writeStatement: aFullBlockClosure [ 
 	^ aFullBlockClosure value: self 
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeSwitch: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOSwitchWriter.
+	^ stmnt
 ]
 
 { #category : #writing }

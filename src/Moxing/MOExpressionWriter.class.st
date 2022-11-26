@@ -181,6 +181,18 @@ MOExpressionWriter >> invokeConstructorArguments: anOtherExpressionBuildingBlock
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> invokeMethodNamed: aString argumentTypeReferences: anTypeArgumentBuildingBlock receiver: anExpressionBuildingBlock arguments: anOtherExpressionBuildingBlock [
+
+	^ builder parametrizableMethodInvocationBuilder
+		  selector: aString;
+		  argumentTypeReferences: (self writeExpression: anTypeArgumentBuildingBlock);
+		  receiverReference:
+			  (self writeExpression: anExpressionBuildingBlock);
+		  arguments: (self writeExpression: anOtherExpressionBuildingBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> invokeMethodNamed: aString receiver: aFullBlockClosure [
 
 	^ builder methodInvocationBuilder
@@ -491,6 +503,11 @@ MOExpressionWriter >> writeReferenceToSuper [
 MOExpressionWriter >> writeReferenceToThisContext [
 
 	^ self referenceToThisContext
+]
+
+{ #category : #writing }
+MOExpressionWriter >> writeTypeParameter: aFullBlockClosure [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #writing }

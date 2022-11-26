@@ -124,6 +124,14 @@ MOJavaFileLoader >> visitArrayAccess: aJavaArrayAccessNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitArrayInitializer: aJavaArrayInitializerNode [
+
+	^ writer arrayInitializer:
+		  (aJavaArrayInitializerNode initializers collect: [ :a | 
+			   a acceptVisitor: self ]) asArray
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitAssignment: aJavaAssignmentNode [
 
 	^ writer
@@ -355,9 +363,9 @@ MOJavaFileLoader >> visitEmptyDeclaration: aJavaEmptyDeclarationNode [
 ]
 
 { #category : #visiting }
-MOJavaFileLoader >> visitEmptyMethodBody: aJavaEmptyMethodBodyNode [ 
-	self halt.
-	^ writer noOp: 'Empty Method'
+MOJavaFileLoader >> visitEmptyMethodBody: aJavaEmptyMethodBodyNode [
+
+	^ writer writeBlock: [ :block |  ]
 ]
 
 { #category : #visiting }
@@ -426,7 +434,12 @@ MOJavaFileLoader >> visitFieldDeclaration: aJavaFieldDeclarationNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitFloatLiteral: aJavaFloatLiteralNode [
 
-	^ writer numericLiteral: aJavaFloatLiteralNode token value asNumber
+	| val |
+	val :=( (aJavaFloatLiteralNode token value beginsWith: '.')
+		       ifTrue: [ '0' , aJavaFloatLiteralNode token value ]
+		       ifFalse: [ aJavaFloatLiteralNode token value ]) asNumber .
+
+	^ writer numericLiteral: val
 ]
 
 { #category : #visiting }
@@ -613,23 +626,44 @@ MOJavaFileLoader >> visitMethodDeclarator: aJavaMethodDeclaratorNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitMethodInvocation: aJavaMethodInvocationNode [
 
-	self assert: aJavaMethodInvocationNode arguments isEmpty.
-
-	^ writer
-		  invokeMethodNamed: aJavaMethodInvocationNode name source
-		  receiver: [ :expression | 
-			  aJavaMethodInvocationNode receiver
-				  ifNil: [ expression referenceToSelf ]
-				  ifNotNil: [ 
+	^ aJavaMethodInvocationNode arguments
+		  ifEmpty: [ 
+			  writer
+				  invokeMethodNamed: aJavaMethodInvocationNode name source
+				  receiver: [ :expression | 
+					  aJavaMethodInvocationNode receiver
+						  ifNil: [ expression referenceToSelf ]
+						  ifNotNil: [ 
+							  self
+								  use: expression
+								  during: [ 
+								  aJavaMethodInvocationNode receiver acceptVisitor: self ] ] ]
+				  arguments: [ :expression | 
 					  self
 						  use: expression
 						  during: [ 
-						  aJavaMethodInvocationNode receiver acceptVisitor: self ] ] ]
-		  arguments: [ :expression | 
-			  self
-				  use: expression
-				  during: [ 
-				  self visitCollection: aJavaMethodInvocationNode expressions ] ]
+						  self visitCollection: aJavaMethodInvocationNode expressions ] ] ]
+		  ifNotEmpty: [ 
+			  writer
+				  invokeMethodNamed: aJavaMethodInvocationNode name source
+				  argumentTypeReferences: [ :expression | 
+					  self
+						  use: expression
+						  during: [ 
+						  self visitCollection: ( aJavaMethodInvocationNode arguments collect: [ : arg | arg type name  ]) ] ]
+				  receiver: [ :expression | 
+					  aJavaMethodInvocationNode receiver
+						  ifNil: [ expression referenceToSelf ]
+						  ifNotNil: [ 
+							  self
+								  use: expression
+								  during: [ 
+								  aJavaMethodInvocationNode receiver acceptVisitor: self ] ] ]
+				  arguments: [ :expression | 
+					  self
+						  use: expression
+						  during: [ 
+						  self visitCollection: aJavaMethodInvocationNode expressions ] ] ]
 ]
 
 { #category : #visiting }
@@ -747,6 +781,18 @@ MOJavaFileLoader >> visitPostIncrementExpression: aJavaPostIncrementExpressionNo
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitPreIncrementExpression: aJavaPreIncrementExpressionNode [
+
+	^ writer
+		  prefixOperate: [ :exp | 
+			  self
+				  use: exp
+				  during: [ 
+				  aJavaPreIncrementExpressionNode expression acceptVisitor: self ] ]
+		  operator: aJavaPreIncrementExpressionNode plusPlus value
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitProgram: aProgram [
 
 	^ self visitCollection: aProgram sortedChildren
@@ -843,6 +889,11 @@ MOJavaFileLoader >> visitSuperConstructorInvocation: aJavaSuperConstructorInvoca
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitSwitchBlock: aJavaSwitchBlockNode [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitSwitchStatement: aJavaSwitchStatementNode [
 
 	^ writer
@@ -910,7 +961,7 @@ MOJavaFileLoader >> visitTryStatement: aJavaTryStatementNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitTypeArgument: aJavaTypeArgumentNode [
 
-	^ writer writeTypeParameter: [ :typeParameter | 
+	^ writer writeTypeParameter: [ : typeParameter | 
 		  typeParameter name: aJavaTypeArgumentNode type name source ]
 ]
 
@@ -935,6 +986,18 @@ MOJavaFileLoader >> visitTypeParameter: aJavaTypeParameterNode [
 		typeParameter name: aJavaTypeParameterNode name source.
 		aJavaTypeParameterNode types do: [ :t | 
 			typeParameter addSuperTypeReference: (self typeReferenceFor: t using: typeParameter ) ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitUnaryBitInvert: aJavaUnaryBitInvertNode [
+
+	^ writer
+		  prefixOperate: [ :exp | 
+			  self
+				  use: exp
+				  during: [ 
+				  aJavaUnaryBitInvertNode expression acceptVisitor: self ] ]
+		  operator: aJavaUnaryBitInvertNode tilde value
 ]
 
 { #category : #visiting }

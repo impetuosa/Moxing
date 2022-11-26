@@ -43,6 +43,14 @@ MOModelProceduralWriter >> anchoringOn: aMOAnchor [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> arrayInitializer: aCollection [
+
+	^ builder arrayLiteralBuilder
+		  value: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> arrayLiteral: aCollection [
 
 	^ builder arrayLiteralBuilder

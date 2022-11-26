@@ -885,6 +885,14 @@ MOModelBuilder >> parametrizableMethodBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> parametrizableMethodInvocationBuilder [
+
+	^ MOModelParametrizableMethodInvocationBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> parametrizedTypeReferenceBuilder [
 	^ MOModelParametrizedTypeReferenceBuilder  new
 		  parentBuilder: self;
