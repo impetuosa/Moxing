@@ -18,6 +18,13 @@ MOParentSlot >> acceptRule: aRule forRelation: aRelationObject readingValues: aF
 ]
 
 { #category : #asserting }
+MOParentSlot >> acceptVisitor: aSPOntologyExtractor forRelation: aMODeclarationStructuralRelation [
+
+	^ aSPOntologyExtractor visitParentRelation:
+		  aMODeclarationStructuralRelation
+]
+
+{ #category : #asserting }
 MOParentSlot >> emitStore: aMethodBuilder [
 	"generate bytecode to call the reflective write method of the Slot"
 	| tempName |
