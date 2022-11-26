@@ -150,7 +150,7 @@ MOAbstractVariable >> printOn: aStream [
 
 	aStream
 		nextPutAll: (self enclosingTypeOrModule
-				 ifNil: [ self parent name ]
+				 ifNil: [ self parent ifNil: [ '' ] ifNotNil: [ :p | p name ] ]
 				 ifNotNil: [ :em | em name ]);
 		nextPutAll: '>>';
 		nextPutAll: self kindString;
