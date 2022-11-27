@@ -108,6 +108,13 @@ MOModelBuilder >> artefactReferenceBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> assertionStatementBuilder [
+	^ MOAssertionStatementBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> assignmentBuilder [
 
 	^ MOModelAssignmentBuilder new
@@ -1163,6 +1170,13 @@ MOModelBuilder >> stMethodBuilder [
 MOModelBuilder >> statementBuilder [
 
 	^ MOModelStatementExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> statementDeclarationBuilder [
+	^ MOModelStatementDeclarationBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

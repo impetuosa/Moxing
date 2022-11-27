@@ -1,39 +1,39 @@
 Class {
-	#name : #MOSwitchBlock,
+	#name : #MOSwitchCase,
 	#superclass : #MOStatement,
 	#instVars : [
-		'#label => MOExpressesSlot one',
-		'#block => MODeclaresSlot one'
+		'#block => MODeclaresSlot one',
+		'#labels => MORefersSlot many'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
 { #category : #visiting }
-MOSwitchBlock >> acceptVisitor: aVisitor [
+MOSwitchCase >> acceptVisitor: aVisitor [
 
 	^ aVisitor visitSwitchBlock: self
 ]
 
 { #category : #accessing }
-MOSwitchBlock >> block [
+MOSwitchCase >> block [
 
 	^ block
 ]
 
 { #category : #accessing }
-MOSwitchBlock >> block: anObject [
+MOSwitchCase >> block: anObject [
 
 	block := anObject
 ]
 
 { #category : #accessing }
-MOSwitchBlock >> label [
+MOSwitchCase >> labels [
 
-	^ label
+	^ labels
 ]
 
 { #category : #accessing }
-MOSwitchBlock >> label: anObject [
+MOSwitchCase >> labels: anObject [
 
-	label := anObject
+	labels := anObject
 ]

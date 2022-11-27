@@ -2,28 +2,28 @@ Class {
 	#name : #MOModelSwitchBuilder,
 	#superclass : #MOModelControlFlowBuilder,
 	#instVars : [
-		'blocks',
-		'expression'
+		'expression',
+		'cases'
 	],
 	#category : #'Moxing-MicroBuilders-control flow'
 }
-
-{ #category : #accessing }
-MOModelSwitchBuilder >> blocks [
-
-	^ blocks ifNil: [ blocks := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-MOModelSwitchBuilder >> blocks: anObject [
-
-	blocks := anObject
-]
 
 { #category : #'as yet unclassified' }
 MOModelSwitchBuilder >> buildsType [
 
 	^ MOSwitch
+]
+
+{ #category : #accessing }
+MOModelSwitchBuilder >> cases [
+
+	^ cases ifNil: [ cases := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelSwitchBuilder >> cases: anObject [
+
+	cases := anObject
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ MOModelSwitchBuilder >> expression: anObject [
 MOModelSwitchBuilder >> privateBuild [
 
 	^ (self instantiate: self buildsType)
-		  block: self blocks;
+		  cases: self cases;
 		  expression: self expression;
 		  yourself
 ]

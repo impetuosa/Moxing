@@ -23,7 +23,7 @@ MOModelSwitchBlockBuilder >> block: anObject [
 { #category : #asserting }
 MOModelSwitchBlockBuilder >> buildsType [
 
-	^ MOSwitchBlock
+	^ MOSwitchCase
 ]
 
 { #category : #accessing }

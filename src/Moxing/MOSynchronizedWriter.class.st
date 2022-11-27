@@ -10,9 +10,25 @@ MOSynchronizedWriter >> acceptWritingVisitor: aVisitor [
 	^ aVisitor visitSynchronizedWriter: self
 ]
 
+{ #category : #generated }
+MOSynchronizedWriter >> expression: aMOSelfReference [ 
+	writeBuilder expression: aMOSelfReference 
+]
+
 { #category : #writing }
 MOSynchronizedWriter >> initializeWriteBuilder [
 	writeBuilder := builder synchronizedStatementBuilder 
+]
+
+{ #category : #expressions }
+MOSynchronizedWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBlock arguments: anOtherExpressionBuildingBlock [
+
+	^ builder methodInvocationBuilder
+		  selector: aString;
+		  receiverReference:
+			  (self writeExpression: anExpressionBuildingBlock);
+		  arguments: (self writeExpression: anOtherExpressionBuildingBlock);
+		  build
 ]
 
 { #category : #writing }

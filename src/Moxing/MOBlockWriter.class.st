@@ -290,6 +290,14 @@ MOBlockWriter >> writeStatement: aBlock [
 	^ stmnt
 ]
 
+{ #category : #enumerating }
+MOBlockWriter >> writeStatementDeclaration: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOStatementDeclarationWriter.
+	^ stmnt
+]
+
 { #category : #writing }
 MOBlockWriter >> writeTryCatch: aFullBlockClosure [ 
 	| stmnt |

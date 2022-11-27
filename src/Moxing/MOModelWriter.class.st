@@ -310,6 +310,7 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
+	
 	anEntity shouldPopulateRelations ifTrue: [ 
 		anEntity allDeclaresRelations , anEntity allStatesRelations
 		, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
@@ -630,6 +631,15 @@ MOModelWriter >> updateStClass: aMOTypescriptClass with: aFullBlockClosure [
 		  write: aFullBlockClosure
 		  forUpdating: aMOTypescriptClass
 		  withWriter: MOStClassWriter new
+]
+
+{ #category : #'as yet unclassified' }
+MOModelWriter >> updateStatementDeclaration: aMOClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOClass
+		  withWriter: MOStatementDeclarationWriter new
 ]
 
 { #category : #'as yet unclassified' }

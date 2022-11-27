@@ -26,6 +26,12 @@ MOModelSynchronizedBuilder >> buildsType [
 	^ MOSynchronizedBlock
 ]
 
+{ #category : #generated }
+MOModelSynchronizedBuilder >> expression: aMOSelfReference [
+
+	self lockAccessExpression: aMOSelfReference
+]
+
 { #category : #accessing }
 MOModelSynchronizedBuilder >> loadBuilderWithEntity: anEntity [
 
