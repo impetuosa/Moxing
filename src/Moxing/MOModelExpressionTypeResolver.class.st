@@ -15,7 +15,8 @@ MOModelExpressionTypeResolver >> model: aMOModel [
 
 { #category : #'as yet unclassified' }
 MOModelExpressionTypeResolver >> typeOfExpression: aMOObject [
-  ^aMOObject acceptVisitor: self
+
+	^ aMOObject acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -29,6 +30,18 @@ MOModelExpressionTypeResolver >> visitAttributeAccess: aMOAttributeAccess [
 
 	^ aMOAttributeAccess referee ifNotNil: [ :c | 
 		  c typeReference ifNotNil: [ :e | e referee ] ]
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
+
+	^ aMOBinaryArithmeticOperation parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitCastExpression: aMOCastExpression [
+
+	^ aMOCastExpression parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -60,7 +73,9 @@ MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitStringLiteral: aMOStringLiteral [
 
-	^ model typeNamed: #String
+	^ [ model typeNamed: #String ]
+		  on: Error
+		  do: [ nil ]
 ]
 
 { #category : #visiting }

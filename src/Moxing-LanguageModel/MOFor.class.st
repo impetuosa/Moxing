@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
+{ #category : #visiting }
+MOFor >> acceptVisitor: aMOModelTypeResolver [
+
+	^ aMOModelTypeResolver visitFor: self
+]
+
 { #category : #accessing }
 MOFor >> dependencies [
 

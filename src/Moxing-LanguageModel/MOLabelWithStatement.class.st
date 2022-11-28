@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Statements'
 }
 
+{ #category : #visiting }
+MOLabelWithStatement >> acceptVisitor: aMOModelVariableResolver [
+
+	^ aMOModelVariableResolver visitLabelWithStatement: self
+]
+
 { #category : #accessing }
 MOLabelWithStatement >> label: aString [ 
 	label := aString
