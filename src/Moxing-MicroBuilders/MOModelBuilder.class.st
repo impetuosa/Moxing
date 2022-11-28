@@ -639,6 +639,15 @@ MOModelBuilder >> javaClassBuilder [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> javaClassTypeBuilder [
+
+	^ MOModelJavaClassTypeBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
 { #category : #initialization }
 MOModelBuilder >> labelBuilder [
 

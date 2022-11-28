@@ -1,6 +1,6 @@
 Class {
 	#name : #MOAnnotationType,
-	#superclass : #MOClass,
+	#superclass : #MOClassType,
 	#category : #'Moxing-LanguageModel-Declaration'
 }
 

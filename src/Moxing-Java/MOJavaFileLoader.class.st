@@ -503,14 +503,16 @@ MOJavaFileLoader >> visitForStatement: aJavaForStatementNode [
 
 	^ writer
 		  for: [ :exp | 
-			  self
-				  use: exp
-				  during: [ 
-				  (aJavaForStatementNode initial acceptVisitor: self) asCollection ] ]
+			  self use: exp during: [ 
+				  aJavaForStatementNode initial
+					  ifNil: [ {  } ]
+					  ifNotNil: [ :a | (a acceptVisitor: self) asCollection ] ] ]
 		  condition: [ :exp | 
 			  self
 				  use: exp
-				  during: [ aJavaForStatementNode test acceptVisitor: self ] ]
+				  during: [ 
+				  aJavaForStatementNode test ifNotNil: [ :t | 
+					  t acceptVisitor: self ] ] ]
 		  update: [ :exp | 
 			  self use: exp during: [ 
 				  aJavaForStatementNode _update
@@ -567,8 +569,9 @@ MOJavaFileLoader >> visitInitializedVariableDeclaration: aJavaInitializedVariabl
 ]
 
 { #category : #visiting }
-MOJavaFileLoader >> visitInitializer: aJavaInitializerNode [ 
-	Warning signal: 'Should implement initializer'
+MOJavaFileLoader >> visitInitializer: aJavaInitializerNode [
+
+	^ self visitStaticInitializer: aJavaInitializerNode
 ]
 
 { #category : #visiting }
@@ -1163,7 +1166,7 @@ MOJavaFileLoader >> writeAbstractMethodWith: aJavaAbstractMethodDeclarationNode 
 { #category : #visiting }
 MOJavaFileLoader >> writeClassTypeWith: aJavaInterfaceDeclarationNode named: name [
 
-	writer writeClassType: [ :class | 
+	writer writeJavaClassType: [ :class | 
 		aJavaInterfaceDeclarationNode interfaceTypes do: [ :int | 
 			class addSuperTypeReference:
 				(self typeReferenceFor: int using: class) ].

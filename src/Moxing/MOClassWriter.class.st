@@ -138,12 +138,6 @@ MOClassWriter >> writeFunction: aFullBlockClosure [
 ]
 
 { #category : #writing }
-MOClassWriter >> writeJavaClass: aBlock [
-
-	^ self write: aBlock inSubWriter: MOJavaClassWriter
-]
-
-{ #category : #writing }
 MOClassWriter >> writeStMethod: aFullBlockClosure [ 
 	^ self write: aFullBlockClosure inSubWriter: MOStMethodWriter
 ]

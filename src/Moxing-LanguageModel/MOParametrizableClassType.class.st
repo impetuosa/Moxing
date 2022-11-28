@@ -1,6 +1,6 @@
 Class {
 	#name : #MOParametrizableClassType,
-	#superclass : #MOClassType,
+	#superclass : #MOJavaClassType,
 	#instVars : [
 		'#typeParameters => MODeclaresSlot many'
 	],

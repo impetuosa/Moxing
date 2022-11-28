@@ -94,7 +94,7 @@ MOCatalogTypeInstaller >> visitClass: aMOClass [
 { #category : #visiting }
 MOCatalogTypeInstaller >> visitClassType: aMOClassType [
 
-	^ writer writeClassType: [ :class | 
+	^ writer writeJavaClassType: [ :class | 
 		  class name: aMOClassType name.
 		  class addModifier: #DefinedInLibrary.
 		  self use: class during: [ 

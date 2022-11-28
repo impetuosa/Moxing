@@ -27,3 +27,9 @@ MOStatementDeclarationWriter >> writeJavaClass: aBlock [
 
 	^ self write: aBlock inSubWriter: MOJavaClassWriter
 ]
+
+{ #category : #writing }
+MOStatementDeclarationWriter >> writeJavaClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassTypeWriter
+]

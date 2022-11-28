@@ -104,6 +104,12 @@ MOPackageWriter >> writeJavaClass: aBlock [
 ]
 
 { #category : #writing }
+MOPackageWriter >> writeJavaClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassTypeWriter
+]
+
+{ #category : #writing }
 MOPackageWriter >> writeModule: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOModuleWriter

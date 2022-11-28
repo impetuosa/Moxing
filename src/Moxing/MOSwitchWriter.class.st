@@ -49,6 +49,16 @@ MOSwitchWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBlock
 		  build
 ]
 
+{ #category : #'as yet unclassified' }
+MOSwitchWriter >> prefixOperate: aFullBlockClosure operator: anOperator [ 
+
+	^ builder arithmeticUnaryOperationBuilder
+		  operand: (self writeExpression: aFullBlockClosure);
+		  operator: anOperator;
+		  setAsPrefixOperator;
+		  build
+]
+
 { #category : #writing }
 MOSwitchWriter >> writeCase: aBlock [
 

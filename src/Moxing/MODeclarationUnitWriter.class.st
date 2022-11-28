@@ -175,6 +175,12 @@ MODeclarationUnitWriter >> writeJavaClass: aBlock [
 ]
 
 { #category : #writing }
+MODeclarationUnitWriter >> writeJavaClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassTypeWriter
+]
+
+{ #category : #writing }
 MODeclarationUnitWriter >> writeJavaEnum: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOJavaEnumWriter
