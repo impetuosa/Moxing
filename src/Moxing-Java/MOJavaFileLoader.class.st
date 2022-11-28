@@ -608,6 +608,18 @@ MOJavaFileLoader >> visitInterfaceDeclaration: aJavaInterfaceDeclarationNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitLabeledStatement: aJavaLabeledStatementNode [
+
+	^ writer writeLabelWithStatement: [ :label | 
+		  label label: aJavaLabeledStatementNode identifier source.
+		  label writeStatement: [ :statement | 
+			  self
+				  use: statement
+				  during: [ 
+				  aJavaLabeledStatementNode statement acceptVisitor: self ] ] ]
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitLambdaExpression: aJavaLambdaExpressionNode [
 
 	| value |

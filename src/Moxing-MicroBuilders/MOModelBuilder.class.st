@@ -665,6 +665,15 @@ MOModelBuilder >> labelReferenceBuilder [
 		  yourself
 ]
 
+{ #category : #initialization }
+MOModelBuilder >> labelWithStatementBuilder [
+
+	^ MOModelLabelWithStatementBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
 { #category : #'as yet unclassified' }
 MOModelBuilder >> lambdaBuilder [
 

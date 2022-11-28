@@ -147,6 +147,11 @@ MOModelTypeResolver >> visitGlobalVariable: aMOSharedVariable [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitIfElse: aMOIfElse [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitImport: aMOImport [
 
 	aMOImport packageReference acceptVisitor: self

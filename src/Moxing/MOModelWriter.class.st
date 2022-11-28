@@ -310,7 +310,7 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
-	
+	"
 	anEntity shouldPopulateRelations ifTrue: [ 
 		anEntity allDeclaresRelations , anEntity allStatesRelations
 		, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
@@ -319,7 +319,7 @@ MOModelWriter >> populateAnchorOn: anEntity [
 			subentity parent ifNil: [ subentity parent: anEntity ].
 			subentity anchor: anEntity anchor / relation name
 				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
-			self populateAnchorOn: subentity ] ]
+			self populateAnchorOn: subentity ] ]"
 ]
 
 { #category : #'as yet unclassified' }

@@ -43,6 +43,12 @@ MOStatementWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumen
 			  arguments: anArgumentsBlock ]
 ]
 
+{ #category : #accessing }
+MOStatementWriter >> block: aMOBlock [
+
+	^ self addStatement: aMOBlock
+]
+
 { #category : #statements }
 MOStatementWriter >> break [
 
@@ -620,6 +626,16 @@ MOStatementWriter >> writeJavaClass: aFullBlockClosure [
 
 	^ self writeStatementDeclaration: [ :stat | 
 		  stat writeJavaClass: aFullBlockClosure ]
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeLabelWithStatement: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOLabelWithStatementWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
