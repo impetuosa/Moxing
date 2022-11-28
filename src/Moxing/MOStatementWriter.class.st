@@ -43,6 +43,12 @@ MOStatementWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumen
 			  arguments: anArgumentsBlock ]
 ]
 
+{ #category : #accessing }
+MOStatementWriter >> block: aMOBlock [
+
+	^ self addStatement: aMOBlock
+]
+
 { #category : #statements }
 MOStatementWriter >> break [
 

@@ -19,6 +19,12 @@ MOModelExpressionTypeResolver >> typeOfExpression: aMOObject [
 ]
 
 { #category : #visiting }
+MOModelExpressionTypeResolver >> visitArrayAccess: aMOArrayAccess [
+
+	^ aMOArrayAccess referee
+]
+
+{ #category : #visiting }
 MOModelExpressionTypeResolver >> visitAttributeAccess: aMOAttributeAccess [
 
 	^ aMOAttributeAccess referee ifNotNil: [ :c | 
@@ -33,6 +39,12 @@ MOModelExpressionTypeResolver >> visitIntegerLiteral: aMOIntegerLiteral [
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
   ^aMOMethodInvocation referee ifNotNil: [:c |  c returnTypeReference ifNotNil: [:rt |  rt referee ] ]
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitNewExpression: aMONewInvocation [
+
+	^ aMONewInvocation typeReference acceptVisitor: self
 ]
 
 { #category : #visiting }

@@ -72,6 +72,12 @@ aMOStBlockClosure  parameters
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitCastExpression: aMOCastExpression [
+
+	^ aMOCastExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitCatch: aMOCatch [
 
 	aMOCatch parameters
@@ -106,6 +112,20 @@ MOModelVariableResolver >> visitConstructorInvocation:  aMOConstructorInvocation
 MOModelVariableResolver >> visitDeclarationUnit: aMODeclarationUnit [
 
 	^ aMODeclarationUnit parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitForEach: aMOForEach [
+
+	^ aMOForEach each name = resolving name
+		  ifTrue: [ resolving referee: aMOForEach each ]
+		  ifFalse: [ aMOForEach parent acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitIfElse: aMOIfElse [
+
+	^ aMOIfElse parent ifNotNil: [ :p | p acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -199,9 +219,21 @@ MOModelVariableResolver >> visitStatementExpression: aMOStatementExpression [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitStaticInitializer: aMOStaticInitializer [
+
+	^ aMOStaticInitializer parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitTryCatch: aMOTryCatch [
 
 	^ aMOTryCatch parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
+
+	^ aMOUnaryArithmeticOperation parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -220,4 +252,10 @@ MOModelVariableResolver >> visitVisualWorksPackage: aMOVisualWorksPackage [
 	
 
 
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitWhile: aMOWhile [
+
+	^ aMOWhile parent acceptVisitor: self
 ]

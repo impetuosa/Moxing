@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #accessing }
+MOCastExpression >> acceptVisitor: aMOModelVariableResolver [
+
+	^ aMOModelVariableResolver visitCastExpression: self
+]
+
+{ #category : #accessing }
 MOCastExpression >> canBeReferredAsArrayAccess [
 
 	^ true
