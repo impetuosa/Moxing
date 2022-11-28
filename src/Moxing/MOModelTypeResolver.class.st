@@ -96,8 +96,8 @@ MOModelTypeResolver >> visitCatch: aMOCatch [
 
 { #category : #visiting }
 MOModelTypeResolver >> visitClass: aMOClass [
-	
-	aMOClass packageReference acceptVisitor: self.
+
+	aMOClass packageReference ifNotNil: [ :a | a acceptVisitor: self ].
 	aMOClass parent acceptVisitor: self
 ]
 
@@ -147,8 +147,9 @@ MOModelTypeResolver >> visitGlobalVariable: aMOSharedVariable [
 ]
 
 { #category : #visiting }
-MOModelTypeResolver >> visitIfElse: aMOIfElse [ 
-	self shouldBeImplemented.
+MOModelTypeResolver >> visitIfElse: aMOIfElse [
+
+	^ aMOIfElse parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -161,6 +162,12 @@ MOModelTypeResolver >> visitImport: aMOImport [
 MOModelTypeResolver >> visitJavaClass: aMOJavaClass [
 
 	^ self visitClass: aMOJavaClass
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitJavaClassType: aMOJavaClassType [
+
+	^ self visitClass: aMOJavaClassType
 ]
 
 { #category : #visiting }
@@ -187,6 +194,12 @@ MOModelTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
 { #category : #visiting }
 MOModelTypeResolver >> visitNamedArguments: aMONamedArguments [ 
 	^ aMONamedArguments parent acceptVisitor: self 
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitNamedSingleArgument: aMONamedSingleArgument [
+
+	^ aMONamedSingleArgument parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -348,4 +361,10 @@ MOModelTypeResolver >> visitVariable: aMOVariable [
 MOModelTypeResolver >> visitVisualWorksPackage: aMOVisualWorksPackage [
   resolving packageReference ifNil: [ ^self ].
   resolving packageReference referee = aMOVisualWorksPackage ifTrue: [ self registerPossibles: (aMOVisualWorksPackage allTypes select: [:i |  i name = resolving name ]) ]
+]
+
+{ #category : #visiting }
+MOModelTypeResolver >> visitWhile: aMOWhile [
+
+	^ aMOWhile parent acceptVisitor: self
 ]
