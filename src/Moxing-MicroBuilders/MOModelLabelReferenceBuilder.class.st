@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+MOModelLabelReferenceBuilder >> buildsType [
+
+	^ MOLabelWithStatement
+]
+
+{ #category : #accessing }
 MOModelLabelReferenceBuilder >> label [
 
 	^ label ifNil: [ self error: 'Label name is compulsory ' ]
@@ -19,9 +25,15 @@ MOModelLabelReferenceBuilder >> label: aString [
 ]
 
 { #category : #accessing }
+MOModelLabelReferenceBuilder >> loadBuilderWithEntity: anEntity [
+
+	label := anEntity label
+]
+
+{ #category : #accessing }
 MOModelLabelReferenceBuilder >> privateBuild [
 
-	^ (self instantiate: MOLabelReference)
+	^ (self instantiate: self buildsType)
 		  name: self label;
 		  yourself
 ]

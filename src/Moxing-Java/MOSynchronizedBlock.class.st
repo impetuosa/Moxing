@@ -8,6 +8,12 @@ Class {
 	#category : #'Moxing-Java-Statement'
 }
 
+{ #category : #visiting }
+MOSynchronizedBlock >> acceptVisitor: aMOModelTypeResolver [
+
+	^ aMOModelTypeResolver visitSynchronizedBlock: self
+]
+
 { #category : #accessing }
 MOSynchronizedBlock >> block [
 

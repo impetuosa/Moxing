@@ -629,6 +629,16 @@ MOStatementWriter >> writeJavaClass: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOStatementWriter >> writeLabelWithStatement: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOLabelWithStatementWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
 MOStatementWriter >> writeLambda: aFullBlockClosure [
 
 	^ self registerStatement:

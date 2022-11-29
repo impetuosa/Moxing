@@ -35,6 +35,18 @@ MOModelVariableResolver >> visitArrayAccess: aMOArrayAccess [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitArrayLiteral: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitAssertion: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitAssignment: aMOAssignment [ 
 aMOAssignment  parent acceptVisitor: self
 ]
@@ -97,6 +109,12 @@ MOModelVariableResolver >> visitClass: aMOClass [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitConditionalExpression: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitConstructor: aMOConstructor [
 
 	^ aMOConstructor parent acceptVisitor: self
@@ -112,6 +130,27 @@ MOModelVariableResolver >> visitConstructorInvocation:  aMOConstructorInvocation
 MOModelVariableResolver >> visitDeclarationUnit: aMODeclarationUnit [
 
 	^ aMODeclarationUnit parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitDoWhileTrue: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitEnumEntry: aMOEnumEntry [
+
+	^ aMOEnumEntry parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitFor: aMOFor [
+
+	^ aMOFor initializeOperation
+		  detect: [ :a | a isVariable and: [ a name = resolving name ] ]
+		  ifFound: [ :a | resolving referee: a ]
+		  ifNone: [ aMOFor parent acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -141,6 +180,12 @@ MOModelVariableResolver >> visitJavaClass: aMOJavaClass [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitLabelWithStatement: aMOLabelWithStatement [
+
+	^ aMOLabelWithStatement parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitLocalVariable: aMOLocalVariable [
 
 	^ aMOLocalVariable parent ifNotNil: [ :p | p acceptVisitor: self ]
@@ -167,7 +212,13 @@ MOModelVariableResolver >> visitMethod: aMOMethod [
 { #category : #visiting }
 MOModelVariableResolver >> visitMethodInvocation: aMOMethodInvocation [
 
-	^ aMOMethodInvocation parent acceptVisitor: self
+	^ aMOMethodInvocation parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitNewExpression: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -179,6 +230,12 @@ MOModelVariableResolver >> visitPackage: aMOPackage [
 MOModelVariableResolver >> visitParametrizableClass: aMOParametrizableClass [
 
 	self visitClass: aMOParametrizableClass
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitParametrizableMethod: aMOParametrizableMethod [
+
+	^ aMOParametrizableMethod parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -221,7 +278,25 @@ MOModelVariableResolver >> visitStatementExpression: aMOStatementExpression [
 { #category : #visiting }
 MOModelVariableResolver >> visitStaticInitializer: aMOStaticInitializer [
 
-	^ aMOStaticInitializer parent acceptVisitor: self
+	^ aMOStaticInitializer parent ifNotNil: [ :p | p acceptVisitor: self ]
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitSwitch: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitSynchronizedBlock: aMOSynchronizedBlock [
+
+	^ aMOSynchronizedBlock parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitThrow: aMOObject [
+
+	^ aMOObject parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -233,7 +308,8 @@ MOModelVariableResolver >> visitTryCatch: aMOTryCatch [
 { #category : #visiting }
 MOModelVariableResolver >> visitUnaryArithmeticExpression: aMOUnaryArithmeticOperation [
 
-	^ aMOUnaryArithmeticOperation parent acceptVisitor: self
+	^ aMOUnaryArithmeticOperation parent ifNotNil: [ :p | 
+		  p acceptVisitor: self ]
 ]
 
 { #category : #visiting }
