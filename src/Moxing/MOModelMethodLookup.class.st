@@ -31,16 +31,15 @@ MOModelMethodLookup >> lookMethodFor: aMOMethodInvocation inClass: aTypeWithMeth
 
 
 	methods size = 1 ifTrue: [ ^ methods ].
-	methods size > 1 ifTrue: [ 
-
-		^ {  }. 
-	].
+	methods size > 1 ifTrue: [ ^ {  } ].
 
 	^ (aTypeWithMethods superclassReference
 		   ifNotNil: [ :c | c referee isNotNil ]
 		   ifNil: [ false ])
 		  ifFalse: [ methods ]
 		  ifTrue: [ 
+			  aTypeWithMethods superclassReference referee = aTypeWithMethods 
+				  ifTrue: [ ^ {  } ].
 			  self
 				  lookMethodFor: aMOMethodInvocation
 				  inClass: aTypeWithMethods superclassReference referee ]

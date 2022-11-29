@@ -88,7 +88,7 @@ MOJavaMavenProjectLoader >> loadNamed: aString [
 		p name: 'RuntimePrimitiveTypes'.
 		#( void byte short int long float double boolean char ) do: [ :tname | 
 			p writePrimitiveType: [ :type | type name: tname ] ] ].
-	
+
 
 	self javaFiles do: [ :file | 
 		ast := JavaParser parse: file readStream upToEnd.
@@ -99,6 +99,7 @@ MOJavaMavenProjectLoader >> loadNamed: aString [
 		entry fileReference: (file relativeTo: workingDirectory).
 		entry types do: [ :t | t fileReference: entry fileReference ].
 		entry ].
+	writer populateAnchorOn: model root.
 	self link: model.
 	^ model
 ]

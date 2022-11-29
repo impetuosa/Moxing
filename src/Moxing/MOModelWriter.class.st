@@ -633,6 +633,15 @@ MOModelWriter >> updateStClass: aMOTypescriptClass with: aFullBlockClosure [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelWriter >> updateStatementDeclaration: aMOClass with: aFullBlockClosure [
+
+	^ self
+		  write: aFullBlockClosure
+		  forUpdating: aMOClass
+		  withWriter: MOStatementDeclarationWriter new
+]
+
+{ #category : #'as yet unclassified' }
 MOModelWriter >> updateStructure: aMOStructure with: aFullBlockClosure [
 
 	^ self
@@ -780,7 +789,7 @@ MOModelWriter >> write: aBlock withWriter: writer writerParent: aWriterParent [
 	writer surface: self.
 	writer initializeWriteBuilder.
 	writer write: aBlock.
-	self autoPopulate ifTrue: [ self populateAnchor ].
+
 	^ entity
 ]
 
@@ -893,6 +902,14 @@ MOModelWriter >> writeJavaClass: aFullBlockClosure [
 
 	| writer |
 	writer := MOJavaClassWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
+MOModelWriter >> writeJavaClassType: aFullBlockClosure [
+
+	| writer |
+	writer := MOJavaClassTypeWriter new.
 	^ self write: aFullBlockClosure withWriter: writer
 ]
 

@@ -1,9 +1,6 @@
 Class {
 	#name : #MOLabelWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#instVars : [
-		'caseExpression'
-	],
 	#category : #'Moxing-MicroWriters'
 }
 

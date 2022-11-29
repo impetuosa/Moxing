@@ -199,6 +199,14 @@ MOLanguage >> typeResolutionStrategy [
 	^ MOModelTypeResolver
 ]
 
+{ #category : #'as yet unclassified' }
+MOLanguage >> useOntologicalConstraintWith: aSPOntology [
+
+	constraints := MOOntologicalConstraint new
+		               ontology: aSPOntology;
+		               yourself
+]
+
 { #category : #'resolution strategies' }
 MOLanguage >> variableResolutionStrategy [
 

@@ -37,7 +37,7 @@ MOJavaFileLoader >> load: anAst [
 	writer autoPopulate: false.
 	
 	ret := anAst acceptVisitor: self.
-	writer populateAnchorOn: writer model root.
+
 	^ ret
 ]
 
@@ -109,6 +109,11 @@ MOJavaFileLoader >> visitAnnotation: aJavaAnnotationNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitAnnotationInterface: aJavaAnnotationInterfaceNode [ 
+	
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitArrayAccess: aJavaArrayAccessNode [
 
 	^ writer
@@ -129,6 +134,29 @@ MOJavaFileLoader >> visitArrayInitializer: aJavaArrayInitializerNode [
 	^ writer arrayInitializer:
 		  (aJavaArrayInitializerNode initializers collect: [ :a | 
 			   a acceptVisitor: self ]) asArray
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitArrayType: aJavaArrayTypeNode [
+
+	^ writer arrayTypeReferenceOf:
+		  (aJavaArrayTypeNode baseType acceptVisitor: self)
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitAssertStatement: aJavaAssertStatementNode [
+
+	^ writer writeAssertionStatement: [ :assertion | 
+		  assertion writeUnregisteredExpression: [ :expression | 
+			  self use: expression during: [ 
+				  assertion argument:
+					  (aJavaAssertStatementNode testExpression acceptVisitor: self) ] ].
+		  assertion writeUnregisteredExpression: [ :expression | 
+			  aJavaAssertStatementNode messageExpression ifNotNil: [ 
+				  self use: expression during: [ 
+					  assertion message:
+						  (aJavaAssertStatementNode messageExpression acceptVisitor:
+							   self) ] ] ] ]
 ]
 
 { #category : #visiting }
@@ -165,6 +193,7 @@ MOJavaFileLoader >> visitBinaryExpression: aJavaBinaryExpressionNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitBlock: aJavaBlockNode [
 
+
 	^ writer writeBlock: [ :block | 
 		  aJavaBlockNode statements collect: [ :s | 
 			  block writeStatement: [ :stmt | 
@@ -176,6 +205,12 @@ MOJavaFileLoader >> visitBooleanLiteral: aJavaBooleanLiteralNode [
 
 	^ writer booleanLiteral:
 		  aJavaBooleanLiteralNode token value asLowercase = 'true'
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitBreakStatement: aJavaBreakStatementNode [
+
+	^ writer break
 ]
 
 { #category : #visiting }
@@ -469,13 +504,16 @@ MOJavaFileLoader >> visitForStatement: aJavaForStatementNode [
 
 	^ writer
 		  for: [ :exp | 
-			  self
-				  use: exp
-				  during: [ aJavaForStatementNode initial acceptVisitor: self ] ]
+			  self use: exp during: [ 
+				  aJavaForStatementNode initial
+					  ifNil: [ {  } ]
+					  ifNotNil: [ :a | (a acceptVisitor: self) asCollection ] ] ]
 		  condition: [ :exp | 
 			  self
 				  use: exp
-				  during: [ aJavaForStatementNode test acceptVisitor: self ] ]
+				  during: [ 
+				  aJavaForStatementNode test ifNotNil: [ :t | 
+					  t acceptVisitor: self ] ] ]
 		  update: [ :exp | 
 			  self use: exp during: [ 
 				  aJavaForStatementNode _update
@@ -532,6 +570,12 @@ MOJavaFileLoader >> visitInitializedVariableDeclaration: aJavaInitializedVariabl
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitInitializer: aJavaInitializerNode [
+
+	^ self visitStaticInitializer: aJavaInitializerNode
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitIntegerLiteral: aJavaIntegerLiteralNode [
 
 	^ writer numericLiteral:
@@ -562,6 +606,18 @@ MOJavaFileLoader >> visitInterfaceDeclaration: aJavaInterfaceDeclarationNode [
 			self
 				writeParametrizableClassTypeWith: aJavaInterfaceDeclarationNode
 				named: name ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitLabeledStatement: aJavaLabeledStatementNode [
+
+	^ writer writeLabelWithStatement: [ :label | 
+		  label label: aJavaLabeledStatementNode identifier source.
+		  label writeStatement: [ :statement | 
+			  self
+				  use: statement
+				  during: [ 
+				  aJavaLabeledStatementNode statement acceptVisitor: self ] ] ]
 ]
 
 { #category : #visiting }
@@ -727,6 +783,12 @@ MOJavaFileLoader >> visitNull: aJavaNullNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitOuterThis: aJavaOuterThisNode [
+
+	^ writer referenceToSelf
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitPackageDeclaration: aJavaPackageDeclarationNode [
 
 	package := writer
@@ -778,6 +840,18 @@ MOJavaFileLoader >> visitPostIncrementExpression: aJavaPostIncrementExpressionNo
 				  during: [ 
 				  aJavaPostIncrementExpressionNode expression acceptVisitor: self ] ]
 		  operator: aJavaPostIncrementExpressionNode plusPlus value
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitPreDecrementExpression: aJavaPreDecrementExpressionNode [ 
+
+	^ writer
+		  prefixOperate: [ :exp | 
+			  self
+				  use: exp
+				  during: [ 
+				  aJavaPreDecrementExpressionNode expression acceptVisitor: self ] ]
+		  operator: aJavaPreDecrementExpressionNode minusMinus value
 ]
 
 { #category : #visiting }
@@ -889,23 +963,40 @@ MOJavaFileLoader >> visitSuperConstructorInvocation: aJavaSuperConstructorInvoca
 ]
 
 { #category : #visiting }
-MOJavaFileLoader >> visitSwitchBlock: aJavaSwitchBlockNode [ 
-	self shouldBeImplemented.
+MOJavaFileLoader >> visitSwitchBlock: aJavaSwitchBlockNode [
+
+	self assert: aJavaSwitchBlockNode labels isEmpty.
+	self visitCollection: aJavaSwitchBlockNode statementGroups
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitSwitchBlockStatementGroup: aJavaSwitchBlockStatementGroupNode [
+
+	^ writer writeSwitchBlock: [ :case | 
+		  case writeCaseExpression: [ :expr | 
+			  self
+				  use: expr
+				  during: [ 
+				  self visitCollection: aJavaSwitchBlockStatementGroupNode labels ] ].
+		  case writeBlock: [ :caseBlock | 
+			  self
+				  use: caseBlock
+				  during: [ 
+				  self visitCollection:
+					  aJavaSwitchBlockStatementGroupNode statements ] ] ]
 ]
 
 { #category : #visiting }
 MOJavaFileLoader >> visitSwitchStatement: aJavaSwitchStatementNode [
 
-	^ writer
-		  switch: [ :expr | 
-			  self
-				  use: expr
-				  during: [ 
-				  aJavaSwitchStatementNode expression acceptVisitor: self ] ]
-		  block: [ :select | 
-			  self
-				  use: select
-				  during: [ aJavaSwitchStatementNode block acceptVisitor: self ] ]
+	^ writer writeSwitch: [ :switch | 
+		  switch writeExpression: [ :expr | 
+			  self use: expr during: [ 
+				  switch expression:
+					  (aJavaSwitchStatementNode expression acceptVisitor: self) ] ].
+		  self use: switch during: [ 
+			  switch expression:
+				  (aJavaSwitchStatementNode expression acceptVisitor: self) ] ]
 ]
 
 { #category : #visiting }
@@ -1088,7 +1179,7 @@ MOJavaFileLoader >> writeAbstractMethodWith: aJavaAbstractMethodDeclarationNode 
 { #category : #visiting }
 MOJavaFileLoader >> writeClassTypeWith: aJavaInterfaceDeclarationNode named: name [
 
-	writer writeClassType: [ :class | 
+	writer writeJavaClassType: [ :class | 
 		aJavaInterfaceDeclarationNode interfaceTypes do: [ :int | 
 			class addSuperTypeReference:
 				(self typeReferenceFor: int using: class) ].

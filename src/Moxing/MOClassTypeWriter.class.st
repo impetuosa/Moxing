@@ -36,6 +36,12 @@ MOClassTypeWriter >> addDecorator: aMODecorator [
 ]
 
 { #category : #adding }
+MOClassTypeWriter >> addJavaEnum: aMOJavaEnum [
+
+	^ writeBuilder addJavaEnum: aMOJavaEnum
+]
+
+{ #category : #adding }
 MOClassTypeWriter >> addMethod: aMOProcedure [
 
 	writeBuilder addMethod: aMOProcedure
@@ -97,6 +103,12 @@ MOClassTypeWriter >> writeAttribute: aBlock [
 { #category : #writing }
 MOClassTypeWriter >> writeConstructor: aFullBlockClosure [ 
 		^ self write: aFullBlockClosure inSubWriter: MOConstructorWriter 
+]
+
+{ #category : #writing }
+MOClassTypeWriter >> writeJavaEnum: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOJavaEnumWriter
 ]
 
 { #category : #writing }

@@ -61,6 +61,18 @@ MOJavaClassWriter >> writeClassType: aBlock [
 ]
 
 { #category : #writing }
+MOJavaClassWriter >> writeJavaClass: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassWriter
+]
+
+{ #category : #writing }
+MOJavaClassWriter >> writeJavaClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOJavaClassTypeWriter
+]
+
+{ #category : #writing }
 MOJavaClassWriter >> writeJavaEnum: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOJavaEnumWriter

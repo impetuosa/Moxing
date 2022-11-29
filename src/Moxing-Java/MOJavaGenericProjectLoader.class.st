@@ -58,7 +58,7 @@ MOJavaGenericProjectLoader >> javaFiles [
 
 { #category : #accessing }
 MOJavaGenericProjectLoader >> link: aMOModel [
-
+	self halt. 
 	MOModelLinker new link: aMOModel
 ]
 
@@ -84,7 +84,10 @@ MOJavaGenericProjectLoader >> loadNamed: aString [
 		entry fileReference: (file relativeTo: workingDirectory).
 		entry types do: [ :t | t fileReference: entry fileReference ].
 		entry ].
+
+	writer populateAnchorOn: model root.
 	self link: model.
+
 	^ model
 ]
 

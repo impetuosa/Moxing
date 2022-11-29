@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #accessing }
+MOConditionalExpression >> acceptVisitor: aVisitor [
+
+	^ aVisitor visitConditionalExpression: self
+]
+
+{ #category : #accessing }
 MOConditionalExpression >> condition [
 
 	^ condition

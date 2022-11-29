@@ -17,10 +17,7 @@ Class {
 { #category : #accessing }
 MOModelConditionalControlFlowBuilder >> condition [
 
-	^ condition ifNil: [ 
-		  isUpdating
-			  ifTrue: [ nil ]
-			  ifFalse: [ self error: 'Condition is Nil' ] ]
+	^ condition
 ]
 
 { #category : #accessing }

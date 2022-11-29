@@ -27,6 +27,12 @@ MOModelClassTypeBuilder >> addAttribute: anAttribute [
 ]
 
 { #category : #adding }
+MOModelClassTypeBuilder >> addJavaEnum: aMOJavaEnum [
+
+	Warning signal: 'b;a'
+]
+
+{ #category : #adding }
 MOModelClassTypeBuilder >> addMethod: aMOProcedure [
 
 	self methods add: aMOProcedure

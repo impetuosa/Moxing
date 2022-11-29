@@ -43,6 +43,12 @@ MOStatementWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumen
 			  arguments: anArgumentsBlock ]
 ]
 
+{ #category : #accessing }
+MOStatementWriter >> block: aMOBlock [
+
+	^ self addStatement: aMOBlock
+]
+
 { #category : #statements }
 MOStatementWriter >> break [
 
@@ -329,6 +335,11 @@ MOStatementWriter >> operateBoolean: anExpressionBuildingBlock operator: aString
 				   with: anOtherExpressionBuildingBlock ])
 ]
 
+{ #category : #accessing }
+MOStatementWriter >> package: aMOPackage [ 
+	" nothing to do "
+]
+
 { #category : #'as yet unclassified' }
 MOStatementWriter >> postfixOperate: aFullBlockClosure operator: aString [
 
@@ -364,13 +375,14 @@ MOStatementWriter >> redimVariable: aString typeReference: aMOTypeReference redi
 { #category : #writing }
 MOStatementWriter >> registerStatement: aStatement [
 
-	self assert: writeResult isNil.
-	writeResult := aStatement isExpression
-		               ifTrue: [ 
+	writeResult ifNotNil: [ 
+		writeResult class = aStatement class ifFalse: [ self halt ] ].
+	writeResult := aStatement isStatement
+		               ifFalse: [ 
 			               builder statementExpressionBuilder
 				               expression: aStatement;
 				               build ]
-		               ifFalse: [ aStatement ].
+		               ifTrue: [ aStatement ].
 	^ writeResult
 ]
 
@@ -474,6 +486,14 @@ MOStatementWriter >> with: anExpressionBlock do: aBlockWritingBlock [
 		  with
 			  writeExpression: anExpressionBlock;
 			  writeBlock: aBlockWritingBlock ]
+]
+
+{ #category : #statements }
+MOStatementWriter >> writeAssertionStatement: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOAssertionStatementWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
@@ -602,6 +622,23 @@ MOStatementWriter >> writeInfinityLoop: aBlock [
 ]
 
 { #category : #writing }
+MOStatementWriter >> writeJavaClass: aFullBlockClosure [
+
+	^ self writeStatementDeclaration: [ :stat | 
+		  stat writeJavaClass: aFullBlockClosure ]
+]
+
+{ #category : #writing }
+MOStatementWriter >> writeLabelWithStatement: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOLabelWithStatementWriter.
+	^ stmnt
+]
+
+{ #category : #writing }
 MOStatementWriter >> writeLambda: aFullBlockClosure [
 
 	^ self registerStatement:
@@ -683,6 +720,12 @@ MOStatementWriter >> writeSetToReturn: aFullBlockClosure [
 { #category : #writing }
 MOStatementWriter >> writeStatement: aFullBlockClosure [ 
 	^ aFullBlockClosure value: self 
+]
+
+{ #category : #enumerating }
+MOStatementWriter >> writeStatementDeclaration: aBlock [
+
+	^ parentWriter writeStatementDeclaration: aBlock
 ]
 
 { #category : #writing }

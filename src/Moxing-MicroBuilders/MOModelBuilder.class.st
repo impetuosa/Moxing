@@ -108,6 +108,13 @@ MOModelBuilder >> artefactReferenceBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> assertionStatementBuilder [
+	^ MOAssertionStatementBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> assignmentBuilder [
 
 	^ MOModelAssignmentBuilder new
@@ -632,6 +639,15 @@ MOModelBuilder >> javaClassBuilder [
 		  yourself
 ]
 
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> javaClassTypeBuilder [
+
+	^ MOModelJavaClassTypeBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
 { #category : #initialization }
 MOModelBuilder >> labelBuilder [
 
@@ -644,6 +660,15 @@ MOModelBuilder >> labelBuilder [
 { #category : #'as yet unclassified' }
 MOModelBuilder >> labelReferenceBuilder [
 	^ MOModelLabelReferenceBuilder new
+		  parentBuilder: self;
+		  baseAnchor: model anchor;
+		  yourself
+]
+
+{ #category : #initialization }
+MOModelBuilder >> labelWithStatementBuilder [
+
+	^ MOModelLabelWithStatementBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
 		  yourself
@@ -1163,6 +1188,13 @@ MOModelBuilder >> stMethodBuilder [
 MOModelBuilder >> statementBuilder [
 
 	^ MOModelStatementExpressionBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> statementDeclarationBuilder [
+	^ MOModelStatementDeclarationBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

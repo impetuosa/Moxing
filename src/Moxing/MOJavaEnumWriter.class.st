@@ -4,9 +4,25 @@ Class {
 	#category : #'Moxing-MicroWriters'
 }
 
+{ #category : #'as yet unclassified' }
+MOJavaEnumWriter >> accessAttribute: aString receiver: anExpressionBuildingBlock [ 
+
+	^ builder attributeAccessBuilder
+		  name: aString;
+		  receiverReference:
+			  (self writeExpression: anExpressionBuildingBlock);
+		  build
+]
+
 { #category : #initialization }
 MOJavaEnumWriter >> addEnumEntry: aMOEnumEntry [ 
 	writeBuilder addEnumEntry: aMOEnumEntry 
+]
+
+{ #category : #generated }
+MOJavaEnumWriter >> expression: aMOVariableReference [
+
+	^ aMOVariableReference
 ]
 
 { #category : #initialization }

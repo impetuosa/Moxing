@@ -15,7 +15,14 @@ MOModelExpressionTypeResolver >> model: aMOModel [
 
 { #category : #'as yet unclassified' }
 MOModelExpressionTypeResolver >> typeOfExpression: aMOObject [
-  ^aMOObject acceptVisitor: self
+
+	^ aMOObject acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitArrayAccess: aMOArrayAccess [
+
+	^ aMOArrayAccess referee
 ]
 
 { #category : #visiting }
@@ -26,13 +33,33 @@ MOModelExpressionTypeResolver >> visitAttributeAccess: aMOAttributeAccess [
 ]
 
 { #category : #visiting }
+MOModelExpressionTypeResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
+
+	^ aMOBinaryArithmeticOperation parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitCastExpression: aMOCastExpression [
+
+	^ aMOCastExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelExpressionTypeResolver >> visitIntegerLiteral: aMOIntegerLiteral [ 
 	self subclassResponsibility 
 ]
 
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
-  ^aMOMethodInvocation referee ifNotNil: [:c |  c returnTypeReference ifNotNil: [:rt |  rt referee ] ]
+
+	^ aMOMethodInvocation referee ifNotNil: [ :c | 
+		  c returnTypeReference ifNotNil: [ :rt | rt referee ] ]
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitNewExpression: aMONewInvocation [
+
+	^ aMONewInvocation typeReference acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -40,6 +67,7 @@ MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 
 	| classOrExtension |
 	classOrExtension := aMOSelfReference callingClass.
+	classOrExtension ifNil: [ ^ nil ].
 	^ classOrExtension isMethodExtension
 		  ifTrue: [ classOrExtension classReference referee ]
 		  ifFalse: [ classOrExtension ]
@@ -48,7 +76,9 @@ MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitStringLiteral: aMOStringLiteral [
 
-	^ model typeNamed: #String
+	^ [ model typeNamed: #String ]
+		  on: Error
+		  do: [ nil ]
 ]
 
 { #category : #visiting }
