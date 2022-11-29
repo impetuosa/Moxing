@@ -37,7 +37,7 @@ MOJavaFileLoader >> load: anAst [
 	writer autoPopulate: false.
 	
 	ret := anAst acceptVisitor: self.
-	writer populateAnchorOn: writer model root.
+
 	^ ret
 ]
 

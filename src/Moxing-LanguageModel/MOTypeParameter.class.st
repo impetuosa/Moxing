@@ -14,6 +14,12 @@ MOTypeParameter >> acceptVisitor: aMOCatalogTypeInstaller [
 ]
 
 { #category : #accessing }
+MOTypeParameter >> methods [
+
+	^ {  }
+]
+
+{ #category : #accessing }
 MOTypeParameter >> printOn: aStream [
 
 	aStream

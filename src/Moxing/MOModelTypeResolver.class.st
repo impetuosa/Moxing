@@ -90,6 +90,12 @@ MOModelTypeResolver >> visitAttribute: aMOAttribute [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitAttributeAccess: anAccess [
+
+	^ anAccess parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
 
 	^ aMOBinaryArithmeticOperation parent acceptVisitor: self

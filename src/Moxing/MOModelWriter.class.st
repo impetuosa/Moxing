@@ -310,7 +310,6 @@ MOModelWriter >> populateAnchor [
 MOModelWriter >> populateAnchorOn: anEntity [
 
 	| subentity |
-	
 	anEntity shouldPopulateRelations ifTrue: [ 
 		anEntity allDeclaresRelations , anEntity allStatesRelations
 		, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
@@ -790,7 +789,7 @@ MOModelWriter >> write: aBlock withWriter: writer writerParent: aWriterParent [
 	writer surface: self.
 	writer initializeWriteBuilder.
 	writer write: aBlock.
-	self autoPopulate ifTrue: [ self populateAnchor ].
+
 	^ entity
 ]
 

@@ -726,6 +726,7 @@ MOStatementWriter >> writeStatement: aFullBlockClosure [
 MOStatementWriter >> writeStatementDeclaration: aBlock [
 
 	| stmnt |
+	self halt.
 	stmnt := self write: aBlock inSubWriter: MOStatementDeclarationWriter.
 	^ stmnt
 ]

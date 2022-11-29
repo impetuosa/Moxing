@@ -51,7 +51,9 @@ MOModelExpressionTypeResolver >> visitIntegerLiteral: aMOIntegerLiteral [
 
 { #category : #visiting }
 MOModelExpressionTypeResolver >> visitMethodInvocation: aMOMethodInvocation [
-  ^aMOMethodInvocation referee ifNotNil: [:c |  c returnTypeReference ifNotNil: [:rt |  rt referee ] ]
+
+	^ aMOMethodInvocation referee ifNotNil: [ :c | 
+		  c returnTypeReference ifNotNil: [ :rt | rt referee ] ]
 ]
 
 { #category : #visiting }
@@ -65,6 +67,7 @@ MOModelExpressionTypeResolver >> visitSelfReference: aMOSelfReference [
 
 	| classOrExtension |
 	classOrExtension := aMOSelfReference callingClass.
+	classOrExtension ifNil: [ ^ nil ].
 	^ classOrExtension isMethodExtension
 		  ifTrue: [ classOrExtension classReference referee ]
 		  ifFalse: [ classOrExtension ]

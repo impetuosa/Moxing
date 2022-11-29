@@ -13,7 +13,8 @@ MOStatementDeclarationWriter >> acceptWritingVisitor: aVisitor [
 { #category : #adding }
 MOStatementDeclarationWriter >> addClass: aMOJavaClass [
 
-	writeBuilder declaration: aMOJavaClass
+	writeBuilder declaration: aMOJavaClass.
+	
 ]
 
 { #category : #initialization }
