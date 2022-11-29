@@ -24,6 +24,12 @@ MOStatementDeclarationWriter >> initializeWriteBuilder [
 ]
 
 { #category : #writing }
+MOStatementDeclarationWriter >> privateWriteToSurface: anEntity [
+
+	^ surface addStatement: anEntity
+]
+
+{ #category : #writing }
 MOStatementDeclarationWriter >> writeJavaClass: aBlock [
 
 	^ self write: aBlock inSubWriter: MOJavaClassWriter

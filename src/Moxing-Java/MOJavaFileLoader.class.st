@@ -193,6 +193,7 @@ MOJavaFileLoader >> visitBinaryExpression: aJavaBinaryExpressionNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitBlock: aJavaBlockNode [
 
+
 	^ writer writeBlock: [ :block | 
 		  aJavaBlockNode statements collect: [ :s | 
 			  block writeStatement: [ :stmt | 

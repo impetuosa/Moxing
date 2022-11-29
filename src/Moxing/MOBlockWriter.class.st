@@ -294,7 +294,6 @@ MOBlockWriter >> writeStatement: aBlock [
 MOBlockWriter >> writeStatementDeclaration: aBlock [
 
 	| stmnt |
-	self halt. 
 	stmnt := self write: aBlock inSubWriter: MOStatementDeclarationWriter.
 	^ stmnt
 ]

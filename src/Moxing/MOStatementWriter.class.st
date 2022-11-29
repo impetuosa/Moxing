@@ -725,10 +725,7 @@ MOStatementWriter >> writeStatement: aFullBlockClosure [
 { #category : #enumerating }
 MOStatementWriter >> writeStatementDeclaration: aBlock [
 
-	| stmnt |
-	self halt.
-	stmnt := self write: aBlock inSubWriter: MOStatementDeclarationWriter.
-	^ stmnt
+	^ parentWriter writeStatementDeclaration: aBlock
 ]
 
 { #category : #writing }
