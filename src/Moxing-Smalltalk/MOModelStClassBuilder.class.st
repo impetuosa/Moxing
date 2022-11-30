@@ -8,7 +8,8 @@ Class {
 		'comment',
 		'isPreexisting',
 		'metaclassAttributes',
-		'metaclassMethods'
+		'metaclassMethods',
+		'sharedPoolReferences'
 	],
 	#category : #'Moxing-Smalltalk-builer'
 }
@@ -41,6 +42,12 @@ MOModelStClassBuilder >> addMethod: aMethod [
 	aMethod isStaticBinding
 		ifTrue: [ self addMetaclassMethod: aMethod ] 
 		ifFalse: [ super addMethod: aMethod ]
+]
+
+{ #category : #asserting }
+MOModelStClassBuilder >> addSharedPoolReference: aReference [
+
+	self sharedPoolReferences add: aReference
 ]
 
 { #category : #'as yet unclassified' }
@@ -98,7 +105,8 @@ MOModelStClassBuilder >> loadBuilderWithEntity: anEntity [
 	self metaclass: anEntity metaclass.
 	self category: anEntity category.
 	self comment: anEntity comment.
-	self isPreexisting: anEntity isPreexisting
+	self isPreexisting: anEntity isPreexisting.
+	self sharedPoolReferences: anEntity sharedPoolReferences
 ]
 
 { #category : #asserting }
@@ -151,6 +159,20 @@ MOModelStClassBuilder >> privateBuild [
 		  metaclass: self buildMetaclass;
 		  category: self category;
 		  comment: self comment;
-		isPreexisting: self isPreexisting
+		  sharedPoolReferences: self sharedPoolReferences;
+		  isPreexisting: self isPreexisting;
 		  yourself
+]
+
+{ #category : #asserting }
+MOModelStClassBuilder >> sharedPoolReferences [
+
+	^ sharedPoolReferences ifNil: [ 
+		  sharedPoolReferences := OrderedCollection new ]
+]
+
+{ #category : #asserting }
+MOModelStClassBuilder >> sharedPoolReferences: aCollection [
+
+	sharedPoolReferences := aCollection
 ]

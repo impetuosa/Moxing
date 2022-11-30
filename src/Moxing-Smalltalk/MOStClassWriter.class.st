@@ -85,6 +85,13 @@ MOStClassWriter >> writeSharedConstant: aFullBlockClosure [
 	^ stmnt
 ]
 
+{ #category : #testing }
+MOStClassWriter >> writeSharedPoolReferenceNamed: aName [
+
+	writeBuilder addSharedPoolReference:
+		(self sharedPoolReferenceNamed: aName)
+]
+
 { #category : #writing }
 MOStClassWriter >> writeSharedVariable: aFullBlockClosure [
 

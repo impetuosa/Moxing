@@ -5,7 +5,8 @@ Class {
 		'#metaclass => MODeclaresSlot one',
 		'#category => MOPropertySlot',
 		'#comment => MOPropertySlot',
-		'#isPreexisting => MOPropertySlot'
+		'#isPreexisting => MOPropertySlot',
+		'#sharedPools => MOExpressesSlot many'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }
@@ -64,5 +65,6 @@ MOStClass >> metaclass: aMOMetaClass [
 
 { #category : #accessing }
 MOStClass >> sharedVariables [
-  ^attributes select:  [:a |  a isSharedVariable ]
+
+	^ attributes select: [ :a | a isSharedVariable ]
 ]

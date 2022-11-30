@@ -11,5 +11,6 @@ MOSharedVariable >> acceptVisitor: aVisitor [
 
 { #category : #visiting }
 MOSharedVariable >> isSharedVariable [
-^ true 
+
+	^ true
 ]

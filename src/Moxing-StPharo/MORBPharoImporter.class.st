@@ -126,10 +126,12 @@ MORBPharoImporter >> visitRBClass: aRBClass [
 
 		  aRBClass instanceVariableNames do: [ :iv | 
 			  class writeAttribute: [ :a | a name: iv ] ].
+		  aRBClass sharedVariables do: [ :iv | 
+			  class writeSharedVariable: [ :a | a name: iv ] ].
 		  aRBClass classVariableNames do: [ :cvn | 
 			  class writeClassVariable: [ :cv | cv name: cvn ] ].
 		  aRBClass sharedPoolNames do: [ :cvn | 
-			  class sharedPoolReferenceNamed: cvn ].
+			  class writeSharedPoolReferenceNamed: cvn ].
 
 		  self use: class during: [ 
 			  self visitCollection:
