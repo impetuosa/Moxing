@@ -8,3 +8,9 @@ Class {
 MOSharedConstant >> acceptVisitor: aVisitor [
 	 ^ aVisitor visitSharedConstant: self 
 ]
+
+{ #category : #visiting }
+MOSharedConstant >> kindString [
+
+	^ 'SHARED CONSTANT'
+]

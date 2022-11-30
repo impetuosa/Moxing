@@ -143,6 +143,7 @@ MORBPharoImporter >> visitCollection: aCollection [
 MORBPharoImporter >> visitRBClass: aRBClass [
 
 	| metaclass |
+
 	self assert: extending not.
 	metaclass := RBMetaclass existingNamed: aRBClass name.
 
@@ -156,9 +157,13 @@ MORBPharoImporter >> visitRBClass: aRBClass [
 
 		  aRBClass instanceVariableNames do: [ :iv | 
 			  class writeAttribute: [ :a | a name: iv ] ].
+
+		  aRBClass poolDictionaryNames do: [ :cvn | 
+			  class writeSharedPoolReferenceNamed: cvn ].
+
 		  aRBClass classVariableNames do: [ :cvn | 
 			  aRBClass isSharedPool
-				  ifTrue: [ class writeSharedPoolReferenceNamed: cvn ]
+				  ifTrue: [ class writeSharedVariable: [ :cv | cv name: cvn ] ]
 				  ifFalse: [ class writeClassVariable: [ :cv | cv name: cvn ] ] ].
 
 

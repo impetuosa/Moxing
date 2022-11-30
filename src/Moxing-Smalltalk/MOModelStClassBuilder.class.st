@@ -17,7 +17,7 @@ Class {
 { #category : #asserting }
 MOModelStClassBuilder >> addAttribute: anAttribute [
 
-	anAttribute isStaticBinding
+	(anAttribute isStaticBinding and: [ anAttribute isSharedVariable not ])
 		ifTrue: [ self addMetaclassAttribute: anAttribute ]
 		ifFalse: [ super addAttribute: anAttribute ]
 ]

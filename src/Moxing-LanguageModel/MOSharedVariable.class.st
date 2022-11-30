@@ -14,3 +14,9 @@ MOSharedVariable >> isSharedVariable [
 
 	^ true
 ]
+
+{ #category : #visiting }
+MOSharedVariable >> kindString [
+
+	^ 'SHARED VARIABLE'
+]
