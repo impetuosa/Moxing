@@ -63,6 +63,21 @@ MOParentSlot >> isToMany [
 	^ false
 ]
 
+{ #category : #testing }
+MOParentSlot >> readAllRelations: anObject selecting: aBlock [
+
+	| value |
+	value := self read: anObject.
+	^ (aBlock value: value)
+		  ifTrue: [ 
+			  { (MODeclarationStructuralRelation new
+				   from: anObject to: value;
+				   name: self name;
+				   slot: self;
+				   yourself) } ]
+		  ifFalse: [ {  } ]
+]
+
 { #category : #asserting }
 MOParentSlot >> should: anObject accept: aValue [
 

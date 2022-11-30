@@ -53,6 +53,9 @@ MOOntologicalConstraint >> can: anObject use: anOtherObject with: aSlot [
 		^ anOtherObject isNil or: [ anOtherObject isKindOf: MOLanguage ] ].
 	aSlot name = #name ifTrue: [ 
 		^ anOtherObject isNil or: [ anOtherObject isKindOf: String ] ].
+	
+	
+	
 	[ type := ontology typeFor: anObject ]
 		on: Error
 		do: [ :e | ^ false ].

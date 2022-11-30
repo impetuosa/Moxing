@@ -228,6 +228,13 @@ MOObject >> finalize [
 ]
 
 { #category : #traverse }
+MOObject >> incorrectRelations [
+
+	^ (self class allSlots reject: [ :slot | slot isCorrect: self ]) 
+		  flatCollect: [ :s | s readAllRelations: self ]
+]
+
+{ #category : #traverse }
 MOObject >> incorrectSlots [
 
 	^ self class allSlots reject: [ :slot | slot isCorrect: self ]

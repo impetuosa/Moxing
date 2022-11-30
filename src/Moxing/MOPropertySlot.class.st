@@ -38,6 +38,12 @@ MOPropertySlot >> isMOSlot [
 ]
 
 { #category : #testing }
+MOPropertySlot >> isMany [
+
+	^ false
+]
+
+{ #category : #testing }
 MOPropertySlot >> isNoneValue: aCollection [
 
 	^ aCollection isCollection
