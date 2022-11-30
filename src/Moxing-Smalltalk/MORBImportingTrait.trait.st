@@ -85,8 +85,10 @@ MORBImportingTrait >> visitLiteralValueNode: aRBLiteralValueNode [
 
 { #category : #visiting }
 MORBImportingTrait >> visitMessageNode: aRBMessageNode [
-	 
-((	aRBMessageNode receiver isKindOf: RBVariableNode )and: [	aRBMessageNode receiver name  = #return]) ifTrue: [ self halt ].
+
+	((aRBMessageNode receiver isKindOf: RBVariableNode) and: [ 
+		 aRBMessageNode receiver name = #return ]) ifTrue: [ self halt ].
+	
 	^ self writer
 		  invokeMethodNamed: aRBMessageNode selector
 		  receiver: [ :exp | 
