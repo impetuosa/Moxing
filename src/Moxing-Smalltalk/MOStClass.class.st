@@ -6,7 +6,7 @@ Class {
 		'#category => MOPropertySlot',
 		'#comment => MOPropertySlot',
 		'#isPreexisting => MOPropertySlot',
-		'#sharedPools => MOExpressesSlot many'
+		'#sharedPoolReferences => MOExpressesSlot many'
 	],
 	#category : #'Moxing-Smalltalk-model'
 }
@@ -61,6 +61,12 @@ MOStClass >> metaclass [
 { #category : #accessing }
 MOStClass >> metaclass: aMOMetaClass [ 
 	metaclass := aMOMetaClass
+]
+
+{ #category : #asserting }
+MOStClass >> sharedPoolReferences: aCollection [
+
+	sharedPoolReferences := aCollection
 ]
 
 { #category : #accessing }
