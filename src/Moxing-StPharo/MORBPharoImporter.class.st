@@ -32,12 +32,42 @@ MORBPharoImporter class >> importPharoSiren [
 ]
 
 { #category : #accessing }
+MORBPharoImporter class >> loadCalypso [
+
+	| calypso phary |
+	calypso := MOModel newPharo.
+	calypso name: #Calypso.
+	phary := MORBPharoImporter new.
+	phary writer: calypso writer.
+
+	phary importPackages:
+		((RPackageOrganizer default packageNames select: [ :a | 
+			  a beginsWith: #Calypso ]) collect: #asPackageOrTag).
+	^ calypso
+]
+
+{ #category : #accessing }
 MORBPharoImporter class >> loadExtraPackageIntoSiren: aPackageName [
 
 	| phary |
 	phary := MORBPharoImporter new.
 	phary writer: siren writer.
 	phary importPackages: ({ aPackageName } collect: #asPackageOrTag)
+]
+
+{ #category : #accessing }
+MORBPharoImporter class >> loadMoose [
+
+	| moose phary |
+	moose := MOModel newPharo.
+	moose name: #Moose.
+	phary := MORBPharoImporter new.
+	phary writer: moose writer.
+
+	phary importPackages:
+		((RPackageOrganizer default packageNames select: [ :a | 
+			  a beginsWith: #Moose ]) collect: #asPackageOrTag).
+	^ moose
 ]
 
 { #category : #accessing }
