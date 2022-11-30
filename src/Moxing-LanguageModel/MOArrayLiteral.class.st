@@ -15,3 +15,9 @@ MOArrayLiteral >> literal [
 
 	^ literal collect: [ :l | l literal ]
 ]
+
+{ #category : #visiting }
+MOArrayLiteral >> printOn: aStream [
+
+	aStream nextPutAll: 'LIT ARRAY'
+]

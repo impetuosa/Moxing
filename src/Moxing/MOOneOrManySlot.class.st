@@ -63,7 +63,9 @@ MOOneOrManySlot >> initialize: anObject [
 { #category : #printing }
 MOOneOrManySlot >> isNoneValue: aCollection [
 
-	^ aCollection isEmptyOrNil
+	^ self isToMany
+		  ifTrue: [ aCollection isEmptyOrNil ]
+		  ifFalse: [ aCollection isNil ]
 ]
 
 { #category : #printing }

@@ -25,6 +25,13 @@ MOArrayTypeReference >> isArrayReference [
 ]
 
 { #category : #testing }
+MOArrayTypeReference >> name [
+
+	self assert: argumentTypeReferences size = 1.
+	^ argumentTypeReferences first name , '[]'
+]
+
+{ #category : #testing }
 MOArrayTypeReference >> printOn: aStream [
 
 	aStream nextPutAll: '->'.
