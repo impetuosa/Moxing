@@ -35,6 +35,13 @@ MOAnchoredDeclaration >> anchorSelectorName [
 ]
 
 { #category : #accessing }
+MOAnchoredDeclaration >> canDeclare: anOtherObject with: aSlot [
+
+	parent isStonReference ifTrue: [ ^ true ].
+	^ self language can: self declare: anOtherObject with: aSlot
+]
+
+{ #category : #accessing }
 MOAnchoredDeclaration >> fileReference [
 	^ fileReference
 ]

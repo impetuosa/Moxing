@@ -2,6 +2,7 @@ Class {
 	#name : #MOAngularComponent,
 	#superclass : #MOLanguageConstruct,
 	#instVars : [
+		'#name => MOPropertySlot',
 		'#behavior => MODeclaresSlot one',
 		'#template => MODeclaresSlot one',
 		'#css => MODeclaresSlot one'
@@ -59,6 +60,18 @@ MOAngularComponent >> isDeclaration [
 MOAngularComponent >> isDefinedInLibrary [
 
 	^ behavior isDefinedInLibrary
+]
+
+{ #category : #generated }
+MOAngularComponent >> name [
+
+	^ name
+]
+
+{ #category : #generated }
+MOAngularComponent >> name: aName [ 
+	 name := aName 
+	
 ]
 
 { #category : #generated }

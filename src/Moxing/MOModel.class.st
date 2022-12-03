@@ -108,7 +108,7 @@ MOModel >> catalogEntitiesSelect: aFullBlockClosure [
 { #category : #'as yet unclassified' }
 MOModel >> declarations [
 
-	^ entities select: [ :e | e isDeclaration ]
+	^ entities select: [ :e | e isKindOf: MODeclaration ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -129,6 +129,12 @@ MOModel >> entityFor: aMOEntity [
 MOModel >> exclusivelyincludes: aMOPrimitiveType [
 
 	^ self includes: aMOPrimitiveType
+]
+
+{ #category : #generated }
+MOModel >> expressions [
+
+	^ entities select: [ :a | a isExpression ]
 ]
 
 { #category : #accessing }

@@ -2,6 +2,7 @@ Class {
 	#name : #MOAngularService,
 	#superclass : #MOAnchoredDeclaration,
 	#instVars : [
+		'#name => MOPropertySlot',
 		'#behavior => MOPropertySlot'
 	],
 	#category : #'Moxing-Angular-Declaration'
@@ -24,13 +25,31 @@ MOAngularService >> behavior: aMOAngularClass [
 ]
 
 { #category : #accessing }
+MOAngularService >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
 MOAngularService >> language [
-	^ behavior language
+	^ parent language
 ]
 
 { #category : #accessing }
 MOAngularService >> language: aMOLanguage [ 
 
+]
+
+{ #category : #accessing }
+MOAngularService >> name [
+
+	^ name
+]
+
+{ #category : #accessing }
+MOAngularService >> name: aName [ 
+	 name := aName 
+	
 ]
 
 { #category : #accessing }

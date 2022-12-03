@@ -39,6 +39,12 @@ MOAngularClass >> interfaces [
 	^ self classRepresentation types 
 ]
 
+{ #category : #accessing }
+MOAngularClass >> isDeclaration [
+
+	^ true
+]
+
 { #category : #testing }
 MOAngularClass >> isDefinedInLibrary [
 
@@ -48,7 +54,7 @@ MOAngularClass >> isDefinedInLibrary [
 { #category : #accessing }
 MOAngularClass >> language [
 
-	^ classRepresentation language
+	^ parent language
 ]
 
 { #category : #accessing }
@@ -67,6 +73,11 @@ MOAngularClass >> name [
 	^ classRepresentation
 		  ifNil: [ 'Error loading' ]
 		  ifNotNil: [ :a | a name ]
+]
+
+{ #category : #accessing }
+MOAngularClass >> name: aString [ 
+	
 ]
 
 { #category : #accessing }

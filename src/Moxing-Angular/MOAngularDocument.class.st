@@ -2,7 +2,8 @@ Class {
 	#name : #MOAngularDocument,
 	#superclass : #MOLanguageConstruct,
 	#instVars : [
-		'#document => MOPropertySlot'
+		'#document => MOPropertySlot',
+		'#name => MOPropertySlot'
 	],
 	#category : #'Moxing-Angular-DomainSpecific'
 }
@@ -20,6 +21,23 @@ MOAngularDocument >> document [
 { #category : #accessing }
 MOAngularDocument >> document: aFileReference [ 
 	document := aFileReference
+]
+
+{ #category : #accessing }
+MOAngularDocument >> isDeclaration [
+
+	^ true
+]
+
+{ #category : #accessing }
+MOAngularDocument >> name [
+
+	^ name
+]
+
+{ #category : #accessing }
+MOAngularDocument >> name: aName [
+ 	name := aName
 ]
 
 { #category : #accessing }

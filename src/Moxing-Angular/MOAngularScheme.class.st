@@ -18,6 +18,13 @@ MOAngularScheme >> acceptVisitor: aJinInspectorBuilder [
 	^ aJinInspectorBuilder visitAngularScheme: self 
 ]
 
+{ #category : #testing }
+MOAngularScheme >> canDeclare: anOtherObject with: aSlot [
+
+	parent isStonReference ifTrue: [ ^ true ].
+	^ self language can: self declare: anOtherObject with: aSlot
+]
+
 { #category : #'as yet unclassified' }
 MOAngularScheme >> defaultProject [
 
@@ -34,7 +41,7 @@ MOAngularScheme >> fileContents [
 { #category : #accessing }
 MOAngularScheme >> language [
 
-	^ projects anyOne language
+	^ parent language
 ]
 
 { #category : #accessing }

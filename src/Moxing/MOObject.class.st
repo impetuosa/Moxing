@@ -320,6 +320,12 @@ MOObject >> isDefinedInLibrary [
 ]
 
 { #category : #testing }
+MOObject >> isExpression [
+
+	^ false
+]
+
+{ #category : #testing }
 MOObject >> isFunction [
 
 	^ false
