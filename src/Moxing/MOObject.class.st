@@ -554,6 +554,12 @@ MOObject >> parentForContext [
 ]
 
 { #category : #accessing }
+MOObject >> parentName [
+
+	^ parent ifNil: [ 'no-parent' ] ifNotNil: [ parent name ]
+]
+
+{ #category : #accessing }
 MOObject >> producesParseableCode [
 	^ false
 ]
