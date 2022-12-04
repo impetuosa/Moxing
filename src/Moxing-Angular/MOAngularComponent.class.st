@@ -59,7 +59,7 @@ MOAngularComponent >> isDeclaration [
 { #category : #testing }
 MOAngularComponent >> isDefinedInLibrary [
 
-	^ behavior isDefinedInLibrary
+	^parent isDefinedInLibrary
 ]
 
 { #category : #generated }

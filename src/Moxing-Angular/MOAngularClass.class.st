@@ -48,7 +48,7 @@ MOAngularClass >> isDeclaration [
 { #category : #testing }
 MOAngularClass >> isDefinedInLibrary [
 
-	^ classRepresentation isDefinedInLibrary
+	^ parent isDefinedInLibrary
 ]
 
 { #category : #accessing }
@@ -72,7 +72,7 @@ MOAngularClass >> name [
 
 	^ classRepresentation
 		  ifNil: [ 'Error loading' ]
-		  ifNotNil: [ :a | a name ]
+		  ifNotNil: [ :a | a types first name ]
 ]
 
 { #category : #accessing }

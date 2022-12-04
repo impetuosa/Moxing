@@ -52,8 +52,8 @@ MOFunction >> name [
 
 { #category : #generated }
 MOFunction >> name: aSelector [
-
- selector := aSelector 
+	selector := aSelector
+	
 ]
 
 { #category : #generated }

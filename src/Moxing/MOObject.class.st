@@ -18,6 +18,12 @@ MOObject class >> fromSton: stonReader [
 ]
 
 { #category : #'instance creation' }
+MOObject class >> isRenamable [
+
+	^ (self canUnderstand: #name:) and: [ self canUnderstand: #name ]
+]
+
+{ #category : #'instance creation' }
 MOObject class >> new [
 	^ self error: 'must give model'
 ]
@@ -206,7 +212,6 @@ MOObject >> containsSourceCodeEntities [
 
 { #category : #'as yet unclassified' }
 MOObject >> doForceNameToBeSanitized [
-
 	self isRenamable ifFalse: [ ^ self error: ' Cannot ' ].
 	self name: (self sanitize: self name)
 ]
@@ -437,6 +442,12 @@ MOObject >> isReference [
 	^ false
 ]
 
+{ #category : #traverse }
+MOObject >> isRenamable [
+
+	^ self class isRenamable
+]
+
 { #category : #testing }
 MOObject >> isReturn [
 
@@ -473,6 +484,12 @@ MOObject >> isStaticDefinition [
 
 { #category : #testing }
 MOObject >> isStructure [
+
+	^ false
+]
+
+{ #category : #testing }
+MOObject >> isTable [
 
 	^ false
 ]
