@@ -53,9 +53,9 @@ MOModelWriter >> addClass: aMOClass [
 MOModelWriter >> addClassType: aMOClassType [
 
 	self assert: (aMOClassType isKindOf: MOClassType).
-	self assert:
+"	self assert:
 		(model types select: [ :t | t fullName = aMOClassType fullName ])
-			size = 1.
+			size = 1."
 	entity := aMOClassType
 ]
 

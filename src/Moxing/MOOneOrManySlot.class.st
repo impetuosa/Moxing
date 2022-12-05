@@ -133,7 +133,6 @@ MOOneOrManySlot >> readAllRelations: anObject selecting: aBlock [
 
 { #category : #printing }
 MOOneOrManySlot >> shouldAccept: aValue into: anObject [
-
 	aValue isStonReference ifTrue: [ ^ true ].
 	aValue ifNil: [ ^ true ].
 	^ self isToMany

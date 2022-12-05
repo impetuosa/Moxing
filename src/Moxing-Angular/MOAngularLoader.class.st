@@ -82,16 +82,15 @@ MOAngularLoader >> loadNamed: aName [
 MOAngularLoader >> populateAnchorOn: anEntity [
 
 	| subentity |
-	anEntity allDeclaresRelations , anEntity allStatesRelations
-	, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
-		:relation | 
-		subentity := relation to.
-		subentity parent: anEntity.
-		subentity anchor: anEntity anchor / (subentity name isEmptyOrNil
-				 ifTrue: [ relation name ]
-				 ifFalse: [ subentity name ])
-			/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
-		self populateAnchorOn: subentity ]
+	anEntity shouldPopulateRelations ifTrue: [ 
+		anEntity allDeclaresRelations , anEntity allStatesRelations
+		, anEntity allRefersRelations , anEntity allExpressesRelations do: [ 
+			:relation | 
+			subentity := relation to.
+			subentity parent ifNil: [ subentity parent: anEntity ].
+			subentity anchor: anEntity anchor / relation name
+				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
+			self populateAnchorOn: subentity ] ]
 ]
 
 { #category : #convenience }
@@ -112,7 +111,6 @@ MOAngularLoader >> processClassesFrom: aCollectionOfFiles into: aDestination anc
 
 { #category : #convenience }
 MOAngularLoader >> processComponentsFrom: aCollectionOfFiles into: aDestination anchoringInto: aModule [
-
 	(self
 		 selectFrom: aCollectionOfFiles
 		 allFiles: #component

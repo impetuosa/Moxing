@@ -108,7 +108,7 @@ MOModel >> catalogEntitiesSelect: aFullBlockClosure [
 { #category : #'as yet unclassified' }
 MOModel >> declarations [
 
-	^ entities select: [ :e | e isDeclaration ]
+	^ entities select: [ :e | e isKindOf: MODeclaration ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -129,6 +129,12 @@ MOModel >> entityFor: aMOEntity [
 MOModel >> exclusivelyincludes: aMOPrimitiveType [
 
 	^ self includes: aMOPrimitiveType
+]
+
+{ #category : #generated }
+MOModel >> expressions [
+
+	^ entities select: [ :a | a isExpression ]
 ]
 
 { #category : #accessing }
@@ -353,12 +359,20 @@ MOModel >> sourceCodeIsAvailable [
 	^ fileReference exists
 ]
 
+{ #category : #'as yet unclassified' }
+MOModel >> tablesAndQueries [
+
+	^ entities select: [ :a | a isQuery or: [ a isTable ] ]
+]
+
 { #category : #visiting }
 MOModel >> typeNamed: aString [
 
 	| t |
 	t := self typesNamed: aString.
-	self assert: t size = 1.
+
+	self assert: t size > 0.
+
 	^ t first
 ]
 
@@ -397,7 +411,8 @@ MOModel >> typesNamed: aString [
 
 	^ entities select: [ :e | 
 		  ((e isKindOf: MOType) or: [ e isKindOf: MOModule ]) and: [ 
-			  e name = aString and: [ e anchor isNotNil ] ] ]
+			  e name = aString and: [ 
+				  e anchor isNotNil or: [ e isPrimitiveType ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }

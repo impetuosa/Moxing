@@ -18,6 +18,12 @@ MOObject class >> fromSton: stonReader [
 ]
 
 { #category : #'instance creation' }
+MOObject class >> isRenamable [
+
+	^ (self canUnderstand: #name:) and: [ self canUnderstand: #name ]
+]
+
+{ #category : #'instance creation' }
 MOObject class >> new [
 	^ self error: 'must give model'
 ]
@@ -206,7 +212,6 @@ MOObject >> containsSourceCodeEntities [
 
 { #category : #'as yet unclassified' }
 MOObject >> doForceNameToBeSanitized [
-
 	self isRenamable ifFalse: [ ^ self error: ' Cannot ' ].
 	self name: (self sanitize: self name)
 ]
@@ -315,6 +320,12 @@ MOObject >> isDeclarationUnit [
 
 { #category : #testing }
 MOObject >> isDefinedInLibrary [
+
+	^ false
+]
+
+{ #category : #testing }
+MOObject >> isExpression [
 
 	^ false
 ]
@@ -431,6 +442,12 @@ MOObject >> isReference [
 	^ false
 ]
 
+{ #category : #traverse }
+MOObject >> isRenamable [
+
+	^ self class isRenamable
+]
+
 { #category : #testing }
 MOObject >> isReturn [
 
@@ -467,6 +484,12 @@ MOObject >> isStaticDefinition [
 
 { #category : #testing }
 MOObject >> isStructure [
+
+	^ false
+]
+
+{ #category : #testing }
+MOObject >> isTable [
 
 	^ false
 ]
@@ -528,6 +551,12 @@ MOObject >> parentForContext [
 		   self parent isDeclaration or: [ self parent isRootDeclaration ] ])
 		  ifTrue: [ self parent ]
 		  ifFalse: [ self parent parentForContext ]
+]
+
+{ #category : #accessing }
+MOObject >> parentName [
+
+	^ parent ifNil: [ 'no-parent' ] ifNotNil: [ parent name ]
 ]
 
 { #category : #accessing }

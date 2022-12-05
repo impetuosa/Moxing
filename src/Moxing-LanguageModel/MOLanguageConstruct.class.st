@@ -7,12 +7,6 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
-{ #category : #testing }
-MOLanguageConstruct class >> isRenamable [
-
-	^ true
-]
-
 { #category : #'instance creation' }
 MOLanguageConstruct class >> newForJavaIn: aModel [
 
@@ -112,7 +106,6 @@ MOLanguageConstruct >> canBeReferredAsVariable [
 { #category : #testing }
 MOLanguageConstruct >> canDeclare: anOtherObject with: aSlot [
 
-	language ifNil: [ language := MOJava allInstances first ].
 	language isStonReference ifTrue: [ ^ true ].
 	^ language can: self declare: anOtherObject with: aSlot
 ]

@@ -33,7 +33,7 @@ MOConstructor >> constructingTypeName [
 
 { #category : #accessing }
 MOConstructor >> selector [ 
-	^ self parent name 
+	^ self parentName
 ]
 
 { #category : #accessing }
