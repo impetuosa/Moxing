@@ -44,6 +44,17 @@ MORelationSlot >> isMOSlot [
 	^ true
 ]
 
+{ #category : #testing }
+MORelationSlot >> isNoneValue: anUndefinedObject [
+
+	anUndefinedObject ifNil: [ ^ true ].
+
+	^ self isToMany
+		  ifTrue: [ 
+		  anUndefinedObject isCollection and: [ anUndefinedObject isEmpty ] ]
+		  ifFalse: [ false ]
+]
+
 { #category : #printing }
 MORelationSlot >> readAll: anObject [
 

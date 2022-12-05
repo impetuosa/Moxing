@@ -39,7 +39,7 @@ MOProcedure >> name: aSelector [
 MOProcedure >> printOn: aStream [
 
 	aStream
-		nextPutAll: parent name;
+		nextPutAll: (parent ifNil: [ 'NoName' ] ifNotNil: [ parent name ]);
 		nextPutAll: '>>';
 		nextPutAll: 'Procedure: ';
 		nextPutAll: selector;
