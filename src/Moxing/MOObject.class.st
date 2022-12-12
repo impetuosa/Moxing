@@ -233,6 +233,13 @@ MOObject >> finalize [
 ]
 
 { #category : #traverse }
+MOObject >> fixture [
+
+	^( self class allSlots collect: [ :slot | 
+		  slot -> (slot isCorrect: self) ]) 
+]
+
+{ #category : #traverse }
 MOObject >> incorrectRelations [
 
 	^ (self class allSlots reject: [ :slot | slot isCorrect: self ]) 

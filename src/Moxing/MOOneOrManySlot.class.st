@@ -64,7 +64,8 @@ MOOneOrManySlot >> initialize: anObject [
 MOOneOrManySlot >> isNoneValue: aCollection [
 
 	^ self isToMany
-		  ifTrue: [ aCollection isEmptyOrNil ]
+		  ifTrue: [ 
+		  aCollection isCollection and: [ aCollection isEmptyOrNil ] ]
 		  ifFalse: [ aCollection isNil ]
 ]
 
