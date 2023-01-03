@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'#types => MODeclaresSlot many',
 		'#declarationUnits => MODeclaresSlot many',
-		'#packageReference => MORefersSlot one'
+		'#packageReference => MORefersSlot one',
+		'#isDefinedInLibrary => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Declaration'
 }
@@ -52,6 +53,11 @@ MOPackage >> declarationUnits: asetOfDeclarationUnits [
 ]
 
 { #category : #adding }
+MOPackage >> flagIsDefinedInLibrary [
+	^ isDefinedInLibrary ifNil: [ false ]
+]
+
+{ #category : #adding }
 MOPackage >> fullName [
 
 	^ ((self parent isKindOf: MOPackage)
@@ -76,9 +82,15 @@ MOPackage >> isDeclaration [
 { #category : #adding }
 MOPackage >> isDefinedInLibrary [
 
-	^ self parent isDefinedInLibrary "or: [ 
+	^ self flagIsDefinedInLibrary or: [ "or: [ 
 		  (types allSatisfy: #isDefinedInLibrary) and: [ 
-			  declarationUnits allSatisfy: #isDefinedInLibrary ] ]"
+			  declarationUnits allSatisfy: #isDefinedInLibrary ] ]" 
+		  self parent isDefinedInLibrary ]
+]
+
+{ #category : #adding }
+MOPackage >> isDefinedInLibrary: aValue [
+ 	isDefinedInLibrary := aValue 
 ]
 
 { #category : #testing }

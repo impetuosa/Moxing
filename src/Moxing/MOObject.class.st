@@ -563,7 +563,9 @@ MOObject >> parentForContext [
 { #category : #accessing }
 MOObject >> parentName [
 
-	^ parent ifNil: [ 'no-parent' ] ifNotNil: [ parent name ]
+	^ (parent respondsTo: #name)
+		  ifFalse: [ 'no-parent' ]
+		  ifTrue: [ parent name ]
 ]
 
 { #category : #accessing }

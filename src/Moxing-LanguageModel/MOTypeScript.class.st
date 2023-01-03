@@ -61,6 +61,11 @@ MOTypeScript >> isTypescript [
 ]
 
 { #category : #accessing }
+MOTypeScript >> link: aMOModelDerivative [ 
+
+]
+
+{ #category : #accessing }
 MOTypeScript >> name [
 
 	^ #Typescript

@@ -82,8 +82,7 @@ MOMethod >> name: aSelector [
 MOMethod >> printOn: aStream [
 
 	aStream
-		nextPutAll:
-			(parent ifNil: [ 'Parentless ' ] ifNotNil: [ :p | p name ]);
+		nextPutAll: self parentName;
 		nextPutAll: '>>';
 		nextPutAll: 'Method: ';
 		nextPutAll: selector;
