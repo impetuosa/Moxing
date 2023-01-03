@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 MOModelLabelReferenceBuilder >> buildsType [
 
-	^ MOLabelWithStatement
+	^ MOLabelReference 
 ]
 
 { #category : #accessing }
@@ -34,6 +34,6 @@ MOModelLabelReferenceBuilder >> loadBuilderWithEntity: anEntity [
 MOModelLabelReferenceBuilder >> privateBuild [
 
 	^ (self instantiate: self buildsType)
-		  name: self label;
+		  label: self label;
 		  yourself
 ]
