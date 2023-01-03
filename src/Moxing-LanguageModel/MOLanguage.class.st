@@ -48,7 +48,6 @@ MOLanguage >> can: anObject express: anOtherObject with: aSlot [
 
 { #category : #'resolution strategies' }
 MOLanguage >> can: anObject refer: anOtherObject with: aSlot [
-
 	^ self constraints can: anObject refer: anOtherObject with: aSlot
 ]
 

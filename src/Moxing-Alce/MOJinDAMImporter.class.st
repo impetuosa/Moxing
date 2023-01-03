@@ -46,8 +46,12 @@ MOJinDAMImporter class >> loadPaperSourceModel [
 ]
 
 { #category : #accessing }
-MOJinDAMImporter class >> northwind [ 
-	^ northwind ifNil: [ northwind := self loadNorthwind  ]
+MOJinDAMImporter class >> northwind [
+
+	^ northwind ifNil: [ 
+		  northwind := MOModel loadFrom:
+			               '/Users/sbragagn/git-repositories/moxingmodels/access.moxing.northwind.ston'
+				               asFileReference ]
 ]
 
 { #category : #accessing }
