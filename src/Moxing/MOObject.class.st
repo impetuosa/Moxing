@@ -553,8 +553,9 @@ MOObject >> parent [
 
 { #category : #accessing }
 MOObject >> parent: aParent [
-	parent := aParent.
-	
+
+	aParent isFylgjaStub ifTrue: [ self halt ].
+	parent := aParent
 ]
 
 { #category : #'as yet unclassified' }

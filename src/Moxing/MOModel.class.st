@@ -271,6 +271,12 @@ MOModel >> methodInvocations [
 ]
 
 { #category : #accessing }
+MOModel >> model [
+
+	^ self
+]
+
+{ #category : #accessing }
 MOModel >> objects [
 	^ objects
 ]

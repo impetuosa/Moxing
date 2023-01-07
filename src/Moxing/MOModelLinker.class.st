@@ -111,18 +111,12 @@ MOModelLinker >> findTypeNamed: aString withIn: aMOPackage [
 		  ifNone: [ self unknownType ]
 ]
 
-{ #category : #'as yet unclassified' }
-MOModelLinker >> getCatalogType: aMOTypeReference from: aMOModel [
+{ #category : #accessing }
+MOModelLinker >> installLanguagePackages [
 
-	| chain typeName catalogType |
-	self halt .
-	chain := aMOTypeReference accessChain.
-	typeName := chain removeLast.
-	catalogType := (aMOModel catalog typesNamed: typeName) select: [ :t | 
-		               t parent accessChain = chain ].
-
-
-	^ catalogType
+	model language importLinkingStrategy new
+		model: model;
+		installLanguagePackages
 ]
 
 { #category : #'as yet unclassified' }
@@ -143,6 +137,7 @@ MOModelLinker >> isReference: aMOModelBuilder [
 MOModelLinker >> link: aMOModel [
 
 	model := aMOModel.
+	"self installLanguagePackages."
 	aMOModel entities do: [ :e | 
 		self linkAllChildOrphanReferencesToParent: e ].
 	"Ensures that all the existing package references points to an existing package. It creates the package if Needed "
@@ -165,14 +160,14 @@ MOModelLinker >> link: aMOModel [
 { #category : #'as yet unclassified' }
 MOModelLinker >> linkAllChildOrphanReferencesToParent: aMOLanguage [
 
+	aMOLanguage isFylgjaStub ifTrue: [ ^ self ].
 	(self allValuesReferredBy: aMOLanguage)
 		select: [ :value | 
 			(value isKindOf: MOObject) and: [ 
 				value parent isNil or: [ value parent isKindOf: MOModel ] ] ]
 		thenDo: [ :reference | 
 			(self isReference: reference) ifTrue: [ 
-				
-				reference parent: aMOLanguage  ] ]
+				reference parent: aMOLanguage ] ]
 ]
 
 { #category : #'as yet unclassified' }

@@ -27,6 +27,12 @@ MOJinDAMImporter class >> egrc: aMOModel [
 MOJinDAMImporter class >> loadNorthwind [
 
 	| reader morwind |
+	'/Users/sbragagn/git-repositories/moxingmodels/access.full.northwind.ston'
+		asFileReference exists ifTrue: [ 
+		^ MOModel loadFrom:
+			  '/Users/sbragagn/git-repositories/moxingmodels/access.full.northwind.ston'
+				  asFileReference ].
+
 	reader := self new.
 	morwind := MOModel newMicrosoftAccess.
 	reader model: morwind.
