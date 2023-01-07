@@ -39,6 +39,12 @@ MONamedSingleArgument >> isLabelledAs: aLabel [
 ]
 
 { #category : #accessing }
+MONamedSingleArgument >> isNamedArgument [
+
+	^ true
+]
+
+{ #category : #accessing }
 MONamedSingleArgument >> name [
 
 	^ name

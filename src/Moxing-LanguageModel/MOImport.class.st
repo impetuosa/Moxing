@@ -56,7 +56,8 @@ MOImport >> packageReference [
 ]
 
 { #category : #accessing }
-MOImport >> packageReference: aMOPackageReference [ 
+MOImport >> packageReference: aMOPackageReference [
+
 	packageReference := aMOPackageReference
 ]
 

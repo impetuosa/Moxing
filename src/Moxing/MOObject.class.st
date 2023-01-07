@@ -412,6 +412,12 @@ MOObject >> isModule [
 ]
 
 { #category : #testing }
+MOObject >> isNamedArgument [
+
+	^ false
+]
+
+{ #category : #testing }
 MOObject >> isPackage [
 	^ false
 ]

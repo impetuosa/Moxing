@@ -16,15 +16,15 @@ MOLabelReference >> isLabelledAs: aLabel [
 ]
 
 { #category : #visiting }
-MOLabelReference >> label: aName [
+MOLabelReference >> label [
 
-	self name: aName
+	^ self name
 ]
 
 { #category : #visiting }
-MOLabelReference >> name [
+MOLabelReference >> label: aName [
 
-	^ self label
+	self name: aName
 ]
 
 { #category : #visiting }

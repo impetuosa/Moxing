@@ -9,7 +9,8 @@ Class {
 		'unknownType',
 		'objects',
 		'root',
-		'fileReference'
+		'fileReference',
+		'readOnly'
 	],
 	#category : #'Moxing-Core'
 }
@@ -302,6 +303,24 @@ MOModel >> producesParseableCode [
 	^ false
 ]
 
+{ #category : #traverse }
+MOModel >> readOnly [
+
+	^ readOnly ifNil: [ false ]
+]
+
+{ #category : #traverse }
+MOModel >> readOnly: bool [
+
+	readOnly := bool
+]
+
+{ #category : #initialization }
+MOModel >> realModel [
+
+	^ self
+]
+
 { #category : #initialization }
 MOModel >> root [
 
@@ -431,6 +450,7 @@ MOModel >> variableReferences [
 { #category : #'as yet unclassified' }
 MOModel >> writer [
 
+	self readOnly ifTrue: [ ^ self error: 'read only model' ].
 	^ MOModelWriter new
 		  model: self;
 		  yourself
