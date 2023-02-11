@@ -29,6 +29,12 @@ MOModelVariableResolver >> variableHasBeenResolved [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitAnnotation: aMOAnnotationInstance [
+
+	^ aMOAnnotationInstance parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitArrayAccess: aMOArrayAccess [
 
 	^ aMOArrayAccess parent ifNotNil: [ :p | p acceptVisitor: self ]
@@ -52,6 +58,12 @@ aMOAssignment  parent acceptVisitor: self
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitAttribute: aMOAttribute [
+
+	^ aMOAttribute parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitAttributeAccess: aMOAttributeAccess [
 
 	^ aMOAttributeAccess parent ifNotNil: [ :p | p acceptVisitor: self ]
@@ -60,7 +72,8 @@ MOModelVariableResolver >> visitAttributeAccess: aMOAttributeAccess [
 { #category : #visiting }
 MOModelVariableResolver >> visitBinaryArithmeticOperation: aMOBinaryArithmeticOperation [
 
-	^ aMOBinaryArithmeticOperation parent acceptVisitor: self
+	^ aMOBinaryArithmeticOperation parent ifNotNil: [ :p | 
+		  p acceptVisitor: self ]
 ]
 
 { #category : #visiting }
@@ -180,6 +193,12 @@ MOModelVariableResolver >> visitJavaClass: aMOJavaClass [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitJavaClassType: aMOJavaClassType [
+
+	^ self visitClass: aMOJavaClassType
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitLabelWithStatement: aMOLabelWithStatement [
 
 	^ aMOLabelWithStatement parent acceptVisitor: self
@@ -216,6 +235,12 @@ MOModelVariableResolver >> visitMethodInvocation: aMOMethodInvocation [
 ]
 
 { #category : #visiting }
+MOModelVariableResolver >> visitNamedSingleArgument: aMONamedSingleArgument [
+
+	aMONamedSingleArgument parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelVariableResolver >> visitNewExpression: aMOObject [
 
 	^ aMOObject parent acceptVisitor: self
@@ -230,6 +255,12 @@ MOModelVariableResolver >> visitPackage: aMOPackage [
 MOModelVariableResolver >> visitParametrizableClass: aMOParametrizableClass [
 
 	self visitClass: aMOParametrizableClass
+]
+
+{ #category : #visiting }
+MOModelVariableResolver >> visitParametrizableClassType: aMOParametrizableClassType [
+
+	^ self visitClass: aMOParametrizableClassType
 ]
 
 { #category : #visiting }

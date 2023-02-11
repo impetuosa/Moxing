@@ -15,3 +15,9 @@ Object >> isMOObject [
 Object >> isProxy [ 
 	 ^ false
 ]
+
+{ #category : #'*Moxing' }
+Object >> isScaledDecimal [
+
+	^ false
+]

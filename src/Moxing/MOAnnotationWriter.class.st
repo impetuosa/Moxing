@@ -24,6 +24,14 @@ MOAnnotationWriter >> accessAttribute: aString receiver: anExpressionBuildingBlo
 		  build
 ]
 
+{ #category : #adding }
+MOAnnotationWriter >> addAnnotationInstance: aMOAnnotationInstance [
+
+	" do nothing. the annotation is a parameter "
+
+	^ aMOAnnotationInstance
+]
+
 { #category : #'as yet unclassified' }
 MOAnnotationWriter >> annotationTypeReference: aMOTypeReference [
 
@@ -47,6 +55,16 @@ MOAnnotationWriter >> initializeWriteBuilder [
 .
 ]
 
+{ #category : #expressions }
+MOAnnotationWriter >> operate: anExpressionBuildingBlock operator: anOperatorString with: anOtherExpressionBuildingBlock [
+
+	^ builder arithmeticOperatorBuilder
+		  operator: anOperatorString asSymbol;
+		  left: (self writeUnregisteredExpression:  anExpressionBuildingBlock);
+		  right: (self writeUnregisteredExpression: anOtherExpressionBuildingBlock);
+		  build
+]
+
 { #category : #writing }
 MOAnnotationWriter >> privateWriteToSurface: anEntity [
 	surface  addAnnotationInstance: anEntity.
@@ -68,4 +86,10 @@ MOAnnotationWriter >> selector: anUndefinedObject [
 MOAnnotationWriter >> typeReference: aMOTypeReference [
 
 	^ self annotationTypeReference: aMOTypeReference
+]
+
+{ #category : #writing }
+MOAnnotationWriter >> writeAnnotation: aFullBlockClosure [
+
+	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]

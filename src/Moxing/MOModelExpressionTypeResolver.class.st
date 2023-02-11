@@ -26,6 +26,12 @@ MOModelExpressionTypeResolver >> visitArrayAccess: aMOArrayAccess [
 ]
 
 { #category : #visiting }
+MOModelExpressionTypeResolver >> visitAssignment: aMOAssignment [
+
+	^ aMOAssignment read acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelExpressionTypeResolver >> visitAttributeAccess: aMOAttributeAccess [
 
 	^ aMOAttributeAccess referee ifNotNil: [ :c | 
@@ -39,9 +45,21 @@ MOModelExpressionTypeResolver >> visitBinaryArithmeticOperation: aMOBinaryArithm
 ]
 
 { #category : #visiting }
+MOModelExpressionTypeResolver >> visitBlockClosure: aMOLambda [
+
+	^ nil
+]
+
+{ #category : #visiting }
 MOModelExpressionTypeResolver >> visitCastExpression: aMOCastExpression [
 
 	^ aMOCastExpression parent acceptVisitor: self
+]
+
+{ #category : #visiting }
+MOModelExpressionTypeResolver >> visitConditionalExpression: aMOConditionalExpression [
+
+	^ nil
 ]
 
 { #category : #visiting }

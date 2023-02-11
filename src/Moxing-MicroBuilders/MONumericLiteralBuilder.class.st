@@ -20,6 +20,10 @@ MONumericLiteralBuilder >> assertValueType [
 { #category : #'as yet unclassified' }
 MONumericLiteralBuilder >> privateBuild [
 
+	self value isScaledDecimal ifTrue: [ 
+		^ (self instantiate: MOScaleDecimalLiteral)
+			  literal: self value;
+			  yourself ].
 	self value isInteger ifTrue: [ 
 		^ (self instantiate: MOIntegerLiteral)
 			  literal: self value;

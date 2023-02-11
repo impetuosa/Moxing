@@ -59,6 +59,14 @@ MOModelProceduralWriter >> arrayLiteral: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelProceduralWriter >> arrayLiteralFromLiterals: aCollection [
+
+	^ builder arrayLiteralBuilder
+		  value: aCollection;
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOModelProceduralWriter >> arrayTypeReferenceOf: aMOTypeReference [
 
 	^ builder arrayedTypeReferenceBuilder

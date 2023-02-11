@@ -26,6 +26,16 @@ MOSwitchWriter >> addCase: aMOCase [
 	writeBuilder addCase: aMOCase
 ]
 
+{ #category : #'as yet unclassified' }
+MOSwitchWriter >> arrayAccess: anExpressionBuildingBlock arguments: anArgumentsBlock [
+
+	^ builder arrayAccessBuilder
+		  arguments: (self writeUnregisteredExpression: anArgumentsBlock);
+		  receiverReference:
+			  (self writeUnregisteredExpression: anExpressionBuildingBlock);
+		  build
+]
+
 { #category : #writing }
 MOSwitchWriter >> expression: anExpression [
 
@@ -46,6 +56,16 @@ MOSwitchWriter >> invokeMethodNamed: aString receiver: anExpressionBuildingBlock
 		  receiverReference:
 			  (self writeExpression: anExpressionBuildingBlock);
 		  arguments: (self writeExpression: anOtherExpressionBuildingBlock);
+		  build
+]
+
+{ #category : #expressions }
+MOSwitchWriter >> operate: anExpressionBuildingBlock operator: anOperatorString with: anOtherExpressionBuildingBlock [
+
+	^ builder arithmeticOperatorBuilder
+		  operator: anOperatorString asSymbol;
+		  left: (self writeUnregisteredExpression:  anExpressionBuildingBlock);
+		  right: (self writeUnregisteredExpression: anOtherExpressionBuildingBlock);
 		  build
 ]
 

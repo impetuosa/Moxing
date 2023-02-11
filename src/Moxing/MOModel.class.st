@@ -408,7 +408,6 @@ MOModel >> typeReferences [
 
 { #category : #'as yet unclassified' }
 MOModel >> typesNamed: aString [
-
 	^ entities select: [ :e | 
 		  ((e isKindOf: MOType) or: [ e isKindOf: MOModule ]) and: [ 
 			  e name = aString and: [ 

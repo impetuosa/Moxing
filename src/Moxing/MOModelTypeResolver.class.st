@@ -60,6 +60,12 @@ MOModelTypeResolver >> visitAnnotation: aMOAnnotationInstance [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitArrayAccess: aMOArrayAccess [
+
+	^ aMOArrayAccess parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitArrayLiteral: aMOObject [
 
 	^ aMOObject parent acceptVisitor: self
@@ -231,6 +237,12 @@ MOModelTypeResolver >> visitJavaClassType: aMOJavaClassType [
 ]
 
 { #category : #visiting }
+MOModelTypeResolver >> visitLabelWithStatement: aMOLabelWithStatement [
+
+	^ aMOLabelWithStatement parent acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOModelTypeResolver >> visitLocalVariable: aMOLocalVariable [ 
 	self visitVariable: aMOLocalVariable 
 ]
@@ -248,7 +260,7 @@ MOModelTypeResolver >> visitMethod: aMOMethod [
 
 { #category : #visiting }
 MOModelTypeResolver >> visitMethodInvocation: aMOMethodInvocation [ 
-	aMOMethodInvocation parent acceptVisitor: self
+	^ aMOMethodInvocation parent acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -378,7 +390,7 @@ MOModelTypeResolver >> visitStatementExpression: aMOStatementExpression [
 { #category : #visiting }
 MOModelTypeResolver >> visitStaticInitializer: aMOStaticInitializer [
 
-	^ aMOStaticInitializer parent acceptVisitor: self
+	^ aMOStaticInitializer parent ifNotNil: [ :p | p acceptVisitor: self ]
 ]
 
 { #category : #visiting }

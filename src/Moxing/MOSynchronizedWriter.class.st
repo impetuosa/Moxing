@@ -10,6 +10,16 @@ MOSynchronizedWriter >> acceptWritingVisitor: aVisitor [
 	^ aVisitor visitSynchronizedWriter: self
 ]
 
+{ #category : #'as yet unclassified' }
+MOSynchronizedWriter >> accessAttribute: aString receiver: anExpressionBuildingBlock [ 
+
+	^ builder attributeAccessBuilder
+		  name: aString;
+		  receiverReference:
+			  (self writeExpression: anExpressionBuildingBlock);
+		  build
+]
+
 { #category : #generated }
 MOSynchronizedWriter >> expression: aMOSelfReference [ 
 	writeBuilder expression: aMOSelfReference 

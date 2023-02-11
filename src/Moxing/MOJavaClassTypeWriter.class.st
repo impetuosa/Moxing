@@ -71,3 +71,15 @@ MOJavaClassTypeWriter >> writeJavaEnum: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOJavaEnumWriter
 ]
+
+{ #category : #writing }
+MOJavaClassTypeWriter >> writeParametrizableClass: aFullBlockClosure [ 
+
+	^ self write: aFullBlockClosure inSubWriter: MOParametrizableClassWriter  
+]
+
+{ #category : #writing }
+MOJavaClassTypeWriter >> writeParametrizableClassType: aBlock [
+
+	^ self write: aBlock inSubWriter: MOParametrizableClassTypeWriter
+]

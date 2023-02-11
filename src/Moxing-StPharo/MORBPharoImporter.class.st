@@ -32,6 +32,17 @@ MORBPharoImporter class >> importPharoSiren [
 ]
 
 { #category : #accessing }
+MORBPharoImporter class >> loadAndSave: packName [
+
+	(MORBPharoImporter
+		 loadPackages:
+			 ((RPackageOrganizer default packageNames select: [ :a | 
+				   a beginsWith: packName ]) collect: #asPackageOrTag)
+		 named: packName) saveAs:
+		'exports/pharo.moxing.' , packName asLowercase , '.ston'
+]
+
+{ #category : #accessing }
 MORBPharoImporter class >> loadCalypso [
 
 	| calypso phary |
@@ -71,6 +82,20 @@ MORBPharoImporter class >> loadMoose [
 ]
 
 { #category : #accessing }
+MORBPharoImporter class >> loadPackages: aCollection named: aName [
+
+	| moose phary |
+	moose := MOModel newPharo.
+	moose name: aName.
+	phary := MORBPharoImporter new.
+	phary writer: moose writer.
+
+	phary importPackages: aCollection.
+
+	^ moose
+]
+
+{ #category : #accessing }
 MORBPharoImporter class >> siren [
 	^ siren ifNil: [ self importPharoSiren ]
 ]
@@ -101,13 +126,17 @@ MORBPharoImporter >> importPackages: aCollection [
 { #category : #'as yet unclassified' }
 MORBPharoImporter >> linkTypes [
 
-	| model |
+	| model types referee unboundrefs |
 	model := writer model.
-	(model typeReferences select: [ :a | 
-		 a isUnknown not and: [ a referee isNil ] ]) do: [ :ref | 
-		[ ref referee: (model typeNamed: ref name) ]
-			on: Error
-			do: [  ] ]
+	types := model entities select: [ :e | 
+		         ((e isKindOf: MOType) or: [ e isKindOf: MOModule ]) and: [ 
+			         e anchor isNotNil or: [ e isPrimitiveType ] ] ].
+
+	unboundrefs := model typeReferences select: [ :a | 
+		               a isUnknown not and: [ a referee isNil ] ].
+	unboundrefs do: [ :ref | 
+		referee := types select: [ :t | t name = ref name ].
+		referee ifNotEmpty: [ ref referee: referee first ] ]
 ]
 
 { #category : #utilities }

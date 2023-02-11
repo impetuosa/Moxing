@@ -1,6 +1,6 @@
 Class {
 	#name : #MOModelJavaEnumBuilder,
-	#superclass : #MOModelClassBuilder,
+	#superclass : #MOModelJavaClassBuilder,
 	#instVars : [
 		'entries'
 	],

@@ -50,6 +50,13 @@ MOJavaGenericProjectLoader >> catalog [
 	^ catalog
 ]
 
+{ #category : #run }
+MOJavaGenericProjectLoader >> export [
+
+	model saveAs:
+		('exports/java.moxing.' , model name , '.ston') asFileReference
+]
+
 { #category : #configuration }
 MOJavaGenericProjectLoader >> javaFiles [
 
@@ -58,7 +65,7 @@ MOJavaGenericProjectLoader >> javaFiles [
 
 { #category : #accessing }
 MOJavaGenericProjectLoader >> link: aMOModel [
-	self halt. 
+
 	MOModelLinker new link: aMOModel
 ]
 
@@ -76,14 +83,17 @@ MOJavaGenericProjectLoader >> loadNamed: aString [
 	writer := model writer.
 
 	self javaFiles do: [ :file | 
-		ast := JavaParser parse: file readStream upToEnd.
-		loader := MOJavaFileLoader new
-			          writer: writer;
-			          yourself.
-		entry := loader load: ast.
-		entry fileReference: (file relativeTo: workingDirectory).
-		entry types do: [ :t | t fileReference: entry fileReference ].
-		entry ].
+		[ ast := JavaParser parse: file readStream upToEnd ]
+			on: Error
+			do: [ :e |  ].
+		ast ifNotNil: [ 
+			loader := MOJavaFileLoader new
+				          writer: writer;
+				          yourself.
+			entry := loader load: ast.
+			entry fileReference: (file relativeTo: workingDirectory).
+			entry types do: [ :t | t fileReference: entry fileReference ].
+			entry ] ].
 
 	writer populateAnchorOn: model root.
 	self link: model.

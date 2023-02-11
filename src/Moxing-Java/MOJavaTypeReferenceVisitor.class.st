@@ -103,6 +103,12 @@ MOJavaTypeReferenceVisitor >> visitShortType: aJavaShortTypeNode [
 ]
 
 { #category : #visiting }
+MOJavaTypeReferenceVisitor >> visitSmaccToken: aSmaCCToken [
+
+	^ writer typeReferenceNamed: aSmaCCToken value
+]
+
+{ #category : #visiting }
 MOJavaTypeReferenceVisitor >> visitTypeArgument: aJavaTypeArgumentNode [
 
 	^ aJavaTypeArgumentNode type

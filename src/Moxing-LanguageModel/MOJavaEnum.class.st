@@ -1,6 +1,6 @@
 Class {
 	#name : #MOJavaEnum,
-	#superclass : #MOClass,
+	#superclass : #MOJavaClass,
 	#instVars : [
 		'#entries => MODeclaresSlot many'
 	],

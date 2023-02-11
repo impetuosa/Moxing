@@ -1,6 +1,6 @@
 Class {
 	#name : #MOParametrizableClassTypeWriter,
-	#superclass : #MOClassTypeWriter,
+	#superclass : #MOJavaClassTypeWriter,
 	#category : #'Moxing-MicroWriters'
 }
 
@@ -20,4 +20,10 @@ MOParametrizableClassTypeWriter >> addTypeParameter: aMOTypeParameter [
 { #category : #adding }
 MOParametrizableClassTypeWriter >> initializeWriteBuilder [
 	writeBuilder := builder parametrizableClassTypeBuilder
+]
+
+{ #category : #writing }
+MOParametrizableClassTypeWriter >> writeParametrizableClass: aFullBlockClosure [ 
+
+	^ self write: aFullBlockClosure inSubWriter: MOParametrizableClassWriter  
 ]

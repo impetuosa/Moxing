@@ -290,6 +290,13 @@ MOStatementWriter >> let: anExpressionBuildingBlock beAssignedWith: anOtherExpre
 				   beAssignedWith: anOtherExpressionBuildingBlock ])
 ]
 
+{ #category : #'instance creation' }
+MOStatementWriter >> new: aMOTypeReference arguments: aFullBlockClosure [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp new: aMOTypeReference arguments: aFullBlockClosure ])
+]
+
 { #category : #expressions }
 MOStatementWriter >> noOp: aDescription [
 

@@ -50,3 +50,9 @@ MOConditionalExpression >> ifTrueExpression: anObject [
 
 	ifTrueExpression := anObject
 ]
+
+{ #category : #accessing }
+MOConditionalExpression >> isReference [
+
+	^ true
+]

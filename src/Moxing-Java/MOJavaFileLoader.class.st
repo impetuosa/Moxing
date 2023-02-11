@@ -137,10 +137,22 @@ MOJavaFileLoader >> visitArrayInitializer: aJavaArrayInitializerNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitArrayMethodDeclarator: aJavaArrayMethodDeclaratorNode [
+
+	^ self visitMethodDeclarator: aJavaArrayMethodDeclaratorNode declarator
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitArrayType: aJavaArrayTypeNode [
 
 	^ writer arrayTypeReferenceOf:
 		  (aJavaArrayTypeNode baseType acceptVisitor: self)
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitArrayVariableName: aJavaArrayVariableNameNode [
+
+	^ aJavaArrayVariableNameNode variable acceptVisitor: self
 ]
 
 { #category : #visiting }
@@ -214,6 +226,12 @@ MOJavaFileLoader >> visitBreakStatement: aJavaBreakStatementNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitByteType: aJavaByteTypeNode [
+
+	^ writer typeReferenceNamed: #byte
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitCastExpression: aJavaCastExpressionNode [
 
 	^ writer
@@ -233,7 +251,7 @@ MOJavaFileLoader >> visitCastExpression: aJavaCastExpressionNode [
 MOJavaFileLoader >> visitCatchClause: aJavaCatchClauseNode [
 
 	| typeName |
-	self assert: aJavaCatchClauseNode parameter types size = 1.
+"	self assert: aJavaCatchClauseNode parameter types size = 1."
 	typeName := aJavaCatchClauseNode parameter types first name name
 		            value.
 	^ writer writeCatch: [ :catch | 
@@ -245,6 +263,12 @@ MOJavaFileLoader >> visitCatchClause: aJavaCatchClauseNode [
 			  self
 				  use: catchBlock
 				  during: [ aJavaCatchClauseNode block acceptVisitor: self ] ] ]
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitCharType: aJavaCharTypeNode [
+
+	^ writer typeReferenceNamed: #char
 ]
 
 { #category : #visiting }
@@ -366,7 +390,9 @@ MOJavaFileLoader >> visitDoWhileStatement: aJavaDoWhileStatementNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitElementArrayInitializer: aJavaElementArrayInitializerNode [
 
-	^ self visitCollection: aJavaElementArrayInitializerNode values
+	^ writer arrayLiteralFromLiterals:
+		  (self visitCollection: aJavaElementArrayInitializerNode values)
+			  asArray
 ]
 
 { #category : #visiting }
@@ -412,8 +438,8 @@ MOJavaFileLoader >> visitEmptyStatement: aJavaEmptyStatementNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitEnumConstant: aJavaEnumConstantNode [
 
-	self assert: aJavaEnumConstantNode declarations isEmpty.
-	self assert: aJavaEnumConstantNode annotations isEmpty.
+"	self assert: aJavaEnumConstantNode declarations isEmpty.
+	self assert: aJavaEnumConstantNode annotations isEmpty."
 	^ writer writeEntry: [ :entry | 
 		  entry name: aJavaEnumConstantNode name value.
 		  entry value:
@@ -447,9 +473,10 @@ MOJavaFileLoader >> visitFieldAccess: aJavaFieldAccessNode [
 	^ writer
 		  accessAttribute: aJavaFieldAccessNode name value
 		  receiver: [ :exp | 
-			  self
-				  use: exp
-				  during: [ aJavaFieldAccessNode receiver acceptVisitor: self ] ]
+			  self use: exp during: [ 
+				  aJavaFieldAccessNode receiver
+					  ifNotNil: [ aJavaFieldAccessNode receiver acceptVisitor: self ]
+					  ifNil: [ exp referenceToSuper ] ] ]
 ]
 
 { #category : #visiting }
@@ -561,8 +588,13 @@ MOJavaFileLoader >> visitIfStatement: aJavaIfStatementNode [
 { #category : #visiting }
 MOJavaFileLoader >> visitInitializedVariableDeclaration: aJavaInitializedVariableDeclarationNode [
 
+	| var |
+	var := aJavaInitializedVariableDeclarationNode variable.
+	[ var respondsTo: #name ] whileFalse: [ var := var variable ].
+
+
 	writer
-		name: aJavaInitializedVariableDeclarationNode variable name source;
+		name: var name source;
 		initializer: (writer writeUnregisteredExpression: [ :expression | 
 					 self use: expression during: [ 
 							 aJavaInitializedVariableDeclarationNode initializer 
@@ -573,6 +605,12 @@ MOJavaFileLoader >> visitInitializedVariableDeclaration: aJavaInitializedVariabl
 MOJavaFileLoader >> visitInitializer: aJavaInitializerNode [
 
 	^ self visitStaticInitializer: aJavaInitializerNode
+]
+
+{ #category : #visiting }
+MOJavaFileLoader >> visitIntType: aJavaIntTypeNode [
+
+	^ writer typeReferenceNamed: #int
 ]
 
 { #category : #visiting }
@@ -748,8 +786,10 @@ MOJavaFileLoader >> visitName: aJavaNameNode [
 MOJavaFileLoader >> visitNew: aJavaNewNode [
 
 	^ writer
-		  invokeNewExpressionOnType:
-		  (self typeReferenceFor: aJavaNewNode type using: writer)
+		  invokeNewExpressionOnType: (self
+				   typeReferenceFor:
+				   (aJavaNewNode type ifNil: [ aJavaNewNode name ])
+				   using: writer)
 		  withArguments: (self visitCollection: aJavaNewNode arguments)
 ]
 
@@ -1080,6 +1120,12 @@ MOJavaFileLoader >> visitTypeParameter: aJavaTypeParameterNode [
 ]
 
 { #category : #visiting }
+MOJavaFileLoader >> visitUnaryAddition: aJavaUnaryAdditionNode [
+
+	^ aJavaUnaryAdditionNode expression acceptVisitor: self
+]
+
+{ #category : #visiting }
 MOJavaFileLoader >> visitUnaryBitInvert: aJavaUnaryBitInvertNode [
 
 	^ writer
@@ -1197,8 +1243,8 @@ MOJavaFileLoader >> writeClassTypeWith: aJavaInterfaceDeclarationNode named: nam
 
 { #category : #visiting }
 MOJavaFileLoader >> writeClassWith: aJavaClassDeclarationNode named: name [
-
-	writer package: package.
+	package ifNotNil: [
+	writer package: package.].
 	writer writeJavaClass: [ :class | 
 		aJavaClassDeclarationNode superclass ifNotNil: [ :sc | 
 			class superclassReference: (self typeReferenceFor: sc using: class) ].
