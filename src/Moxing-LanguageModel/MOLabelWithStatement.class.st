@@ -1,8 +1,7 @@
 Class {
 	#name : #MOLabelWithStatement,
-	#superclass : #MOStatement,
+	#superclass : #MOLabel,
 	#instVars : [
-		'#label => MOPropertySlot',
 		'#statement => MOStatesSlot one'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
@@ -12,11 +11,6 @@ Class {
 MOLabelWithStatement >> acceptVisitor: aMOModelVariableResolver [
 
 	^ aMOModelVariableResolver visitLabelWithStatement: self
-]
-
-{ #category : #accessing }
-MOLabelWithStatement >> label: aString [ 
-	label := aString
 ]
 
 { #category : #accessing }

@@ -16,6 +16,18 @@ MOLabelReference >> isLabelledAs: aLabel [
 ]
 
 { #category : #visiting }
+MOLabelReference >> label [
+
+	^ self name
+]
+
+{ #category : #visiting }
+MOLabelReference >> label: aName [
+
+	self name: aName
+]
+
+{ #category : #visiting }
 MOLabelReference >> printOn: aStream [
 
 	aStream nextPutAll: 'Label: ' , self name

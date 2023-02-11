@@ -319,6 +319,13 @@ MOModelDerivative >> producesParseableCode [
 	^ false
 ]
 
+{ #category : #traverse }
+MOModelDerivative >> realModel [ 
+	 ^ model realModel
+
+
+]
+
 { #category : #accessing }
 MOModelDerivative >> references [
 	^ entities select: [ : e | e isKindOf: MOReference ]

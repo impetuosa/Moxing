@@ -44,6 +44,15 @@ MOModelImportLinker >> getCatalogTypes: aMOPackageReference [
 ]
 
 { #category : #visiting }
+MOModelImportLinker >> getJavaTypes [
+
+	| catalogTypes |
+	catalogTypes := model catalog typeDefinedInPackageNameLike: [ :pack | 
+		                pack name beginsWith: 'java.' ].
+	^ catalogTypes
+]
+
+{ #category : #visiting }
 MOModelImportLinker >> getType: aMOTypeReference [
 
 	| packageReference types |
@@ -99,6 +108,15 @@ MOModelImportLinker >> installAll: aMOPackageReference [
 		(installedTypes select: [ :a | a isType ]).
 	aMOPackageReference referee declarationUnits addAll:
 		(installedTypes reject: [ :a | a isType ])
+]
+
+{ #category : #accessing }
+MOModelImportLinker >> installLanguagePackages [
+
+	self getJavaTypes collect: [ :type | "		self ensureAllDependentTypesExists: type."
+		[ MOCatalogTypeInstaller new install: type into: model ]
+			on: Error
+			do: [ :e | e messageText ] ]
 ]
 
 { #category : #visiting }

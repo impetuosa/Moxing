@@ -20,6 +20,11 @@ MOParameterWriter >> addModifier: aString [
 	writeBuilder addModifier: aString
 ]
 
+{ #category : #accessing }
+MOParameterWriter >> annotationInstances [
+	^ writeBuilder annotationInstances 
+]
+
 { #category : #writing }
 MOParameterWriter >> initializeWriteBuilder [
 	writeBuilder := builder parameterBuilder 

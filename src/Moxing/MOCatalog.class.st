@@ -233,6 +233,15 @@ MOCatalog >> typeDefinedInPackage: aString [
 				  e packageReference name = aString ] ] ]
 ]
 
+{ #category : #traverse }
+MOCatalog >> typeDefinedInPackageNameLike: aBlock [
+
+	^ entities select: [ :e | 
+		  e isType and: [ 
+			  e packageReference isNotNil and: [ 
+				  aBlock value: e packageReference ] ] ]
+]
+
 { #category : #initialization }
 MOCatalog >> typeReferences [
 

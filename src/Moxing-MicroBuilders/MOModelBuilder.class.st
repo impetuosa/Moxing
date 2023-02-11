@@ -651,7 +651,7 @@ MOModelBuilder >> javaClassTypeBuilder [
 { #category : #initialization }
 MOModelBuilder >> labelBuilder [
 
-	^ MOModelLabelReferenceBuilder new
+	^ MOModelLabelBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
 		  yourself

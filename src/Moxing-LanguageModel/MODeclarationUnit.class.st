@@ -52,7 +52,7 @@ MODeclarationUnit >> isDeclarationUnit [
 { #category : #'as yet unclassified' }
 MODeclarationUnit >> isDefinedInLibrary [
 
-	^ parent isDefinedInLibrary
+	^ parent ifNil: [ false ] ifNotNil: [ parent isDefinedInLibrary ]
 ]
 
 { #category : #accessing }

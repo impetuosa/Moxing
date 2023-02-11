@@ -12,6 +12,11 @@ Class {
 	#category : #'Moxing-Linking'
 }
 
+{ #category : #accessing }
+MOModelTypeResolver >> installLanguagePackages [
+	self shouldBeImplemented.
+]
+
 { #category : #'as yet unclassified' }
 MOModelTypeResolver >> lookIntoPackage: aPackage [
 

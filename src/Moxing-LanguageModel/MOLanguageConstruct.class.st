@@ -201,11 +201,12 @@ MOLanguageConstruct >> isMethodExtension [
 { #category : #testing }
 MOLanguageConstruct >> isSameEntity: anOtherDeclaration [
 
-	^ self species = anOtherDeclaration species and: [ 
-		  self anchor isNotNil and: [ 
-			  anOtherDeclaration anchor isNotNil and: [ 
-				  (self anchor isSameAnchorAs: anOtherDeclaration anchor) and: [ 
-					  self language = anOtherDeclaration language ] ] ] ]
+	^ self = anOtherDeclaration or: [ 
+		  self species = anOtherDeclaration species and: [ 
+			  self anchor isNotNil and: [ 
+				  anOtherDeclaration anchor isNotNil and: [ 
+					  (self anchor isSameAnchorAs: anOtherDeclaration anchor) and: [ 
+						  self language = anOtherDeclaration language ] ] ] ] ]
 ]
 
 { #category : #testing }

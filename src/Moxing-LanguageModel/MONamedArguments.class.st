@@ -32,6 +32,12 @@ MONamedArguments >> isExpression [
 	^ true
 ]
 
+{ #category : #visiting }
+MONamedArguments >> isNamedArgument [
+
+	^ true
+]
+
 { #category : #accessing }
 MONamedArguments >> name [
 

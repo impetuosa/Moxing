@@ -412,6 +412,12 @@ MOObject >> isModule [
 ]
 
 { #category : #testing }
+MOObject >> isNamedArgument [
+
+	^ false
+]
+
+{ #category : #testing }
 MOObject >> isPackage [
 	^ false
 ]
@@ -547,8 +553,9 @@ MOObject >> parent [
 
 { #category : #accessing }
 MOObject >> parent: aParent [
-	parent := aParent.
-	
+
+	aParent isFylgjaStub ifTrue: [ self halt ].
+	parent := aParent
 ]
 
 { #category : #'as yet unclassified' }
@@ -563,7 +570,9 @@ MOObject >> parentForContext [
 { #category : #accessing }
 MOObject >> parentName [
 
-	^ parent ifNil: [ 'no-parent' ] ifNotNil: [ parent name ]
+	^ (parent respondsTo: #name)
+		  ifFalse: [ 'no-parent' ]
+		  ifTrue: [ parent name ]
 ]
 
 { #category : #accessing }
