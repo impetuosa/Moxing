@@ -56,7 +56,8 @@ MOAngularJSLoader >> loadMetadata [
 
 { #category : #'as yet unclassified' }
 MOAngularJSLoader >> loadModel [
-	| schema | 
+
+	| schema |
 	model := MOModel newAngularJs
 		         name: modelNamed;
 		         yourself.
@@ -66,8 +67,15 @@ MOAngularJSLoader >> loadModel [
 
 	schema fileReference: workingDirectory.
 	schema metadata: metadata.
-	self loadModulesInto: schema. 
+
+	(metadata at: #modules) do: [ :m | self loadModule: m into: schema ].
+
 	^ model
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularJSLoader >> loadModule: aDictionary into: aMOAngularScheme [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #'as yet unclassified' }

@@ -1,5 +1,10 @@
 Extension { #name : #String }
 
+{ #category : #'*Moxing' }
+String >> adaptToAlceAnchorPathFragment [
+	 ^ self 
+]
+
 { #category : #'*Moxing-Pharo' }
 String >> asPackageOrTag [
 
