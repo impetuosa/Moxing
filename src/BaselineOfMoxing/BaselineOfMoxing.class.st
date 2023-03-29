@@ -21,6 +21,14 @@ BaselineOfMoxing >> angular: spec [
 ]
 
 { #category : #baselines }
+BaselineOfMoxing >> angularjs: spec [
+
+	spec
+		package: 'Moxing-AngularJS'
+		with: [ spec requires: #( Moxing 'Moxing-Typescript' ) ]
+]
+
+{ #category : #baselines }
 BaselineOfMoxing >> base: spec [
 
 	spec
@@ -45,6 +53,7 @@ BaselineOfMoxing >> baseline: spec [
 	self java: spec.
 	self typescript: spec.
 	self angular: spec.
+	self angularjs: spec.
 	
 	self smalltalk: spec. 
 	self pharo: spec.
