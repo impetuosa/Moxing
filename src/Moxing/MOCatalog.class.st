@@ -25,6 +25,15 @@ MOCatalog class >> loadFrom: aString [
 ]
 
 { #category : #'instance creation' }
+MOCatalog class >> newAngularJs [
+
+	| instance |
+	instance := self new.
+	instance language: (MOLanguage angularJsFor: instance).
+	^ instance
+]
+
+{ #category : #'instance creation' }
 MOCatalog class >> newJava [
 
 	| instance |
