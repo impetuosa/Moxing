@@ -49,3 +49,9 @@ MOLambdaWriter >> writeParameter: aBlock [
 
 	^ self write: aBlock inSubWriter: MOParameterWriter
 ]
+
+{ #category : #writing }
+MOLambdaWriter >> writeVariable: aFullBlockClosure [
+
+	^ self writeParameter: aFullBlockClosure
+]

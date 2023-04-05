@@ -54,9 +54,21 @@ MODeclarationUnitWriter >> addJavaEnum: aMOJavaEnum [
 ]
 
 { #category : #adding }
+MODeclarationUnitWriter >> addLocalVariable: aMOLocalVariable [
+
+	writeBuilder addLocalVariable: aMOLocalVariable
+]
+
+{ #category : #adding }
 MODeclarationUnitWriter >> addModule: aMOModule [
 
 	writeBuilder addModule: aMOModule
+]
+
+{ #category : #adding }
+MODeclarationUnitWriter >> addStatement: aMOStatementExpression [
+
+	writeBuilder addStatement: aMOStatementExpression
 ]
 
 { #category : #adding }
@@ -69,6 +81,14 @@ MODeclarationUnitWriter >> build [
 
 	self mustUpdateDependencies ifTrue: [ self updateDependencies ].
 	^ super build
+]
+
+{ #category : #'as yet unclassified' }
+MODeclarationUnitWriter >> call: aFullBlockClosure arguments: aFullBlockClosure2 [
+
+	^ self writeExpressionStatement: [ :statement | 
+		  statement writeExpression: [ :exp | 
+			  exp call: aFullBlockClosure arguments: aFullBlockClosure2 ] ]
 ]
 
 { #category : #adding }
@@ -149,6 +169,16 @@ MODeclarationUnitWriter >> writeClassType: aBlock [
 MODeclarationUnitWriter >> writeEnum: aFullBlockClosure [
 
 	^ self write: aFullBlockClosure inSubWriter: MOEnumWriter
+]
+
+{ #category : #writing }
+MODeclarationUnitWriter >> writeExpressionStatement: aFullBlockClosure [
+
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOStatementExpressionWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
@@ -247,4 +277,12 @@ MODeclarationUnitWriter >> writeTable: aFullBlockClosure [
 MODeclarationUnitWriter >> writeTypescriptClass: aFullBlockClosure [ 
 
 	^ self write: aFullBlockClosure inSubWriter: MOTypescriptClassWriter
+]
+
+{ #category : #writing }
+MODeclarationUnitWriter >> writeVariable: aBlock [
+
+	| stmnt |
+	stmnt := self write: aBlock inSubWriter: MOVariableWriter.
+	^ stmnt
 ]

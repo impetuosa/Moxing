@@ -10,6 +10,12 @@ Class {
 	#category : #'Moxing-LanguageModel-Model'
 }
 
+{ #category : #'as yet unclassified' }
+MOLanguage class >> angularJsFor: aMOModel [
+
+	^ aMOModel instantiate: MOAngularJsTypeScript
+]
+
 { #category : #testing }
 MOLanguage >> astComposer [
 

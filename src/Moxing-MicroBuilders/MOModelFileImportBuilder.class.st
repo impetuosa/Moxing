@@ -2,7 +2,8 @@ Class {
 	#name : #MOModelFileImportBuilder,
 	#superclass : #MOModelImportBuilder,
 	#instVars : [
-		'file'
+		'file',
+		'importsAll'
 	],
 	#category : #'Moxing-MicroBuilders-statements'
 }
@@ -25,11 +26,33 @@ MOModelFileImportBuilder >> file: anAddress [
 ]
 
 { #category : #accessing }
+MOModelFileImportBuilder >> importsAll [
+
+	^ importsAll ifNil: [ false ]
+]
+
+{ #category : #accessing }
+MOModelFileImportBuilder >> importsAll: aBoolean [
+
+	importsAll := aBoolean
+]
+
+{ #category : #accessing }
+MOModelFileImportBuilder >> loadBuilderWithEntity: anEntity [
+
+	self
+		file: anEntity from;
+		typeReferences: anEntity typeReferences;
+		importsAll: anEntity importsAll
+]
+
+{ #category : #accessing }
 MOModelFileImportBuilder >> privateBuild [
 
 	^ (self instantiate: MOFileImport)
 		  from: file;
 		  typeReferences: self typeReferences;
+		  importsAll: self importsAll;
 		  yourself
 ]
 
@@ -37,4 +60,10 @@ MOModelFileImportBuilder >> privateBuild [
 MOModelFileImportBuilder >> typeReferences [
 
 	^ typeReference ifNil: [ typeReference := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelFileImportBuilder >> typeReferences: aCollection [
+
+	typeReference := aCollection
 ]

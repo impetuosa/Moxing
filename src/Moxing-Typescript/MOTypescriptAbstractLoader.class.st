@@ -1,6 +1,6 @@
 Class {
 	#name : #MOTypescriptAbstractLoader,
-	#superclass : #JSProgramNodeVisitor,
+	#superclass : #Object,
 	#instVars : [
 		'writer'
 	],

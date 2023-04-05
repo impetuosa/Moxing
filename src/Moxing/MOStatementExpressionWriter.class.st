@@ -11,6 +11,11 @@ MOStatementExpressionWriter >> acceptWritingVisitor: aVisitor [
 
 ]
 
+{ #category : #'as yet unclassified' }
+MOStatementExpressionWriter >> call: aFullBlockClosure arguments: aFullBlockClosure2 [ 
+	self shouldBeImplemented.
+]
+
 { #category : #generated }
 MOStatementExpressionWriter >> expression: aMOAssignment [ 
 	writeBuilder expression: aMOAssignment 

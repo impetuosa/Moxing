@@ -64,6 +64,13 @@ MOStatementWriter >> build [
 ]
 
 { #category : #'as yet unclassified' }
+MOStatementWriter >> call: aFullBlockClosure arguments: aFullBlockClosure2 [
+
+	^ self registerStatement: (self writeExpression: [ :exp | 
+			   exp call: aFullBlockClosure arguments: aFullBlockClosure2 ])
+]
+
+{ #category : #'as yet unclassified' }
 MOStatementWriter >> caseExpressions: anExpressionBlock do: aBlockwriginBlock [
 
 	^ builder caseBuilder

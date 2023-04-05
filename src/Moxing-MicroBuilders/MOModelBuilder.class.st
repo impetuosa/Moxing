@@ -38,6 +38,22 @@ MOModelBuilder >> angularModuleBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+MOModelBuilder >> angularjsProjectComponentBuilder [
+
+	^ MOModelAngularJsProjectBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> angularjsSchemaComponentBuilder [
+
+	^ MOModelAngularJsSchemaBuilder new
+		  parentBuilder: self;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 MOModelBuilder >> annotationInstanceBuilder [
 
 	^ MOModelAnnotationInstanceBuilder new
@@ -189,6 +205,14 @@ MOModelBuilder >> breakBuilder [
 MOModelBuilder >> buildExit [
 "	self halt ."
 	^ self instantiate: MOAlceExit 
+]
+
+{ #category : #'as yet unclassified' }
+MOModelBuilder >> callInvocationBuilder [
+
+	^ MOModelInvocationCallBuilder new
+		  parentBuilder: self;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOAngularJsTypeScript,
 	#superclass : #MOTypeScript,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-AngularJS-Language'
 }
 
 { #category : #accessing }

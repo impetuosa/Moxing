@@ -6,10 +6,10 @@ Class {
 	#superclass : #MOModelBuilderDelegate,
 	#instVars : [
 		'imports',
-		'types',
 		'package',
 		'decorator',
-		'decorators'
+		'decorators',
+		'declarations'
 	],
 	#category : #'Moxing-MicroBuilders-project'
 }
@@ -31,6 +31,12 @@ MOModelDeclarationUnitBuilder >> addClassType: aMOClass [
 ]
 
 { #category : #adding }
+MOModelDeclarationUnitBuilder >> addDeclaration: aMOLocalVariable [
+
+	self declarations add: aMOLocalVariable
+]
+
+{ #category : #adding }
 MOModelDeclarationUnitBuilder >> addEnum: aMOEnum [
 
 	self addType: aMOEnum
@@ -49,9 +55,21 @@ MOModelDeclarationUnitBuilder >> addJavaEnum: aMOJavaEnum [
 ]
 
 { #category : #adding }
+MOModelDeclarationUnitBuilder >> addLocalVariable: aMOLocalVariable [
+
+	self addDeclaration: aMOLocalVariable
+]
+
+{ #category : #adding }
 MOModelDeclarationUnitBuilder >> addModule: aMOModule [
 
 	self addType: aMOModule
+]
+
+{ #category : #adding }
+MOModelDeclarationUnitBuilder >> addStatement: aMOStatementExpression [
+
+	self addDeclaration: aMOStatementExpression
 ]
 
 { #category : #adding }
@@ -63,15 +81,27 @@ MOModelDeclarationUnitBuilder >> addStructureType: aMOStructure [
 { #category : #adding }
 MOModelDeclarationUnitBuilder >> addType: aMOPrimitiveType [
 
-	self assert:
-		(self types noneSatisfy: [ :t | t name = aMOPrimitiveType name ]).
-	self types add: aMOPrimitiveType
+	self assert: (self declarations noneSatisfy: [ :t | 
+			 t isType and: [ t name = aMOPrimitiveType name ] ]).
+	self addDeclaration: aMOPrimitiveType
 ]
 
 { #category : #'as yet unclassified' }
 MOModelDeclarationUnitBuilder >> buildsType [
 <generated>
 	^MODeclarationUnit
+]
+
+{ #category : #adding }
+MOModelDeclarationUnitBuilder >> declarations [
+
+	^ declarations ifNil: [ declarations := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+MOModelDeclarationUnitBuilder >> declarations: anObject [
+
+	declarations := anObject
 ]
 
 { #category : #accessing }
@@ -88,9 +118,10 @@ MOModelDeclarationUnitBuilder >> imports: anObject [
 
 { #category : #'as yet unclassified' }
 MOModelDeclarationUnitBuilder >> loadBuilderWithEntity: anEntity [
+
 	self name: anEntity name.
 	self imports: anEntity imports.
-	self types: anEntity types
+	self declarations: anEntity declarations
 ]
 
 { #category : #accessing }
@@ -110,21 +141,9 @@ MOModelDeclarationUnitBuilder >> privateBuild [
 	| instance |
 	instance := (self instantiate: MODeclarationUnit)
 		            imports: self imports;
-		            types: self types;
+		            declarations: self declarations;
 		            parent: self package;
 		            yourself.
 	self package ifNotNil: [ self package declarationUnits add: instance ].
 	^ instance
-]
-
-{ #category : #adding }
-MOModelDeclarationUnitBuilder >> types [
-
-	^ types ifNil: [ types := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-MOModelDeclarationUnitBuilder >> types: anObject [
-
-	types := anObject
 ]

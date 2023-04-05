@@ -87,6 +87,16 @@ MOExpressionWriter >> build [
 ]
 
 { #category : #'as yet unclassified' }
+MOExpressionWriter >> call: anInvocableExpressionBuildingBlock arguments: anArgumentBuildingBlock [
+
+	^ builder callInvocationBuilder 
+		  invocableExpression:
+			  (self writeExpression: anInvocableExpressionBuildingBlock);
+		  arguments: (self writeExpression: anArgumentBuildingBlock);
+		  build
+]
+
+{ #category : #'as yet unclassified' }
 MOExpressionWriter >> cast: anExpressionBuildingBlock to: aTypeBuildingBlock [
 
 	^ builder castExpressionBuilder

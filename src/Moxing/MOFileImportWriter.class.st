@@ -22,6 +22,12 @@ MOFileImportWriter >> file: aString [
 	writeBuilder file: aString 
 ]
 
+{ #category : #accessing }
+MOFileImportWriter >> importsAll: aBoolean [
+
+	writeBuilder importsAll: aBoolean
+]
+
 { #category : #writing }
 MOFileImportWriter >> initializeWriteBuilder [
 

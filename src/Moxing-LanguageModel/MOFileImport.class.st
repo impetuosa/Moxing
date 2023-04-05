@@ -3,7 +3,8 @@ Class {
 	#superclass : #MOStatement,
 	#instVars : [
 		'#from => MOPropertySlot',
-		'#typeReferences => MORefersSlot many'
+		'#typeReferences => MORefersSlot many',
+		'#importsAll => MOPropertySlot'
 	],
 	#category : #'Moxing-LanguageModel-Statements'
 }
@@ -29,6 +30,18 @@ MOFileImport >> from: aFileReference [
 { #category : #'as yet unclassified' }
 MOFileImport >> fromString [
 	^ from ifNil: [ 'ERROR! FROM IS EMPTTY' ] ifNotNil: [ from ]
+]
+
+{ #category : #accessing }
+MOFileImport >> importsAll [
+
+	^ importsAll 
+]
+
+{ #category : #accessing }
+MOFileImport >> importsAll: aBool [
+
+	importsAll := aBool
 ]
 
 { #category : #'as yet unclassified' }

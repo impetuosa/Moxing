@@ -57,25 +57,38 @@ MOAngularJSLoader >> loadMetadata [
 { #category : #'as yet unclassified' }
 MOAngularJSLoader >> loadModel [
 
-	| schema |
 	model := MOModel newAngularJs
 		         name: modelNamed;
 		         yourself.
-	schema := model instantiate: MOAngularScheme.
-	model root addPackage: schema.
+
+	model writer writeAngularJsSchema: [ :schema | 
+		schema directory: workingDirectory.
+		schema metadata: metadata.
+		(metadata at: #modules) do: [ :m | 
+			schema writeAngularJsProject: [ : project | 
+				self loadProject: m into: project ] ] ].
+
 	self populateAnchorOn: model root.
 
-	schema fileReference: workingDirectory.
-	schema metadata: metadata.
 
-	(metadata at: #modules) do: [ :m | self loadModule: m into: schema ].
+
 
 	^ model
 ]
 
 { #category : #'as yet unclassified' }
-MOAngularJSLoader >> loadModule: aDictionary into: aMOAngularScheme [ 
-	self shouldBeImplemented.
+MOAngularJSLoader >> loadProject: aDictionary into: aMOAngularJsProjectWriter [
+
+	aMOAngularJsProjectWriter name: (aDictionary at: #name).
+	aMOAngularJsProjectWriter directory: (aDictionary at: #folder).
+	MOTypescriptClassLoader
+		loadClassFromFile: (aDictionary at: #module)
+		using: aMOAngularJsProjectWriter.
+
+	(self resolveFilesForProject: aDictionary) do: [ :file | 
+		MOTypescriptClassLoader
+			loadClassFromFile: file asFileReference 
+			using: aMOAngularJsProjectWriter ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -103,6 +116,25 @@ MOAngularJSLoader >> populateAnchorOn: anEntity [
 			subentity anchor: anEntity anchor / relation name
 				/ (subentity className copyReplaceAll: 'MO' with: '') asCamelCase.
 			self populateAnchorOn: subentity ] ]
+]
+
+{ #category : #'as yet unclassified' }
+MOAngularJSLoader >> resolveFilesForProject: aDictionary [
+
+	| allEntries selected |
+	self halt: 'this is rubbish'.
+	allEntries := (aDictionary at: #folder) asFileReference allFiles 
+		              collect: #fullName.
+
+	selected := RxMatcher forString:
+		            ((aDictionary at: #folder) / './.*.*/.*\.ts') fullName.
+	^ allEntries select: [ :e | selected matches: e ]
+	"
+	
+	selected := Set new.
+	(aDictionary at: #requires) flatCollect: [ :pattern | 
+		
+	]"
 ]
 
 { #category : #'as yet unclassified' }

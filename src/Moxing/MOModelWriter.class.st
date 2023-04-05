@@ -800,6 +800,14 @@ MOModelWriter >> writeAndAddStatement: aFullBlockClosure [
 ]
 
 { #category : #writing }
+MOModelWriter >> writeAngularJsSchema: aFullBlockClosure [
+
+	| writer |
+	writer := MOAngularJsSchemaWriter new.
+	^ self write: aFullBlockClosure withWriter: writer
+]
+
+{ #category : #writing }
 MOModelWriter >> writeBlock: aFullBlockClosure [
 
 	| writer |

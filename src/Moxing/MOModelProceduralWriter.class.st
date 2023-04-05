@@ -411,7 +411,7 @@ MOModelProceduralWriter >> symbolicArrayLiteral: aCollection [
 { #category : #'as yet unclassified' }
 MOModelProceduralWriter >> templateLiteral: aCollection [
 
-	^ writeBuilder templateLiteralBuilder
+	^ builder templateLiteralBuilder
 		  expressions: aCollection;
 		  build
 ]
