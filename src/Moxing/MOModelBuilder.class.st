@@ -413,13 +413,6 @@ MOModelBuilder >> eventBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> exitBuilder [ 
-	^ MOModelExitBuilder  new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> expressionCopyHelper [
 	^ MOModelCopyExpression new 
 ]
@@ -457,38 +450,6 @@ MOModelBuilder >> fileImportBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> fileLineInputBuilder [
-
-	^ MOModelFileLineInputBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> fileOpenBuilder [
-
-	^ MOModelFileOpenBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> filePrintIntoBuilder [
-
-	^ MOModelFilePrintIntoBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> fileRenameBuilder [
-
-	^ MOModelFileRenameBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> findInModel: aDetectionBlock ifNone: anIfNoneBlock [
 
 	^ model entities
@@ -521,30 +482,6 @@ MOModelBuilder >> forStatementBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> foreignRelationBuilder [
-
-	^ MOModelForeingRelationBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> foreignRelationMatchBuilder [
-
-	^ MOModelForeingRelationMatchBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> formBuilder [
-
-	^ MOModelFormBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> functionBuilder [
 
 	^ MOModelFunctionBuilder new
@@ -564,14 +501,6 @@ MOModelBuilder >> globalConstantBuilder [
 MOModelBuilder >> globalVariableBuilder [
 
 	^ MOModelGlobalVariableBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> goSubBuilder [
-
-	^ MOModelGoSubBuilder new
 		  parentBuilder: self;
 		  yourself
 ]
@@ -848,15 +777,6 @@ MOModelBuilder >> onErrorBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> onErrorResumeNextBuilder [
-
-	^ MOModelOnErrorResumeNextBuilder new
-		  parentBuilder: self;
-		  baseAnchor: model anchor;
-		  yourself
-]
-
 { #category : #'instance creation' }
 MOModelBuilder >> packageBuilder [
 
@@ -1023,14 +943,6 @@ MOModelBuilder >> queryBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-MOModelBuilder >> redimVariableBuilder [
-
-	^ MOModelRedimVariableBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 MOModelBuilder >> referenceToSelf [
 
 	^ self contextReferenceBuilder
@@ -1052,31 +964,6 @@ MOModelBuilder >> referenceToThisContext [
 	^ self contextReferenceBuilder
 		  forThisContext;
 		  build
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> reportBuilder [
-
-	^ MOModelReportBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> resumeBuilder [
-	^ MOModelResumeBuilder new
-		  parentBuilder: self;
-		  baseAnchor: model anchor;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> resumeNextBuilder [
-
-	^ MOModelResumeNextBuilder new
-		  parentBuilder: self;
-		  baseAnchor: model anchor;
-		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -1268,14 +1155,6 @@ MOModelBuilder >> symbolicArrayLiteralBuilder [
 { #category : #'as yet unclassified' }
 MOModelBuilder >> synchronizedStatementBuilder [
 	 ^ MOModelSynchronizedBuilder new
-		  parentBuilder: self;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-MOModelBuilder >> tableBuilder [
-
-	^ MOModelTableBuilder new
 		  parentBuilder: self;
 		  yourself
 ]

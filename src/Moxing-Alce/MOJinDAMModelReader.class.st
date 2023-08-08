@@ -935,14 +935,6 @@ MOJinDAMModelReader >> visitResumeEmpty: aJinDAMResume [
 ]
 
 { #category : #visiting }
-MOJinDAMModelReader >> visitResumeNext: aJinDAMResumeNext [
-
-	^ self
-		  trace: aJinDAMResumeNext
-		  with: writer builder resumeNextBuilder build
-]
-
-{ #category : #visiting }
 MOJinDAMModelReader >> visitReturnEmpty: aJinDAMReturnEmpty [
 
 	^ writer writeReturn: [ :ret |  ]

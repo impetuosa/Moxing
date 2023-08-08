@@ -316,12 +316,6 @@ MOStatementWriter >> onErrorGoTo: aMOLabelReference [
 		  goto writeDestination: aMOLabelReference ] 
 ]
 
-{ #category : #'as yet unclassified' }
-MOStatementWriter >> onErrorResumeNext [
-
-	^ self registerStatement: builder onErrorResumeNextBuilder build
-]
-
 { #category : #expressions }
 MOStatementWriter >> operate: anExpressionBuildingBlock operator: aString with: anOtherExpressionBuildingBlock [
 
@@ -366,17 +360,6 @@ MOStatementWriter >> prefixOperate: aFullBlockClosure operator: aString [
 
 	^ self registerStatement: (self writeExpression: [ :expr | 
 			   expr prefixOperate: aFullBlockClosure operator: aString ])
-]
-
-{ #category : #statements }
-MOStatementWriter >> redimVariable: aString typeReference: aMOTypeReference redimText: aRedimText reference: aReference [
-
-	^ self registerStatement: (builder redimVariableBuilder
-			   name: aString;
-			   typeReference: aMOTypeReference value;
-			   redimText: aRedimText;
-			   reference: aReference;
-			   build)
 ]
 
 { #category : #writing }

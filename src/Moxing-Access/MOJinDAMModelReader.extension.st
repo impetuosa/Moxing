@@ -1,12 +1,4 @@
-Class {
-	#name : #MOJinDAMModelReader,
-	#superclass : #MOModelReader,
-	#instVars : [
-		'traces',
-		'jindamModel'
-	],
-	#category : #'Moxing-Access'
-}
+Extension { #name : #MOJinDAMModelReader }
 
 { #category : #'*Moxing-Access' }
 MOJinDAMModelReader >> visitResumeNext: aJinDAMResumeNext [
