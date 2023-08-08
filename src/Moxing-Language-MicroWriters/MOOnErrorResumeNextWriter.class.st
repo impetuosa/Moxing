@@ -1,0 +1,17 @@
+Class {
+	#name : #MOOnErrorResumeNextWriter,
+	#superclass : #MOAbstractStatementWriter,
+	#category : #'Moxing-Language-MicroWriters'
+}
+
+{ #category : #visiting }
+MOOnErrorResumeNextWriter >> acceptWritingVisitor: aVisitor [
+	^ aVisitor visitNextWriter: self 
+
+
+]
+
+{ #category : #writing }
+MOOnErrorResumeNextWriter >> initializeWriteBuilder [
+	writeBuilder := builder onErrorResumeNextBuilder 
+]
