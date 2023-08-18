@@ -176,6 +176,12 @@ Class {
 	#category : #'Moxing-Manifest'
 }
 
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> angularProjectPath [
+
+	^ self resources / 'angular'
+]
+
 { #category : #'5- Copy models' }
 MoxingManifest class >> exampleCopySimpleModel [
 	<example>
@@ -188,17 +194,105 @@ MoxingManifest class >> exampleHandUpdateSimpleModel [
 
 { #category : #'4- Create and Modify Models' }
 MoxingManifest class >> exampleHandWriteSimpleModel [
+
+	" 
+	Moxing model is specialized on writting and modifying of model. 
+	This is an important feature for prescriptive models .
+	"
+
 	<example>
+	| model variable method parameter |
+	model := MOModel newPharo.
+	model name: #Example.
+   	 "
+		1- Get a model writer. This writer allows the user to create any of the main root elements such as package.
+	 "
+	model writer
+		writePackage: [ :pack | 
+		"
+			2- The pack variable points to a package writer instance. which allows not only to configurate the package, but also to write sub elements.  
+		"
+			pack name: 'Example'.
+			pack writeStClass: [ :class | 
+		" 
+			3- class variable points to a smalltalk class writer. Once this block is finished, the class writer will tell to the package writer to add this just created class to it.
+		"
+					class name: #Example.
+		" 
+			4- As we are writting a smalltalk class, the writer allows to write a metaclass. 
+		"
+					class writeMetaclass: [ :mclass | 
+							mclass name: 'Example class'.
+		" 
+			5- Metaclasses are also classes. Can have attributes.
+		"
+							mclass writeAttribute: [ :classSideVariable | 
+									classSideVariable name: 'variable' ] ].
+		" 
+			6- a write message (such as writeAttribute or writeMethod) yields an actual object (not a writer) which can be used. 
+		"
+					variable := class writeAttribute: [ :attribute | 
+							            attribute name: 'value' ].
+					method := class writeMethod: [ :m | 
+							          m selector: #value:.
+							          parameter := m writeParameter: [ :p | 
+									                       p name: #aValue ].
+							          m writeBlock: [ :block | 
+		" 
+			7- Please note that the statement writen in the next writer is an assignment. 
+		"
+									          block writeStatement: [ :st | 
+											          st
+												          let: [ :expr | 
+													          (expr variableReferenceNamed: variable name) 
+														          referee: variable ]
+												          beAssignedWith: [ :expr | 
+													          (expr variableReferenceNamed: parameter name) 
+														          referee: parameter ] ] ] ] ] ];
+		" 
+			8- the populateAnchorOn: will connect all elements with their parents. 
+		"
+		populateAnchorOn: model root.
+	model inspect.
+	^ model
 ]
 
 { #category : #'2- Loading Examples' }
 MoxingManifest class >> exampleLoadAngularTsSimpleProject [
 	<example>
+	
+	| importer moxing |
+	
+	" 
+	This importer is an Angular TS importer. 
+	It imports the Angular meta data and simultaneously uses it to load and link the different artefacts (either angular or ts)
+	"
+	importer := MOAngularLoader  new.
+	importer workingDirectory: self angularProjectPath.
+	moxing := importer loadNamed: #AngularProject.
+	moxing inspect.
+	^ moxing
 ]
 
 { #category : #'2- Loading Examples' }
 MoxingManifest class >> exampleLoadJavaMavenProject [
+
 	<example>
+	| importer moxing |
+	
+	" 
+		This loader requires maven and java installed. 
+		The loader will use maven to query all the dependencies. 
+		The loader will use the java compiler to export the API/ABI of all the dependencies
+		
+	"
+	importer := MOJavaMavenProjectLoader new.
+	importer workingDirectory: self javaProjectPath.
+	moxing := importer loadNamed: #JavaProject.
+	moxing inspect.
+	^ moxing
+	
+
 ]
 
 { #category : #'2- Loading Examples' }
@@ -231,13 +325,44 @@ MoxingManifest class >> exampleLoadNorthwind [
 ]
 
 { #category : #'2- Loading Examples' }
-MoxingManifest class >> exampleLoadPharoProject [
+MoxingManifest class >> exampleLoadNorthwindFromFile [
+
 	<example>
+	| moxing |
+	" This recipy works for any model, regardless the language. "
+	moxing := MOModel loadFrom: self northwindModelPath.
+	moxing inspect.
+	^ moxing
 ]
 
 { #category : #'2- Loading Examples' }
-MoxingManifest class >> exampleLoadVisualWorksProject [
+MoxingManifest class >> exampleLoadPharoProject [
 	<example>
+	| calypso phary |
+	"Pharo importer is based on the reflective features of Pharo. We use largely the RefactoringBrowser AST "
+	
+	" 
+		The following example loads strictly the package Calypso. It does not include any Kernel object. 
+		As pharo is not typed, it would be extremely hard to infer which dependencies are to be loaded. So you are expected to load them manually, by listing them in the importPackages method's parameter. 
+		
+		We note that the importPackages method can be executed multiple times. 
+	"
+	
+	"1- Create model for pharo "
+	calypso := MOModel newPharo.
+	calypso name: #Calypso.
+	"2- Create model importer for pharo "
+	phary := MORBPharoImporter new.
+	
+	"3- The importer requires a model writer instead of a model"
+	phary writer: calypso writer.
+
+	phary importPackages:
+		((RPackageOrganizer default packageNames select: [ :a | 
+			  a beginsWith: #Calypso ]) collect: #asPackageOrTag).
+		
+		
+	^ calypso
 ]
 
 { #category : #'3- Tranverse Relations' }
@@ -246,10 +371,21 @@ MoxingManifest class >> exampleTransverseRelations [
 ]
 
 { #category : #'2- Loading Examples' }
+MoxingManifest class >> icebergRepository [ 
+	 ^ IceRepository registry detect: [ :a | a name = #Moxing ]
+]
+
+{ #category : #'2- Loading Examples' }
 MoxingManifest class >> importNorthwindSymbolTable [
 
 	^ northwindSymbolTable ifNil: [ 
 		  northwindSymbolTable := JinNamespacesManifest nortwindSymbolTable ]
+]
+
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> javaProjectPath [
+
+	^ self resources / 'java'
 ]
 
 { #category : #'1- Load' }
@@ -319,7 +455,19 @@ MoxingManifest class >> northwindDAM [
 ]
 
 { #category : #'2- Loading Examples' }
+MoxingManifest class >> northwindModelPath [
+
+	^ self resources / 'northwind.moxing.ston'
+]
+
+{ #category : #'2- Loading Examples' }
 MoxingManifest class >> northwindPath [
 
 	^ JindaoManifest northwind
+]
+
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> resources [
+
+	^ (self icebergRepository location / #resources) resolve
 ]
