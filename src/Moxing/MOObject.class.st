@@ -554,7 +554,6 @@ MOObject >> parent [
 { #category : #accessing }
 MOObject >> parent: aParent [
 
-	aParent isFylgjaStub ifTrue: [ self halt ].
 	parent := aParent
 ]
 

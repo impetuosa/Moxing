@@ -170,6 +170,9 @@ Moxing currently has few importers:
 Class {
 	#name : #MoxingManifest,
 	#superclass : #PackageManifest,
+	#classInstVars : [
+		'northwindSymbolTable'
+	],
 	#category : #'Moxing-Manifest'
 }
 
@@ -199,8 +202,32 @@ MoxingManifest class >> exampleLoadJavaMavenProject [
 ]
 
 { #category : #'2- Loading Examples' }
-MoxingManifest class >> exampleLoadNorthwind [ 
+MoxingManifest class >> exampleLoadNorthwind [
+
 	<example>
+	| dam moxing importer |
+	
+	"1- To load a Microsoft Access project into a Moxing model we need a DAM model. "
+	dam := self northwindDAM.
+	
+	"2- Instanciate an DAM importer. "
+	importer := MOJinDAMImporter new.
+
+	"3- Create an instance of a MOModel, configured to deal with Microsoft Access language details . "
+	moxing := MOModel newMicrosoftAccess.
+
+	moxing name: #Northwind. 
+
+	"4- Configure the importer with the model to use for importing. "
+	importer model: moxing.
+
+	"5- Import the DAM model. "
+	importer import: dam.
+
+	"6- Now the model is filled up with the Northwind project information. "
+	moxing inspect.
+	
+	^ moxing
 ]
 
 { #category : #'2- Loading Examples' }
@@ -216,6 +243,13 @@ MoxingManifest class >> exampleLoadVisualWorksProject [
 { #category : #'3- Tranverse Relations' }
 MoxingManifest class >> exampleTransverseRelations [
 	<example> 
+]
+
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> importNorthwindSymbolTable [
+
+	^ northwindSymbolTable ifNil: [ 
+		  northwindSymbolTable := JinNamespacesManifest nortwindSymbolTable ]
 ]
 
 { #category : #'1- Load' }
@@ -240,4 +274,52 @@ MoxingManifest class >> loadMetacello [
     	load
 	
 
+]
+
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> northwindDAM [
+
+	| importer path dam |
+	" Create symbol table "
+	self importNorthwindSymbolTable.
+
+	" 
+	
+	This importer is configured to load all the structure of the project. 
+	It also imports all the syntactical elements, representing all the written code. 
+	It also imports all the forms/reports objects, storing all the configuration properties.
+	
+"
+	importer := JinDAMImporter new.
+	importer provider
+		importAccessReferences;
+		importDatabase;
+		importProjectElements;
+		importGUIElements;
+		importGUIControlElements;
+		importCodeElements;
+		importAllSyntacticElements;
+		importLibraryReferences.
+
+
+	path := self northwindPath.
+
+	" 
+	The importer requires a symbol table previously calculated. 
+"
+	dam := importer
+		       import: path asFileReference
+		       symbolTable: northwindSymbolTable.
+
+	" 
+	The imported model is not yet linked. i.e. connects all the calls to the methods or functions.
+"
+	importer link: dam.
+	^ dam
+]
+
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> northwindPath [
+
+	^ JindaoManifest northwind
 ]
