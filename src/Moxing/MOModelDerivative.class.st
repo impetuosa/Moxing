@@ -13,7 +13,7 @@ Class {
 	#category : #'Moxing-Core'
 }
 
-{ #category : #traverse }
+{ #category : #query }
 MOModelDerivative >> allDeclarations [
 
 	| refs |
@@ -27,13 +27,13 @@ MOModelDerivative >> allDeclarations [
 			  ifNone: [ deriveeModelRef ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #derivative }
 MOModelDerivative >> allDerivariveEntities [
 
 	^ entities , model allDerivariveEntities
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModelDerivative >> allEntitiesDetect: aFullBlockClosure [
 
 	^ self entities
@@ -41,14 +41,14 @@ MOModelDerivative >> allEntitiesDetect: aFullBlockClosure [
 		  ifNone: [ model allEntitiesDetect: aFullBlockClosure ]
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModelDerivative >> allEntitiesSelect: aFullBlockClosure [
 
 	^ (self entities select: aFullBlockClosure)
 	  , (model allEntitiesSelect: aFullBlockClosure)
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOModelDerivative >> allInvocations [
 
 	| refs |
@@ -62,13 +62,13 @@ MOModelDerivative >> allInvocations [
 			   ifNone: [ deriveeModelRef ] ]) , refs
 ]
 
-{ #category : #literals }
+{ #category : #query }
 MOModelDerivative >> allLiterals [
 
 	^ (entities select: #isMOLiteral) , model allLiterals
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOModelDerivative >> allReferences [
 
 	| refs |
@@ -82,13 +82,13 @@ MOModelDerivative >> allReferences [
 			   ifNone: [ deriveeModelRef ] ]) , refs
 ]
 
-{ #category : #accessing }
+{ #category : #query }
 MOModelDerivative >> allTypes [
 
 	^ self types , model allTypes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModelDerivative >> allVersionsOf: aMOFunction [
 
 	^ (entities select: [ :a | a isSameEntity: aMOFunction ])
@@ -101,7 +101,7 @@ MOModelDerivative >> anchor [
 	^ model anchor
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModelDerivative >> candidatelessEntities [
 
 	^ entities select: [ :e | 
@@ -109,19 +109,19 @@ MOModelDerivative >> candidatelessEntities [
 			  (e respondsTo: #referee) and: [ e referee isNil ] ] ]
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModelDerivative >> catalogEntitiesSelect: aFullBlockClosure [
 
 	^ model catalogEntitiesSelect: aFullBlockClosure
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOModelDerivative >> declarations [
 
 	^ entities select: [ :e | e isDeclaration ]
 ]
 
-{ #category : #initialization }
+{ #category : #derivative }
 MOModelDerivative >> derivative [
 
 	^ MOModelDerivative new
@@ -143,7 +143,7 @@ MOModelDerivative >> entityFor: aMOEntity [
 			  ifNone: [ model entityFor: aMOEntity ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MOModelDerivative >> exclusivelyincludes: anEntity [
 
 	^ self entities includes: anEntity
@@ -160,7 +160,7 @@ MOModelDerivative >> fileReference [
 	^ model fileReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #finalization }
 MOModelDerivative >> finalizeMoxing [
 
 	entities removeAll.
@@ -176,12 +176,12 @@ MOModelDerivative >> hasBeenModified [
 	^ hasBeenModified ifNil: [ false ]
 ]
 
-{ #category : #generated }
+{ #category : #query }
 MOModelDerivative >> imports [
 	^ entities select: [ : e  | e isKindOf: MOImport ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MOModelDerivative >> includes: anEntity [
 
 	^ (self entities includes: anEntity) or: [ model includes: anEntity ]
@@ -203,7 +203,7 @@ MOModelDerivative >> instantiate: aClass [
 	^ instance
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOModelDerivative >> invocations [
 
 	^ entities select: [ :e | e isKindOf: MOInvocation ]
@@ -275,7 +275,7 @@ MOModelDerivative >> objects [
 	^ model objects 
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModelDerivative >> objectsSelect: aFullBlockClosure [ 
 	^ model objects select: aFullBlockClosure 
 ]
@@ -295,7 +295,7 @@ MOModelDerivative >> packages [
 			   ifNone: [ p ] ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModelDerivative >> primitiveTypeNamed: aString ifAbsent: aFullBlockClosure [
 
 	^ self entities
@@ -313,7 +313,7 @@ MOModelDerivative >> produceCode: aMODeclarationUnit [
 		  aMODeclarationUnit
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 MOModelDerivative >> producesParseableCode [
 
 	^ false
@@ -402,14 +402,14 @@ MOModelDerivative >> sourceCodeIsAvailable [
 	^ model sourceCodeIsAvailable
 ]
 
-{ #category : #accessing }
+{ #category : #swap }
 MOModelDerivative >> swap: aFylgjaCandidateStub with: aMOVariableReference [
 
 	aFylgjaCandidateStub = aMOVariableReference ifFalse: [ 
 		aFylgjaCandidateStub becomeForward: aMOVariableReference ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #swap }
 MOModelDerivative >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
 
 	self assert: (self entities includes: aMOExit).
@@ -418,7 +418,7 @@ MOModelDerivative >> swap: aMOExit with: aMOReturnEmpty context: aMOBlock [
 	aMOBlock statements replaceAll: aMOExit with: aMOReturnEmpty
 ]
 
-{ #category : #visiting }
+{ #category : #query }
 MOModelDerivative >> typeNamed: aString [ 
 	^ model typeNamed: aString 
 ]
@@ -429,7 +429,7 @@ MOModelDerivative >> typeReferences [
 	^ entities select: [ :e | e isKindOf: MOTypeReference ]
 ]
 
-{ #category : #accessing }
+{ #category : #query }
 MOModelDerivative >> types [
 
 	^ entities select: [ :e | e isKindOf: MOType ]
@@ -476,13 +476,13 @@ MOModelDerivative >> updateDestinationSourceProjects [
 		  export: writing
 ]
 
-{ #category : #accessing }
+{ #category : #query }
 MOModelDerivative >> variableReferences [
 
 	^ entities select: [ :a | a isKindOf: MOVariableReference ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : #writer }
 MOModelDerivative >> writer [
 
 	^ MOModelWriter new
