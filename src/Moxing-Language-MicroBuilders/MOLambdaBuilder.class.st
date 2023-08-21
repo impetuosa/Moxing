@@ -5,7 +5,7 @@ Class {
 		'block',
 		'parameters'
 	],
-	#category : #'Moxing-Language-MicroBuilders'
+	#category : #'Moxing-Language-MicroBuilders-Invocables'
 }
 
 { #category : #adding }
