@@ -134,6 +134,10 @@ Moxing currently has few importers:
  * Pharo reflective API importer for importing packages defined in the Pharo running image (MORBPharoImporter). 
  * Angular Typescript importer for importing projects defined with Angular and Typescript projects (MOAngularLoader) .
 
+## API Documentation
+
+
+ Please address to [API.md](API.md)
 
 
 
@@ -184,6 +188,15 @@ Class {
 MoxingManifest class >> angularProjectPath [
 
 	^ self resources / 'angular'
+]
+
+{ #category : #'2- Loading Examples' }
+MoxingManifest class >> apiPackages [
+
+	^ ({ self package }
+	   , (MOModelBuilderDelegate allSubclasses collect: #package)
+	   , (MOModelProceduralWriter allSubclasses collect: #package))
+		  asOrderedCollection removeDuplicates
 ]
 
 { #category : #'5- Copy models' }
