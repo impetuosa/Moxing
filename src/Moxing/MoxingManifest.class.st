@@ -33,10 +33,14 @@ Class MyClass {
 ```
 
 Given these two pieces of code, we can consider the figures:
+
  1- ASG of the VBA version of the source code.
-![ASG-VBA](https://github.com/impetuosa/Jindao/blob/master/resources/asg-vba.jpg?raw=true).
+
+![ASG-VBA](https://github.com/impetuosa/Moxing/blob/master/resources/asg-vba.jpg?raw=true)
+
  2- ASG of the Java version of the source code. 
-![ASG-JAVA](https://github.com/impetuosa/Jindao/blob/master/resources/asg-java.jpg?raw=true).
+
+![ASG-JAVA](https://github.com/impetuosa/Moxing/blob/master/resources/asg-java.jpg?raw=true)
 
  Both ASGs are highly similar. Each node in the graph
 is represented as a box; its composition is represented by including a box inside
