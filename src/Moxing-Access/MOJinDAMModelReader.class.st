@@ -5,7 +5,7 @@ Class {
 		'traces',
 		'jindamModel'
 	],
-	#category : #'Moxing-Access'
+	#category : #'Moxing-Access-Importers'
 }
 
 { #category : #'as yet unclassified' }
