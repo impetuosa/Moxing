@@ -1,3 +1,7 @@
+"
+Structural relation. I represent a relation: From, To and slot type. The slot type describes the kind of relation. 
+
+"
 Class {
 	#name : #MODeclarationStructuralRelation,
 	#superclass : #Object,

@@ -1,3 +1,6 @@
+"
+I am a relation which comes from a null declaration. Often used for root: Deus ex relation
+"
 Class {
 	#name : #MONullDeclarationRelation,
 	#superclass : #MODeclarationStructuralRelation,
