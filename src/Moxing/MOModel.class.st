@@ -21,7 +21,7 @@ MOModel >> acceptVisitor: aMoxingPackageTree [
 	^ aMoxingPackageTree visitModel: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> aliasNamed: aString [
 
 	| t |
@@ -30,55 +30,55 @@ MOModel >> aliasNamed: aString [
 	^ t first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> allDeclarations [
 
 	^ entities select: [ :e | e isDeclaration ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> allDerivariveEntities [
 
 	^ {  }
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModel >> allEntitiesDetect: aFullBlockClosure [
 
 	^ entities detect: aFullBlockClosure
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModel >> allEntitiesSelect: aFullBlockClosure [
 
 	^ entities select: aFullBlockClosure
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> allInvocations [
 
 	^ entities select: [ :e | e isKindOf: MOInvocation ]
 ]
 
-{ #category : #accessing }
+{ #category : #query }
 MOModel >> allLiterals [
 
-	^ entities select: #isMOLiteral
+	^ entities select: [ :e | e isMOLiteral ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> allReferences [
 
 	^ entities select: [ :e | e isKindOf: MOReference ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOModel >> allRelations [
 
 	^ { (MODeclarationStructuralRelation nullRelationTo: self root) }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> allVersionsOf: aMOFunction [
 
 	^ entities select: [ :a | a isSameEntity: aMOFunction ]
@@ -100,19 +100,19 @@ MOModel >> catalog: aCatalog [
 	catalog := aCatalog
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModel >> catalogEntitiesSelect: aFullBlockClosure [
 
 	^ catalog entities select: aFullBlockClosure
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> declarations [
 
 	^ entities select: [ :e | e isKindOf: MODeclaration ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #derivative }
 MOModel >> derivative [
 
 	^ MOModelDerivative new
@@ -126,13 +126,13 @@ MOModel >> entityFor: aMOEntity [
 	^ aMOEntity
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MOModel >> exclusivelyincludes: aMOPrimitiveType [
 
 	^ self includes: aMOPrimitiveType
 ]
 
-{ #category : #generated }
+{ #category : #query }
 MOModel >> expressions [
 
 	^ entities select: [ :a | a isExpression ]
@@ -148,7 +148,7 @@ MOModel >> fileReference: aFileReference [
 	fileReference := aFileReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #finalization }
 MOModel >> finalize [
 
 	self root finalize.
@@ -161,12 +161,12 @@ MOModel >> finalize [
 	self becomeForward: {  }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #finalization }
 MOModel >> finalizeMoxing [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> incorrectEntities [
 
 	^ entities reject: [ :e | e isCorrect ]
@@ -206,7 +206,7 @@ MOModel >> invocations [
 	^ entities select:[:a | a isInvocation ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MOModel >> isCatalog [
 
 	^ false
@@ -241,19 +241,19 @@ MOModel >> isMOModel [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #derivative }
 MOModel >> isModelOrDerivative [
 
 	^ true
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModel >> libraries [
 
 	^ entities select: [ :a | a isKindOf: MOLibrary ]
 ]
 
-{ #category : #'functions - subs - events' }
+{ #category : #query }
 MOModel >> literals [
 
 	^ entities select: #isMOLiteral
@@ -281,7 +281,7 @@ MOModel >> objects [
 	^ objects
 ]
 
-{ #category : #enumerating }
+{ #category : #query }
 MOModel >> objectsSelect: aFullBlockClosure [
 
 	^ objects select: aFullBlockClosure
@@ -293,7 +293,7 @@ MOModel >> parent [
 	^ nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 MOModel >> printOn: aStream [
 
 	aStream
@@ -303,7 +303,7 @@ MOModel >> printOn: aStream [
 		nextPutAll: language name
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 MOModel >> producesParseableCode [
 
 	^ false
@@ -338,14 +338,14 @@ MOModel >> root [
 		  root ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> rootPackages [
 
 	^ entities select: [ :a | 
 		  (a isKindOf: MOPackage) and: [ a parent = self ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #save }
 MOModel >> saveAs: aString [
 
 	| stream |
@@ -358,7 +358,7 @@ MOModel >> saveAs: aString [
 		close
 ]
 
-{ #category : #accessing }
+{ #category : #'problem solving' }
 MOModel >> solveApplicationReferenceProblem [
 
 	entities
@@ -378,13 +378,13 @@ MOModel >> solveApplicationReferenceProblem [
 					 language: each language) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 MOModel >> sourceCodeIsAvailable [
 
 	^ fileReference exists
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> tablesAndQueries [
 
 	^ entities select: [ :a | a isQuery or: [ a isTable ] ]
@@ -401,7 +401,7 @@ MOModel >> typeNamed: aString [
 	^ t first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> typeNamed: aString library: aLibraryName [
 
 	| t |
@@ -415,7 +415,7 @@ MOModel >> typeNamed: aString library: aLibraryName [
 	^ t first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> typeOrAliasNamed: aString library: aLibraryName [
 
 	| t |
@@ -425,13 +425,13 @@ MOModel >> typeOrAliasNamed: aString library: aLibraryName [
 	^ t first
 ]
 
-{ #category : #']as yet unclassified' }
+{ #category : #query }
 MOModel >> typeReferences [
 
 	^ entities select: [ :e | e isKindOf: MOTypeReference ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #query }
 MOModel >> typesNamed: aString [
 	^ entities select: [ :e | 
 		  ((e isKindOf: MOType) or: [ e isKindOf: MOModule ]) and: [ 
@@ -439,20 +439,20 @@ MOModel >> typesNamed: aString [
 				  e anchor isNotNil or: [ e isPrimitiveType ] ] ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MOModel >> unknownType [
 
 	^ unknownType ifNil: [ 
 		  unknownType := (self instantiate: MOType) name: #UNKNOWN ]
 ]
 
-{ #category : #accessing }
+{ #category : #query }
 MOModel >> variableReferences [
 
 	^ entities select: [ :a | a isKindOf: MOVariableReference ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #writer }
 MOModel >> writer [
 
 	self readOnly ifTrue: [ ^ self error: 'read only model' ].
