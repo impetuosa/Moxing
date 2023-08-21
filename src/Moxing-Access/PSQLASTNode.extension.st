@@ -1,6 +1,6 @@
 Extension { #name : #PSQLASTNode }
 
-{ #category : #'*Moxing-Alce' }
+{ #category : #'*Moxing-Access' }
 PSQLASTNode >> children [
 	| children |
 	children := OrderedCollection streamContents: [ :stream | 
