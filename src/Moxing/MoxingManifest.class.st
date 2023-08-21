@@ -188,11 +188,6 @@ MoxingManifest class >> exampleCopySimpleModel [
 ]
 
 { #category : #'4- Create and Modify Models' }
-MoxingManifest class >> exampleHandUpdateSimpleModel [
-	<example>
-]
-
-{ #category : #'4- Create and Modify Models' }
 MoxingManifest class >> exampleHandWriteSimpleModel [
 
 	" 
@@ -203,6 +198,7 @@ MoxingManifest class >> exampleHandWriteSimpleModel [
 	<example>
 	| model variable method parameter |
 	model := MOModel newPharo.
+	
 	model name: #Example.
    	 "
 		1- Get a model writer. This writer allows the user to create any of the main root elements such as package.
