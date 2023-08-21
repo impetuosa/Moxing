@@ -1,7 +1,7 @@
 Class {
 	#name : #MOEnumWriter,
 	#superclass : #MOPrimitiveTypeWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

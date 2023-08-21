@@ -1,7 +1,7 @@
 Class {
 	#name : #MOQueryAttributeWriter,
 	#superclass : #MOAttributeWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #initialization }

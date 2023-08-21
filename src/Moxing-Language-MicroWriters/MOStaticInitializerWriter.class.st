@@ -1,7 +1,7 @@
 Class {
 	#name : #MOStaticInitializerWriter,
 	#superclass : #MOInvocableWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #writing }

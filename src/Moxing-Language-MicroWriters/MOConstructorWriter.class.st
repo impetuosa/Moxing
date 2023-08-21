@@ -4,7 +4,7 @@ I build constructors and allow to include annotations, blocks, parameters and ty
 Class {
 	#name : #MOConstructorWriter,
 	#superclass : #MOInvocableWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

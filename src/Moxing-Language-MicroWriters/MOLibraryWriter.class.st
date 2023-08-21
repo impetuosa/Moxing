@@ -1,7 +1,7 @@
 Class {
 	#name : #MOLibraryWriter,
 	#superclass : #MOArtefactWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

@@ -4,7 +4,7 @@ I write packages. I allow the wirting of subpackages, classes and declaration un
 Class {
 	#name : #MOPackageWriter,
 	#superclass : #MOModelProceduralWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

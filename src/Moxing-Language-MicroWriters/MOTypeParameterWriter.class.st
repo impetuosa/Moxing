@@ -4,7 +4,7 @@ i do write type paraemeters
 Class {
 	#name : #MOTypeParameterWriter,
 	#superclass : #MOPrimitiveTypeWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

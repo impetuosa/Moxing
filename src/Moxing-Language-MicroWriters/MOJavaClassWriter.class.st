@@ -1,7 +1,7 @@
 Class {
 	#name : #MOJavaClassWriter,
 	#superclass : #MOClassWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #initialization }

@@ -3,7 +3,7 @@ Class {
 	#superclass : #MOModelProceduralWriter,
 	#traits : 'MOHoldsTypeReferences',
 	#classTraits : 'MOHoldsTypeReferences classTrait',
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

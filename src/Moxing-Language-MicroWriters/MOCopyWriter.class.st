@@ -4,7 +4,7 @@ I do allow to write a copy of a given entity.
 Class {
 	#name : #MOCopyWriter,
 	#superclass : #MOModelProceduralWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-CopyWriter'
 }
 
 { #category : #visiting }

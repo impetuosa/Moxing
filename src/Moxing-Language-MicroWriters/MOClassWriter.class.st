@@ -4,7 +4,7 @@ I write classes allow to include as much as my parent and constructors
 Class {
 	#name : #MOClassWriter,
 	#superclass : #MOClassTypeWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

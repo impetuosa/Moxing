@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'parameters'
 	],
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Statements'
 }
 
 { #category : #visiting }

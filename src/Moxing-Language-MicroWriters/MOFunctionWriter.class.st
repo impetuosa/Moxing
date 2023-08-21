@@ -4,7 +4,7 @@ I build functions and allow to add the same as my parent. I do allow to define a
 Class {
 	#name : #MOFunctionWriter,
 	#superclass : #MOSubProcedureWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

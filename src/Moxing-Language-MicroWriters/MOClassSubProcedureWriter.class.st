@@ -1,7 +1,7 @@
 Class {
 	#name : #MOClassSubProcedureWriter,
 	#superclass : #MOSubProcedureWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

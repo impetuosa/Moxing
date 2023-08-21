@@ -4,7 +4,7 @@ I write imports.
 Class {
 	#name : #MOImportWriter,
 	#superclass : #MOModelProceduralWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

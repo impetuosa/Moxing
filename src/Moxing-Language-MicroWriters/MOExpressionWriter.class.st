@@ -5,7 +5,7 @@ Class {
 		'shouldRegisterResult',
 		'writingRelation'
 	],
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Expressions'
 }
 
 { #category : #visiting }

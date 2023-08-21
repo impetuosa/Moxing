@@ -4,7 +4,7 @@ I do write decorators! typescript style
 Class {
 	#name : #MODecoratorWriter,
 	#superclass : #MOAnnotationWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

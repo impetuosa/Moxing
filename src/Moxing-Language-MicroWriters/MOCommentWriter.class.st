@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#statement => MOContainmentSlot one'
 	],
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Statements'
 }
 
 { #category : #initialization }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOForNextWriter,
 	#superclass : #MOLoopWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Statements'
 }
 
 { #category : #accessing }

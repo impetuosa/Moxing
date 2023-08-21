@@ -1,7 +1,7 @@
 Class {
 	#name : #MOLocalConstantWriter,
 	#superclass : #MOVariableWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

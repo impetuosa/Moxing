@@ -4,7 +4,7 @@ I do write if statements. This writer is used specially on updating structures
 Class {
 	#name : #MOIfElseWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Statements'
 }
 
 { #category : #visiting }

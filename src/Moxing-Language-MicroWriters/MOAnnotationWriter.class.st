@@ -4,7 +4,7 @@ I am an annotation writer. I now how to write and annotation instances and add t
 Class {
 	#name : #MOAnnotationWriter,
 	#superclass : #MOModelProceduralWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

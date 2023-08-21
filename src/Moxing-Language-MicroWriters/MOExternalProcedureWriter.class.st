@@ -1,7 +1,7 @@
 Class {
 	#name : #MOExternalProcedureWriter,
 	#superclass : #MOFunctionWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #initialization }

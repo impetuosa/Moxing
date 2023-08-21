@@ -1,7 +1,7 @@
 Class {
 	#name : #MOContinueWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Statements'
 }
 
 { #category : #writing }

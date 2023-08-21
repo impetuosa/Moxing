@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'onTop'
 	],
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

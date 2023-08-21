@@ -4,7 +4,7 @@ I do write paramteers . I allow the annotation of such a parameter
 Class {
 	#name : #MOParameterWriter,
 	#superclass : #MOVariableWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOJavaEnumWriter,
 	#superclass : #MOJavaClassWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #'as yet unclassified' }

@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'mustUpdateDependencies'
 	],
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

@@ -4,7 +4,7 @@ I build methods and allow to add the same as my parent
 Class {
 	#name : #MOMethodWriter,
 	#superclass : #MOFunctionWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

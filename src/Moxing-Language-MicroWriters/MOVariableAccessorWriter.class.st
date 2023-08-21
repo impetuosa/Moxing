@@ -1,7 +1,7 @@
 Class {
 	#name : #MOVariableAccessorWriter,
 	#superclass : #MOFunctionWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }

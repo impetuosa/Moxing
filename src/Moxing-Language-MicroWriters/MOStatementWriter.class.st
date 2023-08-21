@@ -6,7 +6,7 @@ I do not inform the statements to my aprent writer. I am mostlikely to work as a
 Class {
 	#name : #MOStatementWriter,
 	#superclass : #MOAbstractStatementWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Statements'
 }
 
 { #category : #visiting }

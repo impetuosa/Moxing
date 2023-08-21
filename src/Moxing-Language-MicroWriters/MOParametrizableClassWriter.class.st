@@ -1,7 +1,7 @@
 Class {
 	#name : #MOParametrizableClassWriter,
 	#superclass : #MOJavaClassWriter,
-	#category : #'Moxing-Language-MicroWriters'
+	#category : #'Moxing-Language-MicroWriters-Declarations'
 }
 
 { #category : #visiting }
