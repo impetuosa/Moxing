@@ -98,7 +98,9 @@ MOConstructorWriter >> writeParameter: aBlock [
 ]
 
 { #category : #writing }
-MOConstructorWriter >> writeTypeParameter: aFullBlockClosure [ 
+MOConstructorWriter >> writeTypeParameter: aFullBlockClosure [
 
+	<doc:
+	'Writes a parameter type within a the context of a constructor.'>
 	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]

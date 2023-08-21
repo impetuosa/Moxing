@@ -36,6 +36,6 @@ MOEventWriter >> selector: aSelector [
 
 { #category : #writing }
 MOEventWriter >> writeParameter: aBlock [
-
+	<doc: 'Writes a parameter within a the context of an event.'>
 	^ self write: aBlock inSubWriter: MOParameterWriter
 ]

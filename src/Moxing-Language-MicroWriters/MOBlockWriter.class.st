@@ -117,14 +117,16 @@ MOBlockWriter >> writeBlock: aFullBlockClosure [
 
 { #category : #writing }
 MOBlockWriter >> writeComment: aFullBlockClosure [
-  | stmnt |
-  stmnt := self write: aFullBlockClosure inSubWriter: MOCommentWriter.
-  ^stmnt
+
+	<doc: 'Writes comment within a the context of a block.'>
+	| stmnt |
+	stmnt := self write: aFullBlockClosure inSubWriter: MOCommentWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
 MOBlockWriter >> writeDoUntil: aBlock [
-
+	<doc: 'Writes do-until within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MODoUntilWriter.
 	^ stmnt
@@ -132,7 +134,7 @@ MOBlockWriter >> writeDoUntil: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeDoWhile: aBlock [
-
+	<doc: 'Writes do-while within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MODoWhileWriter.
 	^ stmnt
@@ -140,7 +142,7 @@ MOBlockWriter >> writeDoWhile: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeExit: aFullBlockClosure [ 
-
+	<doc: 'Writes exit within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aFullBlockClosure inSubWriter: MOExitWriter .
 	^ stmnt
@@ -149,6 +151,7 @@ MOBlockWriter >> writeExit: aFullBlockClosure [
 { #category : #writing }
 MOBlockWriter >> writeExpressionStatement: aFullBlockClosure [
 
+	<doc: 'Writes expression within a the context of a block.'>
 	| stmnt |
 	stmnt := self
 		         write: aFullBlockClosure
@@ -158,7 +161,7 @@ MOBlockWriter >> writeExpressionStatement: aFullBlockClosure [
 
 { #category : #writing }
 MOBlockWriter >> writeFirstStatement: aBlock [
-
+	<doc: 'Writes the first statement within a the context of a block.'>
 	^ self addFirstStatement:
 		  (self write: aBlock inSubWriter: MOStatementWriter)
 ]
@@ -166,6 +169,7 @@ MOBlockWriter >> writeFirstStatement: aBlock [
 { #category : #writing }
 MOBlockWriter >> writeFor: aBlock [
 
+	<doc: 'Writes for within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOForWriter.
 	^ stmnt
@@ -174,6 +178,7 @@ MOBlockWriter >> writeFor: aBlock [
 { #category : #writing }
 MOBlockWriter >> writeForEach: aBlock [
 
+	<doc: 'Writes for-each within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOForEachWriter.
 	^ stmnt
@@ -182,6 +187,7 @@ MOBlockWriter >> writeForEach: aBlock [
 { #category : #writing }
 MOBlockWriter >> writeForNext: aBlock [
 
+	<doc: 'Writes for-next within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOForNextWriter.
 	^ stmnt
@@ -189,7 +195,7 @@ MOBlockWriter >> writeForNext: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeGoSub: aBlock [
-
+	<doc: 'Writes go-sub within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOGoSubWriter.
 	^ stmnt
@@ -198,6 +204,7 @@ MOBlockWriter >> writeGoSub: aBlock [
 { #category : #writing }
 MOBlockWriter >> writeGoTo: aBlock [
 
+	<doc: 'Writes go-to within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOGoToWriter.
 	^ stmnt
@@ -205,7 +212,7 @@ MOBlockWriter >> writeGoTo: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeIfElse: aBlock [
-
+	<doc: 'Writes IF within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOIfElseWriter.
 	^ stmnt
@@ -213,7 +220,7 @@ MOBlockWriter >> writeIfElse: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeLabel: aBlock [
-
+	<doc: 'Writes label within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOLabelWriter.
 	^ stmnt
@@ -221,21 +228,25 @@ MOBlockWriter >> writeLabel: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeLastStatement: aBlock [
-
+	<doc: 'Writes the last statement within a the context of a block.'>
 	^ self addLastStatement:
 		  (self write: aBlock inSubWriter: MOStatementWriter)
 ]
 
 { #category : #writing }
-MOBlockWriter >> writeOnErrorGoTo: aFullBlockClosure [ 
-	| stmnt |
-	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorGoToWriter.
-	^ stmnt
+MOBlockWriter >> writeOnErrorGoTo: aFullBlockClosure [
 
+	<doc: 'Writes on-error-go-to within a the context of a block.'>
+	| stmnt |
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOOnErrorGoToWriter.
+	^ stmnt
 ]
 
 { #category : #writing }
 MOBlockWriter >> writeOnErrorResumeNext: aFullBlockClosure [ 
+	<doc: 'Writes on-error-resume-next within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aFullBlockClosure inSubWriter: MOOnErrorResumeNextWriter.
 	^ stmnt
@@ -244,7 +255,7 @@ MOBlockWriter >> writeOnErrorResumeNext: aFullBlockClosure [
 
 { #category : #writing }
 MOBlockWriter >> writeRedimVariable: aBlock [
-
+	<doc: 'Writes ReDim within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MORedimVariableWriter.
 	^ stmnt
@@ -252,7 +263,7 @@ MOBlockWriter >> writeRedimVariable: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeResume: aBlock [
-
+	<doc: 'Writes resume within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOResumeWriter.
 	^ stmnt
@@ -260,7 +271,7 @@ MOBlockWriter >> writeResume: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeReturn: aBlock [
-
+	<doc: 'Writes return within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOReturnWriter.
 	^ stmnt
@@ -268,23 +279,26 @@ MOBlockWriter >> writeReturn: aBlock [
 
 { #category : #enumerating }
 MOBlockWriter >> writeSelect: aBlock [
-
+	<doc: 'Writes select within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOSelectWriter.
 	^ stmnt
 ]
 
 { #category : #writing }
-MOBlockWriter >> writeSetToReturn: aFullBlockClosure [ 
-	
+MOBlockWriter >> writeSetToReturn: aFullBlockClosure [
+
+	<doc: 'Writes set-to-return within a the context of a block.'>
 	| stmnt |
-	stmnt := self write: aFullBlockClosure inSubWriter: MOSetToReturnWriter.
+	stmnt := self
+		         write: aFullBlockClosure
+		         inSubWriter: MOSetToReturnWriter.
 	^ stmnt
 ]
 
 { #category : #writing }
 MOBlockWriter >> writeStatement: aBlock [
-
+	<doc: 'Writes statement within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOStatementWriter.
 	^ stmnt
@@ -293,6 +307,7 @@ MOBlockWriter >> writeStatement: aBlock [
 { #category : #enumerating }
 MOBlockWriter >> writeStatementDeclaration: aBlock [
 
+	<doc: 'Writes statement-declaration within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOStatementDeclarationWriter.
 	^ stmnt
@@ -300,6 +315,7 @@ MOBlockWriter >> writeStatementDeclaration: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeTryCatch: aFullBlockClosure [ 
+	<doc: 'Writes try-catch within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aFullBlockClosure inSubWriter: MOTryCatchWriter.
 	^ stmnt
@@ -308,6 +324,7 @@ MOBlockWriter >> writeTryCatch: aFullBlockClosure [
 { #category : #writing }
 MOBlockWriter >> writeVariable: aBlock [
 
+	<doc: 'Writes variable within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOVariableWriter.
 	^ stmnt
@@ -315,7 +332,7 @@ MOBlockWriter >> writeVariable: aBlock [
 
 { #category : #writing }
 MOBlockWriter >> writeWhile: aBlock [
-
+	<doc: 'Writes while within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOWhileWriter.
 	^ stmnt
@@ -324,6 +341,7 @@ MOBlockWriter >> writeWhile: aBlock [
 { #category : #writing }
 MOBlockWriter >> writeWith: aFullBlockClosure [
 
+	<doc: 'Writes with within a the context of a block.'>
 	| stmnt |
 	stmnt := self write: aFullBlockClosure inSubWriter: MOWithWriter.
 	^ stmnt

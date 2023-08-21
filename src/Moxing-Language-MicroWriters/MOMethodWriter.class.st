@@ -61,11 +61,12 @@ MOMethodWriter >> selector: aSelector [
 { #category : #writing }
 MOMethodWriter >> writeAnnotation: aFullBlockClosure [
 
+	<doc: 'Writes an annotation within a the context of a method.'>
 	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]
 
 { #category : #writing }
 MOMethodWriter >> writeTypeParameter: aFullBlockClosure [
-
+	<doc: 'Writes a type parameter within a the context of a method.'>
 	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]

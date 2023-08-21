@@ -30,18 +30,19 @@ MOLibraryWriter >> initializeWriteBuilder [
 
 { #category : #writing }
 MOLibraryWriter >> writeAttribute: aBlock [
+	<doc: 'Writes an attribute within a Library.'>
 	^ self write: aBlock inSubWriter: MOAttributeWriter
 ]
 
 { #category : #writing }
 MOLibraryWriter >> writeEnum: aFullBlockClosure [
-
+	<doc: 'Writes an enum within a Library.'>
 	^ self write: aFullBlockClosure inSubWriter: MOEnumWriter
 ]
 
 { #category : #writing }
 MOLibraryWriter >> writeFunction: aBlock [
-
+	<doc: 'Writes an function within a Library.'>
 	^ self
 		  write: [ :function | 
 			  function setStaticBinding.

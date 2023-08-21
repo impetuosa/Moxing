@@ -48,6 +48,8 @@ MOInvocableWriter >> visibility: aString [
 { #category : #writing }
 MOInvocableWriter >> writeBlock: aBlock [
 
+	<doc:
+	'Writes a block within a the context of an invocable (function, method, etc).'>
 	^ self
 		  write: aBlock
 		  inSubWriter: MOBlockWriter
@@ -56,6 +58,6 @@ MOInvocableWriter >> writeBlock: aBlock [
 
 { #category : #writing }
 MOInvocableWriter >> writeParameter: aBlock [
-
+		<doc: 'Writes a parameter within a the context of an invocable (function, method, etc).'>
 	^ self write: aBlock inSubWriter: MOParameterWriter
 ]

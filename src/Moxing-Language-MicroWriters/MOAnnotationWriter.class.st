@@ -90,6 +90,6 @@ MOAnnotationWriter >> typeReference: aMOTypeReference [
 
 { #category : #writing }
 MOAnnotationWriter >> writeAnnotation: aFullBlockClosure [
-
+	<doc: 'Writes an annotation writer in the context of an annotation.'>
 	^ self write: aFullBlockClosure inSubWriter: MOAnnotationWriter
 ]

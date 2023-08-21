@@ -1,3 +1,7 @@
+"
+I represent a set of language semantic constraints establishing if each specific relation between two objects is or not correct. 
+I base my behaviour by delegating to an ontology which works as an oracle.
+"
 Class {
 	#name : #MOOntologicalConstraint,
 	#superclass : #MOLanguageConstraint,
@@ -9,7 +13,7 @@ Class {
 
 { #category : #accessing }
 MOOntologicalConstraint >> can: anObject beDescribedBy: anOtherObject with: aSlot [
-
+	<doc: 'Responds if an object can be linked as property to an other object using a specific slot'>
 	^ self can: anObject use: anOtherObject with: aSlot
 ]
 
@@ -21,25 +25,25 @@ MOOntologicalConstraint >> can: anObject beParentedBy: anOtherObject with: aSlot
 
 { #category : #accessing }
 MOOntologicalConstraint >> can: anObject declare: anOtherObject with: aSlot [
-
+	<doc: 'Responds if an object can be linked as declaration to an other object using a specific slot'>
 	^ self can: anObject use: anOtherObject with: aSlot
 ]
 
 { #category : #accessing }
 MOOntologicalConstraint >> can: anObject express: anOtherObject with: aSlot [
-
+	<doc: 'Responds if an object can be linked as expression to an other object using a specific slot'>
 	^ self can: anObject use: anOtherObject with: aSlot
 ]
 
 { #category : #accessing }
 MOOntologicalConstraint >> can: anObject refer: anOtherObject with: aSlot [
-
+	<doc: 'Responds if an object can be linked as refer to an other object using a specific slot'>
 	^ self can: anObject use: anOtherObject with: aSlot
 ]
 
 { #category : #accessing }
 MOOntologicalConstraint >> can: anObject state: anOtherObject with: aSlot [
-
+	<doc: 'Responds if an object can be linked as states to an other object using a specific slot'>
 	^ self can: anObject use: anOtherObject with: aSlot
 ]
 
@@ -70,7 +74,7 @@ MOOntologicalConstraint >> can: anObject use: anOtherObject with: aSlot [
 
 { #category : #accessing }
 MOOntologicalConstraint >> can: anObject useAsReferee: anOtherObject with: aSlot [
-
+	<doc: 'Responds if an object can be linked as referee to an other object using a specific slot'>
 	^ self can: anObject use: anOtherObject with: aSlot
 ]
 

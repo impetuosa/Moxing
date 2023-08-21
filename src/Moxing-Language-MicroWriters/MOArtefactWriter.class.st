@@ -55,23 +55,27 @@ MOArtefactWriter >> privateWriteToSurface: anEntity [
 { #category : #writing }
 MOArtefactWriter >> writeAlias: aBlock [
 
+	<doc: 'Writes an alias within a Library/Project.'>
 	^ self write: aBlock inSubWriter: MOAliasWriter
 ]
 
 { #category : #writing }
 MOArtefactWriter >> writeDeclarationUnit: aBlock [
 
+	<doc: 'Writes a declaration unit within a Library/Project.'>
 	^ self write: aBlock inSubWriter: MODeclarationUnitWriter
 ]
 
 { #category : #writing }
 MOArtefactWriter >> writePrimitiveType: aFullBlockClosure [
 
+	<doc: 'Writes a primitive type within a Library/Project.'>
 	^ self write: aFullBlockClosure inSubWriter: MOPrimitiveTypeWriter
 ]
 
 { #category : #writing }
 MOArtefactWriter >> writeStructure: aBlock [
 
+	<doc: 'Writes a structure within a Library/Project.'>
 	^ self write: aBlock inSubWriter: MOStructureWriter
 ]

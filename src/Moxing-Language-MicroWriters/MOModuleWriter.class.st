@@ -91,42 +91,44 @@ MOModuleWriter >> privateWriteToSurface: anEntity [
 { #category : #writing }
 MOModuleWriter >> writeAttribute: aBlock [
 
+	<doc: 'Writes an attribute within a the context of a module.'>
 	^ self writeGlobalVariable: aBlock
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeAttributeAccessor: aFullBlockClosure [
-
+	<doc: 'Writes an attribute accessor within a the context of a module.'>
 	^ self writeVariableAccessor: aFullBlockClosure
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeConstant: aFullBlockClosure [
-
+	<doc: 'Writes an constant within a the context of a module.'>
 	^ self writeGlobalConstant: aFullBlockClosure
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeExternalFunction: aFullBlockClosure [
 
+	<doc: 'Writes an external function within a the context of a module.'>
 	^ self write: aFullBlockClosure inSubWriter: MOExternalFunctionWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeExternalProcedure: aFullBlockClosure [
-
+	<doc: 'Writes an external procedure within a the context of a module.'>
 	^ self write: aFullBlockClosure inSubWriter: MOExternalProcedureWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeFunction: aBlock [
-
+	<doc: 'Writes a function within a the context of a module.'>
 	^ self write: aBlock inSubWriter: MOFunctionWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeGlobalConstant: aFullBlockClosure [ 
-
+	<doc: 'Writes a golboal constant within a the context of a module.'>
 	| stmnt |
 
 	stmnt := self write: aFullBlockClosure inSubWriter: MOGlobalConstantWriter.
@@ -135,12 +137,13 @@ MOModuleWriter >> writeGlobalConstant: aFullBlockClosure [
 
 { #category : #writing }
 MOModuleWriter >> writeGlobalVariable: aBlock [
+	<doc: 'Writes a global variable within a the context of a module.'>
 	^ self write: aBlock inSubWriter: MOGlobalVariableWriter 
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeLocalConstant: aBlock [
-
+	<doc: 'Writes a local constant within a the context of a module.'>
 	| stmnt |
 	stmnt := self write: aBlock inSubWriter: MOLocalConstantWriter.
 	^ stmnt
@@ -148,17 +151,19 @@ MOModuleWriter >> writeLocalConstant: aBlock [
 
 { #category : #writing }
 MOModuleWriter >> writeStructure: aBlock [
-
+	<doc: 'Writes a strcuture within a the context of a module.'>
 	^ self write: aBlock inSubWriter: MOStructureWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeSubprocedure: aBlock [
-
+	<doc: 'Writes a subprocedure within a the context of a module.'>
 	^ self write: aBlock inSubWriter: MOSubProcedureWriter
 ]
 
 { #category : #writing }
 MOModuleWriter >> writeVariableAccessor: aFullBlockClosure [
+
+	<doc: 'Writes a variable accessor  within a the context of a module.'>
 	^ self write: aFullBlockClosure inSubWriter: MOVariableAccessorWriter
 ]

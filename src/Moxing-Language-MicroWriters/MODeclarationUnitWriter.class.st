@@ -136,60 +136,61 @@ MODeclarationUnitWriter >> updateDependencies [
 { #category : #writing }
 MODeclarationUnitWriter >> writeClass: aBlock [
 
+	<doc: 'Writes class within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOClassWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeClassType: aBlock [
-
+	<doc: 'Writes class-type within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOClassTypeWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeEnum: aFullBlockClosure [
-
+	<doc: 'Writes enum within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOEnumWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeFileImport: aFullBlockClosure [
-
+	<doc: 'Writes file-import within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOFileImportWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeForm: aFullBlockClosure [
-
+	<doc: 'Writes Form within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOFormWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeImport: aFullBlockClosure [
-
+	<doc: 'Writes import within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOImportWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeJavaClass: aBlock [
-
+	<doc: 'Writes Java Class within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOJavaClassWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeJavaClassType: aBlock [
-
+	<doc: 'Writes java interface (class type) within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOJavaClassTypeWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeJavaEnum: aFullBlockClosure [
-
+	<doc: 'Writes enum within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOJavaEnumWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeModule: aFullBlockClosure [
-
+	<doc: 'Writes module within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOModuleWriter
 ]
 
@@ -203,48 +204,48 @@ MODeclarationUnitWriter >> writePackageNamed: aString ifDoesNotExistUsing: aFull
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeParametrizableClass: aFullBlockClosure [ 
-
+	<doc: 'Writes class with generics within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOParametrizableClassWriter  
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeParametrizableClassType: aBlock [
-
+	<doc: 'Writes intercace with generics within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOParametrizableClassTypeWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeQuery: aFullBlockClosure [
-
+	<doc: 'Writes query within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOQueryWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeReport: aFullBlockClosure [ 
-
+	<doc: 'Writes Report within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOReportWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeStClass: aBlock [
-
+	<doc: 'Writes Smalltalk class within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOStClassWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeStructure: aBlock [
-
+	<doc: 'Writes Structure within a the context of a Declaration Unit.'>
 	^ self write: aBlock inSubWriter: MOStructureWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeTable: aFullBlockClosure [
-
+	<doc: 'Writes Table within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOTableWriter
 ]
 
 { #category : #writing }
 MODeclarationUnitWriter >> writeTypescriptClass: aFullBlockClosure [ 
-
+	<doc: 'Writes Typescript class within a the context of a Declaration Unit.'>
 	^ self write: aFullBlockClosure inSubWriter: MOTypescriptClassWriter
 ]

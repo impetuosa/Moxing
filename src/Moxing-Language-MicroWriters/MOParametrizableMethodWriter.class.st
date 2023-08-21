@@ -24,6 +24,6 @@ MOParametrizableMethodWriter >> initializeWriteBuilder [
 
 { #category : #writing }
 MOParametrizableMethodWriter >> writeTypeParameter: aFullBlockClosure [ 
-
+	<doc: 'Writes type parameter within a the context of a method.'>
 	^ self write: aFullBlockClosure inSubWriter: MOTypeParameterWriter
 ]
