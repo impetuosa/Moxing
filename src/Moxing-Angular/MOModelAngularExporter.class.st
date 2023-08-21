@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelAngularExporter,
 	#superclass : #MOModelDraftExporter,
-	#category : #'Moxing-Core'
+	#category : #'Moxing-Angular'
 }
 
 { #category : #visiting }

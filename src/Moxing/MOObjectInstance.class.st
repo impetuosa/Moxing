@@ -1,3 +1,6 @@
+"
+Object instance. I represent instances. 
+"
 Class {
 	#name : #MOObjectInstance,
 	#superclass : #Object,

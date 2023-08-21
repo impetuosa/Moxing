@@ -1,3 +1,6 @@
+"
+Basic abstract class to all the models 
+"
 Class {
 	#name : #MOObject,
 	#superclass : #Object,
@@ -52,7 +55,7 @@ MOObject >> acceptVisitor: aVisitor [
 	self subclassResponsibility 
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allCandidateRelations [
 
 	^ (self class allSlots select: [ :slot | 
@@ -60,7 +63,7 @@ MOObject >> allCandidateRelations [
 		  slot readAllRelations: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allCandidates [
 
 	^ (self class allSlots select: [ :slot | 
@@ -68,20 +71,20 @@ MOObject >> allCandidates [
 		  slot readAll: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allContainments [
 
 	^ self allDeclares, self allStates
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allDeclares [
 
 	^ (self class allSlots select: [ :slot | slot class = MODeclaresSlot ]) 
 		  flatCollect: [ :slot | slot readAll: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allDeclaresRelations [
 
 	^ (self class allSlots select: [ :slot | 
@@ -89,7 +92,7 @@ MOObject >> allDeclaresRelations [
 		  slot readAllRelations: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allExpressesRelations [
 
 	^ (self class allSlots select: [ :slot | 
@@ -97,7 +100,7 @@ MOObject >> allExpressesRelations [
 		  slot readAllRelations: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allExpressionRelationsSelectValue: aBlock [
 
 	^ (self class allSlots select: [ :slot | 
@@ -105,7 +108,7 @@ MOObject >> allExpressionRelationsSelectValue: aBlock [
 		  slot readAllRelations: self selecting: aBlock ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allExpressions [
 
 	^ ((self class allSlots select: [ :slot | 
@@ -113,7 +116,7 @@ MOObject >> allExpressions [
 		   slot readAll: self ]) 
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allOntologicalRelations [
 
 	^ self allParentRelations , self allDeclaresRelations
@@ -122,7 +125,7 @@ MOObject >> allOntologicalRelations [
 	  , self allCandidateRelations
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allParentRelations [
 
 	^ self class allSlots
@@ -135,7 +138,7 @@ MOObject >> allParentRelations [
 				  yourself ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allProperties [
 
 	^ (self class allSlots
@@ -143,7 +146,7 @@ MOObject >> allProperties [
 		  thenCollect: [ :slot | slot read: self ])  
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allPropertyRelations [
 
 	^ self class allSlots
@@ -156,21 +159,21 @@ MOObject >> allPropertyRelations [
 				  yourself ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allReferences [
 	^ (self class allSlots select: [ :slot | 
 		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
 		  slot readAll: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allRefersRelations [
 	^ (self class allSlots select: [ :slot | 
 		   slot class = MORefersSlot ]) flatCollect: [ :slot | 
 		  slot readAllRelations: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allRelations [
 
 	^ self allDeclaresRelations , self allStatesRelations
@@ -178,51 +181,51 @@ MOObject >> allRelations [
 	  , self allPropertyRelations , self allCandidateRelations
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allStates [
 
 	^ (self class allSlots select: [ :slot | slot class = MOStatesSlot ]) 
 		  flatCollect: [ :slot | slot readAll: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> allStatesRelations [
 
 	^ (self class allSlots select: [ :slot | slot class = MOStatesSlot ]) 
 		  flatCollect: [ :slot | slot readAllRelations: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> childrenForTree [
 
 	^ self allContainments removeDuplicates.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #comparing }
 MOObject >> compareName: aString [
 
 	^ self name = aString or: [ self name = (self sanitize: aString) ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> containsSourceCodeEntities [
 
 	^ false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #fixing }
 MOObject >> doForceNameToBeSanitized [
 	self isRenamable ifFalse: [ ^ self error: ' Cannot ' ].
 	self name: (self sanitize: self name)
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> existsOnlyInParentContext [
 
 	^ false
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> finalize [
 
 	| relations |
@@ -232,27 +235,27 @@ MOObject >> finalize [
 	self becomeForward: {}
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> fixture [
 
 	^( self class allSlots collect: [ :slot | 
 		  slot -> (slot isCorrect: self) ]) 
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> incorrectRelations [
 
 	^ (self class allSlots reject: [ :slot | slot isCorrect: self ]) 
 		  flatCollect: [ :s | s readAllRelations: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> incorrectSlots [
 
 	^ self class allSlots reject: [ :slot | slot isCorrect: self ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> initialize [
 
 	super initialize.
@@ -292,7 +295,7 @@ MOObject >> isClassType [
 	^ false .
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isCorrect [
 
 	| incorrect |
@@ -319,7 +322,7 @@ MOObject >> isDeclarationOrDeclarationUnit [
 	^ self isDeclaration or: [ self isDeclarationUnit ]
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isDeclarationUnit [
 
 	^ false
@@ -377,7 +380,7 @@ MOObject >> isMOLiteral [
 	^ false
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isMOObject [
 	^ true  
 ]
@@ -455,7 +458,7 @@ MOObject >> isReference [
 	^ false
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isRenamable [
 
 	^ self class isRenamable
@@ -467,12 +470,12 @@ MOObject >> isReturn [
 	^ false
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isRootDeclaration [ 
 	 ^ false
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isSameEntity: anOtherDeclaration [
 
 	^ self = anOtherDeclaration
@@ -490,7 +493,7 @@ MOObject >> isStatementExpression [
 	^ false
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> isStaticDefinition [
 	 ^ true 
 ]
@@ -557,7 +560,7 @@ MOObject >> parent: aParent [
 	parent := aParent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MOObject >> parentForContext [
 
 	^ (self parent isNil or: [ 
@@ -579,26 +582,26 @@ MOObject >> producesParseableCode [
 	^ false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MOObject >> relationNamed: aString [
 
 	^ (self relationsNamed: aString) first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 MOObject >> relationsNamed: aString [
 
 	^ (self class allSlots detect: [ :slot | slot name = aString ]) 
 		  readAllRelations: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 MOObject >> sanitize: aString [
 
 	^ self class sanitize: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 MOObject >> sanitizedName [
 
 	^ self sanitize: self name
@@ -609,7 +612,7 @@ MOObject >> setAsParentOf: aMOAnnotationInstance [
 	aMOAnnotationInstance parent: self 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 MOObject >> setterNameFor: aMOBlock [
 
 	| slots |
@@ -619,7 +622,7 @@ MOObject >> setterNameFor: aMOBlock [
 	^ slots first name , ':'
 ]
 
-{ #category : #traverse }
+{ #category : #query }
 MOObject >> shouldPopulateRelations [
 
 	^ true

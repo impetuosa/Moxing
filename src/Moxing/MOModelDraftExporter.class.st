@@ -1,3 +1,7 @@
+"
+I export a draft project.
+I export a project generating all the files as new. 
+"
 Class {
 	#name : #MOModelDraftExporter,
 	#superclass : #Object,

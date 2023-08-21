@@ -1,3 +1,6 @@
+"
+Any anchored entity. 
+"
 Class {
 	#name : #MOAnchoredDeclaration,
 	#superclass : #MOObject,

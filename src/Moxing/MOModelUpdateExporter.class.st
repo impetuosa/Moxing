@@ -1,3 +1,7 @@
+"
+I export a project updating.
+I modify any preexisting project. 
+"
 Class {
 	#name : #MOModelUpdateExporter,
 	#superclass : #Object,
