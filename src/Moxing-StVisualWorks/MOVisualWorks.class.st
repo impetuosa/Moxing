@@ -1,7 +1,7 @@
 Class {
 	#name : #MOVisualWorks,
 	#superclass : #MOSmalltalk,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-StVisualWorks-Language'
 }
 
 { #category : #accessing }

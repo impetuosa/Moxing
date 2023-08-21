@@ -1,7 +1,7 @@
 Class {
 	#name : #MOPharo,
 	#superclass : #MOSmalltalk,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-StPharo-Language'
 }
 
 { #category : #accessing }

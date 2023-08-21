@@ -1,7 +1,7 @@
 Class {
 	#name : #MOTypescriptModelReader,
 	#superclass : #MOModelReader,
-	#category : #'Moxing-Typescript'
+	#category : #'Moxing-Typescript-Loader'
 }
 
 { #category : #visiting }

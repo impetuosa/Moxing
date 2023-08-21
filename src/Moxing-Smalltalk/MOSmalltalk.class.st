@@ -1,5 +1,5 @@
 Class {
 	#name : #MOSmalltalk,
 	#superclass : #MOLanguage,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-Smalltalk-Language'
 }

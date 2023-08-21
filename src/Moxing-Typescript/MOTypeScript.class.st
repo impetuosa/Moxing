@@ -1,7 +1,7 @@
 Class {
 	#name : #MOTypeScript,
 	#superclass : #MOLanguage,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-Typescript-Language'
 }
 
 { #category : #accessing }

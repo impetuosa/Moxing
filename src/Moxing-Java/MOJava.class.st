@@ -1,7 +1,7 @@
 Class {
 	#name : #MOJava,
 	#superclass : #MOLanguage,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-Java-Language'
 }
 
 { #category : #accessing }

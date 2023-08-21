@@ -1,7 +1,7 @@
 Class {
 	#name : #MOAccess,
 	#superclass : #MOLanguage,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-Access-Language'
 }
 
 { #category : #testing }

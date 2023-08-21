@@ -1,7 +1,7 @@
 Class {
 	#name : #MOHtml,
 	#superclass : #MOLanguage,
-	#category : #'Moxing-LanguageModel-Model'
+	#category : #'Moxing-Angular-Language'
 }
 
 { #category : #testing }
