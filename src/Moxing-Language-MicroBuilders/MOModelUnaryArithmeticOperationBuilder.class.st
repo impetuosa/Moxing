@@ -6,7 +6,7 @@ I build Unary arithmetic operations:
 Class {
 	#name : #MOModelUnaryArithmeticOperationBuilder,
 	#superclass : #MOModelUnaryOperationBuilder,
-	#category : #'Moxing-Language-MicroBuilders-expressions'
+	#category : #'Moxing-Language-MicroBuilders-Expressions'
 }
 
 { #category : #'as yet unclassified' }

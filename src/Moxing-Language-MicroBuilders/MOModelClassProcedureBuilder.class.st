@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelClassProcedureBuilder,
 	#superclass : #MOModelProcedureBuilder,
-	#category : #'Moxing-Language-MicroBuilders-invocables'
+	#category : #'Moxing-Language-MicroBuilders-Invocables'
 }
 
 { #category : #asserting }

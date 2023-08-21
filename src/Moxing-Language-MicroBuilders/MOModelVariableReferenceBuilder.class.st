@@ -9,7 +9,7 @@ Class {
 		'candidate',
 		'kindOfEntry'
 	],
-	#category : #'Moxing-Language-MicroBuilders-variable-reference'
+	#category : #'Moxing-Language-MicroBuilders-Variable-reference'
 }
 
 { #category : #'as yet unclassified' }

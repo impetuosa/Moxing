@@ -1,7 +1,7 @@
 Class {
 	#name : #MOStMethodWriter,
 	#superclass : #MOMethodWriter,
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #visiting }

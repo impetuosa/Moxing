@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'dependencies'
 	],
-	#category : #'Moxing-Language-MicroBuilders-project'
+	#category : #'Moxing-Language-MicroBuilders-Project'
 }
 
 { #category : #accessing }

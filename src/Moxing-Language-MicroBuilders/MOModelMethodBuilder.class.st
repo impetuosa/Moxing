@@ -8,7 +8,7 @@ Class {
 		'thrownTypeReferences',
 		'annotationInstances'
 	],
-	#category : #'Moxing-Language-MicroBuilders-invocables'
+	#category : #'Moxing-Language-MicroBuilders-Invocables'
 }
 
 { #category : #adding }

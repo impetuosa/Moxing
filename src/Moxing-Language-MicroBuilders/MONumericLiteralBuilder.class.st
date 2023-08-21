@@ -8,7 +8,7 @@ I do not support fractions or other pharo values.
 Class {
 	#name : #MONumericLiteralBuilder,
 	#superclass : #MOLiteralBuilder,
-	#category : #'Moxing-Language-MicroBuilders-literals'
+	#category : #'Moxing-Language-MicroBuilders-Literals'
 }
 
 { #category : #accessing }

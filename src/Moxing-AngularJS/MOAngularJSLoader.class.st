@@ -7,7 +7,7 @@ Class {
 		'workingDirectory',
 		'modelNamed'
 	],
-	#category : #'Moxing-AngularJS'
+	#category : #'Moxing-AngularJS-Loader'
 }
 
 { #category : #'as yet unclassified' }

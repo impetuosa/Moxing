@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'receiverReference'
 	],
-	#category : #'Moxing-Language-MicroBuilders-activation-reference'
+	#category : #'Moxing-Language-MicroBuilders-Activation-reference'
 }
 
 { #category : #'as yet unclassified' }

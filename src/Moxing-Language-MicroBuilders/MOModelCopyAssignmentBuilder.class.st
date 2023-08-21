@@ -8,7 +8,7 @@ Class {
 		'build',
 		'anchor'
 	],
-	#category : #'Moxing-Language-MicroBuilders-core'
+	#category : #'Moxing-Language-MicroBuilders-Core'
 }
 
 { #category : #accessing }

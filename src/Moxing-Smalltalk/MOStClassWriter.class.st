@@ -1,7 +1,7 @@
 Class {
 	#name : #MOStClassWriter,
 	#superclass : #MOClassWriter,
-	#category : #'Moxing-Smalltalk-writer'
+	#category : #'Moxing-Smalltalk-Writer'
 }
 
 { #category : #visiting }

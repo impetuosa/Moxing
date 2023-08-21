@@ -8,7 +8,7 @@ Class {
 		'version',
 		'sharedVariables'
 	],
-	#category : #'Moxing-StVisualWorks-builder'
+	#category : #'Moxing-StVisualWorks-Builder'
 }
 
 { #category : #adding }

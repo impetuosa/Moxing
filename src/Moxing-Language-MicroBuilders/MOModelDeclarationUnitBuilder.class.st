@@ -11,7 +11,7 @@ Class {
 		'decorator',
 		'decorators'
 	],
-	#category : #'Moxing-Language-MicroBuilders-project'
+	#category : #'Moxing-Language-MicroBuilders-Project'
 }
 
 { #category : #adding }

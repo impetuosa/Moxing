@@ -1,6 +1,6 @@
 Trait {
 	#name : #MORBImportingTrait,
-	#category : #'Moxing-Smalltalk-importing ast'
+	#category : #'Moxing-Smalltalk-Importing ast'
 }
 
 { #category : #evaluating }

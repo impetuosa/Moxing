@@ -8,7 +8,7 @@ Class {
 		'#isPreexisting => MOPropertySlot',
 		'#sharedPoolReferences => MOExpressesSlot many'
 	],
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #accessing }

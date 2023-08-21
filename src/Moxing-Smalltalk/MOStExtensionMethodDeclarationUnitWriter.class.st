@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'addingMethods'
 	],
-	#category : #'Moxing-Smalltalk-writer'
+	#category : #'Moxing-Smalltalk-Writer'
 }
 
 { #category : #adding }

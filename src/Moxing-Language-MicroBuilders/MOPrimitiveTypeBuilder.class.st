@@ -8,7 +8,7 @@ Class {
 		'name',
 		'parent'
 	],
-	#category : #'Moxing-Language-MicroBuilders-types'
+	#category : #'Moxing-Language-MicroBuilders-Types'
 }
 
 { #category : #'as yet unclassified' }

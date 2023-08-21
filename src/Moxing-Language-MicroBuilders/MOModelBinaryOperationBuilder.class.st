@@ -9,7 +9,7 @@ Class {
 		'left',
 		'right'
 	],
-	#category : #'Moxing-Language-MicroBuilders-expressions'
+	#category : #'Moxing-Language-MicroBuilders-Expressions'
 }
 
 { #category : #accessing }

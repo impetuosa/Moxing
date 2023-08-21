@@ -6,7 +6,7 @@ Class {
 		'catches',
 		'finallyBlock'
 	],
-	#category : #'Moxing-Language-MicroBuilders-statements'
+	#category : #'Moxing-Language-MicroBuilders-Statements'
 }
 
 { #category : #adding }

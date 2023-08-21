@@ -8,7 +8,7 @@ Class {
 		'#version => MOPropertySlot',
 		'#sharedVariables => MODeclaresSlot many'
 	],
-	#category : #'Moxing-StVisualWorks-model'
+	#category : #'Moxing-StVisualWorks-Model'
 }
 
 { #category : #accessing }

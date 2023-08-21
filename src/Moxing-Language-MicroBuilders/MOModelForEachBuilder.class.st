@@ -9,7 +9,7 @@ Class {
 		'each',
 		'collection'
 	],
-	#category : #'Moxing-Language-MicroBuilders-control flow'
+	#category : #'Moxing-Language-MicroBuilders-Control flow'
 }
 
 { #category : #'as yet unclassified' }

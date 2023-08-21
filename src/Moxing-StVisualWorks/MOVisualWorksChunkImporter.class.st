@@ -12,7 +12,7 @@ Class {
 	#classInstVars : [
 		'siren'
 	],
-	#category : #'Moxing-StVisualWorks-chunk importer'
+	#category : #'Moxing-StVisualWorks-Chunk importer'
 }
 
 { #category : #accessing }

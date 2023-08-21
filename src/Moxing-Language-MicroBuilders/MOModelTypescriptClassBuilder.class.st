@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelTypescriptClassBuilder,
 	#superclass : #MOModelClassBuilder,
-	#category : #'Moxing-Language-MicroBuilders-types'
+	#category : #'Moxing-Language-MicroBuilders-Types'
 }
 
 { #category : #adding }

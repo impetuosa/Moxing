@@ -5,7 +5,7 @@ Class {
 		'types',
 		'staticInitializer'
 	],
-	#category : #'Moxing-Language-MicroBuilders-types'
+	#category : #'Moxing-Language-MicroBuilders-Types'
 }
 
 { #category : #accessing }

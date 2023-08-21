@@ -5,7 +5,7 @@ Class {
 		'#block => MODeclaresSlot one',
 		'#parameters => MODeclaresSlot many'
 	],
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #accessing }

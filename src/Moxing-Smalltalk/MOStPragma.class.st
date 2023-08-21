@@ -5,7 +5,7 @@ Class {
 		'#selector => MOPropertySlot',
 		'#arguments => MOExpressesSlot many'
 	],
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #accessing }

@@ -7,7 +7,7 @@ Class {
 		'#extensionClassMethods => MODeclaresSlot many',
 		'#packageReference => MORefersSlot one'
 	],
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #visiting }

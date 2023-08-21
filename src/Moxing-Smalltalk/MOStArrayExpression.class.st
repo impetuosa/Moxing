@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#elements => MOExpressesSlot many'
 	],
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #accessing }

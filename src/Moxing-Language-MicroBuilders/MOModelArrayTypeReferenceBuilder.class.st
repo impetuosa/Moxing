@@ -4,7 +4,7 @@ I build references to array types: Int[]
 Class {
 	#name : #MOModelArrayTypeReferenceBuilder,
 	#superclass : #MOModelParametrizedTypeReferenceBuilder,
-	#category : #'Moxing-Language-MicroBuilders-type-reference'
+	#category : #'Moxing-Language-MicroBuilders-Type-reference'
 }
 
 { #category : #'initialize-release' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelContinueBuilder,
 	#superclass : #MOModelBuilderDelegate,
-	#category : #'Moxing-Language-MicroBuilders-statements'
+	#category : #'Moxing-Language-MicroBuilders-Statements'
 }
 
 { #category : #asserting }

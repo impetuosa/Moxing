@@ -5,7 +5,7 @@ Class {
 		'parameters',
 		'block'
 	],
-	#category : #'Moxing-Language-MicroBuilders-statements'
+	#category : #'Moxing-Language-MicroBuilders-Statements'
 }
 
 { #category : #accessing }

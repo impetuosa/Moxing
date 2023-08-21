@@ -12,7 +12,7 @@ Class {
 	#classInstVars : [
 		'siren'
 	],
-	#category : #'Moxing-StPharo-importing'
+	#category : #'Moxing-StPharo-Importing'
 }
 
 { #category : #accessing }

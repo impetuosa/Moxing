@@ -8,7 +8,7 @@ Class {
 		'selector',
 		'arguments'
 	],
-	#category : #'Moxing-Language-MicroBuilders-activation-reference'
+	#category : #'Moxing-Language-MicroBuilders-Activation-reference'
 }
 
 { #category : #adding }

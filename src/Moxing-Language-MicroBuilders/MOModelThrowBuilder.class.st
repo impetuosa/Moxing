@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'argument'
 	],
-	#category : #'Moxing-Language-MicroBuilders-invocables'
+	#category : #'Moxing-Language-MicroBuilders-Invocables'
 }
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'file'
 	],
-	#category : #'Moxing-Language-MicroBuilders-statements'
+	#category : #'Moxing-Language-MicroBuilders-Statements'
 }
 
 { #category : #accessing }

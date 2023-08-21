@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'isPreexisting'
 	],
-	#category : #'Moxing-StVisualWorks-builder'
+	#category : #'Moxing-StVisualWorks-Builder'
 }
 
 { #category : #asserting }

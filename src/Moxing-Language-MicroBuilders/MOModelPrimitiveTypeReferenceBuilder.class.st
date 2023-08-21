@@ -4,7 +4,7 @@ I build references to primitive types
 Class {
 	#name : #MOModelPrimitiveTypeReferenceBuilder,
 	#superclass : #MOModelTypeReferenceBuilder,
-	#category : #'Moxing-Language-MicroBuilders-type-reference'
+	#category : #'Moxing-Language-MicroBuilders-Type-reference'
 }
 
 { #category : #'as yet unclassified' }

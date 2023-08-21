@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'expressions'
 	],
-	#category : #'Moxing-Language-MicroBuilders-literals'
+	#category : #'Moxing-Language-MicroBuilders-Literals'
 }
 
 { #category : #'as yet unclassified' }

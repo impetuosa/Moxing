@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'elements'
 	],
-	#category : #'Moxing-Smalltalk-builer'
+	#category : #'Moxing-Smalltalk-Builer'
 }
 
 { #category : #asserting }

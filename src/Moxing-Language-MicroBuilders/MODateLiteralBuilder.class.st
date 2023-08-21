@@ -1,7 +1,7 @@
 Class {
 	#name : #MODateLiteralBuilder,
 	#superclass : #MOLiteralBuilder,
-	#category : #'Moxing-Language-MicroBuilders-literals'
+	#category : #'Moxing-Language-MicroBuilders-Literals'
 }
 
 { #category : #accessing }

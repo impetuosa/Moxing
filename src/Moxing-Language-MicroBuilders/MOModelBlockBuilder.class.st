@@ -8,7 +8,7 @@ Class {
 		'statements',
 		'isAddingStatemntsAtFirst'
 	],
-	#category : #'Moxing-Language-MicroBuilders-core'
+	#category : #'Moxing-Language-MicroBuilders-Core'
 }
 
 { #category : #adding }

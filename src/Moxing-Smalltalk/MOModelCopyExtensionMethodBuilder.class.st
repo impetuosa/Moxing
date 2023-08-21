@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelCopyExtensionMethodBuilder,
 	#superclass : #MOModelCopy,
-	#category : #'Moxing-Smalltalk-builer'
+	#category : #'Moxing-Smalltalk-Builer'
 }
 
 { #category : #'as yet unclassified' }

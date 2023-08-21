@@ -1,7 +1,7 @@
 Class {
 	#name : #MOColorLiteralBuilder,
 	#superclass : #MOLiteralBuilder,
-	#category : #'Moxing-Language-MicroBuilders-literals'
+	#category : #'Moxing-Language-MicroBuilders-Literals'
 }
 
 { #category : #asserting }

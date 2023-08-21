@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'argumentTypeReferences'
 	],
-	#category : #'Moxing-Language-MicroBuilders-activation-reference'
+	#category : #'Moxing-Language-MicroBuilders-Activation-reference'
 }
 
 { #category : #asserting }

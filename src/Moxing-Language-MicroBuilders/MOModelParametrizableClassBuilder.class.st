@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'typeParameters'
 	],
-	#category : #'Moxing-Language-MicroBuilders-types'
+	#category : #'Moxing-Language-MicroBuilders-Types'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOBlockClosureWriter,
 	#superclass : #MOModelProceduralWriter,
-	#category : #'Moxing-Smalltalk-writer'
+	#category : #'Moxing-Smalltalk-Writer'
 }
 
 { #category : #visiting }

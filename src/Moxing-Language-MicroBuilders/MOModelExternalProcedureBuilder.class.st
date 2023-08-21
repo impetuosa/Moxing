@@ -5,7 +5,7 @@ Class {
 		'libraryName',
 		'librarySelector'
 	],
-	#category : #'Moxing-Language-MicroBuilders-invocables'
+	#category : #'Moxing-Language-MicroBuilders-Invocables'
 }
 
 { #category : #asserting }

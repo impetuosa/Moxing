@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'returns'
 	],
-	#category : #'Moxing-Language-MicroBuilders-statements'
+	#category : #'Moxing-Language-MicroBuilders-Statements'
 }
 
 { #category : #'as yet unclassified' }

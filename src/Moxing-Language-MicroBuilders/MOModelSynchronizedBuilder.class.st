@@ -5,7 +5,7 @@ Class {
 		'lockAccessExpression',
 		'block'
 	],
-	#category : #'Moxing-Language-MicroBuilders-control flow'
+	#category : #'Moxing-Language-MicroBuilders-Control flow'
 }
 
 { #category : #accessing }

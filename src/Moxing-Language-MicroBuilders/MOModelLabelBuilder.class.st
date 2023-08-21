@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelLabelBuilder,
 	#superclass : #MOModelLabelReferenceBuilder,
-	#category : #'Moxing-Language-MicroBuilders-statements'
+	#category : #'Moxing-Language-MicroBuilders-Statements'
 }
 
 { #category : #accessing }

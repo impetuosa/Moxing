@@ -1,7 +1,7 @@
 Class {
 	#name : #MOVisualWorksPackageWriter,
 	#superclass : #MOPackageWriter,
-	#category : #'Moxing-StVisualWorks-writer'
+	#category : #'Moxing-StVisualWorks-Writer'
 }
 
 { #category : #visiting }

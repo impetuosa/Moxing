@@ -13,7 +13,7 @@ Class {
 		'initializer',
 		'annotationInstances'
 	],
-	#category : #'Moxing-Language-MicroBuilders-variables'
+	#category : #'Moxing-Language-MicroBuilders-Variables'
 }
 
 { #category : #adding }

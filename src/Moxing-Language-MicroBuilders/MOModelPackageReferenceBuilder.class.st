@@ -10,7 +10,7 @@ Class {
 		'candidateAnchor',
 		'parent'
 	],
-	#category : #'Moxing-Language-MicroBuilders-project'
+	#category : #'Moxing-Language-MicroBuilders-Project'
 }
 
 { #category : #'as yet unclassified' }

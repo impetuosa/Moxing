@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'argumentTypeReferences'
 	],
-	#category : #'Moxing-Language-MicroBuilders-type-reference'
+	#category : #'Moxing-Language-MicroBuilders-Type-reference'
 }
 
 { #category : #accessing }

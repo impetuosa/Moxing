@@ -1,7 +1,7 @@
 Class {
 	#name : #MOModelEnumEntryBuilder,
 	#superclass : #MOModelLocalConstantBuilder,
-	#category : #'Moxing-Language-MicroBuilders-variables'
+	#category : #'Moxing-Language-MicroBuilders-Variables'
 }
 
 { #category : #asserting }

@@ -1,7 +1,7 @@
 Class {
 	#name : #MOMetaClass,
 	#superclass : #MOClass,
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #visiting }

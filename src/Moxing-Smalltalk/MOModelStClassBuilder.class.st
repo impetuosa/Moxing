@@ -11,7 +11,7 @@ Class {
 		'metaclassMethods',
 		'sharedPoolReferences'
 	],
-	#category : #'Moxing-Smalltalk-builer'
+	#category : #'Moxing-Smalltalk-Builer'
 }
 
 { #category : #asserting }

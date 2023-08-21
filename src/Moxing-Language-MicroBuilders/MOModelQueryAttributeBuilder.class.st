@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'reference'
 	],
-	#category : #'Moxing-Language-MicroBuilders-variables'
+	#category : #'Moxing-Language-MicroBuilders-Variables'
 }
 
 { #category : #asserting }

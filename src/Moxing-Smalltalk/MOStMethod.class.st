@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'#category => MOPropertySlot'
 	],
-	#category : #'Moxing-Smalltalk-model'
+	#category : #'Moxing-Smalltalk-Model'
 }
 
 { #category : #accessing }

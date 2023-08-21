@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'selectedKind'
 	],
-	#category : #'Moxing-Language-MicroBuilders-variable-reference'
+	#category : #'Moxing-Language-MicroBuilders-Variable-reference'
 }
 
 { #category : #accessing }
