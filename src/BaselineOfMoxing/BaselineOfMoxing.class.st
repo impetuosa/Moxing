@@ -79,13 +79,13 @@ BaselineOfMoxing >> dependencies: spec [
 
 	spec
 		baseline: 'SmaCC'
-		with: [ spec repository: 'github://impetuosa/SmaCC' ].
+		with: [ spec repository: 'gitlab://gitlab.forge.berger-levrault.com:bl-drit/bl.drit.experiments/software.engineering/microsoft-access-migration/SmaCC' ].
 	spec baseline: 'XMLParserHTML' with: [ 
 		spec repository:
 			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ].
 	spec
 		baseline: 'JinDao'
-		with: [ spec repository: 'github://impetuosa/Jindao' ]
+		with: [ spec repository: 'gitlab://gitlab.forge.berger-levrault.com:bl-drit/bl.drit.experiments/software.engineering/microsoft-access-migration/Jindao' ]
 ]
 
 { #category : #baselines }
