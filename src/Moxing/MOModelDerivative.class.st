@@ -15,7 +15,7 @@ Class {
 
 { #category : #query }
 MOModelDerivative >> allDeclarations [
-
+	<doc: 'Returns all the declarations, favoring the definition closer to this derivative model.'>
 	| refs |
 	refs := self declarations.
 	^ model allDeclarations collect: [ :deriveeModelRef | 
@@ -30,6 +30,8 @@ MOModelDerivative >> allDeclarations [
 { #category : #derivative }
 MOModelDerivative >> allDerivariveEntities [
 
+	<doc:
+	'Returns all the entities of this derivative models and the following chained models (derivative or not).'>
 	^ entities , model allDerivariveEntities
 ]
 
@@ -50,7 +52,7 @@ MOModelDerivative >> allEntitiesSelect: aFullBlockClosure [
 
 { #category : #query }
 MOModelDerivative >> allInvocations [
-
+	<doc: 'Returns all the invocations, favoring the definition closer to this derivative model.'>
 	| refs |
 	refs := self invocations.
 	^ (model allInvocations collect: [ :deriveeModelRef | 
@@ -64,13 +66,13 @@ MOModelDerivative >> allInvocations [
 
 { #category : #query }
 MOModelDerivative >> allLiterals [
-
+	<doc: 'Returns all the literals, favoring the definition closer to this derivative model.'>
 	^ (entities select: #isMOLiteral) , model allLiterals
 ]
 
 { #category : #query }
 MOModelDerivative >> allReferences [
-
+	<doc: 'Returns all the references, favoring the definition closer to this derivative model.'>
 	| refs |
 	refs := self references copy.
 	^ (model allReferences collect: [ :deriveeModelRef | 
@@ -84,13 +86,14 @@ MOModelDerivative >> allReferences [
 
 { #category : #query }
 MOModelDerivative >> allTypes [
-
+	<doc: 'Returns all the types, favoring the definition closer to this derivative model.'>
 	^ self types , model allTypes
 ]
 
 { #category : #query }
 MOModelDerivative >> allVersionsOf: aMOFunction [
 
+	<doc: 'Returns all the versions of a given element.'>
 	^ (entities select: [ :a | a isSameEntity: aMOFunction ])
 	  , (model allVersionsOf: aMOFunction)
 ]
@@ -118,12 +121,14 @@ MOModelDerivative >> catalogEntitiesSelect: aFullBlockClosure [
 { #category : #query }
 MOModelDerivative >> declarations [
 
+	<doc: 'Returns all the declarations of this derivative.'>
 	^ entities select: [ :e | e isDeclaration ]
 ]
 
 { #category : #derivative }
 MOModelDerivative >> derivative [
 
+	<doc: 'Returns a derivative model of a derivative model.'>
 	^ MOModelDerivative new
 		  model: self;
 		  yourself
@@ -131,7 +136,9 @@ MOModelDerivative >> derivative [
 
 { #category : #accessing }
 MOModelDerivative >> entities [
-	^  entities
+
+	<doc: 'Returns all the entities of this derivative.'>
+	^ entities
 ]
 
 { #category : #accessing }
@@ -178,7 +185,9 @@ MOModelDerivative >> hasBeenModified [
 
 { #category : #query }
 MOModelDerivative >> imports [
-	^ entities select: [ : e  | e isKindOf: MOImport ]
+
+	<doc: 'Returns all the imports of this derivative.'>
+	^ entities select: [ :e | e isKindOf: MOImport ]
 ]
 
 { #category : #testing }
@@ -206,6 +215,7 @@ MOModelDerivative >> instantiate: aClass [
 { #category : #query }
 MOModelDerivative >> invocations [
 
+	<doc: 'Returns all the invocations of this derivative.'>
 	^ entities select: [ :e | e isKindOf: MOInvocation ]
 ]
 
@@ -283,6 +293,7 @@ MOModelDerivative >> objectsSelect: aFullBlockClosure [
 { #category : #accessing }
 MOModelDerivative >> packages [
 
+	<doc: 'Returns all the packages of this derivative.'>
 	| packs submodulePacks newInThisModel |
 	packs := entities select: #isPackage.
 	submodulePacks := model packages.
@@ -328,7 +339,9 @@ MOModelDerivative >> realModel [
 
 { #category : #accessing }
 MOModelDerivative >> references [
-	^ entities select: [ : e | e isKindOf: MOReference ]
+
+	<doc: 'Returns all the references of this derivative.'>
+	^ entities select: [ :e | e isKindOf: MOReference ]
 ]
 
 { #category : #registry }
@@ -426,12 +439,14 @@ MOModelDerivative >> typeNamed: aString [
 { #category : #initialization }
 MOModelDerivative >> typeReferences [
 
+	<doc: 'Returns all the type references of this derivative.'>
 	^ entities select: [ :e | e isKindOf: MOTypeReference ]
 ]
 
 { #category : #query }
 MOModelDerivative >> types [
 
+	<doc: 'Returns all the types of this derivative.'>
 	^ entities select: [ :e | e isKindOf: MOType ]
 ]
 
@@ -478,13 +493,14 @@ MOModelDerivative >> updateDestinationSourceProjects [
 
 { #category : #query }
 MOModelDerivative >> variableReferences [
-
+		<doc: 'Returns all the variable references of this derivative.'>
 	^ entities select: [ :a | a isKindOf: MOVariableReference ]
 ]
 
 { #category : #writer }
 MOModelDerivative >> writer [
 
+	<doc: 'Returns a writer over this derivative models.'>
 	^ MOModelWriter new
 		  model: self;
 		  yourself

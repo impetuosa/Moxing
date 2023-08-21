@@ -1,3 +1,7 @@
+"
+Alce Report. I represent a Report. 
+
+"
 Class {
 	#name : #MOAlceReport,
 	#superclass : #MOClass,

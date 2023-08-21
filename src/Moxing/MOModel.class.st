@@ -32,6 +32,7 @@ MOModel >> aliasNamed: aString [
 
 { #category : #query }
 MOModel >> allDeclarations [
+	<doc: 'Query all the declarations defined within the model.'>
 
 	^ entities select: [ :e | e isDeclaration ]
 ]
@@ -56,6 +57,7 @@ MOModel >> allEntitiesSelect: aFullBlockClosure [
 
 { #category : #query }
 MOModel >> allInvocations [
+	<doc: 'Query all the invocations defined within the model.'>
 
 	^ entities select: [ :e | e isKindOf: MOInvocation ]
 ]
@@ -63,11 +65,13 @@ MOModel >> allInvocations [
 { #category : #query }
 MOModel >> allLiterals [
 
+	<doc: 'Query all the literals defined within the model.'>
 	^ entities select: [ :e | e isMOLiteral ]
 ]
 
 { #category : #query }
 MOModel >> allReferences [
+	<doc: 'Query all the referential objects defined within the model.'>
 
 	^ entities select: [ :e | e isKindOf: MOReference ]
 ]
@@ -81,6 +85,8 @@ MOModel >> allRelations [
 { #category : #query }
 MOModel >> allVersionsOf: aMOFunction [
 
+	<doc:
+	'Query all the elements which are equivalent to a given element.'>
 	^ entities select: [ :a | a isSameEntity: aMOFunction ]
 ]
 
@@ -108,13 +114,14 @@ MOModel >> catalogEntitiesSelect: aFullBlockClosure [
 
 { #category : #query }
 MOModel >> declarations [
+	<doc: 'Query all the declarations defined within the model.'>
 
 	^ entities select: [ :e | e isKindOf: MODeclaration ]
 ]
 
 { #category : #derivative }
 MOModel >> derivative [
-
+	<doc: 'Creates a derivative model. A derivative model is capable to scope modifications.'>
 	^ MOModelDerivative new
 		  model: self;
 		  yourself
@@ -134,6 +141,7 @@ MOModel >> exclusivelyincludes: aMOPrimitiveType [
 
 { #category : #query }
 MOModel >> expressions [
+	<doc: 'Query all the expressions defined within the model.'>
 
 	^ entities select: [ :a | a isExpression ]
 ]
@@ -169,6 +177,8 @@ MOModel >> finalizeMoxing [
 { #category : #query }
 MOModel >> incorrectEntities [
 
+	<doc:
+	'Query all entities which are incorrect, according to the language semantics'>
 	^ entities reject: [ :e | e isCorrect ]
 ]
 
@@ -214,6 +224,7 @@ MOModel >> isCatalog [
 
 { #category : #testing }
 MOModel >> isCorrect [
+	<doc: 'Tests if the model is correct or not. A model is correct if all the entities are correct (according to the language constraints). '>
 
 	| incorrect |
 	incorrect := entities reject: [ :slot | slot isCorrect ].
@@ -249,6 +260,7 @@ MOModel >> isModelOrDerivative [
 
 { #category : #query }
 MOModel >> libraries [
+	<doc: 'Query all the libraries defined within the model.'>
 
 	^ entities select: [ :a | a isKindOf: MOLibrary ]
 ]
@@ -256,6 +268,7 @@ MOModel >> libraries [
 { #category : #query }
 MOModel >> literals [
 
+	<doc: 'Query all the literals defined within the model.'>
 	^ entities select: #isMOLiteral
 ]
 
@@ -347,6 +360,7 @@ MOModel >> rootPackages [
 
 { #category : #save }
 MOModel >> saveAs: aString [
+	<doc: 'Save this model as STON file.'>
 
 	| stream |
 	aString asFileReference ensureDelete.
@@ -380,19 +394,20 @@ MOModel >> solveApplicationReferenceProblem [
 
 { #category : #testing }
 MOModel >> sourceCodeIsAvailable [
-
+	<doc: 'Tests if the model source directory exists.'>
 	^ fileReference exists
 ]
 
 { #category : #query }
 MOModel >> tablesAndQueries [
+	<doc: 'Query all the queries or tables defined within the model.'>
 
 	^ entities select: [ :a | a isQuery or: [ a isTable ] ]
 ]
 
-{ #category : #visiting }
+{ #category : #query }
 MOModel >> typeNamed: aString [
-
+	<doc: 'A single type named as given. The size must be 1.'>
 	| t |
 	t := self typesNamed: aString.
 
@@ -427,12 +442,15 @@ MOModel >> typeOrAliasNamed: aString library: aLibraryName [
 
 { #category : #query }
 MOModel >> typeReferences [
+	<doc: 'Query all the references to types defined within the model.'>
 
 	^ entities select: [ :e | e isKindOf: MOTypeReference ]
 ]
 
 { #category : #query }
 MOModel >> typesNamed: aString [
+	<doc: 'Query all the types named as given defined within the model.'>
+
 	^ entities select: [ :e | 
 		  ((e isKindOf: MOType) or: [ e isKindOf: MOModule ]) and: [ 
 			  e name = aString and: [ 
@@ -448,6 +466,7 @@ MOModel >> unknownType [
 
 { #category : #query }
 MOModel >> variableReferences [
+	<doc: 'Query all the references to variables defined within the model.'>
 
 	^ entities select: [ :a | a isKindOf: MOVariableReference ]
 ]
@@ -455,6 +474,8 @@ MOModel >> variableReferences [
 { #category : #writer }
 MOModel >> writer [
 
+	<doc:
+	'Creates a new model writer if the model is not read only. A model writer allows the user to update existing entities or create new entities.'>
 	self readOnly ifTrue: [ ^ self error: 'read only model' ].
 	^ MOModelWriter new
 		  model: self;

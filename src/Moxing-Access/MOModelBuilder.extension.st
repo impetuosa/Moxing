@@ -9,7 +9,6 @@ MOModelBuilder >> exitBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> fileLineInputBuilder [
-
 	^ MOModelFileLineInputBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -17,7 +16,6 @@ MOModelBuilder >> fileLineInputBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> fileOpenBuilder [
-
 	^ MOModelFileOpenBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -25,7 +23,6 @@ MOModelBuilder >> fileOpenBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> filePrintIntoBuilder [
-
 	^ MOModelFilePrintIntoBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -33,7 +30,6 @@ MOModelBuilder >> filePrintIntoBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> fileRenameBuilder [
-
 	^ MOModelFileRenameBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -41,7 +37,6 @@ MOModelBuilder >> fileRenameBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> foreignRelationBuilder [
-
 	^ MOModelForeingRelationBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -49,7 +44,6 @@ MOModelBuilder >> foreignRelationBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> foreignRelationMatchBuilder [
-
 	^ MOModelForeingRelationMatchBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -57,7 +51,6 @@ MOModelBuilder >> foreignRelationMatchBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> formBuilder [
-
 	^ MOModelFormBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -65,7 +58,6 @@ MOModelBuilder >> formBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> goSubBuilder [
-
 	^ MOModelGoSubBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -73,7 +65,6 @@ MOModelBuilder >> goSubBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> onErrorResumeNextBuilder [
-
 	^ MOModelOnErrorResumeNextBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;
@@ -82,7 +73,6 @@ MOModelBuilder >> onErrorResumeNextBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> redimVariableBuilder [
-
 	^ MOModelRedimVariableBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -90,7 +80,6 @@ MOModelBuilder >> redimVariableBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> reportBuilder [
-
 	^ MOModelReportBuilder new
 		  parentBuilder: self;
 		  yourself
@@ -106,7 +95,6 @@ MOModelBuilder >> resumeBuilder [
 
 { #category : #'*Moxing-Access' }
 MOModelBuilder >> resumeNextBuilder [
-
 	^ MOModelResumeNextBuilder new
 		  parentBuilder: self;
 		  baseAnchor: model anchor;

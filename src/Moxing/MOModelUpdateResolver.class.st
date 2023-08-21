@@ -22,6 +22,8 @@ MOModelUpdateResolver >> genericUpdate: aMOBinaryArithmeticOperation [
 { #category : #'as yet unclassified' }
 MOModelUpdateResolver >> resolveWriterFor: aProvenanceEntityRelation forUpdating: aDestinationContextRelation writingContext: aContextWriter do: aFullBlockClosure [
 
+	<doc:
+	'Updates target entity based on a source entity by applying a given block.  '>
 	writer := aContextWriter.
 	writingEntityRelation := aProvenanceEntityRelation.
 	writingBlock := aFullBlockClosure.

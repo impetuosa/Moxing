@@ -1,3 +1,6 @@
+"
+FK Relation in a table
+"
 Class {
 	#name : #MOForeignRelation,
 	#superclass : #MOExpression,

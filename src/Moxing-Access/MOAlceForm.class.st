@@ -1,3 +1,7 @@
+"
+Alce Form. I represent a Form. 
+
+"
 Class {
 	#name : #MOAlceForm,
 	#superclass : #MOClass,

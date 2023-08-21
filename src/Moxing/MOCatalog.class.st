@@ -222,7 +222,7 @@ MOCatalog >> rootPackages [
 
 { #category : #saving }
 MOCatalog >> saveAs: aString [
-
+	<doc: 'Saves the catalog as STON file.'>
 	| stream |
 	aString asFileReference ensureDelete.
 	stream := aString asFileReference writeStream.

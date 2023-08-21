@@ -44,13 +44,8 @@ MOModelCopy >> applyOnProperty: aMOObjectObjectRelation readingValues: aFullBloc
 { #category : #'as yet unclassified' }
 MOModelCopy >> applyOnReferee: aMOObjectObjectRelation readingValues: aChildDelegateLoadingBlock bindingWithCandidates: anOtherBlock into: aDestinationWriter [
 
-	| destination |
 	(aMOObjectObjectRelation from isKindOf: MOAnnotationInstance) 
-		ifFalse: [ self halt ]
-	"destination := aChildDelegateLoadingBlock
-		               cull: aDestinationWriter
-		               cull: aMOObjectObjectRelation.
-	aMOObjectObjectRelation write: destination to: aDestinationWriter"
+		ifFalse: [ self error: 'Unexpected referee.' ]
 ]
 
 { #category : #'as yet unclassified' }

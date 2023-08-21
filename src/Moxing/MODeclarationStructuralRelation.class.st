@@ -48,16 +48,20 @@ MODeclarationStructuralRelation >> acceptVisitor: aVisitor [
 
 { #category : #accessing }
 MODeclarationStructuralRelation >> from [
+
+	<doc: 'Returns the source (from) of the relationship.'>
 	^ from
 ]
 
 { #category : #accessing }
 MODeclarationStructuralRelation >> from: aMOAlias [ 
+	<doc: 'Sets the source (from) of the relationship.'>
 	from := aMOAlias
 ]
 
 { #category : #accessing }
 MODeclarationStructuralRelation >> from: aFrom to: aTo [ 
+	<doc: 'sets the source (from) and target (to) of the relationship.'>
 	from := aFrom. 
 	to := aTo
 ]
@@ -72,24 +76,25 @@ MODeclarationStructuralRelation >> hasValue [
 
 { #category : #testing }
 MODeclarationStructuralRelation >> isContainment [ 
+	<doc: 'Tests if the relation is a declaration relation.'>
 	 ^ slot class = MODeclaresSlot
 ]
 
 { #category : #testing }
 MODeclarationStructuralRelation >> isExpression [
-
+	<doc: 'Tests if the relation is a expression relation.'>
 	^ to isExpression
 ]
 
 { #category : #accessing }
 MODeclarationStructuralRelation >> isReference [
-
+	<doc: 'Tests if the relation is a referential relation.'>
 	^ to isReference
 ]
 
 { #category : #testing }
 MODeclarationStructuralRelation >> isToMany [
-
+	<doc: 'Responds if the relations is to many or not.'>
 	^ slot isToMany
 ]
 
@@ -120,12 +125,15 @@ MODeclarationStructuralRelation >> printOn: aStream [
 { #category : #'meta-object-protocol' }
 MODeclarationStructuralRelation >> read: aMOModelMethodBuilder [
 
+	<doc: 'Reads the content from a gven object.'>
 	^ aMOModelMethodBuilder perform: slot name
 ]
 
 { #category : #testing }
 MODeclarationStructuralRelation >> relationName [
-  ^slot name
+
+	<doc: 'Relation name.'>
+	^ slot name
 ]
 
 { #category : #accessing }
@@ -140,12 +148,14 @@ MODeclarationStructuralRelation >> slot: aMOContainmentSlot [
 
 { #category : #accessing }
 MODeclarationStructuralRelation >> to [
+	<doc: 'returns the target (to) of the relationship.'>
 	^ to
 ]
 
 { #category : #accessing }
 MODeclarationStructuralRelation >> to: aMOClass [
 
+	<doc: 'sets the target (to) of the relationship.'>
 	(aMOClass = nil and: [ 
 		 ({ 
 			  MOPropertySlot.
@@ -157,6 +167,7 @@ MODeclarationStructuralRelation >> to: aMOClass [
 { #category : #writing }
 MODeclarationStructuralRelation >> write: anObject to: aDestination [
 
+	<doc: 'Sets the given object into a destination.'>
 	slot isToMany ifTrue: [ 
 		((self read: aDestination) includes: anObject) ifTrue: [ self halt ].
 		slot shouldAccept: anObject into: aDestination.

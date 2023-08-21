@@ -1,3 +1,7 @@
+"
+Alce Query. I represent a Query. 
+
+"
 Class {
 	#name : #MOAlceQuery,
 	#superclass : #MOClass,

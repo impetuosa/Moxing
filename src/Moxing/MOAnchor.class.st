@@ -19,6 +19,7 @@ MOAnchor class >> on: aString [
 
 { #category : #arithmetic }
 MOAnchor >> / aString [
+	<doc: 'Returns a new anchor, adding a new fragment aString.'>
 	| new fragment |
 	new := self class new.
 	fragment := self scapeSlash: (aString adaptToAlceAnchorPathFragment) .

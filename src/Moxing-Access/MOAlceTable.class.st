@@ -1,3 +1,7 @@
+"
+Alce Table. I represent a Table. 
+
+"
 Class {
 	#name : #MOAlceTable,
 	#superclass : #MOClass,

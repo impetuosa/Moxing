@@ -711,6 +711,9 @@ MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntity
 { #category : #'as yet unclassified' }
 MOModelWriter >> updaterFor: aDestinationContextRelation with: aProvenanceEntityRelation do: anUpdatingBlock [
 
+	<doc:
+	'Update a target relation based on a source relation, using an updating block. 
+	 .'>
 	| result |
 	result := MOModelUpdateResolver new
 		          resolveWriterFor: aProvenanceEntityRelation

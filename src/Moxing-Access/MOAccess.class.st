@@ -1,3 +1,6 @@
+"
+I represent the MOAccess language. 
+"
 Class {
 	#name : #MOAccess,
 	#superclass : #MOLanguage,
