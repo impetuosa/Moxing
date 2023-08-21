@@ -17,7 +17,7 @@ Function factorial (i as Integer) as Integer
  Else
  return i * (factorial( i - 1))
  End If
- End Function
+End Function
 ```
 
 Java version
