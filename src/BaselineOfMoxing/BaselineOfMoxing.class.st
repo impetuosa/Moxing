@@ -9,7 +9,7 @@ BaselineOfMoxing >> access: spec [
 
 	spec
 		package: 'Moxing-Access'
-		with: [ spec requires: #( Moxing 'JinDao' ) ]
+		with: [ spec requires: #( Moxing 'Jindao' ) ]
 ]
 
 { #category : #baselines }
