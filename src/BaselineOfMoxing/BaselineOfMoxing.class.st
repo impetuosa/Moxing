@@ -8,7 +8,7 @@ Class {
 BaselineOfMoxing >> access: spec [
 
 	spec
-		package: 'Moxing-Alce'
+		package: 'Moxing-Access'
 		with: [ spec requires: #( Moxing 'JinDao' ) ]
 ]
 
