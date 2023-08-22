@@ -84,7 +84,7 @@ BaselineOfMoxing >> dependencies: spec [
 		spec repository:
 			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ].
 	spec
-		baseline: 'JinDao'
+		baseline: 'Jindao'
 		with: [ spec repository: 'github://impetuosa/Jindao' ]
 ]
 
