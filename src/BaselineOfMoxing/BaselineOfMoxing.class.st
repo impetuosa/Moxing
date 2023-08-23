@@ -79,13 +79,13 @@ BaselineOfMoxing >> dependencies: spec [
 
 	spec
 		baseline: 'SmaCC'
-		with: [ spec repository: 'github://pharo-contributions/SmaCC' ].
+		with: [ spec repository: 'github://impetuosa/SmaCC' ].
 	spec baseline: 'XMLParserHTML' with: [ 
 		spec repository:
 			'github://pharo-contributions/XML-XMLParserHTML:1.6.0/src' ].
 	spec
 		baseline: 'Jindao'
-		with: [ spec repository: 'github://pharo-contributions/Jindao' ]
+		with: [ spec repository: 'github://impetuosa/Jindao' ]
 ]
 
 { #category : #baselines }
