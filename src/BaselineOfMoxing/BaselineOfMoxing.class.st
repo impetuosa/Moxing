@@ -70,7 +70,7 @@ BaselineOfMoxing >> default: spec [
 
 	spec
 		group: 'default'
-		with: #( Moxing 'Moxing-Java' 'Moxing-Typescript'
+		with: #( Moxing 'Moxing-Access' 'Moxing-Java' 'Moxing-Typescript'
 		   'Moxing-Angular'  'Moxing-StPharo' 'Moxing-StVisualWorks' 'Moxing-AngularJS')
 ]
 
