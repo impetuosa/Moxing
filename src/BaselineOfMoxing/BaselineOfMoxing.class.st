@@ -8,8 +8,8 @@ Class {
 BaselineOfMoxing >> access: spec [
 
 	spec
-		package: 'Moxing-Alce'
-		with: [ spec requires: #( Moxing 'JinDao' ) ]
+		package: 'Moxing-Access'
+		with: [ spec requires: #( Moxing 'Jindao' ) ]
 ]
 
 { #category : #baselines }
@@ -36,7 +36,7 @@ BaselineOfMoxing >> base: spec [
 		with: [ spec requires: #( SmaCC XMLParserHTML ) ].
 	spec
 		package: 'Moxing-LanguageModel'
-		with: [ spec requires: #( Moxing 'Moxing-MicroBuilders'  'Moxing-Language-MicroWriters') ].
+		with: [ spec requires: #( Moxing 'Moxing-Language-MicroBuilders'  'Moxing-Language-MicroWriters') ].
 	spec
 		package: 'Moxing-Language-MicroBuilders'
 		with: [ spec requires: #( Moxing ) ].
@@ -71,7 +71,7 @@ BaselineOfMoxing >> default: spec [
 	spec
 		group: 'default'
 		with: #( Moxing 'Moxing-Java' 'Moxing-Typescript'
-		   'Moxing-Angular'  'Moxing-StPharo' 'Moxing-StVisualWorks')
+		   'Moxing-Angular'  'Moxing-StPharo' 'Moxing-StVisualWorks' 'Moxing-AngularJS')
 ]
 
 { #category : #baselines }
