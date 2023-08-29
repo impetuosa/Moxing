@@ -192,7 +192,7 @@ MoxingManifest class >> accessNorthwind [
 
 	^ accessNorthwind ifNil: [ 
 		  accessNorthwind := self loadModel: 'access.northwind.moxing.ston'.
-		  accessNorthwind writer populateAnchorOn: javaNorthwind root.
+		  accessNorthwind writer populateAnchorOn: accessNorthwind root.
 		  accessNorthwind ]
 ]
 
@@ -201,7 +201,7 @@ MoxingManifest class >> angularNorthwind [
 
 	^ angularNorthwind ifNil: [ 
 		  angularNorthwind := self loadModel: 'angular.moxing.nwd.ston'.
-		  angularNorthwind writer populateAnchorOn: javaNorthwind root.
+		  angularNorthwind writer populateAnchorOn: angularNorthwind root.
 		  angularNorthwind ]
 ]
 
