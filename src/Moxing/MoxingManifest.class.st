@@ -179,10 +179,27 @@ Class {
 	#name : #MoxingManifest,
 	#superclass : #PackageManifest,
 	#classInstVars : [
-		'northwindSymbolTable'
+		'northwindSymbolTable',
+		'accessNorthwind',
+		'angularNorthwind',
+		'javaNorthwind'
 	],
 	#category : #'Moxing-Manifest'
 }
+
+{ #category : #accessing }
+MoxingManifest class >> accessNorthwind [
+
+	^ accessNorthwind ifNil: [ 
+		  accessNorthwind := self loadModel: 'access.northwind.moxing.ston' ]
+]
+
+{ #category : #accessing }
+MoxingManifest class >> angularNorthwind [
+
+	^ angularNorthwind ifNil: [ 
+		  angularNorthwind := self loadModel: 'angular.moxing.nwd.ston' ]
+]
 
 { #category : #'2- Loading Examples' }
 MoxingManifest class >> angularProjectPath [
@@ -383,19 +400,26 @@ MoxingManifest class >> exampleTransverseRelations [
 	<example> 
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #convenience }
 MoxingManifest class >> icebergRepository [ 
 	 ^ IceRepository registry detect: [ :a | a name = #Moxing ]
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #convenience }
 MoxingManifest class >> importNorthwindSymbolTable [
 
 	^ northwindSymbolTable ifNil: [ 
 		  northwindSymbolTable := JinNamespacesManifest nortwindSymbolTable ]
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #accessing }
+MoxingManifest class >> javaNorthwind [
+
+	^ javaNorthwind ifNil: [ 
+		  javaNorthwind := self loadModel: 'java.moxing.nwd.ston' ]
+]
+
+{ #category : #convenience }
 MoxingManifest class >> javaProjectPath [
 
 	^ self resources / 'java'
@@ -425,7 +449,18 @@ MoxingManifest class >> loadMetacello [
 
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #accessing }
+MoxingManifest class >> loadModel: aBasename [
+
+	(self resources / 'moxing-models.zip') exists ifFalse: [ 
+		^ self error: 'Unable to access moxing-models.zip' ].
+	
+	^ MOModel loadFrom:
+		  (FileSystem zip: self resources / 'moxing-models.zip') open
+			  workingDirectory / aBasename
+]
+
+{ #category : #convenience }
 MoxingManifest class >> northwindDAM [
 
 	| importer path dam |
@@ -467,19 +502,19 @@ MoxingManifest class >> northwindDAM [
 	^ dam
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #convenience }
 MoxingManifest class >> northwindModelPath [
 
 	^ self resources / 'northwind.moxing.ston'
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #convenience }
 MoxingManifest class >> northwindPath [
 
 	^ JindaoManifest northwind
 ]
 
-{ #category : #'2- Loading Examples' }
+{ #category : #convenience }
 MoxingManifest class >> resources [
 
 	^ (self icebergRepository location / #resources) resolve
