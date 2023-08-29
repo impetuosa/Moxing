@@ -193,6 +193,7 @@ MoxingManifest class >> accessNorthwind [
 	^ accessNorthwind ifNil: [ 
 		  accessNorthwind := self loadModel: 'access.northwind.moxing.ston'.
 		  accessNorthwind writer populateAnchorOn: accessNorthwind root.
+		  accessNorthwind name: #Northwind.
 		  accessNorthwind ]
 ]
 
