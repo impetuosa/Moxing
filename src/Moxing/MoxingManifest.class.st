@@ -191,14 +191,18 @@ Class {
 MoxingManifest class >> accessNorthwind [
 
 	^ accessNorthwind ifNil: [ 
-		  accessNorthwind := self loadModel: 'access.northwind.moxing.ston' ]
+		  accessNorthwind := self loadModel: 'access.northwind.moxing.ston'.
+		  accessNorthwind writer populateAnchorOn: javaNorthwind root.
+		  accessNorthwind ]
 ]
 
 { #category : #accessing }
 MoxingManifest class >> angularNorthwind [
 
 	^ angularNorthwind ifNil: [ 
-		  angularNorthwind := self loadModel: 'angular.moxing.nwd.ston' ]
+		  angularNorthwind := self loadModel: 'angular.moxing.nwd.ston'.
+		  angularNorthwind writer populateAnchorOn: javaNorthwind root.
+		  angularNorthwind ]
 ]
 
 { #category : #'2- Loading Examples' }
@@ -416,7 +420,9 @@ MoxingManifest class >> importNorthwindSymbolTable [
 MoxingManifest class >> javaNorthwind [
 
 	^ javaNorthwind ifNil: [ 
-		  javaNorthwind := self loadModel: 'java.moxing.nwd.ston' ]
+		  javaNorthwind := self loadModel: 'java.moxing.nwd.ston'.
+		  javaNorthwind writer populateAnchorOn: javaNorthwind root.
+		  javaNorthwind ]
 ]
 
 { #category : #convenience }
